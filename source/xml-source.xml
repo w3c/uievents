@@ -11,29 +11,32 @@
   | filenames to be used for each section              |
   ******************************************************
 -->
-<?command-options --map Copyright-Notice copyright-notice
+<?command-options
+--map Copyright-Notice copyright-notice
 --map Introduction     introduction
---map TOC expanded-toc
---map Core core
---map Events events
---map idl idl-definitions
---map ecma-binding ecma-script-binding
---map java-binding java-binding
---map Index def-index
---map Objects object-index
---map References references
---map Errors errors
---map Level-3-AS abstract-schemas
---map Load-Save load-save
---map XPath xpath
---map KeySet keyset
+--map TOC              expanded-toc
+--map Core             core
+--map Events           events
+--map idl              idl-definitions
+--map ecma-binding     ecma-script-binding
+--map java-binding     java-binding
+--map Index            def-index
+--map Objects          object-index
+--map References       references
+--map Errors           errors
+--map Level-3-AS       abstract-schemas
+--map Load-Save        load-save
+--map XPath            xpath
+--map KeySet           keyset
 ?>
-<?command-options --map -IndexFile-      def-index
---map -OjbectIndexFile-      object-index
+<?command-options
+--map -IndexFile-       def-index
+--map -OjbectIndexFile- object-index
 --strip-references
 --strip-glossary
 ?>
-<?command-options --map-type ECMAScript void void
+<?command-options
+--map-type ECMAScript void void
 --map-type ECMAScript "unsigned short" Number
 --map-type ECMAScript "unsigned int" Number
 --map-type ECMAScript "unsigned long" Number
@@ -143,7 +146,7 @@
     ******************************************************
     * DOCUMENT ABSTRACT                                  *
     ******************************************************
-    -->
+-->
   <abstract id="id-abstract">
    <p>
     This specification defines the Document Object Model Events Level 3,
@@ -523,7 +526,7 @@
   ******************************************************
   | INTRODUCTION                                       |
   ******************************************************
-  -->
+-->
    <div2 id="Events-overview">
     <head>
      Introduction
@@ -607,10 +610,11 @@
       module (see <specref ref="Events-eventgroupings-uievents"/>) if it
       conforms to DOM Level 3 Events (i.e. implements all the basic
       interfaces), can generate the event types
-      <code>ev:DOMActivate</code>, <code>ev:focus</code>, and
-      <code>ev:blur</code> accordingly to their semantics, supports the
-      <code>UIEvent</code> interface, and conforms to the DOM Level 2
-      Core module.
+      <termref def="event-DOMActivate">DOMActivate</termref>,
+      <termref def="event-focus">focus</termref>, and
+      <termref def="event-blur">blur</termref> accordingly to their
+      semantics, supports the <code>UIEvent</code> interface, and
+      conforms to the DOM Level 2 Core module.
      </p>
 
      <note>
@@ -970,10 +974,10 @@
      Implementations may have a default action associated with an event
      type. An example is the <bibref ref="HTML40" role="informative"/>
      form element. When the user submits the form (e.g. by pressing on a
-     submit button), the event <code>ev:submit</code> is dispatched to
-     the element and the default action for this event type is generally
-     to send a request to a Web server with the parameters from the
-     form.
+     submit button), the event
+     <termref def="event-submit">submit</termref> is dispatched to the
+     element and the default action for this event type is generally to
+     send a request to a Web server with the parameters from the form.
     </p>
 
     <p>
@@ -1003,19 +1007,89 @@
      does not attempt to specify these actions.
     </p>
 
+    <ednote>
+     <edtext>
+      This is not entirely true, there are default actions for device
+      event types when the events trigger activation, and there is a
+      discussion about canceling keyboard events...
+     </edtext>
+    </ednote>
+
     <p>
      This specification does not provide mechanisms for accessing
      default actions or adding new ones.
     </p>
 
+    <p>
+     Implementations could react to an event before dispatching it and
+     do changes on the display and the DOM tree. In such case, if a DOM
+     attribute is changed before the event is fired, cancelling the
+     device event type will also reverse the change. A good example is
+     the attribute <code>HTMLInputElement.checked</code>: As described
+     in <bibref ref="DOM2HTML"/>, the value of this property may be
+     changed before the dispatch of the event; the user clicks on the
+     radio button, the radio button is being checked (or unchecked) on
+     the display, the attribute <code>HTMLInputElement.checked</code> is
+     changed as well, and then the device event type
+     <termref def="event-click">click</termref> is being dispatched. If
+     the default action of the device event type is prevented, or if the
+     default action attached to the
+     <termref def="event-DOMActivate">DOMActivate</termref> event type
+     is prevented, the property <code>HTMLInputElement.checked</code>
+     will need to be changed back to its original value.
+    </p>
+   </div2>
+
+   <div2 id="Events-flow-activation">
+    <head>
+     Activation
+    </head>
+
+    <p>
+     <bibref ref="DOM2Events"/> introduced the concept of activation and
+     the associated
+     <termref def="event-DOMActivate">DOMActivate</termref> event type
+     to separate generic actions from the devices used to activate them.
+     For example, a hyperlink can be activated using a mouse or a
+     keyboard, and on activation the user agent follows the link. It is
+     expected that the action of following the link is done using a
+     default action attached to the hyperlink element, which is
+     performed as default action of the event type
+     <code>DOMActivate</code>. The <code>DOMActivate</code> event type
+     is then dispatched as the default action of the respective device
+     event type.
+    </p>
+
+    <p>
+     DOM Level 3 Events extends the event type
+     <termref def="event-click">click</termref> to participate in this
+     model in order to accomodate legacy applications that do not make
+     use of the event type <code>DOMActivate</code>. If activation is
+     requested using a mouse click, implementations dispatch a
+     <code>click</code> event with a default action to trigger the event
+     type <code>DOMActivate</code>. If, however, activation is requested
+     using other devices like a keyboard, the default action of the
+     keyboard event is to trigger a <term>virtual click event</term>
+     with a default action to trigger the event type
+     <code>DOMActivate</code>. This implies that whenever
+     implementations generate a <code>DOMActivate</code> event, there
+     will be a preceding <code>click</code> event.
+    </p>
+
+    <p>
+     The context information of a virtual click event is
+     implementation-defined. DOM applications should not rely on virtual
+     click events to respond to activation requests, the event type
+     <code>DOMActivate</code> should be used instead.
+    </p>
+
     <note>
      <p>
-      Some implementations also provide default actions
-      <emph>before</emph> the dispatch of the event. It is not possible
-      to cancel those default actions and this specification does not
-      address them. An example of such default actions can be found in
-      <bibref role="informative" ref="DOM2HTML"/> on the
-      <code>HTMLInputElement.checked</code> attribute.
+      While triggering the event type <code>DOMActivate</code> is a
+      default action of the event type <code>click</code> in case of
+      activation, the reverse does not hold true; when DOM applications
+      dispatch a <code>DOMActivate</code> event, implementations will
+      not trigger the event type <code>click</code>.
      </p>
     </note>
    </div2>
@@ -1031,8 +1105,7 @@
      <termref def="dt-localname">local name</termref> and a
      <termref def="dt-namespaceURI">namespace URI</termref> as used in
      <bibref ref="DOMCore"/>. All events defined in this specification
-     use the namespace URI
-     <code>"http://www.w3.org/2001/xml-events"</code>.
+     are in no namespace.
     </p>
 
     <div3 id="Events-EventTypes-category">
@@ -1062,8 +1135,8 @@
 
      <p>
       Depending on the level of DOM support, or the devices used for
-      display (e.g. screen) or interaction (e.g. mouse, keyboard, touch
-      screen, voice, ...), these event types can be generated by the
+      display (e.g. screen) or interaction (e.g., mouse, keyboard, touch
+      screen, and voice), these event types can be generated by the
       implementation. When used with an
       <bibref ref="XML" role="informative"/> or
       <bibref ref="HTML40" role="informative"/> application, the
@@ -1075,14 +1148,11 @@
      </p>
 
      <p>
-      The following list defines all event types (with the exception of
-      two event types preserved for backward compatibility with
-      <bibref role="informative" ref="HTML40"/>, see
-      <specref ref="Events-eventgroupings-htmlevents"/>) provided in
-      this specification. All event types defined in this specification
-      are bound to the namespace URI
-      <code>"http://www.w3.org/2001/xml-events"</code> and the following
-      list only enumerates the local name of the event type.
+      The following list defines all event types provided in this
+      specification. All event types defined in this specification are
+      in no namespace and the following list only enumerates the local
+      name of the event type.
+<!-- should say local name used throughout the spec? -->
      </p>
 
      <ednote>
@@ -1837,13 +1907,14 @@
      </table>
 -->
      <p>
-      As an example, the event <code>ev:load</code> will trigger event
-      listeners attached on <code>Element</code> nodes for that event
-      and on the capture and target phases. This event cannot be
-      cancelled. If an event listener for the <code>ev:load</code> event
-      is attached to a node other than <code>Document</code> or
-      <code>Element</code> nodes, or if it is attached to the bubbling
-      phase only, this event listener cannot be triggered.
+      As an example, the event <termref def="event-load">load</termref>
+      will trigger event listeners attached on <code>Element</code>
+      nodes for that event and on the capture and target phases. This
+      event cannot be cancelled. If an event listener for the
+      <termref def="event-load">load</termref> event is attached to a
+      node other than <code>Document</code> or <code>Element</code>
+      nodes, or if it is attached to the bubbling phase only, this event
+      listener cannot be triggered.
      </p>
 
      <p>
@@ -1861,49 +1932,7 @@
      <p>
       <termref def="dt-namespaceURI">Namespace URIs</termref> were only
       introduced in DOM Level 3 Events and were not part of DOM Level 2
-      Events. DOM Level 2 Events methods are namespace ignorant and the
-      event type is only represented by an
-      <termref def="dt-XML-name">XML name</termref>, specified in the
-      <code>Event.type</code> attribute.
-     </p>
-
-     <p>
-      Therefore, while it is safe to use these methods when not dealing
-      with namespaces, using them and the new ones at the same time
-      should be avoided. DOM Level 2 Events methods solely identify
-      events by their <code>Event.type</code>. On the contrary, the
-      namespaces aware DOM Level 3 Events methods, identify events by
-      their <code>Event.namespaceURI</code> and <code>Event.type</code>.
-      Because of this fundamental difference, mixing both sets of
-      methods can lead to unpredictable results. For example, using
-      <code>EventTarget.addEventListenerNS(namespaceURI, type, listener,
-      ...)</code>, two event listeners (or more) could be registered
-      using the same <code>type</code> and same <code>useCapture</code>
-      values, but different <code>namespaceURI</code>s. Calling
-      <code>EventTarget.removeEventListener(type, listener, ...)</code>
-      with that <code>type</code> and <code>useCapture</code> could then
-      remove any or none of those event listeners. The result depends on
-      the implementation. The only guarantee in such cases is that all
-      methods which access an event listener by its
-      <code>namespaceURI</code> and <code>type</code> will access the
-      same event listener. For instance,
-      <code>EventTarget.removeEventListenerNS(namespaceURI, type,
-      listener, ...)</code> removes the event that
-      <code>EventTarget.addEventListenerNS(namespaceURI, type, listener,
-      ...)</code> added.
-     </p>
-
-     <p>
-      For compatibility reasons, the dispatching of an event will ignore
-      namespace URIs if either the event or the event listener has a
-      <code>null</code> namespace URI. If a DOM Level 2 event (i.e. with
-      a <code>null</code> namespace URI) is dispatched in the DOM tree,
-      all event listeners that match the <code>type</code> will be
-      triggered as described in the <specref ref="Events-flow"/>. If a
-      DOM Level 3 event (i.e. with a namespace URI) is dispatched in the
-      DOM tree, all event listeners with the same type and the same or
-      <code>null</code> namespace URI will be triggered as described in
-      the <specref ref="Events-flow"/>.
+      Events.
      </p>
 
      <ednote>
@@ -1966,11 +1995,7 @@
       The user can attach an event listener using the methods on the
       <code>EventTarget</code> interface:
      </p>
-<eg xml:space="preserve">myCircle.addEventListenerNS("http://www.w3.org/2001/xml-events",
-                            "DOMActivate",
-                            myListener,
-                            true,
-                            null);</eg>
+<eg xml:space="preserve">aCircle.addEventListener("DOMActivate", aListener, true);</eg>
      <p>
       The methods do not provide the ability to register the same event
       listener more than once for the same event type and the same
@@ -1997,8 +2022,8 @@
      </ulist>
 
      <p>
-      To register an event listener, DOM applications must use the
-      methods <code>EventTarget.addEventListener()</code> and
+      To register an event listener, DOM applications use the methods
+      <code>EventTarget.addEventListener()</code> and
       <code>EventTarget.addEventListenerNS()</code>.
      </p>
 
@@ -2024,13 +2049,13 @@
       In <bibref role="informative" ref="XMLEvents"/>, event listeners
       are attached using elements and attributes:
      </p>
-<eg xml:space="preserve">&lt;listener event="DOMActivate" observer="myCircle" handler="#myListener"
+<eg xml:space="preserve">&lt;listener event="DOMActivate" observer="aCircle" handler="#aListener"
           phase="capture" propagate="stop"/&gt;</eg>
      <p>
       Event listeners can only be registered on <code>Element</code>
-      nodes, i.e. other <code>Node</code> types are not addressable, and
-      cannot be registered for a specific group either, i.e. they are
-      always attached to the default group. The
+      nodes, other <code>Node</code> types are not addressable, and
+      cannot be registered for a specific group either, they are always
+      attached to the default group. The
       <termref def="dt-target-phase">target phase</termref> and the
       <termref def="dt-bubbling-phase">bubbling phase</termref> are
       coupled during the registration.
@@ -2067,9 +2092,9 @@
 &lt;/form&gt;</eg>
      <p>
       Event listeners can only be registered on <code>Element</code>
-      nodes, i.e. other <code>Node</code> types are not addressable, and
-      cannot be registered for a specific group either, i.e. they are
-      always attached to the default group. The
+      nodes, other <code>Node</code> types are not addressable, and
+      cannot be registered for a specific group either, they are always
+      attached to the default group. The
       <termref def="dt-target-phase">target phase</termref> and the
       <termref def="dt-bubbling-phase">bubbling phase</termref> are
       coupled during the registration.
@@ -2095,7 +2120,7 @@
       <bibref role="informative" ref="SVG1"/>, event listeners are
       specified as attributes:
      </p>
-<eg xml:space="preserve">&lt;circle id="myCircle" onactivate="myListener(evt)"
+<eg xml:space="preserve">&lt;circle id="aCircle" onactivate="aListener(evt)"
         cx="300" cy="225" r="100" fill="red"/&gt;</eg>
      <p>
       Since only one attribute with the same name can appear on an
@@ -2104,12 +2129,12 @@
       type. Also, event listeners can only be registered on
       <code>Element</code> nodes for the
       <termref def="dt-target-phase">target phase</termref> and
-      <termref def="dt-bubbling-phase">bubbling phase</termref>, i.e.
-      other <code>Node</code> types and the
+      <termref def="dt-bubbling-phase">bubbling phase</termref>, other
+      <code>Node</code> types and the
       <termref def="dt-capture-phase">capture phase</termref> are not
       addressable with these languages. Event listeners cannot be
-      registered for a specific group either, i.e. they are always
-      attached to the default group.
+      registered for a specific group either, they are always attached
+      to the default group.
      </p>
 
      <p>
@@ -2204,16 +2229,11 @@
       <attribute type="DOMString" name="type" readonly="yes" id="Events-Event-type">
        <descr>
         <p>
-         The name should be an
+         The <termref def="dt-localname">local name</termref> of the
+         event type. The name must be an
          <loc href="http://www.w3.org/TR/2004/REC-xml-names11-20040204/#NT-NCName">NCName</loc>
          as defined in <bibref ref="Namespaces11"/> and is
          case-sensitive.
-        </p>
-
-        <p>
-         If the attribute <code>Event.namespaceURI</code> is different
-         from <code>null</code>, this attribute represents a
-         <termref def="dt-localname">local name</termref>.
         </p>
        </descr>
       </attribute>
@@ -2555,9 +2575,9 @@
         The <code>EventTarget</code> interface is implemented by all the
         objects which could be <termref def="dt-event-target">event
         targets</termref> in an implementation which supports the
-        <specref ref="Events-flows"/>. The interface allows
-        registration, removal or query of event listeners, and dispatch
-        of events to an event target.
+        <specref ref="Events-flows"/>. The interface allows registration
+        and removal of event listeners, and dispatch of events to an
+        event target.
        </p>
 
        <p>
@@ -2786,17 +2806,7 @@
         </exception>
        </raises>
       </method>
-<!-- removed
-  <attribute type="EventListenerList" readonly="yes" name="eventListeners"
-             id="EventTarget-eventListenerList" since="DOM Level 3"> 
-    <descr>
 
-      <p>An <code>EventListenerList</code> that contains all event listeners on
-      this target, independently of their groups. Listeners may appear more
-	than once in the list.</p>
-    </descr> 
-  </attribute> 
--->
       <method name="addEventListenerNS" id="Events-EventTargetGroup-addEventListenerNS" since="DOM Level 3">
        <descr>
         <p>
@@ -3157,9 +3167,10 @@
             <code>UIEvent.initUIEventNS()</code> method could then be
             called on the newly created <code>UIEvent</code> object to
             set the specific type of user interface event to be
-            dispatched, <code>ev:DOMActivate</code> for example, and set
-            its context information, e.g. <code>UIEvent.detail</code> in
-            this example.
+            dispatched,
+            <termref def="event-DOMActivate">DOMActivate</termref> for
+            example, and set its context information, e.g.
+            <code>UIEvent.detail</code> in this example.
            </p>
 
            <p>
@@ -3187,6 +3198,13 @@
              interfaces "UIEvent", "MouseEvent", "MutationEvent", and
              "Event".
             </p>
+
+            <ednote>
+             <edtext>
+              This does not say whether the argument is
+              case-insensitive, it is in some implementations...
+             </edtext>
+            </ednote>
            </note>
           </descr>
          </param>
@@ -3572,7 +3590,7 @@
 
      <glist role="event-definition">
       <gitem>
-       <label id="event-DOMActivate"><code>ev:DOMActivate</code></label>
+       <label id="event-DOMActivate"><termref def="event-DOMActivate">DOMActivate</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -3593,7 +3611,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -3667,7 +3685,7 @@
 
      <glist role="event-definition">
       <gitem>
-       <label id="event-focus"><code>ev:focus</code></label>
+       <label id="event-focus"><termref def="event-focus">focus</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -3688,7 +3706,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -3754,7 +3772,7 @@
 
      <glist role="event-definition">
       <gitem>
-       <label id="event-blur"><code>ev:blur</code></label>
+       <label id="event-blur"><termref def="event-blur">blur</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -3775,7 +3793,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -3849,10 +3867,11 @@
       The text event module originates from the
       <bibref ref="HTML40" role="informative"/> <code>onkeypress</code>
       attribute. Unlike this attribute, the event type
-      <code>ev:textInput</code> applies only to characters and is
-      designed for use with any text input devices, not just keyboards.
-      Refer to Appendix A, "<specref ref="KeySet"/>", for examples on
-      how text events are used in combination with keyboard events.
+      <termref def="event-textInput">textInput</termref> applies only to
+      characters and is designed for use with any text input devices,
+      not just keyboards. Refer to Appendix A,
+      "<specref ref="KeySet"/>", for examples on how text events are
+      used in combination with keyboard events.
      </p>
 
      <definitions>
@@ -4044,7 +4063,7 @@
 
      <glist role="event-definition">
       <gitem>
-       <label id="event-textInput"><code>ev:textInput</code></label>
+       <label id="event-textInput"><termref def="event-textInput">textInput</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -4065,7 +4084,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -4672,7 +4691,7 @@
 
      <glist role="event-definition">
       <gitem>
-       <label id="event-click"><code>ev:click</code></label>
+       <label id="event-click"><termref def="event-click">click</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -4693,7 +4712,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -4772,24 +4791,30 @@
          i.e. may depend on the screen location or the delay between the
          press and release of the pointing device button. In any case,
          the target node must be the same between the
-         <code>ev:mousedown</code>, <code>ev:mouseup</code>, and
-         <code>ev:click</code>. The sequence of these events is:
-         <code>ev:mousedown</code>, <code>ev:mouseup</code>, and
-         <code>ev:click</code>. It depends on the environment
-         configuration whether the event type <code>ev:click</code> can
-         occur if one or more of the event types
-         <code>ev:mouseover</code>, <code>ev:mousemove</code>, and
-         <code>ev:mouseout</code> occur between the press and release of
-         the pointing device button. In the case of nested elements,
-         this event type is always targeted at the most deeply nested
-         element.
+         <termref def="event-mousedown">mousedown</termref>,
+         <termref def="event-mouseup">mouseup</termref>, and
+         <termref def="event-click">click</termref>. The sequence of
+         these events is:
+         <termref def="event-mousedown">mousedown</termref>,
+         <termref def="event-mouseup">mouseup</termref>, and
+         <termref def="event-click">click</termref>. It depends on the
+         environment configuration whether the event type
+         <termref def="event-click">click</termref> can occur if one or
+         more of the event types
+         <termref def="event-mouseover">mouseover</termref>,
+         <termref def="event-mousemove">mousemove</termref>, and
+         <termref def="event-mouseout">mouseout</termref> occur between
+         the press and release of the pointing device button. In the
+         case of nested elements, this event type is always targeted at
+         the most deeply nested element.
         </p>
 
         <ednote>
          <edtext>
           There is an open issue
           <loc href='http://www.w3.org/2005/06/tracker/webapi/issues/9'>ISSUE-9</loc>
-          concerned with making <code>ev:click</code> more generic.
+          concerned with making
+          <termref def="event-click">click</termref> more generic.
          </edtext>
         </ednote>
        </def>
@@ -4798,7 +4823,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-mousedown"><code>ev:mousedown</code></label>
+       <label id="event-mousedown"><termref def="event-mousedown">mousedown</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -4819,7 +4844,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -4900,7 +4925,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-mouseup"><code>ev:mouseup</code></label>
+       <label id="event-mouseup"><termref def="event-mouseup">mouseup</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -4921,7 +4946,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -5000,7 +5025,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-mouseover"><code>ev:mouseover</code></label>
+       <label id="event-mouseover"><termref def="event-mouseover">mouseover</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -5021,7 +5046,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -5099,7 +5124,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-mousemove"><code>ev:mousemove</code></label>
+       <label id="event-mousemove"><termref def="event-mousemove">mousemove</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -5120,7 +5145,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -5195,7 +5220,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-mouseout"><code>ev:mouseout</code></label>
+       <label id="event-mouseout"><termref def="event-mouseout">mouseout</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -5216,7 +5241,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -5301,43 +5326,37 @@
      <olist>
       <item>
        <p>
-        {<code>"http://www.w3.org/2001/xml-events", "mousedown"</code>}
-        (<code>1</code>)
+        <code>"mousedown"</code> (<code>1</code>)
        </p>
       </item>
 
       <item>
        <p>
-        {<code>"http://www.w3.org/2001/xml-events", "mouseup"</code>}
-        (<code>1</code>)
+        <code>"mouseup"</code> (<code>1</code>)
        </p>
       </item>
 
       <item>
        <p>
-        {<code>"http://www.w3.org/2001/xml-events", "click"</code>}
-        (<code>1</code>)
+        <code>"click"</code> (<code>1</code>)
        </p>
       </item>
 
       <item>
        <p>
-        {<code>"http://www.w3.org/2001/xml-events", "mousedown"</code>}
-        (<code>2</code>)
+        <code>"mousedown"</code> (<code>2</code>)
        </p>
       </item>
 
       <item>
        <p>
-        {<code>"http://www.w3.org/2001/xml-events", "mouseup"</code>}
-        (<code>2</code>)
+        <code>"mouseup"</code> (<code>2</code>)
        </p>
       </item>
 
       <item>
        <p>
-        {<code>"http://www.w3.org/2001/xml-events", "click"</code>}
-        (<code>2</code>)
+        <code>"click"</code> (<code>2</code>)
        </p>
       </item>
      </olist>
@@ -5762,7 +5781,7 @@
 
      <glist role="event-definition">
       <gitem>
-       <label id="event-keydown"><code>ev:keydown</code></label>
+       <label id="event-keydown"><termref def="event-keydown">keydown</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -5783,7 +5802,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -5852,9 +5871,10 @@
          generated after the keyboard mapping but before the processing
          of an <termref def="dt-ime">input method editor</termref>. This
          event should logically happen before the event
-         <code>ev:keyup</code> is produced. Whether a
-         <code>ev:keydown</code> contributes or not to the generation of
-         a text event is implementation dependent.
+         <termref def="event-keyup">keyup</termref> is produced. Whether
+         a <termref def="event-keydown">keydown</termref> contributes or
+         not to the generation of a text event is implementation
+         dependent.
         </p>
        </def>
       </gitem>
@@ -5862,7 +5882,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-keyup"><code>ev:keyup</code></label>
+       <label id="event-keyup"><termref def="event-keyup">keyup</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -5883,7 +5903,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -5954,9 +5974,9 @@
          generated after the keyboard mapping but before the processing
          of an <termref def="dt-ime">input method editor</termref>. This
          event should logically happen after the event
-         <code>ev:keydown</code> is produced. Whether a keyup
-         contributes or not to the generation of a text event is
-         implementation dependent.
+         <termref def="event-keydown">keydown</termref> is produced.
+         Whether a keyup contributes or not to the generation of a text
+         event is implementation dependent.
         </p>
        </def>
       </gitem>
@@ -6050,8 +6070,9 @@
           If an event is instead dispatched to a subtree indicating a
           node was changed within it, the <code>relatedNode</code> is
           the changed node. In the case of the
-          <code>ev:DOMAttrModified</code> event it indicates the
-          <code>Attr</code> node which was modified, added, or removed.
+          <termref def="event-DOMAttrModified">DOMAttrModified</termref>
+          event it indicates the <code>Attr</code> node which was
+          modified, added, or removed.
          </p>
         </descr>
        </attribute>
@@ -6060,9 +6081,11 @@
         <descr>
          <p>
           <code>prevValue</code> indicates the previous value of the
-          <code>Attr</code> node in <code>ev:DOMAttrModified</code>
+          <code>Attr</code> node in
+          <termref def="event-DOMAttrModified">DOMAttrModified</termref>
           events, and of the <code>CharacterData</code> node in
-          <code>ev:DOMCharacterDataModified</code> events.
+          <termref def="event-DOMCharacterDataModified">DOMCharacterDataModified</termref>
+          events.
          </p>
         </descr>
        </attribute>
@@ -6071,9 +6094,11 @@
         <descr>
          <p>
           <code>newValue</code> indicates the new value of the
-          <code>Attr</code> node in <code>ev:DOMAttrModified</code>
+          <code>Attr</code> node in
+          <termref def="event-DOMAttrModified">DOMAttrModified</termref>
           events, and of the <code>CharacterData</code> node in
-          <code>ev:DOMCharacterDataModified</code> events.
+          <termref def="event-DOMCharacterDataModified">DOMCharacterDataModified</termref>
+          events.
          </p>
         </descr>
        </attribute>
@@ -6082,7 +6107,8 @@
         <descr>
          <p>
           <code>attrName</code> indicates the name of the changed
-          <code>Attr</code> node in a <code>ev:DOMAttrModified</code>
+          <code>Attr</code> node in a
+          <termref def="event-DOMAttrModified">DOMAttrModified</termref>
           event.
          </p>
         </descr>
@@ -6092,8 +6118,9 @@
         <descr>
          <p>
           <code>attrChange</code> indicates the type of change which
-          triggered the <code>ev:DOMAttrModified</code> event. The
-          values can be <code>MODIFICATION</code>,
+          triggered the
+          <termref def="event-DOMAttrModified">DOMAttrModified</termref>
+          event. The values can be <code>MODIFICATION</code>,
           <code>ADDITION</code>, or <code>REMOVAL</code>.
          </p>
         </descr>
@@ -6325,7 +6352,7 @@
 
      <glist role="event-definition">
       <gitem>
-       <label id="event-DOMSubtreeModified"><code>ev:DOMSubtreeModified</code></label>
+       <label id="event-DOMSubtreeModified"><termref def="event-DOMSubtreeModified">DOMSubtreeModified</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -6346,7 +6373,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -6421,7 +6448,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-DOMNodeInserted"><code>ev:DOMNodeInserted</code></label>
+       <label id="event-DOMNodeInserted"><termref def="event-DOMNodeInserted">DOMNodeInserted</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -6442,7 +6469,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -6515,7 +6542,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-DOMNodeRemoved"><code>ev:DOMNodeRemoved</code></label>
+       <label id="event-DOMNodeRemoved"><termref def="event-DOMNodeRemoved">DOMNodeRemoved</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -6536,7 +6563,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -6608,7 +6635,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-DOMNodeRemovedFromDocument"><code>ev:DOMNodeRemovedFromDocument</code></label>
+       <label id="event-DOMNodeRemovedFromDocument"><termref def="event-DOMNodeRemovedFromDocument">DOMNodeRemovedFromDocument</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -6629,7 +6656,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -6695,8 +6722,8 @@
          place. The <termref def="dt-target-node">target node</termref>
          of this event type is the node being removed. If the node is
          being directly removed, the event type
-         <code>ev:DOMNodeRemoved</code> will fire before this event
-         type.
+         <termref def="event-DOMNodeRemoved">DOMNodeRemoved</termref>
+         will fire before this event type.
         </p>
        </def>
       </gitem>
@@ -6704,7 +6731,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-DOMNodeInsertedIntoDocument"><code>ev:DOMNodeInsertedIntoDocument</code></label>
+       <label id="event-DOMNodeInsertedIntoDocument"><termref def="event-DOMNodeInsertedIntoDocument">DOMNodeInsertedIntoDocument</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -6725,7 +6752,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -6791,8 +6818,8 @@
          taken place. The <termref def="dt-target-node">target
          node</termref> of this event is the node being inserted. If the
          node is being directly inserted, the event type
-         <code>ev:DOMNodeInserted</code> will fire before this event
-         type.
+         <termref def="event-DOMNodeInserted">DOMNodeInserted</termref>
+         will fire before this event type.
         </p>
        </def>
       </gitem>
@@ -6800,7 +6827,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-DOMAttrModified"><code>ev:DOMAttrModified</code></label>
+       <label id="event-DOMAttrModified"><termref def="event-DOMAttrModified">DOMAttrModified</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -6821,7 +6848,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -6916,7 +6943,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-DOMCharacterDataModified"><code>ev:DOMCharacterDataModified</code></label>
+       <label id="event-DOMCharacterDataModified"><termref def="event-DOMCharacterDataModified">DOMCharacterDataModified</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -6937,7 +6964,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -7233,7 +7260,7 @@
 
      <glist role="event-definition">
       <gitem>
-       <label id="event-DOMElementNameChanged"><code>ev:DOMElementNameChanged</code></label>
+       <label id="event-DOMElementNameChanged"><termref def="event-DOMElementNameChanged">DOMElementNameChanged</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -7254,7 +7281,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -7324,7 +7351,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-DOMAttributeNameChanged"><code>ev:DOMAttributeNameChanged</code></label>
+       <label id="event-DOMAttributeNameChanged"><termref def="event-DOMAttributeNameChanged">DOMAttributeNameChanged</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -7345,7 +7372,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -7446,18 +7473,18 @@
      </p>
 
      <p>
-      The event types <code>ev:resize</code> and <code>ev:scroll</code>
-      implement the <code>UIEvent</code> interface. All other basic
-      event types implement at least the basic <code>Event</code>
-      interface. However, they may be generated from a user interface;
-      in that case, the event objects also implements the
-      <code>UIEvent</code> interface and <code>UIEvent.view</code> is in
-      use.
+      The event types <termref def="event-resize">resize</termref> and
+      <termref def="event-scroll">scroll</termref> implement the
+      <code>UIEvent</code> interface. All other basic event types
+      implement at least the basic <code>Event</code> interface.
+      However, they may be generated from a user interface; in that
+      case, the event objects also implements the <code>UIEvent</code>
+      interface and <code>UIEvent.view</code> is in use.
      </p>
 
      <glist role="event-definition">
       <gitem>
-       <label id="event-load"><code>ev:load</code></label>
+       <label id="event-load"><termref def="event-load">load</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -7478,7 +7505,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -7549,7 +7576,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-unload"><code>ev:unload</code></label>
+       <label id="event-unload"><termref def="event-unload">unload</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -7570,7 +7597,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -7640,7 +7667,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-abort"><code>ev:abort</code></label>
+       <label id="event-abort"><termref def="event-abort">abort</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -7661,7 +7688,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -7727,7 +7754,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-error"><code>ev:error</code></label>
+       <label id="event-error"><termref def="event-error">error</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -7748,7 +7775,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -7825,7 +7852,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-select"><code>ev:select</code></label>
+       <label id="event-select"><termref def="event-select">select</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -7846,7 +7873,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -7913,7 +7940,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-change"><code>ev:change</code></label>
+       <label id="event-change"><termref def="event-change">change</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -7934,7 +7961,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -8000,7 +8027,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-submit"><code>ev:submit</code></label>
+       <label id="event-submit"><termref def="event-submit">submit</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -8021,7 +8048,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -8088,7 +8115,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-reset"><code>ev:reset</code></label>
+       <label id="event-reset"><termref def="event-reset">reset</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -8109,7 +8136,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -8176,7 +8203,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-resize"><code>ev:resize</code></label>
+       <label id="event-resize"><termref def="event-resize">resize</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -8197,7 +8224,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -8263,7 +8290,7 @@
 <!--..................................................................................-->
      <glist role="event-definition">
       <gitem>
-       <label id="event-scroll"><code>ev:scroll</code></label>
+       <label id="event-scroll"><termref def="event-scroll">scroll</termref></label>
 
        <def>
         <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
@@ -8284,7 +8311,7 @@
            </th>
 
            <td>
-            <code>http://www.w3.org/2001/xml-events</code>
+            <code>None</code>
            </td>
           </tr>
 
@@ -8398,12 +8425,7 @@
      <p>
       The following descriptions of event types are refinements of the
       general descriptions provided in
-      <specref ref="Events-EventTypes-complete"/> @@(replace this by
-      something), with the addition of the events <code>ev:focus</code>
-      and <code>ev:blur</code>. All events types are bound to the
-      namespace URI <code>"http://www.w3.org/2001/xml-events"</code> and
-      the following list only enumerates the local name of the event
-      type.
+      <specref ref="Events-eventgroupings"/>.
      </p>
 
      <glist>
@@ -8476,8 +8498,9 @@
          interface manipulation or the <code>focus()</code> methods and
          the attributes defined in
          <bibref role="informative" ref="DOM2HTML"/>. This event type is
-         dispatched before the event type <code>ev:blur</code>. This
-         event is valid for INPUT, SELECT, and TEXTAREA element.
+         dispatched before the event type
+         <termref def="event-blur">blur</termref>. This event is valid
+         for INPUT, SELECT, and TEXTAREA element.
         </p>
        </def>
       </gitem>
@@ -8869,46 +8892,6 @@
        </tr>
       </tbody>
      </table>
-
-     <div4>
-      <head>
-       Activation and default actions
-      </head>
-
-      <p>
-       The concept of activation (<code>ev:DOMActivate</code>) was
-       introduced in <bibref ref="DOM2Events"/> to separate generic
-       actions from the devices used to activate them. For example, an
-       hyperlink can be activated using a mouse or a keyboard, and the
-       activation will force the user agent to follow the link. It is
-       expected that the action of following the link is done using a
-       default action attached to the hyperlink element. In such case,
-       the default action of the device event type is to trigger the
-       event type <code>ev:DOMActivate</code>. Preventing the default
-       action of a mouse click when the target node is an hyperlink will
-       prevent the activation. The same approach is made for control
-       elements.
-      </p>
-
-      <p>
-       Implementations could react to an event before dispatching it and
-       do changes on the display and the DOM tree. In such case, if a
-       DOM attribute is changed before the event is fired, cancelling
-       the device event type will also reverse the change. A good
-       example is the attribute <code>HTMLInputElement.checked</code>:
-       As described in <bibref ref="DOM2HTML"/>, the value of this
-       property may be changed before the dispatch of the event; the
-       user clicks on the radio button, the radio button is being
-       checked (or unchecked) on the display, the attribute
-       <code>HTMLInputElement.checked</code> is changed as well, and
-       then the device event type <code>ev:click</code> is being
-       dispatched. If the default action of the device event type is
-       prevented, or if the default action attached to the
-       <code>ev:DOMActivate</code> event type is prevented, the property
-       <code>HTMLInputElement.checked</code> will need to be changed
-       back to its original value.
-      </p>
-     </div4>
     </div3>
    </div2>
   </div1>
@@ -9049,22 +9032,20 @@
     <olist>
      <item>
       <p>
-       <code>{"http://www.w3.org/2001/xml-events", "keydown"}</code>:
-       <code>"U+0051"</code> (Latin Capital Letter Q key)
+       <code>"keydown"</code>: <code>"U+0051"</code> (Latin Capital
+       Letter Q key)
       </p>
      </item>
 
      <item>
       <p>
-       <code>{"http://www.w3.org/2001/xml-events", "textInput"}</code>:
-       <code>"q"</code>
+       <code>"textInput"</code>: <code>"q"</code>
       </p>
      </item>
 
      <item>
       <p>
-       <code>{"http://www.w3.org/2001/xml-events", "keyup"}</code>:
-       <code>"U+0051"</code>
+       <code>"keyup"</code>: <code>"U+0051"</code>
       </p>
      </item>
     </olist>
@@ -9077,22 +9058,20 @@
     <olist>
      <item>
       <p>
-       <code>{"http://www.w3.org/2001/xml-events", "keydown"}</code>:
-       <code>"U+0041"</code> (Latin Capital Letter A key)
+       <code>"keydown"</code>: <code>"U+0041"</code> (Latin Capital
+       Letter A key)
       </p>
      </item>
 
      <item>
       <p>
-       <code>{"http://www.w3.org/2001/xml-events", "textInput"}</code>:
-       <code>"a"</code>
+       <code>"textInput"</code>: <code>"a"</code>
       </p>
      </item>
 
      <item>
       <p>
-       <code>{"http://www.w3.org/2001/xml-events", "keyup"}</code>:
-       <code>"U+0041"</code>
+       <code>"keyup"</code>: <code>"U+0041"</code>
       </p>
      </item>
     </olist>
@@ -9105,22 +9084,20 @@
     <olist>
      <item>
       <p>
-       <code>{"http://www.w3.org/2001/xml-events", "keydown"}</code>:
-       <code>"U+0409"</code> (Cyrillic Capital Letter LJE)
+       <code>"keydown"</code>: <code>"U+0409"</code> (Cyrillic Capital
+       Letter LJE)
       </p>
      </item>
 
      <item>
       <p>
-       <code>{"http://www.w3.org/2001/xml-events", "textInput"}</code>:
-       <code>"&#1113;"</code>
+       <code>"textInput"</code>: <code>"&#1113;"</code>
       </p>
      </item>
 
      <item>
       <p>
-       <code>{"http://www.w3.org/2001/xml-events", "keyup"}</code>:
-       <code>"U+0409"</code>
+       <code>"keyup"</code>: <code>"U+0409"</code>
       </p>
      </item>
     </olist>
@@ -9140,10 +9117,11 @@
      <p>
       Keyboard input uses modifier keys to change the normal behavior of
       a key. Keys associated with modifiers generate, like other keys,
-      <code>ev:keydown</code> and <code>ev:keyup</code> events as shown
-      in the example below. Some modifiers are activated while the key
-      is being pressed down or maintained pressed such as
-      <code>"Alt"</code>, <code>"Control"</code>, <code>"Shift"</code>,
+      <termref def="event-keydown">keydown</termref> and
+      <termref def="event-keyup">keyup</termref> events as shown in the
+      example below. Some modifiers are activated while the key is being
+      pressed down or maintained pressed such as <code>"Alt"</code>,
+      <code>"Control"</code>, <code>"Shift"</code>,
       <code>"AltGraph"</code>, or <code>"Meta"</code>. Others modifiers
       are activated depending on their state such as
       <code>"CapsLock"</code>, <code>"NumLock"</code>, or
@@ -9169,36 +9147,32 @@
      <olist>
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keydown"}</code>:
-        <code>"Shift"</code>, shiftKey
+        <code>"keydown"</code>: <code>"Shift"</code>, shiftKey
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keydown"}</code>:
-        <code>"U+0051"</code> (Latin Capital Letter Q key), shiftKey
+        <code>"keydown"</code>: <code>"U+0051"</code> (Latin Capital
+        Letter Q key), shiftKey
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "textInput"}</code>:
-        <code>"Q"</code>
+        <code>"textInput"</code>: <code>"Q"</code>
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keyup"}</code>:
-        <code>"U+0051"</code>, shiftKey
+        <code>"keyup"</code>: <code>"U+0051"</code>, shiftKey
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keyup"}</code>:
-        <code>"Shift"</code>
+        <code>"keyup"</code>: <code>"Shift"</code>
        </p>
       </item>
      </olist>
@@ -9212,29 +9186,26 @@
      <olist>
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keydown"}</code>:
-        <code>"Control"</code>, ctrlKey
+        <code>"keydown"</code>: <code>"Control"</code>, ctrlKey
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keydown"}</code>:
-        <code>"U+0056"</code> (Latin Capital Letter V key), ctrlKey
+        <code>"keydown"</code>: <code>"U+0056"</code> (Latin Capital
+        Letter V key), ctrlKey
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keyup"}</code>:
-        <code>"U+0056"</code>, ctrlKey
+        <code>"keyup"</code>: <code>"U+0056"</code>, ctrlKey
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keyup"}</code>:
-        <code>"Control"</code>
+        <code>"keyup"</code>: <code>"Control"</code>
        </p>
       </item>
      </olist>
@@ -9267,36 +9238,33 @@
      <olist>
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keydown"}</code>:
-        <code>"U+0302"</code> (Combining Circumflex Accent key)
+        <code>"keydown"</code>: <code>"U+0302"</code> (Combining
+        Circumflex Accent key)
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keyup"}</code>:
-        <code>"U+0302"</code>
+        <code>"keyup"</code>: <code>"U+0302"</code>
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keydown"}</code>:
-        <code>"U+0045"</code> (Latin Capital Letter E key)
+        <code>"keydown"</code>: <code>"U+0045"</code> (Latin Capital
+        Letter E key)
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "textInput"}</code>:
-        <code>"&#233;"</code>
+        <code>"textInput"</code>: <code>"&#233;"</code>
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keyup"}</code>:
-        <code>"U+0045"</code>
+        <code>"keyup"</code>: <code>"U+0045"</code>
        </p>
       </item>
      </olist>
@@ -9320,13 +9288,14 @@
       This specification does not provide a representation of the input
       method editor (IME) events, i.e. the IME's functions and the IME
       context are not represented in this set. As an example, receiving
-      a <code>ev:keydown</code> for the "Accept" key identifier does not
-      necessarily imply that the text currently selected in the IME is
-      being accepted. It only indicates that a keystroke happened,
-      disconnected from the IME Accept functionality. Depending on the
-      device in use, the IME Accept functionality can be obtain using
-      the Accept key or the Return key. Keyboard events cannot be used
-      to determine the current state of the input method editor.
+      a <termref def="event-keydown">keydown</termref> for the "Accept"
+      key identifier does not necessarily imply that the text currently
+      selected in the IME is being accepted. It only indicates that a
+      keystroke happened, disconnected from the IME Accept
+      functionality. Depending on the device in use, the IME Accept
+      functionality can be obtain using the Accept key or the Return
+      key. Keyboard events cannot be used to determine the current state
+      of the input method editor.
      </p>
 
      <p>
@@ -9349,64 +9318,59 @@
      <olist>
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keydown"}</code>:
-        <code>"U+0053"</code> (Latin Capital Letter S key)
+        <code>"keydown"</code>: <code>"U+0053"</code> (Latin Capital
+        Letter S key)
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keyup"}</code>:
-        <code>"U+0053"</code> (Latin Capital Letter S key)
+        <code>"keyup"</code>: <code>"U+0053"</code> (Latin Capital
+        Letter S key)
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keydown"}</code>:
-        <code>"U+0049"</code> (Latin Capital Letter I key)
+        <code>"keydown"</code>: <code>"U+0049"</code> (Latin Capital
+        Letter I key)
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keyup"}</code>:
-        <code>"U+0049"</code> (Latin Capital Letter I key)
+        <code>"keyup"</code>: <code>"U+0049"</code> (Latin Capital
+        Letter I key)
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keydown"}</code>:
-        <code>"Convert"</code>
+        <code>"keydown"</code>: <code>"Convert"</code>
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keyup"}</code>:
-        <code>"Convert"</code>
+        <code>"keyup"</code>: <code>"Convert"</code>
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keydown"}</code>:
-        <code>"Accept"</code>
+        <code>"keydown"</code>: <code>"Accept"</code>
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "textInput"}</code>:
-        <code>"&#24066;"</code>
+        <code>"textInput"</code>: <code>"&#24066;"</code>
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keyup"}</code>:
-        <code>"Accept"</code>
+        <code>"keyup"</code>: <code>"Accept"</code>
        </p>
       </item>
      </olist>
@@ -9418,24 +9382,26 @@
      </head>
 
      <p>
-      Canceling the default action of a <code>ev:keydown</code> event
-      does not affect its respective <code>ev:keyup</code> event; it
-      will however prevent the respective <code>ev:textInput</code>
-      event from being generated. The following example describes a
-      possible sequence of keys to generate the Unicode character Q
-      (Latin Capital Letter Q) on a PC/AT US keyboard using a US
-      mapping:
+      Canceling the default action of a
+      <termref def="event-keydown">keydown</termref> event does not
+      affect its respective <termref def="event-keyup">keyup</termref>
+      event; it will however prevent the respective
+      <termref def="event-textInput">textInput</termref> event from
+      being generated. The following example describes a possible
+      sequence of keys to generate the Unicode character Q (Latin
+      Capital Letter Q) on a PC/AT US keyboard using a US mapping:
      </p>
 
      <olist>
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keydown"}</code>:
-        <code>"U+0051"</code> (Latin Capital Letter Q key), shiftKey
+        <code>"keydown"</code>: <code>"U+0051"</code> (Latin Capital
+        Letter Q key), shiftKey
        </p>
 
        <p>
-        the default action of the <code>ev:keydown</code> event is
+        the default action of the
+        <termref def="event-keydown">keydown</termref> event is
         prevented, e.g. by invoking <code>Event.preventDefault()</code>
         during the dispatch of the keydown event object.
        </p>
@@ -9443,15 +9409,13 @@
 
       <item>
        <p>
-        No <code>{"http://www.w3.org/2001/xml-events",
-        "textInput"}</code> is generated.
+        No <code>"textInput"</code> is generated.
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keyup"}</code>:
-        <code>"U+0051"</code>, shiftKey
+        <code>"keyup"</code>: <code>"U+0051"</code>, shiftKey
        </p>
       </item>
      </olist>
@@ -9467,8 +9431,7 @@
      <olist>
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keydown"}</code>:
-        <code>"Shift"</code>, shiftKey
+        <code>"keydown"</code>: <code>"Shift"</code>, shiftKey
        </p>
 
        <p>
@@ -9478,29 +9441,26 @@
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keydown"}</code>:
-        <code>"U+0051"</code> (Latin Capital Letter Q key), shiftKey
+        <code>"keydown"</code>: <code>"U+0051"</code> (Latin Capital
+        Letter Q key), shiftKey
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "textInput"}</code>:
-        <code>"Q"</code>
+        <code>"textInput"</code>: <code>"Q"</code>
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keyup"}</code>:
-        <code>"U+0051"</code>, shiftKey
+        <code>"keyup"</code>: <code>"U+0051"</code>, shiftKey
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keyup"}</code>:
-        <code>"Shift"</code>
+        <code>"keyup"</code>: <code>"Shift"</code>
        </p>
       </item>
      </olist>
@@ -9509,20 +9469,22 @@
       If the key is part of a sequence of several keystrokes, whether it
       is a dead key or it is contributing to an Input Method Editor
       sequence, the keystroke is ignored (not taken into account) only
-      if the default action is canceled on the <code>ev:keydown</code>
-      event. Canceling a dead key on a <code>ev:keyup</code> event has
-      not effect on <code>ev:textInput</code> events. The following
-      example uses the keystrokes <code>"U+0302"</code> (Combining
-      Circumflex Accent key) and <code>"U+0045"</code> (Latin Capital
-      Letter E key) (on a PC/AT french keyboard using a french mapping
-      and without any modifier activated):
+      if the default action is canceled on the
+      <termref def="event-keydown">keydown</termref> event. Canceling a
+      dead key on a <termref def="event-keyup">keyup</termref> event has
+      not effect on <termref def="event-textInput">textInput</termref>
+      events. The following example uses the keystrokes
+      <code>"U+0302"</code> (Combining Circumflex Accent key) and
+      <code>"U+0045"</code> (Latin Capital Letter E key) (on a PC/AT
+      french keyboard using a french mapping and without any modifier
+      activated):
      </p>
 
      <olist>
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keydown"}</code>:
-        <code>"U+0302"</code> (Combining Circumflex Accent key)
+        <code>"keydown"</code>: <code>"U+0302"</code> (Combining
+        Circumflex Accent key)
        </p>
 
        <p>
@@ -9532,29 +9494,26 @@
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keyup"}</code>:
-        <code>"U+0302"</code>
+        <code>"keyup"</code>: <code>"U+0302"</code>
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keydown"}</code>:
-        <code>"U+0045"</code> (Latin Capital Letter E key)
+        <code>"keydown"</code>: <code>"U+0045"</code> (Latin Capital
+        Letter E key)
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "textInput"}</code>:
-        <code>"a"</code>
+        <code>"textInput"</code>: <code>"a"</code>
        </p>
       </item>
 
       <item>
        <p>
-        <code>{"http://www.w3.org/2001/xml-events", "keyup"}</code>:
-        <code>"U+0045"</code>
+        <code>"keyup"</code>: <code>"U+0045"</code>
        </p>
       </item>
      </olist>
@@ -11911,10 +11870,11 @@
      </p>
 
      <p>
-      The DOM Level 2 Event <code>ev:load</code> event type can now be
-      dispatched to more <bibref ref="HTML40"/> elements.
-      <code>ev:blur</code> and <code>ev:focus</code> have been clarified
-      and restricted to <bibref ref="HTML40"/> applications only.
+      The DOM Level 2 Event <termref def="event-load">load</termref>
+      event type can now be dispatched to more <bibref ref="HTML40"/>
+      elements. <termref def="event-blur">blur</termref> and
+      <termref def="event-focus">focus</termref> have been clarified and
+      restricted to <bibref ref="HTML40"/> applications only.
      </p>
     </div3>
 
@@ -12828,11 +12788,10 @@
 
      <def>
       <p>
-       A <term>local name</term> is the local part of a <term>qualified
-       name</term>. This is called the
-       <xtermref href="http://www.w3.org/TR/1999/REC-xml-names-19990114/#dt-localname">local
-       part</xtermref> in Namespaces in XML
-       <bibref role="informative" ref="Namespaces"/>.
+       See
+       <xtermref role='informative' href="http://www.w3.org/TR/2004/REC-xml-names11-20040204/#dt-localname">local
+       name</xtermref> in Namespaces in XML 1.1
+       <bibref role="informative" ref="Namespaces11"/>.
       </p>
      </def>
     </gitem>
@@ -13750,7 +13709,7 @@
     * needs a security considerations sections
     * needs review against specgl, charmod
     * needs a spec conformance section
-    * <code>ev:... should be turned into links
+    * <code>event-name</code> should be turned into links
     * maybe change the {ns,local} notation in the key set
       section to use ns:local instead.
     * merge 1.3 and 1.7.7.1
@@ -13760,4 +13719,12 @@
       implementation
     * need to say what evt.view is if .focus() generated
       the event type
+      
+  Specgenerator bugs:
+  
+    * <xtermref href> does not seem to work, even though
+      there is code for it in Body.java...
+    * it uses \ instead of / for Java paths on Win32
+    * uses MO style sheet, it shouldn't...
+
 -->
