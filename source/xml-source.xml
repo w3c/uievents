@@ -90,7 +90,7 @@
   <w3c-doctype>Editor's Draft</w3c-doctype>
 
   <pubdate>
-   <month>February</month>
+   <month>March</month>
 
    <year>2006</year>
   </pubdate>
@@ -1042,54 +1042,56 @@
 
    <div2 id="Events-flow-activation">
     <head>
-     Activation
+     Activation requests and behavior
     </head>
 
     <p>
-     <bibref ref="DOM2Events"/> introduced the concept of activation and
-     the associated
-     <termref def="event-DOMActivate">DOMActivate</termref> event type
-     to separate generic actions from the devices used to activate them.
-     For example, a hyperlink can be activated using a mouse or a
-     keyboard, and on activation the user agent follows the link. It is
-     expected that the action of following the link is done using a
-     default action attached to the hyperlink element, which is
-     performed as default action of the event type
-     <code>DOMActivate</code>. The <code>DOMActivate</code> event type
-     is then dispatched as the default action of the respective device
-     event type.
+     Event targets may have associated <term>activation behavior</term>
+     that implementations perform in response to an <term>activation
+     request</term>. As an example, the typical activiation behavior
+     associated with hyperlinks is to follow the link. Activation
+     requests are typically initiated by users through an input device.
     </p>
 
     <p>
-     DOM Level 3 Events extends the event type
-     <termref def="event-click">click</termref> to participate in this
-     model in order to accomodate legacy applications that do not make
-     use of the event type <code>DOMActivate</code>. If activation is
-     requested using a mouse click, implementations dispatch a
-     <code>click</code> event with a default action to trigger the event
-     type <code>DOMActivate</code>. If, however, activation is requested
-     using other devices like a keyboard, the default action of the
-     keyboard event is to trigger a <term>virtual click event</term>
-     with a default action to trigger the event type
-     <code>DOMActivate</code>. This implies that whenever
-     implementations generate a <code>DOMActivate</code> event, there
-     will be a preceding <code>click</code> event.
+     In terms of this specification, the activation behavior of the
+     event target is the default action of the event type
+     <termref def="event-DOMActivate">DOMActivate</termref>. DOM
+     applications should use this event type whenever they wish to make
+     or react to an activation request.
     </p>
 
     <p>
-     The context information of a virtual click event is
-     implementation-defined. DOM applications should not rely on virtual
-     click events to respond to activation requests, the event type
-     <code>DOMActivate</code> should be used instead.
+     Implementations dispatch the <code>DOMActivate</code> event as
+     default action of a <termref def="event-click">click</termref>
+     event. This click event is either part of the activation request
+     (e.g., a user requests activiation using a mouse), or synthesized
+     by the implementation to accomodate legacy applications. Context
+     information of such a <code>click</code> event is implementation
+     dependent.
+    </p>
+
+    <p>
+     When implementations dispatch a synthesized <code>click</code>
+     event, the expectation is that they do so as default action of
+     another event type. For example, when a user activates a hyperlink
+     using a keyboard, the <code>click</code> event would be dispatched
+     as default action of respective keyboard event.
+    </p>
+
+    <p>
+     Implementations are, however, required to dispatch the synthesized
+     <code>click</code> event as described above even if they do not
+     dispatch such an event (e.g., when activation is requested by a
+     voice command since this specification does not address event types
+     for voice input).
     </p>
 
     <note>
      <p>
-      While triggering the event type <code>DOMActivate</code> is a
-      default action of the event type <code>click</code> in case of
-      activation, the reverse does not hold true; when DOM applications
-      dispatch a <code>DOMActivate</code> event, implementations will
-      not trigger the event type <code>click</code>.
+      The activation of an event target is device dependent but is also
+      application dependent, e.g. a link in a document can be activated
+      using a mouse click or a mouse double click.
      </p>
     </note>
    </div2>
@@ -1183,729 +1185,7 @@
        re-introduced at some point.
       </edtext>
      </ednote>
-<!--
-     <table summary="This table contains the complete list of event types  defined by DOM Level 3 Events. The first column contains the  local name of the event type. The second column indicates if  the event accomplish the bubbling phase or not (all events  accomplish the capture and target phases). The third column  indicates if the default action associated with the event can be  canceled. The fourth column indicates the nodes that can be  target of the event. the fifth (and last) column indicates the  DOM interface implemented by the event object." cellpadding="0" cellspacing="0">
-      <tbody>
-       <tr>
-        <th>
-         type
-        </th>
 
-        <th>
-         Bubbling phase
-        </th>
-
-        <th>
-         Cancelable
-        </th>
-
-        <th>
-         Target node types
-        </th>
-
-        <th>
-         DOM interface
-        </th>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-DOMActivate">DOMActivate</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>UIEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-DOMFocusIn">DOMFocusIn</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>UIEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-DOMFocusOut">DOMFocusOut</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>UIEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-textInput">textInput</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>TextEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-click">click</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>MouseEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-mousedown">mousedown</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>MouseEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-mouseup">mouseup</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>MouseEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-mouseover">mouseover</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>MouseEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-mousemove">mousemove</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>MouseEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-mouseout">mouseout</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>MouseEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-keydown">keydown</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>KeyboardEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-keyup">keyup</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>KeyboardEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-DOMSubtreeModified">DOMSubtreeModified</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         <code>Document</code>, <code>DocumentFragment</code>,
-         <code>Element</code>, <code>Attr</code>
-        </td>
-
-        <td>
-         <code>MutationEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-DOMNodeInserted">DOMNodeInserted</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         <code>Element</code>, <code>Attr</code>, <code>Text</code>,
-         <code>Comment</code>, <code>CDATASection</code>,
-         <code>DocumentType</code>, <code>EntityReference</code>,
-         <code>ProcessingInstruction</code>
-        </td>
-
-        <td>
-         <code>MutationEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-DOMNodeRemoved">DOMNodeRemoved</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         <code>Element</code>, <code>Attr</code>, <code>Text</code>,
-         <code>Comment</code>, <code>CDATASection</code>,
-         <code>DocumentType</code>, <code>EntityReference</code>,
-         <code>ProcessingInstruction</code>
-        </td>
-
-        <td>
-         <code>MutationEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-DOMNodeRemovedFromDocument">DOMNodeRemovedFromDocument</termref>
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         <code>Element</code>, <code>Attr</code>, <code>Text</code>,
-         <code>Comment</code>, <code>CDATASection</code>,
-         <code>DocumentType</code>, <code>EntityReference</code>,
-         <code>ProcessingInstruction</code>
-        </td>
-
-        <td>
-         <code>MutationEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-DOMNodeInsertedIntoDocument">DOMNodeInsertedIntoDocument</termref>
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         <code>Element</code>, <code>Attr</code>, <code>Text</code>,
-         <code>Comment</code>, <code>CDATASection</code>,
-         <code>DocumentType</code>, <code>EntityReference</code>,
-         <code>ProcessingInstruction</code>
-        </td>
-
-        <td>
-         <code>MutationEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-DOMAttrModified">DOMAttrModified</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>MutationEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-DOMCharacterDataModified">DOMCharacterDataModified</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         <code>Text</code>, <code>Comment</code>,
-         <code>CDATASection</code>, <code>ProcessingInstruction</code>
-        </td>
-
-        <td>
-         <code>MutationEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-DOMElementNameChanged">DOMElementNameChanged</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>MutationNameEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-DOMAttributeNameChanged">DOMAttributeNameChanged</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>MutationNameEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-load">load</termref>
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         <code>Document</code>, <code>Element</code>
-        </td>
-
-        <td>
-         <code>Event</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-unload">unload</termref>
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         <code>Document</code>, <code>Element</code>
-        </td>
-
-        <td>
-         <code>Event</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-abort">abort</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>Event</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-error">error</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>Event</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-select">select</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>Event</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-change">change</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>Event</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-submit">submit</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>Event</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-reset">reset</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         <code>Element</code>
-        </td>
-
-        <td>
-         <code>Event</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-resize">resize</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         <code>Document</code>, <code>Element</code>
-        </td>
-
-        <td>
-         <code>UIEvent</code>
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-scroll">scroll</termref>
-        </td>
-
-        <td>
-         Yes
-        </td>
-
-        <td>
-         No
-        </td>
-
-        <td>
-         <code>Document</code>, <code>Element</code>
-        </td>
-
-        <td>
-         <code>UIEvent</code>
-        </td>
-       </tr>
-      </tbody>
-     </table>
--->
      <p>
       As an example, the event <termref def="event-load">load</termref>
       will trigger event listeners attached on <code>Element</code>
@@ -2124,9 +1404,9 @@
         cx="300" cy="225" r="100" fill="red"/&gt;</eg>
      <p>
       Since only one attribute with the same name can appear on an
-      element, it is therefore not possible to register more than one
-      event listener on a single <code>EventTarget</code> for the event
-      type. Also, event listeners can only be registered on
+      element, it is not possible to register more than one event
+      listener on a single <code>EventTarget</code> for the event type.
+      Also, event listeners can only be registered on
       <code>Element</code> nodes for the
       <termref def="dt-target-phase">target phase</termref> and
       <termref def="dt-bubbling-phase">bubbling phase</termref>, other
@@ -2312,8 +1592,8 @@
         <p>
          This method is used to prevent event listeners of the same
          group to be triggered but its effect is deferred until all
-         event listeners attached on the <code>currentTarget</code> have
-         been triggered (see
+         event listeners attached on the
+         <code>Event.currentTarget</code> have been triggered (see
          <specref ref="Events-propagation-and-groups"/>). Once it has
          been called, further calls to that method have no additional
          effect.
@@ -2322,7 +1602,8 @@
         <note>
          <p>
           This method does not prevent the default action from being
-          invoked; use <code>preventDefault</code> for that effect.
+          invoked; use <code>Event.preventDefault()</code> for that
+          effect.
          </p>
         </note>
        </descr>
@@ -2357,8 +1638,8 @@
         <note>
          <p>
           This method does not stop the event propagation; use
-          <code>stopPropagation</code> or
-          <code>stopImmediatePropagation</code> for that effect.
+          <code>Event.stopPropagation()</code> or
+          <code>Event.stopImmediatePropagation()</code> for that effect.
          </p>
         </note>
        </descr>
@@ -2399,8 +1680,7 @@
          This method sets the <code>Event.type</code> attribute to
          <code>eventTypeArg</code>, and <code>Event.namespaceURI</code>
          to <code>null</code>. To initialize an event with a namespace
-         URI, use the <code>Event.initEventNS(namespaceURIArg,
-         eventTypeArg, ...)</code> method.
+         URI, use the <code>Event.initEventNS()</code> method.
         </p>
        </descr>
 
@@ -2408,7 +1688,9 @@
         <param name="eventTypeArg" type="DOMString" attr="in">
          <descr>
           <p>
-           Specifies <code>Event.type</code>.
+           Specifies <code>Event.type</code>, the
+           <termref def="dt-localname">local name</termref> of the event
+           type.
           </p>
          </descr>
         </param>
@@ -2465,11 +1747,11 @@
        <descr>
         <p>
          This method is used to prevent event listeners of the same
-         group to be triggered and, unlike <code>stopPropagation</code>
-         its effect is immediate (see
-         <specref ref="Events-propagation-and-groups"/>). Once it has
-         been called, further calls to that method have no additional
-         effect.
+         group to be triggered and, unlike
+         <code>Event.stopPropagation()</code> its effect is immediate
+         (see <specref ref="Events-propagation-and-groups"/>). Once it
+         has been called, further calls to that method have no
+         additional effect.
         </p>
 
         <note>
@@ -2529,9 +1811,8 @@
         <param name="eventTypeArg" type="DOMString" attr="in">
          <descr>
           <p>
-           Specifies <code>Event.type</code>, the
-           <termref def="dt-localname">local name</termref> of the event
-           type.
+           Refer to the <code>Event.initEvent()</code> method for a
+           description of this parameter.
           </p>
          </descr>
         </param>
@@ -2737,15 +2018,6 @@
          event is the <code>EventTarget</code> object on which
          <code>dispatchEvent</code> is called.
         </p>
-
-        <ednote>
-         <edtext>
-          There is an open issue
-          <loc href='http://www.w3.org/2005/06/tracker/webapi/issues/20'>ISSUE-20</loc>
-          regarding re-dispatch of event objects that have already been
-          dispatched.
-         </edtext>
-        </ednote>
        </descr>
 
        <parameters>
@@ -2783,7 +2055,7 @@
 
           <p>
            DISPATCH_REQUEST_ERR: Raised if the <code>Event</code> object
-           is already being dispatched in the tree.
+           is already being dispatched.
           </p>
          </descr>
         </exception>
@@ -2830,8 +2102,8 @@
         <param name="type" type="DOMString" attr="in">
          <descr>
           <p>
-           Specifies the <code>Event.type</code> associated with the
-           event for which the user is registering.
+           Refer to the <code>EventTarget.addEventListener()</code>
+           method for a description of this parameter.
           </p>
          </descr>
         </param>
@@ -2839,10 +2111,8 @@
         <param name="listener" type="EventListener" attr="in">
          <descr>
           <p>
-           The <code>listener</code> parameter takes an object
-           implemented by the user which implements the
-           <code>EventListener</code> interface and contains the method
-           to be called when the event occurs.
+           Refer to the <code>EventTarget.addEventListener()</code>
+           method for a description of this parameter.
           </p>
          </descr>
         </param>
@@ -2850,14 +2120,8 @@
         <param name="useCapture" type="boolean" attr="in">
          <descr>
           <p>
-           If true, <code>useCapture</code> indicates that the user
-           wishes to add the event listener for the
-           <termref def="dt-capture-phase">capture phase</termref> only,
-           i.e. this event listener will not be triggered during the
-           <termref def="dt-target-phase">target</termref> and
-           <termref def="dt-bubbling-phase">bubbling</termref> phases.
-           If <code>false</code>, the event listener will only be
-           triggered during the target and bubbling phases.
+           Refer to the <code>EventTarget.addEventListener()</code>
+           method for a description of this parameter.
           </p>
          </descr>
         </param>
@@ -2912,8 +2176,8 @@
         <param name="type" type="DOMString" attr="in">
          <descr>
           <p>
-           Specifies the <code>Event.type</code> associated with the
-           event for which the user registered the event listener.
+           Refer to the <code>EventTarget.removeEventListener()</code>
+           method for a description of this parameter.
           </p>
          </descr>
         </param>
@@ -2921,8 +2185,8 @@
         <param name="listener" type="EventListener" attr="in">
          <descr>
           <p>
-           The <code>EventListener</code> parameter indicates the
-           <code>EventListener</code> to be removed.
+           Refer to the <code>EventTarget.removeEventListener()</code>
+           method for a description of this parameter.
           </p>
          </descr>
         </param>
@@ -2930,14 +2194,8 @@
         <param name="useCapture" type="boolean" attr="in">
          <descr>
           <p>
-           Specifies whether the <code>EventListener</code> being
-           removed was registered for the capture phase or not. If a
-           listener was registered twice, once for the capture phase and
-           once for the target and bubbling phases, each must be removed
-           separately. Removal of an event listener registered for the
-           capture phase does not affect the same event listener
-           registered for the target and bubbling phases, and vice
-           versa.
+           Refer to the <code>EventTarget.removeEventListener()</code>
+           method for a description of this parameter.
           </p>
          </descr>
         </param>
@@ -3075,13 +2333,6 @@
      </p>
 
      <p>
-      DOM Events provides two ways for creating <code>Event</code>
-      objects. An application can either create <code>Event</code>
-      objects that are known to the implementation, or create its own
-      objects and have them dispatched by the DOM Events implementation.
-     </p>
-
-     <p>
       Creating <code>Event</code> objects that are known to the DOM
       Events implementation is done using
       <code>DocumentEvent.createEvent()</code>. The application must
@@ -3092,34 +2343,12 @@
       otherwise an event exception is thrown.
      </p>
 
-     <p>
-      The DOM application might want to create its own
-      <code>Event</code> objects, in order to change the default
-      <code>Event</code> implementation provided by the DOM Events
-      implementation or to generate new event types with specific
-      contextual information. In any case, the application is
-      responsible for creating and initializing the <code>Event</code>
-      object. The application can then dispatch the event using the DOM
-      Events implementation by using
-      <code>EventTarget.dispatchEvent()</code>.
-     </p>
-
-     <p>
-      However, the DOM Events implementation requires to have access to
-      two attributes in the <code>Event</code> object in order to
-      accomplish the dispatch appropriately:
-      <code>Event.currentTarget</code> and
-      <code>Event.eventPhase</code>. Those attributes are defined as
-      <code>readonly</code> in the <code>Event</code> interface since
-      event listeners must not change them and it is the responsibility
-      of the DOM Events implementation to update them during the event
-      flow. Therefore, implementing the <code>Event</code> interface
-      when creating its own events is not enough for an application
-      since the DOM Events implementation will not be able to update the
-      current phase and the current node during the dispatch, unless the
-      event object also implements the <code>CustomEvent</code>
-      interface to give access to the relevant attributes.
-     </p>
+     <ednote>
+      <edtext>
+       Perhaps say something about custom events here; depends on what
+       the upcoming text on event naming says...
+      </edtext>
+     </ednote>
 
      <definitions>
 <!-- DocumentEvent interface -->
@@ -3173,22 +2402,6 @@
             <code>UIEvent.detail</code> in this example.
            </p>
 
-           <p>
-            The <code>createEvent</code> method is used in creating
-            <code>Event</code>s when it is either inconvenient or
-            unnecessary for the user to create an <code>Event</code>
-            themselves. In cases where the implementation provided
-            <code>Event</code> is insufficient, users may supply their
-            own <code>Event</code> implementations for use with the
-            <code>EventTarget.dispatchEvent()</code> method. However,
-            the DOM implementation needs access to the attributes
-            <code>Event.currentTarget</code> and
-            <code>Event.eventPhase</code> to appropriately propagate the
-            event in the DOM tree. Therefore users' <code>Event</code>
-            implementations might need to support the
-            <code>CustomEvent</code> interface for that effect.
-           </p>
-
            <note>
             <p>
              For backward compatibility reason, "UIEvents",
@@ -3198,13 +2411,6 @@
              interfaces "UIEvent", "MouseEvent", "MutationEvent", and
              "Event".
             </p>
-
-            <ednote>
-             <edtext>
-              This does not say whether the argument is
-              case-insensitive, it is in some implementations...
-             </edtext>
-            </ednote>
            </note>
           </descr>
          </param>
@@ -3336,7 +2542,8 @@
          <param name="detailArg" type="DOMObject" attr="in">
           <descr>
            <p>
-            Specifies <code>CustomEvent.detail</code>.
+            Specifies <code>CustomEvent.detail</code>. This value may be
+            <code>null</code>.
            </p>
           </descr>
          </param>
@@ -3457,7 +2664,8 @@
          <param name="viewArg" type="views::AbstractView" attr="in">
           <descr>
            <p>
-            Specifies <code>UIEvent.view</code>.
+            Specifies <code>UIEvent.view</code>. This value may be
+            <code>null</code>.
            </p>
           </descr>
          </param>
@@ -3578,15 +2786,20 @@
       information about
       <xspecref href="http://www.w3.org/TR/DOM-Level-3-Core/introduction.html#ID-Conformance">conformance</xspecref>,
       please see the DOM Level 3 Core specification
-      <bibref role="informative" ref="DOMCore"/>. The DOM Level 3 User
-      Interface Events module is built on top of the DOM Level 2 User
-      Interface Events <bibref ref="DOM2Events"/> module, i.e. a DOM
-      Level 3 User Interface Events implementation where
-      <code>hasFeature("UIEvents", "3.0")</code> returns
-      <code>true</code> must also return <code>true</code> when the
-      <code>version</code> number is <code>"2.0"</code>, <code>""</code>
-      or, <code>null</code>.
+      <bibref role="informative" ref="DOMCore"/>.
      </p>
+
+     <note>
+      <p>
+       The DOM Level 3 User Interface Events module does not include the
+       event types <code>DOMFocusIn</code> and <code>DOMFocusOut</code>
+       defined in <bibref ref="DOM2Events"/>. This implies that a DOM
+       Level 3 User Interface Events implementation where
+       <code>hasFeature("UIEvents", "3.0")</code> returns
+       <code>true</code> does not necessarily return <code>true</code>
+       when the <code>version</code> number is <code>"2.0"</code>.
+      </p>
+     </note>
 
      <glist role="event-definition">
       <gitem>
@@ -3668,17 +2881,8 @@
         </table>
 
         <p>
-         An element is activated, for instance, using a mouse device, a
-         keyboard device, or a voice command.
+         Refer to <specref ref="Events-flow-activation"/>.
         </p>
-
-        <note>
-         <p>
-          The activation of an element is device dependent but is also
-          application dependent, e.g. a link in a document can be
-          activated using a mouse click or a mouse double click.
-         </p>
-        </note>
        </def>
       </gitem>
      </glist>
@@ -3763,8 +2967,9 @@
         </table>
 
         <p>
-         An event target receives focus. The focus is given to the
-         element before the dispatch of this event type.
+         An <termref def="dt-event-target">event target</termref>
+         receives focus. The focus is given to the element before the
+         dispatch of this event type.
         </p>
        </def>
       </gitem>
@@ -3850,8 +3055,9 @@
         </table>
 
         <p>
-         A event target loses focus. The focus is taken from the element
-         before the dispatch of this event type.
+         A <termref def="dt-event-target">event target</termref> loses
+         focus. The focus is taken from the element before the dispatch
+         of this event type.
         </p>
        </def>
       </gitem>
@@ -4451,7 +3657,8 @@
          <param name="relatedTargetArg" type="EventTarget" attr="in">
           <descr>
            <p>
-            Specifies <code>MouseEvent.relatedTarget</code>.
+            Specifies <code>MouseEvent.relatedTarget</code>. This value
+            may be <code>null</code>.
            </p>
           </descr>
          </param>
@@ -4806,17 +4013,10 @@
          <termref def="event-mouseout">mouseout</termref> occur between
          the press and release of the pointing device button. In the
          case of nested elements, this event type is always targeted at
-         the most deeply nested element.
+         the most deeply nested element. In addition, the event type is
+         dispatched as described in
+         <specref ref="Events-flow-activation"/>.
         </p>
-
-        <ednote>
-         <edtext>
-          There is an open issue
-          <loc href='http://www.w3.org/2005/06/tracker/webapi/issues/9'>ISSUE-9</loc>
-          concerned with making
-          <termref def="event-click">click</termref> more generic.
-         </edtext>
-        </ednote>
        </def>
       </gitem>
      </glist>
@@ -6531,8 +5731,10 @@
 
         <p>
          A node has been added as a
-         <termref def="dt-child">child</termref> of another node. This
-         event is dispatched after the insertion has taken place. The
+         <termref def="dt-child">child</termref> of another node or, in
+         case of <code>Attr</code> nodes, has been added to an
+         <code>Element</code>. This event is dispatched after the
+         insertion has taken place. The
          <termref def="dt-target-node">target node</termref> of this
          event is the node being inserted.
         </p>
@@ -6624,10 +5826,11 @@
         </table>
 
         <p>
-         A node is being removed from its parent node. This event is
-         dispatched before the node is removed from the tree. The
-         <termref def="dt-target-node">target node</termref> of this
-         event is the node being removed.
+         A node is being removed from its parent node or, in case of
+         <code>Attr</code> nodes, removed from its
+         <code>ownerElement</code>. This event is dispatched before the
+         removal takes place. The <termref def="dt-target-node">target
+         node</termref> of this event is the node being removed.
         </p>
        </def>
       </gitem>
@@ -6718,12 +5921,14 @@
         <p>
          A node is being removed from a document, either through direct
          removal of the node or removal of a subtree in which it is
-         contained. This event is dispatched before the removal takes
-         place. The <termref def="dt-target-node">target node</termref>
-         of this event type is the node being removed. If the node is
-         being directly removed, the event type
+         contained; <code>Attr</code> nodes are considered part of an
+         <code>Element</code>'s subtree. This event is dispatched before
+         the removal takes place. The
+         <termref def="dt-target-node">target node</termref> of this
+         event type is the node being removed. If the node is being
+         directly removed, the event type
          <termref def="event-DOMNodeRemoved">DOMNodeRemoved</termref>
-         will fire before this event type.
+         occurs before this event type.
         </p>
        </def>
       </gitem>
@@ -6812,14 +6017,16 @@
         </table>
 
         <p>
-         A node is being inserted into a document, either through direct
+         A node has been inserted into a document, either through direct
          insertion of the node or insertion of a subtree in which it is
-         contained. This event is dispatched after the insertion has
-         taken place. The <termref def="dt-target-node">target
-         node</termref> of this event is the node being inserted. If the
-         node is being directly inserted, the event type
+         contained; <code>Attr</code> nodes are considered part of an
+         <code>Element</code>'s subtree. This event is dispatched after
+         the insertion has taken place. The
+         <termref def="dt-target-node">target node</termref> of this
+         event is the node being inserted. If the node is being directly
+         inserted, the event type
          <termref def="event-DOMNodeInserted">DOMNodeInserted</termref>
-         will fire before this event type.
+         occurs before this event type.
         </p>
        </def>
       </gitem>
@@ -6898,16 +6105,15 @@
            </th>
 
            <td>
-            <code>MutationEvent.attrName</code> is in use. The value of
-            <code>MutationEvent.relatedNode</code> indicates the
-            <code>Attr</code> node whose value has been affected. The
-            value of <code>MutationEvent.attrChange</code> indicates
-            whether the <code>Attr</code> was modified, added, or
-            removed. If the <code>Attr</code> node is being added,
+            <code>MutationEvent.attrName</code> and
+            <code>MutationEvent.attrChange</code> are in use. The value
+            of <code>MutationEvent.relatedNode</code> indicates the
+            <code>Attr</code> node that has been modified, added, or
+            removed. If the <code>Attr</code> node has been added,
             <code>MutationEvent.newValue</code> is in use. If the
-            <code>Attr</code> node is being removed,
-            <code>MutationEvent.prevValue</code> is in value. If the
-            <code>Attr</code> node is being modified,
+            <code>Attr</code> node has been removed,
+            <code>MutationEvent.prevValue</code> is in use. If the
+            <code>Attr</code> node has been modified,
             <code>MutationEvent.newValue</code> and
             <code>MutationEvent.prevValue</code> are in use.
            </td>
@@ -6916,27 +6122,16 @@
         </table>
 
         <p>
-         Occurs after an <code>Attr</code> has been modified on a node.
-         The <termref def="dt-target-node">target node</termref> of this
-         event is the parent <code>Element</code> node whose
-         <code>Attr</code> changed. It is expected that string based
-         replacement of an <code>Attr</code> value will be viewed as a
-         modification of the <code>Attr</code> since its identity does
-         not change. Subsequently replacement of the <code>Attr</code>
-         node with a different <code>Attr</code> node is viewed as the
-         removal of the first <code>Attr</code> node and the addition of
-         the second.
+         Occurs after <code>Attr.value</code> has been modified and
+         after an <code>Attr</code> node has been added to or removed
+         from an <code>Element</code>. The
+         <termref def="dt-target-node">target node</termref> of this
+         event is the <code>Element</code> node where the change
+         occured. It is implementation dependent whether this event type
+         occurs when the children of the <code>Attr</code> node are
+         changed in ways that do not affect the value of
+         <code>Attr.value</code>.
         </p>
-
-        <ednote>
-         <edtext>
-          There is an
-          <loc href='http://lists.w3.org/Archives/Member/member-webapi/2006Feb/0004.html'>open
-          issue</loc> concerned with providing additional information
-          regarding when DOM implementations must dispatch this event
-          type.
-         </edtext>
-        </ednote>
        </def>
       </gitem>
      </glist>
@@ -7004,7 +6199,9 @@
            </th>
 
            <td>
-            <code>Element</code>
+            <code>Text</code>, <code>Comment</code>,
+            <code>CDATASection</code>,
+            <code>ProcessingInstruction</code>
            </td>
           </tr>
 
@@ -7342,8 +6539,9 @@
          Occurs after the <code>namespaceURI</code> and/or the
          <code>nodeName</code> of an <code>Element</code> node have been
          modified (e.g., the element was renamed using
-         <code>Document.renameNode()</code>). The target of this event
-         is the renamed <code>Element</code> node.
+         <code>Document.renameNode()</code>). The
+         <termref def="dt-target-node">target node</termref> of this
+         event is the renamed <code>Element</code> node.
         </p>
        </def>
       </gitem>
@@ -7435,9 +6633,10 @@
          Occurs after the <code>namespaceURI</code> and/or the
          <code>nodeName</code> of a <code>Attr</code> node have been
          modified (e.g., the attribute was renamed using
-         <code>Document.renameNode</code>). The target of this event is
-         the parent <code>Element</code> node whose <code>Attr</code>
-         has been renamed.
+         <code>Document.renameNode()</code>). The
+         <termref def="dt-target-node">target node</termref> of this
+         event is the <code>Element</code> node whose
+         <code>Attr</code> has been renamed.
         </p>
        </def>
       </gitem>
@@ -8019,7 +7218,8 @@
 
         <p>
          A control loses the input focus and its value has been modified
-         since gaining focus.
+         since gaining focus. This event type is dispatched before the
+         event type <termref def="event-blur">blur</termref>.
         </p>
        </def>
       </gitem>
@@ -8374,524 +7574,6 @@
        </def>
       </gitem>
      </glist>
-<!--..................................................................................-->
-    </div3>
-
-    <div3 id="Events-eventgroupings-htmlevents">
-     <head>
-      HTML Events
-     </head>
-
-     <p>
-      The HTML event module is composed of events listed in
-      <bibref role="informative" ref="HTML40"/> and additional events
-      which are supported in <termref def="dt-DOM-Level-0">DOM Level
-      0</termref> browsers. It refines the semantics and scope of the
-      basic event types and provides two new event types. This event
-      module is only applicable if the <code>Document</code> supports
-      the <bibref role="informative" ref="DOM2HTML"/> specification. Use
-      <code>Node.isSupported(feature, version)</code> with the parameter
-      values "HTML" and "2.0" (respectively) to determine whether or not
-      the <code>Document</code> node supports the HTML module.
-     </p>
-
-     <ednote>
-      <edtext>
-       Needs to say that it inherits UIEvents focus and blur instead.
-      </edtext>
-     </ednote>
-
-     <p>
-      A DOM application may use the <code>hasFeature(feature,
-      version)</code> method of the <code>DOMImplementation</code>
-      interface with parameter values <code>"HTMLEvents"</code> and
-      <code>"3.0"</code> (respectively) to determine whether or not the
-      HTML event module is supported by the implementation. In order to
-      fully support this module, an implementation must also support the
-      <code>"BasicEvents"</code> feature defined in this specification
-      and the <code>"HTML"</code> feature defined in
-      <bibref ref="DOM2HTML"/>. For additional information about
-      <xspecref href="http://www.w3.org/TR/DOM-Level-3-Core/introduction.html#ID-Conformance">conformance</xspecref>,
-      please see the DOM Level 3 Core specification
-      <bibref ref="DOMCore"/>. The DOM Level 3 HTML Events module is
-      built on top of the DOM Level 2 HTML Events
-      <bibref ref="DOM2Events"/> module, i.e. a DOM Level 3 HTML Events
-      implementation where <code>hasFeature("HTMLEvents", "3.0")</code>
-      returns <code>true</code> must also return <code>true</code> when
-      the <code>version</code> number is <code>"2.0"</code>,
-      <code>""</code> or, <code>null</code>.
-     </p>
-
-     <p>
-      The following descriptions of event types are refinements of the
-      general descriptions provided in
-      <specref ref="Events-eventgroupings"/>.
-     </p>
-
-     <glist>
-      <gitem>
-       <label id="event-html-load">load</label>
-
-       <def>
-        <p>
-         The DOM implementation finishes loading all content within the
-         BODY element, all frames within a FRAMESET, or any resource
-         linked from the document.
-        </p>
-       </def>
-      </gitem>
-
-      <gitem>
-       <label id="event-html-unload">unload</label>
-
-       <def>
-        <p>
-         The DOM implementation removes a document from a window or
-         frame. This event is valid for BODY and FRAMESET elements.
-        </p>
-       </def>
-      </gitem>
-
-      <gitem>
-       <label id="event-html-abort">abort</label>
-
-       <def>
-        <p>
-         The page loading is stopped before an image has been allowed to
-         completely load. This event applies to OBJECT elements.
-        </p>
-       </def>
-      </gitem>
-
-      <gitem>
-       <label id="event-html-error">error</label>
-
-       <def>
-        <p>
-         An image does not load properly or when an error occurs during
-         script execution. This event is valid for OBJECT elements, BODY
-         elements, and FRAMESET element.
-        </p>
-       </def>
-      </gitem>
-
-      <gitem>
-       <label id="event-html-select">select</label>
-
-       <def>
-        <p>
-         A user selects some text in a text field either via the user
-         interface or via attributes defined in
-         <bibref role="informative" ref="DOM2HTML"/>. This event is
-         valid for INPUT and TEXTAREA elements.
-        </p>
-       </def>
-      </gitem>
-
-      <gitem>
-       <label id="event-html-change">change</label>
-
-       <def>
-        <p>
-         A control loses the input focus and its value has been modified
-         since gaining focus. This event can occur either via a user
-         interface manipulation or the <code>focus()</code> methods and
-         the attributes defined in
-         <bibref role="informative" ref="DOM2HTML"/>. This event type is
-         dispatched before the event type
-         <termref def="event-blur">blur</termref>. This event is valid
-         for INPUT, SELECT, and TEXTAREA element.
-        </p>
-       </def>
-      </gitem>
-
-      <gitem>
-       <label id="event-html-submit">submit</label>
-
-       <def>
-        <p>
-         A form is submitted either via a button. This event only
-         applies to the FORM element. Note that the
-         <code>HTMLFormElement.submit()</code> method defined in
-         <bibref role="informative" ref="DOM2HTML"/> does not fire this
-         event type.
-        </p>
-       </def>
-      </gitem>
-
-      <gitem>
-       <label id="event-html-reset">reset</label>
-
-       <def>
-        <p>
-         A form is reset either via a button, or the
-         <code>HTMLFormElement.reset()</code> method defined in
-         <bibref role="informative" ref="DOM2HTML"/>. This event only
-         applies to the FORM element.
-        </p>
-       </def>
-      </gitem>
-
-      <gitem>
-       <label id="event-html-resize">resize</label>
-
-       <def>
-        <p>
-         see <termref def="event-resize">resize</termref>.
-        </p>
-       </def>
-      </gitem>
-
-      <gitem>
-       <label id="event-html-scroll">scroll</label>
-
-       <def>
-        <p>
-         see <termref def="event-resize">scroll</termref>.
-        </p>
-       </def>
-      </gitem>
-
-      <gitem>
-       <label id="event-html-focus">focus</label>
-
-       <def>
-        <p>
-         An element receives focus either via a pointing device, the
-         <code>focus()</code> methods defined in
-         <bibref role="informative" ref="DOM2HTML"/>, or by tabbing
-         navigation. This event is only valid for the following
-         elements: A, AREA, LABEL, INPUT, SELECT, TEXTAREA, and BUTTON.
-        </p>
-       </def>
-      </gitem>
-
-      <gitem>
-       <label id="event-html-blur">blur</label>
-
-       <def>
-        <p>
-         An element loses focus either via a pointing device, the
-         <code>blur()</code> methods defined in
-         <bibref role="informative" ref="DOM2HTML"/>, or by tabbing
-         navigation. This event is only valid for the following
-         elements: A, AREA, LABEL, INPUT, SELECT, TEXTAREA, and BUTTON.
-        </p>
-       </def>
-      </gitem>
-     </glist>
-
-     <p>
-      The following table provides refinements or additional information
-      on the event types. Some events will only be dispatched to a
-      specific set of possible targets, specified using HTML node types.
-     </p>
-
-     <table summary="This table contains the HTML list of event types         defined by DOM Level 3 Events. The first column contains the         local name of the event type. The second column indicates if         the event accomplish the bubbling phase or not (all events         accomplish the capture and target phases). The third column         indicates if the default action associated with the event can be         canceled. The fourth column indicates the nodes that can be         target of the event. the fifth (and last) column indicates the         DOM interface implemented by the event object." cellpadding="0" cellspacing="0">
-      <tbody>
-       <tr>
-        <th>
-         type
-        </th>
-
-        <th>
-         Bubbling phase
-        </th>
-
-        <th>
-         Cancelable
-        </th>
-
-        <th>
-         Target node types
-        </th>
-
-        <th>
-         DOM interface
-        </th>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-html-load">load</termref>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         <code>HTMLDocument</code>, <code>HTMLBodyElement</code>,
-         <code>HTMLFrameSetElement</code>,
-         <code>HTMLObjectElement</code>, <code>HTMLLinkElement</code>,
-         <code>HTMLMetaElement</code>, <code>HTMLScriptElement</code>,
-         <code>HTMLFrameElement</code>, <code>HTMLIFrameElement</code>,
-         <code>HTMLImageElement</code>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-html-unload">unload</termref>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         <code>HTMLDocument</code>, <code>HTMLBodyElement</code>,
-         <code>HTMLFrameSetElement</code>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-html-abort">abort</termref>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         <code>HTMLObjectElement</code>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-html-error">error</termref>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         <code>HTMLObjectElement</code>, <code>HTMLBodyElement</code>,
-         <code>HTMLFrameSetElement</code>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-html-select">select</termref>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         <code>HTMLInputElement</code>, <code>HTMLTextAreaElement</code>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-html-change">change</termref>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         <code>HTMLInputElement</code>, <code>HTMLSelectElement</code>,
-         <code>HTMLTextAreaElement</code>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-html-submit">submit</termref>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         <code>HTMLFormElement</code>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-html-reset">reset</termref>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         <code>HTMLFormElement</code>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-html-resize">resize</termref>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         <code>HTMLDocument</code>, <code>HTMLElement</code>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-html-scroll">scroll</termref>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         <code>HTMLDocument</code>, <code>HTMLElement</code>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-html-focus">focus</termref>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         <code>HTMLAnchorElement</code>, <code>HTMLAreaElement</code>,
-         <code>HTMLLabelElement</code>, <code>HTMLInputElement</code>,
-         <code>HTMLSelectElement</code>,
-         <code>HTMLTextAreaElement</code>,
-         <code>HTMLButtonElement</code>.
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-       </tr>
-
-       <tr>
-        <td>
-         <termref def="event-html-blur">blur</termref>
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-
-        <td>
-         <code>HTMLAnchorElement</code>, <code>HTMLAreaElement</code>,
-         <code>HTMLLabelElement</code>, <code>HTMLInputElement</code>,
-         <code>HTMLSelectElement</code>,
-         <code>HTMLTextAreaElement</code>,
-         <code>HTMLButtonElement</code>.
-        </td>
-
-        <td>
-         [no changes]
-        </td>
-       </tr>
-      </tbody>
-     </table>
     </div3>
    </div2>
   </div1>
@@ -8955,13 +7637,6 @@
      </p>
     </item>
    </ulist>
-
-   <ednote>
-    <edtext>
-     See also
-     <loc href='http://www.w3.org/2005/06/tracker/webapi/actions/25'>ACTION-25</loc>.
-    </edtext>
-   </ednote>
 
    <note>
     <p>
@@ -12213,24 +10888,6 @@
    <glist>
 <!-- ................................................................ -->
     <gitem>
-     <label id="dt-16-bit-unit">16-bit unit</label>
-
-     <def>
-      <p>
-       The base unit of a <code>DOMString</code>. This indicates that
-       indexing on a <code>DOMString</code> occurs in units of 16 bits.
-       This must not be misunderstood to mean that a
-       <code>DOMString</code> can store arbitrary 16-bit units. A
-       <code>DOMString</code> is a character string encoded in UTF-16;
-       this means that the restrictions of UTF-16 as well as the other
-       relevant restrictions on character strings must be maintained. A
-       single character, for example in the form of a numeric character
-       reference, may correspond to one or two 16-bit units.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
      <label id="dt-ancestor">ancestor</label>
 
      <def>
@@ -12248,19 +10905,6 @@
       <p>
        An <term>API</term> is an Application Programming Interface, a
        set of functions or methods used to access some functionality.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
-     <label id="dt-anonymous">anonymous type name</label>
-
-     <def>
-      <p>
-       An <term>anonymous type name</term> is an implementation-defined,
-       globally unique qualified name provided by the processor for
-       every anonymous type declared in a
-       <termref def="dt-schema">schema</termref>.
       </p>
      </def>
     </gitem>
@@ -12301,45 +10945,6 @@
     </gitem>
 <!-- ................................................................ -->
     <gitem>
-     <label id="dt-application">client application</label>
-
-     <def>
-      <p>
-       A [client] application is any software that uses the Document
-       Object Model programming interfaces provided by the hosting
-       implementation to accomplish useful work. Some examples of client
-       applications are scripts within an HTML or XML document.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
-     <label id="dt-COM">COM</label>
-
-     <def>
-      <p>
-       <term>COM</term> is Microsoft's Component Object Model
-       <bibref role="informative" ref="COM"/>, a technology for building
-       applications from binary software components.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
-     <label id="dt-content-model">content model</label>
-
-     <def>
-      <p>
-       The <term>content model</term> is a simple grammar governing the
-       allowed types of the child elements and the order in which they
-       appear. See
-       <xspecref href="http://www.w3.org/TR/2004/REC-xml-20040204/#sec-element-content">Element
-       Content</xspecref> in XML <bibref role="informative" ref="XML"/>.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
      <label id="dt-convenience">convenience</label>
 
      <def>
@@ -12351,93 +10956,6 @@
        specific programs to create more optimized implementations for
        common operations. A similar definition holds for a
        <term>convenience property</term>.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
-     <label id="dt-cooked">cooked model</label>
-
-     <def>
-      <p>
-       A model for a document that represents the document after it has
-       been manipulated in some way. For example, any combination of any
-       of the following transformations would create a cooked model:
-       <olist>
-        <item>
-         <p>
-          Expansion of internal text entities.
-         </p>
-        </item>
-
-        <item>
-         <p>
-          Expansion of external entities.
-         </p>
-        </item>
-
-        <item>
-         <p>
-          Model augmentation with style-specified generated text.
-         </p>
-        </item>
-
-        <item>
-         <p>
-          Execution of style-specified reordering.
-         </p>
-        </item>
-
-        <item>
-         <p>
-          Execution of scripts.
-         </p>
-        </item>
-       </olist>
-       A browser might only be able to provide access to a cooked model,
-       while an editor might provide access to a cooked or the initial
-       structure model (also known as the <term>uncooked model</term>)
-       for a document.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
-     <label id="dt-CORBA">CORBA</label>
-
-     <def>
-      <p>
-       <term>CORBA</term> is the <term>Common Object Request Broker
-       Architecture</term> from the
-       <loc href="http://www.omg.org">OMG</loc>
-       <bibref role="informative" ref="CORBA"/>. This architecture is a
-       collection of objects and libraries that allow the creation of
-       applications containing objects that make and receive requests
-       and responses in a distributed environment.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
-     <label id="dt-cursor">cursor</label>
-
-     <def>
-      <p>
-       A <term>cursor</term>is an object representation of a node. It
-       may possess information about context and the path traversed to
-       reach the node.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
-     <label id="dt-datamodel">data model</label>
-
-     <def>
-      <p>
-       A <term>data model</term> is a collection of descriptions of data
-       structures and their contained fields, together with the
-       operations or functions that manipulate them.
       </p>
      </def>
     </gitem>
@@ -12574,47 +11092,6 @@
     </gitem>
 <!-- ................................................................ -->
     <gitem>
-     <label id="dt-equivalence">equivalence</label>
-
-     <def>
-      <p>
-       Two nodes are <term>equivalent</term> if they have the same node
-       type and same node name. Also, if the nodes contain data, that
-       must be the same. Finally, if the nodes have attributes then
-       collection of attribute names must be the same and the attributes
-       corresponding by name must be equivalent as nodes.
-      </p>
-
-      <p>
-       Two nodes are <term>deeply equivalent</term> if they are
-       <term>equivalent</term>, the child node lists are equivalent are
-       equivalent as <code>NodeList</code> objects, and the pairs of
-       equivalent attributes must in fact be deeply equivalent.
-      </p>
-
-      <p>
-       Two <code>NodeList</code> objects are <term>equivalent</term> if
-       they have the same length, and the nodes corresponding by index
-       are deeply equivalent.
-      </p>
-
-      <p>
-       Two <code>NamedNodeMap</code> objects are <term>equivalent</term>
-       if they have the same length, they have same collection of names,
-       and the nodes corresponding by name in the maps are deeply
-       equivalent.
-      </p>
-
-      <p>
-       Two <code>DocumentType</code> nodes are <term>equivalent</term>
-       if they are equivalent as nodes, have the same names, and have
-       equivalent entities and attributes <code>NamedNodeMap</code>
-       objects.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
      <label id="dt-infoitem">information item</label>
 
      <def>
@@ -12622,36 +11099,6 @@
        An information item is an abstract representation of some
        component of an XML document. See the
        <bibref role="informative" ref="InfoSet"/> for details.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
-     <label id="dt-logically-adjacent-text-nodes">logically-adjacent text nodes</label>
-
-     <def>
-      <p>
-       <term>Logically-adjacent text nodes</term> are <code>Text</code>
-       or <code>CDATASection</code> nodes that can be visited
-       sequentially in <termref def="dt-document-order">document
-       order</termref> or in reversed document order without entering,
-       exiting, or passing over <code>Element</code>,
-       <code>Comment</code>, or <code>ProcessingInstruction</code>
-       nodes.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
-     <label id="dt-global-declaration">global declaration</label>
-
-     <def>
-      <p>
-       A <term>global declaration</term> is a schema declaration,
-       usually for an element or an attribute, that is available for use
-       in content models throughout the
-       <termref def="dt-schema">schema</termref>, i.e. a declaration
-       that is not bound to a particular context.
       </p>
      </def>
     </gitem>
@@ -12685,21 +11132,6 @@
     </gitem>
 <!-- ................................................................ -->
     <gitem>
-     <label id="dt-IDL">IDL</label>
-
-     <def>
-      <p>
-       An Interface Definition Language (<term>IDL</term>) is used to
-       define the interfaces for accessing and operating upon objects.
-       Examples of IDLs are the Object Management Group's IDL
-       <bibref role="informative" ref="CORBA"/>, Microsoft's IDL
-       <bibref role="informative" ref="MSIDL"/>, and Sun's Java IDL
-       <bibref role="informative" ref="JavaIDL"/>.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
      <label id="dt-implementor">implementor</label>
 
      <def>
@@ -12723,23 +11155,6 @@
        is said to be a <term>base</term> class (or interface) for D.
        Some programming languages allow for multiple inheritance, that
        is, inheritance from more than one class or interface.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
-     <label id="dt-raw-struct">initial structure model</label>
-
-     <def>
-      <p>
-       Also known as the <term>raw structure model</term> or the
-       <term>uncooked model</term>, this represents the document before
-       it has been modified by entity expansions, generated text,
-       style-specified reordering, or the execution of scripts. In some
-       implementations, this might correspond to the "initial parse
-       tree" for the document, if it ever exists. Note that a given
-       implementation might not be able to provide access to the initial
-       structure model for a document, though an editor probably would.
       </p>
      </def>
     </gitem>
@@ -12809,20 +11224,6 @@
     </gitem>
 <!-- ................................................................ -->
     <gitem>
-     <label id="dt-model">model</label>
-
-     <def>
-      <p>
-       A <term>model</term> is the actual data representation for the
-       information at hand. Examples are the structural model and the
-       style model representing the parse structure and the style
-       information associated with a document. The model might be a
-       tree, or a directed graph, or something else.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
      <label id="dt-namespaceprefix">namespace prefix</label>
 
      <def>
@@ -12858,21 +11259,6 @@
     </gitem>
 <!-- ................................................................ -->
     <gitem>
-     <label id="dt-namespace-well-formed">namespace well-formed</label>
-
-     <def>
-      <p>
-       A node is a <term>namespace well-formed</term> XML node if it is
-       a <termref def="dt-well-formed">well-formed</termref> node, and
-       follows the productions and namespace constraints. If
-       <bibref ref="XML"/> is used, the constraints are defined in
-       <bibref ref="Namespaces"/>. If <bibref ref="XML11"/> is used, the
-       constraints are defined in <bibref ref="Namespaces11"/>.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
      <label id="dt-object-model">object model</label>
 
      <def>
@@ -12890,76 +11276,6 @@
      <def>
       <p>
        A <term>parent</term> is an immediate ancestor node of a node.
-      </p>
-     </def>
-    </gitem>
-
-    <gitem>
-     <label id="dt-partially-valid">partially valid</label>
-
-     <def>
-      <p>
-       A node in a DOM tree is <term>partially valid</term> if it is
-       <termref def="dt-well-formed">well formed</termref> (this part is
-       for comments and processing instructions) and its immediate
-       children are those expected by the content model. The node may be
-       missing trailing required children yet still be considered
-       <term>partially valid</term>.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
-     <label id="dt-qualifiedname">qualified name</label>
-
-     <def>
-      <p>
-       A <term>qualified name</term> is the name of an element or
-       attribute defined as the concatenation of a <term>local
-       name</term> (as defined in this specification), optionally
-       preceded by a <term>namespace prefix</term> and colon character.
-       See
-       <xspecref href="http://www.w3.org/TR/1999/REC-xml-names-19990114/#ns-qualnames">Qualified
-       Names</xspecref> in Namespaces in XML
-       <bibref role="informative" ref="Namespaces"/>.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
-     <label id="dt-readonly-node">read only node</label>
-
-     <def>
-      <p>
-       A <term>read only node</term> is a node that is immutable. This
-       means its list of children, its content, and its attributes, when
-       it is an element, cannot be changed in any way. However, a read
-       only node can possibly be moved, when it is not itself contained
-       in a read only node.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
-     <label id="dt-root-node">root node</label>
-
-     <def>
-      <p>
-       The <term>root node</term> is a node that is not a child of any
-       other node. All other nodes are children or other descendants of
-       the root node.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
-     <label id="dt-schema">schema</label>
-
-     <def>
-      <p>
-       A <term>schema</term> defines a set of structural and value
-       constraints applicable to XML documents. Schemas can be expressed
-       in schema languages, such as DTD, XML Schema, etc.
       </p>
      </def>
     </gitem>
@@ -12983,17 +11299,6 @@
        When string matching is required, it is to occur as though the
        comparison was between 2 sequences of code points from
        <bibref role="informative" ref="Unicode"/>.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
-     <label id="dt-tag-valid">tag valid document</label>
-
-     <def>
-      <p>
-       A document is <term>tag valid</term> if all begin and end tags
-       are properly balanced and nested.
       </p>
      </def>
     </gitem>
@@ -13049,45 +11354,6 @@
        the definition of
        <xtermref href="http://www.w3.org/TR/REC-xml.html#NT-TokenizedType">tokenized
        type</xtermref>.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
-     <label id="dt-type-valid">type valid document</label>
-
-     <def>
-      <p>
-       A document is <term>type valid</term> if it conforms to an
-       explicit DTD.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
-     <label id="dt-uncooked">uncooked model</label>
-
-     <def>
-      <p>
-       See initial structure model.
-      </p>
-     </def>
-    </gitem>
-<!-- ................................................................ -->
-    <gitem>
-     <label id="dt-well-formed">well-formed</label>
-
-     <def>
-      <p>
-       A node is a <term>well-formed</term> XML node if its serialized
-       form, without doing any transformation during its serialization,
-       matches its respective production in <bibref ref="XML"/> or
-       <bibref ref="XML11"/> (depending on the XML version in use) with
-       all well-formedness constraints related to that production, and
-       if the entities which are referenced within the node are also
-       well-formed. If namespaces for XML are in use, the node must also
-       be <termref def="dt-namespace-well-formed">namespace
-       well-formed</termref>.
       </p>
      </def>
     </gitem>
@@ -13160,15 +11426,6 @@
    </p>
 
    <blist>
-    <bibl id="c14n" href="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" key="Canonical XML">
-     <titleref>Canonical XML Version 1.0</titleref>, J. Boyer, Editor.
-     World Wide Web Consortium, 15 March 2001. This version of the
-     Canonical XML Recommendation is
-     http://www.w3.org/TR/2001/REC-xml-c14n-20010315. The
-     <loc href="http://www.w3.org/TR/xml-c14n">latest version of
-     Canonical XML</loc> is available at http://www.w3.org/TR/xml-c14n.
-    </bibl>
-
     <bibl id="Charmod" key="CharModel" href="http://www.w3.org/TR/2003/WD-charmod-20030822/">
      <titleref>Character Model for the World Wide Web 1.0</titleref>, M.
      D&#252;rst, F. Yergeau, R. Ishida, M. Wolf, T. Texin, Editors.
@@ -13178,39 +11435,6 @@
      <loc href="http://www.w3.org/TR/charmod/">latest version of
      Character Model</loc> is available at
      http://www.w3.org/TR/charmod/.
-    </bibl>
-
-    <bibl id="COM" key="COM" href="http://www.microsoft.com/com/">
-     <titleref>The Microsoft Component Object Model</titleref>,
-     Microsoft Corporation. Available at http://www.microsoft.com/com.
-    </bibl>
-
-    <bibl id="CORBA" key="CORBA" href="http://www.omg.org/technology/documents/formal/corba_2.htm">
-     <titleref>The Common Object Request Broker: Architecture and
-     Specification, version 2</titleref>. Object Management Group. The
-     latest version of CORBA version 2.0 is available at
-     http://www.omg.org/technology/documents/formal/corba_2.htm.
-    </bibl>
-
-    <bibl id="CSS2" key="CSS2" href="http://www.w3.org/TR/1998/REC-CSS2-19980512">
-     <titleref>Cascading Style Sheets, level 2 Specification</titleref>,
-     B. Bos, H. Wium Lie, C. Lilley, and I. Jacobs, Editors. World Wide
-     Web Consortium, 12 May 1998. This version of the Cascading Style
-     Sheets Recommendation is
-     http://www.w3.org/TR/1998/REC-CSS2-19980512. The
-     <loc href="http://www.w3.org/TR/REC-CSS2">latest version of
-     Cascading Style Sheets</loc> is available at
-     http://www.w3.org/TR/REC-CSS2.
-    </bibl>
-
-    <bibl id="DOM-Level-1" key="DOM Level 1" href="http://www.w3.org/TR/1998/REC-DOM-Level-1-19981001/">
-     <titleref>DOM Level 1 Specification</titleref>, V. Apparao, et al.,
-     Editors. World Wide Web Consortium, 1 October 1998. This version of
-     the DOM Level 1 Recommendation is
-     http://www.w3.org/TR/1998/REC-DOM-Level-1-19981001. The
-     <loc href="http://www.w3.org/TR/REC-DOM-Level-1/">latest version of
-     DOM Level 1</loc> is available at
-     http://www.w3.org/TR/REC-DOM-Level-1.
     </bibl>
 
     <bibl id="DOM2Core" key="DOM Level 2 Core" href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Core-20001113">
@@ -13279,53 +11503,6 @@
      http://www.w3.org/TR/DOM-Level-2-HTML.
     </bibl>
 
-    <bibl id="DOM-Level-3-Requirements" key="DOM Level 3 Requirements" href="http://www.w3.org/TR/2001/WD-DOM-Requirements-20010419/#Level3">
-     <quote>DOM Requirements for DOM Level 3</quote> in <titleref>DOM
-     Requirements for DOM Level 3</titleref>, B. Chang, et al., Editors.
-     World Wide Web Consortium, April 2001. This version of the DOM
-     Requirements for DOM Level 3 is
-     http://www.w3.org/TR/2001/WD-DOM-Requirements-20010419/#Level3. The
-     <loc href="http://www.w3.org/TR/DOM-Requirements">latest version of
-     DOM Requirements</loc> is available at
-     http://www.w3.org/TR/DOM-Requirements.
-    </bibl>
-
-    <bibl id="DOM2Style" key="DOM Level 2 Style Sheets and CSS" href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Style-20001113">
-     <titleref>Document Object Model Level 2 Style Sheets and CSS
-     Specification</titleref>, C. Wilson, P. Le H&#233;garet, V.
-     Apparao, Editors. World Wide Web Consortium, 13 November 2000. This
-     version of the Document Object Model Level 2 Style Sheets and CSS
-     Recommendation is
-     http://www.w3.org/TR/2000/REC-DOM-Level-2-Style-20001113. The
-     <loc href="http://www.w3.org/TR/DOM-Level-2-Style">latest version
-     of Document Object Model Level 2 Style Sheets and CSS</loc> is
-     available at http://www.w3.org/TR/DOM-Level-2-Style.
-    </bibl>
-
-    <bibl id="DOM2Traversal-Range" key="DOM Level 2 Traversal and      Range" href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Traversal-Range-20001113">
-     <titleref>Document Object Model Level 2 Traversal and Range
-     Specification</titleref>, J. Kesselman, J. Robie, M. Champion, P.
-     Sharpe, V. Apparao, L. Wood, Editors. World Wide Web Consortium, 13
-     November 2000. This version of the Document Object Model Level 2
-     Traversal and Range Recommendation is
-     http://www.w3.org/TR/2000/REC-DOM-Level-2-Traversal-Range-20001113.
-     The
-     <loc href="http://www.w3.org/TR/DOM-Level-2-Traversal-Range">latest
-     version of Document Object Model Level 2 Traversal and Range</loc>
-     is available at http://www.w3.org/TR/DOM-Level-2-Traversal-Range.
-    </bibl>
-
-    <bibl id="DOMVal" key="DOM Level 3 Validation" href="http://www.w3.org/TR/2003/CR-DOM-Level-3-Val-20030730">
-     <titleref>Document Object Model Level 3 Validation
-     Specification</titleref>, B. Chang, J. Kesselman, R. Rahman,
-     Editors. World Wide Web Consortium, July 2003. This version of the
-     DOM Level 3 Validation Specification is
-     http://www.w3.org/TR/2003/CR-DOM-Level-3-Val-20030730. The
-     <loc href="http://www.w3.org/TR/DOM-Level-3-Val">latest version of
-     DOM Level 3 Validation</loc> is available at
-     http://www.w3.org/TR/DOM-Level-3-Val.
-    </bibl>
-
     <bibl id="DOM2Views" key="DOM Level 2 Views" href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Views-20001113">
      <titleref>Document Object Model Level 2 Views
      Specification</titleref>, A. Le Hors, L. Cable, Editors. World Wide
@@ -13335,17 +11512,6 @@
      <loc href="http://www.w3.org/TR/DOM-Level-2-Views">latest version
      of Document Object Model Level 2 Views</loc> is available at
      http://www.w3.org/TR/DOM-Level-2-Views.
-    </bibl>
-
-    <bibl id="DOMXPath" key="DOM Level 3 XPath" href="http://www.w3.org/TR/2003/CR-DOM-Level-3-XPath-20030331/">
-     <titleref>Document Object Model Level 3 XPath
-     Specification</titleref>, R. Whitmer, Editor. World Wide Web
-     Consortium, March 2003. This version of the Document Object Model
-     Level 3 XPath Specification is
-     http://www.w3.org/TR/2003/CR-DOM-Level-3-XPath-20030331. The
-     <loc href="http://www.w3.org/TR/DOM-Level-3-XPath">latest version
-     of Document Object Model Level 3 XPath</loc> is available at
-     http://www.w3.org/TR/DOM-Level-3-XPath.
     </bibl>
 
     <bibl id="DWW95" key="DWW95">
@@ -13370,13 +11536,6 @@
      http://www.w3.org/TR/1999/REC-html401-19991224. The
      <loc href="http://www.w3.org/TR/html4">latest version of HTML
      4</loc> is available at http://www.w3.org/TR/html4.
-    </bibl>
-
-    <bibl id="IANA-CHARSETS" key="IANA-CHARSETS" href="ftp://ftp.isi.edu/in-notes/iana/assignments/character-sets">
-     <titleref>Official Names for Character Sets</titleref>, K.
-     Simonsen, et al., Editors. Internet Assigned Numbers Authority.
-     Available at
-     ftp://ftp.isi.edu/in-notes/iana/assignments/character-sets.
     </bibl>
 
     <bibl id="ISO10646" key="ISO/IEC 10646">
@@ -13408,11 +11567,6 @@
      http://developer.netscape.com/tech/javascript/resources.html
     </bibl>
 
-    <bibl id="JAXP" key="JAXP" href="http://java.sun.com/xml/jaxp/">
-     <titleref>Java API for XML Processing (JAXP)</titleref>. Sun
-     Microsystems. Available at http://java.sun.com/xml/jaxp/.
-    </bibl>
-
     <bibl id="JScript" key="JScript" href="http://msdn.microsoft.com/scripting/default.htm">
      <titleref>JScript Resources</titleref>. Microsoft. Available at
      http://msdn.microsoft.com/scripting/default.htm
@@ -13429,16 +11583,6 @@
      <titleref>.NET Framework Class Library, Keys
      Enumeration</titleref>. Microsoft. Available at
      http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpref/html/frlrfSystemWindowsFormsKeysClassTopic.asp.
-    </bibl>
-
-    <bibl id="MathML2" key="MathML 2.0" href="http://www.w3.org/TR/2001/REC-MathML2-20010221">
-     <titleref>Mathematical Markup Language (MathML) Version
-     2.0</titleref>, D. Carlisle, P. Ion, R. Miner, N. Poppelier,
-     Editors. World Wide Web Consortium, 21 February 2001. This version
-     of the Math 2.0 Recommendation is
-     http://www.w3.org/TR/2001/REC-MathML2-20010221. The
-     <loc href="http://www.w3.org/TR/MathML2">latest version of MathML
-     2.0</loc> is available at http://www.w3.org/TR/MathML2.
     </bibl>
 
     <bibl id="MSIDL" key="MIDL" href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/midl/midl/midl_language_reference.asp">
@@ -13467,23 +11611,6 @@
      Syntax</titleref>, T. Berners-Lee, R. Fielding, L. Masinter,
      Authors. Internet Engineering Task Force, August 1998. Available at
      http://www.ietf.org/rfc/rfc2396.txt.
-    </bibl>
-
-    <bibl id="RFC2616" key="IETF RFC 2616" href="http://www.ietf.org/rfc/rfc2616.txt">
-     <titleref>Hypertext Transfer Protocol -- HTTP/1.1</titleref>, R.
-     Fielding, et al., Authors. Internet Engineering Task Force, June
-     1999. Available at http://www.ietf.org/rfc/rfc2616.txt.
-    </bibl>
-
-    <bibl id="RFC3023" key="IETF RFC 3023" href="http://www.ietf.org/rfc/rfc3023.txt">
-     <titleref>XML Media Types</titleref>, M. Murata, S. St.Laurent, and
-     D. Kohn, Editors. Internet Engineering Task Force, January 2001.
-     Available at http://www.ietf.org/rfc/rfc3023.txt.
-    </bibl>
-
-    <bibl id="SAX" key="SAX" href="http://www.saxproject.org/">
-     <titleref>Simple API for XML</titleref>, D. Megginson and D.
-     Brownell, Maintainers. Available at http://www.saxproject.org/.
     </bibl>
 
     <bibl id="SVG1" key="SVG 1.1" href="http://www.w3.org/TR/2003/REC-SVG11-20030114/">
@@ -13542,18 +11669,6 @@
      <loc href="http://www.w3.org/TR/xhtml1">latest version of XHTML
      1.0</loc> is available at http://www.w3.org/TR/xhtml1.
     </bibl>
-<!--
-      <bibl id='XHTML11' key='XHTML 1.1'>
-	W3C (World Wide Web Consortium) <loc href='&xhtml11;'>XHTML 1.1 -
-	  Module-base XHTML</loc>, May 2001. Available at &xhtml11;
-      </bibl>
--->
-    <bibl id="XPath20DataModel" key="XQuery 1.0 and XPath 2.0 Data Model">
-     W3C (World Wide Web Consortium)
-     <loc href="http://www.w3.org/TR/query-datamodel/">XQuery 1.0 and
-     XML Path 2.0 Data Model</loc>, June 2001. Available at
-     http://www.w3.org/TR/query-datamodel
-    </bibl>
 <!-- @@ this needs updating -->
     <bibl id="XML" key="XML 1.0" href="http://www.w3.org/TR/2000/REC-xml-20001006">
      <titleref>Extensible Markup Language (XML) 1.0 (Second
@@ -13571,14 +11686,6 @@
      Specification is http://www.w3.org/TR/2004/REC-xml11-20040204. The
      <loc href="http://www.w3.org/TR/xml11/">latest version of XML
      1.1</loc> is available at http://www.w3.org/TR/xml11.
-    </bibl>
-
-    <bibl id="XMLBase" key="XML Base" href="http://www.w3.org/TR/2001/REC-xmlbase-20010627/">
-     <titleref>XML Base</titleref>, J. Marsh, Editor. World Wide Web
-     Consortium, June 2001. This version of the XML Base Recommendation
-     is http://www.w3.org/TR/2001/REC-xmlbase-20010627. The
-     <loc href="http://www.w3.org/TR/xmlbase/">latest version of XML
-     Base</loc> is available at http://www.w3.org/TR/xmlbase.
     </bibl>
 
     <bibl id="InfoSet" key="XML Information Set" href="http://www.w3.org/TR/2004/REC-xml-infoset-20040204">
@@ -13620,63 +11727,6 @@
      Namespaces in XML 1.1</loc> is available at
      http://www.w3.org/TR/xml-names11/.
     </bibl>
-
-    <bibl id="XMLSchema0" key="XML Schema Part 0" href="http://www.w3.org/TR/2001/REC-xmlschema-0-20010502/">
-     <titleref>XML Schema Part 0: Primer</titleref>, D. Fallside,
-     Editor. World Wide Web Consortium, 2 May 2001. This version of the
-     XML Part 0 Recommendation is
-     http://www.w3.org/TR/2001/REC-xmlschema-0-20010502. The
-     <loc href="http://www.w3.org/TR/xmlschema-0/">latest version of XML
-     Schema Part 0</loc> is available at
-     http://www.w3.org/TR/xmlschema-0.
-    </bibl>
-
-    <bibl id="XMLSchema1" key="XML Schema Part 1" href="http://www.w3.org/TR/2001/REC-xmlschema-1-20010502/">
-     <titleref>XML Schema Part 1: Structures</titleref>, H. Thompson, D.
-     Beech, M. Maloney, and N. Mendelsohn, Editors. World Wide Web
-     Consortium, 2 May 2001. This version of the XML Part 1
-     Recommendation is
-     http://www.w3.org/TR/2001/REC-xmlschema-1-20010502. The
-     <loc href="http://www.w3.org/TR/xmlschema-1/">latest version of XML
-     Schema Part 1</loc> is available at
-     http://www.w3.org/TR/xmlschema-1.
-    </bibl>
-
-    <bibl id="XMLSchema2" key="XML Schema Part 2" href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/">
-     <titleref>XML Schema Part 2: Datatypes</titleref>, P. Byron and
-     Ashok Malhotra, Editors. World Wide Web Consortium, 2 May 2001.
-     This version of the XML Part 2 Recommendation is
-     http://www.w3.org/TR/2001/REC-xmlschema-2-20010502. The
-     <loc href="http://www.w3.org/TR/xmlschema-2/">latest version of XML
-     Schema Part 2</loc> is available at
-     http://www.w3.org/TR/xmlschema-2.
-    </bibl>
-
-    <bibl id="XML-StyleSheet" key="XML StyleSheet">
-     W3C (World Wide Web Consortium)
-     <loc href="http://www.w3.org/1999/06/REC-xml-stylesheet-19990629">Associating
-     Style Sheets with XML documents Version 1.0</loc>, June 1999.
-     Available at http://www.w3.org/1999/06/REC-xml-stylesheet-19990629
-    </bibl>
-
-    <bibl id="XPath10" href="http://www.w3.org/TR/1999/REC-xpath-19991116" key="XPath 1.0">
-     <titleref>XML Path Language (XPath) Version 1.0</titleref>, J.
-     Clark and S. DeRose, Editors. World Wide Web Consortium, 16
-     November 1999. This version of the XPath 1.0 Recommendation is
-     http://www.w3.org/TR/1999/REC-xpath-19991116. The
-     <loc href="http://www.w3.org/TR/xpath">latest version of XPath
-     1.0</loc> is available at http://www.w3.org/TR/xpath.
-    </bibl>
-
-    <bibl id="XPointer" key="XPointer" href="http://www.w3.org/TR/2003/REC-xptr-framework-20030325/">
-     <titleref>XPointer Framework</titleref>, P. Grosso, E. Maler, J.
-     Marsh, and N. Walsh., Editors. World Wide Web Consortium, 25 March
-     2003. This version of the XPointer Framework Recommendation is
-     http://www.w3.org/TR/2003/REC-xptr-framework-20030325/. The
-     <loc href="http://www.w3.org/TR/xptr-framework/">latest version of
-     XPointer Framework</loc> is available at
-     http://www.w3.org/TR/xptr-framework/.
-    </bibl>
    </blist>
   </div1>
 <!--
@@ -13703,20 +11753,14 @@
  </back>
 </spec>
 <!--
+
   TODO:
+
     * update a number of paths to .zip versions, images, ...
     * address all the things marked with @@ or similar
     * needs a security considerations sections
     * needs review against specgl, charmod
     * needs a spec conformance section
-    * <code>event-name</code> should be turned into links
-    * maybe change the {ns,local} notation in the key set
-      section to use ns:local instead.
-    * merge 1.3 and 1.7.7.1
-    * @@
-    * what happens with hasFeature('UIEvents', '2.0') now
-      that DOMFocusIn/Out are gone? Resolved but needs
-      implementation
     * need to say what evt.view is if .focus() generated
       the event type
       

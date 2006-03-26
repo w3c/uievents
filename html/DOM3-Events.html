@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <!--
- Generated: Mon Mar 13 19:15:51 CET 2006 hive
+ Generated: Sun Mar 26 04:05:45 CEST 2006 hive
  -->
 <html lang='en-US' xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US">
 <head>
@@ -23,7 +23,7 @@
 <h1 id='Overview-title'>Document Object Model (DOM) Level 3 Events Specification</h1>
 <h2 id='Overview-version'>Version 1.0</h2>
 <!-- @@@ -->
-<h2 id='Overview-W3C-doctype'>Editor's Draft February 2006</h2>
+<h2 id='Overview-W3C-doctype'>Editor's Draft March 2006</h2>
 <dl>
 <dt>This version:</dt>
 <dd><a href='http://www.w3.org/TR/2003/NOTE-DOM-Level-3-Events-20031107'>http://www.w3.org/TR/2003/NOTE-DOM-Level-3-Events-20031107 (outdated)</a></dd>
@@ -70,7 +70,7 @@
 </ul>
 <a id='expanded-toc' name='expanded-toc'></a>
 <div class='noprint' style='text-align: right'>
-<p style='font-family: monospace;font-size:small'>February 2006</p>
+<p style='font-family: monospace;font-size:small'>March 2006</p>
 </div>
 <div class='div1'><a name='expanded-toc-TOC' id="expanded-toc-TOC"></a>
 <h1 id='expanded-toc-TOC-h1' class='div1'>Expanded Table of Contents</h1>
@@ -100,7 +100,7 @@
 </ul>
 </li>
 <li class='tocline3'><a class='tocxref' href='#events-Events-flow-cancelation'>1.3 Default actions and cancelable events</a></li>
-<li class='tocline3'><a class='tocxref' href='#events-Events-flow-activation'>1.4 Activation</a></li>
+<li class='tocline3'><a class='tocxref' href='#events-Events-flow-activation'>1.4 Activation requests and behavior</a></li>
 <li class='tocline3'><a class='tocxref' href='#events-Event-types'>1.5 Event types</a>
 <ul class='toc'>
 <li class='tocline4'><a class='tocxref' href='#events-Events-EventTypes-category'>1.5.1 Event types and event categories</a></li>
@@ -129,7 +129,6 @@
 <li class='tocline4'><a class='tocxref' href='#events-Events-KeyboardEvents-Interfaces'>1.8.4 Keyboard event types</a></li>
 <li class='tocline4'><a class='tocxref' href='#events-Events-eventgroupings-mutationevents'>1.8.5 Mutation and mutation name event types</a></li>
 <li class='tocline4'><a class='tocxref' href='#events-Events-eventgroupings-basicevents'>1.8.6 Basic event types</a></li>
-<li class='tocline4'><a class='tocxref' href='#events-Events-eventgroupings-htmlevents'>1.8.7 HTML Events</a></li>
 </ul>
 </li>
 </ul>
@@ -183,7 +182,7 @@
 <!-- div1 TOC -->
 <a id='copyright-notice' name='copyright-notice'></a>
 <div class='noprint' style='text-align: right'>
-<p style='font-family: monospace;font-size:small'>February 2006</p>
+<p style='font-family: monospace;font-size:small'>March 2006</p>
 </div>
 <div class='div1'><a name='copyright-notice-Copyright-Notice' id="copyright-notice-Copyright-Notice"></a>
 <h1 id='copyright-notice-Copyright-Notice-h1' class='div1'>W3C Copyright Notices and Licenses</h1>
@@ -238,7 +237,7 @@
 <!-- div1 Copyright-Notice -->
 <a id='events' name='events'></a>
 <div class='noprint' style='text-align: right'>
-<p style='font-family: monospace;font-size:small'>February 2006</p>
+<p style='font-family: monospace;font-size:small'>March 2006</p>
 </div>
 <div class='div1'><a name='events-Events' id="events-Events"></a>
 <h1 id='events-Events-h1' class='div1'>1. Document Object Model Events</h1>
@@ -264,7 +263,7 @@
 </ul>
 </li>
 <li class='tocline3'><a class='tocxref' href='#events-Events-flow-cancelation'>1.3 Default actions and cancelable events</a></li>
-<li class='tocline3'><a class='tocxref' href='#events-Events-flow-activation'>1.4 Activation</a></li>
+<li class='tocline3'><a class='tocxref' href='#events-Events-flow-activation'>1.4 Activation requests and behavior</a></li>
 <li class='tocline3'><a class='tocxref' href='#events-Event-types'>1.5 Event types</a>
 <ul class='toc'>
 <li class='tocline4'><a class='tocxref' href='#events-Events-EventTypes-category'>1.5.1 Event types and event categories</a></li>
@@ -318,7 +317,6 @@
 </ul>
 </li>
 <li class='tocline4'><a class='tocxref' href='#events-Events-eventgroupings-basicevents'>1.8.6 Basic event types</a></li>
-<li class='tocline4'><a class='tocxref' href='#events-Events-eventgroupings-htmlevents'>1.8.7 HTML Events</a></li>
 </ul>
 </li>
 </ul>
@@ -435,11 +433,13 @@ DOM Events implementations may impose priorities on groups but DOM applications 
 </div>
 <!-- div2 Events-flow-cancelation -->
 <div class='div2'><a name='events-Events-flow-activation' id="events-Events-flow-activation"></a>
-<h2 id='events-Events-flow-activation-h2' class='div2'>1.4 Activation</h2>
-<p>[<cite><a class='noxref normative' href='#references-DOM2Events'>DOM Level 2 Events</a></cite>] introduced the concept of activation and the associated <a href='#events-event-DOMActivate'>DOMActivate</a> event type to separate generic actions from the devices used to activate them. For example, a hyperlink can be activated using a mouse or a keyboard, and on activation the user agent follows the link. It is expected that the action of following the link is done using a default action attached to the hyperlink element, which is performed as default action of the event type <code>DOMActivate</code>. The <code>DOMActivate</code> event type is then dispatched as the default action of the respective device event type.</p>
-<p>DOM Level 3 Events extends the event type <a href='#events-event-click'>click</a> to participate in this model in order to accomodate legacy applications that do not make use of the event type <code>DOMActivate</code>. If activation is requested using a mouse click, implementations dispatch a <code>click</code> event with a default action to trigger the event type <code>DOMActivate</code>. If, however, activation is requested using other devices like a keyboard, the default action of the keyboard event is to trigger a <i>virtual click event</i> with a default action to trigger the event type <code>DOMActivate</code>. This implies that whenever implementations generate a <code>DOMActivate</code> event, there will be a preceding <code>click</code> event.</p>
-<p>The context information of a virtual click event is implementation-defined. DOM applications should not rely on virtual click events to respond to activation requests, the event type <code>DOMActivate</code> should be used instead.</p>
-<p><b>Note:</b> While triggering the event type <code>DOMActivate</code> is a default action of the event type <code>click</code> in case of activation, the reverse does not hold true; when DOM applications dispatch a <code>DOMActivate</code> event, implementations will not trigger the event type <code>click</code>.</p>
+<h2 id='events-Events-flow-activation-h2' class='div2'>1.4 Activation requests and behavior</h2>
+<p>Event targets may have associated <i>activation behavior</i> that implementations perform in response to an <i>activation request</i>. As an example, the typical activiation behavior associated with hyperlinks is to follow the link. Activation requests are typically initiated by users through an input device.</p>
+<p>In terms of this specification, the activation behavior of the event target is the default action of the event type <a href='#events-event-DOMActivate'>DOMActivate</a>. DOM applications should use this event type whenever they wish to make or react to an activation request.</p>
+<p>Implementations dispatch the <code>DOMActivate</code> event as default action of a <a href='#events-event-click'>click</a> event. This click event is either part of the activation request (e.g., a user requests activiation using a mouse), or synthesized by the implementation to accomodate legacy applications. Context information of such a <code>click</code> event is implementation dependent.</p>
+<p>When implementations dispatch a synthesized <code>click</code> event, the expectation is that they do so as default action of another event type. For example, when a user activates a hyperlink using a keyboard, the <code>click</code> event would be dispatched as default action of respective keyboard event.</p>
+<p>Implementations are, however, required to dispatch the synthesized <code>click</code> event as described above even if they do not dispatch such an event (e.g., when activation is requested by a voice command since this specification does not address event types for voice input).</p>
+<p><b>Note:</b> The activation of an event target is device dependent but is also application dependent, e.g. a link in a document can be activated using a mouse click or a mouse double click.</p>
 </div>
 <!-- div2 Events-flow-activation -->
 <div class='div2'><a name='events-Event-types' id="events-Event-types"></a>
@@ -538,7 +538,7 @@ aCircle.addEventListener("DOMActivate", aListener, true);
 &lt;circle id="aCircle" onactivate="aListener(evt)"
         cx="300" cy="225" r="100" fill="red"/&gt;
 </pre></div>
-<p>Since only one attribute with the same name can appear on an element, it is therefore not possible to register more than one event listener on a single <a href='#events-Events-EventTarget'><code>EventTarget</code></a> for the event type. Also, event listeners can only be registered on <code>Element</code> nodes for the <a href='#glossary-dt-target-phase'>target phase</a> and <a href='#glossary-dt-bubbling-phase'>bubbling phase</a>, other <code>Node</code> types and the <a href='#glossary-dt-capture-phase'>capture phase</a> are not addressable with these languages. Event listeners cannot be registered for a specific group either, they are always attached to the default group.</p>
+<p>Since only one attribute with the same name can appear on an element, it is not possible to register more than one event listener on a single <a href='#events-Events-EventTarget'><code>EventTarget</code></a> for the event type. Also, event listeners can only be registered on <code>Element</code> nodes for the <a href='#glossary-dt-target-phase'>target phase</a> and <a href='#glossary-dt-bubbling-phase'>bubbling phase</a>, other <code>Node</code> types and the <a href='#glossary-dt-capture-phase'>capture phase</a> are not addressable with these languages. Event listeners cannot be registered for a specific group either, they are always attached to the default group.</p>
 <p>In order to achieve compatibility with those languages, implementors may view the setting of attributes which represent event handlers as the creation and registration of an <code>EventListener</code> on the <a href='#events-Events-EventTarget'><code>EventTarget</code></a>. The value of <code>useCapture</code> defaults to <code>false</code>. This <a href='#events-Events-EventListener'><code>EventListener</code></a> behaves in the same manner as any other <a class='noxref' href='#events-Events-EventListener'><code>EventListeners</code></a> which may be registered on the <a class='noxref' href='#events-Events-EventTarget'><code>EventTarget</code></a>. If the attribute representing the event listener is changed, this may be viewed as the removal of the previously registered <a class='noxref' href='#events-Events-EventListener'><code>EventListener</code></a> and the registration of a new one. Furthermore, no specification is made as to the order in which event attributes will receive the event with regards to the other <a class='noxref' href='#events-Events-EventListener'><code>EventListeners</code></a> on the <a class='noxref' href='#events-Events-EventTarget'><code>EventTarget</code></a>.</p>
 </div>
 <!-- div3 Events-registration-html40 --></div>
@@ -638,12 +638,12 @@ For events initialized with a DOM Level 2 Events method, such as <a href='#event
 <dt><code class='method-name'><a name='events-Events-Event-initEvent' id="events-Events-Event-initEvent">initEvent</a></code></dt>
 <dd>
 <div class='method'>The <code>initEvent</code> method is used to initialize the value of an <code>Event</code> created through the <a href='#events-Events-DocumentEvent-createEvent'><code>DocumentEvent.createEvent</code></a> method. This method may only be called before the <code>Event</code> has been dispatched via the <a href='#events-Events-EventTarget-dispatchEvent'><code>EventTarget.dispatchEvent()</code></a> method. If the method is called several times before invoking <a href='#events-Events-EventTarget-dispatchEvent'><code>EventTarget.dispatchEvent</code></a>, only the final invocation takes precedence. This method has no effect if called after the event has been dispatched. If called from a subclass of the <code>Event</code> interface only the values specified in this method are modified, all other attributes are left unchanged.<br />
-This method sets the <a href='#events-Events-Event-type'><code>Event.type</code></a> attribute to <code>eventTypeArg</code>, and <a href='#events-Events-Event-namespaceURI'><code>Event.namespaceURI</code></a> to <code>null</code>. To initialize an event with a namespace URI, use the <a href='#events-Events-Event-initEventNS'><code>Event.initEventNS(namespaceURIArg, eventTypeArg, ...)</code></a> method.
+This method sets the <a href='#events-Events-Event-type'><code>Event.type</code></a> attribute to <code>eventTypeArg</code>, and <a href='#events-Events-Event-namespaceURI'><code>Event.namespaceURI</code></a> to <code>null</code>. To initialize an event with a namespace URI, use the <a href='#events-Events-Event-initEventNS'><code>Event.initEventNS()</code></a> method.
 <div class='parameters'><b>Parameters</b>
 <div class='paramtable'>
 <dl>
 <dt><code class='parameter-name'>eventTypeArg</code> of type <code>DOMString</code></dt>
-<dd>Specifies <a href='#events-Events-Event-type'><code>Event.type</code></a>.<br /></dd>
+<dd>Specifies <a href='#events-Events-Event-type'><code>Event.type</code></a>, the <a href='#glossary-dt-localname'>local name</a> of the event type.<br /></dd>
 <dt><code class='parameter-name'>canBubbleArg</code> of type <code>boolean</code></dt>
 <dd>Specifies <a href='#events-Events-Event-canBubble'><code>Event.bubbles</code></a>. This parameter overrides the intrinsic bubbling behavior of the event.<br /></dd>
 <dt><code class='parameter-name'>cancelableArg</code> of type <code>boolean</code></dt>
@@ -665,7 +665,7 @@ This method sets the <a href='#events-Events-Event-type'><code>Event.type</code>
 <dt><code class='parameter-name'>namespaceURIArg</code> of type <code>DOMString</code></dt>
 <dd>Specifies <a href='#events-Events-Event-namespaceURI'><code>Event.namespaceURI</code></a>, the <a href='#glossary-dt-namespaceURI'>namespace URI</a> associated with this event, or <code>null</code> if no namespace.<br /></dd>
 <dt><code class='parameter-name'>eventTypeArg</code> of type <code>DOMString</code></dt>
-<dd>Specifies <a href='#events-Events-Event-type'><code>Event.type</code></a>, the <a href='#glossary-dt-localname'>local name</a> of the event type.<br /></dd>
+<dd>Refer to the <a href='#events-Events-Event-initEvent'><code>Event.initEvent()</code></a> method for a description of this parameter.<br /></dd>
 <dt><code class='parameter-name'>canBubbleArg</code> of type <code>boolean</code></dt>
 <dd>Refer to the <a href='#events-Events-Event-initEvent'><code>Event.initEvent()</code></a> method for a description of this parameter.<br /></dd>
 <dt><code class='parameter-name'>cancelableArg</code> of type <code>boolean</code></dt>
@@ -681,7 +681,7 @@ This method sets the <a href='#events-Events-Event-type'><code>Event.type</code>
 <dt><code class='method-name'><a name='events-Events-Event-preventDefault' id="events-Events-Event-preventDefault">preventDefault</a></code></dt>
 <dd>
 <div class='method'>If an event is cancelable, the <code>preventDefault</code> method is used to signify that the event is to be canceled, meaning any default action normally taken by the implementation as a result of the event will not occur (see also <a href='#events-Events-flow-cancelation'>Default actions and cancelable events</a>), and thus independently of event groups. Calling this method for a non-cancelable event has no effect.
-<p><b>Note:</b> This method does not stop the event propagation; use <code>stopPropagation</code> or <code>stopImmediatePropagation</code> for that effect.</p>
+<p><b>Note:</b> This method does not stop the event propagation; use <a href='#events-Events-Event-stopPropagation'><code>Event.stopPropagation()</code></a> or <a href='#events-Events-Event-stopImmediatePropagation'><code>Event.stopImmediatePropagation()</code></a> for that effect.</p>
 <div><b>No Parameters</b></div>
 <div><b>No Return Value</b></div>
 <div><b>No Exceptions</b></div>
@@ -689,7 +689,7 @@ This method sets the <a href='#events-Events-Event-type'><code>Event.type</code>
 <!-- method --></dd>
 <dt><code class='method-name'><a name='events-Events-Event-stopImmediatePropagation' id="events-Events-Event-stopImmediatePropagation">stopImmediatePropagation</a></code> introduced in <b class='since'>DOM Level 3</b></dt>
 <dd>
-<div class='method'>This method is used to prevent event listeners of the same group to be triggered and, unlike <code>stopPropagation</code> its effect is immediate (see <a href='#events-Events-propagation-and-groups'>Event propagation and event groups</a>). Once it has been called, further calls to that method have no additional effect.
+<div class='method'>This method is used to prevent event listeners of the same group to be triggered and, unlike <a href='#events-Events-Event-stopPropagation'><code>Event.stopPropagation()</code></a> its effect is immediate (see <a href='#events-Events-propagation-and-groups'>Event propagation and event groups</a>). Once it has been called, further calls to that method have no additional effect.
 <p><b>Note:</b> This method does not prevent the default action from being invoked; use <a href='#events-Events-Event-preventDefault'><code>Event.preventDefault()</code></a> for that effect.</p>
 <div><b>No Parameters</b></div>
 <div><b>No Return Value</b></div>
@@ -698,8 +698,8 @@ This method sets the <a href='#events-Events-Event-type'><code>Event.type</code>
 <!-- method --></dd>
 <dt><code class='method-name'><a name='events-Events-Event-stopPropagation' id="events-Events-Event-stopPropagation">stopPropagation</a></code></dt>
 <dd>
-<div class='method'>This method is used to prevent event listeners of the same group to be triggered but its effect is deferred until all event listeners attached on the <code>currentTarget</code> have been triggered (see <a href='#events-Events-propagation-and-groups'>Event propagation and event groups</a>). Once it has been called, further calls to that method have no additional effect.
-<p><b>Note:</b> This method does not prevent the default action from being invoked; use <code>preventDefault</code> for that effect.</p>
+<div class='method'>This method is used to prevent event listeners of the same group to be triggered but its effect is deferred until all event listeners attached on the <a href='#events-Events-Event-currentTarget'><code>Event.currentTarget</code></a> have been triggered (see <a href='#events-Events-propagation-and-groups'>Event propagation and event groups</a>). Once it has been called, further calls to that method have no additional effect.
+<p><b>Note:</b> This method does not prevent the default action from being invoked; use <a href='#events-Events-Event-preventDefault'><code>Event.preventDefault()</code></a> for that effect.</p>
 <div><b>No Parameters</b></div>
 <div><b>No Return Value</b></div>
 <div><b>No Exceptions</b></div>
@@ -778,11 +778,11 @@ interface <a class='noxref' href='#events-Events-EventTarget'>EventTarget</a> {
 <dt><code class='parameter-name'>namespaceURI</code> of type <code>DOMString</code></dt>
 <dd>Specifies the <a href='#events-Events-Event-namespaceURI'><code>Event.namespaceURI</code></a> associated with the event for which the user is registering.<br /></dd>
 <dt><code class='parameter-name'>type</code> of type <code>DOMString</code></dt>
-<dd>Specifies the <a href='#events-Events-Event-type'><code>Event.type</code></a> associated with the event for which the user is registering.<br /></dd>
+<dd>Refer to the <a href='#events-Events-EventTarget-addEventListener'><code>EventTarget.addEventListener()</code></a> method for a description of this parameter.<br /></dd>
 <dt><code class='parameter-name'>listener</code> of type <a href='#events-Events-EventListener'><code>EventListener</code></a></dt>
-<dd>The <code>listener</code> parameter takes an object implemented by the user which implements the <a class='noxref' href='#events-Events-EventListener'><code>EventListener</code></a> interface and contains the method to be called when the event occurs.<br /></dd>
+<dd>Refer to the <a href='#events-Events-EventTarget-addEventListener'><code>EventTarget.addEventListener()</code></a> method for a description of this parameter.<br /></dd>
 <dt><code class='parameter-name'>useCapture</code> of type <code>boolean</code></dt>
-<dd>If true, <code>useCapture</code> indicates that the user wishes to add the event listener for the <a href='#glossary-dt-capture-phase'>capture phase</a> only, i.e. this event listener will not be triggered during the <a href='#glossary-dt-target-phase'>target</a> and <a href='#glossary-dt-bubbling-phase'>bubbling</a> phases. If <code>false</code>, the event listener will only be triggered during the target and bubbling phases.<br /></dd>
+<dd>Refer to the <a href='#events-Events-EventTarget-addEventListener'><code>EventTarget.addEventListener()</code></a> method for a description of this parameter.<br /></dd>
 <dt><code class='parameter-name'>evtGroup</code> of type <code>DOMObject</code></dt>
 <dd>The object that represents the event group to associate with the <a class='noxref' href='#events-Events-EventListener'><code>EventListener</code></a> (see also <a href='#events-Events-propagation-and-groups'>Event propagation and event groups</a>). Use <code>null</code> to attach the event listener to the default group.<br /></dd>
 </dl>
@@ -796,7 +796,6 @@ interface <a class='noxref' href='#events-Events-EventTarget'>EventTarget</a> {
 <dt><code class='method-name'><a name='events-Events-EventTarget-dispatchEvent' id="events-Events-EventTarget-dispatchEvent">dispatchEvent</a></code> modified in <b class='version'>DOM Level 3</b></dt>
 <dd>
 <div class='method'>This method allows the dispatch of events into the implementation's event model. The <a href='#glossary-dt-event-target'>event target</a> of the event is the <code>EventTarget</code> object on which <code>dispatchEvent</code> is called.
-<div style='color: red'>(<i><b>ED:</b></i> There is an open issue <a class='normative' href='http://www.w3.org/2005/06/tracker/webapi/issues/20'>ISSUE-20</a> regarding re-dispatch of event objects that have already been dispatched. )</div>
 <div class='parameters'><b>Parameters</b>
 <div class='paramtable'>
 <dl>
@@ -830,7 +829,7 @@ interface <a class='noxref' href='#events-Events-EventTarget'>EventTarget</a> {
 </td>
 <td>
 <p>UNSPECIFIED_EVENT_TYPE_ERR: Raised if the <a href='#events-Events-Event-type'><code>Event.type</code></a> was not specified by initializing the event before <code>dispatchEvent</code> was called. Specification of the <a class='noxref' href='#events-Events-Event-type'><code>Event.type</code></a> as <code>null</code> or an empty string will also trigger this exception.</p>
-<p>DISPATCH_REQUEST_ERR: Raised if the <a href='#events-Events-Event'><code>Event</code></a> object is already being dispatched in the tree.</p>
+<p>DISPATCH_REQUEST_ERR: Raised if the <a href='#events-Events-Event'><code>Event</code></a> object is already being dispatched.</p>
 </td>
 </tr>
 <tr>
@@ -878,11 +877,11 @@ Calling <code>removeEventListenerNS</code> with arguments which do not identify 
 <dt><code class='parameter-name'>namespaceURI</code> of type <code>DOMString</code></dt>
 <dd>Specifies the <a href='#events-Events-Event-namespaceURI'><code>Event.namespaceURI</code></a> associated with the event for which the user registered the event listener.<br /></dd>
 <dt><code class='parameter-name'>type</code> of type <code>DOMString</code></dt>
-<dd>Specifies the <a href='#events-Events-Event-type'><code>Event.type</code></a> associated with the event for which the user registered the event listener.<br /></dd>
+<dd>Refer to the <a href='#events-Events-EventTarget-removeEventListener'><code>EventTarget.removeEventListener()</code></a> method for a description of this parameter.<br /></dd>
 <dt><code class='parameter-name'>listener</code> of type <a href='#events-Events-EventListener'><code>EventListener</code></a></dt>
-<dd>The <a class='noxref' href='#events-Events-EventListener'><code>EventListener</code></a> parameter indicates the <a class='noxref' href='#events-Events-EventListener'><code>EventListener</code></a> to be removed.<br /></dd>
+<dd>Refer to the <a href='#events-Events-EventTarget-removeEventListener'><code>EventTarget.removeEventListener()</code></a> method for a description of this parameter.<br /></dd>
 <dt><code class='parameter-name'>useCapture</code> of type <code>boolean</code></dt>
-<dd>Specifies whether the <a class='noxref' href='#events-Events-EventListener'><code>EventListener</code></a> being removed was registered for the capture phase or not. If a listener was registered twice, once for the capture phase and once for the target and bubbling phases, each must be removed separately. Removal of an event listener registered for the capture phase does not affect the same event listener registered for the target and bubbling phases, and vice versa.<br /></dd>
+<dd>Refer to the <a href='#events-Events-EventTarget-removeEventListener'><code>EventTarget.removeEventListener()</code></a> method for a description of this parameter.<br /></dd>
 </dl>
 </div>
 </div>
@@ -975,10 +974,8 @@ const unsigned short      <a class='noxref' href='#events-DISPATCH_REQUEST_ERR'>
 <div class='div3'><a name='events-Events-document' id="events-Events-document"></a>
 <h3 id='events-Events-document-h3' class='div3'>1.7.1 Event creation</h3>
 <p>In most cases, the events dispatched by the DOM Events implementation are also created by the implementation. It is however possible to simulate events such as mouse events by creating the <a href='#events-Events-Event'><code>Event</code></a> objects and dispatch them using the DOM Events implementation.</p>
-<p>DOM Events provides two ways for creating <a href='#events-Events-Event'><code>Event</code></a> objects. An application can either create <a class='noxref' href='#events-Events-Event'><code>Event</code></a> objects that are known to the implementation, or create its own objects and have them dispatched by the DOM Events implementation.</p>
 <p>Creating <a href='#events-Events-Event'><code>Event</code></a> objects that are known to the DOM Events implementation is done using <a href='#events-Events-DocumentEvent-createEvent'><code>DocumentEvent.createEvent()</code></a>. The application must then initialize the object by calling the appropriate initialization method before invoking <a href='#events-Events-EventTarget-dispatchEvent'><code>EventTarget.dispatchEvent()</code></a>. The <a class='noxref' href='#events-Events-Event'><code>Event</code></a> objects created must be known by the DOM Events implementation; otherwise an event exception is thrown.</p>
-<p>The DOM application might want to create its own <a href='#events-Events-Event'><code>Event</code></a> objects, in order to change the default <a class='noxref' href='#events-Events-Event'><code>Event</code></a> implementation provided by the DOM Events implementation or to generate new event types with specific contextual information. In any case, the application is responsible for creating and initializing the <a class='noxref' href='#events-Events-Event'><code>Event</code></a> object. The application can then dispatch the event using the DOM Events implementation by using <a href='#events-Events-EventTarget-dispatchEvent'><code>EventTarget.dispatchEvent()</code></a>.</p>
-<p>However, the DOM Events implementation requires to have access to two attributes in the <a href='#events-Events-Event'><code>Event</code></a> object in order to accomplish the dispatch appropriately: <a href='#events-Events-Event-currentTarget'><code>Event.currentTarget</code></a> and <a href='#events-Events-Event-eventPhase'><code>Event.eventPhase</code></a>. Those attributes are defined as <code>readonly</code> in the <a class='noxref' href='#events-Events-Event'><code>Event</code></a> interface since event listeners must not change them and it is the responsibility of the DOM Events implementation to update them during the event flow. Therefore, implementing the <a class='noxref' href='#events-Events-Event'><code>Event</code></a> interface when creating its own events is not enough for an application since the DOM Events implementation will not be able to update the current phase and the current node during the dispatch, unless the event object also implements the <a href='#events-Events-CustomEvent'><code>CustomEvent</code></a> interface to give access to the relevant attributes.</p>
+<div style='color: red'>(<i><b>ED:</b></i> Perhaps say something about custom events here; depends on what the upcoming text on event naming says... )</div>
 <dl>
 <dt><b>Interface <i><a name='events-Events-DocumentEvent' id="events-Events-DocumentEvent">DocumentEvent</a></i></b> (introduced in <b class='since'>DOM Level 2</b>)</dt>
 <dd>
@@ -1042,10 +1039,8 @@ interface <a class='noxref' href='#events-Events-DocumentEvent'>DocumentEvent</a
 <dl>
 <dt><code class='parameter-name'>eventType</code> of type <code>DOMString</code></dt>
 <dd>The <code>eventType</code> parameter specifies the name of the DOM Events interface to be supported by the created event object, e.g. <code>"Event"</code>, <code>"MouseEvent"</code>, <code>"MutationEvent"</code> and so on. If the <a href='#events-Events-Event'><code>Event</code></a> is to be dispatched via the <a href='#events-Events-EventTarget-dispatchEvent'><code>EventTarget.dispatchEvent()</code></a> method the appropriate event init method must be called after creation in order to initialize the <a class='noxref' href='#events-Events-Event'><code>Event</code></a>'s values.<br />
-As an example, a user wishing to synthesize some kind of <a href='#events-Events-UIEvent'><code>UIEvent</code></a> would invoke <a href='#events-Events-DocumentEvent-createEvent'><code>DocumentEvent.createEvent("UIEvent")</code></a>. The <a href='#events-Events-Event-initUIEventNS'><code>UIEvent.initUIEventNS()</code></a> method could then be called on the newly created <a class='noxref' href='#events-Events-UIEvent'><code>UIEvent</code></a> object to set the specific type of user interface event to be dispatched, <a href='#events-event-DOMActivate'>DOMActivate</a> for example, and set its context information, e.g. <a href='#events-Events-UIEvent-detail'><code>UIEvent.detail</code></a> in this example.<br />
-The <code>createEvent</code> method is used in creating <a href='#events-Events-Event'><code>Event</code></a>s when it is either inconvenient or unnecessary for the user to create an <a class='noxref' href='#events-Events-Event'><code>Event</code></a> themselves. In cases where the implementation provided <a class='noxref' href='#events-Events-Event'><code>Event</code></a> is insufficient, users may supply their own <a class='noxref' href='#events-Events-Event'><code>Event</code></a> implementations for use with the <a href='#events-Events-EventTarget-dispatchEvent'><code>EventTarget.dispatchEvent()</code></a> method. However, the DOM implementation needs access to the attributes <a href='#events-Events-Event-currentTarget'><code>Event.currentTarget</code></a> and <a href='#events-Events-Event-eventPhase'><code>Event.eventPhase</code></a> to appropriately propagate the event in the DOM tree. Therefore users' <a class='noxref' href='#events-Events-Event'><code>Event</code></a> implementations might need to support the <a href='#events-Events-CustomEvent'><code>CustomEvent</code></a> interface for that effect.
+As an example, a user wishing to synthesize some kind of <a href='#events-Events-UIEvent'><code>UIEvent</code></a> would invoke <a href='#events-Events-DocumentEvent-createEvent'><code>DocumentEvent.createEvent("UIEvent")</code></a>. The <a href='#events-Events-Event-initUIEventNS'><code>UIEvent.initUIEventNS()</code></a> method could then be called on the newly created <a class='noxref' href='#events-Events-UIEvent'><code>UIEvent</code></a> object to set the specific type of user interface event to be dispatched, <a href='#events-event-DOMActivate'>DOMActivate</a> for example, and set its context information, e.g. <a href='#events-Events-UIEvent-detail'><code>UIEvent.detail</code></a> in this example.
 <p><b>Note:</b> For backward compatibility reason, "UIEvents", "MouseEvents", "MutationEvents", and "HTMLEvents" feature names are valid values for the parameter <code>eventType</code> and represent respectively the interfaces "UIEvent", "MouseEvent", "MutationEvent", and "Event".</p>
-<div style='color: red'>(<i><b>ED:</b></i> This does not say whether the argument is case-insensitive, it is in some implementations... )</div>
 </dd>
 </dl>
 </div>
@@ -1131,7 +1126,7 @@ interface <a class='noxref' href='#events-Events-CustomEvent'>CustomEvent</a> : 
 <dt><code class='parameter-name'>cancelableArg</code> of type <code>boolean</code></dt>
 <dd>Refer to the <a href='#events-Events-Event-initEventNS'><code>Event.initEventNS()</code></a> method for a description of this parameter.<br /></dd>
 <dt><code class='parameter-name'>detailArg</code> of type <code>DOMObject</code></dt>
-<dd>Specifies <a href='#events-Events-CustomEvent-detail'><code>CustomEvent.detail</code></a>.<br /></dd>
+<dd>Specifies <a href='#events-Events-CustomEvent-detail'><code>CustomEvent.detail</code></a>. This value may be <code>null</code>.<br /></dd>
 </dl>
 </div>
 </div>
@@ -1209,7 +1204,7 @@ interface <a class='noxref' href='#events-Events-UIEvent'>UIEvent</a> : <a class
 <dt><code class='parameter-name'>cancelableArg</code> of type <code>boolean</code></dt>
 <dd>Refer to the <a href='#events-Events-Event-initEvent'><code>Event.initEvent()</code></a> method for a description of this parameter.<br /></dd>
 <dt><code class='parameter-name'>viewArg</code> of type <code>views::AbstractView</code></dt>
-<dd>Specifies <a href='#events-Events-UIEvent-view'><code>UIEvent.view</code></a>.<br /></dd>
+<dd>Specifies <a href='#events-Events-UIEvent-view'><code>UIEvent.view</code></a>. This value may be <code>null</code>.<br /></dd>
 <dt><code class='parameter-name'>detailArg</code> of type <code>long</code></dt>
 <dd>Specifies <a href='#events-Events-UIEvent-detail'><code>UIEvent.detail</code></a>.<br /></dd>
 </dl>
@@ -1251,7 +1246,8 @@ interface <a class='noxref' href='#events-Events-UIEvent'>UIEvent</a> : <a class
 </dl>
 </dd>
 </dl>
-<p>The User Interface event types are listed below. A DOM application may use the <code>hasFeature(feature, version)</code> method of the <code>DOMImplementation</code> interface with parameter values <code>"UIEvents"</code> and <code>"3.0"</code> (respectively) to determine whether or not the DOM Level 3 User Interface event types are supported by the implementation. In order to fully support this module, an implementation must also support the <code>"Events"</code> feature defined in this specification and the <code>"Views"</code> feature defined in the DOM Level 2 Views specification [<cite><a class='noxref normative' href='#references-DOM2Views'>DOM Level 2 Views</a></cite>]. For additional information about <a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/introduction.html#ID-Conformance'><em>conformance</em></a>, please see the DOM Level 3 Core specification [<cite><a class='noxref informative' href='#references-DOMCore'>DOM Level 3 Core</a></cite>]. The DOM Level 3 User Interface Events module is built on top of the DOM Level 2 User Interface Events [<cite><a class='noxref normative' href='#references-DOM2Events'>DOM Level 2 Events</a></cite>] module, i.e. a DOM Level 3 User Interface Events implementation where <code>hasFeature("UIEvents", "3.0")</code> returns <code>true</code> must also return <code>true</code> when the <code>version</code> number is <code>"2.0"</code>, <code>""</code> or, <code>null</code>.</p>
+<p>The User Interface event types are listed below. A DOM application may use the <code>hasFeature(feature, version)</code> method of the <code>DOMImplementation</code> interface with parameter values <code>"UIEvents"</code> and <code>"3.0"</code> (respectively) to determine whether or not the DOM Level 3 User Interface event types are supported by the implementation. In order to fully support this module, an implementation must also support the <code>"Events"</code> feature defined in this specification and the <code>"Views"</code> feature defined in the DOM Level 2 Views specification [<cite><a class='noxref normative' href='#references-DOM2Views'>DOM Level 2 Views</a></cite>]. For additional information about <a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/introduction.html#ID-Conformance'><em>conformance</em></a>, please see the DOM Level 3 Core specification [<cite><a class='noxref informative' href='#references-DOMCore'>DOM Level 3 Core</a></cite>].</p>
+<p><b>Note:</b> The DOM Level 3 User Interface Events module does not include the event types <code>DOMFocusIn</code> and <code>DOMFocusOut</code> defined in [<cite><a class='noxref normative' href='#references-DOM2Events'>DOM Level 2 Events</a></cite>]. This implies that a DOM Level 3 User Interface Events implementation where <code>hasFeature("UIEvents", "3.0")</code> returns <code>true</code> does not necessarily return <code>true</code> when the <code>version</code> number is <code>"2.0"</code>.</p>
 <div class='event-definition'>
 <dl>
 <dt><a name='events-event-DOMActivate' id="events-event-DOMActivate"></a><a class='noxref' href='#events-event-DOMActivate'>DOMActivate</a></dt>
@@ -1286,9 +1282,7 @@ interface <a class='noxref' href='#events-Events-UIEvent'>UIEvent</a> : <a class
 <td valign='top' rowspan='1' colspan='1'><a href='#events-Events-UIEvent-view'><code>UIEvent.view</code></a> is in use.</td>
 </tr>
 </table>
-An element is activated, for instance, using a mouse device, a keyboard device, or a voice command.
-<p><b>Note:</b> The activation of an element is device dependent but is also application dependent, e.g. a link in a document can be activated using a mouse click or a mouse double click.</p>
-</dd>
+Refer to <a href='#events-Events-flow-activation'>Activation requests and behavior</a>.</dd>
 </dl>
 </div>
 <div class='event-definition'>
@@ -1325,7 +1319,7 @@ An element is activated, for instance, using a mouse device, a keyboard device, 
 <td valign='top' rowspan='1' colspan='1'><a href='#events-Events-UIEvent-view'><code>UIEvent.view</code></a> is in use.</td>
 </tr>
 </table>
-An event target receives focus. The focus is given to the element before the dispatch of this event type.</dd>
+An <a href='#glossary-dt-event-target'>event target</a> receives focus. The focus is given to the element before the dispatch of this event type.</dd>
 </dl>
 </div>
 <div class='event-definition'>
@@ -1362,7 +1356,7 @@ An event target receives focus. The focus is given to the element before the dis
 <td valign='top' rowspan='1' colspan='1'><a href='#events-Events-UIEvent-view'><code>UIEvent.view</code></a> is in use.</td>
 </tr>
 </table>
-A event target loses focus. The focus is taken from the element before the dispatch of this event type.</dd>
+A <a href='#glossary-dt-event-target'>event target</a> loses focus. The focus is taken from the element before the dispatch of this event type.</dd>
 </dl>
 </div>
 </div>
@@ -1664,7 +1658,7 @@ interface <a class='noxref' href='#events-Events-MouseEvent'>MouseEvent</a> : <a
 <dt><code class='parameter-name'>buttonArg</code> of type <code>unsigned short</code></dt>
 <dd>Specifies <a href='#events-Events-MouseEvent-button'><code>MouseEvent.button</code></a>.<br /></dd>
 <dt><code class='parameter-name'>relatedTargetArg</code> of type <a href='#events-Events-EventTarget'><code>EventTarget</code></a></dt>
-<dd>Specifies <a href='#events-Events-MouseEvent-relatedTarget'><code>MouseEvent.relatedTarget</code></a>.<br /></dd>
+<dd>Specifies <a href='#events-Events-MouseEvent-relatedTarget'><code>MouseEvent.relatedTarget</code></a>. This value may be <code>null</code>.<br /></dd>
 </dl>
 </div>
 </div>
@@ -1754,9 +1748,7 @@ interface <a class='noxref' href='#events-Events-MouseEvent'>MouseEvent</a> : <a
 <td valign='top' rowspan='1' colspan='1'><a href='#events-Events-MouseEvent-screenX'><code>MouseEvent.screenX</code></a>, <a href='#events-Events-MouseEvent-screenY'><code>MouseEvent.screenY</code></a>, <a href='#events-Events-MouseEvent-clientX'><code>MouseEvent.clientX</code></a>, <a href='#events-Events-MouseEvent-clientY'><code>MouseEvent.clientY</code></a>, <a href='#events-Events-MouseEvent-altKey'><code>MouseEvent.altKey</code></a>, <a href='#events-Events-MouseEvent-ctrlKey'><code>MouseEvent.ctrlKey</code></a>, <a href='#events-Events-MouseEvent-shiftKey'><code>MouseEvent.shiftKey</code></a>, <a href='#events-Events-MouseEvent-metaKey'><code>MouseEvent.metaKey</code></a>, <a href='#events-Events-MouseEvent-button'><code>MouseEvent.button</code></a>, and <a href='#events-Events-UIEvent-view'><code>UIEvent.view</code></a> are in use. The <a href='#events-Events-UIEvent-detail'><code>UIEvent.detail</code></a> attribute indicates the number of consecutive clicks of a pointing device button during a user action. The attribute value is <code>1</code> when the user begins this action and increments by <code>1</code> for each click. The notion of consecutive clicks depends on the environment configuration. For example, a "double click" will not happen if there is a long delay between the two clicks, even if the pointing device did not move.</td>
 </tr>
 </table>
-A pointing device button is clicked over an element. The definition of a click depends on the environment configuration; i.e. may depend on the screen location or the delay between the press and release of the pointing device button. In any case, the target node must be the same between the <a href='#events-event-mousedown'>mousedown</a>, <a href='#events-event-mouseup'>mouseup</a>, and <a href='#events-event-click'>click</a>. The sequence of these events is: <a href='#events-event-mousedown'>mousedown</a>, <a href='#events-event-mouseup'>mouseup</a>, and <a href='#events-event-click'>click</a>. It depends on the environment configuration whether the event type <a href='#events-event-click'>click</a> can occur if one or more of the event types <a href='#events-event-mouseover'>mouseover</a>, <a href='#events-event-mousemove'>mousemove</a>, and <a href='#events-event-mouseout'>mouseout</a> occur between the press and release of the pointing device button. In the case of nested elements, this event type is always targeted at the most deeply nested element.
-<div style='color: red'>(<i><b>ED:</b></i> There is an open issue <a class='normative' href='http://www.w3.org/2005/06/tracker/webapi/issues/9'>ISSUE-9</a> concerned with making <a href='#events-event-click'>click</a> more generic. )</div>
-</dd>
+A pointing device button is clicked over an element. The definition of a click depends on the environment configuration; i.e. may depend on the screen location or the delay between the press and release of the pointing device button. In any case, the target node must be the same between the <a href='#events-event-mousedown'>mousedown</a>, <a href='#events-event-mouseup'>mouseup</a>, and <a href='#events-event-click'>click</a>. The sequence of these events is: <a href='#events-event-mousedown'>mousedown</a>, <a href='#events-event-mouseup'>mouseup</a>, and <a href='#events-event-click'>click</a>. It depends on the environment configuration whether the event type <a href='#events-event-click'>click</a> can occur if one or more of the event types <a href='#events-event-mouseover'>mouseover</a>, <a href='#events-event-mousemove'>mousemove</a>, and <a href='#events-event-mouseout'>mouseout</a> occur between the press and release of the pointing device button. In the case of nested elements, this event type is always targeted at the most deeply nested element. In addition, the event type is dispatched as described in <a href='#events-Events-flow-activation'>Activation requests and behavior</a>.</dd>
 </dl>
 </div>
 <div class='event-definition'>
@@ -2443,7 +2435,7 @@ This is a general event for notification of all changes to the document. It can 
 <td valign='top' rowspan='1' colspan='1'><a href='#events-Events-MutationEvent-relatedNode'><code>MutationEvent.relatedNode</code></a> holds the parent node of the node being inserted.</td>
 </tr>
 </table>
-A node has been added as a <a href='#glossary-dt-child'>child</a> of another node. This event is dispatched after the insertion has taken place. The <a href='#glossary-dt-target-node'>target node</a> of this event is the node being inserted.</dd>
+A node has been added as a <a href='#glossary-dt-child'>child</a> of another node or, in case of <code>Attr</code> nodes, has been added to an <code>Element</code>. This event is dispatched after the insertion has taken place. The <a href='#glossary-dt-target-node'>target node</a> of this event is the node being inserted.</dd>
 </dl>
 </div>
 <div class='event-definition'>
@@ -2480,7 +2472,7 @@ A node has been added as a <a href='#glossary-dt-child'>child</a> of another nod
 <td valign='top' rowspan='1' colspan='1'><a href='#events-Events-MutationEvent-relatedNode'><code>MutationEvent.relatedNode</code></a> holds the parent node of the node being removed.</td>
 </tr>
 </table>
-A node is being removed from its parent node. This event is dispatched before the node is removed from the tree. The <a href='#glossary-dt-target-node'>target node</a> of this event is the node being removed.</dd>
+A node is being removed from its parent node or, in case of <code>Attr</code> nodes, removed from its <code>ownerElement</code>. This event is dispatched before the removal takes place. The <a href='#glossary-dt-target-node'>target node</a> of this event is the node being removed.</dd>
 </dl>
 </div>
 <div class='event-definition'>
@@ -2517,7 +2509,7 @@ A node is being removed from its parent node. This event is dispatched before th
 <td valign='top' rowspan='1' colspan='1'>None</td>
 </tr>
 </table>
-A node is being removed from a document, either through direct removal of the node or removal of a subtree in which it is contained. This event is dispatched before the removal takes place. The <a href='#glossary-dt-target-node'>target node</a> of this event type is the node being removed. If the node is being directly removed, the event type <a href='#events-event-DOMNodeRemoved'>DOMNodeRemoved</a> will fire before this event type.</dd>
+A node is being removed from a document, either through direct removal of the node or removal of a subtree in which it is contained; <code>Attr</code> nodes are considered part of an <code>Element</code>'s subtree. This event is dispatched before the removal takes place. The <a href='#glossary-dt-target-node'>target node</a> of this event type is the node being removed. If the node is being directly removed, the event type <a href='#events-event-DOMNodeRemoved'>DOMNodeRemoved</a> occurs before this event type.</dd>
 </dl>
 </div>
 <div class='event-definition'>
@@ -2554,7 +2546,7 @@ A node is being removed from a document, either through direct removal of the no
 <td valign='top' rowspan='1' colspan='1'>None</td>
 </tr>
 </table>
-A node is being inserted into a document, either through direct insertion of the node or insertion of a subtree in which it is contained. This event is dispatched after the insertion has taken place. The <a href='#glossary-dt-target-node'>target node</a> of this event is the node being inserted. If the node is being directly inserted, the event type <a href='#events-event-DOMNodeInserted'>DOMNodeInserted</a> will fire before this event type.</dd>
+A node has been inserted into a document, either through direct insertion of the node or insertion of a subtree in which it is contained; <code>Attr</code> nodes are considered part of an <code>Element</code>'s subtree. This event is dispatched after the insertion has taken place. The <a href='#glossary-dt-target-node'>target node</a> of this event is the node being inserted. If the node is being directly inserted, the event type <a href='#events-event-DOMNodeInserted'>DOMNodeInserted</a> occurs before this event type.</dd>
 </dl>
 </div>
 <div class='event-definition'>
@@ -2588,12 +2580,10 @@ A node is being inserted into a document, either through direct insertion of the
 </tr>
 <tr>
 <th rowspan='1' colspan='1'>Context info</th>
-<td valign='top' rowspan='1' colspan='1'><a href='#events-Events-MutationEvent-attrName'><code>MutationEvent.attrName</code></a> is in use. The value of <a href='#events-Events-MutationEvent-relatedNode'><code>MutationEvent.relatedNode</code></a> indicates the <code>Attr</code> node whose value has been affected. The value of <a href='#events-Events-MutationEvent-attrChange'><code>MutationEvent.attrChange</code></a> indicates whether the <code>Attr</code> was modified, added, or removed. If the <code>Attr</code> node is being added, <a href='#events-Events-MutationEvent-newValue'><code>MutationEvent.newValue</code></a> is in use. If the <code>Attr</code> node is being removed, <a href='#events-Events-MutationEvent-prevValue'><code>MutationEvent.prevValue</code></a> is in value. If the <code>Attr</code> node is being modified, <a class='noxref' href='#events-Events-MutationEvent-newValue'><code>MutationEvent.newValue</code></a> and <a class='noxref' href='#events-Events-MutationEvent-prevValue'><code>MutationEvent.prevValue</code></a> are in use.</td>
+<td valign='top' rowspan='1' colspan='1'><a href='#events-Events-MutationEvent-attrName'><code>MutationEvent.attrName</code></a> and <a href='#events-Events-MutationEvent-attrChange'><code>MutationEvent.attrChange</code></a> are in use. The value of <a href='#events-Events-MutationEvent-relatedNode'><code>MutationEvent.relatedNode</code></a> indicates the <code>Attr</code> node that has been modified, added, or removed. If the <code>Attr</code> node has been added, <a href='#events-Events-MutationEvent-newValue'><code>MutationEvent.newValue</code></a> is in use. If the <code>Attr</code> node has been removed, <a href='#events-Events-MutationEvent-prevValue'><code>MutationEvent.prevValue</code></a> is in use. If the <code>Attr</code> node has been modified, <a class='noxref' href='#events-Events-MutationEvent-newValue'><code>MutationEvent.newValue</code></a> and <a class='noxref' href='#events-Events-MutationEvent-prevValue'><code>MutationEvent.prevValue</code></a> are in use.</td>
 </tr>
 </table>
-Occurs after an <code>Attr</code> has been modified on a node. The <a href='#glossary-dt-target-node'>target node</a> of this event is the parent <code>Element</code> node whose <code>Attr</code> changed. It is expected that string based replacement of an <code>Attr</code> value will be viewed as a modification of the <code>Attr</code> since its identity does not change. Subsequently replacement of the <code>Attr</code> node with a different <code>Attr</code> node is viewed as the removal of the first <code>Attr</code> node and the addition of the second.
-<div style='color: red'>(<i><b>ED:</b></i> There is an <a class='normative' href='http://lists.w3.org/Archives/Member/member-webapi/2006Feb/0004.html'>open issue</a> concerned with providing additional information regarding when DOM implementations must dispatch this event type. )</div>
-</dd>
+Occurs after <code>Attr.value</code> has been modified and after an <code>Attr</code> node has been added to or removed from an <code>Element</code>. The <a href='#glossary-dt-target-node'>target node</a> of this event is the <code>Element</code> node where the change occured. It is implementation dependent whether this event type occurs when the children of the <code>Attr</code> node are changed in ways that do not affect the value of <code>Attr.value</code>.</dd>
 </dl>
 </div>
 <div class='event-definition'>
@@ -2623,7 +2613,7 @@ Occurs after an <code>Attr</code> has been modified on a node. The <a href='#glo
 </tr>
 <tr>
 <th rowspan='1' colspan='1'>Target</th>
-<td valign='top' rowspan='1' colspan='1'><code>Element</code></td>
+<td valign='top' rowspan='1' colspan='1'><code>Text</code>, <code>Comment</code>, <code>CDATASection</code>, <code>ProcessingInstruction</code></td>
 </tr>
 <tr>
 <th rowspan='1' colspan='1'>Context info</th>
@@ -2772,7 +2762,7 @@ interface <a class='noxref' href='#events-Events-MutationNameEvent'>MutationName
 <td valign='top' rowspan='1' colspan='1'><a href='#events-Events-MutationNameEvent-prevNamespaceURI'><code>MutationNameEvent.prevNamespaceURI</code></a>, and <a href='#events-Events-MutationNameEvent-prevNodeName'><code>MutationNameEvent.prevNodeName</code></a> are in use.</td>
 </tr>
 </table>
-Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of an <code>Element</code> node have been modified (e.g., the element was renamed using <code>Document.renameNode()</code>). The target of this event is the renamed <code>Element</code> node.</dd>
+Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of an <code>Element</code> node have been modified (e.g., the element was renamed using <code>Document.renameNode()</code>). The <a href='#glossary-dt-target-node'>target node</a> of this event is the renamed <code>Element</code> node.</dd>
 </dl>
 </div>
 <div class='event-definition'>
@@ -2809,7 +2799,7 @@ Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a
 <td valign='top' rowspan='1' colspan='1'><a href='#events-Events-MutationNameEvent-prevNamespaceURI'><code>MutationNameEvent.prevNamespaceURI</code></a>, and <a href='#events-Events-MutationNameEvent-prevNodeName'><code>MutationNameEvent.prevNodeName</code></a> are in use. The value of <a href='#events-Events-MutationEvent-relatedNode'><code>MutationEvent.relatedNode</code></a> contains the renamed <code>Attr</code> node.</td>
 </tr>
 </table>
-Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a <code>Attr</code> node have been modified (e.g., the attribute was renamed using <code>Document.renameNode</code>). The target of this event is the parent <code>Element</code> node whose <code>Attr</code> has been renamed.</dd>
+Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a <code>Attr</code> node have been modified (e.g., the attribute was renamed using <code>Document.renameNode()</code>). The <a href='#glossary-dt-target-node'>target node</a> of this event is the <code>Element</code> node whose <code>Attr</code> has been renamed.</dd>
 </dl>
 </div>
 </div>
@@ -3041,7 +3031,7 @@ A user selects some text. DOM Level 3 Events does not provide contextual informa
 <td valign='top' rowspan='1' colspan='1'><a href='#events-Events-UIEvent-view'><code>UIEvent.view</code></a> may be in use.</td>
 </tr>
 </table>
-A control loses the input focus and its value has been modified since gaining focus.</dd>
+A control loses the input focus and its value has been modified since gaining focus. This event type is dispatched before the event type <a href='#events-event-blur'>blur</a>.</dd>
 </dl>
 </div>
 <div class='event-definition'>
@@ -3193,140 +3183,12 @@ A document view or an element has been scrolled. The scroll occured before the d
 </dl>
 </div>
 </div>
-<!-- div3 Events-eventgroupings-basicevents -->
-<div class='div3'><a name='events-Events-eventgroupings-htmlevents' id="events-Events-eventgroupings-htmlevents"></a>
-<h3 id='events-Events-eventgroupings-htmlevents-h3' class='div3'>1.8.7 HTML Events</h3>
-<p>The HTML event module is composed of events listed in [<cite><a class='noxref informative' href='#references-HTML40'>HTML 4.01</a></cite>] and additional events which are supported in <a href='#glossary-dt-DOM-Level-0'>DOM Level 0</a> browsers. It refines the semantics and scope of the basic event types and provides two new event types. This event module is only applicable if the <code>Document</code> supports the [<cite><a class='noxref informative' href='#references-DOM2HTML'>DOM Level 2 HTML</a></cite>] specification. Use <code>Node.isSupported(feature, version)</code> with the parameter values "HTML" and "2.0" (respectively) to determine whether or not the <code>Document</code> node supports the HTML module.</p>
-<div style='color: red'>(<i><b>ED:</b></i> Needs to say that it inherits UIEvents focus and blur instead. )</div>
-<p>A DOM application may use the <code>hasFeature(feature, version)</code> method of the <code>DOMImplementation</code> interface with parameter values <code>"HTMLEvents"</code> and <code>"3.0"</code> (respectively) to determine whether or not the HTML event module is supported by the implementation. In order to fully support this module, an implementation must also support the <code>"BasicEvents"</code> feature defined in this specification and the <code>"HTML"</code> feature defined in [<cite><a class='noxref normative' href='#references-DOM2HTML'>DOM Level 2 HTML</a></cite>]. For additional information about <a class='normative' href='http://www.w3.org/TR/DOM-Level-3-Core/introduction.html#ID-Conformance'><em>conformance</em></a>, please see the DOM Level 3 Core specification [<cite><a class='noxref normative' href='#references-DOMCore'>DOM Level 3 Core</a></cite>]. The DOM Level 3 HTML Events module is built on top of the DOM Level 2 HTML Events [<cite><a class='noxref normative' href='#references-DOM2Events'>DOM Level 2 Events</a></cite>] module, i.e. a DOM Level 3 HTML Events implementation where <code>hasFeature("HTMLEvents", "3.0")</code> returns <code>true</code> must also return <code>true</code> when the <code>version</code> number is <code>"2.0"</code>, <code>""</code> or, <code>null</code>.</p>
-<p>The following descriptions of event types are refinements of the general descriptions provided in <a href='#events-Events-eventgroupings'>Event module definitions</a>.</p>
-<dl>
-<dt><a name='events-event-html-load' id="events-event-html-load">load</a></dt>
-<dd>The DOM implementation finishes loading all content within the BODY element, all frames within a FRAMESET, or any resource linked from the document.</dd>
-<dt><a name='events-event-html-unload' id="events-event-html-unload">unload</a></dt>
-<dd>The DOM implementation removes a document from a window or frame. This event is valid for BODY and FRAMESET elements.</dd>
-<dt><a name='events-event-html-abort' id="events-event-html-abort">abort</a></dt>
-<dd>The page loading is stopped before an image has been allowed to completely load. This event applies to OBJECT elements.</dd>
-<dt><a name='events-event-html-error' id="events-event-html-error">error</a></dt>
-<dd>An image does not load properly or when an error occurs during script execution. This event is valid for OBJECT elements, BODY elements, and FRAMESET element.</dd>
-<dt><a name='events-event-html-select' id="events-event-html-select">select</a></dt>
-<dd>A user selects some text in a text field either via the user interface or via attributes defined in [<cite><a class='noxref informative' href='#references-DOM2HTML'>DOM Level 2 HTML</a></cite>]. This event is valid for INPUT and TEXTAREA elements.</dd>
-<dt><a name='events-event-html-change' id="events-event-html-change">change</a></dt>
-<dd>A control loses the input focus and its value has been modified since gaining focus. This event can occur either via a user interface manipulation or the <code>focus()</code> methods and the attributes defined in [<cite><a class='noxref informative' href='#references-DOM2HTML'>DOM Level 2 HTML</a></cite>]. This event type is dispatched before the event type <a href='#events-event-blur'>blur</a>. This event is valid for INPUT, SELECT, and TEXTAREA element.</dd>
-<dt><a name='events-event-html-submit' id="events-event-html-submit">submit</a></dt>
-<dd>A form is submitted either via a button. This event only applies to the FORM element. Note that the <code>HTMLFormElement.submit()</code> method defined in [<cite><a class='noxref informative' href='#references-DOM2HTML'>DOM Level 2 HTML</a></cite>] does not fire this event type.</dd>
-<dt><a name='events-event-html-reset' id="events-event-html-reset">reset</a></dt>
-<dd>A form is reset either via a button, or the <code>HTMLFormElement.reset()</code> method defined in [<cite><a class='noxref informative' href='#references-DOM2HTML'>DOM Level 2 HTML</a></cite>]. This event only applies to the FORM element.</dd>
-<dt><a name='events-event-html-resize' id="events-event-html-resize">resize</a></dt>
-<dd>see <a href='#events-event-resize'>resize</a>.</dd>
-<dt><a name='events-event-html-scroll' id="events-event-html-scroll">scroll</a></dt>
-<dd>see <a href='#events-event-resize'>scroll</a>.</dd>
-<dt><a name='events-event-html-focus' id="events-event-html-focus">focus</a></dt>
-<dd>An element receives focus either via a pointing device, the <code>focus()</code> methods defined in [<cite><a class='noxref informative' href='#references-DOM2HTML'>DOM Level 2 HTML</a></cite>], or by tabbing navigation. This event is only valid for the following elements: A, AREA, LABEL, INPUT, SELECT, TEXTAREA, and BUTTON.</dd>
-<dt><a name='events-event-html-blur' id="events-event-html-blur">blur</a></dt>
-<dd>An element loses focus either via a pointing device, the <code>blur()</code> methods defined in [<cite><a class='noxref informative' href='#references-DOM2HTML'>DOM Level 2 HTML</a></cite>], or by tabbing navigation. This event is only valid for the following elements: A, AREA, LABEL, INPUT, SELECT, TEXTAREA, and BUTTON.</dd>
-</dl>
-<p>The following table provides refinements or additional information on the event types. Some events will only be dispatched to a specific set of possible targets, specified using HTML node types.</p>
-<table border='1' summary='This table contains the HTML list of event types defined by DOM Level 3 Events. The first column contains the local name of the event type. The second column indicates if the event accomplish the bubbling phase or not (all events accomplish the capture and target phases). The third column indicates if the default action associated with the event can be canceled. The fourth column indicates the nodes that can be target of the event. the fifth (and last) column indicates the DOM interface implemented by the event object.' cellpadding='0' cellspacing='0'>
-<tr>
-<th rowspan='1' colspan='1'>type</th>
-<th rowspan='1' colspan='1'>Bubbling phase</th>
-<th rowspan='1' colspan='1'>Cancelable</th>
-<th rowspan='1' colspan='1'>Target node types</th>
-<th rowspan='1' colspan='1'>DOM interface</th>
-</tr>
-<tr>
-<td valign='top' rowspan='1' colspan='1'><a href='#events-event-html-load'>load</a></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'><code>HTMLDocument</code>, <code>HTMLBodyElement</code>, <code>HTMLFrameSetElement</code>, <code>HTMLObjectElement</code>, <code>HTMLLinkElement</code>, <code>HTMLMetaElement</code>, <code>HTMLScriptElement</code>, <code>HTMLFrameElement</code>, <code>HTMLIFrameElement</code>, <code>HTMLImageElement</code></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-</tr>
-<tr>
-<td valign='top' rowspan='1' colspan='1'><a href='#events-event-html-unload'>unload</a></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'><code>HTMLDocument</code>, <code>HTMLBodyElement</code>, <code>HTMLFrameSetElement</code></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-</tr>
-<tr>
-<td valign='top' rowspan='1' colspan='1'><a href='#events-event-html-abort'>abort</a></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'><code>HTMLObjectElement</code></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-</tr>
-<tr>
-<td valign='top' rowspan='1' colspan='1'><a href='#events-event-html-error'>error</a></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'><code>HTMLObjectElement</code>, <code>HTMLBodyElement</code>, <code>HTMLFrameSetElement</code></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-</tr>
-<tr>
-<td valign='top' rowspan='1' colspan='1'><a href='#events-event-html-select'>select</a></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'><code>HTMLInputElement</code>, <code>HTMLTextAreaElement</code></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-</tr>
-<tr>
-<td valign='top' rowspan='1' colspan='1'><a href='#events-event-html-change'>change</a></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'><code>HTMLInputElement</code>, <code>HTMLSelectElement</code>, <code>HTMLTextAreaElement</code></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-</tr>
-<tr>
-<td valign='top' rowspan='1' colspan='1'><a href='#events-event-html-submit'>submit</a></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'><code>HTMLFormElement</code></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-</tr>
-<tr>
-<td valign='top' rowspan='1' colspan='1'><a href='#events-event-html-reset'>reset</a></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'><code>HTMLFormElement</code></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-</tr>
-<tr>
-<td valign='top' rowspan='1' colspan='1'><a href='#events-event-html-resize'>resize</a></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'><code>HTMLDocument</code>, <code>HTMLElement</code></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-</tr>
-<tr>
-<td valign='top' rowspan='1' colspan='1'><a href='#events-event-html-scroll'>scroll</a></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'><code>HTMLDocument</code>, <code>HTMLElement</code></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-</tr>
-<tr>
-<td valign='top' rowspan='1' colspan='1'><a href='#events-event-html-focus'>focus</a></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'><code>HTMLAnchorElement</code>, <code>HTMLAreaElement</code>, <code>HTMLLabelElement</code>, <code>HTMLInputElement</code>, <code>HTMLSelectElement</code>, <code>HTMLTextAreaElement</code>, <code>HTMLButtonElement</code>.</td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-</tr>
-<tr>
-<td valign='top' rowspan='1' colspan='1'><a href='#events-event-html-blur'>blur</a></td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-<td valign='top' rowspan='1' colspan='1'><code>HTMLAnchorElement</code>, <code>HTMLAreaElement</code>, <code>HTMLLabelElement</code>, <code>HTMLInputElement</code>, <code>HTMLSelectElement</code>, <code>HTMLTextAreaElement</code>, <code>HTMLButtonElement</code>.</td>
-<td valign='top' rowspan='1' colspan='1'>[no changes]</td>
-</tr>
-</table>
-</div>
-<!-- div3 Events-eventgroupings-htmlevents --></div>
+<!-- div3 Events-eventgroupings-basicevents --></div>
 <!-- div2 Events-eventgroupings --></div>
 <!-- div1 Events -->
 <a id='keyset' name='keyset'></a>
 <div class='noprint' style='text-align: right'>
-<p style='font-family: monospace;font-size:small'>February 2006</p>
+<p style='font-family: monospace;font-size:small'>March 2006</p>
 </div>
 <div class='div1'><a name='keyset-KeySet' id="keyset-KeySet"></a>
 <h1 id='keyset-KeySet-h1' class='adiv1'>Appendix A: Keyboard events and key identifiers</h1>
@@ -3356,7 +3218,6 @@ A document view or an element has been scrolled. The scroll occured before the d
 <li>Relations between keyboard events, their default actions, and text events.</li>
 <li>The set of key identifiers, and guidelines on how to extend this set.</li>
 </ul>
-<div style='color: red'>(<i><b>ED:</b></i> See also <a class='normative' href='http://www.w3.org/2005/06/tracker/webapi/actions/25'>ACTION-25</a>. )</div>
 <p><b>Note:</b> This section uses serbian and kanji characters which are not always available (or are misrepresented) in the alternative versions or printed versions of this specification.</p>
 <div class='div2'><a name='keyset-KeySet-intro' id="keyset-KeySet-intro"></a>
 <h2 id='keyset-KeySet-intro-h2' class='adiv2'>A.1 Introduction</h2>
@@ -3883,7 +3744,7 @@ the default action of the keydown event is prevented</li>
 <!-- div1 KeySet -->
 <a id='changes' name='changes'></a>
 <div class='noprint' style='text-align: right'>
-<p style='font-family: monospace;font-size:small'>February 2006</p>
+<p style='font-family: monospace;font-size:small'>March 2006</p>
 </div>
 <div class='div1'><a name='changes-Changes' id="changes-Changes"></a>
 <h1 id='changes-Changes-h1' class='adiv1'>Appendix B: Changes</h1>
@@ -3940,7 +3801,7 @@ the default action of the keydown event is prevented</li>
 <!-- div1 Changes -->
 <a id='idl-definitions' name='idl-definitions'></a>
 <div class='noprint' style='text-align: right'>
-<p style='font-family: monospace;font-size:small'>February 2006</p>
+<p style='font-family: monospace;font-size:small'>March 2006</p>
 </div>
 <div class='div1'><a name='idl-definitions-idl' id="idl-definitions-idl"></a>
 <h1 id='idl-definitions-idl-h1' class='adiv1'>Appendix C: IDL Definitions</h1>
@@ -4235,7 +4096,7 @@ module events
 <!-- div1 idl -->
 <a id='java-binding' name='java-binding'></a>
 <div class='noprint' style='text-align: right'>
-<p style='font-family: monospace;font-size:small'>February 2006</p>
+<p style='font-family: monospace;font-size:small'>March 2006</p>
 </div>
 <div class='div1'><a name='java-binding-java-binding' id="java-binding-java-binding"></a>
 <h1 id='java-binding-java-binding-h1' class='adiv1'>Appendix D: Java Language Binding</h1>
@@ -4617,7 +4478,7 @@ public interface MutationNameEvent extends MutationEvent {
 <!-- div1 java-binding -->
 <a id='ecma-script-binding' name='ecma-script-binding'></a>
 <div class='noprint' style='text-align: right'>
-<p style='font-family: monospace;font-size:small'>February 2006</p>
+<p style='font-family: monospace;font-size:small'>March 2006</p>
 </div>
 <div class='div1'><a name='ecma-script-binding-ecma-binding' id="ecma-script-binding-ecma-binding"></a>
 <h1 id='ecma-script-binding-ecma-binding-h1' class='adiv1'>Appendix E: ECMAScript Language Binding</h1>
@@ -5092,7 +4953,7 @@ The <b>prevNodeNameArg</b> parameter is a <b>String</b>.</dd>
 <!-- div1 ecma-binding -->
 <a id='acknowledgements' name='acknowledgements'></a>
 <div class='noprint' style='text-align: right'>
-<p style='font-family: monospace;font-size:small'>February 2006</p>
+<p style='font-family: monospace;font-size:small'>March 2006</p>
 </div>
 <div class='div1'><a name='acknowledgements-contributors' id="acknowledgements-contributors"></a>
 <h1 id='acknowledgements-contributors-h1' class='adiv1'>Appendix F: Acknowledgements</h1>
@@ -5113,7 +4974,7 @@ The <b>prevNodeNameArg</b> parameter is a <b>String</b>.</dd>
 <!-- div1 contributors -->
 <a id='glossary' name='glossary'></a>
 <div class='noprint' style='text-align: right'>
-<p style='font-family: monospace;font-size:small'>February 2006</p>
+<p style='font-family: monospace;font-size:small'>March 2006</p>
 </div>
 <div class='div1'><a name='glossary-glossary' id="glossary-glossary"></a>
 <h1 id='glossary-role-glossary' class='glossary'>Glossary</h1>
@@ -5149,7 +5010,7 @@ The <b>prevNodeNameArg</b> parameter is a <b>String</b>.</dd>
 <!-- div1 glossary -->
 <a id='references' name='references'></a>
 <div class='noprint' style='text-align: right'>
-<p style='font-family: monospace;font-size:small'>February 2006</p>
+<p style='font-family: monospace;font-size:small'>March 2006</p>
 </div>
 <div class='div1'><a name='references-References' id="references-References"></a>
 <h1 id='references-role-references' class='references'>References</h1>
@@ -5215,13 +5076,13 @@ The <b>prevNodeNameArg</b> parameter is a <b>String</b>.</dd>
 <!-- div1 References -->
 <a id='def-index' name='def-index'></a>
 <div class='noprint' style='text-align: right'>
-<p style='font-family: monospace;font-size:small'>February 2006</p>
+<p style='font-family: monospace;font-size:small'>March 2006</p>
 </div>
 <div class='div1'><a name='def-index-Index' id="def-index-Index"></a>
 <h1 id='def-index-role-index' class='index'>Index</h1>
 <table summary='the table contains all keywords used in this document'>
 <tr>
-<td width='30%'><a class='noxref' href='#events-event-abort'>abort</a> <a class='index-inst' href='#events-event-abort'>1</a>, <a class='index-inst' href='#events-Events-eventgroupings-htmlevents'>2</a>, <a class='index-inst' href='#events-event-html-abort'>3</a></td>
+<td width='30%'><a class='noxref' href='#events-event-abort'>abort</a> <a class='index-inst' href='#events-event-abort'>1</a></td>
 <td width='30%'><a class='noxref' href='#events-Events-EventTarget-addEventListener'>addEventListener</a></td>
 <td width='30%'><a class='noxref' href='#events-Events-EventTargetGroup-addEventListenerNS'>addEventListenerNS</a></td>
 </tr>
@@ -5238,9 +5099,9 @@ The <b>prevNodeNameArg</b> parameter is a <b>String</b>.</dd>
 <td>&#160;</td>
 </tr>
 <tr>
-<td width='30%'><a class='noxref' href='#events-Conformance'>blur</a> <a class='index-inst' href='#events-Conformance'>1</a>, <a class='index-inst' href='#events-event-blur'>2</a>, <a class='index-inst' href='#events-Events-eventgroupings-htmlevents'>3</a>, <a class='index-inst' href='#events-event-html-blur'>4</a></td>
+<td width='30%'><a class='noxref' href='#events-Conformance'>blur</a> <a class='index-inst' href='#events-Conformance'>1</a>, <a class='index-inst' href='#events-event-blur'>2</a>, <a class='index-inst' href='#events-Events-eventgroupings-basicevents'>3</a></td>
 <td width='30%'><a class='noxref' href='#events-Events-Event-canBubble'>bubbles</a></td>
-<td width='30%'><a class='noxref' href='#events-Events-phases'>bubbling phase</a> <a class='index-inst' href='#events-Events-phases'>1</a>, <a class='index-inst' href='#events-Events-listeners-registration'>2</a>, <a class='index-inst' href='#events-Events-Registration-interfaces'>3</a>, <a class='index-inst' href='#events-Events-registration-xmlevents'>4</a>, <a class='index-inst' href='#events-Events-registration-voicexmlevents'>5</a>, <a class='index-inst' href='#events-Events-registration-html40'>6</a>, <a class='index-inst' href='#events-BUBBLING_PHASE'>7</a>, <a class='index-inst' href='#events-Events-EventTarget-addEventListener'>8</a>, <a class='index-inst' href='#events-Events-EventTargetGroup-addEventListenerNS'>9</a>, <a class='index-inst' href='#glossary-dt-bubbling-phase'>10</a></td>
+<td width='30%'><a class='noxref' href='#events-Events-phases'>bubbling phase</a> <a class='index-inst' href='#events-Events-phases'>1</a>, <a class='index-inst' href='#events-Events-listeners-registration'>2</a>, <a class='index-inst' href='#events-Events-Registration-interfaces'>3</a>, <a class='index-inst' href='#events-Events-registration-xmlevents'>4</a>, <a class='index-inst' href='#events-Events-registration-voicexmlevents'>5</a>, <a class='index-inst' href='#events-Events-registration-html40'>6</a>, <a class='index-inst' href='#events-BUBBLING_PHASE'>7</a>, <a class='index-inst' href='#events-Events-EventTarget-addEventListener'>8</a>, <a class='index-inst' href='#glossary-dt-bubbling-phase'>9</a></td>
 </tr>
 <tr>
 <td width='30%'><a class='noxref' href='#events-BUBBLING_PHASE'>BUBBLING_PHASE</a></td>
@@ -5255,9 +5116,9 @@ The <b>prevNodeNameArg</b> parameter is a <b>String</b>.</dd>
 <td width='30%'><a class='noxref' href='#events-Events-DocumentEvent-canDispatch'>canDispatch</a></td>
 </tr>
 <tr>
-<td width='30%'><a class='noxref' href='#events-Events-phases'>capture phase</a> <a class='index-inst' href='#events-Events-phases'>1</a>, <a class='index-inst' href='#events-Events-registration-html40'>2</a>, <a class='index-inst' href='#events-CAPTURING_PHASE'>3</a>, <a class='index-inst' href='#events-AT_TARGET'>4</a>, <a class='index-inst' href='#events-Events-EventTarget-addEventListener'>5</a>, <a class='index-inst' href='#events-Events-EventTargetGroup-addEventListenerNS'>6</a>, <a class='index-inst' href='#glossary-dt-capture-phase'>7</a></td>
+<td width='30%'><a class='noxref' href='#events-Events-phases'>capture phase</a> <a class='index-inst' href='#events-Events-phases'>1</a>, <a class='index-inst' href='#events-Events-registration-html40'>2</a>, <a class='index-inst' href='#events-CAPTURING_PHASE'>3</a>, <a class='index-inst' href='#events-AT_TARGET'>4</a>, <a class='index-inst' href='#events-Events-EventTarget-addEventListener'>5</a>, <a class='index-inst' href='#glossary-dt-capture-phase'>6</a></td>
 <td width='30%'><a class='noxref' href='#events-CAPTURING_PHASE'>CAPTURING_PHASE</a></td>
-<td width='30%'><a class='noxref' href='#events-event-change'>change</a> <a class='index-inst' href='#events-event-change'>1</a>, <a class='index-inst' href='#events-Events-eventgroupings-htmlevents'>2</a>, <a class='index-inst' href='#events-event-html-change'>3</a></td>
+<td width='30%'><a class='noxref' href='#events-event-change'>change</a> <a class='index-inst' href='#events-event-change'>1</a></td>
 </tr>
 <tr>
 <td width='30%'><a class='noxref' href='#events-Events-eventgroupings-mutationevents'>child</a> <a class='index-inst' href='#events-Events-eventgroupings-mutationevents'>1</a>, <a class='index-inst' href='#glossary-dt-child'>2</a></td>
@@ -5288,16 +5149,16 @@ The <b>prevNodeNameArg</b> parameter is a <b>String</b>.</dd>
 </tr>
 <tr>
 <td width='30%'><a class='noxref' href='#events-dt-event-flow'>DOM event flow</a></td>
-<td width='30%'><a class='noxref' href='#events-Events-overview'>DOM Level 0</a> <a class='index-inst' href='#events-Events-overview'>1</a>, <a class='index-inst' href='#events-Events-MouseEvent'>2</a>, <a class='index-inst' href='#events-Events-eventgroupings-htmlevents'>3</a>, <a class='index-inst' href='#glossary-dt-DOM-Level-0'>4</a></td>
+<td width='30%'><a class='noxref' href='#events-Events-overview'>DOM Level 0</a> <a class='index-inst' href='#events-Events-overview'>1</a>, <a class='index-inst' href='#events-Events-MouseEvent'>2</a>, <a class='index-inst' href='#glossary-dt-DOM-Level-0'>3</a></td>
 <td width='30%'><a class='noxref' href='#events-Conformance'>DOM Level 2 Core</a> <a class='index-inst' href='#events-Conformance'>1</a>, <a class='index-inst' href='#references-DOM2Core'>2</a></td>
 </tr>
 <tr>
-<td width='30%'><a class='noxref' href='#events-Conformance'>DOM Level 2 Events</a> <a class='index-inst' href='#events-Conformance'>1</a>, <a class='index-inst' href='#events-Event-groups'>2</a>, <a class='index-inst' href='#events-Events-flow-activation'>3</a>, <a class='index-inst' href='#events-Events-eventgroupings-uievents'>4</a>, <a class='index-inst' href='#events-Events-eventgroupings-mouseevents'>5</a>, <a class='index-inst' href='#events-Events-eventgroupings-mutationevents'>6</a>, <a class='index-inst' href='#events-Events-eventgroupings-htmlevents'>7</a>, <a class='index-inst' href='#references-DOM2Events'>8</a></td>
-<td width='30%'><a class='noxref' href='#events-Events-flow-cancelation'>DOM Level 2 HTML</a> <a class='index-inst' href='#events-Events-flow-cancelation'>1</a>, <a class='index-inst' href='#events-Events-eventgroupings-htmlevents'>2</a>, <a class='index-inst' href='#references-DOM2HTML'>3</a></td>
+<td width='30%'><a class='noxref' href='#events-Conformance'>DOM Level 2 Events</a> <a class='index-inst' href='#events-Conformance'>1</a>, <a class='index-inst' href='#events-Event-groups'>2</a>, <a class='index-inst' href='#events-Events-eventgroupings-uievents'>3</a>, <a class='index-inst' href='#events-Events-eventgroupings-mouseevents'>4</a>, <a class='index-inst' href='#events-Events-eventgroupings-mutationevents'>5</a>, <a class='index-inst' href='#references-DOM2Events'>6</a></td>
+<td width='30%'><a class='noxref' href='#events-Events-flow-cancelation'>DOM Level 2 HTML</a> <a class='index-inst' href='#events-Events-flow-cancelation'>1</a>, <a class='index-inst' href='#references-DOM2HTML'>2</a></td>
 <td width='30%'><a class='noxref' href='#events-Events-eventgroupings-uievents'>DOM Level 2 Views</a> <a class='index-inst' href='#events-Events-eventgroupings-uievents'>1</a>, <a class='index-inst' href='#references-DOM2Views'>2</a></td>
 </tr>
 <tr>
-<td width='30%'><a class='noxref' href='#events-Conformance'>DOM Level 3 Core</a> <a class='index-inst' href='#events-Conformance'>1</a>, <a class='index-inst' href='#events-Event-types'>2</a>, <a class='index-inst' href='#events-Events-eventgroupings-uievents'>3</a>, <a class='index-inst' href='#events-Events-TextEvents-Interfaces'>4</a>, <a class='index-inst' href='#events-Events-eventgroupings-mouseevents'>5</a>, <a class='index-inst' href='#events-Events-KeyboardEvents-Interfaces'>6</a>, <a class='index-inst' href='#events-Events-eventgroupings-mutationevents'>7</a>, <a class='index-inst' href='#events-Events-eventgroupings-basicevents'>8</a>, <a class='index-inst' href='#events-Events-eventgroupings-htmlevents'>9</a>, <a class='index-inst' href='#references-DOMCore'>10</a></td>
+<td width='30%'><a class='noxref' href='#events-Conformance'>DOM Level 3 Core</a> <a class='index-inst' href='#events-Conformance'>1</a>, <a class='index-inst' href='#events-Event-types'>2</a>, <a class='index-inst' href='#events-Events-eventgroupings-uievents'>3</a>, <a class='index-inst' href='#events-Events-TextEvents-Interfaces'>4</a>, <a class='index-inst' href='#events-Events-eventgroupings-mouseevents'>5</a>, <a class='index-inst' href='#events-Events-KeyboardEvents-Interfaces'>6</a>, <a class='index-inst' href='#events-Events-eventgroupings-mutationevents'>7</a>, <a class='index-inst' href='#events-Events-eventgroupings-basicevents'>8</a>, <a class='index-inst' href='#references-DOMCore'>9</a></td>
 <td width='30%'><a class='noxref' href='#events-Events-flows'>DOM Level 3 Load and Save</a> <a class='index-inst' href='#events-Events-flows'>1</a>, <a class='index-inst' href='#references-DOMLS'>2</a></td>
 <td width='30%'><a class='noxref' href='#events-DOM_KEY_LOCATION_LEFT'>DOM_KEY_LOCATION_LEFT</a></td>
 </tr>
@@ -5330,11 +5191,11 @@ The <b>prevNodeNameArg</b> parameter is a <b>String</b>.</dd>
 </tr>
 <tr>
 <td width='30%'><a class='noxref' href='#references-ECMAScript'>ECMAScript</a></td>
-<td width='30%'><a class='noxref' href='#events-event-error'>error</a> <a class='index-inst' href='#events-event-error'>1</a>, <a class='index-inst' href='#events-Events-eventgroupings-htmlevents'>2</a>, <a class='index-inst' href='#events-event-html-error'>3</a></td>
+<td width='30%'><a class='noxref' href='#events-event-error'>error</a> <a class='index-inst' href='#events-event-error'>1</a></td>
 <td width='30%'><a class='noxref' href='#events-Events-Event'>Event</a> <a class='index-inst' href='#events-Events-Event'>1</a>, <a class='index-inst' href='#events-Events-overview'>2</a>, <a class='index-inst' href='#events-dt-event-flow'>3</a>, <a class='index-inst' href='#events-Events-EventListener-handleEvent'>4</a>, <a class='index-inst' href='#glossary-dt-event'>5</a></td>
 </tr>
 <tr>
-<td width='30%'><a class='noxref' href='#events-Events-flow'>event target</a> <a class='index-inst' href='#events-Events-flow'>1</a>, <a class='index-inst' href='#events-AT_TARGET'>2</a>, <a class='index-inst' href='#events-Events-Event-target'>3</a>, <a class='index-inst' href='#events-Events-EventTarget'>4</a>, <a class='index-inst' href='#events-Events-EventTarget-dispatchEvent'>5</a>, <a class='index-inst' href='#events-Events-eventgroupings-mouseevents'>6</a>, <a class='index-inst' href='#glossary-dt-event-target'>7</a></td>
+<td width='30%'><a class='noxref' href='#events-Events-flow'>event target</a> <a class='index-inst' href='#events-Events-flow'>1</a>, <a class='index-inst' href='#events-AT_TARGET'>2</a>, <a class='index-inst' href='#events-Events-Event-target'>3</a>, <a class='index-inst' href='#events-Events-EventTarget'>4</a>, <a class='index-inst' href='#events-Events-EventTarget-dispatchEvent'>5</a>, <a class='index-inst' href='#events-Events-eventgroupings-uievents'>6</a>, <a class='index-inst' href='#events-Events-eventgroupings-mouseevents'>7</a>, <a class='index-inst' href='#glossary-dt-event-target'>8</a></td>
 <td width='30%'><a class='noxref' href='#events-Events-EventException'>EventException</a></td>
 <td width='30%'><a class='noxref' href='#events-Events-EventListener'>EventListener</a></td>
 </tr>
@@ -5346,7 +5207,7 @@ The <b>prevNodeNameArg</b> parameter is a <b>String</b>.</dd>
 <td>&#160;</td>
 </tr>
 <tr>
-<td width='30%'><a class='noxref' href='#events-Conformance'>focus</a> <a class='index-inst' href='#events-Conformance'>1</a>, <a class='index-inst' href='#events-event-focus'>2</a>, <a class='index-inst' href='#events-Events-eventgroupings-htmlevents'>3</a>, <a class='index-inst' href='#events-event-html-focus'>4</a></td>
+<td width='30%'><a class='noxref' href='#events-Conformance'>focus</a> <a class='index-inst' href='#events-Conformance'>1</a>, <a class='index-inst' href='#events-event-focus'>2</a></td>
 </tr>
 <tr>
 <td>&#160;</td>
@@ -5359,7 +5220,7 @@ The <b>prevNodeNameArg</b> parameter is a <b>String</b>.</dd>
 </tr>
 <tr>
 <td width='30%'><a class='noxref' href='#events-Events-EventListener-handleEvent'>handleEvent</a></td>
-<td width='30%'><a class='noxref' href='#events-Events-flow-cancelation'>HTML 4.01</a> <a class='index-inst' href='#events-Events-flow-cancelation'>1</a>, <a class='index-inst' href='#events-Events-EventTypes-complete'>2</a>, <a class='index-inst' href='#events-Events-registration-html40'>3</a>, <a class='index-inst' href='#events-Events-TextEvents-Interfaces'>4</a>, <a class='index-inst' href='#events-Events-eventgroupings-mouseevents'>5</a>, <a class='index-inst' href='#events-Events-eventgroupings-basicevents'>6</a>, <a class='index-inst' href='#events-Events-eventgroupings-htmlevents'>7</a>, <a class='index-inst' href='#references-HTML40'>8</a></td>
+<td width='30%'><a class='noxref' href='#events-Events-flow-cancelation'>HTML 4.01</a> <a class='index-inst' href='#events-Events-flow-cancelation'>1</a>, <a class='index-inst' href='#events-Events-EventTypes-complete'>2</a>, <a class='index-inst' href='#events-Events-registration-html40'>3</a>, <a class='index-inst' href='#events-Events-TextEvents-Interfaces'>4</a>, <a class='index-inst' href='#events-Events-eventgroupings-mouseevents'>5</a>, <a class='index-inst' href='#events-Events-eventgroupings-basicevents'>6</a>, <a class='index-inst' href='#references-HTML40'>7</a></td>
 </tr>
 <tr>
 <td>&#160;</td>
@@ -5418,8 +5279,8 @@ The <b>prevNodeNameArg</b> parameter is a <b>String</b>.</dd>
 <td>&#160;</td>
 </tr>
 <tr>
-<td width='30%'><a class='noxref' href='#events-Events-EventTypes-complete'>load</a> <a class='index-inst' href='#events-Events-EventTypes-complete'>1</a>, <a class='index-inst' href='#events-event-load'>2</a>, <a class='index-inst' href='#events-Events-eventgroupings-htmlevents'>3</a>, <a class='index-inst' href='#events-event-html-load'>4</a></td>
-<td width='30%'><a class='noxref' href='#events-Event-types'>local name</a> <a class='index-inst' href='#events-Event-types'>1</a>, <a class='index-inst' href='#events-Events-EventTypes-category'>2</a>, <a class='index-inst' href='#events-Events-Event-type'>3</a>, <a class='index-inst' href='#events-Events-Event-initEventNS'>4</a>, <a class='index-inst' href='#glossary-dt-localname'>5</a></td>
+<td width='30%'><a class='noxref' href='#events-Events-EventTypes-complete'>load</a> <a class='index-inst' href='#events-Events-EventTypes-complete'>1</a>, <a class='index-inst' href='#events-event-load'>2</a></td>
+<td width='30%'><a class='noxref' href='#events-Event-types'>local name</a> <a class='index-inst' href='#events-Event-types'>1</a>, <a class='index-inst' href='#events-Events-EventTypes-category'>2</a>, <a class='index-inst' href='#events-Events-Event-type'>3</a>, <a class='index-inst' href='#events-Events-Event-initEvent'>4</a>, <a class='index-inst' href='#glossary-dt-localname'>5</a></td>
 </tr>
 <tr>
 <td>&#160;</td>
@@ -5478,10 +5339,10 @@ The <b>prevNodeNameArg</b> parameter is a <b>String</b>.</dd>
 <tr>
 <td width='30%'><a class='noxref' href='#events-Events-EventTarget-removeEventListener'>removeEventListener</a></td>
 <td width='30%'><a class='noxref' href='#events-Events-EventTargetGroup-removeEventListenerNS'>removeEventListenerNS</a></td>
-<td width='30%'><a class='noxref' href='#events-event-reset'>reset</a> <a class='index-inst' href='#events-event-reset'>1</a>, <a class='index-inst' href='#events-Events-eventgroupings-htmlevents'>2</a>, <a class='index-inst' href='#events-event-html-reset'>3</a></td>
+<td width='30%'><a class='noxref' href='#events-event-reset'>reset</a> <a class='index-inst' href='#events-event-reset'>1</a></td>
 </tr>
 <tr>
-<td width='30%'><a class='noxref' href='#events-Events-eventgroupings-basicevents'>resize</a> <a class='index-inst' href='#events-Events-eventgroupings-basicevents'>1</a>, <a class='index-inst' href='#events-event-resize'>2</a>, <a class='index-inst' href='#events-Events-eventgroupings-htmlevents'>3</a>, <a class='index-inst' href='#events-event-html-resize'>4</a></td>
+<td width='30%'><a class='noxref' href='#events-Events-eventgroupings-basicevents'>resize</a> <a class='index-inst' href='#events-Events-eventgroupings-basicevents'>1</a>, <a class='index-inst' href='#events-event-resize'>2</a></td>
 </tr>
 <tr>
 <td>&#160;</td>
@@ -5489,16 +5350,16 @@ The <b>prevNodeNameArg</b> parameter is a <b>String</b>.</dd>
 <tr>
 <td width='30%'><a class='noxref' href='#events-Events-MouseEvent-screenX'>screenX</a></td>
 <td width='30%'><a class='noxref' href='#events-Events-MouseEvent-screenY'>screenY</a></td>
-<td width='30%'><a class='noxref' href='#events-Events-eventgroupings-basicevents'>scroll</a> <a class='index-inst' href='#events-Events-eventgroupings-basicevents'>1</a>, <a class='index-inst' href='#events-event-scroll'>2</a>, <a class='index-inst' href='#events-Events-eventgroupings-htmlevents'>3</a>, <a class='index-inst' href='#events-event-html-scroll'>4</a></td>
+<td width='30%'><a class='noxref' href='#events-Events-eventgroupings-basicevents'>scroll</a> <a class='index-inst' href='#events-Events-eventgroupings-basicevents'>1</a>, <a class='index-inst' href='#events-event-scroll'>2</a></td>
 </tr>
 <tr>
-<td width='30%'><a class='noxref' href='#events-event-select'>select</a> <a class='index-inst' href='#events-event-select'>1</a>, <a class='index-inst' href='#events-Events-eventgroupings-htmlevents'>2</a>, <a class='index-inst' href='#events-event-html-select'>3</a></td>
+<td width='30%'><a class='noxref' href='#events-event-select'>select</a> <a class='index-inst' href='#events-event-select'>1</a></td>
 <td width='30%'><a class='noxref' href='#events-Events-MouseEvent-shiftKey'>shiftKey</a> <a class='index-inst' href='#events-Events-MouseEvent-shiftKey'>1</a>, <a class='index-inst' href='#events-Events-KeyboardEvent-shiftKey'>2</a></td>
 <td width='30%'><a class='noxref' href='#events-Events-Event-stopImmediatePropagation'>stopImmediatePropagation</a></td>
 </tr>
 <tr>
 <td width='30%'><a class='noxref' href='#events-Events-Event-stopPropagation'>stopPropagation</a></td>
-<td width='30%'><a class='noxref' href='#events-Events-flow-cancelation'>submit</a> <a class='index-inst' href='#events-Events-flow-cancelation'>1</a>, <a class='index-inst' href='#events-event-submit'>2</a>, <a class='index-inst' href='#events-Events-eventgroupings-htmlevents'>3</a>, <a class='index-inst' href='#events-event-html-submit'>4</a></td>
+<td width='30%'><a class='noxref' href='#events-Events-flow-cancelation'>submit</a> <a class='index-inst' href='#events-Events-flow-cancelation'>1</a>, <a class='index-inst' href='#events-event-submit'>2</a></td>
 <td width='30%'><a class='noxref' href='#events-Events-registration'>SVG 1.1</a> <a class='index-inst' href='#events-Events-registration'>1</a>, <a class='index-inst' href='#events-Events-registration-html40'>2</a>, <a class='index-inst' href='#references-SVG1'>3</a></td>
 </tr>
 <tr>
@@ -5507,7 +5368,7 @@ The <b>prevNodeNameArg</b> parameter is a <b>String</b>.</dd>
 <tr>
 <td width='30%'><a class='noxref' href='#events-Events-Event-target'>target</a></td>
 <td width='30%'><a class='noxref' href='#events-Events-phases'>target node</a> <a class='index-inst' href='#events-Events-phases'>1</a>, <a class='index-inst' href='#events-Events-Event-target'>2</a>, <a class='index-inst' href='#events-Events-Event-currentTarget'>3</a>, <a class='index-inst' href='#events-Events-EventTarget'>4</a>, <a class='index-inst' href='#events-Events-eventgroupings-mutationevents'>5</a>, <a class='index-inst' href='#glossary-dt-target-node'>6</a></td>
-<td width='30%'><a class='noxref' href='#events-Events-phases'>target phase</a> <a class='index-inst' href='#events-Events-phases'>1</a>, <a class='index-inst' href='#events-Events-Registration-interfaces'>2</a>, <a class='index-inst' href='#events-Events-registration-xmlevents'>3</a>, <a class='index-inst' href='#events-Events-registration-voicexmlevents'>4</a>, <a class='index-inst' href='#events-Events-registration-html40'>5</a>, <a class='index-inst' href='#events-Events-EventTarget-addEventListener'>6</a>, <a class='index-inst' href='#events-Events-EventTargetGroup-addEventListenerNS'>7</a>, <a class='index-inst' href='#glossary-dt-target-phase'>8</a></td>
+<td width='30%'><a class='noxref' href='#events-Events-phases'>target phase</a> <a class='index-inst' href='#events-Events-phases'>1</a>, <a class='index-inst' href='#events-Events-Registration-interfaces'>2</a>, <a class='index-inst' href='#events-Events-registration-xmlevents'>3</a>, <a class='index-inst' href='#events-Events-registration-voicexmlevents'>4</a>, <a class='index-inst' href='#events-Events-registration-html40'>5</a>, <a class='index-inst' href='#events-Events-EventTarget-addEventListener'>6</a>, <a class='index-inst' href='#glossary-dt-target-phase'>7</a></td>
 </tr>
 <tr>
 <td width='30%'><a class='noxref' href='#events-Events-TextEvent'>TextEvent</a></td>
@@ -5523,7 +5384,7 @@ The <b>prevNodeNameArg</b> parameter is a <b>String</b>.</dd>
 <tr>
 <td width='30%'><a class='noxref' href='#events-Events-UIEvent'>UIEvent</a></td>
 <td width='30%'><a class='noxref' href='#events-Events-UIEvent-data'>Unicode</a> <a class='index-inst' href='#events-Events-UIEvent-data'>1</a>, <a class='index-inst' href='#references-Unicode'>2</a></td>
-<td width='30%'><a class='noxref' href='#events-event-unload'>unload</a> <a class='index-inst' href='#events-event-unload'>1</a>, <a class='index-inst' href='#events-Events-eventgroupings-htmlevents'>2</a>, <a class='index-inst' href='#events-event-html-unload'>3</a></td>
+<td width='30%'><a class='noxref' href='#events-event-unload'>unload</a> <a class='index-inst' href='#events-event-unload'>1</a></td>
 </tr>
 <tr>
 <td width='30%'><a class='noxref' href='#events-UNSPECIFIED_EVENT_TYPE_ERR'>UNSPECIFIED_EVENT_TYPE_ERR</a></td>
