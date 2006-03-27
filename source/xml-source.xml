@@ -652,6 +652,21 @@
       Each event module describes its own feature string in the event
       module listing.
      </p>
+
+     <note>
+      <p>
+       This specification is to be understood in the context of the DOM
+       Level 3 Core specification <bibref ref="DOMCore"/> and the
+       general considerations for DOM implementations apply. For
+       example, handling of <termref def="dt-namespaceURI">namespace
+       URIs</termref> is discussed in
+       <xspecref href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Namespaces-Considerations">XML
+       Namespaces</xspecref>, and behavior in exceptional circumstances
+       (such as when a <code>null</code> argument is passed when
+       <code>null</code> was not expected) is discussed under
+       <xspecref href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-17189187">DOMException</xspecref>.
+      </p>
+     </note>
     </div3>
    </div2>
 
@@ -714,13 +729,12 @@
       </item>
      </olist>
 <!-- @@@ refer to local versions -->
-     <graphic source="http://www.w3.org/TR/2003/NOTE-DOM-Level-3-Events-20031107/images/eventflow.png" alt="graphical representation of an event dispatched in a DOM tree using the DOM event flow"/>
+     <graphic source="images/eventflow.png" alt="graphical representation of an event dispatched in a DOM tree using the DOM event flow"/>
 
      <note>
       <p>
-       An
-       <loc href="http://www.w3.org/TR/2003/NOTE-DOM-Level-3-Events-20031107/images/eventflow.svg">SVG
-       1.0 version of the representation above</loc> is also available.
+       An <loc href="images/eventflow.svg">SVG 1.0 version of the
+       representation above</loc> is also available.
       </p>
      </note>
 
@@ -1006,15 +1020,12 @@
      if any, associated with each event. The DOM Events specification
      does not attempt to specify these actions.
     </p>
-
-    <ednote>
-     <edtext>
+<!--
+      @@@
       This is not entirely true, there are default actions for device
       event types when the events trigger activation, and there is a
       discussion about canceling keyboard events...
-     </edtext>
-    </ednote>
-
+-->
     <p>
      This specification does not provide mechanisms for accessing
      default actions or adding new ones.
@@ -1224,9 +1235,9 @@
 
      <p>
       Finally, DOM Level 3 Events considers that the
-      <code>Event.type</code> attribute is case sensitive, while DOM
-      Level 2 Events considers <code>Event.type</code> to be case
-      insensitive.
+      <code>Event.type</code> attribute is case-sensitive, while DOM
+      Level 2 Events considers <code>Event.type</code> to be
+      case-insensitive.
      </p>
     </div3>
    </div2>
@@ -1846,6 +1857,100 @@
 
        <raises>
 <!-- no exception -->
+       </raises>
+      </method>
+     </interface>
+
+     <interface name="CustomEvent" inherits="Event" id="Events-CustomEvent" since="DOM Level 3">
+      <descr>
+       <p>
+        The CustomEvent interface is the recommended interface for
+        application-specific event types. Unlike the Event interface it
+        allows applications to provide contextual information about the
+        event type.
+       </p>
+
+       <p>
+        To create an instance of the <code>CustomEvent</code> interface,
+        use the <code>DocumentEvent.createEvent("CustomEvent")</code>
+        method call.
+       </p>
+      </descr>
+
+      <attribute id="Events-CustomEvent-detail" name="detail" type="DOMObject" readonly="yes">
+       <descr>
+        <p>
+         Specifies some detail information about the <code>Event</code>.
+        </p>
+       </descr>
+      </attribute>
+
+      <method name="initCustomEventNS" id="Events-Event-initCustomEventNS">
+       <descr>
+        <p>
+         The <code>initCustomEventNS</code> method is used to initialize
+         the value of a <code>CustomEvent</code> object and has the same
+         behavior as <code>Event.initEventNS()</code>.
+        </p>
+       </descr>
+
+       <parameters>
+        <param name="namespaceURI" type="DOMString" attr="in">
+         <descr>
+          <p>
+           Refer to the <code>Event.initEventNS()</code> method for a
+           description of this parameter.
+          </p>
+         </descr>
+        </param>
+
+        <param name="typeArg" type="DOMString" attr="in">
+         <descr>
+          <p>
+           Refer to the <code>Event.initEventNS()</code> method for a
+           description of this parameter.
+          </p>
+         </descr>
+        </param>
+
+        <param name="canBubbleArg" type="boolean" attr="in">
+         <descr>
+          <p>
+           Refer to the <code>Event.initEventNS()</code> method for a
+           description of this parameter.
+          </p>
+         </descr>
+        </param>
+
+        <param name="cancelableArg" type="boolean" attr="in">
+         <descr>
+          <p>
+           Refer to the <code>Event.initEventNS()</code> method for a
+           description of this parameter.
+          </p>
+         </descr>
+        </param>
+
+        <param name="detailArg" type="DOMObject" attr="in">
+         <descr>
+          <p>
+           Specifies <code>CustomEvent.detail</code>. This value may be
+           <code>null</code>.
+          </p>
+         </descr>
+        </param>
+       </parameters>
+
+       <returns type="void">
+        <descr>
+         <p>
+<!--empty paragraph-->
+         </p>
+        </descr>
+       </returns>
+
+       <raises>
+<!-- No exceptions -->
        </raises>
       </method>
      </interface>
@@ -5546,15 +5651,16 @@
 
         <p>
          This is a general event for notification of all changes to the
-         document. It can be used instead of the more specific events
-         listed below. It may be dispatched after a single modification
-         to the document or, at the implementation's discretion, after
-         multiple changes have occurred. The latter use should generally
-         be used to accommodate multiple changes which occur either
-         simultaneously or in rapid succession. The target of this event
-         is the lowest common parent of the changes which have taken
-         place. This event is dispatched after any other events caused
-         by the mutation(s) have occurred.
+         document. It can be used instead of the more specific mutation
+         and mutation name events listed below. It may be dispatched
+         after a single modification to the document or, at the
+         implementation's discretion, after multiple changes have
+         occurred. The latter use should generally be used to
+         accommodate multiple changes which occur either simultaneously
+         or in rapid succession. The target of this event is the lowest
+         common parent of the changes which have taken place. This event
+         is dispatched after any other events caused by the mutation(s)
+         have occurred.
         </p>
        </def>
       </gitem>
@@ -5637,7 +5743,9 @@
 
            <td>
             <code>MutationEvent.relatedNode</code> holds the parent node
-            of the node being inserted.
+            of the node that has been inserted or, in case of
+            <code>Attr</code> nodes, the <code>ownerElement</code> of
+            the <code>Attr</code> node.
            </td>
           </tr>
          </tbody>
@@ -5733,7 +5841,9 @@
 
            <td>
             <code>MutationEvent.relatedNode</code> holds the parent node
-            of the node being removed.
+            of the node being removed or, in case of <code>Attr</code>
+            nodes, the <code>ownerElement</code> of the
+            <code>Attr</code> node.
            </td>
           </tr>
          </tbody>
@@ -6945,20 +7055,10 @@
         </table>
 
         <p>
-         The document, or a resource linked from it, has been loaded but
-         cannot be interpreted according to its semantic, such as an
-         invalid image, a script execution error, or non-well-formed
-         XML.
+         A resource failed to load, or has been loaded but cannot be
+         interpreted according to its semantics such as an invalid
+         image, a script execution error, or non-well-formed XML.
         </p>
-
-        <ednote>
-         <edtext>
-          See open issues
-          <loc href='http://www.w3.org/2005/06/tracker/webapi/issues/15'>ISSUE-15</loc>
-          and
-          <loc href='http://lists.w3.org/Archives/Member/member-webapi/2006Feb/0039'>http://lists.w3.org/Archives/Member/member-webapi/2006Feb/0039</loc>.
-         </edtext>
-        </ednote>
        </def>
       </gitem>
      </glist>
@@ -7488,112 +7588,6 @@
        </def>
       </gitem>
      </glist>
-    </div3>
-
-    <div3 id="Events-eventgroupings-customevents">
-     <head>
-      Custom event types
-     </head>
-
-     <p>
-      @@@
-     </p>
-
-     <definitions>
-<!-- MutationEvent interface -->
-      <interface name="CustomEvent" inherits="Event" id="Events-CustomEvent" since="DOM Level 3">
-       <descr>
-        <p>
-         @@@
-        </p>
-
-        <p>
-         To create an instance of the <code>CustomEvent</code>
-         interface, use the
-         <code>DocumentEvent.createEvent("CustomEvent")</code> method
-         call.
-        </p>
-       </descr>
-
-       <attribute id="Events-CustomEvent-detail" name="detail" type="DOMObject" readonly="yes">
-        <descr>
-         <p>
-          Specifies some detail information about the
-          <code>Event</code>.
-         </p>
-        </descr>
-       </attribute>
-
-       <method name="initCustomEventNS" id="Events-Event-initCustomEventNS">
-        <descr>
-         <p>
-          The <code>initCustomEventNS</code> method is used to
-          initialize the value of a <code>CustomEvent</code> object and
-          has the same behavior as <code>Event.initEventNS()</code>.
-         </p>
-        </descr>
-
-        <parameters>
-         <param name="namespaceURI" type="DOMString" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>Event.initEventNS()</code> method for a
-            description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="typeArg" type="DOMString" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>Event.initEventNS()</code> method for a
-            description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="canBubbleArg" type="boolean" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>Event.initEventNS()</code> method for a
-            description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="cancelableArg" type="boolean" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>Event.initEventNS()</code> method for a
-            description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="detailArg" type="DOMObject" attr="in">
-          <descr>
-           <p>
-            Specifies <code>CustomEvent.detail</code>. This value may be
-            <code>null</code>.
-           </p>
-          </descr>
-         </param>
-        </parameters>
-
-        <returns type="void">
-         <descr>
-          <p>
-<!--empty paragraph-->
-          </p>
-         </descr>
-        </returns>
-
-        <raises>
-<!-- No exceptions -->
-        </raises>
-       </method>
-      </interface>
-     </definitions>
     </div3>
    </div2>
   </div1>
@@ -10745,26 +10739,6 @@
     <bibref ref="ECMAScript"/> binding for the Level 3 Document Object
     Model Events definitions.
    </p>
-
-   <ednote>
-    <edtext>
-     There a some open issues regarding clarifications around terms such
-     as 'read-only',
-     <loc href='http://www.w3.org/2005/06/tracker/webapi/issues/24'>ISSUE-24:
-     DOM3EV: DontDelete and other internal properties</loc>,
-     <loc href='http://www.w3.org/2005/06/tracker/webapi/issues/23'>ISSUE-23:
-     DOM3EV: passing non-Strings to String methods</loc>,
-     <loc href='http://www.w3.org/2005/06/tracker/webapi/issues/22'>ISSUE-22:
-     DOM3EV: Define what "read-only" means for ECMAScript</loc>, and see
-     also
-     <loc href='http://www.w3.org/mid/48E466DD-B5E0-4379-98F0-3BE2312DBF4A@apple.com'>Proposed
-     rewrite of DOM3EV Appendix E</loc>,
-     <loc href='http://www.w3.org/2005/06/tracker/webapi/issues/21'>ISSUE-21:
-     Should we use RFC 2119 keywords keywords consistently to state
-     conformance requirements?</loc>; see also
-     <loc href='http://www.w3.org/2005/06/tracker/webapi/issues/13'>ISSUE-13</loc>.
-    </edtext>
-   </ednote>
 <!--
     ******************************************************
     | Events ECMA SCRIPT BINDINGS                         |
@@ -11593,11 +11567,11 @@
      http://msdn.microsoft.com/scripting/default.htm
     </bibl>
 
-    <bibl id="KeyEvent" key="KeyEvent for Java" href="http://java.sun.com/j2se/1.4.1/docs/api/java/awt/event/KeyEvent.html">
+    <bibl id="KeyEvent" key="KeyEvent for Java" href="http://java.sun.com/j2se/1.4.2/docs/api/java/awt/event/KeyEvent.html">
      <titleref>Java 2 SDK, Standard Edition Documentation, Version
-     1.4.1, Class java.awt.events.KeyEvent</titleref>. Sun Microsystems.
+     1.4.2, Class java.awt.events.KeyEvent</titleref>. Sun Microsystems.
      Available at
-     http://java.sun.com/j2se/1.4.1/docs/api/java/awt/event/KeyEvent.html.
+     http://java.sun.com/j2se/1.4.2/docs/api/java/awt/event/KeyEvent.html.
     </bibl>
 
     <bibl id="Keys" key="Keys enumeration for .Net" href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpref/html/frlrfSystemWindowsFormsKeysClassTopic.asp">
