@@ -47,7 +47,7 @@
 --map-type ECMAScript boolean Boolean
 --map-type ECMAScript Object Object
 --map-type ECMAScript DOMString String
---map-type ECMAScript DOMTimeStamp Date
+--map-type ECMAScript DOMTimeStamp Number
 --map-type ECMAScript DOMObject Object
 --map-type ECMAScript DOMUserData "any type"
 --map-type ECMAScript LSInputStream Object
@@ -84,13 +84,19 @@
   <version>
    1.0
   </version>
-
+<!--
+ <w3c-designation>WD-DOM-Level-3-Events-20060413</w3c-designation>
+ <w3c-doctype>W3C Working Draft</w3c-doctype>
+-->
   <w3c-designation>@@@</w3c-designation>
 
   <w3c-doctype>Editor's Draft</w3c-doctype>
 
   <pubdate>
-   <month>March</month>
+<!--
+   <day>13</day>
+-->
+   <month>April</month>
 
    <year>2006</year>
   </pubdate>
@@ -611,6 +617,8 @@
       conforms to DOM Level 3 Events (i.e. implements all the basic
       interfaces), can generate the event types
       <termref def="event-DOMActivate">DOMActivate</termref>,
+      <termref def="event-DOMFocusIn">DOMFocusIn</termref>,
+      <termref def="event-DOMFocusOut">DOMFocusOut</termref>,
       <termref def="event-focus">focus</termref>, and
       <termref def="event-blur">blur</termref> accordingly to their
       semantics, supports the <code>UIEvent</code> interface, and
@@ -1036,7 +1044,7 @@
      do changes on the display and the DOM tree. In such case, if a DOM
      attribute is changed before the event is fired, cancelling the
      device event type will also reverse the change. A good example is
-     the attribute <code>HTMLInputElement.checked</code>: As described
+     the attribute <code>HTMLInputElement.checked</code>: as described
      in <bibref role="informative" ref="DOM2HTML"/>, the value of this
      property may be changed before the dispatch of the event; the user
      clicks on the radio button, the radio button is being checked (or
@@ -1161,27 +1169,12 @@
      </p>
 
      <p>
-      The following list defines all event types provided in this
-      specification. All event types defined in this specification are
-      in no namespace and the following list only enumerates the local
-      name of the event type.
-<!-- should say local name used throughout the spec? -->
-     </p>
-
-     <ednote>
-      <edtext>
-       The events were defined here in the previous version of the
-       document, this note serves as placeholder until all references to
-       this section are updated (including the section itself). Also,
-       the note about focus/blur above is outdated.
-      </edtext>
-     </ednote>
-
-     <p>
-      The following table provides additional information on the event
-      types. All events will accomplish the capture and target phases,
-      but not all of them will accomplish the bubbling phase (see also
-      <specref ref="Events-flow"/>). Some events are not
+      The following table provides a non-normative summary of the event
+      types defined in this specification. All event types are in no
+      namespace and this specification refers to them by their local
+      name only. All events will accomplish the capture and target
+      phases, but not all of them will accomplish the bubbling phase
+      (see also <specref ref="Events-flow"/>). Some events are not
       <termref def="dt-cancelable-event">cancelable</termref> (see
       <specref ref="Events-flow-cancelation"/>). Some events will only
       be dispatched to a specific set of possible targets, specified
@@ -1189,13 +1182,771 @@
       is accessible using DOM interfaces.
      </p>
 
-     <ednote>
-      <edtext>
-       This is a placeholder for the event summary table that was
-       included in previous versions of the document. It will likely be
-       re-introduced at some point.
-      </edtext>
-     </ednote>
+     <table summary="This table contains the complete list of event types  defined by DOM Level 3 Events. The first column contains the  local name of the event type. The second column indicates if  the event accomplish the bubbling phase or not (all events  accomplish the capture and target phases). The third column  indicates if the default action associated with the event can be  canceled. The fourth column indicates the nodes that can be  target of the event. the fifth (and last) column indicates the  DOM interface implemented by the event object." cellpadding="0" cellspacing="0">
+      <tbody>
+       <tr>
+        <th>
+         type
+        </th>
+
+        <th>
+         Bubbling phase
+        </th>
+
+        <th>
+         Cancelable
+        </th>
+
+        <th>
+         Target node types
+        </th>
+
+        <th>
+         DOM interface
+        </th>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-DOMActivate">DOMActivate</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>UIEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-DOMFocusIn">DOMFocusIn</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>UIEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-DOMFocusOut">DOMFocusOut</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>UIEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-focus">focus</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>UIEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-blur">blur</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>UIEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-textInput">textInput</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>TextEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-click">click</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>MouseEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-mousedown">mousedown</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>MouseEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-mouseup">mouseup</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>MouseEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-mouseover">mouseover</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>MouseEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-mousemove">mousemove</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>MouseEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-mouseout">mouseout</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>MouseEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-keydown">keydown</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>KeyboardEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-keyup">keyup</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>KeyboardEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-DOMSubtreeModified">DOMSubtreeModified</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Document</code>, <code>DocumentFragment</code>,
+         <code>Element</code>, <code>Attr</code>
+        </td>
+
+        <td>
+         <code>MutationEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-DOMNodeInserted">DOMNodeInserted</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Element</code>, <code>Attr</code>, <code>Text</code>,
+         <code>Comment</code>, <code>CDATASection</code>,
+         <code>DocumentType</code>, <code>EntityReference</code>,
+         <code>ProcessingInstruction</code>
+        </td>
+
+        <td>
+         <code>MutationEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-DOMNodeRemoved">DOMNodeRemoved</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Element</code>, <code>Attr</code>, <code>Text</code>,
+         <code>Comment</code>, <code>CDATASection</code>,
+         <code>DocumentType</code>, <code>EntityReference</code>,
+         <code>ProcessingInstruction</code>
+        </td>
+
+        <td>
+         <code>MutationEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-DOMNodeRemovedFromDocument">DOMNodeRemovedFromDocument</termref>
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Element</code>, <code>Attr</code>, <code>Text</code>,
+         <code>Comment</code>, <code>CDATASection</code>,
+         <code>DocumentType</code>, <code>EntityReference</code>,
+         <code>ProcessingInstruction</code>
+        </td>
+
+        <td>
+         <code>MutationEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-DOMNodeInsertedIntoDocument">DOMNodeInsertedIntoDocument</termref>
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Element</code>, <code>Attr</code>, <code>Text</code>,
+         <code>Comment</code>, <code>CDATASection</code>,
+         <code>DocumentType</code>, <code>EntityReference</code>,
+         <code>ProcessingInstruction</code>
+        </td>
+
+        <td>
+         <code>MutationEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-DOMAttrModified">DOMAttrModified</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>MutationEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-DOMCharacterDataModified">DOMCharacterDataModified</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Text</code>, <code>Comment</code>,
+         <code>CDATASection</code>, <code>ProcessingInstruction</code>
+        </td>
+
+        <td>
+         <code>MutationEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-DOMElementNameChanged">DOMElementNameChanged</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>MutationNameEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-DOMAttributeNameChanged">DOMAttributeNameChanged</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>MutationNameEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-load">load</termref>
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Document</code>, <code>Element</code>
+        </td>
+
+        <td>
+         <code>Event</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-unload">unload</termref>
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Document</code>, <code>Element</code>
+        </td>
+
+        <td>
+         <code>Event</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-abort">abort</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>Event</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-error">error</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>Event</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-select">select</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>Event</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-change">change</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>Event</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-submit">submit</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>Event</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-reset">reset</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         <code>Element</code>
+        </td>
+
+        <td>
+         <code>Event</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-resize">resize</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Document</code>, <code>Element</code>
+        </td>
+
+        <td>
+         <code>UIEvent</code>
+        </td>
+       </tr>
+
+       <tr>
+        <td>
+         <termref def="event-scroll">scroll</termref>
+        </td>
+
+        <td>
+         Yes
+        </td>
+
+        <td>
+         No
+        </td>
+
+        <td>
+         <code>Document</code>, <code>Element</code>
+        </td>
+
+        <td>
+         <code>UIEvent</code>
+        </td>
+       </tr>
+      </tbody>
+     </table>
 
      <p>
       As an example, the event <termref def="event-load">load</termref>
@@ -1223,21 +1974,19 @@
      <p>
       <termref def="dt-namespaceURI">Namespace URIs</termref> were only
       introduced in DOM Level 3 Events and were not part of DOM Level 2
-      Events.
+      Events. All event types in this specification are defined to be in
+      no namespace, DOM Level 2 methods have been modified to refer to
+      event types in no namespace when adding or removing event
+      listeners and initializing event objects, and new methods have
+      been added to provide equivalent functionality for event types in
+      a namespace. A future draft of this document will provide
+      guidelines on defining new event types.
      </p>
 
-     <ednote>
-      <edtext>
-       This, like all other relevant sections, does not yet reflect the
-       changes to namespaced events the group agreed to.
-      </edtext>
-     </ednote>
-
      <p>
-      Finally, DOM Level 3 Events considers that the
-      <code>Event.type</code> attribute is case-sensitive, while DOM
-      Level 2 Events considers <code>Event.type</code> to be
-      case-insensitive.
+      DOM Level 3 Events considers the <code>Event.type</code> attribute
+      to be case-sensitive, while DOM Level 2 Events considers
+      <code>Event.type</code> to be case-insensitive.
      </p>
     </div3>
    </div2>
@@ -1249,7 +1998,7 @@
 
     <note>
      <p>
-      This section is informative.
+      This section is non-normative.
      </p>
     </note>
 
@@ -1286,7 +2035,7 @@
       The user can attach an event listener using the methods on the
       <code>EventTarget</code> interface:
      </p>
-<eg xml:space="preserve">aCircle.addEventListener("DOMActivate", aListener, true);</eg>
+<eg xml:space="preserve">aCircle.addEventListener("DOMActivate", aListener, false);</eg>
      <p>
       The methods do not provide the ability to register the same event
       listener more than once for the same event type and the same
@@ -1341,7 +2090,7 @@
       are attached using elements and attributes:
      </p>
 <eg xml:space="preserve">&lt;listener event="DOMActivate" observer="aCircle" handler="#aListener"
-          phase="capture" propagate="stop"/&gt;</eg>
+          phase="default" propagate="stop"/&gt;</eg>
      <p>
       Event listeners can only be registered on <code>Element</code>
       nodes, other <code>Node</code> types are not addressable, and
@@ -1426,23 +2175,6 @@
       addressable with these languages. Event listeners cannot be
       registered for a specific group either, they are always attached
       to the default group.
-     </p>
-
-     <p>
-      In order to achieve compatibility with those languages,
-      implementors may view the setting of attributes which represent
-      event handlers as the creation and registration of an <code>
-      EventListener</code> on the <code>EventTarget</code>. The value of
-      <code>useCapture</code> defaults to <code>false</code>. This
-      <code>EventListener</code> behaves in the same manner as any other
-      <code>EventListeners</code> which may be registered on the
-      <code>EventTarget</code>. If the attribute representing the event
-      listener is changed, this may be viewed as the removal of the
-      previously registered <code>EventListener</code> and the
-      registration of a new one. Furthermore, no specification is made
-      as to the order in which event attributes will receive the event
-      with regards to the other <code>EventListeners</code> on the
-      <code>EventTarget</code>.
      </p>
     </div3>
    </div2>
@@ -1587,13 +2319,11 @@
       <attribute type="DOMTimeStamp" name="timeStamp" readonly="yes" id="Events-Event-timeStamp">
        <descr>
         <p>
-         Used to specify the time (in milliseconds relative to the
-         epoch) at which the event was created. Due to the fact that
-         some systems may not provide this information the value of
+         Used to specify the time at which the event was created in
+         milliseconds relative to 1970-01-01T00:00:00Z. Due to the fact
+         that some systems may not provide this information the value of
          <code>timeStamp</code> may be not available for all events.
-         When not available, a value of <code>0</code> will be returned.
-         Examples of epoch time are the time of the system start or
-         0:0:0 UTC 1st January 1970.
+         When not available, the value is <code>0</code>.
         </p>
        </descr>
       </attribute>
@@ -1865,9 +2595,11 @@
       <descr>
        <p>
         The CustomEvent interface is the recommended interface for
-        application-specific event types. Unlike the Event interface it
-        allows applications to provide contextual information about the
-        event type.
+        application-specific event types. Unlike the <code>Event</code>
+        interface, it allows applications to provide contextual
+        information about the event type. Application-specific event
+        types should have an associated namespace to avoid clashes with
+        future general-purpose event types.
        </p>
 
        <p>
@@ -1978,17 +2710,15 @@
 
        <p>
         Invoking <code>addEventListener</code> or
-        <code>addEventListenerNS</code> multiple times on the same
-        <code>EventTarget</code> with the same parameters
-        (<code>namespaceURI</code>, <code>type</code>,
-        <code>listener</code>, and <code>useCapture</code>) is
-        considered to be a no-op and thus independently of the event
-        group. They do not cause the <code>EventListener</code> to be
-        called more than once and do not cause a change in the
-        triggering order. In order to guarantee that an event listener
-        will be added to the event target for the specified event group,
-        one needs to invoke <code>removeEventListener</code> or
-        <code>removeEventListenerNS</code> first.
+        <code>addEventListenerNS</code> repeatedly on the same
+        <code>EventTarget</code> with the same values for the parameters
+        <code>namespaceURI</code>, <code>type</code>,
+        <code>listener</code>, and <code>useCapture</code> has no
+        effect. Doing so does not cause the <code>EventListener</code>
+        to be called more than once and does not cause a change in the
+        triggering order. In order to register a listener for a
+        different event group (<specref ref="Event-groups"/>) the
+        previously registered listener has to be removed first.
        </p>
       </descr>
 
@@ -1998,7 +2728,12 @@
          This method allows the registration of an event listener in the
          default group and, depending on the <code>useCapture</code>
          parameter, on the capture phase of the DOM event flow or its
-         target and bubbling phases.
+         target and bubbling phases. Invoking this method is equivalent
+         to invoking <code>addEventListenerNS</code> with the same
+         values for the parameters <code>type</code>,
+         <code>listener</code>, and <code>useCapture</code>, and the
+         value <code>null</code> for the parameters
+         <code>namespaceURI</code> and <code>evtGroup</code>.
         </p>
        </descr>
 
@@ -2056,15 +2791,22 @@
        <descr>
         <p>
          This method allows the removal of event listeners from the
-         default group.
+         default group. Calling <code>removeEventListener</code> with
+         arguments which do not identify any currently registered
+         <code>EventListener</code> on the <code>EventTarget</code> has
+         no effect. The <code>Event.namespaceURI</code> for which the
+         user registered the event listener is implied and is
+         <code>null</code>.
         </p>
 
-        <p>
-         Calling <code>removeEventListener</code> with arguments which
-         do not identify any currently registered
-         <code>EventListener</code> on the <code>EventTarget</code> has
-         no effect.
-        </p>
+        <note>
+         <p>
+          Event listeners registered for other event groups than the
+          default group cannot be removed using this method; see
+          <code>EventTarget.removeEventListenerNS()</code> for that
+          effect.
+         </p>
+        </note>
        </descr>
 
        <parameters>
@@ -2257,14 +2999,10 @@
        <descr>
         <p>
          This method allows the removal of an event listener,
-         independently of the associated event group.
-        </p>
-
-        <p>
-         Calling <code>removeEventListenerNS</code> with arguments which
-         do not identify any currently registered
-         <code>EventListener</code> on the <code>EventTarget</code> has
-         no effect.
+         independently of the associated event group. Calling
+         <code>removeEventListenerNS</code> with arguments which do not
+         identify any currently registered <code>EventListener</code> on
+         the <code>EventTarget</code> has no effect.
         </p>
        </descr>
 
@@ -2447,13 +3185,6 @@
       objects created must be known by the DOM Events implementation;
       otherwise an event exception is thrown.
      </p>
-
-     <ednote>
-      <edtext>
-       Perhaps say something about custom events here; depends on what
-       the upcoming text on event naming says...
-      </edtext>
-     </ednote>
 
      <definitions>
 <!-- DocumentEvent interface -->
@@ -2805,20 +3536,15 @@
       information about
       <xspecref href="http://www.w3.org/TR/DOM-Level-3-Core/introduction.html#ID-Conformance">conformance</xspecref>,
       please see the DOM Level 3 Core specification
-      <bibref role="informative" ref="DOMCore"/>.
+      <bibref role="informative" ref="DOMCore"/>. The DOM Level 3 User
+      Interface Events module is built on top of the DOM Level 2 User
+      Interface Events <bibref ref="DOM2Events"/> module, i.e. a DOM
+      Level 3 User Interface Events implementation where
+      <code>hasFeature("UIEvents", "3.0")</code> returns
+      <code>true</code> must also return <code>true</code> when the
+      <code>version</code> number is <code>"2.0"</code>, <code>""</code>
+      or, <code>null</code>.
      </p>
-
-     <note>
-      <p>
-       The DOM Level 3 User Interface Events module does not include the
-       event types <code>DOMFocusIn</code> and <code>DOMFocusOut</code>
-       defined in <bibref ref="DOM2Events"/>. This implies that a DOM
-       Level 3 User Interface Events implementation where
-       <code>hasFeature("UIEvents", "3.0")</code> returns
-       <code>true</code> does not necessarily return <code>true</code>
-       when the <code>version</code> number is <code>"2.0"</code>.
-      </p>
-     </note>
 
      <glist role="event-definition">
       <gitem>
@@ -2901,6 +3627,185 @@
 
         <p>
          Refer to <specref ref="Events-flow-activation"/>.
+        </p>
+       </def>
+      </gitem>
+     </glist>
+
+     <glist role="event-definition">
+      <gitem>
+       <label id="event-DOMFocusIn"><termref def="event-DOMFocusIn">DOMFocusIn</termref></label>
+
+       <def>
+        <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
+         <tbody>
+          <tr>
+           <th>
+            Type
+           </th>
+
+           <td>
+            <code>DOMFocusIn</code>
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Namespace
+           </th>
+
+           <td>
+            <code>http://www.w3.org/2001/xml-events</code>
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Interface
+           </th>
+
+           <td>
+            <code>UIEvent</code>
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Cancelable
+           </th>
+
+           <td>
+            No
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Bubbles
+           </th>
+
+           <td>
+            Yes
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Target
+           </th>
+
+           <td>
+            <code>Element</code>
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Context info
+           </th>
+
+           <td>
+            <code>UIEvent.view</code> is in use.
+           </td>
+          </tr>
+         </tbody>
+        </table>
+
+        <p>
+         An <termref def="dt-event-target">event target</termref>
+         receives focus. The focus is given to the element before the
+         dispatch of this event type. This event type is dispatched
+         after the event type
+         <termref def="event-focus">focus</termref>.
+        </p>
+       </def>
+      </gitem>
+     </glist>
+<!--..................................................................................-->
+     <glist role="event-definition">
+      <gitem>
+       <label id="event-DOMFocusOut"><termref def="event-DOMFocusOut">DOMFocusOut</termref></label>
+
+       <def>
+        <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
+         <tbody>
+          <tr>
+           <th>
+            Type
+           </th>
+
+           <td>
+            <code>DOMFocusOut</code>
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Namespace
+           </th>
+
+           <td>
+            <code>http://www.w3.org/2001/xml-events</code>
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Interface
+           </th>
+
+           <td>
+            <code>UIEvent</code>
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Cancelable
+           </th>
+
+           <td>
+            No
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Bubbles
+           </th>
+
+           <td>
+            Yes
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Target
+           </th>
+
+           <td>
+            Element
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Context info
+           </th>
+
+           <td>
+            <code>UIEvent.view</code> is in use.
+           </td>
+          </tr>
+         </tbody>
+        </table>
+
+        <p>
+         An <termref def="dt-event-target">event target</termref> loses
+         focus. The focus is taken from the element before the dispatch
+         of this event type. This event type is dispatched after the
+         event type <termref def="event-blur">blur</termref>.
         </p>
        </def>
       </gitem>
@@ -3074,7 +3979,7 @@
         </table>
 
         <p>
-         A <termref def="dt-event-target">event target</termref> loses
+         An <termref def="dt-event-target">event target</termref> loses
          focus. The focus is taken from the element before the dispatch
          of this event type.
         </p>
@@ -8215,7 +9120,7 @@
 
      <note role="important">
       <p>
-       This section is informative.
+       This section is non-normative.
       </p>
      </note>
 
@@ -10497,16 +11402,94 @@
     </member>
    </orglist>
 
+   <div2 id="DOMEvents3NoteChanges">
+    <head>
+     Changes since November 2003
+    </head>
+
+    <p>
+     ...
+    </p>
+
+    <glist>
+     <gitem>
+      <label>Interface <code>CustomEvent</code></label>
+
+      <def>
+       <p>
+        Objects that implement the CustomEvent interface are now created
+        by the implementation through
+        <code>DocumentEvent.createEvent()</code>. Applications can no
+        longer create their own Event objects and have them dispatched
+        by the DOM implementation. The interface members associated with
+        this functionality have been removed and the
+        <code>CustomEvent.initCustomEventNS()</code> method has been
+        added.
+       </p>
+      </def>
+     </gitem>
+
+     <gitem>
+      <label>Interface <code>EventTarget</code></label>
+
+      <def>
+       <p>
+        The methods <code>EventTarget.hasEventListenerNS()</code> and
+        <code>EventTarget.willTriggerNS()</code> have been removed.
+       </p>
+      </def>
+     </gitem>
+
+     <gitem>
+      <label>Interface <code>Event</code></label>
+
+      <def>
+       <p>
+        The method <code>Event.isCustom()</code> has been removed; it is
+        not longer necessary due to the changes made to the
+        <code>CustomEvent</code> interface.
+       </p>
+
+       <p>
+        The method <code>Event.isDefaultPrevented()</code> has been
+        turned into an attribute named
+        <code>Event.defaultPrevented</code>.
+       </p>
+
+       <p>
+        <code>Event.timeStamp</code> is now a <code>Number</code> in the
+        ECMAScript binding; a proposed correction to make the same
+        change in <bibref ref="DOMCore"/> is forthcoming.
+       </p>
+      </def>
+     </gitem>
+
+     <gitem>
+      <label></label>
+
+      <def>
+       <p>
+        ...
+       </p>
+      </def>
+     </gitem>
+    </glist>
+   </div2>
+
    <div2 id="DOMEvents2to3Changes">
     <head>
      Changes between DOM Level 2 Events and DOM Level 3 Events
     </head>
 
-    <ednote>
-     <edtext>
-      This section is a bit out of date.
-     </edtext>
-    </ednote>
+    <note>
+     <p>
+      This section lists changes between DOM Level 2 Events and the DOM
+      Level 3 Events Working Group Note published November 2003. This
+      section will be merged with the preceding section (and list only
+      changes between DOM Level 2 Events and this specification) in a
+      future draft of this document.
+     </p>
+    </note>
 
     <p>
      This new specification provides a better separation between the DOM
@@ -10705,13 +11688,9 @@
    <head>
     Java Language Binding
    </head>
-
-   <ednote>
-    <edtext>
-     Paths should use <code>/</code> rather than <code>\</code>.
-    </edtext>
-   </ednote>
-
+<!--
+  @@@ Paths should use <code>/</code> rather than <code>\</code>.
+-->
    <p>
     This appendix contains the complete Java <bibref ref="Java"/>
     bindings for the Level 3 Document Object Model Events.
@@ -10752,12 +11731,6 @@
     Acknowledgements
    </head>
 
-   <ednote>
-    <edtext>
-     This section should be updated to reflect the change in ownership.
-    </edtext>
-   </ednote>
-
    <p>
     Many people contributed to the DOM specifications (Level 1, 2 or 3),
     including participants of the DOM Working Group and the DOM Interest
@@ -10796,6 +11769,26 @@
    </p>
 
    <p>
+    After publication of this document as Working Group Note in November
+    2003, the participants of the WebAPI Working Group resumed
+    development of this document:
+   </p>
+
+   <p>
+    Anne van Kesteren (Opera Software), Arun Ranganathan (AOL),
+    Bj&#xf6;rn H&#xf6;hrmann, Charles McCathieNevile (Opera Software,
+    <emph>Co-Chair</emph>), Christophe Jolif (ILOG), Dean Jackson (W3C,
+    <emph>W3C Team Contact</emph>), Doug Schepers (Vectoreal), Gorm Haug
+    Eriksen (Opera Software), Ian Davis (Talis Information Limited), Ian
+    Hickson (Google), John Robinson (AOL), Jonas Sicking (Mozilla
+    Foundation), Luca Mascaro (HTML Writers Guild), Maciej Stachowiak
+    (Apple Computer), Marc Hadley (Sun Microsystems), Michael Shenfield
+    (Research In Motion), Robin Berjon, (Expway, <emph>Co-Chair</emph>)
+    , Scott Hayman (Research In Motion), St&#xe9;phane Sire (IntuiLab),
+    T.V. Raman (Google),
+   </p>
+
+   <p>
     Thanks to all those who have helped to improve this specification by
     sending suggestions and corrections (Please, keep bugging us with
     your issues!).
@@ -10804,8 +11797,9 @@
    <p>
     Many thanks to Brad Pettit, Dylan Schiemann, David Flanagan, Steven
     Pemberton, Curt Arnold, Al Gilman, Misha Wolf, Sigurd Lerstad,
-    Michael B. Allen, Alexander J. Vincent, Martin D&#252;rst, and Ken
-    Rehor for their review and comments of this document.
+    Michael B. Allen, Alexander J. Vincent, Martin D&#252;rst, Ken
+    Rehor, and, Cameron McCormack, for their review and comments of this
+    document.
    </p>
 
    <p>
@@ -11617,11 +12611,13 @@
      <loc href="http://www.w3.org/TR/SVG11/">latest version of SVG
      1.1</loc> is available at http://www.w3.org/TR/SVG11/.
     </bibl>
-
+<!--
+      @@@ http://lists.w3.org/Archives/Public/www-i18n-comments/2006Apr/0000
+    -->
     <bibl id="Unicode" key="Unicode">
      <titleref>The Unicode Standard, Version 4</titleref>, ISBN
      0-321-18578-1, as updated from time to time by the publication of
-     new versions. The Unicode Consortium, 2000. See also
+     new versions. The Unicode Consortium, 2003. See also
      <loc href="http://www.unicode.org/unicode/standard/versions">Versions
      of the Unicode Standard</loc>, available at
      http://www.unicode.org/unicode/standard/versions, for latest
