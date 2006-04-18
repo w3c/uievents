@@ -605,8 +605,8 @@
     </p>
 
     <p>
-     The second goal of the DOM Events is to provide a common subset of
-     the current event systems used in <termref def="dt-DOM-Level-0">DOM
+     The second goal of DOM Events is to provide a common subset of the
+     current event systems used in <termref def="dt-DOM-Level-0">DOM
      Level 0</termref> browsers. This is intended to foster
      interoperability of existing scripts and content. It is not
      expected that this goal will be met with full backwards
@@ -760,9 +760,8 @@
       The event is dispatched following a path from the root of the tree
       to this <termref def="dt-target-node">target node</termref>. It
       can then be handled locally at the target node level or from any
-      target's ancestors higher in the tree. The event dispatching (also
-      called event propagation) occurs in three phases and the following
-      order:
+      target's ancestors higher in the tree. Event propagation occurs in
+      three phases in the following order:
      </p>
 
      <olist>
@@ -797,9 +796,9 @@
 
      <p>
       The target's ancestors are determined before the initial dispatch
-      of the event. If the target node is removed during the
-      dispatching, or a target's ancestor is added or removed, the event
-      propagation will always be based on the target node and the
+      of the event. If the target node is removed while the event is
+      being dispatched, or a target's ancestor is added or removed, the
+      event propagation will always be based on the target node and the
       target's ancestors determined before the dispatch.
      </p>
 
@@ -854,11 +853,11 @@
        An event listener is always part of a group. It is either
        explicitly in a group if a group has been specified at the
        registration or implicitly in the default group if no group has
-       been specified. Within a group, event listeners are ordered in
-       their order of registration. If two event listeners {A1, A2},
-       which are part of the same group, are registered one after the
-       other (A1, then A2) for the same phase, the DOM event flow
-       guarantees their triggering order (A1, then A2). If the two
+       been specified. Within a group, event listeners are ordered
+       according to their order of registration. If two event listeners
+       {A1, A2}, which are part of the same group, are registered one
+       after the other (A1, then A2) for the same phase, the DOM event
+       flow guarantees their triggering order (A1, then A2). If the two
        listeners are not part of the same group, no specification is
        made as to the order in which they will be triggered.
       </p>
@@ -1005,7 +1004,7 @@
       <p>
        All event listeners are part of a group (see
        <specref ref="Events-listeners-registration"/>). An event
-       listener may prevent event listeners that are part of a same
+       listener may prevent event listeners that are part of the same
        group from being triggered. The effect can be:
       </p>
 
@@ -1020,10 +1019,10 @@
 
        <item>
         <p>
-         deferred until all event listeners from the same group have
-         been triggered on the current node, i.e. the event listeners of
-         the same group attached on other nodes will not be triggered
-         (see <code>Event.stopPropagation()</code>).
+         deferred: all event listeners from the same group on the
+         current node will be triggered, but event listeners from the
+         same group attached on other nodes will not be triggered (see
+         <code>Event.stopPropagation()</code>).
         </p>
        </item>
       </ulist>
@@ -1090,20 +1089,19 @@
 
     <p>
      Implementations could react to an event before dispatching it and
-     do changes on the display and the DOM tree. In such case, if a DOM
-     attribute is changed before the event is fired, cancelling the
-     device event type will also reverse the change. A good example is
-     the attribute <code>HTMLInputElement.checked</code>: as described
-     in <bibref role="informative" ref="DOM2HTML"/>, the value of this
-     property may be changed before the dispatch of the event; the user
-     clicks on the radio button, the radio button is being checked (or
-     unchecked) on the display, the attribute
+     make changes to the display and the DOM tree. Preventing the
+     default action of such an event will reverse these changes. A good
+     example is the attribute <code>HTMLInputElement.checked</code>: as
+     described in <bibref role="informative" ref="DOM2HTML"/>, the value
+     of this attribute may be changed before the dispatch of the event;
+     the user clicks on the radio button, the radio button is being
+     checked (or unchecked) on the display, the attribute
      <code>HTMLInputElement.checked</code> is changed as well, and then
      the device event type <termref def="event-click">click</termref> is
      being dispatched. If the default action of the device event type is
      prevented, or if the default action attached to the
      <termref def="event-DOMActivate">DOMActivate</termref> event type
-     is prevented, the property <code>HTMLInputElement.checked</code>
+     is prevented, the attribute <code>HTMLInputElement.checked</code>
      will need to be changed back to its original value.
     </p>
    </div2>
@@ -1144,15 +1142,15 @@
      event, the expectation is that they do so as default action of
      another event type. For example, when a user activates a hyperlink
      using a keyboard, the <code>click</code> event would be dispatched
-     as default action of respective keyboard event.
+     as default action of the respective keyboard event.
     </p>
 
     <p>
-     Implementations are, however, required to dispatch the synthesized
+     Implementations are required to dispatch the synthesized
      <code>click</code> event as described above even if they do not
      dispatch such an event (e.g., when activation is requested by a
-     voice command since this specification does not address event types
-     for voice input).
+     voice command, since this specification does not address event
+     types for voice input).
     </p>
 
     <note>
@@ -1206,7 +1204,7 @@
      <p>
       Depending on the level of DOM support, or the devices used for
       display (e.g. screen) or interaction (e.g., mouse, keyboard, touch
-      screen, and voice), these event types can be generated by the
+      screen, or voice), these event types can be generated by the
       implementation. When used with an
       <bibref ref="XML" role="informative"/> or
       <bibref ref="HTML40" role="informative"/> application, the
@@ -2381,11 +2379,11 @@
        <descr>
         <p>
          This method is used to prevent event listeners of the same
-         group to be triggered but its effect is deferred until all
+         group from being triggered but its effect is deferred until all
          event listeners attached on the
          <code>Event.currentTarget</code> have been triggered (see
          <specref ref="Events-propagation-and-groups"/>). Once it has
-         been called, further calls to that method have no additional
+         been called, further calls to this method have no additional
          effect.
         </p>
 
@@ -2537,10 +2535,10 @@
        <descr>
         <p>
          This method is used to prevent event listeners of the same
-         group to be triggered and, unlike
+         group from being triggered and, unlike
          <code>Event.stopPropagation()</code> its effect is immediate
          (see <specref ref="Events-propagation-and-groups"/>). Once it
-         has been called, further calls to that method have no
+         has been called, further calls to this method have no
          additional effect.
         </p>
 
@@ -2741,15 +2739,15 @@
        <p>
         The <code>EventTarget</code> interface is implemented by all the
         objects which could be <termref def="dt-event-target">event
-        targets</termref> in an implementation which supports the
+        targets</termref> in an implementation which supports an
         <specref ref="Events-flows"/>. The interface allows registration
         and removal of event listeners, and dispatch of events to an
         event target.
        </p>
 
        <p>
-        When used with <specref ref="Events-flow"/>, this interface is
-        implemented by all <termref def="dt-target-node">target
+        When used with the <specref ref="Events-flow"/>, this interface
+        is implemented by all <termref def="dt-target-node">target
         nodes</termref> and target ancestors, i.e. all DOM
         <code>Nodes</code> of the tree support this interface when the
         implementation conforms to DOM Level 3 Events and, therefore,
@@ -3256,7 +3254,7 @@
        <method name="createEvent" id="Events-DocumentEvent-createEvent">
         <descr>
          <p>
-<!--empty paragraph-->
+          This method creates an event object of the type specified.
          </p>
         </descr>
 
@@ -3270,8 +3268,9 @@
             <code>"MouseEvent"</code>, <code>"MutationEvent"</code> and
             so on. If the <code>Event</code> is to be dispatched via the
             <code>EventTarget.dispatchEvent()</code> method the
-            appropriate event init method must be called after creation
-            in order to initialize the <code>Event</code>'s values.
+            appropriate event initialization method must be called after
+            creation in order to initialize the <code>Event</code>'s
+            values.
            </p>
 
            <p>
@@ -3577,7 +3576,7 @@
       the <code>DOMImplementation</code> interface with parameter values
       <code>"UIEvents"</code> and <code>"3.0"</code> (respectively) to
       determine whether or not the DOM Level 3 User Interface event
-      module are supported by the implementation. In order to fully
+      module is supported by the implementation. In order to fully
       support this module, an implementation must also support the
       <code>"Events"</code> feature defined in this specification and
       the <code>"Views"</code> feature defined in the DOM Level 2 Views
@@ -4364,7 +4363,7 @@
          In the case of nested elements mouse events are always targeted
          at the most deeply nested element. Ancestors of the targeted
          element may use bubbling to obtain notification of mouse events
-         which occur within theirs descendent elements.
+         which occur within their descendent elements.
         </p>
 
         <p>
@@ -4653,7 +4652,7 @@
        <method id="Events-MouseEvent-getModifierState" name="getModifierState" since="DOM Level 3">
         <descr>
          <p>
-          This methods queries the state of a modifier using a key
+          This method queries the state of a modifier using a key
           identifier. See also <specref ref="Modifiers"/>.
          </p>
         </descr>
@@ -4685,7 +4684,7 @@
         <returns type="boolean">
          <descr>
           <p>
-           <code>true</code> if it is modifier key and the modifier is
+           <code>true</code> if it is a modifier key and the modifier is
            activated, <code>false</code> otherwise.
           </p>
          </descr>
@@ -4968,9 +4967,9 @@
         <p>
          A pointing device button is clicked over an element. The
          definition of a click depends on the environment configuration;
-         i.e. may depend on the screen location or the delay between the
-         press and release of the pointing device button. In any case,
-         the target node must be the same between the
+         i.e. it may depend on the screen location or the delay between
+         the press and release of the pointing device button. In any
+         case, the target node must be the same between the
          <termref def="event-mousedown">mousedown</termref>,
          <termref def="event-mouseup">mouseup</termref>, and
          <termref def="event-click">click</termref>. The sequence of
@@ -5566,7 +5565,7 @@
          <code>KeyboardEvent.shiftKey</code>,
          <code>KeyboardEvent.altKey</code>,
          <code>KeyboardEvent.metaKey</code>. These attributes are
-         equivalent to use the method
+         equivalent to using the method
          <code>KeyboardEvent.getModifierState(keyIdentifierArg)</code>
          with "Control", "Shift", "Alt", or "Meta" respectively.
         </p>
@@ -5708,7 +5707,7 @@
        <method id="Events-KeyboardEvent-getModifierState" name="getModifierState">
         <descr>
          <p>
-          This methods queries the state of a modifier using a key
+          This method queries the state of a modifier using a key
           identifier. See also <specref ref="Modifiers"/>.
          </p>
         </descr>
@@ -5738,7 +5737,7 @@
         <returns type="boolean">
          <descr>
           <p>
-           <code>true</code> if it is modifier key and the modifier is
+           <code>true</code> if it is a modifier key and the modifier is
            activated, <code>false</code> otherwise.
           </p>
          </descr>
