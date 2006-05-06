@@ -2029,12 +2029,6 @@
       a namespace. A future draft of this document will provide
       guidelines on defining new event types.
      </p>
-
-     <p>
-      DOM Level 3 Events considers the <code>Event.type</code> attribute
-      to be case-sensitive, while DOM Level 2 Events considers
-      <code>Event.type</code> to be case-insensitive.
-     </p>
     </div3>
    </div2>
 
@@ -11435,10 +11429,18 @@
     </member>
    </orglist>
 
-   <div2 id="DOMEvents3NoteChanges">
+   <div2 id="DOMEvents2to3Changes">
     <head>
-     Changes since November 2003
+     Changes between DOM Level 2 Events and DOM Level 3 Events
     </head>
+<!-- @@ these need to me merged / rewritten -->
+    <p>
+     This section lists changes between DOM Level 2 Events and the DOM
+     Level 3 Events Working Group Note published November 2003. This
+     section will be merged with the preceding section (and list only
+     changes between DOM Level 2 Events and this specification) in a
+     future draft of this document.
+    </p>
 
     <p>
      Numerous clarifications to the interfaces and event types have been
@@ -11448,93 +11450,6 @@
      module. For changes to the introduction of namespaces see
      <specref ref='Events-dom2-compatibility'/>.
     </p>
-
-    <glist>
-     <gitem>
-      <label>Interface <code>CustomEvent</code></label>
-
-      <def>
-       <p>
-        Objects that implement the CustomEvent interface are now created
-        by the implementation through
-        <code>DocumentEvent.createEvent()</code>. Applications can no
-        longer create their own Event objects and have them dispatched
-        by the DOM implementation. The interface members associated with
-        this functionality have been removed and the
-        <code>CustomEvent.initCustomEventNS()</code> method has been
-        added.
-       </p>
-      </def>
-     </gitem>
-
-     <gitem>
-      <label>Interface <code>EventTarget</code></label>
-
-      <def>
-       <p>
-        The methods <code>EventTarget.hasEventListenerNS()</code> and
-        <code>EventTarget.willTriggerNS()</code> have been removed.
-       </p>
-
-       <p>
-        <code>EventTarget.dispatchEvent()</code> now raises an exception
-        if the <code>Event.type</code> attribute is syntactically
-        invalid.
-       </p>
-      </def>
-     </gitem>
-
-     <gitem>
-      <label>Interface <code>Event</code></label>
-
-      <def>
-       <p>
-        The method <code>Event.isCustom()</code> has been removed; it is
-        no longer necessary due to the changes made to the
-        <code>CustomEvent</code> interface.
-       </p>
-
-       <p>
-        The method <code>Event.isDefaultPrevented()</code> has been
-        turned into an attribute named
-        <code>Event.defaultPrevented</code>.
-       </p>
-
-       <p>
-        <code>Event.timeStamp</code> is now a <code>Number</code> in the
-        ECMAScript binding; a proposed correction to make the same
-        change in <bibref ref="DOMCore"/> is forthcoming.
-       </p>
-      </def>
-     </gitem>
-<!--
-     <gitem>
-      <label></label>
-
-      <def>
-       <p>
-        ...
-       </p>
-      </def>
-     </gitem>
--->
-    </glist>
-   </div2>
-
-   <div2 id="DOMEvents2to3Changes">
-    <head>
-     Changes between DOM Level 2 Events and DOM Level 3 Events
-    </head>
-
-    <note>
-     <p>
-      This section lists changes between DOM Level 2 Events and the DOM
-      Level 3 Events Working Group Note published November 2003. This
-      section will be merged with the preceding section (and list only
-      changes between DOM Level 2 Events and this specification) in a
-      future draft of this document.
-     </p>
-    </note>
 
     <p>
      This new specification provides a better separation between the DOM
@@ -11585,16 +11500,6 @@
       <code>"KeyboardEvents"</code>, and
       <code>"MutationNameEvents"</code> have been introduced.
      </p>
-
-     <p>
-      The DOM Level 2 Event <termref def="event-load">load</termref>
-      event type can now be dispatched to more
-      <bibref role='informative' ref="HTML40"/> elements.
-      <termref def="event-blur">blur</termref> and
-      <termref def="event-focus">focus</termref> have been clarified and
-      restricted to <bibref role='informative' ref="HTML40"/>
-      applications only.
-     </p>
     </div3>
 
     <div3 id="DOMLevel2to3Changes">
@@ -11608,12 +11513,23 @@
 
        <def>
         <p>
-         The <code>Event</code> interface has a new attribute
-         <code>Event.namespaceURI</code>, and a four new methods:
-         <code>Event.isCustom()</code>,
+         The <code>Event</code> interface has two new attributes
+         <code>Event.namespaceURI</code> and
+         <code>Event.defaultPrevented</code>, and two new methods:
          <code>Event.stopImmediatePropagation()</code>,
-         <code>Event.isDefaultPrevented()</code>, and
          <code>Event.initEventNS</code>.
+        </p>
+
+        <p>
+         <code>Event.timeStamp</code> is now a <code>Number</code> in
+         the ECMAScript binding; a proposed correction to make the same
+         change in <bibref ref="DOMCore"/> is forthcoming.
+        </p>
+
+        <p>
+         DOM Level 3 Events considers the <code>Event.type</code>
+         attribute to be case-sensitive, while DOM Level 2 Events
+         considers <code>Event.type</code> to be case-insensitive.
         </p>
        </def>
       </gitem>
@@ -11623,14 +11539,11 @@
 
        <def>
         <p>
-         The <code>EventTarget</code> interface has four new methods:
+         The <code>EventTarget</code> interface has two new methods:
          <code>EventTarget.addEventListenerNS(namespaceURI, type,
-         listener, useCapture, evtGroup)</code>,
+         listener, useCapture, evtGroup)</code> and
          <code>EventTarget.removeEventListenerNS(namespaceURI, type,
-         listener, useCapture)</code>,
-         <code>EventTarget.willTriggerNS(namespaceURI, type)</code>,
-         <code>EventTarget.hasEventListenerNS(namespaceURI,
-         type)</code>. The method
+         listener, useCapture)</code>. The method
          <code>EventTarget.dispatchEvent(evt)</code> was modified.
         </p>
        </def>
