@@ -1,4 +1,5 @@
-When "mouse wheeling" occurs, the implementation must dispatch a <code>mousemultiwheel</code> event implementing the following interface:
+When "mouse wheeling" occurs, the implementation must dispatch a
+<code>mousemultiwheel</code> event implementing the following interface:
 
 interface MouseMultiWheelEvent : MouseEvent {
    readonly attribute long            wheelDeltaX;
@@ -23,15 +24,26 @@ viewArg,
                                                  in long wheelDeltaZ);
 };
 
-wheelDeltaX is a number indicating the horizontal distance (positive means rotated to the right, negative means rotated to the left).
+wheelDeltaX is a number indicating the horizontal distance (positive means
+rotated to the right, negative means rotated to the left).
 
-wheelDeltaY is a number indicating the vertical distance (positive means rotated away from user or to the right, negative means rotated towards user or to the left).
+wheelDeltaY is a number indicating the vertical distance (positive means rotated
+away from user or to the right, negative means rotated towards user or to the
+left).
 
-wheelDeltaZ, included for future extensibility, is a number indicating the distance along a third unspecified axis (positive means rotated away from the user, means rotated towards user). At the present time, implementors may use whatever modality is best suited to the task, such as the the use of the wheel in conjunction with a control key.
+wheelDeltaZ, included for future extensibility, is a number indicating the
+distance along a third unspecified axis (positive means rotated away from the
+user, means rotated towards user). At the present time, implementors may use
+whatever modality is best suited to the task, such as the the use of the wheel
+in conjunction with a control key.
 
-The default value of wheelDeltaX, wheelDeltaY and wheelDeltaZ is 0. UIEvent.detail must always be 0.
+The default value of wheelDeltaX, wheelDeltaY and wheelDeltaZ is 0.
+UIEvent.detail must always be 0.
 
-This event includes both scroll deltas. The default action of this event is to dispatch a <code>mousewheel</code> event if the y delta is non-zero. Besides that, its default action is to do whatever platform conventions suggest for the wheeling behavior.
+This event includes both scroll deltas. The default action of this event is to
+dispatch a <code>mousewheel</code> event if the y delta is non-zero. Besides
+that, its default action is to do whatever platform conventions suggest for the
+wheeling behavior.
 
 The <code>mousewheel</code> event implements the following interface:
 
@@ -53,8 +65,14 @@ interface MouseWheelEvent : MouseEvent {
                                             in long wheelDelta);
 };
 
-If the <code>mousewheel</code> event is cancelled, only the default action for vertical wheeling is cancelled. The wheelDelta attribute is a number indicating the distance (positive means rotated away from the user, negative means rotated towards the user). The default value of the wheelDelta attribute is 0.
+If the <code>mousewheel</code> event is cancelled, only the default action for
+vertical wheeling is cancelled. The wheelDelta attribute is a number indicating
+the distance (positive means rotated away from the user, negative means rotated
+towards the user). The default value of the wheelDelta attribute is 0.
 
 XXX: What about UIEvent.detail?
 
-For both <code>mousemultiwheel</code> and <code>mousewheel</code>, <code>MouseEvent.relatedNode</code> must indicate the element over which the pointer is located, or <code>null</code> if there is no such element (in the case where the device does not have a pointer, but does have a wheel).
+For both <code>mousemultiwheel</code> and <code>mousewheel</code>,
+<code>MouseEvent.relatedNode</code> must indicate the element over which the
+pointer is located, or <code>null</code> if there is no such element (in the
+case where the device does not have a pointer, but does have a wheel).
