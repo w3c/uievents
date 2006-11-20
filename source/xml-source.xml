@@ -4115,6 +4115,623 @@
      </glist>
     </div3>
 
+    <div3 id="Events-KeyboardEvents-Interfaces">
+     <head>
+      Keyboard event types
+     </head>
+
+     <p>
+      Keyboard events are device dependent, i.e. they rely on the
+      capabilities of the input devices and how they are mapped in the
+      operating systems. It is therefore highly recommended to rely on
+      <specref ref="Events-TextEvent"/> when dealing with character
+      input.
+     </p>
+
+     <definitions>
+<!--[ KeyboardEvent object description ]-->
+      <interface name="KeyboardEvent" inherits="UIEvent" id="Events-KeyboardEvent" since="DOM Level 3">
+       <descr>
+        <p>
+         The <code>KeyboardEvent</code> interface provides specific
+         contextual information associated with keyboard devices. Each
+         keyboard event references a key using an identifier. Keyboard
+         events are commonly directed at the element that has the focus.
+        </p>
+
+        <p>
+         The <code>KeyboardEvent</code> interface provides convenient
+         attributes for some common modifiers keys:
+         <code>KeyboardEvent.ctrlKey</code>,
+         <code>KeyboardEvent.shiftKey</code>,
+         <code>KeyboardEvent.altKey</code>,
+         <code>KeyboardEvent.metaKey</code>. These attributes are
+         equivalent to using the method
+         <code>KeyboardEvent.getModifierState(keyIdentifierArg)</code>
+         with "Control", "Shift", "Alt", or "Meta" respectively.
+        </p>
+
+        <p>
+         To create an instance of the <code>KeyboardEvent</code>
+         interface, use the
+         <code>DocumentEvent.createEvent("KeyboardEvent")</code> method
+         call.
+        </p>
+       </descr>
+
+       <group id="ID-KeyboardEvent-KeyLocationCode" name="KeyLocationCode">
+        <descr>
+         <p>
+          This set of constants is used to indicate the location of a
+          key on the device. In case a DOM implementation wishes to
+          provide a new location information, a value different from the
+          following constant values must be used.
+         </p>
+        </descr>
+
+        <constant name="DOM_KEY_LOCATION_STANDARD" id="DOM_KEY_LOCATION_STANDARD" type="unsigned long" value="0x00">
+         <descr>
+          <p>
+           The key activation is not distinguished as the left or right
+           version of the key, and did not originate from the numeric
+           keypad (or did not originate with a virtual key corresponding
+           to the numeric keypad). Example: the 'Q' key on a PC 101 Key
+           US keyboard.
+          </p>
+         </descr>
+        </constant>
+
+        <constant name="DOM_KEY_LOCATION_LEFT" id="DOM_KEY_LOCATION_LEFT" type="unsigned long" value="0x01">
+         <descr>
+          <p>
+           The key activated is in the left key location (there is more
+           than one possible location for this key). Example: the left
+           Shift key on a PC 101 Key US keyboard.
+          </p>
+         </descr>
+        </constant>
+
+        <constant name="DOM_KEY_LOCATION_RIGHT" id="DOM_KEY_LOCATION_RIGHT" type="unsigned long" value="0x02">
+         <descr>
+          <p>
+           The key activation is in the right key location (there is
+           more than one possible location for this key). Example: the
+           right Shift key on a PC 101 Key US keyboard.
+          </p>
+         </descr>
+        </constant>
+
+        <constant name="DOM_KEY_LOCATION_NUMPAD" id="DOM_KEY_LOCATION_NUMPAD" type="unsigned long" value="0x03">
+         <descr>
+          <p>
+           The key activation originated on the numeric keypad or with a
+           virtual key corresponding to the numeric keypad. Example: the
+           '1' key on a PC 101 Key US keyboard located on the numeric
+           pad.
+          </p>
+         </descr>
+        </constant>
+       </group>
+
+       <attribute type="DOMString" name="keyIdentifier" id="Events-KeyboardEvent-keyIdentifier" readonly="yes">
+        <descr>
+         <p>
+          <code>keyIdentifier</code> holds the identifier of the key.
+          The key identifiers are defined in Appendix A.2
+          "<specref ref="KeySet-Set"/>". Implementations that are unable
+          to identify a key must use the key identifier
+          <code>"Unidentified"</code>.
+         </p>
+        </descr>
+       </attribute>
+
+       <attribute id="Events-KeyboardEvent-keylocation" name="keyLocation" type="unsigned long" readonly="yes">
+        <descr>
+         <p>
+          The <code>keyLocation</code> attribute contains an indication
+          of the location of they key on the device, as described in
+          <specref ref="ID-KeyboardEvent-KeyLocationCode"/>.
+         </p>
+        </descr>
+       </attribute>
+
+       <attribute name="ctrlKey" id="Events-KeyboardEvent-ctrlKey" type="boolean" readonly="yes">
+        <descr>
+         <p>
+          <code>true</code> if the control (Ctrl) key modifier is
+          activated.
+         </p>
+        </descr>
+       </attribute>
+
+       <attribute name="shiftKey" id="Events-KeyboardEvent-shiftKey" type="boolean" readonly="yes">
+        <descr>
+         <p>
+          <code>true</code> if the shift (Shift) key modifier is
+          activated.
+         </p>
+        </descr>
+       </attribute>
+
+       <attribute name="altKey" id="Events-KeyboardEvent-altKey" type="boolean" readonly="yes">
+        <descr>
+         <p>
+          <code>true</code> if the alternative (Alt) key modifier is
+          activated.
+         </p>
+
+         <note>
+          <p>
+           The Option key modifier on Macintosh systems must be
+           represented using this key modifier.
+          </p>
+         </note>
+        </descr>
+       </attribute>
+
+       <attribute name="metaKey" id="Events-KeyboardEvent-metaKey" type="boolean" readonly="yes">
+        <descr>
+         <p>
+          <code>true</code> if the meta (Meta) key modifier is
+          activated.
+         </p>
+
+         <note>
+          <p>
+           The Command key modifier on Macintosh systems must be
+           represented using this key modifier.
+          </p>
+         </note>
+        </descr>
+       </attribute>
+
+       <method id="Events-KeyboardEvent-getModifierState" name="getModifierState">
+        <descr>
+         <p>
+          Queries the state of a modifier using a key identifier. See
+          also <specref ref="Modifiers"/>.
+         </p>
+        </descr>
+
+        <parameters>
+         <param name="keyIdentifierArg" type="DOMString" attr="in">
+          <descr>
+           <p>
+            A modifier key identifier. Common modifier keys are
+            <code>"Alt"</code>, <code>"AltGraph"</code>,
+            <code>"CapsLock"</code>, <code>"Control"</code>,
+            <code>"Meta"</code>, <code>"NumLock"</code>,
+            <code>"Scroll"</code>, or <code>"Shift"</code>.
+           </p>
+
+           <note>
+            <p>
+             If an application wishes to distinguish between right and
+             left modifiers, this information could be deduced using
+             keyboard events and <code>KeyboardEvent.keyLocation</code>.
+            </p>
+           </note>
+          </descr>
+         </param>
+        </parameters>
+
+        <returns type="boolean">
+         <descr>
+          <p>
+           <code>true</code> if it is a modifier key and the modifier is
+           activated, <code>false</code> otherwise.
+          </p>
+         </descr>
+        </returns>
+
+        <raises/>
+       </method>
+
+       <method name="initKeyboardEvent" id="Events-KeyboardEvent-initKeyboardEvent">
+        <descr>
+         <p>
+          Initializes attributes of a <code>KeyboardEvent</code> object.
+          This method has the same behavior as
+          <code>UIEvent.initUIEvent()</code>. The value of
+          <code>UIEvent.detail</code> remains undefined.
+         </p>
+        </descr>
+
+        <parameters>
+         <param name="typeArg" type="DOMString" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>UIEvent.initUIEvent()</code> method for a
+            description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="canBubbleArg" type="boolean" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>UIEvent.initUIEvent()</code> method for a
+            description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="cancelableArg" type="boolean" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>UIEvent.initUIEvent()</code> method for a
+            description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="viewArg" type="views::AbstractView" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>UIEvent.initUIEvent()</code> method for a
+            description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="keyIdentifierArg" type="DOMString" attr="in">
+          <descr>
+           <p>
+            Specifies <code>KeyboardEvent.keyIdentifier</code>.
+           </p>
+          </descr>
+         </param>
+
+         <param name="keyLocationArg" type="unsigned long" attr="in">
+          <descr>
+           <p>
+            Specifies <code>KeyboardEvent.keyLocation</code>.
+           </p>
+          </descr>
+         </param>
+
+         <param name="modifiersList" type="DOMString" attr="in">
+          <descr>
+           <p>
+            A
+            <xspecref href="http://www.w3.org/TR/2004/REC-xml-20040204/#NT-S">white
+            space</xspecref> separated list of modifier key identifiers
+            to be activated on this object. As an example,
+            <code>"Control Alt"</code> will activated the control and
+            alt modifiers.
+           </p>
+          </descr>
+         </param>
+        </parameters>
+
+        <returns type="void">
+         <descr/>
+        </returns>
+
+        <raises>
+<!-- No exceptions -->
+        </raises>
+       </method>
+
+       <method name="initKeyboardEventNS" id="Events-KeyboardEvent-initKeyboardEventNS">
+        <descr>
+         <p>
+          Initializes attributes of a <code>KeyboardEvent</code> object.
+          This method has the same behavior as
+          <code>UIEvent.initUIEventNS()</code>. The value of
+          <code>UIEvent.detail</code> remains undefined.
+         </p>
+        </descr>
+
+        <parameters>
+         <param name="namespaceURI" type="DOMString" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>UIEvent.initUIEventNS()</code> method for
+            a description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="typeArg" type="DOMString" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>UIEvent.initUIEventNS()</code> method for
+            a description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="canBubbleArg" type="boolean" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>UIEvent.initUIEventNS()</code> method for
+            a description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="cancelableArg" type="boolean" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>UIEvent.initUIEventNS()</code> method for
+            a description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="viewArg" type="views::AbstractView" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>UIEvent.initUIEventNS()</code> method for
+            a description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="keyIdentifierArg" type="DOMString" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>KeyboardEvent.initKeyboardEvent()</code>
+            method for a description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="keyLocationArg" type="unsigned long" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>KeyboardEvent.initKeyboardEvent()</code>
+            method for a description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="modifiersList" type="DOMString" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>KeyboardEvent.initKeyboardEvent()</code>
+            method for a description of this parameter.
+           </p>
+          </descr>
+         </param>
+        </parameters>
+
+        <returns type="void">
+         <descr/>
+        </returns>
+
+        <raises>
+<!-- No exceptions -->
+        </raises>
+       </method>
+      </interface>
+     </definitions>
+
+     <p>
+      Depending on the character generation device, keyboard events may
+      or may not be generated.
+     </p>
+
+     <p>
+      The keyboard event types are listed below. A DOM application may
+      use the <code>hasFeature(feature, version)</code> method of the
+      <code>DOMImplementation</code> interface with parameter values
+      <code>"KeyboardEvents"</code> and <code>"3.0"</code>
+      (respectively) to determine whether or not the Keyboard event
+      module is supported by the implementation. In order to fully
+      support this module, an implementation must also support the
+      <code>"UIEvents"</code> feature defined in this specification. For
+      additional information about
+      <xspecref href="http://www.w3.org/TR/DOM-Level-3-Core/introduction.html#ID-Conformance">conformance</xspecref>,
+      please see the DOM Level 3 Core specification
+      <bibref role="informative" ref="DOMCore"/>.
+     </p>
+
+     <glist role="event-definition">
+      <gitem>
+       <label id="event-keydown"><termref def="event-keydown">keydown</termref></label>
+
+       <def>
+        <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
+         <tbody>
+          <tr>
+           <th>
+            Type
+           </th>
+
+           <td>
+            <code>keydown</code>
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Namespace
+           </th>
+
+           <td>
+            <code>None</code>
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Interface
+           </th>
+
+           <td>
+            <code>KeyboardEvent</code>
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Cancelable
+           </th>
+
+           <td>
+            Yes
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Bubbles
+           </th>
+
+           <td>
+            Yes
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Target
+           </th>
+
+           <td>
+            <code>Element</code>
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Context info
+           </th>
+
+           <td>
+            <code>UIEvent.view</code>,
+            <code>KeyboardEvent.keyIdentifier</code>,
+            <code>KeyboardEvent.keyLocation</code>,
+            <code>KeyboardEvent.altKey</code>,
+            <code>KeyboardEvent.shiftKey</code>,
+            <code>KeyboardEvent.ctrlKey</code>, and
+            <code>KeyboardEvent.metaKey</code> are in use.
+           </td>
+          </tr>
+         </tbody>
+        </table>
+
+        <p>
+         A key is pressed down. This event type is device dependent and
+         relies on the capabilities of the input devices and how they
+         are mapped in the operating system. This event type is
+         generated after the keyboard mapping but before the processing
+         of an <termref def="dt-ime">input method editor</termref>. This
+         event should logically happen before the event
+         <termref def="event-keyup">keyup</termref> is produced. Whether
+         a <termref def="event-keydown">keydown</termref> contributes or
+         not to the generation of a text event is implementation
+         dependent.
+        </p>
+       </def>
+      </gitem>
+     </glist>
+<!--..................................................................................-->
+     <glist role="event-definition">
+      <gitem>
+       <label id="event-keyup"><termref def="event-keyup">keyup</termref></label>
+
+       <def>
+        <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
+         <tbody>
+          <tr>
+           <th>
+            Type
+           </th>
+
+           <td>
+            <code>keyup</code>
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Namespace
+           </th>
+
+           <td>
+            <code>None</code>
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Interface
+           </th>
+
+           <td>
+            <code>KeyboardEvent</code>
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Cancelable
+           </th>
+
+           <td>
+            Yes
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Bubbles
+           </th>
+
+           <td>
+            Yes
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Target
+           </th>
+
+           <td>
+            <code>Element</code>
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Context info
+           </th>
+
+           <td>
+            <code>UIEvent.view</code>,
+            <code>KeyboardEvent.keyIdentifier</code>, and
+            <code>KeyboardEvent.keyLocation</code> are in use.
+            <code>KeyboardEvent.altKey</code>,
+            <code>KeyboardEvent.shiftKey</code>,
+            <code>KeyboardEvent.ctrlKey</code>, and
+            <code>KeyboardEvent.metaKey</code> are in use unless the
+            <code>KeyboardEvent.keyIdentifier</code> corresponds to the
+            key modifier itself.
+           </td>
+          </tr>
+         </tbody>
+        </table>
+
+        <p>
+         A key is released. This event type is device dependent and
+         relies on the capabilities of the input devices and how they
+         are mapped in the operating system. This event type is
+         generated after the keyboard mapping but before the processing
+         of an <termref def="dt-ime">input method editor</termref>. This
+         event should logically happen after the event
+         <termref def="event-keydown">keydown</termref> is produced.
+         Whether a keyup contributes or not to the generation of a text
+         event is implementation dependent.
+        </p>
+       </def>
+      </gitem>
+     </glist>
+    </div3>
+
     <div3 id="Events-eventgroupings-mouseevents">
      <head>
       Mouse event types
@@ -4204,8 +4821,7 @@
        <attribute type="boolean" name="ctrlKey" readonly="yes" id="Events-MouseEvent-ctrlKey">
         <descr>
          <p>
-          <code>true</code> if the control (Ctrl) key modifier is
-          activated.
+          Refer to the <code>KeyboardEvent.ctrlKey</code> attribute.
          </p>
         </descr>
        </attribute>
@@ -4213,8 +4829,7 @@
        <attribute type="boolean" name="shiftKey" readonly="yes" id="Events-MouseEvent-shiftKey">
         <descr>
          <p>
-          <code>true</code> if the shift (Shift) key modifier is
-          activated.
+          Refer to the <code>KeyboardEvent.shiftKey</code> attribute.
          </p>
         </descr>
        </attribute>
@@ -4222,32 +4837,16 @@
        <attribute type="boolean" name="altKey" readonly="yes" id="Events-MouseEvent-altKey">
         <descr>
          <p>
-          <code>true</code> if the alt (alternative) key modifier is
-          activated.
+          Refer to the <code>KeyboardEvent.altKey</code> attribute.
          </p>
-
-         <note>
-          <p>
-           The Option key modifier on Macintosh systems must be
-           represented using this key modifier.
-          </p>
-         </note>
         </descr>
        </attribute>
 
        <attribute type="boolean" name="metaKey" readonly="yes" id="Events-MouseEvent-metaKey">
         <descr>
          <p>
-          <code>true</code> if the meta (Meta) key modifier is
-          activated.
+          Refer to the <code>KeyboardEvent.metaKey</code> attribute.
          </p>
-
-         <note>
-          <p>
-           The Command key modifier on Macintosh system must be
-           represented using this meta key.
-          </p>
-         </note>
         </descr>
        </attribute>
 
@@ -4432,8 +5031,8 @@
        <method id="Events-MouseEvent-getModifierState" name="getModifierState" since="DOM Level 3">
         <descr>
          <p>
-          This method queries the state of a modifier using a key
-          identifier. See also <specref ref="Modifiers"/>.
+          Queries the state of a modifier using a key identifier. See
+          also <specref ref="Modifiers"/>.
          </p>
         </descr>
 
@@ -4441,22 +5040,9 @@
          <param name="keyIdentifierArg" type="DOMString" attr="in">
           <descr>
            <p>
-            A modifier key identifier, as defined by the
-            <code>KeyboardEvent.keyIdentifier</code> attribute. Common
-            modifier keys are <code>"Alt"</code>,
-            <code>"AltGraph"</code>, <code>"CapsLock"</code>,
-            <code>"Control"</code>, <code>"Meta"</code>,
-            <code>"NumLock"</code>, <code>"Scroll"</code>, or
-            <code>"Shift"</code>.
+            Refer to the <code>KeyboardEvent.getModifierState()</code>
+            method for a description of this parameter.
            </p>
-
-           <note>
-            <p>
-             If an application wishes to distinguish between right and
-             left modifiers, this information could be deduced using
-             keyboard events and <code>KeyboardEvent.keyLocation</code>.
-            </p>
-           </note>
           </descr>
          </param>
         </parameters>
@@ -4594,12 +5180,9 @@
          <param name="modifiersList" type="DOMString" attr="in">
           <descr>
            <p>
-            A
-            <xspecref href="http://www.w3.org/TR/2004/REC-xml-20040204/#NT-S">white
-            space</xspecref> separated list of modifier key identifiers
-            to be activated on this object. As an example,
-            <code>"Control Alt"</code> will activated the control and
-            alt modifiers.
+            Refer to the
+            <code>KeyboardEvent.initKeyboardEventNS()</code> method for
+            a description of this parameter.
            </p>
           </descr>
          </param>
@@ -4626,6 +5209,18 @@
       nested element. Ancestors of the targeted element may use bubbling
       to obtain notification of mouse events which occur within its
       descendent elements.
+     </p>
+
+     <p>
+      <termdef id="dt-current-click-count" term="current click count">
+       Implementations must maintain the <term>current click
+       count</term> when generating mouse events. This is a non-negative
+       integer indicating the number of consecutive clicks of a pointing
+       device button during a user action. The notion of consecutive
+       clicks depends on the environment configuration. For example, a
+       "double click" might not happen if there is a long delay between
+       the two clicks.
+      </termdef>
      </p>
 
      <p>
@@ -4731,14 +5326,11 @@
             <code>MouseEvent.metaKey</code>,
             <code>MouseEvent.button</code>, and
             <code>UIEvent.view</code> are in use. The
-            <code>UIEvent.detail</code> attribute indicates the number
-            of consecutive clicks of a pointing device button during a
-            user action. The attribute value is <code>1</code> when the
-            user begins this action and increments by <code>1</code> for
-            each click. The notion of consecutive clicks depends on the
-            environment configuration. For example, a "double click"
-            will not happen if there is a long delay between the two
-            clicks, even if the pointing device did not move.
+            <code>UIEvent.detail</code> attribute indicates the
+            <termref def="dt-current-click-count">current click
+            count</termref>. The attribute value is <code>1</code> when
+            the user begins this action and increments by <code>1</code>
+            for each click.
            </td>
           </tr>
          </tbody>
@@ -4749,7 +5341,7 @@
          definition of a click depends on the environment configuration;
          i.e. it may depend on the screen location or the delay between
          the press and release of the pointing device button. In any
-         case, the target node must be the same between the
+         case, the event target must be the same between the
          <termref def="event-mousedown">mousedown</termref>,
          <termref def="event-mouseup">mouseup</termref>, and
          <termref def="event-click">click</termref>. The sequence of
@@ -4763,10 +5355,8 @@
          <termref def="event-mouseover">mouseover</termref>,
          <termref def="event-mousemove">mousemove</termref>, and
          <termref def="event-mouseout">mouseout</termref> occur between
-         the press and release of the pointing device button. In the
-         case of nested elements, this event type is always targeted at
-         the most deeply nested element. In addition, the event type is
-         dispatched as described in
+         the press and release of the pointing device button. In
+         addition, the event type is dispatched as described in
          <specref ref="Events-flow-activation"/>.
         </p>
        </def>
@@ -4846,14 +5436,35 @@
            </th>
 
            <td>
-            ...
+            <code>MouseEvent.screenX</code>,
+            <code>MouseEvent.screenY</code>,
+            <code>MouseEvent.clientX</code>,
+            <code>MouseEvent.clientY</code>,
+            <code>MouseEvent.altKey</code>,
+            <code>MouseEvent.ctrlKey</code>,
+            <code>MouseEvent.shiftKey</code>,
+            <code>MouseEvent.metaKey</code>,
+            <code>MouseEvent.button</code>, and
+            <code>UIEvent.view</code> are in use. The
+            <code>UIEvent.detail</code> attribute indicates the
+            <termref def="dt-current-click-count">current click
+            count</termref>.
            </td>
           </tr>
          </tbody>
         </table>
 
         <p>
-         ...
+         A pointing device button is clicked twice over an element. The
+         definition of a double click depends on the environment
+         configuration, except that the event target must be the same
+         between <termref def="event-mousedown">mousedown</termref>,
+         <termref def="event-mouseup">mouseup</termref>, and
+         <termref def="event-dblclick">dblclick</termref>. This event
+         type is dispatched after the event type
+         <termref def='event-click'>click</termref> if a click and
+         double click occur simultaneously, and after the event type
+         <termref def='event-mouseup'>mouseup</termref> otherwise.
         </p>
        </def>
       </gitem>
@@ -4942,9 +5553,9 @@
             <code>MouseEvent.metaKey</code>,
             <code>MouseEvent.button</code>, and
             <code>UIEvent.view</code> are in use. The
-            <code>UIEvent.detail</code> attribute indicates the number
-            of consecutive clicks, incremented by one, of a pointing
-            device button during a user action. For example, if no click
+            <code>UIEvent.detail</code> attribute indicates the
+            <termref def="dt-current-click-count">current click
+            count</termref> incremented by one. For example, if no click
             happened before the mousedown, <code>UIEvent.detail</code>
             will contain the value <code>1</code>.
            </td>
@@ -4953,9 +5564,7 @@
         </table>
 
         <p>
-         A pointing device button is pressed over an element. In the
-         case of nested elements, this event type is always targeted at
-         the most deeply nested element.
+         A pointing device button is pressed over an element.
         </p>
        </def>
       </gitem>
@@ -5044,18 +5653,16 @@
             <code>MouseEvent.metaKey</code>,
             <code>MouseEvent.button</code>, and
             <code>UIEvent.view</code> are in use. The
-            <code>UIEvent.detail</code> attribute indicates the number
-            of consecutive clicks, incremented by one, of a pointing
-            device button during a user action.
+            <code>UIEvent.detail</code> attribute indicates the
+            <termref def="dt-current-click-count">current click
+            count</termref> incremented by one.
            </td>
           </tr>
          </tbody>
         </table>
 
         <p>
-         A pointing device button is released over an element. In the
-         case of nested elements, this event type is always targeted at
-         the most deeply nested element.
+         A pointing device button is released over an element.
         </p>
        </def>
       </gitem>
@@ -5152,9 +5759,7 @@
         </table>
 
         <p>
-         A pointing device is moved onto an element. In the case of
-         nested elements, this event type is always targeted at the most
-         deeply nested element.
+         A pointing device is moved onto an element.
         </p>
        </def>
       </gitem>
@@ -5248,9 +5853,7 @@
         </table>
 
         <p>
-         A pointing device is moved while it is over an element. In the
-         case of nested elements, this event type is always targeted at
-         the most deeply nested element.
+         A pointing device is moved while it is over an element.
         </p>
        </def>
       </gitem>
@@ -5347,57 +5950,11 @@
         </table>
 
         <p>
-         A pointing device is moved away from an element. In the case of
-         nested elements, this event type is always targeted at the most
-         deeply nested element.
+         A pointing device is moved away from an element.
         </p>
        </def>
       </gitem>
      </glist>
-
-     <p>
-      As an example, a "double click" on a mouse device will produce the
-      following events (the value of <code>UIEvent.detail</code> is
-      indicated in parenthesis):
-     </p>
-
-     <olist>
-      <item>
-       <p>
-        <code>"mousedown"</code> (<code>1</code>)
-       </p>
-      </item>
-
-      <item>
-       <p>
-        <code>"mouseup"</code> (<code>1</code>)
-       </p>
-      </item>
-
-      <item>
-       <p>
-        <code>"click"</code> (<code>1</code>)
-       </p>
-      </item>
-
-      <item>
-       <p>
-        <code>"mousedown"</code> (<code>2</code>)
-       </p>
-      </item>
-
-      <item>
-       <p>
-        <code>"mouseup"</code> (<code>2</code>)
-       </p>
-      </item>
-
-      <item>
-       <p>
-        <code>"click"</code> (<code>2</code>)
-       </p>
-      </item>
-     </olist>
     </div3>
 
     <div3 id="Events-eventgroupings-mousewheelevents">
@@ -5555,7 +6112,7 @@
          <param name="wheelDelta" type="long" attr="in">
           <descr>
            <p>
-            ...
+            Specifies <code>MouseWheelEvent.wheelDelta</code>.
            </p>
           </descr>
          </param>
@@ -5834,7 +6391,7 @@
          <param name="wheelDeltaX" type="long" attr="in">
           <descr>
            <p>
-            ...
+            Specifies <code>MouseMultiWheelEvent.wheelDeltaX</code>.
            </p>
           </descr>
          </param>
@@ -5842,7 +6399,7 @@
          <param name="wheelDeltaY" type="long" attr="in">
           <descr>
            <p>
-            ...
+            Specifies <code>MouseMultiWheelEvent.wheelDeltaY</code>.
            </p>
           </descr>
          </param>
@@ -5850,7 +6407,7 @@
          <param name="wheelDeltaZ" type="long" attr="in">
           <descr>
            <p>
-            ...
+            Specifies <code>MouseMultiWheelEvent.wheelDeltaZ</code>.
            </p>
           </descr>
          </param>
@@ -5952,625 +6509,6 @@
 
         <p>
          ...
-        </p>
-       </def>
-      </gitem>
-     </glist>
-    </div3>
-
-    <div3 id="Events-KeyboardEvents-Interfaces">
-     <head>
-      Keyboard event types
-     </head>
-
-     <p>
-      Keyboard events are device dependent, i.e. they rely on the
-      capabilities of the input devices and how they are mapped in the
-      operating systems. It is therefore highly recommended to rely on
-      <specref ref="Events-TextEvent"/> when dealing with character
-      input.
-     </p>
-
-     <definitions>
-<!--[ KeyboardEvent object description ]-->
-      <interface name="KeyboardEvent" inherits="UIEvent" id="Events-KeyboardEvent" since="DOM Level 3">
-       <descr>
-        <p>
-         The <code>KeyboardEvent</code> interface provides specific
-         contextual information associated with keyboard devices. Each
-         keyboard event references a key using an identifier. Keyboard
-         events are commonly directed at the element that has the focus.
-        </p>
-
-        <p>
-         The <code>KeyboardEvent</code> interface provides convenient
-         attributes for some common modifiers keys:
-         <code>KeyboardEvent.ctrlKey</code>,
-         <code>KeyboardEvent.shiftKey</code>,
-         <code>KeyboardEvent.altKey</code>,
-         <code>KeyboardEvent.metaKey</code>. These attributes are
-         equivalent to using the method
-         <code>KeyboardEvent.getModifierState(keyIdentifierArg)</code>
-         with "Control", "Shift", "Alt", or "Meta" respectively.
-        </p>
-
-        <p>
-         To create an instance of the <code>KeyboardEvent</code>
-         interface, use the
-         <code>DocumentEvent.createEvent("KeyboardEvent")</code> method
-         call.
-        </p>
-       </descr>
-
-       <group id="ID-KeyboardEvent-KeyLocationCode" name="KeyLocationCode">
-        <descr>
-         <p>
-          This set of constants is used to indicate the location of a
-          key on the device. In case a DOM implementation wishes to
-          provide a new location information, a value different from the
-          following constant values must be used.
-         </p>
-        </descr>
-
-        <constant name="DOM_KEY_LOCATION_STANDARD" id="DOM_KEY_LOCATION_STANDARD" type="unsigned long" value="0x00">
-         <descr>
-          <p>
-           The key activation is not distinguished as the left or right
-           version of the key, and did not originate from the numeric
-           keypad (or did not originate with a virtual key corresponding
-           to the numeric keypad). Example: the 'Q' key on a PC 101 Key
-           US keyboard.
-          </p>
-         </descr>
-        </constant>
-
-        <constant name="DOM_KEY_LOCATION_LEFT" id="DOM_KEY_LOCATION_LEFT" type="unsigned long" value="0x01">
-         <descr>
-          <p>
-           The key activated is in the left key location (there is more
-           than one possible location for this key). Example: the left
-           Shift key on a PC 101 Key US keyboard.
-          </p>
-         </descr>
-        </constant>
-
-        <constant name="DOM_KEY_LOCATION_RIGHT" id="DOM_KEY_LOCATION_RIGHT" type="unsigned long" value="0x02">
-         <descr>
-          <p>
-           The key activation is in the right key location (there is
-           more than one possible location for this key). Example: the
-           right Shift key on a PC 101 Key US keyboard.
-          </p>
-         </descr>
-        </constant>
-
-        <constant name="DOM_KEY_LOCATION_NUMPAD" id="DOM_KEY_LOCATION_NUMPAD" type="unsigned long" value="0x03">
-         <descr>
-          <p>
-           The key activation originated on the numeric keypad or with a
-           virtual key corresponding to the numeric keypad. Example: the
-           '1' key on a PC 101 Key US keyboard located on the numeric
-           pad.
-          </p>
-         </descr>
-        </constant>
-       </group>
-
-       <attribute type="DOMString" name="keyIdentifier" id="Events-KeyboardEvent-keyIdentifier" readonly="yes">
-        <descr>
-         <p>
-          <code>keyIdentifier</code> holds the identifier of the key.
-          The key identifiers are defined in Appendix A.2
-          "<specref ref="KeySet-Set"/>". Implementations that are unable
-          to identify a key must use the key identifier
-          <code>"Unidentified"</code>.
-         </p>
-        </descr>
-       </attribute>
-
-       <attribute id="Events-KeyboardEvent-keylocation" name="keyLocation" type="unsigned long" readonly="yes">
-        <descr>
-         <p>
-          The <code>keyLocation</code> attribute contains an indication
-          of the location of they key on the device, as described in
-          <specref ref="ID-KeyboardEvent-KeyLocationCode"/>.
-         </p>
-        </descr>
-       </attribute>
-
-       <attribute name="ctrlKey" id="Events-KeyboardEvent-ctrlKey" type="boolean" readonly="yes">
-        <descr>
-         <p>
-          <code>true</code> if the control (Ctrl) key modifier is
-          activated.
-         </p>
-        </descr>
-       </attribute>
-
-       <attribute name="shiftKey" id="Events-KeyboardEvent-shiftKey" type="boolean" readonly="yes">
-        <descr>
-         <p>
-          <code>true</code> if the shift (Shift) key modifier is
-          activated.
-         </p>
-        </descr>
-       </attribute>
-
-       <attribute name="altKey" id="Events-KeyboardEvent-altKey" type="boolean" readonly="yes">
-        <descr>
-         <p>
-          <code>true</code> if the alternative (Alt) key modifier is
-          activated.
-         </p>
-
-         <note>
-          <p>
-           The Option key modifier on Macintosh systems must be
-           represented using this key modifier.
-          </p>
-         </note>
-        </descr>
-       </attribute>
-
-       <attribute name="metaKey" id="Events-KeyboardEvent-metaKey" type="boolean" readonly="yes">
-        <descr>
-         <p>
-          <code>true</code> if the meta (Meta) key modifier is
-          activated.
-         </p>
-
-         <note>
-          <p>
-           The Command key modifier on Macintosh systems must be
-           represented using this key modifier.
-          </p>
-         </note>
-        </descr>
-       </attribute>
-
-       <method id="Events-KeyboardEvent-getModifierState" name="getModifierState">
-        <descr>
-         <p>
-          This method queries the state of a modifier using a key
-          identifier. See also <specref ref="Modifiers"/>.
-         </p>
-        </descr>
-
-        <parameters>
-         <param name="keyIdentifierArg" type="DOMString" attr="in">
-          <descr>
-           <p>
-            A modifier key identifier. Common modifier keys are
-            <code>"Alt"</code>, <code>"AltGraph"</code>,
-            <code>"CapsLock"</code>, <code>"Control"</code>,
-            <code>"Meta"</code>, <code>"NumLock"</code>,
-            <code>"Scroll"</code>, or <code>"Shift"</code>.
-           </p>
-
-           <note>
-            <p>
-             If an application wishes to distinguish between right and
-             left modifiers, this information could be deduced using
-             keyboard events and <code>KeyboardEvent.keyLocation</code>.
-            </p>
-           </note>
-          </descr>
-         </param>
-        </parameters>
-
-        <returns type="boolean">
-         <descr>
-          <p>
-           <code>true</code> if it is a modifier key and the modifier is
-           activated, <code>false</code> otherwise.
-          </p>
-         </descr>
-        </returns>
-
-        <raises/>
-       </method>
-
-       <method name="initKeyboardEvent" id="Events-KeyboardEvent-initKeyboardEvent">
-        <descr>
-         <p>
-          Initializes attributes of a <code>KeyboardEvent</code> object.
-          This method has the same behavior as
-          <code>UIEvent.initUIEvent()</code>. The value of
-          <code>UIEvent.detail</code> remains undefined.
-         </p>
-        </descr>
-
-        <parameters>
-         <param name="typeArg" type="DOMString" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>UIEvent.initUIEvent()</code> method for a
-            description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="canBubbleArg" type="boolean" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>UIEvent.initUIEvent()</code> method for a
-            description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="cancelableArg" type="boolean" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>UIEvent.initUIEvent()</code> method for a
-            description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="viewArg" type="views::AbstractView" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>UIEvent.initUIEvent()</code> method for a
-            description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="keyIdentifierArg" type="DOMString" attr="in">
-          <descr>
-           <p>
-            Specifies <code>KeyboardEvent.keyIdentifier</code>.
-           </p>
-          </descr>
-         </param>
-
-         <param name="keyLocationArg" type="unsigned long" attr="in">
-          <descr>
-           <p>
-            Specifies <code>KeyboardEvent.keyLocation</code>.
-           </p>
-          </descr>
-         </param>
-
-         <param name="modifiersList" type="DOMString" attr="in">
-          <descr>
-           <p>
-            A
-            <xspecref href="http://www.w3.org/TR/2004/REC-xml-20040204/#NT-S">white
-            space</xspecref> separated list of modifier key identifiers
-            to be activated on this object.
-           </p>
-          </descr>
-         </param>
-        </parameters>
-
-        <returns type="void">
-         <descr/>
-        </returns>
-
-        <raises>
-<!-- No exceptions -->
-        </raises>
-       </method>
-
-       <method name="initKeyboardEventNS" id="Events-KeyboardEvent-initKeyboardEventNS">
-        <descr>
-         <p>
-          Initializes attributes of a <code>KeyboardEvent</code> object.
-          This method has the same behavior as
-          <code>UIEvent.initUIEventNS()</code>. The value of
-          <code>UIEvent.detail</code> remains undefined.
-         </p>
-        </descr>
-
-        <parameters>
-         <param name="namespaceURI" type="DOMString" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>UIEvent.initUIEventNS()</code> method for
-            a description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="typeArg" type="DOMString" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>UIEvent.initUIEventNS()</code> method for
-            a description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="canBubbleArg" type="boolean" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>UIEvent.initUIEventNS()</code> method for
-            a description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="cancelableArg" type="boolean" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>UIEvent.initUIEventNS()</code> method for
-            a description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="viewArg" type="views::AbstractView" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>UIEvent.initUIEventNS()</code> method for
-            a description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="keyIdentifierArg" type="DOMString" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>KeyboardEvent.initKeyboardEvent()</code>
-            method for a description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="keyLocationArg" type="unsigned long" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>KeyboardEvent.initKeyboardEvent()</code>
-            method for a description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="modifiersList" type="DOMString" attr="in">
-          <descr>
-           <p>
-            A
-            <xspecref href="http://www.w3.org/TR/2004/REC-xml-20040204/#NT-S">white
-            space</xspecref> separated list of modifier key identifiers
-            to be activated on this object. As an example,
-            <code>"Control Alt"</code> will activated the control and
-            alt modifiers.
-           </p>
-          </descr>
-         </param>
-        </parameters>
-
-        <returns type="void">
-         <descr/>
-        </returns>
-
-        <raises>
-<!-- No exceptions -->
-        </raises>
-       </method>
-      </interface>
-     </definitions>
-
-     <p>
-      Depending on the character generation device, keyboard events may
-      or may not be generated.
-     </p>
-
-     <p>
-      The keyboard event types are listed below. A DOM application may
-      use the <code>hasFeature(feature, version)</code> method of the
-      <code>DOMImplementation</code> interface with parameter values
-      <code>"KeyboardEvents"</code> and <code>"3.0"</code>
-      (respectively) to determine whether or not the Keyboard event
-      module is supported by the implementation. In order to fully
-      support this module, an implementation must also support the
-      <code>"UIEvents"</code> feature defined in this specification. For
-      additional information about
-      <xspecref href="http://www.w3.org/TR/DOM-Level-3-Core/introduction.html#ID-Conformance">conformance</xspecref>,
-      please see the DOM Level 3 Core specification
-      <bibref role="informative" ref="DOMCore"/>.
-     </p>
-
-     <glist role="event-definition">
-      <gitem>
-       <label id="event-keydown"><termref def="event-keydown">keydown</termref></label>
-
-       <def>
-        <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
-         <tbody>
-          <tr>
-           <th>
-            Type
-           </th>
-
-           <td>
-            <code>keydown</code>
-           </td>
-          </tr>
-
-          <tr>
-           <th>
-            Namespace
-           </th>
-
-           <td>
-            <code>None</code>
-           </td>
-          </tr>
-
-          <tr>
-           <th>
-            Interface
-           </th>
-
-           <td>
-            <code>KeyboardEvent</code>
-           </td>
-          </tr>
-
-          <tr>
-           <th>
-            Cancelable
-           </th>
-
-           <td>
-            Yes
-           </td>
-          </tr>
-
-          <tr>
-           <th>
-            Bubbles
-           </th>
-
-           <td>
-            Yes
-           </td>
-          </tr>
-
-          <tr>
-           <th>
-            Target
-           </th>
-
-           <td>
-            <code>Element</code>
-           </td>
-          </tr>
-
-          <tr>
-           <th>
-            Context info
-           </th>
-
-           <td>
-            <code>UIEvent.view</code>,
-            <code>KeyboardEvent.keyIdentifier</code>,
-            <code>KeyboardEvent.keyLocation</code>,
-            <code>KeyboardEvent.altKey</code>,
-            <code>KeyboardEvent.shiftKey</code>,
-            <code>KeyboardEvent.ctrlKey</code>, and
-            <code>KeyboardEvent.metaKey</code> are in use.
-           </td>
-          </tr>
-         </tbody>
-        </table>
-
-        <p>
-         A key is pressed down. This event type is device dependent and
-         relies on the capabilities of the input devices and how they
-         are mapped in the operating system. This event type is
-         generated after the keyboard mapping but before the processing
-         of an <termref def="dt-ime">input method editor</termref>. This
-         event should logically happen before the event
-         <termref def="event-keyup">keyup</termref> is produced. Whether
-         a <termref def="event-keydown">keydown</termref> contributes or
-         not to the generation of a text event is implementation
-         dependent.
-        </p>
-       </def>
-      </gitem>
-     </glist>
-<!--..................................................................................-->
-     <glist role="event-definition">
-      <gitem>
-       <label id="event-keyup"><termref def="event-keyup">keyup</termref></label>
-
-       <def>
-        <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
-         <tbody>
-          <tr>
-           <th>
-            Type
-           </th>
-
-           <td>
-            <code>keyup</code>
-           </td>
-          </tr>
-
-          <tr>
-           <th>
-            Namespace
-           </th>
-
-           <td>
-            <code>None</code>
-           </td>
-          </tr>
-
-          <tr>
-           <th>
-            Interface
-           </th>
-
-           <td>
-            <code>KeyboardEvent</code>
-           </td>
-          </tr>
-
-          <tr>
-           <th>
-            Cancelable
-           </th>
-
-           <td>
-            Yes
-           </td>
-          </tr>
-
-          <tr>
-           <th>
-            Bubbles
-           </th>
-
-           <td>
-            Yes
-           </td>
-          </tr>
-
-          <tr>
-           <th>
-            Target
-           </th>
-
-           <td>
-            <code>Element</code>
-           </td>
-          </tr>
-
-          <tr>
-           <th>
-            Context info
-           </th>
-
-           <td>
-            <code>UIEvent.view</code>,
-            <code>KeyboardEvent.keyIdentifier</code>, and
-            <code>KeyboardEvent.keyLocation</code> are in use.
-            <code>KeyboardEvent.altKey</code>,
-            <code>KeyboardEvent.shiftKey</code>,
-            <code>KeyboardEvent.ctrlKey</code>, and
-            <code>KeyboardEvent.metaKey</code> are in use unless the
-            <code>KeyboardEvent.keyIdentifier</code> corresponds to the
-            key modifier itself.
-           </td>
-          </tr>
-         </tbody>
-        </table>
-
-        <p>
-         A key is released. This event type is device dependent and
-         relies on the capabilities of the input devices and how they
-         are mapped in the operating system. This event type is
-         generated after the keyboard mapping but before the processing
-         of an <termref def="dt-ime">input method editor</termref>. This
-         event should logically happen after the event
-         <termref def="event-keydown">keydown</termref> is produced.
-         Whether a keyup contributes or not to the generation of a text
-         event is implementation dependent.
         </p>
        </def>
       </gitem>
