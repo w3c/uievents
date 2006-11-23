@@ -614,46 +614,6 @@
      when possible.
     </p>
 
-    <p>
-     The following sections of the specification define both the
-     specification for the DOM Event Model and a number of conformant
-     event modules designed for use within the model. The DOM Event
-     Model consists of:
-    </p>
-
-    <ulist>
-     <item>
-      <p>
-       The <specref ref="Events-flow"/>, which describe the flow of
-       events in a tree-based structure.
-      </p>
-     </item>
-
-     <item>
-      <p>
-       A set of interfaces to access contextual information on events
-       and to register event listeners.
-      </p>
-     </item>
-    </ulist>
-
-    <div3 id="Events-flows">
-     <head>
-      Event flows
-     </head>
-
-     <p>
-      This document specifies an event flow for tree-based structures:
-      <specref ref="Events-flow"/>. While it is expected that HTML and
-      XML applications will follow this event flow, applications might
-      reuse the interfaces defined in this document for non tree-based
-      structures. In that case, it is the responsibility of such
-      applications to define their event flow and how it relates to the
-      <specref ref="Events-flow"/>. An example of such use can be found
-      in <bibref role="informative" ref="DOMLS"/>.
-     </p>
-    </div3>
-
     <div3 id="Conformance">
      <head>
       Conformance
@@ -736,221 +696,165 @@
 
    <div2 id="Events-flow">
     <head>
-     DOM event flow
+     Event dispatch and DOM event flow
     </head>
 
     <p>
-     <termdef id="dt-event-flow" term="DOM event flow">
-      The DOM event flow is the process through which the
-      <termref def="dt-event">event</termref> originates from the DOM
-      Events implementation and is dispatched into a tree.
-     </termdef>
-     Each event has an <termref def="dt-event-target">event
-     target</termref>, a targeted node in the case of the DOM Event
-     flow, toward which the event is dispatched by the DOM Events
-     implementation.
+     This section defines the event dispatch mechanism of the event
+     model defined in this specification. Applications may dispatch
+     event objects using the <code>EventTarget.dispatchEvent()</code>
+     method, and implementations must dispatch event objects as if
+     through this method. The behavior of this method depends on the
+     <term>event flow</term> associated with the underlying object. An
+     event flow describes how event objects <term>propagate</term>
+     through a data structure. As an example, when an event object is
+     dispatched to an element in an XML document, the object propagates
+     through parts of the document, as determined by the DOM event flow
+     which is defined at the end of this section.
     </p>
 
-    <div3 id="Events-phases">
-     <head>
-      Phases
-     </head>
+    <graphic source="images/eventflow.png" alt="graphical representation of an event dispatched in a DOM tree using the DOM event flow"/>
 
-     <p>
-      The event is dispatched following a path from the root of the tree
-      to this <termref def="dt-target-node">target node</termref>. It
-      can then be handled locally at the target node level or from any
-      target's ancestors higher in the tree. Event propagation occurs in
-      three phases in the following order:
-     </p>
+    <p>
+     Event objects are always dispatched to an event target called the
+     <term>event's target</term>. At the beginning of the dispatch,
+     implementations must first determine the event object's
+     <term>propagation path</term>. This is an ordered list of event
+     targets the object may propagate to. The last item in the list is
+     the event's target; the preceding items in the list are referred to
+     as the <term>target's ancestors</term> and the immediately
+     preceding item as the <term>target's parent</term>. Once
+     determined, the propagation path cannot be changed. As an example,
+     in the DOM event flow event listeners might change the position of
+     the target node in the document while the event object is being
+     dispatched; such changes do not affect the propagation path.
+    </p>
 
-     <olist>
-      <item>
-       <p>
-        The <termref def="dt-capture-phase">capture phase</termref>: the
-        event is dispatched to the target's ancestors from the root of
-        the tree to the direct parent of the
-        <termref def="dt-target-node">target node</termref>.
-       </p>
-      </item>
+    <p>
+     As the next step the event object <term>accomplishes</term> one or
+     more <term>event phases</term>. This specification defines the
+     following event phases. Event objects accomplish them in the
+     specified order using the partial propagation paths as defined
+     below. A phase is skipped if it is not supported, or if the event
+     object's propagation has been stopped. For example, if the
+     <code>Event.bubbles</code> attribute is set to false, the bubble
+     phase is skipped, and if <code>Event.stopPropagation()</code> has
+     been called prior to the dispatch, all phases will be skipped.
+    </p>
 
-      <item>
-       <p>
-        The <termref def="dt-target-phase">target phase</termref>: the
-        event is dispatched to the <termref def="dt-target-node">target
-        node</termref>.
-       </p>
-      </item>
-
-      <item>
-       <p>
-        The <termref def="dt-bubbling-phase">bubbling phase</termref>:
-        the event is dispatched to the target's ancestors from the
-        direct parent of the <termref def="dt-target-node">target
-        node</termref> to the root of the tree.
-       </p>
-      </item>
-     </olist>
-
-     <graphic source="images/eventflow.png" alt="graphical representation of an event dispatched in a DOM tree using the DOM event flow"/>
-
-     <p>
-      The target's ancestors are determined before the initial dispatch
-      of the event. If the target node is removed while the event is
-      being dispatched, or a target's ancestor is added or removed, the
-      event propagation will always be based on the target node and the
-      target's ancestors determined before the dispatch.
-     </p>
-
-     <p>
-      Some events may not necessarily accomplish the three phases of the
-      DOM event flow, e.g. the event could only be defined for one or
-      two phases. As an example, events defined in this specification
-      will always accomplish the capture and target phases but some will
-      not accomplish the bubbling phase ("bubbling events" versus
-      "non-bubbling events", see also the <code>Event.bubbles</code>
-      attribute).
-     </p>
-    </div3>
-
-    <div3 id="Events-listeners">
-     <head>
-      Event listeners
-     </head>
-
-     <p>
-      Each node encountered during the dispatch of the event may contain
-      event listeners.
-     </p>
-
-     <div4 id="Events-listeners-registration">
-      <head>
-       Registration of event listeners
-      </head>
-
+    <olist>
+     <item>
       <p>
-       Event listeners can be registered on all nodes in the tree for a
-       specific type of event (<specref ref="Event-types"/>), and phase.
+       The <term>capture phase</term>: the event object propagates
+       through the target's ancestors to the target's parent. This phase
+       is also known as the <term>capturing phase</term>. Event
+       listeners registered for this phase can handle the event before
+       it reaches its target.
       </p>
+     </item>
 
+     <item>
       <p>
-       If the event listener is being registered on a node while an
-       event gets processed on this node, the event listener will not be
-       triggered during the current phase but may be triggered during a
-       later phase in the event flow, i.e. the
-       <termref def="dt-bubbling-phase">bubbling phase</termref>.
+       The <term>target phase</term>: the event object has reached the
+       event's target. This phase is also known as the <term>at-target
+       phase</term>. Event listeners registered for this phase can
+       handle the event once it has reached its target.
       </p>
-     </div4>
+     </item>
 
-     <div4 id="Event-listener-ordering">
-      <head>
-       Event listener ordering
-      </head>
-
+     <item>
       <p>
-       Event listeners are ordered according to their order of
-       registration. If two event listeners {A1, A2} are registered one
-       after the other (A1, then A2) for the same phase, the DOM event
-       flow guarantees their triggering order (A1, then A2).
+       The <term>bubble phase</term>: the event object propagates
+       through the target's ancestors in reverse order, starting with
+       the target's parent. This phase is also known as the
+       <term>bubbling phase</term>. Event listeners registered for this
+       phase can handle the event after it has reached its target.
       </p>
-     </div4>
+     </item>
+    </olist>
 
-     <div4 id="Events-listeners-activation">
-      <head>
-       Triggering an event listener
-      </head>
+    <p>
+     Implementations let event objects accomplish an event phase by
+     applying the following steps while there are pending event targets
+     in the partial propagation path for this phase and the event
+     object's propagation has not been stopped through
+     <code>Event.stopPropagation()</code>.
+    </p>
 
+    <p>
+     Firstly, the implementation must determine the <term>current
+     target</term>. This is the next pending event target in the partial
+     propagation path, starting with the first. From the perspective of
+     an event listener this is the event target the listener has been
+     registered on.
+    </p>
+
+    <p>
+     Secondly, the implementation must determine the current target's
+     <term>candidate event listeners</term>. This is the list of all
+     event listeners that have been registered on the current target in
+     their order of registration. Once determined, the candidate event
+     listeners cannot be changed, adding or removing listeners does not
+     affect the current target's candidate event listeners.
+    </p>
+
+    <p>
+     Finally, the implementation must process all candidate event
+     listeners in order and trigger each listener if all the following
+     conditions are met. A listener is triggered by invoking the
+     <code>EventListener.handleEvent()</code> method or an equivalent
+     binding-specific mechanism.
+    </p>
+
+    <ulist>
+     <item>
       <p>
-       When the event is dispatched through the tree, from node to node,
-       event listeners registered on the node are triggered if the
-       following three conditions are all met:
+       The event object's immediate propagation has not been stopped.
       </p>
+     </item>
 
-      <olist>
-       <item>
-        <p>
-         they were registered for the same type of event
-        </p>
-       </item>
-
-       <item>
-        <p>
-         they were registered for the same phase;
-        </p>
-       </item>
-
-       <item>
-        <p>
-         the event propagation has not been stopped.
-        </p>
-       </item>
-      </olist>
-     </div4>
-
-     <div4 id="Events-listeners-removal">
-      <head>
-       Removing an event listener
-      </head>
-
+     <item>
       <p>
-       If an event listener is removed from a node while an event is
-       being processed on the node, it will not be triggered by the
-       current actions. Once removed, the event listener is never
-       invoked again (unless registered again for future processing).
+       The listener has been registered for this event phase.
       </p>
-     </div4>
+     </item>
 
-     <div4 id="Events-listeners-reentrance">
-      <head>
-       Reentrance
-      </head>
-
+     <item>
       <p>
-       It is expected that actions taken by an event listener may cause
-       additional events to be dispatched. Additional events should be
-       handled in a synchronous manner and may cause reentrance into the
-       event model. If an event listener fires a new event using
-       <code>EventTarget.dispatchEvent()</code>, the event propagation
-       that causes the event listener to be triggered will resume only
-       after the event propagation of the new event is completed.
+       The listener has been registered for this event type.
       </p>
+     </item>
+    </ulist>
 
-      <p>
-       Since implementations may have restrictions such as stack-usage
-       or other memory requirements, applications should not depend on
-       how many synchronous events may be triggered.
-      </p>
-     </div4>
+    <p>
+     As the final step of the event dispatch, for reasons of backwards
+     compatibility, the implementation must reset the event object's
+     internal propagation and default action prevention states. This
+     ensures that an event object may be properly dispatched multiple
+     times while also allowing to prevent the event objects propagation
+     or default actions prior to the event dispatch.
+    </p>
 
-     <div4 id="Events-propagation">
-      <head>
-       Event propagation
-      </head>
+    <p>
+     The model defined above applies regardless of the specific event
+     flow associated with an event target. Each event flow defines how
+     the propagation path is determined and which event phases are
+     supported. The <term>DOM event flow</term> is an application of
+     this model: the propagation path for a <code>Node</code> object is
+     determined by its <code>Node.parentNode</code> chain, and all
+     events accomplish the capture and target phases. Whether an event
+     accomplishes the bubble phase is defined individually for each
+     event type. An alternate application of this model can be found in
+     <bibref role="informative" ref="DOMLS"/>.
+    </p>
 
-      <p>
-       An event listener may prevent other event listeners from being
-       triggered. The effect can be:
-      </p>
-
-      <ulist>
-       <item>
-        <p>
-         immediate: no more event listeners will be triggered by the
-         event object (see
-         <code>Event.stopImmediatePropagation()</code>);
-        </p>
-       </item>
-
-       <item>
-        <p>
-         deferred: all event listeners on the current node will be
-         triggered, but event listeners attached on other nodes will not
-         be triggered (see <code>Event.stopPropagation()</code>).
-        </p>
-       </item>
-      </ulist>
-     </div4>
-    </div3>
+    <p>
+     The DOM event model is reentrant. Event listeners may perform
+     actions that cause additional events to be dispatched. Such events
+     are handled in a synchronous manner, the event propagation that
+     causes the event listener to be triggered will resume only after
+     the event dispatch of the new event is completed.
+    </p>
    </div2>
 
    <div2 id="Events-flow-cancelation">
@@ -1912,139 +1816,6 @@
     </div3>
    </div2>
 
-   <div2 id="Events-registration">
-    <head>
-     Event listener registration
-    </head>
-
-    <note>
-     <p>
-      This section is non-normative.
-     </p>
-    </note>
-
-    <p>
-     There are mainly two ways to associate an event listener to a node
-     in the tree:
-    </p>
-
-    <olist>
-     <item>
-      <p>
-       at the programming level using the <code>EventTarget</code>
-       methods.
-      </p>
-     </item>
-
-     <item>
-      <p>
-       at the document level using
-       <bibref role="informative" ref="XMLEvents"/> or an ad-hoc syntax,
-       as the ones provided in
-       <bibref role="informative" ref="XHTML10"/> or
-       <bibref role="informative" ref="SVG1"/>.
-      </p>
-     </item>
-    </olist>
-
-    <div3 id="Events-Registration-interfaces">
-     <head>
-      Using the <code>EventTarget</code> methods
-     </head>
-
-     <p>
-      The user can attach an event listener using the methods on the
-      <code>EventTarget</code> interface:
-     </p>
-<eg xml:space="preserve">aCircle.addEventListener("DOMActivate", aListener, false);</eg>
-     <p>
-      The methods do not provide the ability to register the same event
-      listener more than once for the same event type and the same
-      phase. It is not possible to register an event listener:
-     </p>
-
-     <ulist>
-      <item>
-       <p>
-        for only one of the
-        <termref def="dt-target-phase">target</termref> and
-        <termref def="dt-bubbling-phase">bubbling</termref> phases since
-        those phases are coupled during the registration (but the
-        listener itself could ignore events during one of these phases
-        if desired).
-       </p>
-      </item>
-     </ulist>
-
-     <p>
-      To register an event listener, DOM applications use the methods
-      <code>EventTarget.addEventListener()</code> and
-      <code>EventTarget.addEventListenerNS()</code>.
-     </p>
-
-     <p>
-      An <code>EventListener</code> being registered on an
-      <code>EventTarget</code> may choose to have that
-      <code>EventListener</code> triggered during the capture phase by
-      specifying the <code>useCapture</code> parameter of the
-      <code>EventTarget.addEventListener()</code> or
-      <code>EventTarget.addEventListenerNS()</code> methods to be
-      <code>true</code>. If <code>false</code>, the
-      <code>EventListener</code> will be triggered during the target and
-      bubbling phases.
-     </p>
-    </div3>
-
-    <div3 id="Events-registration-xmlevents">
-     <head>
-      Using XML Events
-     </head>
-
-     <p>
-      In <bibref role="informative" ref="XMLEvents"/>, event listeners
-      are attached using elements and attributes:
-     </p>
-<eg xml:space="preserve">&lt;listener event="DOMActivate" observer="aCircle" handler="#aListener"
-          phase="default" propagate="stop"/&gt;</eg>
-     <p>
-      Event listeners can only be registered on <code>Element</code>
-      nodes, other <code>Node</code> types are not addressable. The
-      <termref def="dt-target-phase">target phase</termref> and the
-      <termref def="dt-bubbling-phase">bubbling phase</termref> are
-      coupled during the registration.
-      <bibref role="informative" ref="XMLEvents"/> does not address
-      namespaces in event types.
-     </p>
-    </div3>
-
-    <div3 id="Events-registration-html40">
-     <head>
-      Using XML or HTML attributes
-     </head>
-
-     <p>
-      In languages such as <bibref role="informative" ref="HTML40"/>,
-      <bibref role="informative" ref="XHTML10"/>, or
-      <bibref role="informative" ref="SVG1"/>, event listeners are
-      specified as attributes:
-     </p>
-<eg xml:space="preserve">&lt;circle id="aCircle" onactivate="aListener(evt)"
-        cx="300" cy="225" r="100" fill="red"/&gt;</eg>
-     <p>
-      Since only one attribute with the same name can appear on an
-      element, it is not possible to register more than one event
-      listener on a single <code>EventTarget</code> for the event type.
-      Also, event listeners can only be registered on
-      <code>Element</code> nodes for the
-      <termref def="dt-target-phase">target phase</termref> and
-      <termref def="dt-bubbling-phase">bubbling phase</termref>, other
-      <code>Node</code> types and the
-      <termref def="dt-capture-phase">capture phase</termref> are not
-      addressable with these languages.
-     </p>
-    </div3>
-   </div2>
-
    <div2 id="Events-interface">
     <head>
      Basic interfaces
@@ -2053,6 +1824,7 @@
     <p>
      The interfaces described in this section are fundamental to DOM
      Level 3 Events and must always be supported by the implementation.
+     Together they define the feature Events 3.0.
     </p>
 
     <definitions>
@@ -2197,9 +1969,11 @@
         <p>
          Prevents other event listeners from being triggered but its
          effect is deferred until all event listeners attached on the
-         <code>Event.currentTarget</code> have been triggered (see
-         <specref ref="Events-propagation"/>). Once it has been called,
-         further calls to this method have no additional effect.
+         <code>Event.currentTarget</code> have been triggered
+<!-- (see
+         <specref ref="Events-propagation"/>)-->
+         . Once it has been called, further calls to this method have no
+         additional effect.
         </p>
 
         <note>
@@ -2347,8 +2121,10 @@
         <p>
          Prevents other event listeners from being triggered and, unlike
          <code>Event.stopPropagation()</code> its effect is immediate
-         (see <specref ref="Events-propagation"/>). Once it has been
-         called, further calls to this method have no additional effect.
+<!--
+         (see <specref ref="Events-propagation"/>)-->
+         . Once it has been called, further calls to this method have no
+         additional effect.
         </p>
 
         <note>
@@ -2547,20 +2323,19 @@
        <p>
         The <code>EventTarget</code> interface is implemented by all the
         objects which could be <termref def="dt-event-target">event
-        targets</termref> in an implementation which supports an
-        <specref ref="Events-flows"/>. The interface allows registration
-        and removal of event listeners, and dispatch of events to an
-        event target.
+        targets</termref> in an implementation which supports an event
+        flow. The interface allows registration and removal of event
+        listeners, and dispatch of events to an event target.
        </p>
 
        <p>
-        When used with the <specref ref="Events-flow"/>, this interface
-        is implemented by all <termref def="dt-target-node">target
-        nodes</termref> and target ancestors, i.e. all DOM
-        <code>Nodes</code> of the tree support this interface when the
-        implementation conforms to DOM Level 3 Events and, therefore,
-        this interface can be obtained by using binding-specific casting
-        methods on an instance of the <code>Node</code> interface.
+        When used with the DOM event flow, this interface is implemented
+        by all <termref def="dt-target-node">target nodes</termref> and
+        target ancestors, i.e. all DOM <code>Nodes</code> of the tree
+        support this interface when the implementation conforms to DOM
+        Level 3 Events and, therefore, this interface can be obtained by
+        using binding-specific casting methods on an instance of the
+        <code>Node</code> interface.
        </p>
 
        <p>
@@ -3164,6 +2939,11 @@
      </head>
 
      <p>
+      This module defines the feature UIEvents 3.0 and depends on the
+      features Events 3.0 and Views 2.0.
+     </p>
+
+     <p>
       The User Interface event module contains basic event types
       associated with user interfaces.
      </p>
@@ -3351,27 +3131,7 @@
      </definitions>
 
      <p>
-      The User Interface event types are listed below. A DOM application
-      may use the <code>hasFeature(feature, version)</code> method of
-      the <code>DOMImplementation</code> interface with parameter values
-      <code>"UIEvents"</code> and <code>"3.0"</code> (respectively) to
-      determine whether or not the DOM Level 3 User Interface event
-      module is supported by the implementation. In order to fully
-      support this module, an implementation must also support the
-      <code>"Events"</code> feature defined in this specification and
-      the <code>"Views"</code> feature defined in the DOM Level 2 Views
-      specification <bibref ref="DOM2Views"/>. For additional
-      information about
-      <xspecref href="http://www.w3.org/TR/DOM-Level-3-Core/introduction.html#ID-Conformance">conformance</xspecref>,
-      please see the DOM Level 3 Core specification
-      <bibref role="informative" ref="DOMCore"/>. The DOM Level 3 User
-      Interface Events module is built on top of the DOM Level 2 User
-      Interface Events <bibref ref="DOM2Events"/> module, i.e. a DOM
-      Level 3 User Interface Events implementation where
-      <code>hasFeature("UIEvents", "3.0")</code> returns
-      <code>true</code> must also return <code>true</code> when the
-      <code>version</code> number is <code>"2.0"</code>, <code>""</code>
-      or, <code>null</code>.
+      The User Interface event types are listed below.
      </p>
 
      <glist role="event-definition">
@@ -3822,6 +3582,11 @@
      </head>
 
      <p>
+      This module defines the feature TextEvents 3.0 and depends on the
+      feature UIEvents 3.0.
+     </p>
+
+     <p>
       The text event module originates from the
       <bibref ref="HTML40" role="informative"/> <code>onkeypress</code>
       attribute. Unlike this attribute, the event type
@@ -4005,18 +3770,7 @@
      </definitions>
 
      <p>
-      The text event type is listed below. A DOM application may use the
-      <code>hasFeature(feature, version)</code> method of the
-      <code>DOMImplementation</code> interface with parameter values
-      <code>"TextEvents"</code> and <code>"3.0"</code> (respectively) to
-      determine whether or not the Text event module is supported by the
-      implementation. In order to fully support this module, an
-      implementation must also support the <code>"UIEvents"</code>
-      feature defined in this specification. For additional information
-      about
-      <xspecref href="http://www.w3.org/TR/DOM-Level-3-Core/introduction.html#ID-Conformance">conformance</xspecref>,
-      please see the DOM Level 3 Core specification
-      <bibref role="informative" ref="DOMCore"/>.
+      The text event type is listed below.
      </p>
 
      <glist role="event-definition">
@@ -4119,6 +3873,11 @@
      <head>
       Keyboard event types
      </head>
+
+     <p>
+      This module defines the feature KeyboardEvents 3.0 and depends on
+      the features UIEvents 3.0.
+     </p>
 
      <p>
       Keyboard events are device dependent, i.e. they rely on the
@@ -4397,8 +4156,8 @@
             <xspecref href="http://www.w3.org/TR/2004/REC-xml-20040204/#NT-S">white
             space</xspecref> separated list of modifier key identifiers
             to be activated on this object. As an example,
-            <code>"Control Alt"</code> will activated the control and
-            alt modifiers.
+            <code>"Control Alt"</code> will mark the control and alt
+            modifiers as activated.
            </p>
           </descr>
          </param>
@@ -4514,18 +4273,7 @@
      </p>
 
      <p>
-      The keyboard event types are listed below. A DOM application may
-      use the <code>hasFeature(feature, version)</code> method of the
-      <code>DOMImplementation</code> interface with parameter values
-      <code>"KeyboardEvents"</code> and <code>"3.0"</code>
-      (respectively) to determine whether or not the Keyboard event
-      module is supported by the implementation. In order to fully
-      support this module, an implementation must also support the
-      <code>"UIEvents"</code> feature defined in this specification. For
-      additional information about
-      <xspecref href="http://www.w3.org/TR/DOM-Level-3-Core/introduction.html#ID-Conformance">conformance</xspecref>,
-      please see the DOM Level 3 Core specification
-      <bibref role="informative" ref="DOMCore"/>.
+      The keyboard event types are listed below.
      </p>
 
      <glist role="event-definition">
@@ -4736,6 +4484,11 @@
      <head>
       Mouse event types
      </head>
+
+     <p>
+      This module defines the feature MouseEvents 3.0 and depends on the
+      feature UIEvents 3.0.
+     </p>
 
      <p>
       The Mouse event module originates from the
@@ -5221,26 +4974,6 @@
        "double click" might not happen if there is a long delay between
        the two clicks.
       </termdef>
-     </p>
-
-     <p>
-      A DOM application may use the <code>hasFeature(feature,
-      version)</code> method of the <code>DOMImplementation</code>
-      interface with parameter values <code>"MouseEvents"</code> and
-      <code>"3.0"</code> (respectively) to determine whether or not the
-      Mouse event module is supported by the implementation. In order to
-      fully support this module, an implementation must also support the
-      "UIEvents" feature defined in this specification. For additional
-      information about
-      <xspecref href="http://www.w3.org/TR/DOM-Level-3-Core/introduction.html#ID-Conformance">conformance</xspecref>,
-      please see the DOM Level 3 Core specification
-      <bibref role="informative" ref="DOMCore"/>. The DOM Level 3 Mouse
-      Events module is built on top of the DOM Level 2 Mouse Events
-      <bibref ref="DOM2Events"/> module, i.e. a DOM Level 3 Mouse Events
-      implementation where <code>hasFeature("MouseEvents", "3.0")</code>
-      returns <code>true</code> must also return <code>true</code> when
-      the <code>version</code> number is <code>"2.0"</code>,
-      <code>""</code> or, <code>null</code>.
      </p>
 
      <glist role="event-definition">
@@ -5957,273 +5690,15 @@
      </glist>
     </div3>
 
-    <div3 id="Events-eventgroupings-mousewheelevents">
-     <head>
-      Mouse wheel event types
-     </head>
-
-     <p>
-      ...
-     </p>
-
-     <definitions>
-<!-- MouseWheelEvent interface -->
-      <interface name="MouseWheelEvent" inherits="MouseEvent" id="Events-MouseWheelEvent" since="DOM Level 3">
-       <descr>
-        <p>
-         ...
-        </p>
-       </descr>
-
-       <attribute type="long" name="wheelDelta" readonly="yes" id="Events-MouseWheelEvent-wheelDelta">
-        <descr>
-         <p>
-          ...
-         </p>
-        </descr>
-       </attribute>
-
-       <method name="initMouseWheelEventNS" id="Events-Event-initMouseWheelEventNS" since="DOM Level 3">
-        <descr>
-         <p>
-          Initializes attributes of a <code>MouseWheelEvent</code>
-          object.
-         </p>
-        </descr>
-
-        <parameters>
-         <param name="namespaceURI" type="DOMString" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>UIEvent.initUIEventNS()</code> method for
-            a description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="typeArg" type="DOMString" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>UIEvent.initUIEventNS()</code> method for
-            a description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="canBubbleArg" type="boolean" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>UIEvent.initUIEventNS()</code> method for
-            a description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="cancelableArg" type="boolean" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>UIEvent.initUIEventNS()</code> method for
-            a description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="viewArg" type="views::AbstractView" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>UIEvent.initUIEventNS()</code> method for
-            a description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="detailArg" type="long" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>UIEvent.initUIEventNS()</code> method for
-            a description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="screenXArg" type="long" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>MouseEvent.initMouseEventNS()</code>
-            method for a description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="screenYArg" type="long" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>MouseEvent.initMouseEventNS()</code>
-            method for a description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="clientXArg" type="long" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>MouseEvent.initMouseEventNS()</code>
-            method for a description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="clientYArg" type="long" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>MouseEvent.initMouseEventNS()</code>
-            method for a description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="buttonArg" type="unsigned short" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>MouseEvent.initMouseEventNS()</code>
-            method for a description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="relatedTargetArg" type="EventTarget" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>MouseEvent.initMouseEventNS()</code>
-            method for a description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="modifiersList" type="DOMString" attr="in">
-          <descr>
-           <p>
-            Refer to the <code>MouseEvent.initMouseEventNS()</code>
-            method for a description of this parameter.
-           </p>
-          </descr>
-         </param>
-
-         <param name="wheelDelta" type="long" attr="in">
-          <descr>
-           <p>
-            Specifies <code>MouseWheelEvent.wheelDelta</code>.
-           </p>
-          </descr>
-         </param>
-        </parameters>
-
-        <returns type="void">
-         <descr>
-          <p>
-<!--empty paragraph-->
-          </p>
-         </descr>
-        </returns>
-
-        <raises>
-<!-- No exceptions -->
-        </raises>
-       </method>
-      </interface>
-     </definitions>
-<!--..................................................................................-->
-     <glist role="event-definition">
-      <gitem>
-       <label id="event-mousewheel"><termref def="event-mousewheel">mousewheel</termref></label>
-
-       <def>
-        <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
-         <tbody>
-          <tr>
-           <th>
-            Type
-           </th>
-
-           <td>
-            <code>mousewheel</code>
-           </td>
-          </tr>
-
-          <tr>
-           <th>
-            Namespace
-           </th>
-
-           <td>
-            <code>None</code>
-           </td>
-          </tr>
-
-          <tr>
-           <th>
-            Interface
-           </th>
-
-           <td>
-            <code>MouseWheelEvent</code>
-           </td>
-          </tr>
-
-          <tr>
-           <th>
-            Cancelable
-           </th>
-
-           <td>
-            Yes
-           </td>
-          </tr>
-
-          <tr>
-           <th>
-            Bubbles
-           </th>
-
-           <td>
-            Yes
-           </td>
-          </tr>
-
-          <tr>
-           <th>
-            Target
-           </th>
-
-           <td>
-            ...
-           </td>
-          </tr>
-
-          <tr>
-           <th>
-            Context info
-           </th>
-
-           <td>
-            ...
-           </td>
-          </tr>
-         </tbody>
-        </table>
-
-        <p>
-         ...
-        </p>
-       </def>
-      </gitem>
-     </glist>
-    </div3>
-
     <div3 id="Events-eventgroupings-mousemultiwheelevents">
      <head>
       Mouse multi wheel event types
      </head>
+
+     <p>
+      This module defines the feature MouseMultiWheelEvents 3.0 and
+      depends on the feature MouseEvents 3.0.
+     </p>
 
      <p>
       ...
@@ -6241,7 +5716,7 @@
        <attribute type="long" name="wheelDeltaX" readonly="yes" id="Events-MouseMultiWheelEvent-wheelDeltaX">
         <descr>
          <p>
-          ...
+          The distance the wheel has rotated around the x-axis.
          </p>
         </descr>
        </attribute>
@@ -6249,7 +5724,7 @@
        <attribute type="long" name="wheelDeltaY" readonly="yes" id="Events-MouseMultiWheelEvent-wheelDeltaY">
         <descr>
          <p>
-          ...
+          The distance the wheel has rotated around the y-axis.
          </p>
         </descr>
        </attribute>
@@ -6257,12 +5732,12 @@
        <attribute type="long" name="wheelDeltaZ" readonly="yes" id="Events-MouseMultiWheelEvent-wheelDeltaZ">
         <descr>
          <p>
-          ...
+          The distance the wheel has rotated around the z-axis.
          </p>
         </descr>
        </attribute>
 
-       <method name="initMouseMultiWheelEventNS" id="Events-Event-initMouseMultiWheelEventNS" since="DOM Level 3">
+       <method name="initMouseMultiWheelEventNS" id="Events-Event-initMouseMultiWheelEventNS">
         <descr>
          <p>
           Initializes attributes of a <code>MouseMultiWheelEvent</code>
@@ -6491,7 +5966,7 @@
            </th>
 
            <td>
-            ...
+            <code>Document</code>, <code>Element</code>
            </td>
           </tr>
 
@@ -6501,7 +5976,305 @@
            </th>
 
            <td>
-            ...
+            <code>MouseMultiWheelEvent.wheelDeltaX</code>,
+            <code>MouseMultiWheelEvent.wheelDeltaY</code>,
+            <code>MouseMultiWheelEvent.wheelDeltaZ</code>,
+            <code>MouseEvent.altKey</code>,
+            <code>MouseEvent.ctrlKey</code>,
+            <code>MouseEvent.shiftKey</code>,
+            <code>MouseEvent.metaKey</code>, and
+            <code>UIEvent.view</code> are in use.
+            <code>MouseEvent.screenX</code>,
+            <code>MouseEvent.screenY</code>,
+            <code>MouseEvent.clientX</code>,
+            <code>MouseEvent.clientY</code>, and
+            <code>MouseEvent.button</code> are in use if the wheel is
+            associated to a pointing device.
+            <code>MouseEvent.relatedTarget</code> indicates the
+            <termref def="dt-event-target">event target</termref> the
+            pointing device is pointing at, if any.
+           </td>
+          </tr>
+         </tbody>
+        </table>
+
+        <p>
+         ...
+        </p>
+       </def>
+      </gitem>
+     </glist>
+    </div3>
+
+    <div3 id="Events-eventgroupings-mousewheelevents">
+     <head>
+      Mouse wheel event types
+     </head>
+
+     <p>
+      This module defines the feature MouseWheelEvents 3.0 and depends
+      on the feature MouseEvents 3.0.
+     </p>
+
+     <p>
+      ...
+     </p>
+
+     <definitions>
+<!-- MouseWheelEvent interface -->
+      <interface name="MouseWheelEvent" inherits="MouseEvent" id="Events-MouseWheelEvent" since="DOM Level 3">
+       <descr>
+        <p>
+         ...
+        </p>
+       </descr>
+
+       <attribute type="long" name="wheelDelta" readonly="yes" id="Events-MouseWheelEvent-wheelDelta">
+        <descr>
+         <p>
+          The distance the wheel has rotated around the y-axis.
+         </p>
+        </descr>
+       </attribute>
+
+       <method name="initMouseWheelEventNS" id="Events-Event-initMouseWheelEventNS">
+        <descr>
+         <p>
+          Initializes attributes of a <code>MouseWheelEvent</code>
+          object.
+         </p>
+        </descr>
+
+        <parameters>
+         <param name="namespaceURI" type="DOMString" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>UIEvent.initUIEventNS()</code> method for
+            a description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="typeArg" type="DOMString" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>UIEvent.initUIEventNS()</code> method for
+            a description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="canBubbleArg" type="boolean" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>UIEvent.initUIEventNS()</code> method for
+            a description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="cancelableArg" type="boolean" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>UIEvent.initUIEventNS()</code> method for
+            a description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="viewArg" type="views::AbstractView" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>UIEvent.initUIEventNS()</code> method for
+            a description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="detailArg" type="long" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>UIEvent.initUIEventNS()</code> method for
+            a description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="screenXArg" type="long" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>MouseEvent.initMouseEventNS()</code>
+            method for a description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="screenYArg" type="long" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>MouseEvent.initMouseEventNS()</code>
+            method for a description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="clientXArg" type="long" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>MouseEvent.initMouseEventNS()</code>
+            method for a description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="clientYArg" type="long" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>MouseEvent.initMouseEventNS()</code>
+            method for a description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="buttonArg" type="unsigned short" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>MouseEvent.initMouseEventNS()</code>
+            method for a description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="relatedTargetArg" type="EventTarget" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>MouseEvent.initMouseEventNS()</code>
+            method for a description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="modifiersList" type="DOMString" attr="in">
+          <descr>
+           <p>
+            Refer to the <code>MouseEvent.initMouseEventNS()</code>
+            method for a description of this parameter.
+           </p>
+          </descr>
+         </param>
+
+         <param name="wheelDelta" type="long" attr="in">
+          <descr>
+           <p>
+            Specifies <code>MouseWheelEvent.wheelDelta</code>.
+           </p>
+          </descr>
+         </param>
+        </parameters>
+
+        <returns type="void">
+         <descr>
+          <p>
+<!--empty paragraph-->
+          </p>
+         </descr>
+        </returns>
+
+        <raises>
+<!-- No exceptions -->
+        </raises>
+       </method>
+      </interface>
+     </definitions>
+<!--..................................................................................-->
+     <glist role="event-definition">
+      <gitem>
+       <label id="event-mousewheel"><termref def="event-mousewheel">mousewheel</termref></label>
+
+       <def>
+        <table summary="This table contains information about the semantics of the given event type" border="0" cellspacing="0" cellpadding="2">
+         <tbody>
+          <tr>
+           <th>
+            Type
+           </th>
+
+           <td>
+            <code>mousewheel</code>
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Namespace
+           </th>
+
+           <td>
+            <code>None</code>
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Interface
+           </th>
+
+           <td>
+            <code>MouseWheelEvent</code>
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Cancelable
+           </th>
+
+           <td>
+            Yes
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Bubbles
+           </th>
+
+           <td>
+            Yes
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Target
+           </th>
+
+           <td>
+            <code>Document</code>, <code>Element</code>
+           </td>
+          </tr>
+
+          <tr>
+           <th>
+            Context info
+           </th>
+
+           <td>
+            <code>MouseWheelEvent.wheelDelta</code>,
+            <code>MouseEvent.altKey</code>,
+            <code>MouseEvent.ctrlKey</code>,
+            <code>MouseEvent.shiftKey</code>,
+            <code>MouseEvent.metaKey</code>, and
+            <code>UIEvent.view</code> are in use.
+            <code>MouseEvent.screenX</code>,
+            <code>MouseEvent.screenY</code>,
+            <code>MouseEvent.clientX</code>,
+            <code>MouseEvent.clientY</code>, and
+            <code>MouseEvent.button</code> are in use if the wheel is
+            associated to a pointing device.
+            <code>MouseEvent.relatedTarget</code> indicates the
+            <termref def="dt-event-target">event target</termref> the
+            pointing device is pointing at, if any.
            </td>
           </tr>
          </tbody>
@@ -6517,8 +6290,13 @@
 
     <div3 id="Events-eventgroupings-mutationevents">
      <head>
-      Mutation and mutation name event types
+      Mutation event types
      </head>
+
+     <p>
+      This module defines the feature MutationEvents 3.0 and depends on
+      the features Events 3.0.
+     </p>
 
      <p>
       The mutation and mutation name event modules are designed to allow
@@ -6861,25 +6639,7 @@
      </definitions>
 
      <p>
-      The mutation event types are listed below. A DOM application may
-      use the <code>hasFeature(feature, version)</code> method of the
-      <code>DOMImplementation</code> interface with parameter values
-      <code>"MutationEvents"</code> and <code>"3.0"</code>
-      (respectively) to determine whether or not the Mutation event
-      module is supported by the implementation. In order to fully
-      support this module, an implementation must also support the
-      <code>"Events"</code> feature defined in this specification. For
-      additional information about
-      <xspecref href="http://www.w3.org/TR/DOM-Level-3-Core/introduction.html#ID-Conformance">conformance</xspecref>,
-      please see the DOM Level 3 Core specification
-      <bibref role="informative" ref="DOMCore"/>. This
-      <code>MutationEvent</code> interface is built on top of the DOM
-      Level 2 Mutation Events <bibref ref="DOM2Events"/> module, i.e. a
-      DOM Level 3 <code>MutationEvent</code> interface implementation
-      where <code>hasFeature("MutationEvents","3.0")</code> returns
-      <code>true</code> must also return <code>true</code> when the
-      <code>version</code> number is <code>"2.0"</code>, <code>""</code>
-      or, <code>null</code>.
+      The mutation event types are listed below.
      </p>
 
      <glist role="event-definition">
@@ -7566,6 +7326,17 @@
        </def>
       </gitem>
      </glist>
+    </div3>
+
+    <div3 id="Events-eventgroupings-mutationnameevents">
+     <head>
+      Mutation name event types
+     </head>
+
+     <p>
+      This module defines the feature MutationNameEvents 3.0 and depends
+      on the features MutationEvents 3.0 and Core 3.0.
+     </p>
 
      <definitions>
 <!-- MutationEvent interface -->
@@ -7775,19 +7546,7 @@
      </definitions>
 
      <p>
-      The mutation name event types are listed below. A DOM application
-      may use the <code>hasFeature(feature, version)</code> method of
-      the <code>DOMImplementation</code> interface with parameter values
-      "MutationNameEvents" and "3.0" (respectively) to determine whether
-      or not the Mutation Name event module is supported by the
-      implementation. In order to fully support this module, an
-      implementation must also support the <code>"MutationEvents"</code>
-      feature defined in this specification and the <code>"Core"</code>
-      feature defined in the DOM Level 3 Core specification
-      <bibref ref="DOMCore"/>. For additional information about
-      <xspecref href="http://www.w3.org/TR/DOM-Level-3-Core/introduction.html#ID-Conformance">conformance</xspecref>,
-      please see the DOM Level 3 Core specification
-      <bibref role="informative" ref="DOMCore"/>.
+      The mutation name event types are listed below.
      </p>
 
      <glist role="event-definition">
@@ -7985,25 +7744,9 @@
 
      <p>
       This event module contains basic event types associated with
-      document manipulation.
-     </p>
-
-     <p>
-      A DOM application may use the <code>hasFeature(feature,
-      version)</code> method of the <code>DOMImplementation</code>
-      interface with parameter values <code>"BasicEvents"</code> and
-      <code>"3.0"</code> (respectively) to determine whether or not the
-      basic event module is supported by the implementation. In order to
-      fully support this module, an implementation must also support the
-      <code>"Events"</code> feature defined in this specification. For
-      additional information about
-      <xspecref href="http://www.w3.org/TR/DOM-Level-3-Core/introduction.html#ID-Conformance">conformance</xspecref>,
-      please see the DOM Level 3 Core specification
-      <bibref role="informative" ref="DOMCore"/>.
-     </p>
-
-     <p>
-      The basic event types are listed below.
+      document manipulation. It defines the feature BasicEvents 3.0 and
+      depends on the feature Events 3.0. The basic event types are
+      listed below.
      </p>
 
      <p>
