@@ -850,68 +850,45 @@
     </head>
 
     <p>
-     Implementations may have a default action associated with an event
-     type. An example is the <bibref ref="HTML40" role="informative"/>
-     form element. When the user submits the form (e.g. by pressing on a
-     submit button), the event
-     <termref def="event-submit">submit</termref> is dispatched to the
-     element and the default action for this event type is generally to
-     send a request to a Web server with the parameters from the form.
-    </p>
-
-    <p>
-     The default actions are not part of the DOM Event flow. Before
-     invoking a default action, the implementation must first dispatch
-     the event as described in the <specref ref="Events-flow"/>.
+     Event objects can have default actions associated with them. These
+     are actions the implementation will perform in combination with the
+     dispatch of the event object, usually after the dispatch has been
+     complated, but in exceptional cases also immediately before the
+     event is dispatched. An example is the
+     <bibref ref="HTML40" role="informative"/> form element. When the
+     user submits the form (e.g. by pressing on a submit button), the
+     event <termref def="event-submit">submit</termref> is dispatched to
+     the element and the default action for this event type is generally
+     to send a request to a Web server with the parameters from the
+     form.
     </p>
 
     <p>
      <termdef id="dt-cancelable-event" term="cancelable event">
-      A <term>cancelable event</term> is an event associated with a
-      default action which is allowed to be canceled during the DOM
-      event flow.
+      Some event objects are <term>cancelable</term>, meaning the
+      default action can be prevented from occuring, or, if the default
+      action is carried out before the dispatch, its effect can be
+      reversed. Whether an event object is cancelable is indicated by
+      the <code>Event.cancelable</code> attribute. Event listeners can
+      cancel default actions of cancelable event objects by invoking the
+      <code>Event.preventDefault()</code> method, and determine whether
+      an event has been canceled through the
+      <code>Event.defaultPrevented</code> attribute while the object is
+      being dispatched, or from the return value of the
+      <code>EventTarget.dispatchEvent()</code> method for event objects
+      dispatched by the DOM application itself.
      </termdef>
-     At any phase during the event flow, the triggered event listeners
-     have the option of canceling the default action or allowing the
-     default action to proceed. In the case of the hyperlink in the
-     browser, canceling the action would have the result of not
-     activating the hyperlink. Not all events defined in this
-     specification are cancelable events. See also
-     <specref ref="cancelable_keys"/>.
     </p>
 
     <p>
-     Different implementations will specify their own default actions,
-     if any, associated with each event. The DOM Events specification
-     does not attempt to specify these actions.
-    </p>
-<!--
-      @@@
-      This is not entirely true, there are default actions for device
-      event types when the events trigger activation, and there is a
-      discussion about canceling keyboard events...
--->
-    <p>
-     This specification does not provide mechanisms for accessing
-     default actions or adding new ones.
-    </p>
-
-    <p>
-     Implementations could react to an event before dispatching it and
-     make changes to the display and the DOM tree. Preventing the
-     default action of such an event will reverse these changes. A good
-     example is the attribute <code>HTMLInputElement.checked</code>: as
-     described in <bibref role="informative" ref="DOM2HTML"/>, the value
-     of this attribute may be changed before the dispatch of the event;
-     the user clicks on the radio button, the radio button is being
-     checked (or unchecked) on the display, the attribute
-     <code>HTMLInputElement.checked</code> is changed as well, and then
-     the device event type <termref def="event-click">click</termref> is
-     being dispatched. If the default action of the device event type is
-     prevented, or if the default action attached to the
-     <termref def="event-DOMActivate">DOMActivate</termref> event type
-     is prevented, the attribute <code>HTMLInputElement.checked</code>
-     will need to be changed back to its original value.
+     This specification does not offer features to programatically query
+     if an event object has any default action associated to it or
+     associate new ones. It is expected that other specifications define
+     what default actions, if any, are associated with certain event
+     objects. Further, implementations may associate default actions
+     with events as necessary and appropriate. As an example, an
+     implementation may scroll a document view by a certain amount as
+     default action of a mouse wheel event.
     </p>
    </div2>
 
