@@ -45,6 +45,37 @@
           font-weight: bold;
       }	 
  
+		/*style for keyIdentifiers keyCode charCode table*/
+		table#tbl-keyIdentifiers-keyCode-charCode  { border: 1px solid black;  border-spacing: 0; cell-padding: 2; }
+		#tbl-keyIdentifiers-keyCode-charCode td { border: 1px solid #d3d3d3 }
+		#tbl-keyIdentifiers-keyCode-charCode th { border: 1px solid black }
+
+		#tbl-keyIdentifiers-keyCode-charCode th { text-align: center; font-weight: bold }
+
+		#tbl-keyIdentifiers-keyCode-charCode th { vertical-align: middle }
+		#tbl-keyIdentifiers-keyCode-charCode td { vertical-align: middle; text-align: center;  }
+		
+	    #tbl-keyIdentifiers-keyCode-charCode td:first-child + td + td + td + td,
+	    #tbl-keyIdentifiers-keyCode-charCode td:first-child + td + td + td + td + td + td + td + td + td + td,
+	    #tbl-keyIdentifiers-keyCode-charCode td:first-child + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td,
+	    #tbl-keyIdentifiers-keyCode-charCode td:first-child + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td
+	    {
+	      border-left: 1px solid black;
+	    }
+
+
+	    #tbl-keyIdentifiers-keyCode-charCode td:first-child + td + td + td + td + td + td,
+	    #tbl-keyIdentifiers-keyCode-charCode td:first-child + td + td + td + td + td + td + td + td,
+	    #tbl-keyIdentifiers-keyCode-charCode td:first-child + td + td + td + td + td + td + td + td + td + td + td + td,
+	    #tbl-keyIdentifiers-keyCode-charCode td:first-child + td + td + td + td + td + td + td + td + td + td + td + td + td + td,
+	    #tbl-keyIdentifiers-keyCode-charCode td:first-child + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td,
+	    #tbl-keyIdentifiers-keyCode-charCode td:first-child + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td,
+	    #tbl-keyIdentifiers-keyCode-charCode td:first-child + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td,
+	    #tbl-keyIdentifiers-keyCode-charCode td:first-child + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td
+	    {
+	      border-left: 1px solid gray;
+	    }
+		
   </style>
   </head>
   <body>
@@ -58,7 +89,7 @@
       <h1 id="Overview-title">Document Object Model (DOM) Level 3 Events Specification</h1>
       <h2 id="Overview-version">Version 1.0</h2>
       <!-- @@@ -->
-      <h2 id="Overview-W3C-doctype">Editor's Draft 27 June 2008</h2>
+      <h2 id="Overview-W3C-doctype">Editor's Draft 28 June 2008</h2>
       <dl>
         <dt>This version:</dt>
         <dd>
@@ -70,7 +101,7 @@
         </dd>
         <dt>Previous version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.15">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.15</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.15">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.16</a>
         </dd>
       </dl>
       <dl>
@@ -6718,7 +6749,7 @@ the default action of the keydown event is prevented</li>
 	<ol>
 		<li> Consider the primary function of the key (i.e., without modifiers), taking into consideration the keyboard layout mapping in use, to determine if a corresponding Unicode character exists from which a key identifier may be derived.  If  multiple Unicode characters exist which correspond to the primary function of the key, the Unicode character with the lowest codepoint must be used. 
 			<ol>
-				<li> If the primary function of the key is to generate a character, and that character is in one of the <a href="#glossary-dt-Unicode-character-categories">Unicode character categories</a> for which there exists an equivalent single character in class <abbr title="Letter, Uppercase">Lu</abbr>, the uppercase character should be used instead. </li>
+				<li> If the primary function of the key is to generate a character, and that character is in one of the <a href="#glossary-dt-Unicode-character-categories">Unicode character categories</a> for which there exists an equivalent single character in class <abbr title="Letter, Uppercase">Lu</abbr>, the uppercase character should be used instead. <span class="issue">Is this necessary?  Why can't we simply allow lowercase letters as well?  If a script author wishes to do a comparison, they can cast the output to upper or lower case as needed.</span></li>
 				<li> If the primary function of the key is to generate a character that is not in one of the above general categories, or if the primary function of the key is a function for which there exists a corresponding Unicode character that is not in one of the above general categories, then: 
 					<ol>
 						<li>If there exists an appropriate key identifier in the <a href="#keyset-KeySet-Set">key identifiers set</a>, and that key identifier does not have a Unicode codepoint, that key identifier must be used.</li>
@@ -6733,7 +6764,7 @@ the default action of the keydown event is prevented</li>
 			</ol>
 		</li>
 		<li> For keys with no corresponding Unicode character, a key identifier can be devised.  The key identifier should be as human friendly as possible and must not contain whitespace.  The identifier must be composed only of characters in the ranges <abbr title="0-9">U+0030..U+0039</abbr>, <abbr title="A-Z">U+0041..U+005A</abbr>, or <abbr title="a-z">U+0061..U+007A</abbr>, and must begin with a character in the range <abbr title="A-Z">U+0041..U+005A</abbr>. 
-			<p class="issue">Why should we not allow names in other ranges (Chinese, for example)?</p></li>
+			<span class="issue">Why should we not allow names in other ranges (Chinese, for example)?</span></li>
 	</ol>
 	<p>Examples:</p>
 	<ul>
@@ -6815,8 +6846,8 @@ the default action of the keydown event is prevented</li>
              <dd>The End key.</dd>
           <dt><a name="keyset-key-Enter" id="keyset-key-Enter">"Enter"</a></dt>
              <dd>The Enter key.
-			<p><strong>Note:</strong> This key identifier is also used for the Return (Macintosh numpad) key.</p>
-          </dd>
+			    <em><strong>Note:</strong> This key identifier is also used for the Return (Macintosh numpad) key.</em>
+             </dd>
           <dt><a name="keyset-key-EraseEof" id="keyset-key-EraseEof">"EraseEof"</a></dt>
              <dd>The Erase EOF key.</dd>
           <dt><a name="keyset-key-Execute" id="keyset-key-Execute">"Execute"</a></dt>
@@ -7290,6 +7321,488 @@ the default action of the keydown event is prevented</li>
         </dl>
       </div>
       <!-- div2 KeySet-Set -->
+
+
+      <div>
+        <a name="keyset-KeySet-Set-keyCode-charCode" id="keyset-KeySet-Set-keyCode-charCode"> </a>
+		<h2 id="keyset-KeySet-Set-keyCode-charCode-h2" class="adiv2">A.2.1 Key identifiers, keyCode, and charCode</h2>
+		<p><strong>Note:</strong> This section is non-normative.</p>
+		<p>Browser support for keyboards has traditionally relied on two ad-hoc attributes, <code class="attr-name">keyCode</code>, and <code class="attr-name">charCode</code>.  The values for these attributes, and the availability of the attribute, is inconsistent across platforms, keyboard languages and layouts, User Agents, versions, and even event types.  A significant amount of legacy content, including script libraries, relies upon detecting the User Agent and acting accordingly, and any changes to <code class="attr-name">keyCode</code>, or <code class="attr-name">charCode</code> risk breaking as much content as they fix or enable.  Additionally, these attributes are not suitable for international usage, or accessibility concerns.  Therefore, this specification does not normatively define the <code class="attr-name">keyCode</code>, and <code class="attr-name">charCode</code> attributes, relying instead only on the more robust key identifiers, which can be used safely and consistently in any User Agent which conforms to this specification.  However, for the purpose of documenting the current state of these attributes and their relation to equivalent key identifiers, this specification contains the following table, which is to be used as an informative reference only, and does not document the full range of values for <code class="attr-name">keyCode</code>, and <code class="attr-name">charCode</code>.</p>
+	    
+	    <table id="tbl-keyIdentifiers-keyCode-charCode">
+		  <caption>Key Identifiers Set with keyCode and charCode Equivalents for Major Browsers</caption>
+		  <tr><th rowspan="3">Character String</th><th rowspan="3">Key Name</th><th rowspan="3">Unicode Codepoint</th><th rowspan="3">Description</th><th colspan="6">Internet Explorer 7</th><th colspan="6">Firefox 3</th><th colspan="6">Safari 3.1</th><th colspan="6">Opera 9.5</th>
+		  </tr>
+	      <tr><th colspan="2">keydown</th><th colspan="2">keypress</th><th colspan="2">keyup</th><th colspan="2">keydown</th><th colspan="2">keypress</th><th colspan="2">keyup</th><th colspan="2">keydown</th><th colspan="2">keypress</th><th colspan="2">keyup</th><th colspan="2">keydown</th><th colspan="2">keypress</th><th colspan="2">keyup</th>
+		  </tr>
+	      <tr><th>keyCode</th><th>charCode</th><th>keyCode</th><th>charCode</th><th>keyCode</th><th>charCode</th><th>keyCode</th><th>charCode</th><th>keyCode</th><th>charCode</th><th>keyCode</th><th>charCode</th><th>keyCode</th><th>charCode</th><th>keyCode</th><th>charCode</th><th>keyCode</th><th>charCode</th><th>keyCode</th><th>charCode</th><th>keyCode</th><th>charCode</th><th>keyCode</th><th>charCode</th>
+		  </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Accept" id="tbl-keyset-key-Accept"> Accept </a></td><td> </td><td>The Accept (Commit, OK) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Again" id="tbl-keyset-key-Again"> Again </a></td><td> </td><td>The Again key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-AllCandidates" id="tbl-keyset-key-AllCandidates"> AllCandidates </a></td><td> </td><td>The All Candidates key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Alphanumeric" id="tbl-keyset-key-Alphanumeric"> Alphanumeric </a></td><td> </td><td>The Alphanumeric key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Alt" id="tbl-keyset-key-Alt"> Alt </a></td><td> </td><td>The Alt (Menu) key.</td><td>18</td><td>-</td><td>-</td><td>-</td><td>18</td><td>-</td><td>18</td><td>-</td><td>-</td><td>-</td><td>18</td><td>-</td><td>18</td><td>-</td><td>-</td><td>-</td><td>18</td><td>-</td><td>18</td><td>-</td><td>18</td><td>-</td><td>-</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-AltGraph" id="tbl-keyset-key-AltGraph"> AltGraph </a></td><td> </td><td>The Alt-Graph key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Apps" id="tbl-keyset-key-Apps"> Apps </a></td><td> </td><td>The Application key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Attn" id="tbl-keyset-key-Attn"> Attn </a></td><td> </td><td>The ATTN key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-BrowserBack" id="tbl-keyset-key-BrowserBack"> BrowserBack </a></td><td> </td><td>The Browser Back key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-BrowserFavorites" id="tbl-keyset-key-BrowserFavorites"> BrowserFavorites </a></td><td> </td><td>The Browser Favorites key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-BrowserForward" id="tbl-keyset-key-BrowserForward"> BrowserForward </a></td><td> </td><td>The Browser Forward key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-BrowserHome" id="tbl-keyset-key-BrowserHome"> BrowserHome </a></td><td> </td><td>The Browser Home key.</td><td>36</td><td>-</td><td>-</td><td>-</td><td>36</td><td>-</td><td>36</td><td>-</td><td>36</td><td>-</td><td>36</td><td>-</td><td>36</td><td>-</td><td>-</td><td>-</td><td>36</td><td>-</td><td>36</td><td>-</td><td>36</td><td>-</td><td>36</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-BrowserRefresh" id="tbl-keyset-key-BrowserRefresh"> BrowserRefresh </a></td><td> </td><td>The Browser Refresh key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-BrowserSearch" id="tbl-keyset-key-BrowserSearch"> BrowserSearch </a></td><td> </td><td>The Browser Search key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-BrowserStop" id="tbl-keyset-key-BrowserStop"> BrowserStop </a></td><td> </td><td>The Browser Stop key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-CapsLock" id="tbl-keyset-key-CapsLock"> CapsLock </a></td><td> </td><td>The Caps Lock (Capital) key.</td><td>20</td><td>-</td><td>-</td><td>-</td><td>20</td><td>-</td><td>20</td><td>-</td><td>-</td><td>-</td><td>20</td><td>-</td><td>20</td><td>-</td><td>-</td><td>-</td><td>20</td><td>-</td><td>20</td><td>-</td><td>-</td><td>-</td><td>20</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Clear" id="tbl-keyset-key-Clear"> Clear </a></td><td> </td><td>The Clear key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-CodeInput" id="tbl-keyset-key-CodeInput"> CodeInput </a></td><td> </td><td>The Code Input key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Compose" id="tbl-keyset-key-Compose"> Compose </a></td><td> </td><td>The Compose key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Control" id="tbl-keyset-key-Control"> Control </a></td><td> </td><td>The Control (Ctrl) key.</td><td>17</td><td>-</td><td>-</td><td>-</td><td>17</td><td>-</td><td>17</td><td>-</td><td>-</td><td>-</td><td>17</td><td>-</td><td>17</td><td>-</td><td>-</td><td>-</td><td>17</td><td>-</td><td>17</td><td>-</td><td>17</td><td>-</td><td>17</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Crsel" id="tbl-keyset-key-Crsel"> Crsel </a></td><td> </td><td>The Crsel key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Convert" id="tbl-keyset-key-Convert"> Convert </a></td><td> </td><td>The Convert key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Copy" id="tbl-keyset-key-Copy"> Copy </a></td><td> </td><td>The Copy key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Cut" id="tbl-keyset-key-Cut"> Cut </a></td><td> </td><td>The Cut key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Down" id="tbl-keyset-key-Down"> Down </a></td><td> </td><td>The Down Arrow key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-DownLeft" id="tbl-keyset-key-DownLeft"> DownLeft </a></td><td> </td><td>The diagonal Down-Left Arrow key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-DownRight" id="tbl-keyset-key-DownRight"> DownRight </a></td><td> </td><td>The diagonal Down-Right Arrow key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-End" id="tbl-keyset-key-End"> End </a></td><td> </td><td>The End key.</td><td>35</td><td>-</td><td>-</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td><td>-</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Enter" id="tbl-keyset-key-Enter"> Enter </a></td><td> </td><td>The Enter key. <em><strong>Note:</strong> This key identifier is also used for the Return (Macintosh numpad) key.</em></td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>13</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-EraseEof" id="tbl-keyset-key-EraseEof"> EraseEof </a></td><td> </td><td>The Erase EOF key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Execute" id="tbl-keyset-key-Execute"> Execute </a></td><td> </td><td>The Execute key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Exsel" id="tbl-keyset-key-Exsel"> Exsel </a></td><td> </td><td>The Exsel key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F1" id="tbl-keyset-key-F1"> F1 </a></td><td> </td><td>The F1 key.</td><td>112</td><td>-</td><td>-</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td><td>-</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F2" id="tbl-keyset-key-F2"> F2 </a></td><td> </td><td>The F2 key.</td><td>113</td><td>-</td><td>-</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td><td>-</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F3" id="tbl-keyset-key-F3"> F3 </a></td><td> </td><td>The F3 key.</td><td>114</td><td>-</td><td>-</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td><td>-</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F4" id="tbl-keyset-key-F4"> F4 </a></td><td> </td><td>The F4 key.</td><td>115</td><td>-</td><td>-</td><td>-</td><td>115</td><td>-</td><td>115</td><td>-</td><td>115</td><td>-</td><td>115</td><td>-</td><td>115</td><td>-</td><td>-</td><td>-</td><td>115</td><td>-</td><td>115</td><td>-</td><td>115</td><td>-</td><td>115</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F5" id="tbl-keyset-key-F5"> F5 </a></td><td> </td><td>The F5 key.</td><td>116</td><td>-</td><td>-</td><td>-</td><td>116</td><td>-</td><td>116</td><td>-</td><td>116</td><td>-</td><td>116</td><td>-</td><td>116</td><td>-</td><td>-</td><td>-</td><td>116</td><td>-</td><td>116</td><td>-</td><td>116</td><td>-</td><td>116</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F6" id="tbl-keyset-key-F6"> F6 </a></td><td> </td><td>The F6 key.</td><td>117</td><td>-</td><td>-</td><td>-</td><td>117</td><td>-</td><td>117</td><td>-</td><td>117</td><td>-</td><td>117</td><td>-</td><td>117</td><td>-</td><td>-</td><td>-</td><td>117</td><td>-</td><td>117</td><td>-</td><td>117</td><td>-</td><td>117</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F7" id="tbl-keyset-key-F7"> F7 </a></td><td> </td><td>The F7 key.</td><td>118</td><td>-</td><td>-</td><td>-</td><td>118</td><td>-</td><td>118</td><td>-</td><td>118</td><td>-</td><td>118</td><td>-</td><td>118</td><td>-</td><td>-</td><td>-</td><td>118</td><td>-</td><td>118</td><td>-</td><td>118</td><td>-</td><td>118</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F8" id="tbl-keyset-key-F8"> F8 </a></td><td> </td><td>The F8 key.</td><td>119</td><td>-</td><td>-</td><td>-</td><td>119</td><td>-</td><td>119</td><td>-</td><td>119</td><td>-</td><td>119</td><td>-</td><td>119</td><td>-</td><td>-</td><td>-</td><td>119</td><td>-</td><td>119</td><td>-</td><td>119</td><td>-</td><td>119</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F9" id="tbl-keyset-key-F9"> F9 </a></td><td> </td><td>The F9 key.</td><td>120</td><td>-</td><td>-</td><td>-</td><td>120</td><td>-</td><td>120</td><td>-</td><td>120</td><td>-</td><td>120</td><td>-</td><td>120</td><td>-</td><td>-</td><td>-</td><td>120</td><td>-</td><td>120</td><td>-</td><td>120</td><td>-</td><td>120</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F10" id="tbl-keyset-key-F10"> F10 </a></td><td> </td><td>The F10 key.</td><td>121</td><td>-</td><td>-</td><td>-</td><td>121</td><td>-</td><td>121</td><td>-</td><td>121</td><td>-</td><td>121</td><td>-</td><td>121</td><td>-</td><td>-</td><td>-</td><td>121</td><td>-</td><td>121</td><td>-</td><td>121</td><td>-</td><td>121</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F11" id="tbl-keyset-key-F11"> F11 </a></td><td> </td><td>The F11 key.</td><td>122</td><td>-</td><td>-</td><td>-</td><td>122</td><td>-</td><td>122</td><td>-</td><td>122</td><td>-</td><td>122</td><td>-</td><td>122</td><td>-</td><td>-</td><td>-</td><td>122</td><td>-</td><td>122</td><td>-</td><td>122</td><td>-</td><td>122</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F12" id="tbl-keyset-key-F12"> F12 </a></td><td> </td><td>The F12 key.</td><td>123</td><td>-</td><td>-</td><td>-</td><td>123</td><td>-</td><td>123</td><td>-</td><td>123</td><td>-</td><td>123</td><td>-</td><td>123</td><td>-</td><td>-</td><td>-</td><td>123</td><td>-</td><td>123</td><td>-</td><td>123</td><td>-</td><td>123</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F13" id="tbl-keyset-key-F13"> F13 </a></td><td> </td><td>The F13 key.</td><td>124</td><td>-</td><td>-</td><td>-</td><td>124</td><td>-</td><td>124</td><td>-</td><td>124</td><td>-</td><td>124</td><td>-</td><td>124</td><td>-</td><td>-</td><td>-</td><td>124</td><td>-</td><td>124</td><td>-</td><td>124</td><td>-</td><td>124</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F14" id="tbl-keyset-key-F14"> F14 </a></td><td> </td><td>The F14 key.</td><td>125</td><td>-</td><td>-</td><td>-</td><td>125</td><td>-</td><td>125</td><td>-</td><td>125</td><td>-</td><td>125</td><td>-</td><td>125</td><td>-</td><td>-</td><td>-</td><td>125</td><td>-</td><td>125</td><td>-</td><td>125</td><td>-</td><td>125</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F15" id="tbl-keyset-key-F15"> F15 </a></td><td> </td><td>The F15 key.</td><td>126</td><td>-</td><td>-</td><td>-</td><td>126</td><td>-</td><td>126</td><td>-</td><td>126</td><td>-</td><td>126</td><td>-</td><td>126</td><td>-</td><td>-</td><td>-</td><td>126</td><td>-</td><td>126</td><td>-</td><td>126</td><td>-</td><td>126</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F16" id="tbl-keyset-key-F16"> F16 </a></td><td> </td><td>The F16 key.</td><td>127</td><td>-</td><td>-</td><td>-</td><td>127</td><td>-</td><td>127</td><td>-</td><td>127</td><td>-</td><td>127</td><td>-</td><td>127</td><td>-</td><td>-</td><td>-</td><td>127</td><td>-</td><td>127</td><td>-</td><td>127</td><td>-</td><td>127</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F17" id="tbl-keyset-key-F17"> F17 </a></td><td> </td><td>The F17 key.</td><td>128</td><td>-</td><td>-</td><td>-</td><td>128</td><td>-</td><td>128</td><td>-</td><td>128</td><td>-</td><td>128</td><td>-</td><td>128</td><td>-</td><td>-</td><td>-</td><td>128</td><td>-</td><td>128</td><td>-</td><td>128</td><td>-</td><td>128</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F18" id="tbl-keyset-key-F18"> F18 </a></td><td> </td><td>The F18 key.</td><td>129</td><td>-</td><td>-</td><td>-</td><td>129</td><td>-</td><td>129</td><td>-</td><td>129</td><td>-</td><td>129</td><td>-</td><td>129</td><td>-</td><td>-</td><td>-</td><td>129</td><td>-</td><td>129</td><td>-</td><td>129</td><td>-</td><td>129</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F19" id="tbl-keyset-key-F19"> F19 </a></td><td> </td><td>The F19 key.</td><td>130</td><td>-</td><td>-</td><td>-</td><td>130</td><td>-</td><td>130</td><td>-</td><td>130</td><td>-</td><td>130</td><td>-</td><td>130</td><td>-</td><td>-</td><td>-</td><td>130</td><td>-</td><td>130</td><td>-</td><td>130</td><td>-</td><td>130</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F20" id="tbl-keyset-key-F20"> F20 </a></td><td> </td><td>The F20 key.</td><td>131</td><td>-</td><td>-</td><td>-</td><td>131</td><td>-</td><td>131</td><td>-</td><td>131</td><td>-</td><td>131</td><td>-</td><td>131</td><td>-</td><td>-</td><td>-</td><td>131</td><td>-</td><td>131</td><td>-</td><td>131</td><td>-</td><td>131</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F21" id="tbl-keyset-key-F21"> F21 </a></td><td> </td><td>The F21 key.</td><td>132</td><td>-</td><td>-</td><td>-</td><td>132</td><td>-</td><td>132</td><td>-</td><td>132</td><td>-</td><td>132</td><td>-</td><td>132</td><td>-</td><td>-</td><td>-</td><td>132</td><td>-</td><td>132</td><td>-</td><td>132</td><td>-</td><td>132</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F22" id="tbl-keyset-key-F22"> F22 </a></td><td> </td><td>The F22 key.</td><td>133</td><td>-</td><td>-</td><td>-</td><td>133</td><td>-</td><td>133</td><td>-</td><td>133</td><td>-</td><td>133</td><td>-</td><td>133</td><td>-</td><td>-</td><td>-</td><td>133</td><td>-</td><td>133</td><td>-</td><td>133</td><td>-</td><td>133</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F23" id="tbl-keyset-key-F23"> F23 </a></td><td> </td><td>The F23 key.</td><td>134</td><td>-</td><td>-</td><td>-</td><td>134</td><td>-</td><td>134</td><td>-</td><td>134</td><td>-</td><td>134</td><td>-</td><td>134</td><td>-</td><td>-</td><td>-</td><td>134</td><td>-</td><td>134</td><td>-</td><td>134</td><td>-</td><td>134</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-F24" id="tbl-keyset-key-F24"> F24 </a></td><td> </td><td>The F24 key.</td><td>135</td><td>-</td><td>-</td><td>-</td><td>135</td><td>-</td><td>135</td><td>-</td><td>135</td><td>-</td><td>135</td><td>-</td><td>135</td><td>-</td><td>-</td><td>-</td><td>135</td><td>-</td><td>135</td><td>-</td><td>135</td><td>-</td><td>135</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-FinalMode" id="tbl-keyset-key-FinalMode"> FinalMode </a></td><td> </td><td>The Final Mode (Final) key used on some asian keyboards.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Find" id="tbl-keyset-key-Find"> Find </a></td><td> </td><td>The Find key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-FullWidth" id="tbl-keyset-key-FullWidth"> FullWidth </a></td><td> </td><td>The Full-Width Characters key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-HalfWidth" id="tbl-keyset-key-HalfWidth"> HalfWidth </a></td><td> </td><td>The Half-Width Characters key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-HangulMode" id="tbl-keyset-key-HangulMode"> HangulMode </a></td><td> </td><td>The Hangul (Korean characters) Mode key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-HanjaMode" id="tbl-keyset-key-HanjaMode"> HanjaMode </a></td><td> </td><td>The Hanja (Korean characters) Mode key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Help" id="tbl-keyset-key-Help"> Help </a></td><td> </td><td>The Help key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Hiragana" id="tbl-keyset-key-Hiragana"> Hiragana </a></td><td> </td><td>The Hiragana (Japanese Kana characters) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Home" id="tbl-keyset-key-Home"> Home </a></td><td> </td><td>The Home key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Insert" id="tbl-keyset-key-Insert"> Insert </a></td><td> </td><td>The Insert (Ins) key.</td><td>45</td><td>-</td><td>-</td><td>-</td><td>45</td><td>-</td><td>45</td><td>-</td><td>45</td><td>-</td><td>45</td><td>-</td><td>45</td><td>-</td><td>-</td><td>-</td><td>45</td><td>-</td><td>45</td><td>-</td><td>45</td><td>-</td><td>45</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-JapaneseHiragana" id="tbl-keyset-key-JapaneseHiragana"> JapaneseHiragana </a></td><td> </td><td>The Japanese-Hiragana key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-JapaneseKatakana" id="tbl-keyset-key-JapaneseKatakana"> JapaneseKatakana </a></td><td> </td><td>The Japanese-Katakana key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-JapaneseRomaji" id="tbl-keyset-key-JapaneseRomaji"> JapaneseRomaji </a></td><td> </td><td>The Japanese-Romaji key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-JunjaMode" id="tbl-keyset-key-JunjaMode"> JunjaMode </a></td><td> </td><td>The Junja Mode key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-KanaMode" id="tbl-keyset-key-KanaMode"> KanaMode </a></td><td> </td><td>The Kana Mode (Kana Lock) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-KanjiMode" id="tbl-keyset-key-KanjiMode"> KanjiMode </a></td><td> </td><td>The Kanji (Japanese name for ideographic characters of Chinese origin) Mode key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Katakana" id="tbl-keyset-key-Katakana"> Katakana </a></td><td> </td><td>The Katakana (Japanese Kana characters) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-LaunchApplication1" id="tbl-keyset-key-LaunchApplication1"> LaunchApplication1 </a></td><td> </td><td>The Start Application One key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-LaunchApplication2" id="tbl-keyset-key-LaunchApplication2"> LaunchApplication2 </a></td><td> </td><td>The Start Application Two key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-LaunchMail" id="tbl-keyset-key-LaunchMail"> LaunchMail </a></td><td> </td><td>The Start Mail key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Left" id="tbl-keyset-key-Left"> Left </a></td><td> </td><td>The Left Arrow key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Menu" id="tbl-keyset-key-Menu"> Menu </a></td><td> </td><td>The Menu key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Meta" id="tbl-keyset-key-Meta"> Meta </a></td><td> </td><td>The Meta key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-MediaNextTrack" id="tbl-keyset-key-MediaNextTrack"> MediaNextTrack </a></td><td> </td><td>The Media Next Track key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-MediaPlayPause" id="tbl-keyset-key-MediaPlayPause"> MediaPlayPause </a></td><td> </td><td>The Media Play Pause key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-MediaPreviousTrack" id="tbl-keyset-key-MediaPreviousTrack"> MediaPreviousTrack </a></td><td> </td><td>The Media Previous Track key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-MediaStop" id="tbl-keyset-key-MediaStop"> MediaStop </a></td><td> </td><td>The Media Stop key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-ModeChange" id="tbl-keyset-key-ModeChange"> ModeChange </a></td><td> </td><td>The Mode Change key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Nonconvert" id="tbl-keyset-key-Nonconvert"> Nonconvert </a></td><td> </td><td>The Nonconvert (Don't Convert) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-NumLock" id="tbl-keyset-key-NumLock"> NumLock </a></td><td> </td><td>The Number Lock key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-PageDown" id="tbl-keyset-key-PageDown"> PageDown </a></td><td> </td><td>The Page Down (Next) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-PageUp" id="tbl-keyset-key-PageUp"> PageUp </a></td><td> </td><td>The Page Up key.</td><td>33</td><td>-</td><td>-</td><td>-</td><td>33</td><td>-</td><td>33</td><td>-</td><td>33</td><td>-</td><td>33</td><td>-</td><td>33</td><td>-</td><td>-</td><td>-</td><td>33</td><td>-</td><td>33</td><td>-</td><td>33</td><td>-</td><td>33</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Paste" id="tbl-keyset-key-Paste"> Paste </a></td><td> </td><td>The Paste key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Pause" id="tbl-keyset-key-Pause"> Pause </a></td><td> </td><td>The Pause key.</td><td>19</td><td>-</td><td>-</td><td>-</td><td>19</td><td>-</td><td>19</td><td>-</td><td>19</td><td>-</td><td>19</td><td>-</td><td>19</td><td>-</td><td>-</td><td>-</td><td>19</td><td>-</td><td>19</td><td>-</td><td>19</td><td>-</td><td>19</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Play" id="tbl-keyset-key-Play"> Play </a></td><td> </td><td>The Play key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-PreviousCandidate" id="tbl-keyset-key-PreviousCandidate"> PreviousCandidate </a></td><td> </td><td>The Previous Candidate function key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-PrintScreen" id="tbl-keyset-key-PrintScreen"> PrintScreen </a></td><td> </td><td>The Print Screen (PrintScrn, SnapShot) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Process" id="tbl-keyset-key-Process"> Process </a></td><td> </td><td>The Process key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Props" id="tbl-keyset-key-Props"> Props </a></td><td> </td><td>The Props key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Right" id="tbl-keyset-key-Right"> Right </a></td><td> </td><td>The Right Arrow key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-RomanCharacters" id="tbl-keyset-key-RomanCharacters"> RomanCharacters </a></td><td> </td><td>The Roman Characters function key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Scroll" id="tbl-keyset-key-Scroll"> Scroll </a></td><td> </td><td>The Scroll Lock key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Select" id="tbl-keyset-key-Select"> Select </a></td><td> </td><td>The Select key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-SelectMedia" id="tbl-keyset-key-SelectMedia"> SelectMedia </a></td><td> </td><td>The Select Media key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Shift" id="tbl-keyset-key-Shift"> Shift </a></td><td> </td><td>The Shift key.</td><td>17</td><td>-</td><td>-</td><td>-</td><td>17</td><td>-</td><td>17</td><td>-</td><td>-</td><td>-</td><td>17</td><td>-</td><td>17</td><td>-</td><td>-</td><td>-</td><td>17</td><td>-</td><td>17</td><td>-</td><td>17</td><td>-</td><td>17</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Soft1" id="tbl-keyset-key-Soft1"> Soft1 </a></td><td> </td><td>The Soft1 key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Soft2" id="tbl-keyset-key-Soft1"> Soft2 </a></td><td> </td><td>The Soft2 key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Soft3" id="tbl-keyset-key-Soft1"> Soft3 </a></td><td> </td><td>The Soft3 key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Soft4" id="tbl-keyset-key-Soft1"> Soft4 </a></td><td> </td><td>The Soft4 key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Stop" id="tbl-keyset-key-Stop"> Stop </a></td><td> </td><td>The Stop key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Up" id="tbl-keyset-key-Up"> Up </a></td><td> </td><td>The Up Arrow key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-UpLeft" id="tbl-keyset-key-UpLeft"> UpLeft </a></td><td> </td><td>The diagonal Up-Left Arrow key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-UpRight" id="tbl-keyset-key-UpRight"> UpRight </a></td><td> </td><td>The diagonal Up-Right Arrow key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Undo" id="tbl-keyset-key-Undo"> Undo </a></td><td> </td><td>The Undo key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-VolumeDown" id="tbl-keyset-key-VolumeDown"> VolumeDown </a></td><td> </td><td>The Volume Down key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-VolumeMute" id="tbl-keyset-key-VolumeMute"> VolumeMute </a></td><td> </td><td>The Volume Mute key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-VolumeUp" id="tbl-keyset-key-VolumeUp"> VolumeUp </a></td><td> </td><td>The Volume Up key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Win" id="tbl-keyset-key-Win"> Win </a></td><td> </td><td>The Windows Logo key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Zoom" id="tbl-keyset-key-Zoom"> Zoom </a></td><td> </td><td>The Zoom key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Backspace" id="tbl-keyset-key-Backspace"> Backspace </a></td><td><a name="tbl-keyset-key-U-0008" id="tbl-keyset-key-U-0008"> U+0008 </a></td><td>The Backspace (Back) key.</td><td>8</td><td>-</td><td>-</td><td>-</td><td>8</td><td>-</td><td>8</td><td>-</td><td>8</td><td>-</td><td>8</td><td>-</td><td>8</td><td>-</td><td>-</td><td>-</td><td>8</td><td>-</td><td>8</td><td>-</td><td>8</td><td>-</td><td>8</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Tab" id="tbl-keyset-key-Tab"> Tab </a></td><td><a name="tbl-keyset-key-U-0009" id="tbl-keyset-key-U-0009"> U+0009 </a></td><td>The Horizontal Tabulation (Tab) key.</td><td>9</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>9</td><td>-</td><td>9</td><td>-</td><td>-</td><td>-</td><td>9</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>9</td><td>-</td><td>9</td><td>-</td><td>-</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Cancel" id="tbl-keyset-key-Cancel"> Cancel </a></td><td><a name="tbl-keyset-key-U-0018" id="tbl-keyset-key-U-0018"> U+0018 </a></td><td>The Cancel key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Esc" id="tbl-keyset-key-Esc"> Esc </a></td><td><a name="tbl-keyset-key-U-001B" id="tbl-keyset-key-U-001B"> U+001B </a></td><td>The Escape (Esc) key.</td><td>27</td><td>-</td><td>27</td><td>-</td><td>27</td><td>-</td><td>27</td><td>-</td><td>27</td><td>-</td><td>27</td><td>-</td><td>27</td><td>-</td><td>-</td><td>-</td><td>27</td><td>-</td><td>27</td><td>-</td><td>27</td><td>-</td><td>27</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Spacebar" id="tbl-keyset-key-Spacebar"> Spacebar </a></td><td><a name="tbl-keyset-key-U-0020" id="tbl-keyset-key-U-0020"> U+0020 </a></td><td>The Space (Spacebar) key.</td><td>32</td><td>-</td><td>32</td><td>-</td><td>32</td><td>-</td><td>32</td><td>-</td><td>0</td><td>32</td><td>32</td><td>-</td><td>32</td><td>-</td><td>32</td><td>32</td><td>32</td><td>-</td><td>32</td><td>-</td><td>32</td><td>-</td><td>32</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-ExclamationChar" id="tbl-keyset-key-ExclamationChar"> ! </a></td><td><a name="tbl-keyset-key-Exclamation" id="tbl-keyset-key-Exclamation"> Exclamation </a></td><td><a name="tbl-keyset-key-U-0021" id="tbl-keyset-key-U-0021"> U+0021 </a></td><td>The Exclamation Mark (Factorial, Bang) key.</td><td>49</td><td>-</td><td>33</td><td>-</td><td>49</td><td>-</td><td>49</td><td>-</td><td>0</td><td>33</td><td>49</td><td>-</td><td>49</td><td>-</td><td>33</td><td>33</td><td>49</td><td>-</td><td>49</td><td>-</td><td>33</td><td>-</td><td>49</td><td>-</td>
+	      </tr>
+	      <tr><td> " </td><td><a name="tbl-keyset-key-DoubleQuote" id="tbl-keyset-key-DoubleQuote"> DoubleQuote </a></td><td><a name="tbl-keyset-key-U-0022" id="tbl-keyset-key-U-0022"> U+0022 </a></td><td>The Quotation Mark (Quote Double) key.  <em><strong>Note:</strong> May need to be escaped as an attribute value.</em></td><td>50</td><td>-</td><td>34</td><td>-</td><td>50</td><td>-</td><td>50</td><td>-</td><td>0</td><td>34</td><td>50</td><td>-</td><td>50</td><td>-</td><td>34</td><td>34</td><td>50</td><td>-</td><td>50</td><td>-</td><td>34</td><td>-</td><td>50</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-HashChar" id="tbl-keyset-key-HashChar"> # </a></td><td><a name="tbl-keyset-key-Hash" id="tbl-keyset-key-Hash"> Hash </a></td><td><a name="tbl-keyset-key-U-0023" id="tbl-keyset-key-U-0023"> U+0023 </a></td><td>The Number Sign (Pound Sign, Hash, Crosshatch, Octothorpe) key.</td><td>51</td><td>-</td><td>35</td><td>-</td><td>51</td><td>-</td><td>51</td><td>-</td><td>0</td><td>35</td><td>51</td><td>-</td><td>51</td><td>-</td><td>35</td><td>35</td><td>51</td><td>-</td><td>51</td><td>-</td><td>35</td><td>-</td><td>51</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-DollarChar" id="tbl-keyset-key-DollarChar"> $ </a></td><td><a name="tbl-keyset-key-Dollar" id="tbl-keyset-key-Dollar"> Dollar </a></td><td><a name="tbl-keyset-key-U-0024" id="tbl-keyset-key-U-0024"> U+0024 </a></td><td>The Dollar Sign (milreis, escudo) key.</td><td>52</td><td>-</td><td>36</td><td>-</td><td>52</td><td>-</td><td>52</td><td>-</td><td>0</td><td>36</td><td>52</td><td>-</td><td>52</td><td>-</td><td>36</td><td>36</td><td>52</td><td>-</td><td>52</td><td>-</td><td>36</td><td>-</td><td>52</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-AmpersandChar" id="tbl-keyset-key-AmpersandChar"> &amp; </a></td><td><a name="tbl-keyset-key-Ampersand" id="tbl-keyset-key-Ampersand"> Ampersand </a></td><td><a name="tbl-keyset-key-U-0026" id="tbl-keyset-key-U-0026"> U+0026 </a></td><td>The Ampersand key.</td><td>54</td><td>-</td><td>38</td><td>-</td><td>54</td><td>-</td><td>54</td><td>-</td><td>0</td><td>38</td><td>54</td><td>-</td><td>54</td><td>-</td><td>38</td><td>38</td><td>54</td><td>-</td><td>54</td><td>-</td><td>38</td><td>-</td><td>54</td><td>-</td>
+	      </tr>
+	      <tr><td> ' </td><td><a name="tbl-keyset-key-Apostrophe" id="tbl-keyset-key-Apostrophe"> Apostrophe </a></td><td><a name="tbl-keyset-key-U-0027" id="tbl-keyset-key-U-0027"> U+0027 </a></td><td>The Apostrophe (Apostrophe-Quote, APL Quote) key.  <em><strong>Note:</strong> May need to be escaped as an attribute value.</em></td><td>191</td><td>-</td><td>39</td><td>-</td><td>191</td><td>-</td><td>191</td><td>-</td><td>0</td><td>39</td><td>191</td><td>-</td><td>191</td><td>-</td><td>39</td><td>39</td><td>191</td><td>-</td><td>222</td><td>-</td><td>39</td><td>-</td><td>222</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-LeftParenChar" id="tbl-keyset-key-LeftParenChar"> ( </a></td><td><a name="tbl-keyset-key-LeftParen" id="tbl-keyset-key-LeftParen"> LeftParen </a></td><td><a name="tbl-keyset-key-U-0028" id="tbl-keyset-key-U-0028"> U+0028 </a></td><td>The Left Parenthesis (Opening Parenthesis) key.</td><td>56</td><td>-</td><td>40</td><td>-</td><td>56</td><td>-</td><td>56</td><td>-</td><td>0</td><td>40</td><td>56</td><td>-</td><td>56</td><td>-</td><td>40</td><td>40</td><td>56</td><td>-</td><td>56</td><td>-</td><td>40</td><td>-</td><td>56</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-RightParenChar" id="tbl-keyset-key-RightParenChar"> ) </a></td><td><a name="tbl-keyset-key-RightParen" id="tbl-keyset-key-RightParen"> RightParen </a></td><td><a name="tbl-keyset-key-U-0029" id="tbl-keyset-key-U-0029"> U+0029 </a></td><td>The Right Parenthesis (Closing Parenthesis) key.</td><td>57</td><td>-</td><td>41</td><td>-</td><td>57</td><td>-</td><td>57</td><td>-</td><td>0</td><td>41</td><td>57</td><td>-</td><td>57</td><td>-</td><td>41</td><td>41</td><td>57</td><td>-</td><td>57</td><td>-</td><td>41</td><td>-</td><td>57</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-AsterixChar" id="tbl-keyset-key-AsterixChar"> * </a></td><td><a name="tbl-keyset-key-Asterix" id="tbl-keyset-key-Asterix"> Asterix </a></td><td><a name="tbl-keyset-key-U-002A" id="tbl-keyset-key-U-002A"> U+002A </a></td><td>The Asterix (Star) key (in number pad).</td><td>106</td><td>-</td><td>42</td><td>-</td><td>106</td><td>-</td><td>106</td><td>-</td><td>0</td><td>42</td><td>106</td><td>-</td><td>106</td><td>-</td><td>42</td><td>42</td><td>106</td><td>-</td><td>42</td><td>-</td><td>42</td><td>-</td><td>42</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-PercentChar" id="tbl-keyset-key-PercentChar"> + </a></td><td><a name="tbl-keyset-key-Percent" id="tbl-keyset-key-Percent"> Percent </a></td><td><a name="tbl-keyset-key-U-002B" id="tbl-keyset-key-U-002B"> </a></td><td>The Percent key.</td><td>53</td><td>-</td><td>37</td><td>-</td><td>53</td><td>-</td><td>53</td><td>-</td><td>0</td><td>37</td><td>53</td><td>-</td><td>53</td><td>-</td><td>37</td><td>37</td><td>53</td><td>-</td><td>53</td><td>-</td><td>37</td><td>-</td><td>53</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-PlusChar" id="tbl-keyset-key-PlusChar"> + </a></td><td><a name="tbl-keyset-key-Plus" id="tbl-keyset-key-Plus"> Plus </a></td><td><a name="tbl-keyset-key-U-002B" id="tbl-keyset-key-U-002B"> U+002B </a></td><td>The Plus Sign (Plus) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-CommaChar" id="tbl-keyset-key-CommaChar"> , </a></td><td><a name="tbl-keyset-key-Comma" id="tbl-keyset-key-Comma"> Comma </a></td><td><a name="tbl-keyset-key-U-002C" id="tbl-keyset-key-U-002C"> U+002C </a></td><td>The Comma (decimal separator) sign key.</td><td>188</td><td>-</td><td>44</td><td>-</td><td>188</td><td>-</td><td>188</td><td>-</td><td>0</td><td>44</td><td>188</td><td>-</td><td>188</td><td>-</td><td>44</td><td>44</td><td>188</td><td>-</td><td>188</td><td>-</td><td>44</td><td>-</td><td>188</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-HyphenMinusChar" id="tbl-keyset-key-HyphenMinusChar"> - </a></td><td><a name="tbl-keyset-key-HyphenMinus" id="tbl-keyset-key-HyphenMinus"> HyphenMinus </a></td><td><a name="tbl-keyset-key-U-002D" id="tbl-keyset-key-U-002D"> U+002D </a></td><td>The Hyphen-minus (hyphen or minus sign) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-PeriodChar" id="tbl-keyset-key-PeriodChar"> . </a></td><td><a name="tbl-keyset-key-Period" id="tbl-keyset-key-Period"> Period </a></td><td><a name="tbl-keyset-key-U-002E" id="tbl-keyset-key-U-002E"> U+002E </a></td><td>The Full Stop (period, dot, decimal point) key.</td><td>190</td><td>-</td><td>46</td><td>-</td><td>190</td><td>-</td><td>190</td><td>-</td><td>0</td><td>46</td><td>190</td><td>-</td><td>190</td><td>-</td><td>46</td><td>46</td><td>190</td><td>-</td><td>190</td><td>-</td><td>46</td><td>-</td><td>190</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-SolidusChar" id="tbl-keyset-key-SolidusChar"> / </a></td><td><a name="tbl-keyset-key-Solidus" id="tbl-keyset-key-Solidus"> Solidus </a></td><td><a name="tbl-keyset-key-U-002F" id="tbl-keyset-key-U-002F"> U+002F </a></td><td>The Solidus (slash, virgule, shilling) key.</td><td>55</td><td>-</td><td>47</td><td>-</td><td>55</td><td>-</td><td>55</td><td>-</td><td>0</td><td>47</td><td>55</td><td>-</td><td>55</td><td>-</td><td>47</td><td>47</td><td>55</td><td>-</td><td>55</td><td>-</td><td>47</td><td>-</td><td>55</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-0" id="tbl-keyset-key-0"> 0 </a></td><td> </td><td><a name="tbl-keyset-key-U-0030" id="tbl-keyset-key-U-0030"> U+0030 </a></td><td>The Digit Zero key.</td><td>48</td><td>48</td><td>48</td><td>48</td><td>48</td><td>48</td><td>48</td><td>-</td><td>0</td><td>48</td><td>48</td><td>-</td><td>48</td><td>-</td><td>48</td><td>48</td><td>48</td><td>-</td><td>48</td><td>-</td><td>48</td><td>-</td><td>48</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-1" id="tbl-keyset-key-1"> 1 </a></td><td> </td><td><a name="tbl-keyset-key-U-0031" id="tbl-keyset-key-U-0031"> U+0031 </a></td><td>The Digit One key.</td><td>49</td><td>49</td><td>49</td><td>49</td><td>49</td><td>49</td><td>49</td><td>-</td><td>0</td><td>49</td><td>49</td><td>-</td><td>49</td><td>-</td><td>49</td><td>49</td><td>49</td><td>-</td><td>49</td><td>-</td><td>49</td><td>-</td><td>49</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-2" id="tbl-keyset-key-2"> 2 </a></td><td> </td><td><a name="tbl-keyset-key-U-0032" id="tbl-keyset-key-U-0032"> U+0032 </a></td><td>The Digit Two key.</td><td>50</td><td>50</td><td>50</td><td>50</td><td>50</td><td>50</td><td>50</td><td>-</td><td>0</td><td>50</td><td>50</td><td>-</td><td>50</td><td>-</td><td>50</td><td>50</td><td>50</td><td>-</td><td>50</td><td>-</td><td>50</td><td>-</td><td>50</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-3" id="tbl-keyset-key-3"> 3 </a></td><td> </td><td><a name="tbl-keyset-key-U-0033" id="tbl-keyset-key-U-0033"> U+0033 </a></td><td>The Digit Three key.</td><td>51</td><td>51</td><td>51</td><td>51</td><td>51</td><td>51</td><td>51</td><td>-</td><td>0</td><td>51</td><td>51</td><td>-</td><td>51</td><td>-</td><td>51</td><td>51</td><td>51</td><td>-</td><td>51</td><td>-</td><td>51</td><td>-</td><td>51</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-4" id="tbl-keyset-key-4"> 4 </a></td><td> </td><td><a name="tbl-keyset-key-U-0034" id="tbl-keyset-key-U-0034"> U+0034 </a></td><td>The Digit Four key.</td><td>52</td><td>52</td><td>52</td><td>52</td><td>52</td><td>52</td><td>52</td><td>-</td><td>0</td><td>52</td><td>52</td><td>-</td><td>52</td><td>-</td><td>52</td><td>52</td><td>52</td><td>-</td><td>52</td><td>-</td><td>52</td><td>-</td><td>52</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-5" id="tbl-keyset-key-5"> 5 </a></td><td> </td><td><a name="tbl-keyset-key-U-0035" id="tbl-keyset-key-U-0035"> U+0035 </a></td><td>The Digit Five key.</td><td>53</td><td>53</td><td>53</td><td>53</td><td>53</td><td>53</td><td>53</td><td>-</td><td>0</td><td>53</td><td>53</td><td>-</td><td>53</td><td>-</td><td>53</td><td>53</td><td>53</td><td>-</td><td>53</td><td>-</td><td>53</td><td>-</td><td>53</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-6" id="tbl-keyset-key-6"> 6 </a></td><td> </td><td><a name="tbl-keyset-key-U-0036" id="tbl-keyset-key-U-0036"> U+0036 </a></td><td>The Digit Six key.</td><td>54</td><td>54</td><td>54</td><td>54</td><td>54</td><td>54</td><td>54</td><td>-</td><td>0</td><td>54</td><td>54</td><td>-</td><td>54</td><td>-</td><td>54</td><td>54</td><td>54</td><td>-</td><td>54</td><td>-</td><td>54</td><td>-</td><td>54</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-7" id="tbl-keyset-key-7"> 7 </a></td><td> </td><td><a name="tbl-keyset-key-U-0037" id="tbl-keyset-key-U-0037"> U+0037 </a></td><td>The Digit Seven key.</td><td>55</td><td>55</td><td>55</td><td>55</td><td>55</td><td>55</td><td>55</td><td>-</td><td>0</td><td>55</td><td>55</td><td>-</td><td>55</td><td>-</td><td>55</td><td>55</td><td>55</td><td>-</td><td>55</td><td>-</td><td>55</td><td>-</td><td>55</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-8" id="tbl-keyset-key-8"> 8 </a></td><td> </td><td><a name="tbl-keyset-key-U-0038" id="tbl-keyset-key-U-0038"> U+0038 </a></td><td>The Digit Eight key.</td><td>56</td><td>56</td><td>56</td><td>56</td><td>56</td><td>56</td><td>56</td><td>-</td><td>0</td><td>56</td><td>56</td><td>-</td><td>56</td><td>-</td><td>56</td><td>56</td><td>56</td><td>-</td><td>56</td><td>-</td><td>56</td><td>-</td><td>56</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-9" id="tbl-keyset-key-9"> 9 </a></td><td> </td><td><a name="tbl-keyset-key-U-0039" id="tbl-keyset-key-U-0039"> U+0039 </a></td><td>The Digit Nine key.</td><td>57</td><td>57</td><td>57</td><td>57</td><td>57</td><td>57</td><td>57</td><td>-</td><td>0</td><td>57</td><td>57</td><td>-</td><td>57</td><td>-</td><td>57</td><td>57</td><td>57</td><td>-</td><td>57</td><td>-</td><td>57</td><td>-</td><td>57</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-ColonChar" id="tbl-keyset-key-ColonChar"> : </a></td><td><a name="tbl-keyset-key-Colon" id="tbl-keyset-key-Colon"> Colon </a></td><td><a name="tbl-keyset-key-U-003A" id="tbl-keyset-key-U-003A"> U+003A </a></td><td>The Colon key.</td><td>190</td><td>-</td><td>58</td><td>-</td><td>190</td><td>-</td><td>190</td><td>-</td><td>0</td><td>58</td><td>190</td><td>-</td><td>190</td><td>-</td><td>58</td><td>58</td><td>190</td><td>-</td><td>190</td><td>-</td><td>58</td><td>-</td><td>190</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-SemicolonChar" id="tbl-keyset-key-SemicolonChar"> ; </a></td><td><a name="tbl-keyset-key-Semicolon" id="tbl-keyset-key-Semicolon"> Semicolon </a></td><td><a name="tbl-keyset-key-U-003B" id="tbl-keyset-key-U-003B"> U+003B </a></td><td>The Semicolon key.</td><td>188</td><td>-</td><td>59</td><td>-</td><td>188</td><td>-</td><td>188</td><td>-</td><td>0</td><td>59</td><td>188</td><td>-</td><td>188</td><td>-</td><td>59</td><td>59</td><td>188</td><td>-</td><td>188</td><td>-</td><td>59</td><td>-</td><td>188</td><td>-</td>
+	      </tr>
+	      <tr><td> &lt; </td><td><a name="tbl-keyset-key-LessThan" id="tbl-keyset-key-LessThan"> LessThan </a></td><td><a name="tbl-keyset-key-U-003C" id="tbl-keyset-key-U-003C"> U+003C </a></td><td>The Less-Than Sign key (&lt;).</td><td>188</td><td>-</td><td>60</td><td>-</td><td>188</td><td>-</td><td>188</td><td>-</td><td>0</td><td>60</td><td>188</td><td>-</td><td>188</td><td>-</td><td>60</td><td>60</td><td>188</td><td>-</td><td>188</td><td>-</td><td>60</td><td>-</td><td>188</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-EqualsChar" id="tbl-keyset-key-EqualsChar"> = </a></td><td><a name="tbl-keyset-key-Equals" id="tbl-keyset-key-Equals"> Equals </a></td><td><a name="tbl-keyset-key-U-003D" id="tbl-keyset-key-U-003D"> U+003D </a></td><td>The Equals Sign key.</td><td>48</td><td>-</td><td>61</td><td>-</td><td>48</td><td>-</td><td>48</td><td>-</td><td>0</td><td>61</td><td>48</td><td>-</td><td>48</td><td>-</td><td>61</td><td>61</td><td>48</td><td>-</td><td>48</td><td>-</td><td>61</td><td>-</td><td>48</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-" id="tbl-keyset-key-">  </a></td><td> &gt; </td><td><a name="tbl-keyset-key-U-003E" id="tbl-keyset-key-U-003E"> U+003E </a></td><td>The Greater-Than Sign key (&gt;).</td><td>226</td><td>-</td><td>62</td><td>-</td><td>226</td><td>-</td><td>226</td><td>-</td><td>0</td><td>62</td><td>226</td><td>-</td><td>226</td><td>-</td><td>62</td><td>62</td><td>226</td><td>-</td><td>188</td><td>-</td><td>62</td><td>-</td><td>188</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-QuestionMarkChar" id="tbl-keyset-key-QuestionMarkChar"> ? </a></td><td><a name="tbl-keyset-key-QuestionMark" id="tbl-keyset-key-QuestionMark"> QuestionMark </a></td><td><a name="tbl-keyset-key-U-003F" id="tbl-keyset-key-U-003F"> U+003F </a></td><td>The Question Mark key.</td><td>191</td><td>-</td><td>63</td><td>-</td><td>191</td><td>-</td><td>107</td><td>-</td><td>0</td><td>63</td><td>107</td><td>-</td><td>191</td><td>-</td><td>63</td><td>63</td><td>191</td><td>-</td><td>61</td><td>-</td><td>63</td><td>-</td><td>61</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-AtChar" id="tbl-keyset-key-AtChar"> @ </a></td><td><a name="tbl-keyset-key-At" id="tbl-keyset-key-At"> At </a></td><td><a name="tbl-keyset-key-U-0040" id="tbl-keyset-key-U-0040"> U+0040 </a></td><td>The Commercial At key.</td><td>50</td><td>-</td><td>64</td><td>-</td><td>50</td><td>-</td><td>50</td><td>-</td><td>0</td><td>64</td><td>50</td><td>-</td><td>50</td><td>-</td><td>64</td><td>64</td><td>50</td><td>-</td><td>50</td><td>-</td><td>64</td><td>-</td><td>50</td><td>-</td>
+	      </tr>
+		 <tr><td><a name="tbl-keyset-key-A" id="tbl-keyset-key-A"> A </a></td><td> </td><td><a name="tbl-keyset-key-U-0041" id="tbl-keyset-key-U-0041"> U+0041 </a></td><td>The Latin Capital Letter A key.</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>-</td><td>0</td><td>65</td><td>65</td><td>-</td><td>65</td><td>-</td><td>65</td><td>65</td><td>65</td><td>-</td><td>65</td><td>-</td><td>65</td><td>-</td><td>65</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-B" id="tbl-keyset-key-B"> B </a></td><td> </td><td><a name="tbl-keyset-key-U-0042" id="tbl-keyset-key-U-0042"> U+0042 </a></td><td>The Latin Capital Letter B key.</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>-</td><td>0</td><td>66</td><td>66</td><td>-</td><td>66</td><td>-</td><td>66</td><td>66</td><td>66</td><td>-</td><td>66</td><td>-</td><td>66</td><td>-</td><td>66</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-C" id="tbl-keyset-key-C"> C </a></td><td> </td><td><a name="tbl-keyset-key-U-0043" id="tbl-keyset-key-U-0043"> U+0043 </a></td><td>The Latin Capital Letter C key.</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>-</td><td>0</td><td>67</td><td>67</td><td>-</td><td>67</td><td>-</td><td>67</td><td>67</td><td>67</td><td>-</td><td>67</td><td>-</td><td>67</td><td>-</td><td>67</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-D" id="tbl-keyset-key-D"> D </a></td><td> </td><td><a name="tbl-keyset-key-U-0044" id="tbl-keyset-key-U-0044"> U+0044 </a></td><td>The Latin Capital Letter D key.</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>-</td><td>0</td><td>68</td><td>68</td><td>-</td><td>68</td><td>-</td><td>68</td><td>68</td><td>68</td><td>-</td><td>68</td><td>-</td><td>68</td><td>-</td><td>68</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-E" id="tbl-keyset-key-E"> E </a></td><td> </td><td><a name="tbl-keyset-key-U-0045" id="tbl-keyset-key-U-0045"> U+0045 </a></td><td>The Latin Capital Letter E key.</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>-</td><td>0</td><td>69</td><td>69</td><td>-</td><td>69</td><td>-</td><td>69</td><td>69</td><td>69</td><td>-</td><td>69</td><td>-</td><td>69</td><td>-</td><td>69</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-F" id="tbl-keyset-key-F"> F </a></td><td> </td><td><a name="tbl-keyset-key-U-0046" id="tbl-keyset-key-U-0046"> U+0046 </a></td><td>The Latin Capital Letter F key.</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>-</td><td>0</td><td>70</td><td>70</td><td>-</td><td>70</td><td>-</td><td>70</td><td>70</td><td>70</td><td>-</td><td>70</td><td>-</td><td>70</td><td>-</td><td>70</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-G" id="tbl-keyset-key-G"> G </a></td><td> </td><td><a name="tbl-keyset-key-U-0047" id="tbl-keyset-key-U-0047"> U+0047 </a></td><td>The Latin Capital Letter G key.</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>-</td><td>0</td><td>71</td><td>71</td><td>-</td><td>71</td><td>-</td><td>71</td><td>71</td><td>71</td><td>-</td><td>71</td><td>-</td><td>71</td><td>-</td><td>71</td><td>-</td>
+		</tr>
+		 <tr><td><a name="tbl-keyset-key-H" id="tbl-keyset-key-H"> H </a></td><td> </td><td><a name="tbl-keyset-key-U-0048" id="tbl-keyset-key-U-0048"> U+0048 </a></td><td>The Latin Capital Letter H key.</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>-</td><td>0</td><td>72</td><td>72</td><td>-</td><td>72</td><td>-</td><td>72</td><td>72</td><td>72</td><td>-</td><td>72</td><td>-</td><td>72</td><td>-</td><td>72</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-I" id="tbl-keyset-key-I"> I </a></td><td> </td><td><a name="tbl-keyset-key-U-0049" id="tbl-keyset-key-U-0049"> U+0049 </a></td><td>The Latin Capital Letter I key.</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>-</td><td>0</td><td>73</td><td>73</td><td>-</td><td>73</td><td>-</td><td>73</td><td>73</td><td>73</td><td>-</td><td>73</td><td>-</td><td>73</td><td>-</td><td>73</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-J" id="tbl-keyset-key-J"> J </a></td><td> </td><td><a name="tbl-keyset-key-U-004A" id="tbl-keyset-key-U-004A"> U+004A </a></td><td>The Latin Capital Letter J key.</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>-</td><td>0</td><td>74</td><td>74</td><td>-</td><td>74</td><td>-</td><td>74</td><td>74</td><td>74</td><td>-</td><td>74</td><td>-</td><td>74</td><td>-</td><td>74</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-K" id="tbl-keyset-key-K"> K </a></td><td> </td><td><a name="tbl-keyset-key-U-004B" id="tbl-keyset-key-U-004B"> U+004B </a></td><td>The Latin Capital Letter K key.</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>-</td><td>0</td><td>75</td><td>75</td><td>-</td><td>75</td><td>-</td><td>75</td><td>75</td><td>75</td><td>-</td><td>75</td><td>-</td><td>75</td><td>-</td><td>75</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-L" id="tbl-keyset-key-L"> L </a></td><td> </td><td><a name="tbl-keyset-key-U-004C" id="tbl-keyset-key-U-004C"> U+004C </a></td><td>The Latin Capital Letter L key.</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>-</td><td>0</td><td>76</td><td>76</td><td>-</td><td>76</td><td>-</td><td>76</td><td>76</td><td>76</td><td>-</td><td>76</td><td>-</td><td>76</td><td>-</td><td>76</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-M" id="tbl-keyset-key-M"> M </a></td><td> </td><td><a name="tbl-keyset-key-U-004D" id="tbl-keyset-key-U-004D"> U+004D </a></td><td>The Latin Capital Letter M key.</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>-</td><td>0</td><td>77</td><td>77</td><td>-</td><td>77</td><td>-</td><td>77</td><td>77</td><td>77</td><td>-</td><td>77</td><td>-</td><td>77</td><td>-</td><td>77</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-N" id="tbl-keyset-key-N"> N </a></td><td> </td><td><a name="tbl-keyset-key-U-004E" id="tbl-keyset-key-U-004E"> U+004E </a></td><td>The Latin Capital Letter N key.</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>-</td><td>0</td><td>78</td><td>78</td><td>-</td><td>78</td><td>-</td><td>78</td><td>78</td><td>78</td><td>-</td><td>78</td><td>-</td><td>78</td><td>-</td><td>78</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-O" id="tbl-keyset-key-O"> O </a></td><td> </td><td><a name="tbl-keyset-key-U-004F" id="tbl-keyset-key-U-004F"> U+004F </a></td><td>The Latin Capital Letter O key.</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>-</td><td>0</td><td>79</td><td>79</td><td>-</td><td>79</td><td>-</td><td>79</td><td>79</td><td>79</td><td>-</td><td>79</td><td>-</td><td>79</td><td>-</td><td>79</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-P" id="tbl-keyset-key-P"> P </a></td><td> </td><td><a name="tbl-keyset-key-U-0050" id="tbl-keyset-key-U-0050"> U+0050 </a></td><td>The Latin Capital Letter P key.</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>-</td><td>0</td><td>80</td><td>80</td><td>-</td><td>80</td><td>-</td><td>80</td><td>80</td><td>80</td><td>-</td><td>80</td><td>-</td><td>80</td><td>-</td><td>80</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-Q" id="tbl-keyset-key-Q"> Q </a></td><td> </td><td><a name="tbl-keyset-key-U-0051" id="tbl-keyset-key-U-0051"> U+0051 </a></td><td>The Latin Capital Letter Q key.</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>-</td><td>0</td><td>81</td><td>81</td><td>-</td><td>81</td><td>-</td><td>81</td><td>81</td><td>81</td><td>-</td><td>81</td><td>-</td><td>81</td><td>-</td><td>81</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-R" id="tbl-keyset-key-R"> R </a></td><td> </td><td><a name="tbl-keyset-key-U-0052" id="tbl-keyset-key-U-0052"> U+0052 </a></td><td>The Latin Capital Letter R key.</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>-</td><td>0</td><td>82</td><td>82</td><td>-</td><td>82</td><td>-</td><td>82</td><td>82</td><td>82</td><td>-</td><td>82</td><td>-</td><td>82</td><td>-</td><td>82</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-S" id="tbl-keyset-key-S"> S </a></td><td> </td><td><a name="tbl-keyset-key-U-0053" id="tbl-keyset-key-U-0053"> U+0053 </a></td><td>The Latin Capital Letter S key.</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>-</td><td>0</td><td>83</td><td>83</td><td>-</td><td>83</td><td>-</td><td>83</td><td>83</td><td>83</td><td>-</td><td>83</td><td>-</td><td>83</td><td>-</td><td>83</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-T" id="tbl-keyset-key-T"> T </a></td><td> </td><td><a name="tbl-keyset-key-U-0054" id="tbl-keyset-key-U-0054"> U+0054 </a></td><td>The Latin Capital Letter T key.</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>-</td><td>0</td><td>84</td><td>84</td><td>-</td><td>84</td><td>-</td><td>84</td><td>84</td><td>84</td><td>-</td><td>84</td><td>-</td><td>84</td><td>-</td><td>84</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-U" id="tbl-keyset-key-U"> U </a></td><td> </td><td><a name="tbl-keyset-key-U-0055" id="tbl-keyset-key-U-0055"> U+0055 </a></td><td>The Latin Capital Letter U key.</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>-</td><td>0</td><td>85</td><td>85</td><td>-</td><td>85</td><td>-</td><td>85</td><td>85</td><td>85</td><td>-</td><td>85</td><td>-</td><td>85</td><td>-</td><td>85</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-V" id="tbl-keyset-key-V"> V </a></td><td> </td><td><a name="tbl-keyset-key-U-0056" id="tbl-keyset-key-U-0056"> U+0056 </a></td><td>The Latin Capital Letter V key.</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>-</td><td>0</td><td>86</td><td>86</td><td>-</td><td>86</td><td>-</td><td>86</td><td>86</td><td>86</td><td>-</td><td>86</td><td>-</td><td>86</td><td>-</td><td>86</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-W" id="tbl-keyset-key-W"> W </a></td><td> </td><td><a name="tbl-keyset-key-U-0057" id="tbl-keyset-key-U-0057"> U+0057 </a></td><td>The Latin Capital Letter W key.</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>-</td><td>0</td><td>87</td><td>87</td><td>-</td><td>87</td><td>-</td><td>87</td><td>87</td><td>87</td><td>-</td><td>87</td><td>-</td><td>87</td><td>-</td><td>87</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-X" id="tbl-keyset-key-X"> X </a></td><td> </td><td><a name="tbl-keyset-key-U-0058" id="tbl-keyset-key-U-0058"> U+0058 </a></td><td>The Latin Capital Letter X key.</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>-</td><td>0</td><td>88</td><td>88</td><td>-</td><td>88</td><td>-</td><td>88</td><td>88</td><td>88</td><td>-</td><td>88</td><td>-</td><td>88</td><td>-</td><td>88</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-Y" id="tbl-keyset-key-Y"> Y </a></td><td> </td><td><a name="tbl-keyset-key-U-0059" id="tbl-keyset-key-U-0059"> U+0059 </a></td><td>The Latin Capital Letter Y key.</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>-</td><td>0</td><td>89</td><td>89</td><td>-</td><td>89</td><td>-</td><td>89</td><td>89</td><td>89</td><td>-</td><td>89</td><td>-</td><td>89</td><td>-</td><td>89</td><td>-</td>
+		 </tr>
+		 <tr><td><a name="tbl-keyset-key-Z" id="tbl-keyset-key-Z"> Z </a></td><td> </td><td><a name="tbl-keyset-key-U-005A" id="tbl-keyset-key-U-005A"> U+005A </a></td><td>The Latin Capital Letter Z key.</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>-</td><td>0</td><td>90</td><td>90</td><td>-</td><td>90</td><td>-</td><td>90</td><td>90</td><td>90</td><td>-</td><td>90</td><td>-</td><td>90</td><td>-</td><td>90</td><td>-</td>
+		 </tr>
+	      <tr><td><a name="tbl-keyset-key-a" id="tbl-keyset-key-a"> a </a></td><td> </td><td><a name="tbl-keyset-key-U-0061" id="tbl-keyset-key-U-0061"> U+0061 </a></td><td>The Latin Miniscule Letter a key.</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>-</td><td>0</td><td>97</td><td>65</td><td>-</td><td>65</td><td>-</td><td>97</td><td>97</td><td>65</td><td>-</td><td>65</td><td>-</td><td>97</td><td>-</td><td>65</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-b" id="tbl-keyset-key-b"> b </a></td><td> </td><td><a name="tbl-keyset-key-U-0062" id="tbl-keyset-key-U-0062"> U+0062 </a></td><td>The Latin Miniscule Letter b key.</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>-</td><td>0</td><td>98</td><td>66</td><td>-</td><td>66</td><td>-</td><td>98</td><td>98</td><td>66</td><td>-</td><td>66</td><td>-</td><td>98</td><td>-</td><td>66</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-c" id="tbl-keyset-key-c"> c </a></td><td> </td><td><a name="tbl-keyset-key-U-0063" id="tbl-keyset-key-U-0063"> U+0063 </a></td><td>The Latin Miniscule Letter c key.</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>-</td><td>0</td><td>99</td><td>67</td><td>-</td><td>67</td><td>-</td><td>99</td><td>99</td><td>67</td><td>-</td><td>67</td><td>-</td><td>99</td><td>-</td><td>67</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-d" id="tbl-keyset-key-d"> d </a></td><td> </td><td><a name="tbl-keyset-key-U-0064" id="tbl-keyset-key-U-0064"> U+0064 </a></td><td>The Latin Miniscule Letter d key.</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>-</td><td>0</td><td>100</td><td>68</td><td>-</td><td>68</td><td>-</td><td>100</td><td>100</td><td>68</td><td>-</td><td>68</td><td>-</td><td>100</td><td>-</td><td>68</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-e" id="tbl-keyset-key-e"> e </a></td><td> </td><td><a name="tbl-keyset-key-U-0065" id="tbl-keyset-key-U-0065"> U+0065 </a></td><td>The Latin Miniscule Letter e key.</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>-</td><td>0</td><td>101</td><td>69</td><td>-</td><td>69</td><td>-</td><td>101</td><td>101</td><td>69</td><td>-</td><td>69</td><td>-</td><td>101</td><td>-</td><td>69</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-f" id="tbl-keyset-key-f"> f </a></td><td> </td><td><a name="tbl-keyset-key-U-0066" id="tbl-keyset-key-U-0066"> U+0066 </a></td><td>The Latin Miniscule Letter f key.</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>-</td><td>0</td><td>102</td><td>70</td><td>-</td><td>70</td><td>-</td><td>102</td><td>102</td><td>70</td><td>-</td><td>70</td><td>-</td><td>102</td><td>-</td><td>70</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-g" id="tbl-keyset-key-g"> g </a></td><td> </td><td><a name="tbl-keyset-key-U-0067" id="tbl-keyset-key-U-0067"> U+0067 </a></td><td>The Latin Miniscule Letter g key.</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>-</td><td>0</td><td>103</td><td>71</td><td>-</td><td>71</td><td>-</td><td>103</td><td>103</td><td>71</td><td>-</td><td>71</td><td>-</td><td>103</td><td>-</td><td>71</td><td>-</td>
+	     </tr>
+	      <tr><td><a name="tbl-keyset-key-h" id="tbl-keyset-key-h"> h </a></td><td> </td><td><a name="tbl-keyset-key-U-0068" id="tbl-keyset-key-U-0068"> U+0068 </a></td><td>The Latin Miniscule Letter h key.</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>-</td><td>0</td><td>104</td><td>72</td><td>-</td><td>72</td><td>-</td><td>104</td><td>104</td><td>72</td><td>-</td><td>72</td><td>-</td><td>104</td><td>-</td><td>72</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-i" id="tbl-keyset-key-i"> i </a></td><td> </td><td><a name="tbl-keyset-key-U-0069" id="tbl-keyset-key-U-0069"> U+0069 </a></td><td>The Latin Miniscule Letter i key.</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>-</td><td>0</td><td>105</td><td>73</td><td>-</td><td>73</td><td>-</td><td>105</td><td>105</td><td>73</td><td>-</td><td>73</td><td>-</td><td>105</td><td>-</td><td>73</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-j" id="tbl-keyset-key-j"> j </a></td><td> </td><td><a name="tbl-keyset-key-U-006A" id="tbl-keyset-key-U-006A"> U+006A </a></td><td>The Latin Miniscule Letter j key.</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>-</td><td>0</td><td>106</td><td>74</td><td>-</td><td>74</td><td>-</td><td>106</td><td>106</td><td>74</td><td>-</td><td>74</td><td>-</td><td>106</td><td>-</td><td>74</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-k" id="tbl-keyset-key-k"> k </a></td><td> </td><td><a name="tbl-keyset-key-U-006B" id="tbl-keyset-key-U-006B"> U+006B </a></td><td>The Latin Miniscule Letter k key.</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>-</td><td>0</td><td>107</td><td>75</td><td>-</td><td>75</td><td>-</td><td>107</td><td>107</td><td>75</td><td>-</td><td>75</td><td>-</td><td>107</td><td>-</td><td>75</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-l" id="tbl-keyset-key-l"> l </a></td><td> </td><td><a name="tbl-keyset-key-U-006C" id="tbl-keyset-key-U-006C"> U+006C </a></td><td>The Latin Miniscule Letter l key.</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>-</td><td>0</td><td>108</td><td>76</td><td>-</td><td>76</td><td>-</td><td>108</td><td>108</td><td>76</td><td>-</td><td>76</td><td>-</td><td>108</td><td>-</td><td>76</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-m" id="tbl-keyset-key-m"> m </a></td><td> </td><td><a name="tbl-keyset-key-U-006D" id="tbl-keyset-key-U-006D"> U+006D </a></td><td>The Latin Miniscule Letter m key.</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>-</td><td>0</td><td>109</td><td>77</td><td>-</td><td>77</td><td>-</td><td>109</td><td>109</td><td>77</td><td>-</td><td>77</td><td>-</td><td>109</td><td>-</td><td>77</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-n" id="tbl-keyset-key-n"> n </a></td><td> </td><td><a name="tbl-keyset-key-U-006E" id="tbl-keyset-key-U-006E"> U+006E </a></td><td>The Latin Miniscule Letter n key.</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>-</td><td>0</td><td>110</td><td>78</td><td>-</td><td>78</td><td>-</td><td>110</td><td>110</td><td>78</td><td>-</td><td>78</td><td>-</td><td>110</td><td>-</td><td>78</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-o" id="tbl-keyset-key-o"> o </a></td><td> </td><td><a name="tbl-keyset-key-U-006F" id="tbl-keyset-key-U-006F"> U+006F </a></td><td>The Latin Miniscule Letter o key.</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>-</td><td>0</td><td>111</td><td>79</td><td>-</td><td>79</td><td>-</td><td>111</td><td>111</td><td>79</td><td>-</td><td>79</td><td>-</td><td>111</td><td>-</td><td>79</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-p" id="tbl-keyset-key-p"> p </a></td><td> </td><td><a name="tbl-keyset-key-U-0070" id="tbl-keyset-key-U-0070"> U+0070 </a></td><td>The Latin Miniscule Letter p key.</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>-</td><td>0</td><td>112</td><td>80</td><td>-</td><td>80</td><td>-</td><td>112</td><td>112</td><td>80</td><td>-</td><td>80</td><td>-</td><td>112</td><td>-</td><td>80</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-q" id="tbl-keyset-key-q"> q </a></td><td> </td><td><a name="tbl-keyset-key-U-0071" id="tbl-keyset-key-U-0071"> U+0071 </a></td><td>The Latin Miniscule Letter q key.</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>-</td><td>0</td><td>113</td><td>81</td><td>-</td><td>81</td><td>-</td><td>113</td><td>113</td><td>81</td><td>-</td><td>81</td><td>-</td><td>113</td><td>-</td><td>81</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-r" id="tbl-keyset-key-r"> r </a></td><td> </td><td><a name="tbl-keyset-key-U-0072" id="tbl-keyset-key-U-0072"> U+0072 </a></td><td>The Latin Miniscule Letter r key.</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>-</td><td>0</td><td>114</td><td>82</td><td>-</td><td>82</td><td>-</td><td>114</td><td>114</td><td>82</td><td>-</td><td>82</td><td>-</td><td>114</td><td>-</td><td>82</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-s" id="tbl-keyset-key-s"> s </a></td><td> </td><td><a name="tbl-keyset-key-U-0073" id="tbl-keyset-key-U-0073"> U+0073 </a></td><td>The Latin Miniscule Letter s key.</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>-</td><td>0</td><td>115</td><td>83</td><td>-</td><td>83</td><td>-</td><td>115</td><td>115</td><td>83</td><td>-</td><td>83</td><td>-</td><td>115</td><td>-</td><td>83</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-t" id="tbl-keyset-key-t"> t </a></td><td> </td><td><a name="tbl-keyset-key-U-0074" id="tbl-keyset-key-U-0074"> U+0074 </a></td><td>The Latin Miniscule Letter t key.</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>-</td><td>0</td><td>116</td><td>84</td><td>-</td><td>84</td><td>-</td><td>116</td><td>116</td><td>84</td><td>-</td><td>84</td><td>-</td><td>116</td><td>-</td><td>84</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-u" id="tbl-keyset-key-u"> u </a></td><td> </td><td><a name="tbl-keyset-key-U-0075" id="tbl-keyset-key-U-0075"> U+0075 </a></td><td>The Latin Miniscule Letter u key.</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>-</td><td>0</td><td>117</td><td>85</td><td>-</td><td>85</td><td>-</td><td>117</td><td>117</td><td>85</td><td>-</td><td>85</td><td>-</td><td>117</td><td>-</td><td>85</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-v" id="tbl-keyset-key-v"> v </a></td><td> </td><td><a name="tbl-keyset-key-U-0076" id="tbl-keyset-key-U-0076"> U+0076 </a></td><td>The Latin Miniscule Letter v key.</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>-</td><td>0</td><td>118</td><td>86</td><td>-</td><td>86</td><td>-</td><td>118</td><td>118</td><td>86</td><td>-</td><td>86</td><td>-</td><td>118</td><td>-</td><td>86</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-w" id="tbl-keyset-key-w"> w </a></td><td> </td><td><a name="tbl-keyset-key-U-0077" id="tbl-keyset-key-U-0077"> U+0077 </a></td><td>The Latin Miniscule Letter w key.</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>-</td><td>0</td><td>119</td><td>87</td><td>-</td><td>87</td><td>-</td><td>119</td><td>119</td><td>87</td><td>-</td><td>87</td><td>-</td><td>119</td><td>-</td><td>87</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-x" id="tbl-keyset-key-x"> x </a></td><td> </td><td><a name="tbl-keyset-key-U-0078" id="tbl-keyset-key-U-0078"> U+0078 </a></td><td>The Latin Miniscule Letter x key.</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>-</td><td>0</td><td>120</td><td>88</td><td>-</td><td>88</td><td>-</td><td>120</td><td>120</td><td>88</td><td>-</td><td>88</td><td>-</td><td>120</td><td>-</td><td>88</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-y" id="tbl-keyset-key-y"> y </a></td><td> </td><td><a name="tbl-keyset-key-U-0079" id="tbl-keyset-key-U-0079"> U+0079 </a></td><td>The Latin Miniscule Letter y key.</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>-</td><td>0</td><td>121</td><td>89</td><td>-</td><td>89</td><td>-</td><td>121</td><td>121</td><td>89</td><td>-</td><td>89</td><td>-</td><td>121</td><td>-</td><td>89</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-z" id="tbl-keyset-key-z"> z </a></td><td> </td><td><a name="tbl-keyset-key-U-007A" id="tbl-keyset-key-U-007A"> U+007A </a></td><td>The Latin Miniscule Letter z key.</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>-</td><td>0</td><td>122</td><td>90</td><td>-</td><td>90</td><td>-</td><td>122</td><td>122</td><td>90</td><td>-</td><td>90</td><td>-</td><td>122</td><td>-</td><td>90</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-LeftSquareBracketChar" id="tbl-keyset-key-LeftSquareBracketChar"> [ </a></td><td><a name="tbl-keyset-key-LeftSquareBracket" id="tbl-keyset-key-LeftSquareBracket"> LeftSquareBracket </a></td><td><a name="tbl-keyset-key-U-005B" id="tbl-keyset-key-U-005B"> U+005B </a></td><td>The Left Square Bracket (Opening Square Bracket) key.</td><td>56</td><td>-</td><td>91</td><td>-</td><td>56</td><td>-</td><td>56</td><td>-</td><td>0</td><td>91</td><td>56</td><td>-</td><td>56</td><td>-</td><td>91</td><td>91</td><td>56</td><td>-</td><td>56</td><td>-</td><td>91</td><td>-</td><td>56</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-BackslashChar" id="tbl-keyset-key-BackslashChar"> \ </a></td><td><a name="tbl-keyset-key-Backslash" id="tbl-keyset-key-Backslash"> Backslash </a></td><td><a name="tbl-keyset-key-U-005C" id="tbl-keyset-key-U-005C"> U+005C </a></td><td>The Reverse Solidus (Backslash) key.</td><td>187</td><td>-</td><td>92</td><td>-</td><td>187</td><td>-</td><td>107</td><td>-</td><td>92</td><td>-</td><td>107</td><td>-</td><td>187</td><td>-</td><td>92</td><td>92</td><td>187</td><td>-</td><td>161</td><td>-</td><td>92</td><td>-</td><td>161</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-RightSquareBracketChar" id="tbl-keyset-key-RightSquareBracketChar"> ] </a></td><td><a name="tbl-keyset-key-RightSquareBracket" id="tbl-keyset-key-RightSquareBracket"> RightSquareBracket </a></td><td><a name="tbl-keyset-key-U-005D" id="tbl-keyset-key-U-005D"> U+005D </a></td><td>The Right Square Bracket (Closing Square Bracket) key.</td><td>57</td><td>-</td><td>93</td><td>-</td><td>57</td><td>-</td><td>57</td><td>-</td><td>0</td><td>93</td><td>57</td><td>-</td><td>57</td><td>-</td><td>93</td><td>93</td><td>57</td><td>-</td><td>57</td><td>-</td><td>93</td><td>-</td><td>57</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-CircumflexChar" id="tbl-keyset-key-CircumflexChar"> ^ </a></td><td><a name="tbl-keyset-key-Circumflex" id="tbl-keyset-key-Circumflex"> Circumflex </a></td><td><a name="tbl-keyset-key-U-005E" id="tbl-keyset-key-U-005E"> U+005E </a></td><td>The Circumflex Accent key.</td><td>186</td><td>-</td><td>94</td><td>-</td><td>186</td><td>-</td><td>59</td><td>-</td><td>0</td><td>94</td><td>59</td><td>-</td><td>186</td><td>-</td><td>94</td><td>94</td><td>186</td><td>-</td><td>168</td><td>-</td><td>94</td><td>-</td><td>168</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-UnderscoreChar" id="tbl-keyset-key-UnderscoreChar"> _ </a></td><td><a name="tbl-keyset-key-Underscore" id="tbl-keyset-key-Underscore"> Underscore </a></td><td><a name="tbl-keyset-key-U-005F" id="tbl-keyset-key-U-005F"> U+005F </a></td><td>The Low Sign (Spacing Underscore, Underscore) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-GraveChar" id="tbl-keyset-key-GraveChar"> ` </a></td><td><a name="tbl-keyset-key-Grave" id="tbl-keyset-key-Grave"> Grave </a></td><td><a name="tbl-keyset-key-U-0060" id="tbl-keyset-key-U-0060"> U+0060 </a></td><td>The Grave Accent (Back Quote) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-LeftCurlyBracketChar" id="tbl-keyset-key-LeftCurlyBracketChar"> { </a></td><td><a name="tbl-keyset-key-LeftCurlyBracket" id="tbl-keyset-key-LeftCurlyBracket"> LeftCurlyBracket </a></td><td><a name="tbl-keyset-key-U-007B" id="tbl-keyset-key-U-007B"> U+007B </a></td><td>The Left Curly Bracket (Opening Curly Bracket, Opening Brace, Brace Left) key.</td><td>55</td><td>-</td><td>123</td><td>-</td><td>55</td><td>-</td><td>55</td><td>-</td><td>0</td><td>123</td><td>55</td><td>-</td><td>55</td><td>-</td><td>123</td><td>123</td><td>55</td><td>-</td><td>55</td><td>-</td><td>123</td><td>-</td><td>55</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-PipeChar" id="tbl-keyset-key-PipeChar"> | </a></td><td><a name="tbl-keyset-key-Pipe" id="tbl-keyset-key-Pipe"> Pipe </a></td><td><a name="tbl-keyset-key-U-007C" id="tbl-keyset-key-U-007C"> U+007C </a></td><td>The Vertical Line (Vertical Bar, Pipe) key.</td><td>226</td><td>-</td><td>124</td><td>-</td><td>226</td><td>-</td><td>226</td><td>-</td><td>0</td><td>124</td><td>226</td><td>-</td><td>226</td><td>-</td><td>124</td><td>124</td><td>226</td><td>-</td><td>188</td><td>-</td><td>124</td><td>-</td><td>188</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-RightCurlyBracketChar" id="tbl-keyset-key-RightCurlyBracketChar"> } </a></td><td><a name="tbl-keyset-key-RightCurlyBracket" id="tbl-keyset-key-RightCurlyBracket"> RightCurlyBracket </a></td><td><a name="tbl-keyset-key-U-007D" id="tbl-keyset-key-U-007D"> U+007D </a></td><td>The Right Curly Bracket (Closing Curly Bracket, Closing Brace, Brace Right) key.</td><td>48</td><td>-</td><td>125</td><td>-</td><td>48</td><td>-</td><td>48</td><td>-</td><td>0</td><td>125</td><td>48</td><td>-</td><td>48</td><td>-</td><td>125</td><td>125</td><td>48</td><td>-</td><td>48</td><td>-</td><td>125</td><td>-</td><td>48</td><td>-</td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Del" id="tbl-keyset-key-Del"> Del </a></td><td><a name="tbl-keyset-key-U-007F" id="tbl-keyset-key-U-007F"> U+007F </a></td><td>The Delete (Del) Key.</td><td>46</td><td>-</td><td>-</td><td>-</td><td>46</td><td>-</td><td>46</td><td>-</td><td>46</td><td>-</td><td>46</td><td>-</td><td>46</td><td>-</td><td>-</td><td>-</td><td>46</td><td>-</td><td>46</td><td>-</td><td>46</td><td>-</td><td>46</td><td>-</td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-InvertedExclamationChar" id="tbl-keyset-key-InvertedExclamationChar"> ¡ </a></td><td><a name="tbl-keyset-key-InvertedExclamation" id="tbl-keyset-key-InvertedExclamation"> InvertedExclamation </a></td><td><a name="tbl-keyset-key-U-00A1" id="tbl-keyset-key-U-00A1"> U+00A1 </a></td><td>The Inverted Exclamation Mark key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-DeadGrave" id="tbl-keyset-key-DeadGrave"> DeadGrave </a></td><td><a name="tbl-keyset-key-U-0300" id="tbl-keyset-key-U-0300"> U+0300 </a></td><td>The Combining Grave Accent (Greek Varia, Dead Grave) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-DeadEacute" id="tbl-keyset-key-DeadEacute"> DeadEacute </a></td><td><a name="tbl-keyset-key-U-0301" id="tbl-keyset-key-U-0301"> U+0301 </a></td><td>The Combining Acute Accent (Stress Mark, Greek Oxia, Tonos, Dead Eacute) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-DeadCircumflex" id="tbl-keyset-key-DeadCircumflex"> DeadCircumflex </a></td><td><a name="tbl-keyset-key-U-0302" id="tbl-keyset-key-U-0302"> U+0302 </a></td><td>The Combining Circumflex Accent (Hat, Dead Circumflex) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-DeadTilde" id="tbl-keyset-key-DeadTilde"> DeadTilde </a></td><td><a name="tbl-keyset-key-U-0303" id="tbl-keyset-key-U-0303"> U+0303 </a></td><td>The Combining Tilde (Dead Tilde) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-DeadMacron" id="tbl-keyset-key-DeadMacron"> DeadMacron </a></td><td><a name="tbl-keyset-key-U-0304" id="tbl-keyset-key-U-0304"> U+0304 </a></td><td>The Combining Macron (Long, Dead Macron) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-DeadBreve" id="tbl-keyset-key-DeadBreve"> DeadBreve </a></td><td><a name="tbl-keyset-key-U-0306" id="tbl-keyset-key-U-0306"> U+0306 </a></td><td>The Combining Breve (Short, Dead Breve) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-DeadAboveDot" id="tbl-keyset-key-DeadAboveDot"> DeadAboveDot </a></td><td><a name="tbl-keyset-key-U-0307" id="tbl-keyset-key-U-0307"> U+0307 </a></td><td>The Combining Dot Above (Derivative, Dead Above Dot) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-DeadUmlaut" id="tbl-keyset-key-DeadUmlaut"> DeadUmlaut </a></td><td><a name="tbl-keyset-key-U-0308" id="tbl-keyset-key-U-0308"> U+0308 </a></td><td>The Combining Diaeresis (Double Dot Abode, Umlaut, Greek Dialytika, Double Derivative, Dead Diaeresis) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-DeadAboveRing" id="tbl-keyset-key-DeadAboveRing"> DeadAboveRing </a></td><td><a name="tbl-keyset-key-U-030A" id="tbl-keyset-key-U-030A"> U+030A </a></td><td>The Combining Ring Above (Dead Above Ring) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-DeadDoubleacute" id="tbl-keyset-key-DeadDoubleacute"> DeadDoubleacute </a></td><td><a name="tbl-keyset-key-U-030B" id="tbl-keyset-key-U-030B"> U+030B </a></td><td>The Combining Double Acute Accent (Dead Doubleacute) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-DeadCaron" id="tbl-keyset-key-DeadCaron"> DeadCaron </a></td><td><a name="tbl-keyset-key-U-030C" id="tbl-keyset-key-U-030C"> U+030C </a></td><td>The Combining Caron (Hacek, V Above, Dead Caron) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-DeadCedilla" id="tbl-keyset-key-DeadCedilla"> DeadCedilla </a></td><td><a name="tbl-keyset-key-U-0327" id="tbl-keyset-key-U-0327"> U+0327 </a></td><td>The Combining Cedilla (Dead Cedilla) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-DeadOgonek" id="tbl-keyset-key-DeadOgonek"> DeadOgonek </a></td><td><a name="tbl-keyset-key-U-0328" id="tbl-keyset-key-U-0328"> U+0328 </a></td><td>The Combining Ogonek (Nasal Hook, Dead Ogonek) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-DeadIota" id="tbl-keyset-key-DeadIota"> DeadIota </a></td><td><a name="tbl-keyset-key-U-0345" id="tbl-keyset-key-U-0345"> U+0345 </a></td><td>The Combining Greek Ypogegrammeni (Greek Non-Spacing Iota Below, Iota Subscript, Dead Iota) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td><a name="tbl-keyset-key-EuroChar" id="tbl-keyset-key-EuroChar"> € </a></td><td><a name="tbl-keyset-key-Euro" id="tbl-keyset-key-Euro"> Euro </a></td><td><a name="tbl-keyset-key-U-20AC" id="tbl-keyset-key-U-20AC"> U+20AC </a></td><td>The Euro Currency Sign key (&#8364;).</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-DeadVoicedSound" id="tbl-keyset-key-DeadVoicedSound"> DeadVoicedSound </a></td><td><a name="tbl-keyset-key-U-3099" id="tbl-keyset-key-U-3099"> U+3099 </a></td><td>The Combining Katakana-Hiragana Voiced Sound Mark (Dead Voiced Sound) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-DeadSemivoicedSound" id="tbl-keyset-key-DeadSemivoicedSound"> DeadSemivoicedSound </a></td><td><a name="tbl-keyset-key-U-309A" id="tbl-keyset-key-U-309A"> U+309A </a></td><td>The Combining Katakana-Hiragana Semi-Voiced Sound Mark (Dead Semivoiced Sound) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+	      </tr>
+	    </table>
+      </div>
     </div>
     <!-- div1 KeySet -->
     <a id="changes" name="changes"> </a>
