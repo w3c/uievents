@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+            "http://www.w3.org/TR/html4/loose.dtd">
+<html> 
+<!-- Test Name: doubleClick-001  -->
+<!-- Purpose - Evaluate a user generated Double Click event over a table element -->
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">    
+   <title>DOM Events API Test Suite - doubleclick-001 </title>
+   <style type="text/css">
+     #t { border: 1px solid blue }
+     #t1 { background-color: pink; }
+   </style>
+   <script type="text/javascript" src="TestLib.js"></script>
+   <script type="text/javascript">
+
+// Function to be executed in reaction to double click.
+   
+   function reacttodblclick() {
+     var t2 = document.getElementById("t10");
+     t2.firstChild.nodeValue = "You just double clicked on this table";    
+   }
+ 
+// Function to add a listener to the element.
+
+   function addListener() { 
+     var el = document.getElementById("t"); 
+	 //TestLib.addEvent(el, "dblclick", reacttodblclick, false);
+	 TestLib.addEvent(el, 'dblclick', reacttodblclick, false);
+     //el.addEventListener("dblclick", reacttodblclick, false); 
+   } 
+  </script> 
+ </head> 
+ <body onload="addListener();"> 
+ <center><table id="t">
+   <tr><td id="t1">Row 1, Cell 1</td><td id="t6">Row 1, Cell 2</td></tr> 
+   <tr><td id="t2">Row 2, Cell 1</td><td id="t7">Row 2, Cell 2</td></tr> 
+   <tr><td id="t3">Row 3, Cell 1</td><td id="t8">Row 3, Cell 2</td></tr>    
+   <tr><td id="t4">Row 4, Cell 1</td><td id="t9">Row 4, Cell 2</td></tr>
+   <tr><td id="t5">Row 5, Cell 1</td><td id="t10">This Value should change as you double click on this table.</td></tr>   
+ </table></center>
+ </body> 
+ </html> 
