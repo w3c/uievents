@@ -230,7 +230,7 @@
                <b>
                  <A>
                   <xsl:attribute name="href">                 
-                    <xsl:value-of select="concat($SourceOffsetPath,@FilePath,@name)"/>
+                    <xsl:value-of select="concat($SourceOffsetPath,@FilePath,'/',@name,'.html')"/>
                   </xsl:attribute>
                   <xsl:value-of select="@name"/>                   
                  </A>                  
