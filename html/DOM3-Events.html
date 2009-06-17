@@ -635,7 +635,7 @@
         </ul>
 		<p><span class='assert must'>An implementation shall trigger a listener by invoking the <a href="#events-Events-EventListener-handleEvent"><code class="method-name">EventListener.handleEvent()</code></a> method or an equivalent binding-specific mechanism.</span></p>
 		
-        <p><span class='assert must'>As the final step of the event dispatch, for reasons of backwards compatibility, the implementation must reset the event object's internal-propagation and default-action-prevention states.</span> This ensures that an event object may be properly dispatched multiple times while also allowing to prevent the event objects propagation or default actions prior to the event dispatch.</p>
+        <p><span class='assert must'>As the final step of the event dispatch, for reasons of backwards compatibility, the implementation must reset the event object's internal-propagation and default-action-prevention states.</span> This ensures that an event object may be properly dispatched multiple times while also allowing to prevent the event objects propagation or <a href="#glossary-dt-default-action">default actions</a> prior to the event dispatch.</p>
 
         <p>The model defined above applies regardless of the specific event flow associated with an event target. Each event flow defines how the propagation path is determined and which event phases are supported. The <em>DOM event flow</em> is an application of this model: the propagation path for a <code>Node</code> object is determined by its <code>Node.parentNode</code> chain, and all events accomplish the capture and target phases. Whether an event accomplishes the bubble phase is defined individually for each event type. An alternate application of this model can be found in [<cite><a class="noxref informative" href="#references-DOMLS">DOM Level 3 Load and Save</a></cite>].</p>
         <p>The DOM event model is reentrant. Event listeners may perform actions that cause additional events to be dispatched. Such events are handled in a synchronous manner, the event propagation that causes the event listener to be triggered will resume only after the event dispatch of the new event is completed.</p>
@@ -643,18 +643,18 @@
       <!-- div2 Events-flow -->
       <div class="div2">
         <h2 id="events-Events-flow-cancelation" class="div2">1.3 Default actions and cancelable events</h2>
-        <p>Event objects can have default actions associated with them. These are actions the implementation will perform in combination with the dispatch of the event object, usually after the dispatch has been completed, but in exceptional cases also immediately before the event is dispatched. An example is the [<cite><a class="noxref informative" href="#references-HTML40">HTML 4.01</a></cite>] form element. When the user submits the form (e.g. by pressing on a submit button), the event <a href="#events-event-submit">submit</a> is dispatched to the element and the default action for this event type is generally to send a request to a Web server with the parameters from the form.</p>
-        <p id="events-dt-cancelable-event">Some event objects are <em>cancelable</em>, meaning the default action can be prevented from occuring, or, if the default action is carried out before the dispatch, its effect can be reversed. Whether an event object is cancelable is indicated by the <a href="#events-Events-Event-canCancel"><code>Event.cancelable</code></a> attribute. Event listeners can cancel default actions of cancelable event objects by invoking the <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a> method, and determine whether an event has been canceled through the <a href="#events-Events-Event-defaultPrevented"><code>Event.defaultPrevented</code></a> attribute while the object is being dispatched, or from the return value of the <a href="#events-Events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method for event objects dispatched by the DOM application itself.</p>
-        <p>This specification does not offer features to programatically query if an event object has any default action associated to it or associate new ones. It is expected that other specifications define what default actions, if any, are associated with certain event objects. Further, implementations may associate default actions with events as necessary and appropriate. As an example, an implementation may scroll a document view by a certain amount as default action of a mouse wheel event.</p>
+        <p>Event objects may have <a href="#glossary-dt-default-action">default actions</a> associated with them.  These are actions the implementation must perform in combination with the dispatch of the event object, usually after the dispatch has been completed, but in exceptional cases also immediately before the event is dispatched.  An example is the [<cite><a class="noxref informative" href="#references-HTML40">HTML 4.01</a></cite>] form element. When the user submits the form (e.g. by pressing on a submit button), the event <a href="#events-event-submit">submit</a> is dispatched to the element and the <a href="#glossary-dt-default-action">default action</a> for this event type is generally to send a request to a Web server with the parameters from the form.</p>
+        <p id="events-dt-cancelable-event">Some event objects are <em>cancelable</em>, meaning the <a href="#glossary-dt-default-action">default action</a> can be prevented from occuring, or, if the <a href="#glossary-dt-default-action">default action</a> is carried out before the dispatch, its effect can be reversed. Whether an event object is cancelable is indicated by the <a href="#events-Events-Event-canCancel"><code>Event.cancelable</code></a> attribute. Event listeners can cancel <a href="#glossary-dt-default-action">default actions</a> of cancelable event objects by invoking the <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a> method, and determine whether an event has been canceled through the <a href="#events-Events-Event-defaultPrevented"><code>Event.defaultPrevented</code></a> attribute while the object is being dispatched, or from the return value of the <a href="#events-Events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method for event objects dispatched by the DOM application itself.</p>
+        <p>This specification does not offer features to programatically query if an event object has any <a href="#glossary-dt-default-action">default action</a> associated to it or associate new ones. It is expected that other specifications define what default actions, if any, are associated with certain event objects. Further, implementations may associate <a href="#glossary-dt-default-action">default actions</a> with events as necessary and appropriate. As an example, an implementation may scroll a document view by a certain amount as <a href="#glossary-dt-default-action">default action</a> of a mouse wheel event.</p>
       </div>
       <!-- div2 Events-flow-cancelation -->
       <div class="div2">
         <h2 id="events-Events-flow-activation" class="div2">1.4 Activation requests and behavior</h2>
         <p>(This section is currently being rewritten.)</p>
         <p>Event targets may have associated <a href="#glossary-dt-activation-behavior">activation behavior</a> that implementations perform in response to an <em>activation request</em>. As an example, the typical activiation behavior associated with hyperlinks is to follow the link. Activation requests are typically initiated by users through an input device.</p>
-        <p>In terms of this specification, the activation behavior of the event target is the default action of the event type <a href="#events-event-DOMActivate">DOMActivate</a>. DOM applications should use this event type whenever they wish to make or react to an activation request.</p>
-        <p>Implementations dispatch the <code>DOMActivate</code> event as default action of a <a href="#events-event-click">click</a> event. This click event is either part of the activation request (e.g., a user requests activiation using a mouse), or synthesized by the implementation to accomodate legacy applications. Context information of such a <code>click</code> event is implementation dependent.</p>
-        <p>When implementations dispatch a synthesized <code>click</code> event, the expectation is that they do so as default action of another event type. For example, when a user activates a hyperlink using a keyboard, the <code>click</code> event would be dispatched as default action of the respective keyboard event.</p>
+        <p>In terms of this specification, the activation behavior of the event target is the <a href="#glossary-dt-default-action">default action</a> of the event type <a href="#events-event-DOMActivate">DOMActivate</a>. DOM applications should use this event type whenever they wish to make or react to an activation request.</p>
+        <p>Implementations must dispatch the <code>DOMActivate</code> event as the <a href="#glossary-dt-default-action">default action</a> of a <a href="#events-event-click">click</a> event. This click event is either part of the activation request (e.g., a user requests activiation using a mouse), or synthesized by the implementation to accomodate legacy applications. Context information of such a <code>click</code> event is implementation dependent.</p>
+        <p>When implementations dispatch a synthesized <code>click</code> event, the expectation is that they do so as <a href="#glossary-dt-default-action">default action</a> of another event type. For example, when a user activates a hyperlink using a keyboard, the <code>click</code> event would be dispatched as <a href="#glossary-dt-default-action">default action</a> of the respective keyboard event.</p>
         <p>Implementations are required to dispatch the synthesized <code>click</code> event as described above even if they do not dispatch such an event (e.g., when activation is requested by a voice command, since this specification does not address event types for voice input).</p>
         <p><strong>Note:</strong> The activation of an event target is device dependent but is also application dependent, e.g. a link in a document can be activated using a mouse click or a mouse double click.</p>
       </div>
@@ -1033,7 +1033,7 @@ interface <a class="noxref" href="#events-Events-Event">Event</a> {
                   <dt><code class="attribute-name">
                       <a name="events-Events-Event-canCancel" id="events-Events-Event-canCancel">cancelable</a>
                     </code> of type <code>boolean</code>, readonly</dt>
-                  <dd>Used to indicate whether or not an event can have its default action prevented (see also <a href="#events-Events-flow-cancelation">Default actions and cancelable events</a>). If the default action can be prevented the value is <code>true</code>, otherwise the value is <code>false</code>.<br/></dd>
+                  <dd>Used to indicate whether or not an event can have its <a href="#glossary-dt-default-action">default action</a> prevented (see also <a href="#events-Events-flow-cancelation">Default actions and cancelable events</a>). If the <a href="#glossary-dt-default-action">default action</a> can be prevented the value is <code>true</code>, otherwise the value is <code>false</code>.<br/></dd>
                   <dt><code class="attribute-name">
                       <a name="events-Events-Event-currentTarget" id="events-Events-Event-currentTarget">currentTarget</a>
                     </code> of type <a href="#events-Events-EventTarget"><code>EventTarget</code></a>, readonly</dt>
@@ -1135,7 +1135,7 @@ This method sets the <a href="#events-Events-Event-type"><code>Event.type</code>
                     </code>
                   </dt>
                   <dd>
-                    <div class="method">Signifies that the event is to be canceled, meaning any default action normally taken by the implementation as a result of the event will not occur (see also <a href="#events-Events-flow-cancelation">Default actions and cancelable events</a>). Calling this method for a non-cancelable event has no effect.
+                    <div class="method">Signifies that the event is to be canceled, meaning any <a href="#glossary-dt-default-action">default action</a> normally taken by the implementation as a result of the event will not occur (see also <a href="#events-Events-flow-cancelation">Default actions and cancelable events</a>). Calling this method for a non-cancelable event has no effect.
 <p><strong>Note:</strong> This method does not stop the event propagation; use <a href="#events-Events-Event-stopPropagation"><code>Event.stopPropagation()</code></a> or <a href="#events-Events-Event-stopImmediatePropagation"><code>Event.stopImmediatePropagation()</code></a> for that effect.</p>
                       <div>
                         <strong>No Parameters</strong>
@@ -1154,7 +1154,7 @@ This method sets the <a href="#events-Events-Event-type"><code>Event.type</code>
                     </code> introduced in <strong class="since">DOM Level 3</strong></dt>
                   <dd>
                     <div class="method">Prevents other event listeners from being triggered and, unlike <a href="#events-Events-Event-stopPropagation"><code>Event.stopPropagation()</code></a> its effect is immediate . Once it has been called, further calls to this method have no additional effect.
-<p><strong>Note:</strong> This method does not prevent the default action from being invoked; use <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a> for that effect.</p>
+<p><strong>Note:</strong> This method does not prevent the <a href="#glossary-dt-default-action">default action</a> from being invoked; use <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a> for that effect.</p>
                       <div>
                         <strong>No Parameters</strong>
                       </div>
@@ -1173,7 +1173,7 @@ This method sets the <a href="#events-Events-Event-type"><code>Event.type</code>
                   </dt>
                   <dd>
                     <div class="method">Prevents other event listeners from being triggered but its effect is deferred until all event listeners attached on the <a href="#events-Events-Event-currentTarget"><code>Event.currentTarget</code></a> have been triggered . Once it has been called, further calls to this method have no additional effect.
-<p><strong>Note:</strong> This method does not prevent the default action from being invoked; use <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a> for that effect.</p>
+<p><strong>Note:</strong> This method does not prevent the <a href="#glossary-dt-default-action">default action</a> from being invoked; use <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a> for that effect.</p>
                       <div>
                         <strong>No Parameters</strong>
                       </div>
@@ -2898,6 +2898,23 @@ interface <a class="noxref" href="#events-Events-MouseEvent">MouseEvent</a> : <a
                 <a class="noxref" href="#events-event-click">click</a>
               </dt>
               <dd>
+                <p>
+                  <!-- <a href="#glossary-dt-topmost-event-target">topmost event target</a> -->
+                  <!-- || Are you asking for the spec to say something along the lines of, "The 
+                  || 'click' event is fired when the user presses a button on the pointer 
+                  || device, or otherwise activates the pointer in a manner that simulates 
+                  || such an action." Or something more abstract (or more concrete)?
+                  Something like that, maybe a little more concrete, e.g. "When the user 
+                  presses a button on the pointer device, a 'mousedown' event MUST be 
+                  dispatched at the element that is rendered at the highest z-order position 
+                  below the current pointer position, with the event set having the 
+                  following values: [...]" followed by the default action being to fire 
+                  'mouseup' or 'click' or whatever, with the same detail for that, and also 
+                  with rules for how to handle mouseover, mouseenter, mouseleave, etc. Same 
+                  for keyboards, mousewheels, etc. Basically any user interaction event. -->
+                  
+                  
+                </p>
                 <table border="0"
                   summary="This table contains information about the semantics of the given event type"
                   cellpadding="2" cellspacing="0">
@@ -2930,7 +2947,9 @@ interface <a class="noxref" href="#events-Events-MouseEvent">MouseEvent</a> : <a
                     <td><a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, <a href="#events-Events-MouseEvent-button"><code>MouseEvent.button</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use. The <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> attribute indicates the <a href="#events-dt-current-click-count">current click count</a>. The attribute value is <code>1</code> when the user begins this action and increments by <code>1</code> for each click.</td>
                   </tr>
                 </table>
-A pointing device button is clicked over an element. The definition of a click depends on the environment configuration; i.e. it may depend on the screen location or the delay between the press and release of the pointing device button. In any case, the event target must be the same between the <a href="#events-event-mousedown">mousedown</a>, <a href="#events-event-mouseup">mouseup</a>, and <a href="#events-event-click">click</a>. The sequence of these events is: <a href="#events-event-mousedown">mousedown</a>, <a href="#events-event-mouseup">mouseup</a>, and <a href="#events-event-click">click</a>. It depends on the environment configuration whether the event type <a href="#events-event-click">click</a> can occur if one or more of the event types <a href="#events-event-mouseover">mouseover</a>, <a href="#events-event-mousemove">mousemove</a>, and <a href="#events-event-mouseout">mouseout</a> occur between the press and release of the pointing device button. In addition, the event type is dispatched as described in <a href="#events-Events-flow-activation">Activation requests and behavior</a>.</dd>
+<!-- A pointing device button is clicked over an element. The definition of a click depends on the environment configuration; i.e. it may depend on the screen location or the delay between the press and release of the pointing device button. In any case, the event target must be the same between the <a href="#events-event-mousedown">mousedown</a>, <a href="#events-event-mouseup">mouseup</a>, and <a href="#events-event-click">click</a>. The sequence of these events is: <a href="#events-event-mousedown">mousedown</a>, <a href="#events-event-mouseup">mouseup</a>, and <a href="#events-event-click">click</a>. It depends on the environment configuration whether the event type <a href="#events-event-click">click</a> can occur if one or more of the event types <a href="#events-event-mouseover">mouseover</a>, <a href="#events-event-mousemove">mousemove</a>, and <a href="#events-event-mouseout">mouseout</a> occur between the press and release of the pointing device button. In addition, the event type is dispatched as described in <a href="#events-Events-flow-activation">Activation requests and behavior</a>. -->
+                  The <a href="#events-event-click"><code>click</code></a> event must be dispatched on the <a href="#glossary-dt-topmost-event-target">topmost event target</a> indicated by the pointer, when the user presses down and releases the pointer button, or otherwise activates the pointer in a manner that simulates such an action.  Activation of the button may depend upon the pointer device and the environment configuration, e.g. it may depend on the screen location or the delay between the press and release of the pointing device button.  The <a href="#events-event-click"><code>click</code></a> event may be preceded by the <a href="#events-event-mousedown"><code>mousedown</code></a> and <a href="#events-event-mouseup"><code>mouseup</code></a> events on the same element.  Depending upon the environment configuration, the <a href="#events-event-click"><code>click</code></a> event may be dispatched if one or more of the event types <a href="#events-event-mouseover"><code>mouseover</code></a>, <a href="#events-event-mousemove"><code>mousemove</code></a>, and <a href="#events-event-mouseout"><code>mouseout</code></a> occur between the press and release of the pointing device button.  The <a href="#events-event-click"><code>click</code></a> event may also be followed by the <a href="#events-event-dblclick"><code>dblclick</code></a> event (<span class="issue">@@ does the dblclick event cancel the click event?</span>).  The <a href="#events-event-click"><code>click</code></a> event type is dispatched as described in <a href="#events-Events-flow-activation">Activation requests and behavior</a>.
+              </dd>
             </dl>
           </div>
           <div class="event-definition assert must">
@@ -3560,7 +3579,7 @@ interface <a class="noxref" href="#events-Events-WheelEvent">WheelEvent</a> : <a
                     <td><a href="#events-Events-WheelEvent-deltaX"><code>WheelEvent.deltaX</code></a>, <a href="#events-Events-WheelEvent-deltaY"><code>WheelEvent.deltaY</code></a>, <a href="#events-Events-WheelEvent-deltaZ"><code>WheelEvent.deltaZ</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use. <a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, and <a href="#events-Events-MouseEvent-button"><code>MouseEvent.button</code></a> are in use if the wheel is associated to a pointing device. <a href="#events-Events-MouseEvent-relatedTarget"><code>MouseEvent.relatedTarget</code></a> indicates the <a href="#glossary-dt-event-target">event target</a> the pointing device is pointing at, if any. <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> is not in use.</td>
                   </tr>
                 </table>
-A mouse wheel has been rotated. A default action of user agent generated event objects of this type causes implementations to dispatch a <code>mousewheel</code> event iff it supports that event type and <a href="#events-Events-WheelEvent-deltaY"><code>WheelEvent.deltaY</code></a> is non-zero.</dd>
+A mouse wheel has been rotated. A <a href="#glossary-dt-default-action">default action</a> of user agent generated event objects of this type causes implementations to dispatch a <code>mousewheel</code> event iff it supports that event type and <a href="#events-Events-WheelEvent-deltaY"><code>WheelEvent.deltaY</code></a> is non-zero.</dd>
             </dl>
           </div>
         </div>
@@ -4719,41 +4738,65 @@ A document view or an element has been scrolled. The scroll occurred before the 
       <dl id="glossary-list">
         <dt id="glossary-dt-activation-behavior">activation behavior</dt>
         	<dd>The action taken when an <a href="#glossary-dt-event">event</a>, typically initiated by users through an input device, causes an element to fulfill a defined role.  The role may be defined for that element by the host language, or by author-defined variables, or both.  The role for any given element may be a generic action, or may be unique to that element.  For example, the activation behavior of an HTML or SVG <code>&lt;a&gt;</code> element is to cause the user agent to traverse the link specified in the <code>href</code> attribute, with the further optional parameter of specifying the browsing context for the traversal (such as the current window or tab, a named window, or a new window); the activation behavior of an HTML <code>&lt;input&gt;</code> element with the <code>type</code> attribute value <code>submit</code> is to send the values of the form elements to an author-defined IRI by the author-defined HTTP method.</dd>
+        	
         <dt id="glossary-dt-bubbling-phase">bubbling phase</dt>
         	<dd>The process by which an <a href="#glossary-dt-event">event</a> can be handled by one of the target ancestors after being handled by the <a href="#glossary-dt-target-node">target node</a>.</dd>
+        	
        <dt id="glossary-dt-capture-phase">capture phase</dt>
         	<dd>The process by which an <a href="#glossary-dt-event">event</a> can be handled by one of the target ancestors before being handled by the <a href="#glossary-dt-target-node">target node</a>.</dd>
+
        <dt id="glossary-dt-dead-key">dead key</dt>
-        	<dd>A dead key is a key or combination of key that produces no character by itself, but which in combination or sequence with another key produces a modified character, such as a character with diacritical marks (e.g. <code>ö</code>, <code>é</code>, <code>â</code>).</dd>
-	    <dt id="glossary-dt-dispatch">dispatch</dt>
-	        <dd>To create an event with attributes and methods appropriate to its type and context, and propagate it through the DOM tree in the specified manner.</dd>
-         <dt id="glossary-dt-DOM-Level-0">DOM Level 0</dt>
-        	<dd>The term "DOM Level 0" refers to a mix (not formally specified) of HTML document functionalities offered by Netscape Navigator version 3.0 and Microsoft Internet Explorer version 3.0. In some cases, attributes or methods have been included for reasons of backward compatibility with "DOM Level 0".</dd>
-        <dt id="glossary-dt-event">event</dt>
-        	<dd>An event is the representation of some asynchronous occurrence (such as a mouse click on the presentation of the element, or the removal of child node from an element, or any of unthinkably many other possibilities) that gets associated with an <a href="#glossary-dt-event-target">event target</a>.</dd>
-        <dt id="glossary-dt-event-target">event target</dt>
-        	<dd>The object to which an <a href="#glossary-dt-event">event</a> is targeted.</dd>
-        <dt id="glossary-dt-host-language">host language</dt>
-        	<dd>Any language which integrates the features of another language, while normatively referencing the origin language rather than redefining those features, and extending those features only in ways defined by the origin language.  An origin language typically is only intended to be implemented in the context of one or more host languages, not as a standalone language.  For example, XHTML, HTML, and SVG are host languages for DOM 3 Events, and they integrate and extend the objects and models defined in this specification.</dd>
-	    <dt id="glossary-dt-ime">IME</dt>
-	        <dt id="glossary-dt-input-method-editor">input method editor</dt>
-	        	<dd>An <em>input method editor</em> (IME), also known as a <em>front end processor</em>, is an application that performs the conversion between keystrokes and ideographs or other characters, usually by user-guided dictionary lookup, often used in East Asian languages (e.g. Chinese, Japanese, Korean).  An IME may also be used for dictionary-based word completion, such as on mobile devices.  See <a href="#keyset-IME">Input Method Editors</a> in Appendix A for treatment of IMEs in this specification.</dd>
-        <dt id="glossary-dt-localname">local name</dt>
-        	<dd>See local name in [<cite><a class="noxref informative" href="#references-Namespaces11">XML Namespaces 1.1</a></cite>].</dd>
-        <dt id="glossary-dt-namespaceURI">namespace URI</dt>
-        	<dd>A <em>namespace URI</em> is a URI that identifies an XML namespace. This is called the namespace name in [<cite><a class="noxref informative" href="#references-Namespaces11">XML Namespaces 1.1</a></cite>]. See also sections 1.3.2 "<a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#baseURIs-Considerations"> <em>DOM URIs</em></a>" and 1.3.3 "<a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Namespaces-Considerations"><em>XML Namespaces</em></a>" regarding URIs and namespace URIs handling and comparison in the DOM APIs.</dd>
-        <dt id="glossary-dt-phase">phase</dt>
-        	<dd>In the context of <a href="#glossary-dt-event">events</a>, a phase is set of logical traversals from node to node along the DOM tree, from the <a href="#glossary-dt-root-element">root element</a> down to the <a href="#glossary-dt-event-target">event target</a> (<a href="glossary-dt-capture-phase">capture phase</a>), at the <a href="#glossary-dt-event-target">event target</a> itself (<a href="glossary-dt-target-phase">target phase</a>), and back up to the <a href="#glossary-dt-root-element">root element</a> (<a href="glossary-dt-bubbling-phase">bubbling phase</a>).</dd>
-        <dt id="glossary-dt-target-node">target node</dt>
-        	<dd>The target node is the node representing the <a href="#glossary-dt-event-target">event target</a> to which an <a href="#glossary-dt-event">event</a> is targeted using the DOM event flow.</dd>
-        <dt id="glossary-dt-root-element">root element</dt>
-        	<dd>The first element node of a document, of which all other elements are children; the document element.</dd>
-	        <dt id="glossary-dt-target-phase">target phase</dt>
-	        	<dd>The process by which an <a href="#glossary-dt-event">event</a> can be handled by the <a href="#glossary-dt-event-target">event target</a>.</dd>
-	        <dt id="glossary-dt-tree">tree</dt>
-	        	<dd>A data structure that represents a document as a hierarchical set of nodes with child-parent-sibling relationships, i.e. each node having one or more possible ancestors (nodes higher in the hierarchy in a direct lineage), one or more possible descendants (nodes lower in the hierarchy in a direct lineage), and one or more possible peers (nodes of the same level in the hierarchy, with the same immediate ancestor).</dd>
-        <dt id="glossary-dt-Unicode-character-categories">Unicode character categories</dt>
-        	<dd>The Unicode character categories, a subset of the complete Unicode general categories, comprise the categories <abbr title="Letter, Lowercase">Ll</abbr>, <abbr title="Letter, Modifier">Lm</abbr>, <abbr title="Letter, Other">Lo</abbr>, <abbr title="Letter, Titlecase">Lt</abbr>, <abbr title="Letter, Uppercase">Lu</abbr>, <abbr title="Number, Decimal Digit">Nd</abbr>, <abbr title="Number, Letter">Nl</abbr>, <abbr title="Number, Other">No</abbr>, <abbr title="Punctuation, Connector">Pc</abbr>, <abbr title="Punctuation, Dash">Pd</abbr>, <abbr title="Punctuation, Close">Pe</abbr>, <abbr title="Punctuation, Final quote">Pf</abbr>, <abbr title="Punctuation, Initial quote">Pi</abbr>, <abbr title="Punctuation, Other">Po</abbr>, <abbr title="Punctuation, Open">Ps</abbr>, <abbr title="Symbol, Currency">Sc</abbr>, <abbr title="Symbol, Modifier">Sk</abbr>, <abbr title="Symbol, Math">Sm</abbr>, and <abbr title="Symbol, Other">So</abbr>.</dd> 
+       <dd>A dead key is a key or combination of key that produces no character by itself, but which in combination or sequence with another key produces a modified character, such as a character with diacritical marks (e.g. <code>ö</code>, <code>é</code>, <code>â</code>).</dd>
+
+       <dt id="glossary-dt-default-action">default action</dt>
+       <dd>A <a href="#glossary-dt-default-action">default action</a> is a supplementary behavior that an implementation must perform in combination with the dispatch of the event object.  Each event, and each specification, defines the <a href="#glossary-dt-default-action">default action</a> for that event.  A <a href="#glossary-dt-default-action">default action</a> may be cancelled through the invocation of the <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a> method.  For more details, see <a href="#events-Events-flow-cancelation">Default actions and cancelable events</a>.</dd>
+
+        	
+      <dt id="glossary-dt-dispatch">dispatch</dt>
+      <dd>To create an event with attributes and methods appropriate to its type and context, and propagate it through the DOM tree in the specified manner.</dd>
+      
+      <dt id="glossary-dt-DOM-Level-0">DOM Level 0</dt>
+      <dd>The term "DOM Level 0" refers to a mix (not formally specified) of HTML document functionalities offered by Netscape Navigator version 3.0 and Microsoft Internet Explorer version 3.0. In some cases, attributes or methods have been included for reasons of backward compatibility with "DOM Level 0".</dd>
+      
+      <dt id="glossary-dt-event">event</dt>
+      <dd>An event is the representation of some asynchronous occurrence (such as a mouse click on the presentation of the element, or the removal of child node from an element, or any of unthinkably many other possibilities) that gets associated with an <a href="#glossary-dt-event-target">event target</a>.</dd>
+      
+      <dt id="glossary-dt-event-target">event target</dt>
+      <dd>The object to which an <a href="#glossary-dt-event">event</a> is targeted.</dd>
+      <dt id="glossary-dt-host-language">host language</dt>
+      <dd>Any language which integrates the features of another language, while normatively referencing the origin language rather than redefining those features, and extending those features only in ways defined by the origin language.  An origin language typically is only intended to be implemented in the context of one or more host languages, not as a standalone language.  For example, XHTML, HTML, and SVG are host languages for DOM 3 Events, and they integrate and extend the objects and models defined in this specification.</dd>
+      
+      <dt id="glossary-dt-ime">IME</dt>
+      <dt id="glossary-dt-input-method-editor">input method editor</dt>
+      <dd>An <em>input method editor</em> (IME), also known as a <em>front end processor</em>, is an application that performs the conversion between keystrokes and ideographs or other characters, usually by user-guided dictionary lookup, often used in East Asian languages (e.g. Chinese, Japanese, Korean).  An IME may also be used for dictionary-based word completion, such as on mobile devices.  See <a href="#keyset-IME">Input Method Editors</a> in Appendix A for treatment of IMEs in this specification.</dd>
+      
+      <dt id="glossary-dt-localname">local name</dt>
+      <dd>See local name in [<cite><a class="noxref informative" href="#references-Namespaces11">XML Namespaces 1.1</a></cite>].</dd>
+      
+      <dt id="glossary-dt-namespaceURI">namespace URI</dt>
+      <dd>A <em>namespace URI</em> is a URI that identifies an XML namespace. This is called the namespace name in [<cite><a class="noxref informative" href="#references-Namespaces11">XML Namespaces 1.1</a></cite>]. See also sections 1.3.2 "<a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#baseURIs-Considerations"> <em>DOM URIs</em></a>" and 1.3.3 "<a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Namespaces-Considerations"><em>XML Namespaces</em></a>" regarding URIs and namespace URIs handling and comparison in the DOM APIs.</dd>
+      
+      <dt id="glossary-dt-phase">phase</dt>
+      <dd>In the context of <a href="#glossary-dt-event">events</a>, a phase is set of logical traversals from node to node along the DOM tree, from the <a href="#glossary-dt-root-element">root element</a> down to the <a href="#glossary-dt-event-target">event target</a> (<a href="glossary-dt-capture-phase">capture phase</a>), at the <a href="#glossary-dt-event-target">event target</a> itself (<a href="glossary-dt-target-phase">target phase</a>), and back up to the <a href="#glossary-dt-root-element">root element</a> (<a href="glossary-dt-bubbling-phase">bubbling phase</a>).</dd>
+      
+      <dt id="glossary-dt-target-node">target node</dt>
+      <dd>The target node is the node representing the <a href="#glossary-dt-event-target">event target</a> to which an <a href="#glossary-dt-event">event</a> is targeted using the DOM event flow.</dd>
+      
+      <dt id="glossary-dt-root-element">root element</dt>
+      <dd>The first element node of a document, of which all other elements are children; the document element.</dd>
+
+      <dt id="glossary-dt-target-phase">target phase</dt>
+      <dd>The process by which an <a href="#glossary-dt-event">event</a> can be handled by the <a href="#glossary-dt-event-target">event target</a>.</dd>
+
+      <dt id="glossary-dt-topmost-event-target">topmost event target</dt>
+      <dd>The <a href="#glossary-dt-topmost-event-target">topmost event target</a> shall be the element highest in the rendering order which is capable of being an <a href="#glossary-dt-event-target">event target</a>.  In this case, 'top' shall refer not to the position on the screen, but the logical order of the element in relation to other elements in drawing or stacking order on the z-axis (where the x-axis is the screen width and the y-axis is the screen height).  In HTML and CSS, or in SVG, this is controlled by the document order, as modified in HTML and CSS by the 'z-index' property.  In some cases, such as when using some values of the SVG 'pointer-events' property, the topmost element may not receive pointer events, in which case, the next element in z-index order which can receive pointer-events is the <a href="#glossary-dt-topmost-event-target">topmost event target</a>.  Note that visibility of the element does not necessarily affect its ability to be the <a href="#glossary-dt-topmost-event-target">topmost event target</a>, since an element which is hiden by use of the CSS 'visibility' property can still receive pointer events (though not one with a 'display' property of 'none'), and the <a href="#glossary-dt-topmost-event-target">topmost event target</a> may be completely obscured by another element which cannot receive pointer events.  Unless otherwise noted, there is only one <a href="#glossary-dt-topmost-event-target">topmost event target</a> in any event.</dd>
+
+      <dt id="glossary-dt-tree">tree</dt>
+      <dd>A data structure that represents a document as a hierarchical set of nodes with child-parent-sibling relationships, i.e. each node having one or more possible ancestors (nodes higher in the hierarchy in a direct lineage), one or more possible descendants (nodes lower in the hierarchy in a direct lineage), and one or more possible peers (nodes of the same level in the hierarchy, with the same immediate ancestor).</dd>
+      
+      <dt id="glossary-dt-Unicode-character-categories">Unicode character categories</dt>
+      <dd>The Unicode character categories, a subset of the complete Unicode general categories, comprise the categories <abbr title="Letter, Lowercase">Ll</abbr>, <abbr title="Letter, Modifier">Lm</abbr>, <abbr title="Letter, Other">Lo</abbr>, <abbr title="Letter, Titlecase">Lt</abbr>, <abbr title="Letter, Uppercase">Lu</abbr>, <abbr title="Number, Decimal Digit">Nd</abbr>, <abbr title="Number, Letter">Nl</abbr>, <abbr title="Number, Other">No</abbr>, <abbr title="Punctuation, Connector">Pc</abbr>, <abbr title="Punctuation, Dash">Pd</abbr>, <abbr title="Punctuation, Close">Pe</abbr>, <abbr title="Punctuation, Final quote">Pf</abbr>, <abbr title="Punctuation, Initial quote">Pi</abbr>, <abbr title="Punctuation, Other">Po</abbr>, <abbr title="Punctuation, Open">Ps</abbr>, <abbr title="Symbol, Currency">Sc</abbr>, <abbr title="Symbol, Modifier">Sk</abbr>, <abbr title="Symbol, Math">Sm</abbr>, and <abbr title="Symbol, Other">So</abbr>.</dd> 
+      
      </dl>
     </div>
     <!-- div1 glossary -->
@@ -4946,26 +4989,26 @@ A document view or an element has been scrolled. The scroll occurred before the 
         <!-- div3 IME -->
         <div class="div3">
           <h3 id="keyset-cancelable_keys" class="adiv3">A.1.4 Default actions and cancelable keyboard events</h3>
-          <p>Canceling the default action of a <a href="#events-event-keydown">keydown</a> event does not affect its respective <a href="#events-event-keyup">keyup</a> event; it will however prevent the respective <a href="#events-event-textInput">textInput</a> event from being generated. The following example describes a possible sequence of keys to generate the Unicode character Q (Latin Capital Letter Q) on a PC/AT US keyboard using a US mapping:</p>
+          <p>Canceling the <a href="#glossary-dt-default-action">default action</a> of a <a href="#events-event-keydown">keydown</a> event does not affect its respective <a href="#events-event-keyup">keyup</a> event; it will however prevent the respective <a href="#events-event-textInput">textInput</a> event from being generated. The following example describes a possible sequence of keys to generate the Unicode character Q (Latin Capital Letter Q) on a PC/AT US keyboard using a US mapping:</p>
           <ol>
             <li><code>"keydown"</code>: <code>"U+0051"</code> (Latin Capital Letter Q key), shiftKey<br/>
-the default action of the <a href="#events-event-keydown">keydown</a> event is prevented, e.g. by invoking <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a> during the dispatch of the keydown event object.</li>
+the <a href="#glossary-dt-default-action">default action</a> of the <a href="#events-event-keydown">keydown</a> event is prevented, e.g. by invoking <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a> during the dispatch of the keydown event object.</li>
             <li>No <code>"textInput"</code> is generated.</li>
             <li><code>"keyup"</code>: <code>"U+0051"</code>, shiftKey</li>
           </ol>
           <p>If the key is a modifier key, the keystroke is taken into account for the modifiers states. The following example describes a possible sequence of keys to generate the Unicode character Q (Latin Capital Letter Q) on a PC/AT US keyboard using a US mapping:</p>
           <ol>
             <li><code>"keydown"</code>: <code>"Shift"</code>, shiftKey<br/>
-the default action of the keydown event is prevented.</li>
+the <a href="#glossary-dt-default-action">default action</a> of the keydown event is prevented.</li>
             <li><code>"keydown"</code>: <code>"U+0051"</code> (Latin Capital Letter Q key), shiftKey</li>
             <li><code>"textInput"</code>: <code>"Q"</code></li>
             <li><code>"keyup"</code>: <code>"U+0051"</code>, shiftKey</li>
             <li><code>"keyup"</code>: <code>"Shift"</code></li>
           </ol>
-          <p>If the key is part of a sequence of several keystrokes, whether it is a dead key or it is contributing to an Input Method Editor sequence, the keystroke is ignored (not taken into account) only if the default action is canceled on the <a href="#events-event-keydown">keydown</a> event. Canceling a dead key on a <a href="#events-event-keyup">keyup</a> event has not effect on <a href="#events-event-textInput">textInput</a> events. The following example uses the keystrokes <code>"U+0302"</code> (Combining Circumflex Accent key) and <code>"U+0045"</code> (Latin Capital Letter E key) (on a PC/AT french keyboard using a french mapping and without any modifier activated):</p>
+          <p>If the key is part of a sequence of several keystrokes, whether it is a dead key or it is contributing to an Input Method Editor sequence, the keystroke is ignored (not taken into account) only if the <a href="#glossary-dt-default-action">default action</a> is canceled on the <a href="#events-event-keydown">keydown</a> event. Canceling a dead key on a <a href="#events-event-keyup">keyup</a> event has not effect on <a href="#events-event-textInput">textInput</a> events. The following example uses the keystrokes <code>"U+0302"</code> (Combining Circumflex Accent key) and <code>"U+0045"</code> (Latin Capital Letter E key) (on a PC/AT french keyboard using a french mapping and without any modifier activated):</p>
           <ol>
             <li><code>"keydown"</code>: <code>"U+0302"</code> (Combining Circumflex Accent key)<br/>
-the default action of the keydown event is prevented</li>
+the <a href="#glossary-dt-default-action">default action</a> of the keydown event is prevented</li>
             <li><code>"keyup"</code>: <code>"U+0302"</code></li>
             <li><code>"keydown"</code>: <code>"U+0045"</code> (Latin Capital Letter E key)</li>
             <li><code>"textInput"</code>: <code>"a"</code></li>
