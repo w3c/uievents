@@ -611,21 +611,21 @@
           <p style="text-align:left"><em>Figure: graphical representation of an event dispatched in a DOM tree using the DOM event flow</em></p>
         </div>
 
-        <p>Event objects are always dispatched to a node called the <em>event target</em>.  <span class='assert must'>At the beginning of the dispatch, implementations must first determine the event object's <em>propagation path</em>. The propagation path is an ordered list of event targets through which the object will pass.</span> The last item in the list is the event target; the preceding items in the list are referred to as the <em>target's ancestors</em>, and the immediately preceding item as the <em>target's parent</em>.  <span class='assert mustnot'>Once determined, the propagation path cannot be changed.</span> As an example, in the DOM event flow event listeners might change the position of the target node in the document while the event object is being dispatched; such changes do not affect the propagation path. <span class="issue">What if an element is removed from the document altogether?  Is there different behavior if the event target is removed versus one of its ancestors?</span></p>
+        <p>Event objects are always dispatched to a node called the <em>event target</em>.  <span class='assert must'>At the beginning of the dispatch, implementations must first determine the event object's <em>propagation path</em>. The propagation path shall be an ordered list of event targets through which the object must pass.</span> The last item in the list shall be the event target; the preceding items in the list are referred to as the <em>target's ancestors</em>, and the immediately preceding item as the <em>target's parent</em>.  <span class='assert mustnot'>Once determined, the propagation path cannot be changed.</span> As an example, in the DOM event flow event listeners might change the position of the target node in the document while the event object is being dispatched; such changes do not affect the propagation path. <span class="issue">What if an element is removed from the document altogether?  Is there different behavior if the event target is removed versus one of its ancestors?</span></p>
 
-        <p>As the next step the event object <em>accomplishes</em> one or more <em>event phases</em>. This specification defines the following event phases. Event objects accomplish them in the specified order using the partial propagation paths as defined below.  <span class='assert must'>A phase is skipped if it is not supported, or if the event object's propagation has been stopped.</span>  For example, if the <a href="#events-Events-Event-canBubble"><code>Event.bubbles</code></a> attribute is set to false, the bubble phase is skipped, and if <a href="#events-Events-Event-stopPropagation"><code>Event.stopPropagation()</code></a> has been called prior to the dispatch, all phases will be skipped.</p>
+        <p>As the next step the event object <em>accomplishes</em> one or more <em>event phases</em>. This specification defines the following event phases. Event objects accomplish them in the specified order using the partial propagation paths as defined below.  <span class='assert must'>A phase shall be skipped if it is not supported, or if the event object's propagation has been stopped.</span>  For example, if the <a href="#events-Events-Event-canBubble"><code>Event.bubbles</code></a> attribute is set to false, the bubble phase shall be skipped, and if <a href="#events-Events-Event-stopPropagation"><code>Event.stopPropagation()</code></a> has been called prior to the dispatch, all phases must be skipped.</p>
 
         <ol>
-          <li>The <strong id="capture-phase">capture phase</strong>: the event object propagates through the target's ancestors to the target's parent. This phase is also known as the <em>capturing phase</em>. Event listeners registered for this phase can handle the event before it reaches its target.</li>
-          <li>The <strong id="target-phase">target phase</strong>: the event object has reached the event's target. This phase is also known as the <em>at-target phase</em>. Event listeners registered for this phase can handle the event once it has reached its target.</li>
-          <li>The <strong id="bubble-phase">bubble phase</strong>: the event object propagates through the target's ancestors in reverse order, starting with the target's parent. This phase is also known as the <em>bubbling phase</em>. Event listeners registered for this phase can handle the event after it has reached its target.</li>
+          <li>The <strong id="capture-phase">capture phase</strong>: the event object propagates through the target's ancestors to the target's parent. This phase is also known as the <em>capturing phase</em>. Event listeners registered for this phase shall handle the event before it reaches its target.</li>
+          <li>The <strong id="target-phase">target phase</strong>: the event object has reached the event's target. This phase is also known as the <em>at-target phase</em>. Event listeners registered for this phase shall handle the event once it has reached its target.</li>
+          <li>The <strong id="bubble-phase">bubble phase</strong>: the event object propagates through the target's ancestors in reverse order, starting with the target's parent. This phase is also known as the <em>bubbling phase</em>. Event listeners registered for this phase shall handle the event after it has reached its target.</li>
         </ol>
 
         <p><span class='assert must'>Implementations let event objects accomplish an event phase by applying the following steps while there are pending event targets in the partial propagation path for this phase and the event object's propagation has not been stopped through <a href="#events-Events-Event-stopPropagation"><code>Event.stopPropagation()</code></a>.</span></p>
 
-        <p><span class='assert must'>First, the implementation must determine the <em>current target</em>. This is the next pending event target in the partial propagation path, starting with the first. From the perspective of an event listener this is the event target the listener has been registered on.</span></p>
+        <p><span class='assert must'>First, the implementation must determine the <em>current target</em>. This shall be the next pending event target in the partial propagation path, starting with the first. From the perspective of an event listener this shall be the event target the listener has been registered on.</span></p>
 
-        <p><span class='assert must'>Next, the implementation must determine the current target's <em>candidate event listeners</em>. This is the list of all event listeners that have been registered on the current target in their order of registration. Once determined, the candidate event listeners cannot be changed; adding or removing listeners does not affect the current target's candidate event listeners.</span></p>
+        <p><span class='assert must'>Next, the implementation must determine the current target's <em>candidate event listeners</em>. This shall be the list of all event listeners that have been registered on the current target in their order of registration. Once determined, the candidate event listeners cannot be changed; adding or removing listeners does not affect the current target's candidate event listeners.</span></p>
 
         <p><span class='assert must'>Finally, the implementation must process all candidate event listeners in order and trigger each listener if all the following conditions are met:</span></p>
         <ul>
@@ -637,14 +637,14 @@
 		
         <p><span class='assert must'>As the final step of the event dispatch, for reasons of backwards compatibility, the implementation must reset the event object's internal-propagation and default-action-prevention states.</span> This ensures that an event object may be properly dispatched multiple times while also allowing to prevent the event objects propagation or <a href="#glossary-dt-default-action">default actions</a> prior to the event dispatch.</p>
 
-        <p>The model defined above applies regardless of the specific event flow associated with an event target. Each event flow defines how the propagation path is determined and which event phases are supported. The <em>DOM event flow</em> is an application of this model: the propagation path for a <code>Node</code> object is determined by its <code>Node.parentNode</code> chain, and all events accomplish the capture and target phases. Whether an event accomplishes the bubble phase is defined individually for each event type. An alternate application of this model can be found in [<cite><a class="noxref informative" href="#references-DOMLS">DOM Level 3 Load and Save</a></cite>].</p>
-        <p>The DOM event model is reentrant. Event listeners may perform actions that cause additional events to be dispatched. Such events are handled in a synchronous manner, the event propagation that causes the event listener to be triggered will resume only after the event dispatch of the new event is completed.</p>
+        <p>The model defined above applies regardless of the specific event flow associated with an event target. Each event flow defines how the propagation path shall be determined and which event phases are supported. The <em>DOM event flow</em> is an application of this model: the propagation path for a <code>Node</code> object shall be determined by its <code>Node.parentNode</code> chain, and all events accomplish the capture and target phases. Whether an event accomplishes the bubble phase shall be defined individually for each event type. An alternate application of this model can be found in [<cite><a class="noxref informative" href="#references-DOMLS">DOM Level 3 Load and Save</a></cite>].</p>
+        <p>The DOM event model shall be reentrant. Event listeners may perform actions that cause additional events to be dispatched. Such events are handled in a synchronous manner, the event propagation that causes the event listener to be triggered must resume only after the event dispatch of the new event is completed.</p>
       </div>
       <!-- div2 Events-flow -->
       <div class="div2">
         <h2 id="events-Events-flow-cancelation" class="div2">1.3 Default actions and cancelable events</h2>
-        <p>Event objects may have <a href="#glossary-dt-default-action">default actions</a> associated with them.  These are actions the implementation must perform in combination with the dispatch of the event object, usually after the dispatch has been completed, but in exceptional cases also immediately before the event is dispatched.  An example is the [<cite><a class="noxref informative" href="#references-HTML40">HTML 4.01</a></cite>] form element. When the user submits the form (e.g. by pressing on a submit button), the event <a href="#events-event-submit">submit</a> is dispatched to the element and the <a href="#glossary-dt-default-action">default action</a> for this event type is generally to send a request to a Web server with the parameters from the form.</p>
-        <p id="events-dt-cancelable-event">Some event objects are <em>cancelable</em>, meaning the <a href="#glossary-dt-default-action">default action</a> can be prevented from occuring, or, if the <a href="#glossary-dt-default-action">default action</a> is carried out before the dispatch, its effect can be reversed. Whether an event object is cancelable is indicated by the <a href="#events-Events-Event-canCancel"><code>Event.cancelable</code></a> attribute. Event listeners can cancel <a href="#glossary-dt-default-action">default actions</a> of cancelable event objects by invoking the <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a> method, and determine whether an event has been canceled through the <a href="#events-Events-Event-defaultPrevented"><code>Event.defaultPrevented</code></a> attribute while the object is being dispatched, or from the return value of the <a href="#events-Events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method for event objects dispatched by the DOM application itself.</p>
+        <p>Event objects may have <a href="#glossary-dt-default-action">default actions</a> associated with them.  These are actions the implementation must perform in combination with the dispatch of the event object, usually after the dispatch has been completed, but in exceptional cases also immediately before the event is dispatched.  An example is the [<cite><a class="noxref informative" href="#references-HTML40">HTML 4.01</a></cite>] form element. When the user submits the form (e.g. by pressing on a submit button), the event <a href="#events-event-submit">submit</a> shall be dispatched to the element and the <a href="#glossary-dt-default-action">default action</a> for this event type shall be generally to send a request to a Web server with the parameters from the form.</p>
+        <p id="events-dt-cancelable-event">Some event objects are <em>cancelable</em>, meaning the <a href="#glossary-dt-default-action">default action</a> can be prevented from occuring, or, if the <a href="#glossary-dt-default-action">default action</a> is carried out before the dispatch, its effect may be reversed. Whether an event object is cancelable shall be indicated by the <a href="#events-Events-Event-canCancel"><code>Event.cancelable</code></a> attribute. Event listeners can cancel <a href="#glossary-dt-default-action">default actions</a> of cancelable event objects by invoking the <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a> method, and determine whether an event has been canceled through the <a href="#events-Events-Event-defaultPrevented"><code>Event.defaultPrevented</code></a> attribute while the object is being dispatched, or from the return value of the <a href="#events-Events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method for event objects dispatched by the DOM application itself.</p>
         <p>This specification does not offer features to programatically query if an event object has any <a href="#glossary-dt-default-action">default action</a> associated to it or associate new ones. It is expected that other specifications define what default actions, if any, are associated with certain event objects. Further, implementations may associate <a href="#glossary-dt-default-action">default actions</a> with events as necessary and appropriate. As an example, an implementation may scroll a document view by a certain amount as <a href="#glossary-dt-default-action">default action</a> of a mouse wheel event.</p>
       </div>
       <!-- div2 Events-flow-cancelation -->
@@ -652,20 +652,20 @@
         <h2 id="events-Events-flow-activation" class="div2">1.4 Activation requests and behavior</h2>
         <p>(This section is currently being rewritten.)</p>
         <p>Event targets may have associated <a href="#glossary-dt-activation-behavior">activation behavior</a> that implementations perform in response to an <em>activation request</em>. As an example, the typical activiation behavior associated with hyperlinks is to follow the link. Activation requests are typically initiated by users through an input device.</p>
-        <p>In terms of this specification, the activation behavior of the event target is the <a href="#glossary-dt-default-action">default action</a> of the event type <a href="#events-event-DOMActivate">DOMActivate</a>. DOM applications should use this event type whenever they wish to make or react to an activation request.</p>
-        <p>Implementations must dispatch the <code>DOMActivate</code> event as the <a href="#glossary-dt-default-action">default action</a> of a <a href="#events-event-click">click</a> event. This click event is either part of the activation request (e.g., a user requests activiation using a mouse), or synthesized by the implementation to accomodate legacy applications. Context information of such a <code>click</code> event is implementation dependent.</p>
-        <p>When implementations dispatch a synthesized <code>click</code> event, the expectation is that they do so as <a href="#glossary-dt-default-action">default action</a> of another event type. For example, when a user activates a hyperlink using a keyboard, the <code>click</code> event would be dispatched as <a href="#glossary-dt-default-action">default action</a> of the respective keyboard event.</p>
+        <p>In terms of this specification, the activation behavior of the event target shall be the <a href="#glossary-dt-default-action">default action</a> of the event type <a href="#events-event-DOMActivate">DOMActivate</a>. DOM applications should use this event type whenever they wish to make or react to an activation request.</p>
+        <p>Implementations must dispatch the <code>DOMActivate</code> event as the <a href="#glossary-dt-default-action">default action</a> of a <a href="#events-event-click">click</a> event. This click event shall be either part of the activation request (e.g., a user requests activiation using a mouse), or synthesized by the implementation to accomodate legacy applications. Context information of such a <code>click</code> event is implementation dependent.</p>
+        <p>When implementations dispatch a synthesized <code>click</code> event, the expectation shall be that they do so as <a href="#glossary-dt-default-action">default action</a> of another event type. For example, when a user activates a hyperlink using a keyboard, the <code>click</code> event would be dispatched as <a href="#glossary-dt-default-action">default action</a> of the respective keyboard event.</p>
         <p>Implementations are required to dispatch the synthesized <code>click</code> event as described above even if they do not dispatch such an event (e.g., when activation is requested by a voice command, since this specification does not address event types for voice input).</p>
         <p><strong>Note:</strong> The activation of an event target is device dependent but is also application dependent, e.g. a link in a document can be activated using a mouse click or a mouse double click.</p>
       </div>
       <!-- div2 Events-flow-activation -->
       <div class="div2">
         <h2 id="events-Event-types" class="div2">1.5 Event types</h2>
-        <p>Each event is associated with a type, called <em>event type</em> and available as the <a class="noxref" href="#events-Events-Event-type"><code class="interface-attribute">type</code></a> attribute on the event object. The event type is composed of a <a href="#glossary-dt-localname">local name</a> and a <a href="#glossary-dt-namespaceURI">namespace URI</a> as used in [<cite><a class="noxref normative" href="#references-DOMCore">DOM Level 3 Core</a></cite>]. All events defined in this specification are in no namespace.</p>
+        <p>Each event shall be associated with a type, called <em>event type</em> and available as the <a class="noxref" href="#events-Events-Event-type"><code class="interface-attribute">type</code></a> attribute on the event object. The event type shall be composed of a <a href="#glossary-dt-localname">local name</a> and a <a href="#glossary-dt-namespaceURI">namespace URI</a> as used in [<cite><a class="noxref normative" href="#references-DOMCore">DOM Level 3 Core</a></cite>]. All events defined in this specification are in no namespace.</p>
         <div class="div3">
           <h3 id="events-Events-EventTypes-complete" class="div3">1.5.1 Complete list of event types</h3>
           <p>Depending on the level of DOM support, or the devices used for display (e.g. screen) or interaction (e.g., mouse, keyboard, touch screen, or voice), these event types can be generated by the implementation. When used with an [<cite><a class="noxref informative" href="#references-XML">XML 1.0</a></cite>] or [<cite><a class="noxref informative" href="#references-HTML40">HTML 4.01</a></cite>] application, the specifications of those languages may restrict the semantics and scope (in particular the possible target nodes) associated with an event type. Refer to the specification defining the language used in order to find those restrictions or to find event types that are not defined in this document.</p>
-          <p>The following table provides a non-normative summary of the event types defined in this specification. All event types are in no namespace and this specification refers to them by their local name only. All events will accomplish the capture and target phases, but not all of them will accomplish the bubbling phase (see also <a href="#events-Events-flow">Event dispatch and DOM event flow</a>). Some events are not <a href="#events-dt-cancelable-event">cancelable</a> (see <a href="#events-Events-flow-cancelation">Default actions and cancelable events</a>). Some events will only be dispatched to a specific set of possible targets in the DOM event flow, specified using node types. Contextual information related to the event type is accessible using DOM interfaces.</p>
+          <p>The following table provides a non-normative summary of the event types defined in this specification. All event types are in no namespace and this specification refers to them by their local name only. All events must accomplish the capture and target phases, but not all of them must accomplish the bubbling phase (see also <a href="#events-Events-flow">Event dispatch and DOM event flow</a>). Some events are not <a href="#events-dt-cancelable-event">cancelable</a> (see <a href="#events-Events-flow-cancelation">Default actions and cancelable events</a>). Some events must only be dispatched to a specific set of possible targets in the DOM event flow, specified using node types. Contextual information related to the event type must be accessible using DOM interfaces.</p>
           <table border="1" cellpadding="2" cellspacing="0"
             summary="This table contains the complete list of event types defined by DOM Level 3 Events. The first column contains the local name of the event type. The second column indicates if the event accomplish the bubbling phase or not (all events accomplish the capture and target phases). The third column indicates if the default action associated with the event can be canceled. The fourth column indicates the nodes that can be target of the event. the fifth (and last) column indicates the DOM interface implemented by the event object.">
             <tr>
@@ -929,7 +929,7 @@
             </tr>
           </table>
 
-          <p>As an example, the event <a href="#events-event-load">load</a> will trigger event listeners attached on <code>Element</code> nodes for that event and on the capture and target phases. This event cannot be cancelled. If an event listener for the <a href="#events-event-load">load</a> event is attached to a node other than <code>Document</code> or <code>Element</code> nodes, or if it is attached to the bubbling phase only, this event listener will not be triggered.</p>
+          <p>As an example, the event <a href="#events-event-load">load</a> must trigger event listeners attached on <code>Element</code> nodes for that event and on the capture and target phases. This event cannot be cancelled. If an event listener for the <a href="#events-event-load">load</a> event is attached to a node other than <code>Document</code> or <code>Element</code> nodes, or if it is attached to the bubbling phase only, this event listener must not be triggered.</p>
 
           <p>The event objects associated with the event types described above may contain context information. Refer to the description of the DOM interfaces for further information.</p>
         </div>
@@ -946,7 +946,7 @@
                 <a name="events-Events-Event" id="events-Events-Event">Event</a>
               </em></strong> (introduced in <strong class="since">DOM Level 2</strong>)</dt>
           <dd>
-            <p>The <code>Event</code> interface is used to provide contextual information about an event to the listener processing the event. An object which implements the <code>Event</code> interface is passed as the parameter to an <a href="#events-Events-EventListener"><code>EventListener</code></a>. The object passed to the event listener may also implement derived interfaces that provide access to information directly relating to the type of event they represent.</p>
+            <p>The <code>Event</code> interface is used to provide contextual information about an event to the listener processing the event. An object which implements the <code>Event</code> interface shall be passed as the parameter to an <a href="#events-Events-EventListener"><code>EventListener</code></a>. The object passed to the event listener may also implement derived interfaces that provide access to information directly relating to the type of event they represent.</p>
             <p>To create an instance of the <code>Event</code> interface, use the <a href="#events-Events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("Event")</code></a> method call.</p>
             <dl>
               <dt>
@@ -1029,11 +1029,11 @@ interface <a class="noxref" href="#events-Events-Event">Event</a> {
                   <dt><code class="attribute-name">
                       <a name="events-Events-Event-canBubble" id="events-Events-Event-canBubble">bubbles</a>
                     </code> of type <code>boolean</code>, readonly</dt>
-                  <dd>Used to indicate whether or not an event is a bubbling event. If the event can bubble the value is <code>true</code>, otherwise the value is <code>false</code>.<br/></dd>
+                  <dd>Used to indicate whether or not an event is a bubbling event. If the event can bubble the value shall be <code>true</code>, otherwise the value shall be <code>false</code>.<br/></dd>
                   <dt><code class="attribute-name">
                       <a name="events-Events-Event-canCancel" id="events-Events-Event-canCancel">cancelable</a>
                     </code> of type <code>boolean</code>, readonly</dt>
-                  <dd>Used to indicate whether or not an event can have its <a href="#glossary-dt-default-action">default action</a> prevented (see also <a href="#events-Events-flow-cancelation">Default actions and cancelable events</a>). If the <a href="#glossary-dt-default-action">default action</a> can be prevented the value is <code>true</code>, otherwise the value is <code>false</code>.<br/></dd>
+                  <dd>Used to indicate whether or not an event can have its <a href="#glossary-dt-default-action">default action</a> prevented (see also <a href="#events-Events-flow-cancelation">Default actions and cancelable events</a>). If the <a href="#glossary-dt-default-action">default action</a> can be prevented the value shall be <code>true</code>, otherwise the value shall be <code>false</code>.<br/></dd>
                   <dt><code class="attribute-name">
                       <a name="events-Events-Event-currentTarget" id="events-Events-Event-currentTarget">currentTarget</a>
                     </code> of type <a href="#events-Events-EventTarget"><code>EventTarget</code></a>, readonly</dt>
@@ -1058,11 +1058,11 @@ DOM Level 2 Events initialization methods, such as <a href="#events-Events-Event
                   <dt><code class="attribute-name">
                       <a name="events-Events-Event-timeStamp" id="events-Events-Event-timeStamp">timeStamp</a>
                     </code> of type <code>DOMTimeStamp</code>, readonly</dt>
-                  <dd>Used to specify the time at which the event was created in milliseconds relative to 1970-01-01T00:00:00Z. Due to the fact that some systems may not provide this information the value of <code>timeStamp</code> may be not available for all events. When not available, the value is <code>0</code>.<br/></dd>
+                  <dd>Used to specify the time at which the event was created in milliseconds relative to 1970-01-01T00:00:00Z. Due to the fact that some systems may not provide this information the value of <code>timeStamp</code> may be not available for all events. When not available, the value shall be <code>0</code>.<br/></dd>
                   <dt><code class="attribute-name">
                       <a name="events-Events-Event-type" id="events-Events-Event-type">type</a>
                     </code> of type <code>DOMString</code>, readonly</dt>
-                  <dd>The <a href="#glossary-dt-localname">local name</a> of the event type. The name must be an <a class="normative" href="http://www.w3.org/TR/2004/REC-xml-names11-20040204/#NT-NCName">NCName</a> as defined in [<cite><a class="noxref normative" href="#references-Namespaces11">XML Namespaces 1.1</a></cite>] and is case-sensitive.<br/></dd>
+                  <dd>The <a href="#glossary-dt-localname">local name</a> of the event type. The name must be an <a class="normative" href="http://www.w3.org/TR/2004/REC-xml-names11-20040204/#NT-NCName">NCName</a> as defined in [<cite><a class="noxref normative" href="#references-Namespaces11">XML Namespaces 1.1</a></cite>] and must be case-sensitive.<br/></dd>
                 </dl>
               </dd>
               <dt>
@@ -1135,7 +1135,7 @@ This method sets the <a href="#events-Events-Event-type"><code>Event.type</code>
                     </code>
                   </dt>
                   <dd>
-                    <div class="method">Signifies that the event is to be canceled, meaning any <a href="#glossary-dt-default-action">default action</a> normally taken by the implementation as a result of the event will not occur (see also <a href="#events-Events-flow-cancelation">Default actions and cancelable events</a>). Calling this method for a non-cancelable event has no effect.
+                    <div class="method">Signifies that the event shall be to be canceled, meaning any <a href="#glossary-dt-default-action">default action</a> normally taken by the implementation as a result of the event must not occur (see also <a href="#events-Events-flow-cancelation">Default actions and cancelable events</a>). Calling this method for a non-cancelable event has no effect.
 <p><strong>Note:</strong> This method does not stop the event propagation; use <a href="#events-Events-Event-stopPropagation"><code>Event.stopPropagation()</code></a> or <a href="#events-Events-Event-stopImmediatePropagation"><code>Event.stopImmediatePropagation()</code></a> for that effect.</p>
                       <div>
                         <strong>No Parameters</strong>
@@ -1153,7 +1153,7 @@ This method sets the <a href="#events-Events-Event-type"><code>Event.type</code>
                       <a name="events-Events-Event-stopImmediatePropagation" id="events-Events-Event-stopImmediatePropagation">stopImmediatePropagation</a>
                     </code> introduced in <strong class="since">DOM Level 3</strong></dt>
                   <dd>
-                    <div class="method">Prevents other event listeners from being triggered and, unlike <a href="#events-Events-Event-stopPropagation"><code>Event.stopPropagation()</code></a> its effect is immediate . Once it has been called, further calls to this method have no additional effect.
+                    <div class="method">Prevents other event listeners from being triggered and, unlike <a href="#events-Events-Event-stopPropagation"><code>Event.stopPropagation()</code></a> its effect shall be immediate . Once it has been called, further calls to this method have no additional effect.
 <p><strong>Note:</strong> This method does not prevent the <a href="#glossary-dt-default-action">default action</a> from being invoked; use <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a> for that effect.</p>
                       <div>
                         <strong>No Parameters</strong>
@@ -1172,7 +1172,7 @@ This method sets the <a href="#events-Events-Event-type"><code>Event.type</code>
                     </code>
                   </dt>
                   <dd>
-                    <div class="method">Prevents other event listeners from being triggered but its effect is deferred until all event listeners attached on the <a href="#events-Events-Event-currentTarget"><code>Event.currentTarget</code></a> have been triggered . Once it has been called, further calls to this method have no additional effect.
+                    <div class="method">Prevents other event listeners from being triggered but its effect shall be deferred until all event listeners attached on the <a href="#events-Events-Event-currentTarget"><code>Event.currentTarget</code></a> have been triggered . Once it has been called, further calls to this method have no additional effect.
 <p><strong>Note:</strong> This method does not prevent the <a href="#glossary-dt-default-action">default action</a> from being invoked; use <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a> for that effect.</p>
                       <div>
                         <strong>No Parameters</strong>
@@ -1278,8 +1278,8 @@ interface <a class="noxref" href="#events-Events-CustomEvent">CustomEvent</a> : 
                 <a name="events-Events-EventTarget" id="events-Events-EventTarget">EventTarget</a>
               </em></strong> (introduced in <strong class="since">DOM Level 2</strong>)</dt>
           <dd>
-            <p>The <code>EventTarget</code> interface is implemented by all the objects which could be <a href="#glossary-dt-event-target">event targets</a> in an implementation which supports an event flow. The interface allows registration and removal of event listeners, and dispatch of events to an event target.</p>
-            <p>When used with the DOM event flow, this interface is implemented by all <a href="#glossary-dt-target-node">target nodes</a> and target ancestors, i.e. all DOM <code>Nodes</code> of the tree support this interface when the implementation conforms to DOM Level 3 Events and, therefore, this interface can be obtained by using binding-specific casting methods on an instance of the <code>Node</code> interface.</p>
+            <p>The <code>EventTarget</code> interface shall be implemented by all the objects which could be <a href="#glossary-dt-event-target">event targets</a> in an implementation which supports an event flow. The interface allows registration and removal of event listeners, and dispatch of events to an event target.</p>
+            <p>When used with the DOM event flow, this interface must be implemented by all <a href="#glossary-dt-target-node">target nodes</a> and target ancestors, i.e. all DOM <code>Nodes</code> of the tree support this interface when the implementation conforms to DOM Level 3 Events and, therefore, this interface can be obtained by using binding-specific casting methods on an instance of the <code>Node</code> interface.</p>
             <p>Invoking <code>addEventListener</code> or <code>addEventListenerNS</code> repeatedly on the same <code>EventTarget</code> with the same values for the parameters <code>namespaceURI</code>, <code>type</code>, <code>listener</code>, and <code>useCapture</code> has no effect. Doing so does not cause the <a href="#events-Events-EventListener"><code>EventListener</code></a> to be called more than once and does not cause a change in the triggering order.</p>
             <dl>
               <dt>
@@ -1326,7 +1326,7 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                     </code>
                   </dt>
                   <dd>
-                    <div class="method">Registers an event listener, depending on the <code>useCapture</code> parameter, on the capture phase of the DOM event flow or its target and bubbling phases. Invoking this method is equivalent to invoking <code>addEventListenerNS</code> with the same values for the parameters <code>type</code>, <code>listener</code>, and <code>useCapture</code>, and the value <code>null</code> for the parameter <code>namespaceURI</code>.
+                    <div class="method">Registers an event listener, depending on the <code>useCapture</code> parameter, on the capture phase of the DOM event flow or its target and bubbling phases. Invoking this method shall be equivalent to invoking <code>addEventListenerNS</code> with the same values for the parameters <code>type</code>, <code>listener</code>, and <code>useCapture</code>, and the value <code>null</code> for the parameter <code>namespaceURI</code>.
 <div class="parameters">
                         <strong>Parameters</strong>
                         <div class="paramtable">
@@ -1336,7 +1336,7 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                             <dt><code class="parameter-name">listener</code> of type <a href="#events-Events-EventListener"><code>EventListener</code></a></dt>
                             <dd>The <code>listener</code> parameter takes an object implemented by the user which implements the <a class="noxref" href="#events-Events-EventListener"><code>EventListener</code></a> interface and contains the method to be called when the event occurs.<br/></dd>
                             <dt><code class="parameter-name">useCapture</code> of type <code>boolean</code></dt>
-                            <dd>If true, <code>useCapture</code> indicates that the user wishes to add the event listener for the <a href="#glossary-dt-capture-phase">capture phase</a> only, i.e. this event listener will not be triggered during the <a href="#glossary-dt-target-phase">target</a> and <a href="#glossary-dt-bubbling-phase">bubbling</a> phases. If <code>false</code>, the event listener will only be triggered during the target and bubbling phases.<br/></dd>
+                            <dd>If true, <code>useCapture</code> indicates that the user wishes to add the event listener for the <a href="#glossary-dt-capture-phase">capture phase</a> only, i.e. this event listener will not be triggered during the <a href="#glossary-dt-target-phase">target</a> and <a href="#glossary-dt-bubbling-phase">bubbling</a> phases. If <code>false</code>, the event listener must only be triggered during the target and bubbling phases.<br/></dd>
                           </dl>
                         </div>
                       </div>
@@ -1384,7 +1384,7 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                       <a name="events-Events-EventTarget-dispatchEvent" id="events-Events-EventTarget-dispatchEvent">dispatchEvent</a>
                     </code> modified in <strong class="version">DOM Level 3</strong></dt>
                   <dd>
-                    <div class="method">Dispatches an event into the implementation's event model. The <a href="#glossary-dt-event-target">event target</a> of the event is the <code>EventTarget</code> object on which <code>dispatchEvent</code> is called.
+                    <div class="method">Dispatches an event into the implementation's event model. The <a href="#glossary-dt-event-target">event target</a> of the event shall be the <code>EventTarget</code> object on which <code>dispatchEvent</code> is called.
 <div class="parameters">
                         <strong>Parameters</strong>
                         <div class="paramtable">
@@ -1407,7 +1407,7 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                                 </p>
                               </td>
                               <td>
-                                <p>Indicates whether any of the listeners which handled the event called <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a>. If <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a> was called the returned value is <code>false</code>, else it is <code>true</code>.</p>
+                                <p>Indicates whether any of the listeners which handled the event called <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a>. If <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a> was called the returned value shall be <code>false</code>, else it shall be <code>true</code>.</p>
                               </td>
                             </tr>
                           </table>
@@ -1427,7 +1427,7 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                                 </p>
                               </td>
                               <td>
-                                <p>UNSPECIFIED_EVENT_TYPE_ERR: Raised if the <a href="#events-Events-Event-type"><code>Event.type</code></a> was not specified by initializing the event before <code>dispatchEvent</code> was called. Specification of the <a class="noxref" href="#events-Events-Event-type"><code>Event.type</code></a> as <code>null</code> or an empty string will also trigger this exception.</p>
+                                <p>UNSPECIFIED_EVENT_TYPE_ERR: Raised if the <a href="#events-Events-Event-type"><code>Event.type</code></a> was not specified by initializing the event before <code>dispatchEvent</code> was called. Specification of the <a class="noxref" href="#events-Events-Event-type"><code>Event.type</code></a> as <code>null</code> or an empty string must also trigger this exception.</p>
                                 <p>DISPATCH_REQUEST_ERR: Raised if the <a href="#events-Events-Event"><code>Event</code></a> object is already being dispatched.</p>
                               </td>
                             </tr>
@@ -1454,7 +1454,7 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                     </code>
                   </dt>
                   <dd>
-                    <div class="method">Removes an event listener. Calling <code>removeEventListener</code> with arguments which do not identify any currently registered <a href="#events-Events-EventListener"><code>EventListener</code></a> on the <code>EventTarget</code> has no effect. The <a href="#events-Events-Event-namespaceURI"><code>Event.namespaceURI</code></a> for which the user registered the event listener is implied and is <code>null</code>.
+                    <div class="method">Removes an event listener. Calling <code>removeEventListener</code> with arguments which do not identify any currently registered <a href="#events-Events-EventListener"><code>EventListener</code></a> on the <code>EventTarget</code> has no effect. The <a href="#events-Events-Event-namespaceURI"><code>Event.namespaceURI</code></a> for which the user registered the event listener is implied and shall be <code>null</code>.
 <div class="parameters">
                         <strong>Parameters</strong>
                         <div class="paramtable">
@@ -1516,7 +1516,7 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                 <a name="events-Events-EventListener" id="events-Events-EventListener">EventListener</a>
               </em></strong> (introduced in <strong class="since">DOM Level 2</strong>)</dt>
           <dd>
-            <p>The <code>EventListener</code> interface is the primary way for handling events. Users implement the <code>EventListener</code> interface and register their event listener on an <a href="#events-Events-EventTarget"><code>EventTarget</code></a>. The users should also remove their <code>EventListener</code> from its <a class="noxref" href="#events-Events-EventTarget"><code>EventTarget</code></a> after they have completed using the listener.</p>
+            <p>The <code>EventListener</code> interface is the primary way for handling events. Users shall implement the <code>EventListener</code> interface and register their event listener on an <a href="#events-Events-EventTarget"><code>EventTarget</code></a>. The users should also remove their <code>EventListener</code> from its <a class="noxref" href="#events-Events-EventTarget"><code>EventTarget</code></a> after they have completed using the listener.</p>
             <p><span class='assert must'>Copying a <code>Node</code>, with methods such as <code>Node.cloneNode</code> or <code>Range.cloneContents</code>, must not copy the event listeners attached to it.</span> <span class='assert must'>Event listeners must be attached to the newly created <code>Node</code> afterwards if so desired.</span></p>
             <p><span class='assert mustnot'>Moving a <code>Node</code>, with methods <code>Document.adoptNode</code>, <code>Node.appendChild</code>, or <code>Range.extractContents</code>, shall not affect the event listeners attached to it.</span></p>
             <dl>
@@ -1545,7 +1545,7 @@ interface <a class="noxref" href="#events-Events-EventListener">EventListener</a
                     </code>
                   </dt>
                   <dd>
-                    <div class="method">This method is called whenever an event occurs of the event type for which the <code>EventListener</code> interface was registered.
+                    <div class="method">This method shall be called whenever an event occurs of the event type for which the <code>EventListener</code> interface was registered.
 <div class="parameters">
                         <strong>Parameters</strong>
                         <div class="paramtable">
@@ -1612,7 +1612,7 @@ const unsigned short      <a class="noxref" href="#events-DISPATCH_REQUEST_ERR">
                       <dt>
                         <a name="events-UNSPECIFIED_EVENT_TYPE_ERR" id="events-UNSPECIFIED_EVENT_TYPE_ERR"><code class="constant-name">UNSPECIFIED_EVENT_TYPE_ERR</code></a>
                       </dt>
-                      <dd>If the <a href="#events-Events-Event-type"><code>Event.type</code></a> was not specified by initializing the event before the method was called. Specification of the <a class="noxref" href="#events-Events-Event-type"><code>Event.type</code></a> as <code>null</code> or an empty string will also trigger this exception.</dd>
+                      <dd>If the <a href="#events-Events-Event-type"><code>Event.type</code></a> was not specified by initializing the event before the method was called. Specification of the <a class="noxref" href="#events-Events-Event-type"><code>Event.type</code></a> as <code>null</code> or an empty string must also trigger this exception.</dd>
                     </dl>
                   </dd>
                 </dl>
@@ -1623,7 +1623,7 @@ const unsigned short      <a class="noxref" href="#events-DISPATCH_REQUEST_ERR">
         <div class="div3">
           <h3 id="events-Events-document" class="div3">1.6.1 Event creation</h3>
           <p>In most cases, the events dispatched by the DOM Events implementation are also created by the implementation. It is however possible to simulate events such as mouse events by creating the <a href="#events-Events-Event"><code>Event</code></a> objects and dispatch them using the DOM Events implementation.</p>
-          <p>Creating <a href="#events-Events-Event"><code>Event</code></a> objects that are known to the DOM Events implementation is done using <a href="#events-Events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a>. The application must then initialize the object by calling the appropriate initialization method before invoking <a href="#events-Events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a>. The <a class="noxref" href="#events-Events-Event"><code>Event</code></a> objects created must be known by the DOM Events implementation; otherwise an event exception is thrown.</p>
+          <p>Creating <a href="#events-Events-Event"><code>Event</code></a> objects that are known to the DOM Events implementation is done using <a href="#events-Events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a>. The application must then initialize the object by calling the appropriate initialization method before invoking <a href="#events-Events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a>. The <a class="noxref" href="#events-Events-Event"><code>Event</code></a> objects created must be known by the DOM Events implementation; otherwise an event exception shall be thrown.</p>
           <dl>
             <dt><strong>Interface <em>
                   <a name="events-Events-DocumentEvent" id="events-Events-DocumentEvent">DocumentEvent</a>
@@ -1982,7 +1982,7 @@ Refer to <a href="#events-Events-flow-activation">Activation requests and behavi
                     <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> is in use.</td>
                   </tr>
                 </table>
-An <a href="#glossary-dt-event-target">event target</a> receives focus. The focus is given to the element before the dispatch of this event type. This event type is dispatched after the event type <a href="#events-event-focus">focus</a>.</dd>
+An <a href="#glossary-dt-event-target">event target</a> receives focus. The focus shall be given to the element before the dispatch of this event type. This event type shall be dispatched after the event type <a href="#events-event-focus">focus</a>.</dd>
             </dl>
           </div>
           <div class="event-definition assert must">
@@ -2023,7 +2023,7 @@ An <a href="#glossary-dt-event-target">event target</a> receives focus. The focu
                     <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> is in use.</td>
                   </tr>
                 </table>
-An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus is taken from the element before the dispatch of this event type. This event type is dispatched after the event type <a href="#events-event-blur">blur</a>.</dd>
+An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus shall be taken from the element before the dispatch of this event type. This event type shall be dispatched after the event type <a href="#events-event-blur">blur</a>.</dd>
             </dl>
           </div>
           <div class="event-definition assert must">
@@ -2064,7 +2064,7 @@ An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus i
                     <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> is in use.</td>
                   </tr>
                 </table>
-An <a href="#glossary-dt-event-target">event target</a> receives focus. The focus is given to the element before the dispatch of this event type.</dd>
+An <a href="#glossary-dt-event-target">event target</a> receives focus. The focus shall be given to the element before the dispatch of this event type.</dd>
             </dl>
           </div>
           <div class="event-definition assert must">
@@ -2105,7 +2105,7 @@ An <a href="#glossary-dt-event-target">event target</a> receives focus. The focu
                     <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> is in use.</td>
                   </tr>
                 </table>
-An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus is taken from the element before the dispatch of this event type.</dd>
+An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus shall be taken from the element before the dispatch of this event type.</dd>
             </dl>
           </div>
         </div>
@@ -2344,7 +2344,7 @@ interface <a class="noxref" href="#events-Events-KeyboardEvent">KeyboardEvent</a
                     </em></strong>
                 </dt>
                 <dd>
-                  <p>This set of constants is used to indicate the location of a key on the device. In case a DOM implementation wishes to provide a new location information, a value different from the following constant values must be used.</p>
+                  <p>This set of constants shall be used to indicate the location of a key on the device. In case a DOM implementation wishes to provide a new location information, a value different from the following constant values must be used.</p>
                   <dl>
                     <dt>
                       <strong>Defined Constants</strong>
@@ -2354,7 +2354,7 @@ interface <a class="noxref" href="#events-Events-KeyboardEvent">KeyboardEvent</a
                         <dt>
                           <a name="events-DOM_KEY_LOCATION_LEFT" id="events-DOM_KEY_LOCATION_LEFT"><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></a>
                         </dt>
-                        <dd>The key activated is in the left key location (there is more than one possible location for this key). Example: the left Shift key on a PC 101 Key US keyboard.</dd>
+                        <dd>The key activated shall be in the left key location (there is more than one possible location for this key). Example: the left Shift key on a PC 101 Key US keyboard.</dd>
                         <dt>
                           <a name="events-DOM_KEY_LOCATION_NUMPAD" id="events-DOM_KEY_LOCATION_NUMPAD"><code class="constant-name">DOM_KEY_LOCATION_NUMPAD</code></a>
                         </dt>
@@ -2362,11 +2362,11 @@ interface <a class="noxref" href="#events-Events-KeyboardEvent">KeyboardEvent</a
                         <dt>
                           <a name="events-DOM_KEY_LOCATION_RIGHT" id="events-DOM_KEY_LOCATION_RIGHT"><code class="constant-name">DOM_KEY_LOCATION_RIGHT</code></a>
                         </dt>
-                        <dd>The key activation is in the right key location (there is more than one possible location for this key). Example: the right Shift key on a PC 101 Key US keyboard.</dd>
+                        <dd>The key activation shall be in the right key location (there is more than one possible location for this key). Example: the right Shift key on a PC 101 Key US keyboard.</dd>
                         <dt>
                           <a name="events-DOM_KEY_LOCATION_STANDARD" id="events-DOM_KEY_LOCATION_STANDARD"><code class="constant-name">DOM_KEY_LOCATION_STANDARD</code></a>
                         </dt>
-                        <dd>The key activation is not distinguished as the left or right version of the key, and did not originate from the numeric keypad (or did not originate with a virtual key corresponding to the numeric keypad). Example: the 'Q' key on a PC 101 Key US keyboard.</dd>
+                        <dd>The key activation shall not be distinguished as the left or right version of the key, and did not originate from the numeric keypad (or did not originate with a virtual key corresponding to the numeric keypad). Example: the 'Q' key on a PC 101 Key US keyboard.</dd>
                       </dl>
                     </dd>
                   </dl>
@@ -2479,7 +2479,7 @@ interface <a class="noxref" href="#events-Events-KeyboardEvent">KeyboardEvent</a
                               <dt><code class="parameter-name">modifiersListArg</code> of type <code>DOMString</code></dt>
                               <dd>A <a class="normative" href="http://www.w3.org/TR/2004/REC-xml-20040204/#NT-S">
                                   <em>white space</em>
-                                </a> separated list of modifier key identifiers to be activated on this object. As an example, <code>"Control Alt"</code> will mark the control and alt modifiers as activated.<br/></dd>
+                                </a> separated list of modifier key identifiers to be activated on this object. As an example, <code>"Control Alt"</code> must mark the control and alt modifiers as activated.<br/></dd>
                             </dl>
                           </div>
                         </div>
@@ -2577,7 +2577,7 @@ interface <a class="noxref" href="#events-Events-KeyboardEvent">KeyboardEvent</a
                     <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, <a href="#events-Events-KeyboardEvent-keyIdentifier"><code>KeyboardEvent.keyIdentifier</code></a>, <a href="#events-Events-KeyboardEvent-keylocation"><code>KeyboardEvent.keyLocation</code></a>, <a href="#events-Events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-Events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-Events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, and <a href="#events-Events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a> are in use.</td>
                   </tr>
                 </table>
-A key is pressed down. This event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type is generated after the keyboard mapping but before the processing of an <a href="#glossary-dt-ime">input method editor</a>. This event should logically happen before the event <a href="#events-event-keyup">keyup</a> is produced. Whether a <a href="#events-event-keydown">keydown</a> contributes or not to the generation of a text event is implementation dependent.</dd>
+A key is pressed down. This event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type shall be generated after the keyboard mapping but before the processing of an <a href="#glossary-dt-ime">input method editor</a>. This event should logically happen before the event <a href="#events-event-keyup">keyup</a> is produced. Whether a <a href="#events-event-keydown">keydown</a> contributes or not to the generation of a text event is implementation dependent.</dd>
             </dl>
           </div>
           <div class="event-definition assert must">
@@ -2618,7 +2618,7 @@ A key is pressed down. This event type is device dependent and relies on the cap
                     <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, <a href="#events-Events-KeyboardEvent-keyIdentifier"><code>KeyboardEvent.keyIdentifier</code></a>, and <a href="#events-Events-KeyboardEvent-keylocation"><code>KeyboardEvent.keyLocation</code></a> are in use. <a href="#events-Events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-Events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-Events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, and <a href="#events-Events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a> are in use unless the <a class="noxref" href="#events-Events-KeyboardEvent-keyIdentifier"><code>KeyboardEvent.keyIdentifier</code></a> corresponds to the key modifier itself.</td>
                   </tr>
                 </table>
-A key is released. This event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type is generated after the keyboard mapping but before the processing of an <a href="#glossary-dt-ime">input method editor</a>. This event should logically happen after the event <a href="#events-event-keydown">keydown</a> is produced. Whether a keyup contributes or not to the generation of a text event is implementation dependent.</dd>
+A key is released. This event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type shall be generated after the keyboard mapping but before the processing of an <a href="#glossary-dt-ime">input method editor</a>. This event should logically happen after the event <a href="#events-event-keydown">keydown</a> shall be produced. Whether a keyup contributes or not to the generation of a text event is implementation dependent.</dd>
             </dl>
           </div>
         </div>
@@ -2704,7 +2704,7 @@ interface <a class="noxref" href="#events-Events-MouseEvent">MouseEvent</a> : <a
                     <dt><code class="attribute-name">
                         <a name="events-Events-MouseEvent-button" id="events-Events-MouseEvent-button">button</a>
                       </code> of type <code>unsigned short</code>, readonly</dt>
-                    <dd>During mouse events caused by the depression or release of a mouse button, <code>button</code> is used to indicate which mouse button changed state. <code>0</code> indicates the normal button of the mouse (in general on the left or the one button on Macintosh mice, used to activate a button or select text). <code>2</code> indicates the contextual property (in general on the right, used to display a context menu) button of the mouse if present. <code>1</code> indicates the extra (in general in the middle and often combined with the mouse wheel) button. Some mice may provide or simulate more buttons, and values higher than <code>2</code> can be used to represent such buttons.<br/></dd>
+                    <dd>During mouse events caused by the depression or release of a mouse button, <code>button</code> shall be used to indicate which mouse button changed state. <code>0</code> indicates the normal button of the mouse (in general on the left or the one button on Macintosh mice, used to activate a button or select text). <code>2</code> indicates the contextual property (in general on the right, used to display a context menu) button of the mouse if present. <code>1</code> indicates the extra (in general in the middle and often combined with the mouse wheel) button. Some mice may provide or simulate more buttons, and values higher than <code>2</code> can be used to represent such buttons.<br/></dd>
                     <dt><code class="attribute-name">
                         <a name="events-Events-MouseEvent-clientX" id="events-Events-MouseEvent-clientX">clientX</a>
                       </code> of type <code>long</code>, readonly</dt>
@@ -2891,7 +2891,7 @@ interface <a class="noxref" href="#events-Events-MouseEvent">MouseEvent</a> : <a
             </dd>
           </dl>
           <p>The Mouse event types are listed below. In the case of nested elements, mouse event types are always targeted at the most deeply nested element. Ancestors of the targeted element may use bubbling to obtain notification of mouse events which occur within its descendent elements.</p>
-          <p id="events-dt-current-click-count">Implementations must maintain the <em>current click count</em> when generating mouse events. This is a non-negative integer indicating the number of consecutive clicks of a pointing device button during a user action. The notion of consecutive clicks depends on the environment configuration. For example, a "double click" might not happen if there is a long delay between the two clicks.</p>
+          <p id="events-dt-current-click-count">Implementations must maintain the <em>current click count</em> when generating mouse events. This shall be a non-negative integer indicating the number of consecutive clicks of a pointing device button during a user action. The notion of consecutive clicks depends on the environment configuration. For example, a "double click" might not happen if there is a long delay between the two clicks.</p>
           <div class="event-definition assert must">
             <dl>
               <dt id="events-event-click">
@@ -2944,11 +2944,11 @@ interface <a class="noxref" href="#events-Events-MouseEvent">MouseEvent</a> : <a
                   </tr>
                   <tr class="assert must">
                     <th>Context info</th>
-                    <td><a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, <a href="#events-Events-MouseEvent-button"><code>MouseEvent.button</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use. The <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> attribute indicates the <a href="#events-dt-current-click-count">current click count</a>. The attribute value is <code>1</code> when the user begins this action and increments by <code>1</code> for each click.</td>
+                    <td><a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, <a href="#events-Events-MouseEvent-button"><code>MouseEvent.button</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use. The <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> attribute indicates the <a href="#events-dt-current-click-count">current click count</a>. The attribute value shall be <code>1</code> when the user begins this action and increments by <code>1</code> for each click.</td>
                   </tr>
                 </table>
 <!-- A pointing device button is clicked over an element. The definition of a click depends on the environment configuration; i.e. it may depend on the screen location or the delay between the press and release of the pointing device button. In any case, the event target must be the same between the <a href="#events-event-mousedown">mousedown</a>, <a href="#events-event-mouseup">mouseup</a>, and <a href="#events-event-click">click</a>. The sequence of these events is: <a href="#events-event-mousedown">mousedown</a>, <a href="#events-event-mouseup">mouseup</a>, and <a href="#events-event-click">click</a>. It depends on the environment configuration whether the event type <a href="#events-event-click">click</a> can occur if one or more of the event types <a href="#events-event-mouseover">mouseover</a>, <a href="#events-event-mousemove">mousemove</a>, and <a href="#events-event-mouseout">mouseout</a> occur between the press and release of the pointing device button. In addition, the event type is dispatched as described in <a href="#events-Events-flow-activation">Activation requests and behavior</a>. -->
-                  The <a href="#events-event-click"><code>click</code></a> event must be dispatched on the <a href="#glossary-dt-topmost-event-target">topmost event target</a> indicated by the pointer, when the user presses down and releases the pointer button, or otherwise activates the pointer in a manner that simulates such an action.  Activation of the button may depend upon the pointer device and the environment configuration, e.g. it may depend on the screen location or the delay between the press and release of the pointing device button.  The <a href="#events-event-click"><code>click</code></a> event may be preceded by the <a href="#events-event-mousedown"><code>mousedown</code></a> and <a href="#events-event-mouseup"><code>mouseup</code></a> events on the same element.  Depending upon the environment configuration, the <a href="#events-event-click"><code>click</code></a> event may be dispatched if one or more of the event types <a href="#events-event-mouseover"><code>mouseover</code></a>, <a href="#events-event-mousemove"><code>mousemove</code></a>, and <a href="#events-event-mouseout"><code>mouseout</code></a> occur between the press and release of the pointing device button.  The <a href="#events-event-click"><code>click</code></a> event may also be followed by the <a href="#events-event-dblclick"><code>dblclick</code></a> event (<span class="issue">@@ does the dblclick event cancel the click event?</span>).  The <a href="#events-event-click"><code>click</code></a> event type is dispatched as described in <a href="#events-Events-flow-activation">Activation requests and behavior</a>.
+                  The <a href="#events-event-click"><code>click</code></a> event must be dispatched on the <a href="#glossary-dt-topmost-event-target">topmost event target</a> indicated by the pointer, when the user presses down and releases the pointer button, or otherwise activates the pointer in a manner that simulates such an action.  Activation of the button may depend upon the pointer device and the environment configuration, e.g. it may depend on the screen location or the delay between the press and release of the pointing device button.  The <a href="#events-event-click"><code>click</code></a> event may be preceded by the <a href="#events-event-mousedown"><code>mousedown</code></a> and <a href="#events-event-mouseup"><code>mouseup</code></a> events on the same element.  Depending upon the environment configuration, the <a href="#events-event-click"><code>click</code></a> event may be dispatched if one or more of the event types <a href="#events-event-mouseover"><code>mouseover</code></a>, <a href="#events-event-mousemove"><code>mousemove</code></a>, and <a href="#events-event-mouseout"><code>mouseout</code></a> occur between the press and release of the pointing device button.  The <a href="#events-event-click"><code>click</code></a> event may also be followed by the <a href="#events-event-dblclick"><code>dblclick</code></a> event (<span class="issue">@@ does the dblclick event cancel the click event?</span>).  The <a href="#events-event-click"><code>click</code></a> event type must be dispatched as described in <a href="#events-Events-flow-activation">Activation requests and behavior</a>.
               </dd>
             </dl>
           </div>
@@ -2990,7 +2990,7 @@ interface <a class="noxref" href="#events-Events-MouseEvent">MouseEvent</a> : <a
                     <td><a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, <a href="#events-Events-MouseEvent-button"><code>MouseEvent.button</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use. The <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> attribute indicates the <a href="#events-dt-current-click-count">current click count</a>.</td>
                   </tr>
                 </table>
-A pointing device button is clicked twice over an element. The definition of a double click depends on the environment configuration, except that the event target must be the same between <a href="#events-event-mousedown">mousedown</a>, <a href="#events-event-mouseup">mouseup</a>, and <a href="#events-event-dblclick">dblclick</a>. This event type is dispatched after the event type <a href="#events-event-click">click</a> if a click and double click occur simultaneously, and after the event type <a href="#events-event-mouseup">mouseup</a> otherwise.</dd>
+A pointing device button is clicked twice over an element. The definition of a double click depends on the environment configuration, except that the event target must be the same between <a href="#events-event-mousedown">mousedown</a>, <a href="#events-event-mouseup">mouseup</a>, and <a href="#events-event-dblclick">dblclick</a>. This event type must be dispatched after the event type <a href="#events-event-click">click</a> if a click and double click occur simultaneously, and after the event type <a href="#events-event-mouseup">mouseup</a> otherwise.</dd>
             </dl>
           </div>
           <div class="event-definition assert must">
@@ -3028,10 +3028,10 @@ A pointing device button is clicked twice over an element. The definition of a d
                   </tr>
                   <tr class="assert must">
                     <th>Context info</th>
-                    <td><a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, <a href="#events-Events-MouseEvent-button"><code>MouseEvent.button</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use. The <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> attribute indicates the <a href="#events-dt-current-click-count">current click count</a> incremented by one. For example, if no click happened before the mousedown, <a class="noxref" href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> will contain the value <code>1</code>.</td>
+                    <td><a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, <a href="#events-Events-MouseEvent-button"><code>MouseEvent.button</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use. The <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> attribute indicates the <a href="#events-dt-current-click-count">current click count</a> incremented by one. For example, if no click happened before the mousedown, <a class="noxref" href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> must contain the value <code>1</code>.</td>
                   </tr>
                 </table>
-A pointing device button is pressed over an element.</dd>
+A pointing device button must be pressed over an element.</dd>
             </dl>
           </div>
           <div class="event-definition assert must">
@@ -3387,14 +3387,14 @@ A mouse wheel has been rotated around the y-axis.</dd>
             </dt>
             <dd>
               <p>The distance the wheel has rotated around the its axis.</p>
-              <p>The value of a <a class="def-term" href="events-Events-WheelEvent-delta">delta</a> is a integer indicating a distance, measured as the number of <a class="def-term" href="events-Events-WheelEvent-roll">rolls</a> the wheel has been <a class="def-term" href="events-Events-WheelEvent-rotation">rotated</a>. A positive value shall indicate that the wheel has been <a class="def-term" href="events-Events-WheelEvent-rotation">rotated</a> away from the user on vertically-aligned devices or in a left-hand manner on horizontally aligned devices, and a negative value shall indicate that the wheel has been <a class="def-term" href="events-Events-WheelEvent-rotation">rotated</a> towards the user on vertically-aligned devices or in a right-hand manner on horizontally-aligned devices.  The default value of a delta attribute shall be 0.</p>
+              <p>The value of a <a class="def-term" href="events-Events-WheelEvent-delta">delta</a> shall be a integer indicating a distance, measured as the number of <a class="def-term" href="events-Events-WheelEvent-roll">rolls</a> the wheel has been <a class="def-term" href="events-Events-WheelEvent-rotation">rotated</a>. A positive value shall indicate that the wheel has been <a class="def-term" href="events-Events-WheelEvent-rotation">rotated</a> away from the user on vertically-aligned devices or in a left-hand manner on horizontally aligned devices, and a negative value shall indicate that the wheel has been <a class="def-term" href="events-Events-WheelEvent-rotation">rotated</a> towards the user on vertically-aligned devices or in a right-hand manner on horizontally-aligned devices.  The default value of a delta attribute shall be 0.</p>
             </dd>
             <dt><code class="def-term" id="events-Events-WheelEvent-roll">roll</code>
             </dt>
-            <dd>A unit of <a class="def-term" href="events-Events-WheelEvent-rotation">rotation</a> for a device using the <a href="events-Events-eventgroupings-wheelevents">WheelEvent</a> interface. On some devices this is a finite physical step. On devices with smooth <a class="def-term" href="events-Events-WheelEvent-rotation">rotation</a>, a <a class="def-term" href="events-Events-WheelEvent-roll">roll</a> becomes the smallest reported amount of <a class="def-term" href="events-Events-WheelEvent-rotation">rotation</a>.</dd>
+            <dd>A unit of <a class="def-term" href="events-Events-WheelEvent-rotation">rotation</a> for a device using the <a href="events-Events-eventgroupings-wheelevents">WheelEvent</a> interface. On some devices this may be a finite physical step. On devices with smooth <a class="def-term" href="events-Events-WheelEvent-rotation">rotation</a>, a <a class="def-term" href="events-Events-WheelEvent-roll">roll</a> becomes the smallest reported amount of <a class="def-term" href="events-Events-WheelEvent-rotation">rotation</a>.</dd>
             <dt><code class="def-term" id="events-Events-WheelEvent-rotation">rotation</code>
             </dt>
-            <dd>An indication of incremental change. On some devices this is a literal rotation of a wheel, while on others, it may be 
+            <dd>An indication of incremental change. On some devices this may be a literal rotation of a wheel, while on others, it may be 
 movement along a flat surface, or pressure on a particular button.</dd>
           </dl>
 
@@ -3590,7 +3590,7 @@ A mouse wheel has been rotated. A <a href="#glossary-dt-default-action">default 
           <h3 id="events-Events-eventgroupings-mutationevents" class="div3">1.7.7 Mutation event types</h3>
           <p>This module defines the feature MutationEvents 3.0 and depends on the feature Events 3.0.</p>
           <p>The mutation and mutation name event modules are designed to allow notification of any changes to the structure of a document, including attribute, text, or name modifications. It may be noted that none of the event types associated with the modules are designated as cancelable. This stems from the fact that it is very difficult to make use of existing DOM interfaces which cause document modifications if any change to the document might or might not take place due to cancelation of the resulting event. Although this is still a desired capability, it was decided that it would be better left until the addition of transactions into the DOM.</p>
-		  <p class="issue">Note that nodes that are not in the document, such as elements freshly created, or elements removed from the DOM, shall not fire mutation events when changes.  For example, if an element is created but not yet inserted into the document, then an existing element located in the document is moved from its current location to be a child of the new element, there will be one mutation event, for removing the existing element from its previous location, but no event will fire for insertion of the element into the new element, regardless of any assigned mutation event listeners.</p>
+		  <p class="issue">Note that nodes that are not in the document, such as elements freshly created, or elements removed from the DOM, shall not fire mutation events when changes.  For example, if an element is created but not yet inserted into the document, then an existing element located in the document shall be moved from its current location to be a child of the new element, there must be one mutation event, for removing the existing element from its previous location, but no event must fire for insertion of the element into the new element, regardless of any assigned mutation event listeners.</p>
 		  <p class="issue">?What happens to event listeners on an element when it is removed from the tree, or moved elsewhere in the tree?</p>
           <p>Many single modifications of the tree can cause multiple mutation events to be dispatched. Rather than attempt to specify the ordering of mutation events due to every possible modification of the tree, the ordering of these events is left to the implementation.</p>
           <dl>
@@ -3697,7 +3697,7 @@ interface <a class="noxref" href="#events-Events-MutationEvent">MutationEvent</a
                     <dt><code class="attribute-name">
                         <a name="events-Events-MutationEvent-relatedNode" id="events-Events-MutationEvent-relatedNode">relatedNode</a>
                       </code> of type <code>Node</code>, readonly</dt>
-                    <dd><code>relatedNode</code> is used to identify a secondary node related to a mutation event. For example, if a mutation event is dispatched to a node indicating that its parent has changed, the <code>relatedNode</code> is the changed parent. If an event is instead dispatched to a subtree indicating a node was changed within it, the <code>relatedNode</code> is the changed node. In the case of the <a href="#events-event-DOMAttrModified">DOMAttrModified</a> event it indicates the <code>Attr</code> node which was modified, added, or removed.<br/></dd>
+                    <dd><code>relatedNode</code> shall be used to identify a secondary node related to a mutation event. For example, if a mutation event is dispatched to a node indicating that its parent has changed, the <code>relatedNode</code> shall be the changed parent. If an event is instead dispatched to a subtree indicating a node was changed within it, the <code>relatedNode</code> shall be the changed node. In the case of the <a href="#events-event-DOMAttrModified">DOMAttrModified</a> event it indicates the <code>Attr</code> node which was modified, added, or removed.<br/></dd>
                   </dl>
                 </dd>
                 <dt>
@@ -3828,7 +3828,7 @@ interface <a class="noxref" href="#events-Events-MutationEvent">MutationEvent</a
                     <td>None</td>
                   </tr>
                 </table>
-This is a general event for notification of all changes to the document. It can be used instead of the more specific mutation and mutation name events listed below. It may be dispatched after a single modification to the document or, at the implementation's discretion, after multiple changes have occurred. The latter use should generally be used to accommodate multiple changes which occur either simultaneously or in rapid succession. The target of this event is the lowest common parent of the changes which have taken place. This event is dispatched after any other events caused by the mutation(s) have occurred.</dd>
+This is a general event for notification of all changes to the document. It can be used instead of the more specific mutation and mutation name events listed below. It may be dispatched after a single modification to the document or, at the implementation's discretion, after multiple changes have occurred. The latter use should generally be used to accommodate multiple changes which occur either simultaneously or in rapid succession. The target of this event shall be the lowest common parent of the changes which have taken place. This event shall be dispatched after any other events caused by the mutation(s) have occurred.</dd>
             </dl>
           </div>
           <div class="event-definition assert must">
@@ -3869,7 +3869,7 @@ This is a general event for notification of all changes to the document. It can 
                     <td><a href="#events-Events-MutationEvent-relatedNode"><code>MutationEvent.relatedNode</code></a> holds the parent node of the node that has been inserted or, in case of <code>Attr</code> nodes, the <code>ownerElement</code> of the <code>Attr</code> node.</td>
                   </tr>
                 </table>
-A node has been added as a child of another node or, in case of <code>Attr</code> nodes, has been added to an <code>Element</code>. This event is dispatched after the insertion has taken place. The <a href="#glossary-dt-target-node">target node</a> of this event is the node being inserted.</dd>
+A node has been added as a child of another node or, in case of <code>Attr</code> nodes, has been added to an <code>Element</code>. This event shall be dispatched after the insertion has taken place. The <a href="#glossary-dt-target-node">target node</a> of this event shall be the node being inserted.</dd>
             </dl>
           </div>
           <div class="event-definition assert must">
@@ -3910,7 +3910,7 @@ A node has been added as a child of another node or, in case of <code>Attr</code
                     <td><a href="#events-Events-MutationEvent-relatedNode"><code>MutationEvent.relatedNode</code></a> holds the parent node of the node being removed or, in case of <code>Attr</code> nodes, the <code>ownerElement</code> of the <code>Attr</code> node.</td>
                   </tr>
                 </table>
-A node is being removed from its parent node or, in case of <code>Attr</code> nodes, removed from its <code>ownerElement</code>. This event is dispatched before the removal takes place. The <a href="#glossary-dt-target-node">target node</a> of this event is the node being removed.</dd>
+A node is being removed from its parent node or, in case of <code>Attr</code> nodes, removed from its <code>ownerElement</code>. This event shall be dispatched before the removal takes place. The <a href="#glossary-dt-target-node">target node</a> of this event shall be the node being removed.</dd>
             </dl>
           </div>
           <div class="event-definition assert must">
@@ -3951,7 +3951,7 @@ A node is being removed from its parent node or, in case of <code>Attr</code> no
                     <td>None</td>
                   </tr>
                 </table>
-A node is being removed from a document, either through direct removal of the node or removal of a subtree in which it is contained; <code>Attr</code> nodes are considered part of an <code>Element</code>'s subtree. This event is dispatched before the removal takes place. The <a href="#glossary-dt-target-node">target node</a> of this event type is the node being removed. If the node is being directly removed, the event type <a href="#events-event-DOMNodeRemoved">DOMNodeRemoved</a> occurs before this event type.</dd>
+A node is being removed from a document, either through direct removal of the node or removal of a subtree in which it is contained; <code>Attr</code> nodes are considered part of an <code>Element</code>'s subtree. This event shall be dispatched before the removal takes place. The <a href="#glossary-dt-target-node">target node</a> of this event type shall be the node being removed. If the node is being directly removed, the event type <a href="#events-event-DOMNodeRemoved">DOMNodeRemoved</a> must occur before this event type.</dd>
             </dl>
           </div>
           <div class="event-definition assert must">
@@ -3992,7 +3992,7 @@ A node is being removed from a document, either through direct removal of the no
                     <td>None</td>
                   </tr>
                 </table>
-A node has been inserted into a document, either through direct insertion of the node or insertion of a subtree in which it is contained; <code>Attr</code> nodes are considered part of an <code>Element</code>'s subtree. This event is dispatched after the insertion has taken place. The <a href="#glossary-dt-target-node">target node</a> of this event is the node being inserted. If the node is being directly inserted, the event type <a href="#events-event-DOMNodeInserted">DOMNodeInserted</a> occurs before this event type.</dd>
+A node has been inserted into a document, either through direct insertion of the node or insertion of a subtree in which it is contained; <code>Attr</code> nodes are considered part of an <code>Element</code>'s subtree. This event shall be dispatched after the insertion has taken place. The <a href="#glossary-dt-target-node">target node</a> of this event shall be the node being inserted. If the node is being directly inserted, the event type <a href="#events-event-DOMNodeInserted">DOMNodeInserted</a> must occur before this event type.</dd>
             </dl>
           </div>
           <div class="event-definition assert must">
@@ -4030,10 +4030,10 @@ A node has been inserted into a document, either through direct insertion of the
                   </tr>
                   <tr class="assert must">
                     <th>Context info</th>
-                    <td><a href="#events-Events-MutationEvent-attrName"><code>MutationEvent.attrName</code></a> and <a href="#events-Events-MutationEvent-attrChange"><code>MutationEvent.attrChange</code></a> are in use. The value of <a href="#events-Events-MutationEvent-relatedNode"><code>MutationEvent.relatedNode</code></a> indicates the <code>Attr</code> node that has been modified, added, or removed. If the <code>Attr</code> node has been added, <a href="#events-Events-MutationEvent-newValue"><code>MutationEvent.newValue</code></a> is in use. If the <code>Attr</code> node has been removed, <a href="#events-Events-MutationEvent-prevValue"><code>MutationEvent.prevValue</code></a> is in use. If the <code>Attr</code> node has been modified, <a class="noxref" href="#events-Events-MutationEvent-newValue"><code>MutationEvent.newValue</code></a> and <a class="noxref" href="#events-Events-MutationEvent-prevValue"><code>MutationEvent.prevValue</code></a> are in use.</td>
+                    <td><a href="#events-Events-MutationEvent-attrName"><code>MutationEvent.attrName</code></a> and <a href="#events-Events-MutationEvent-attrChange"><code>MutationEvent.attrChange</code></a> are in use. The value of <a href="#events-Events-MutationEvent-relatedNode"><code>MutationEvent.relatedNode</code></a> indicates the <code>Attr</code> node that has been modified, added, or removed. If the <code>Attr</code> node has been added, <a href="#events-Events-MutationEvent-newValue"><code>MutationEvent.newValue</code></a> shall be in use. If the <code>Attr</code> node has been removed, <a href="#events-Events-MutationEvent-prevValue"><code>MutationEvent.prevValue</code></a> shall be in use. If the <code>Attr</code> node has been modified, <a class="noxref" href="#events-Events-MutationEvent-newValue"><code>MutationEvent.newValue</code></a> and <a class="noxref" href="#events-Events-MutationEvent-prevValue"><code>MutationEvent.prevValue</code></a> are in use.</td>
                   </tr>
                 </table>
-Occurs after <code>Attr.value</code> has been modified and after an <code>Attr</code> node has been added to or removed from an <code>Element</code>. The <a href="#glossary-dt-target-node">target node</a> of this event is the <code>Element</code> node where the change occurred. It is implementation dependent whether this event type occurs when the children of the <code>Attr</code> node are changed in ways that do not affect the value of <code>Attr.value</code>.</dd>
+Occurs after <code>Attr.value</code> has been modified and after an <code>Attr</code> node has been added to or removed from an <code>Element</code>. The <a href="#glossary-dt-target-node">target node</a> of this event shall be the <code>Element</code> node where the change occurred. It is implementation dependent whether this event type occurs when the children of the <code>Attr</code> node are changed in ways that do not affect the value of <code>Attr.value</code>.</dd>
             </dl>
           </div>
           <div class="event-definition assert must">
@@ -4074,7 +4074,7 @@ Occurs after <code>Attr.value</code> has been modified and after an <code>Attr</
                     <td><a href="#events-Events-MutationEvent-prevValue"><code>MutationEvent.prevValue</code></a>, and <a href="#events-Events-MutationEvent-newValue"><code>MutationEvent.newValue</code></a> are in use.</td>
                   </tr>
                 </table>
-Occurs after <code>CharacterData.data</code> or <code>ProcessingInstruction.data</code> have been modified but the node itself has not been inserted or deleted. The <a href="#glossary-dt-target-node">target node</a> of this event is the <code>CharacterData</code> node or the <code>ProcessingInstruction</code> node.</dd>
+Occurs after <code>CharacterData.data</code> or <code>ProcessingInstruction.data</code> have been modified but the node itself has not been inserted or deleted. The <a href="#glossary-dt-target-node">target node</a> of this event shall be the <code>CharacterData</code> node or the <code>ProcessingInstruction</code> node.</dd>
             </dl>
           </div>
         </div>
@@ -4255,7 +4255,7 @@ interface <a class="noxref" href="#events-Events-MutationNameEvent">MutationName
                     <td><a href="#events-Events-MutationNameEvent-prevNamespaceURI"><code>MutationNameEvent.prevNamespaceURI</code></a>, and <a href="#events-Events-MutationNameEvent-prevNodeName"><code>MutationNameEvent.prevNodeName</code></a> are in use.</td>
                   </tr>
                 </table>
-Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of an <code>Element</code> node have been modified (e.g., the element was renamed using <code>Document.renameNode()</code>). The <a href="#glossary-dt-target-node">target node</a> of this event is the renamed <code>Element</code> node.</dd>
+Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of an <code>Element</code> node have been modified (e.g., the element was renamed using <code>Document.renameNode()</code>). The <a href="#glossary-dt-target-node">target node</a> of this event shall be the renamed <code>Element</code> node.</dd>
             </dl>
           </div>
           <div class="event-definition assert must">
@@ -4296,7 +4296,7 @@ Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a
                     <td><a href="#events-Events-MutationNameEvent-prevNamespaceURI"><code>MutationNameEvent.prevNamespaceURI</code></a>, and <a href="#events-Events-MutationNameEvent-prevNodeName"><code>MutationNameEvent.prevNodeName</code></a> are in use. The value of <a href="#events-Events-MutationEvent-relatedNode"><code>MutationEvent.relatedNode</code></a> contains the renamed <code>Attr</code> node.</td>
                   </tr>
                 </table>
-Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a <code>Attr</code> node have been modified (e.g., the attribute was renamed using <code>Document.renameNode()</code>). The <a href="#glossary-dt-target-node">target node</a> of this event is the <code>Element</code> node whose <code>Attr</code> has been renamed.</dd>
+Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a <code>Attr</code> node have been modified (e.g., the attribute was renamed using <code>Document.renameNode()</code>). The <a href="#glossary-dt-target-node">target node</a> of this event shall be the <code>Element</code> node whose <code>Attr</code> has been renamed.</dd>
             </dl>
           </div>
         </div>
@@ -4342,7 +4342,7 @@ Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a
                     <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> may be in use.</td>
                   </tr>
                 </table>
-The DOM Implementation finishes loading the resource (such as the document) and any dependent resources (such as images, style sheets, or scripts). Dependent resources that fail to load will not prevent this event from firing if the resource that loaded them is still accessible via the DOM. If this event type is dispatched, implementations are required to dispatch this event at least on the <code>Document</code> node.</dd>
+The DOM Implementation finishes loading the resource (such as the document) and any dependent resources (such as images, style sheets, or scripts). Dependent resources that fail to load must not prevent this event from firing if the resource that loaded them is still accessible via the DOM. If this event type is dispatched, implementations are required to dispatch this event at least on the <code>Document</code> node.</dd>
             </dl>
           </div>
           <div class="event-definition assert must">
@@ -4383,7 +4383,7 @@ The DOM Implementation finishes loading the resource (such as the document) and 
                     <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> may be in use.</td>
                   </tr>
                 </table>
-The DOM implementation removes from the environment the resource (such as the document) or any dependent resources (such as images, style sheets, scripts). The document is unloaded after the dispatch of this event type. If this event type is dispatched, implementations are required to dispatch this event at least on the <code>Document</code> node.</dd>
+The DOM implementation removes from the environment the resource (such as the document) or any dependent resources (such as images, style sheets, scripts). The document shall be unloaded after the dispatch of this event type. If this event type is dispatched, implementations are required to dispatch this event at least on the <code>Document</code> node.</dd>
             </dl>
           </div>
           <div class="event-definition assert must">
@@ -4547,7 +4547,7 @@ A user selects some text. DOM Level 3 Events does not provide contextual informa
                     <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> may be in use.</td>
                   </tr>
                 </table>
-A control loses the input focus and its value has been modified since gaining focus. This event type is dispatched before the event type <a href="#events-event-blur">blur</a>.</dd>
+A control loses the input focus and its value has been modified since gaining focus. This event type shall be dispatched before the event type <a href="#events-event-blur">blur</a>.</dd>
             </dl>
           </div>
           <div class="event-definition assert must">
@@ -4737,7 +4737,7 @@ A document view or an element has been scrolled. The scroll occurred before the 
       <p class="first">Some of the following term definitions have been borrowed or modified from similar definitions in other W3C or standards documents. See the links within the definitions for more information.</p>
       <dl id="glossary-list">
         <dt id="glossary-dt-activation-behavior">activation behavior</dt>
-        	<dd>The action taken when an <a href="#glossary-dt-event">event</a>, typically initiated by users through an input device, causes an element to fulfill a defined role.  The role may be defined for that element by the host language, or by author-defined variables, or both.  The role for any given element may be a generic action, or may be unique to that element.  For example, the activation behavior of an HTML or SVG <code>&lt;a&gt;</code> element is to cause the user agent to traverse the link specified in the <code>href</code> attribute, with the further optional parameter of specifying the browsing context for the traversal (such as the current window or tab, a named window, or a new window); the activation behavior of an HTML <code>&lt;input&gt;</code> element with the <code>type</code> attribute value <code>submit</code> is to send the values of the form elements to an author-defined IRI by the author-defined HTTP method.</dd>
+        	<dd>The action taken when an <a href="#glossary-dt-event">event</a>, typically initiated by users through an input device, causes an element to fulfill a defined role.  The role may be defined for that element by the host language, or by author-defined variables, or both.  The role for any given element may be a generic action, or may be unique to that element.  For example, the activation behavior of an HTML or SVG <code>&lt;a&gt;</code> element shall be to cause the user agent to traverse the link specified in the <code>href</code> attribute, with the further optional parameter of specifying the browsing context for the traversal (such as the current window or tab, a named window, or a new window); the activation behavior of an HTML <code>&lt;input&gt;</code> element with the <code>type</code> attribute value <code>submit</code> shall be to send the values of the form elements to an author-defined IRI by the author-defined HTTP method.</dd>
         	
         <dt id="glossary-dt-bubbling-phase">bubbling phase</dt>
         	<dd>The process by which an <a href="#glossary-dt-event">event</a> can be handled by one of the target ancestors after being handled by the <a href="#glossary-dt-target-node">target node</a>.</dd>
@@ -4789,7 +4789,7 @@ A document view or an element has been scrolled. The scroll occurred before the 
       <dd>The process by which an <a href="#glossary-dt-event">event</a> can be handled by the <a href="#glossary-dt-event-target">event target</a>.</dd>
 
       <dt id="glossary-dt-topmost-event-target">topmost event target</dt>
-      <dd>The <a href="#glossary-dt-topmost-event-target">topmost event target</a> shall be the element highest in the rendering order which is capable of being an <a href="#glossary-dt-event-target">event target</a>.  In this case, 'top' shall refer not to the position on the screen, but the logical order of the element in relation to other elements in drawing or stacking order on the z-axis (where the x-axis is the screen width and the y-axis is the screen height).  In HTML and CSS, or in SVG, this is controlled by the document order, as modified in HTML and CSS by the 'z-index' property.  In some cases, such as when using some values of the SVG 'pointer-events' property, the topmost element may not receive pointer events, in which case, the next element in z-index order which can receive pointer-events is the <a href="#glossary-dt-topmost-event-target">topmost event target</a>.  Note that visibility of the element does not necessarily affect its ability to be the <a href="#glossary-dt-topmost-event-target">topmost event target</a>, since an element which is hiden by use of the CSS 'visibility' property can still receive pointer events (though not one with a 'display' property of 'none'), and the <a href="#glossary-dt-topmost-event-target">topmost event target</a> may be completely obscured by another element which cannot receive pointer events.  Unless otherwise noted, there is only one <a href="#glossary-dt-topmost-event-target">topmost event target</a> in any event.</dd>
+      <dd>The <a href="#glossary-dt-topmost-event-target">topmost event target</a> shall be the element highest in the rendering order which is capable of being an <a href="#glossary-dt-event-target">event target</a>.  In this case, 'top' shall refer not to the position on the screen, but the logical order of the element in relation to other elements in drawing or stacking order on the z-axis (where the x-axis is the screen width and the y-axis is the screen height).  In HTML and CSS, or in SVG, this is controlled by the document order, as modified in HTML and CSS by the 'z-index' property.  In some cases, such as when using some values of the SVG 'pointer-events' property, the topmost element may not receive pointer events, in which case, the next element in z-index order which can receive pointer-events is the <a href="#glossary-dt-topmost-event-target">topmost event target</a>.  Note that visibility of the element does not necessarily affect its ability to be the <a href="#glossary-dt-topmost-event-target">topmost event target</a>, since an element which is hidden by use of the CSS 'visibility' property can still receive pointer events (though not one with a 'display' property of 'none'), and the <a href="#glossary-dt-topmost-event-target">topmost event target</a> may be completely obscured by another element which cannot receive pointer events.  Unless otherwise noted, there is only one <a href="#glossary-dt-topmost-event-target">topmost event target</a> in any event.</dd>
 
       <dt id="glossary-dt-tree">tree</dt>
       <dd>A data structure that represents a document as a hierarchical set of nodes with child-parent-sibling relationships, i.e. each node having one or more possible ancestors (nodes higher in the hierarchy in a direct lineage), one or more possible descendants (nodes lower in the hierarchy in a direct lineage), and one or more possible peers (nodes of the same level in the hierarchy, with the same immediate ancestor).</dd>
@@ -4856,7 +4856,7 @@ A document view or an element has been scrolled. The scroll occurred before the 
           <li>the enumeration <code>System.Windows.Forms.Keys</code> of the Microsoft .NET Framework 1.0 [<cite><a class="noxref informative" href="#references-Keys">Keys enumeration for .Net</a></cite>].</li>
         </ul>
 
-		<p>Key identifiers are strings used for uniquely addressing keyboard buttons, and intended for use in two primary scenarios:  as attributes for a keyboard event; or as string values for markup attributes, such as so-called "hotkeys" (or keyboard shortcuts).  As attributes on an event, the key identifier is a single canonical value.  As author-generated content, the key identifier may be one of three equivalent string values, which all evaluate to the same key identifier; the string may be a character string (a single character, such as a letter or symbol), a key name (a multi-character string, such as <code>enter</code> or <code>tab</code>, for control or dead keys, or certain symbols), or a Unicode codepoint ("U+" followed by a hexadecimal character index).  The event attribute will always be the most author-friendly of these, in the following order: character string, key name, or Unicode codepoint.</p>
+		<p>Key identifiers are strings used for uniquely addressing keyboard buttons, and intended for use in two primary scenarios:  as attributes for a keyboard event; or as string values for markup attributes, such as so-called "hotkeys" (or keyboard shortcuts).  As attributes on an event, the key identifier shall be a single canonical value.  As author-generated content, the key identifier may be one of three equivalent string values, which all evaluate to the same key identifier; the string may be a character string (a single character, such as a letter or symbol), a key name (a multi-character string, such as <code>enter</code> or <code>tab</code>, for control or dead keys, or certain symbols), or a Unicode codepoint ("U+" followed by a hexadecimal character index).  The event attribute must always be the most author-friendly of these, in the following order: character string, key name, or Unicode codepoint.</p>
 		
 		<p>There are several use cases for keyboard events.  The first use case is to retrieve the value of the key itself, in whichever mode that key currently represents (i.e. the value of a key as an upper- or lower-case letter, or a symbol or number, depending upon the current modifier keys, or as a key name); this may be used for monitoring particular input strings, or for modifier key input, or for author-generated virtual keyboards, and does not not depend upon the location of the key in the physical layout of the device, which may be mapped to different configurations based on user or system preference.  The second use case is for keyboard shortcuts, where the string itself may be of secondary importance, and where they key used should default to the most appropriate key for the function, language, operating system, device, and other environmental factors (such as <code>ctrl+c</code> for copy operations).  The final use case is completely independent of the value of the key identifier, and relies solely on the physical layout of the input device itself (such as for game controls); this is highly variable device-dependent functionality, and is not within the scope of this specification.  Implementations should provide an option for users to establish their own preferential mapping for keyboard layout, and may rely upon ISO 9995-3, which defines a common layout for primary and secondary key mappings on a typical alphanumeric keyboard, or on ISO 9995-8, which defines a numeric keypad layout and secondary assignment of Unicode characters in the range <abbr title="a-z">U+0061..U+007A</abbr> to the number keys <code>2</code> through <code>9</code>.</p>
 		
@@ -4914,20 +4914,20 @@ A document view or an element has been scrolled. The scroll occurred before the 
 	-->
 	
         <p>While implementations are recommended to use the most relevant identifier for a key independently of the platform or keyboard layout mappings, DOM applications should not make assumption on the ability of keyboard devices to generate them. When using keyboard events, <cite>"consider using numbers and function keys (F4, F5, and so on) instead of letters in shortcut-key combinations"</cite> ([<cite><a class="noxref informative" href="#references-DWW95">DWW95</a></cite>]) given that most keyboard layouts will provide keys for those.</p>
-        <p><code>"U+0000"</code>, <code>"U+0001"</code>, ..., <code>"U+10FFFF"</code> are Unicode based key identifiers ([<cite><a class="noxref normative" href="#references-Unicode">Unicode</a></cite>]). When a key cannot be mapped to Unicode, a specific identifier is used (see also <a href="#keyset-Guide">Guidelines for defining key identifiers</a>). In any case, no assumption should be made between the sequence of keyboard events and the text events. The following three examples illustrate the concept of keyboard layout mappings and its relation with keyboard events (following the <a href="#keyset-Guide">Guidelines for defining key identifiers</a>, the 'Q' key is mapped to the Latin Capital Letter Q key).</p>
-        <p>The keystroke <code>"U+0051"</code> (Latin Capital Letter Q key) will produce (on a PC/AT US keyboard using a US keyboard layout mapping and without any modifier activated) the Unicode character <code>q</code> (Latin Small Letter Q):</p>
+        <p><code>"U+0000"</code>, <code>"U+0001"</code>, ..., <code>"U+10FFFF"</code> are Unicode based key identifiers ([<cite><a class="noxref normative" href="#references-Unicode">Unicode</a></cite>]). When a key cannot be mapped to Unicode, a specific identifier shall be used (see also <a href="#keyset-Guide">Guidelines for defining key identifiers</a>). In any case, no assumption should be made between the sequence of keyboard events and the text events. The following three examples illustrate the concept of keyboard layout mappings and its relation with keyboard events (following the <a href="#keyset-Guide">Guidelines for defining key identifiers</a>, the 'Q' key shall be mapped to the Latin Capital Letter Q key).</p>
+        <p>The keystroke <code>"U+0051"</code> (Latin Capital Letter Q key) must produce (on a PC/AT US keyboard using a US keyboard layout mapping and without any modifier activated) the Unicode character <code>q</code> (Latin Small Letter Q):</p>
         <ol>
           <li><code>"keydown"</code>: <code>"U+0051"</code> (Latin Capital Letter Q key)</li>
           <li><code>"textInput"</code>: <code>"q"</code></li>
           <li><code>"keyup"</code>: <code>"U+0051"</code></li>
         </ol>
-        <p>If the keyboard layout mapping is switched to a french mapping, pressing the same key will produce:</p>
+        <p>If the keyboard layout mapping is switched to a french mapping, pressing the same key must produce:</p>
         <ol>
           <li><code>"keydown"</code>: <code>"U+0041"</code> (Latin Capital Letter A key)</li>
           <li><code>"textInput"</code>: <code>"a"</code></li>
           <li><code>"keyup"</code>: <code>"U+0041"</code></li>
         </ol>
-        <p>If the keyboard layout mapping is switched to a serbian (cyrillic) mapping, pressing the same key will produce:</p>
+        <p>If the keyboard layout mapping is switched to a serbian (cyrillic) mapping, pressing the same key must produce:</p>
         <ol>
           <li><code>"keydown"</code>: <code>"U+0409"</code> (Cyrillic Capital Letter LJE)</li>
           <li><code>"textInput"</code>: <code>"&#1113;"</code></li>
@@ -4989,26 +4989,26 @@ A document view or an element has been scrolled. The scroll occurred before the 
         <!-- div3 IME -->
         <div class="div3">
           <h3 id="keyset-cancelable_keys" class="adiv3">A.1.4 Default actions and cancelable keyboard events</h3>
-          <p>Canceling the <a href="#glossary-dt-default-action">default action</a> of a <a href="#events-event-keydown">keydown</a> event does not affect its respective <a href="#events-event-keyup">keyup</a> event; it will however prevent the respective <a href="#events-event-textInput">textInput</a> event from being generated. The following example describes a possible sequence of keys to generate the Unicode character Q (Latin Capital Letter Q) on a PC/AT US keyboard using a US mapping:</p>
+          <p>Canceling the <a href="#glossary-dt-default-action">default action</a> of a <a href="#events-event-keydown">keydown</a> event does not affect its respective <a href="#events-event-keyup">keyup</a> event; it must however prevent the respective <a href="#events-event-textInput">textInput</a> event from being generated. The following example describes a possible sequence of keys to generate the Unicode character Q (Latin Capital Letter Q) on a PC/AT US keyboard using a US mapping:</p>
           <ol>
             <li><code>"keydown"</code>: <code>"U+0051"</code> (Latin Capital Letter Q key), shiftKey<br/>
 the <a href="#glossary-dt-default-action">default action</a> of the <a href="#events-event-keydown">keydown</a> event is prevented, e.g. by invoking <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a> during the dispatch of the keydown event object.</li>
-            <li>No <code>"textInput"</code> is generated.</li>
+            <li>No <code>"textInput"</code> shall be generated.</li>
             <li><code>"keyup"</code>: <code>"U+0051"</code>, shiftKey</li>
           </ol>
-          <p>If the key is a modifier key, the keystroke is taken into account for the modifiers states. The following example describes a possible sequence of keys to generate the Unicode character Q (Latin Capital Letter Q) on a PC/AT US keyboard using a US mapping:</p>
+          <p>If the key is a modifier key, the keystroke shall be taken into account for the modifiers states. The following example describes a possible sequence of keys to generate the Unicode character Q (Latin Capital Letter Q) on a PC/AT US keyboard using a US mapping:</p>
           <ol>
             <li><code>"keydown"</code>: <code>"Shift"</code>, shiftKey<br/>
-the <a href="#glossary-dt-default-action">default action</a> of the keydown event is prevented.</li>
+the <a href="#glossary-dt-default-action">default action</a> of the keydown event shall be prevented.</li>
             <li><code>"keydown"</code>: <code>"U+0051"</code> (Latin Capital Letter Q key), shiftKey</li>
             <li><code>"textInput"</code>: <code>"Q"</code></li>
             <li><code>"keyup"</code>: <code>"U+0051"</code>, shiftKey</li>
             <li><code>"keyup"</code>: <code>"Shift"</code></li>
           </ol>
-          <p>If the key is part of a sequence of several keystrokes, whether it is a dead key or it is contributing to an Input Method Editor sequence, the keystroke is ignored (not taken into account) only if the <a href="#glossary-dt-default-action">default action</a> is canceled on the <a href="#events-event-keydown">keydown</a> event. Canceling a dead key on a <a href="#events-event-keyup">keyup</a> event has not effect on <a href="#events-event-textInput">textInput</a> events. The following example uses the keystrokes <code>"U+0302"</code> (Combining Circumflex Accent key) and <code>"U+0045"</code> (Latin Capital Letter E key) (on a PC/AT french keyboard using a french mapping and without any modifier activated):</p>
+          <p>If the key is part of a sequence of several keystrokes, whether it is a dead key or it is contributing to an Input Method Editor sequence, the keystroke shall be ignored (not taken into account) only if the <a href="#glossary-dt-default-action">default action</a> is canceled on the <a href="#events-event-keydown">keydown</a> event. Canceling a dead key on a <a href="#events-event-keyup">keyup</a> event has not effect on <a href="#events-event-textInput">textInput</a> events. The following example uses the keystrokes <code>"U+0302"</code> (Combining Circumflex Accent key) and <code>"U+0045"</code> (Latin Capital Letter E key) (on a PC/AT french keyboard using a french mapping and without any modifier activated):</p>
           <ol>
             <li><code>"keydown"</code>: <code>"U+0302"</code> (Combining Circumflex Accent key)<br/>
-the <a href="#glossary-dt-default-action">default action</a> of the keydown event is prevented</li>
+the <a href="#glossary-dt-default-action">default action</a> of the keydown event shall be prevented</li>
             <li><code>"keyup"</code>: <code>"U+0302"</code></li>
             <li><code>"keydown"</code>: <code>"U+0045"</code> (Latin Capital Letter E key)</li>
             <li><code>"textInput"</code>: <code>"a"</code></li>
@@ -5023,9 +5023,9 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
 			<p><strong>Note:</strong> This section is non-normative.</p>
           <p>The list of key identifiers contained in this appendix is not exhaustive and input devices may have to define their own key identifiers. Here is a algorithm to determine which key identifier to use:</p>
           <ol>
-            <li>Determine a representation for the key by looking at the keyboard layout mapping in use (and not the keyboard device in use). This representation should be unique, as human friendly as possible, platform independent, and consistent. For example, on PC/AT US keyboards with a US mapping, the 'Q' key is mapped to the key identifier "U+0051" (Latin Capital Letter Q key), the '1/!' key is mapped to the key identifier "U+0031" (Digit One key), the key '`/~' is mapped to the key identifier "U+0060" (Grave Accent key), and the 'Enter' key is mapped to the key identifier "Enter".</li>
+            <li>Determine a representation for the key by looking at the keyboard layout mapping in use (and not the keyboard device in use). This representation should be unique, as human friendly as possible, platform independent, and consistent. For example, on PC/AT US keyboards with a US mapping, the 'Q' key shall be mapped to the key identifier "U+0051" (Latin Capital Letter Q key), the '1/!' key shall be mapped to the key identifier "U+0031" (Digit One key), the key '`/~' shall be mapped to the key identifier "U+0060" (Grave Accent key), and the 'Enter' key shall be mapped to the key identifier "Enter".</li>
             <li>Find an appropriate mapping in the Unicode character set. There might not always be an appropriate and obvious mapping: the Unicode set contains characters and symbols, the key might generate different characters depending on the operating system, ... In general, unless the representation of the key can be mapped to a unique Unicode character, it is better to create a new one.</li>
-            <li>If no appropriate mapping was found, create a key identifier as human friendly as possible. The key identifier must not contain white spaces. As an example, the Enter key is mapped to the key identifier "Enter" and not to "U+000A" (Line Feed), given that this key generates the character "U+000A" on Unix operating systems and the characters "U+000D" and "U+000A" on Windows operating systems.</li>
+            <li>If no appropriate mapping was found, create a key identifier as human friendly as possible. The key identifier must not contain white spaces. As an example, the Enter key shall be mapped to the key identifier "Enter" and not to "U+000A" (Line Feed), given that this key generates the character "U+000A" on Unix operating systems and the characters "U+000D" and "U+000A" on Windows operating systems.</li>
           </ol>
         </div>
 
@@ -5036,7 +5036,7 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
 	<ol>
 		<li> Consider the primary function of the key (i.e., without modifiers), taking into consideration the keyboard layout mapping in use, to determine if a corresponding Unicode character exists from which a key identifier may be derived.  If multiple Unicode characters exist which correspond to the primary function of the key, the Unicode character with the lowest codepoint must be used. 
 			<ol>
-				<li> If the primary function of the key is to generate a character, and that character is in one of the <a href="#glossary-dt-Unicode-character-categories">Unicode character categories</a>, then the key identifier is a string consisting of just that character.  If the primary function of the key is to generate a character in class <abbr title="Letter, Lowercase">Ll</abbr> for which there exists an equivalent, single character in class <abbr title="Letter, Uppercase">Lu</abbr>, the uppercase character should be used instead. <br/><span class="issue">Is this necessary?  Why can't we simply allow lowercase letters as well?  If a script author wishes to do a comparison, they can cast the output to upper or lower case as needed.  See <a href="http://www.w3.org/2008/webapps/track/issues/23" title="ISSUE-23 - Web Applications Working Group Tracker">ISSUE-23</a>.</span></li>
+				<li> If the primary function of the key is to generate a character, and that character is in one of the <a href="#glossary-dt-Unicode-character-categories">Unicode character categories</a>, then the key identifier shall be a string consisting of just that character.  If the primary function of the key is to generate a character in class <abbr title="Letter, Lowercase">Ll</abbr> for which there exists an equivalent, single character in class <abbr title="Letter, Uppercase">Lu</abbr>, the uppercase character should be used instead. <br/><span class="issue">Is this necessary?  Why can't we simply allow lowercase letters as well?  If a script author wishes to do a comparison, they can cast the output to upper or lower case as needed.  See <a href="http://www.w3.org/2008/webapps/track/issues/23" title="ISSUE-23 - Web Applications Working Group Tracker">ISSUE-23</a>.</span></li>
 				<li> If the primary function of the key is to generate a character that is not in one of the above general categories, or if the primary function of the key is a function for which there exists a corresponding Unicode character that is not in one of the above general categories, then: 
 					<ol>
 						<li>If there exists an appropriate key identifier in the <a href="#keyset-KeySet-Set">key identifiers set</a>, and that key identifier does not have a Unicode codepoint, that key identifier must be used.</li>
@@ -5055,10 +5055,10 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
 	<p>Examples:</p>
 	<ul>
 		<li> On a PC/AT US keyboard with a US keyboard mapping, the primary function (unmodified) of the 'Q' key is to generate the character U+0071.  Since this character is in general category Ll, and there is a single corresponding character in Lu, U+0051, this character is used instead.  Thus, the key identifier is "Q". <br/><span class="issue">What is the use case here?  Why are uppercase letters being given priority?  See <a href="http://www.w3.org/2008/webapps/track/issues/23" title="ISSUE-23 - Web Applications Working Group Tracker">ISSUE-23</a>.</span></li>
-		<li> On a PC/AT US keyboard with a two-handed Dvorak keyboard mapping, the 'Q' key maps to the '5/%' key.  The primary function of this key is to generate the character U+0035.  Since this character is in general category Nd, the key identifier is "5". </li>
-		<li> On a French PC keyboard with a standard French mapping, the primary function of the '^' key is as a dead key for the circumflex diacritical mark.  This corresponds to the combining Unicode character U+0302.  Since this character is in general category Mn, the key identifier is "U+0302". </li>
-		<li> On a Korean PC keyboard with a standard Korean mapping, the primary function of the 'Ha/En' key is to switch between Hangul and English input.  The predefined key identifier list has an appropriate entry for this key, "HangulMode", so this is the key identifier. </li>
-		<li> On some models of PDAs, the primary function of the key with a picture of a calendar on it is to launch the calendaring program. Since there is no Unicode character that corresponds to this function, and there is no appropriate entry in the predefined key identifier list, an new identifier can be devised, such as "Calendar".
+		<li> On a PC/AT US keyboard with a two-handed Dvorak keyboard mapping, the 'Q' key maps to the '5/%' key.  The primary function of this key is to generate the character U+0035.  Since this character is in general category Nd, the key identifier shall be "5". </li>
+		<li> On a French PC keyboard with a standard French mapping, the primary function of the '^' key is as a dead key for the circumflex diacritical mark.  This corresponds to the combining Unicode character U+0302.  Since this character is in general category Mn, the key identifier shall be "U+0302". </li>
+		<li> On a Korean PC keyboard with a standard Korean mapping, the primary function of the 'Ha/En' key is to switch between Hangul and English input.  The predefined key identifier list has an appropriate entry for this key, "HangulMode", so this shall be the key identifier. </li>
+		<li> On some models of PDAs, the primary function of the key with a picture of a calendar on it is to launch the calendaring program. Since there is no Unicode character that corresponds to this function, and there is no appropriate entry in the predefined key identifier list, an new identifier may be devised, such as "Calendar".
 		</li>
 	</ul>
 		
@@ -5233,7 +5233,7 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
              <dd>The End key.</dd>
           <dt><a name="keyset-key-Enter" id="keyset-key-Enter">"Enter"</a></dt>
              <dd>The Enter key.
-			    <em><strong>Note:</strong> This key identifier is also used for the Return (Macintosh numpad) key.</em>
+			    <em><strong>Note:</strong> This key identifier shall be also used for the Return (Macintosh numpad) key.</em>
              </dd>
           <dt><a name="keyset-key-EraseEof" id="keyset-key-EraseEof">"EraseEof"</a></dt>
              <dd>The Erase EOF key.</dd>
@@ -5752,7 +5752,7 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
 	      <tr><td> </td><td><a name="tbl-keyset-key-DownLeft" id="tbl-keyset-key-DownLeft"> DownLeft </a></td><td> </td><td>The diagonal Down-Left Arrow key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 	      <tr><td> </td><td><a name="tbl-keyset-key-DownRight" id="tbl-keyset-key-DownRight"> DownRight </a></td><td> </td><td>The diagonal Down-Right Arrow key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 	      <tr><td> </td><td><a name="tbl-keyset-key-End" id="tbl-keyset-key-End"> End </a></td><td> </td><td>The End key.</td><td>35</td><td>-</td><td>-</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td><td>-</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td></tr>
-	      <tr><td> </td><td><a name="tbl-keyset-key-Enter" id="tbl-keyset-key-Enter"> Enter </a></td><td> </td><td>The Enter key. <em><strong>Note:</strong> This key identifier is also used for the Return (Macintosh numpad) key.</em></td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>13</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td></tr>
+	      <tr><td> </td><td><a name="tbl-keyset-key-Enter" id="tbl-keyset-key-Enter"> Enter </a></td><td> </td><td>The Enter key. <em><strong>Note:</strong> This key identifier shall be also used for the Return (Macintosh numpad) key.</em></td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>13</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td></tr>
 	      <tr><td> </td><td><a name="tbl-keyset-key-EraseEof" id="tbl-keyset-key-EraseEof"> EraseEof </a></td><td> </td><td>The Erase EOF key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 	      <tr><td> </td><td><a name="tbl-keyset-key-Execute" id="tbl-keyset-key-Execute"> Execute </a></td><td> </td><td>The Execute key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 	      <tr><td> </td><td><a name="tbl-keyset-key-Exsel" id="tbl-keyset-key-Exsel"> Exsel </a></td><td> </td><td>The Exsel key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
@@ -6838,15 +6838,15 @@ public interface MutationNameEvent extends MutationEvent {
               <dt>
                 <strong>Event.CAPTURING_PHASE</strong>
               </dt>
-              <dd>The value of the constant <strong>Event.CAPTURING_PHASE</strong> is <strong>1</strong>.</dd>
+              <dd>The value of the constant <strong>Event.CAPTURING_PHASE</strong> shall be <strong>1</strong>.</dd>
               <dt>
                 <strong>Event.AT_TARGET</strong>
               </dt>
-              <dd>The value of the constant <strong>Event.AT_TARGET</strong> is <strong>2</strong>.</dd>
+              <dd>The value of the constant <strong>Event.AT_TARGET</strong> shall be <strong>2</strong>.</dd>
               <dt>
                 <strong>Event.BUBBLING_PHASE</strong>
               </dt>
-              <dd>The value of the constant <strong>Event.BUBBLING_PHASE</strong> is <strong>3</strong>.</dd>
+              <dd>The value of the constant <strong>Event.BUBBLING_PHASE</strong> shall be <strong>3</strong>.</dd>
             </dl>
           </dd>
           <dt>Objects that implement the <strong>Event</strong> interface:</dt>
@@ -6858,39 +6858,39 @@ public interface MutationNameEvent extends MutationEvent {
                   <dt>
                     <strong>type</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>String</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>String</strong>.</dd>
                   <dt>
                     <strong>target</strong>
                   </dt>
-                  <dd>This read-only property is an object that implements the <strong>EventTarget</strong> interface.</dd>
+                  <dd>This read-only property shall be an object that implements the <strong>EventTarget</strong> interface.</dd>
                   <dt>
                     <strong>currentTarget</strong>
                   </dt>
-                  <dd>This read-only property is an object that implements the <strong>EventTarget</strong> interface.</dd>
+                  <dd>This read-only property shall be an object that implements the <strong>EventTarget</strong> interface.</dd>
                   <dt>
                     <strong>eventPhase</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Number</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Number</strong>.</dd>
                   <dt>
                     <strong>bubbles</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Boolean</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Boolean</strong>.</dd>
                   <dt>
                     <strong>cancelable</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Boolean</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Boolean</strong>.</dd>
                   <dt>
                     <strong>timeStamp</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Number</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Number</strong>.</dd>
                   <dt>
                     <strong>namespaceURI</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>String</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>String</strong>.</dd>
                   <dt>
                     <strong>defaultPrevented</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Boolean</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Boolean</strong>.</dd>
                 </dl>
               </dd>
               <dt>Functions of objects that implement the <strong>Event</strong> interface:</dt>
@@ -6908,9 +6908,9 @@ public interface MutationNameEvent extends MutationEvent {
                     <strong>initEvent(eventTypeArg, canBubbleArg, cancelableArg)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>eventTypeArg</strong> parameter is a <strong>String</strong>.<br/>
-The <strong>canBubbleArg</strong> parameter is a <strong>Boolean</strong>.<br/>
-The <strong>cancelableArg</strong> parameter is a <strong>Boolean</strong>.</dd>
+The <strong>eventTypeArg</strong> parameter shall be a <strong>String</strong>.<br/>
+The <strong>canBubbleArg</strong> parameter shall be a <strong>Boolean</strong>.<br/>
+The <strong>cancelableArg</strong> parameter shall be a <strong>Boolean</strong>.</dd>
                   <dt>
                     <strong>stopImmediatePropagation()</strong>
                   </dt>
@@ -6919,10 +6919,10 @@ The <strong>cancelableArg</strong> parameter is a <strong>Boolean</strong>.</dd>
                     <strong>initEventNS(namespaceURIArg, eventTypeArg, canBubbleArg, cancelableArg)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>namespaceURIArg</strong> parameter is a <strong>String</strong>.<br/>
-The <strong>eventTypeArg</strong> parameter is a <strong>String</strong>.<br/>
-The <strong>canBubbleArg</strong> parameter is a <strong>Boolean</strong>.<br/>
-The <strong>cancelableArg</strong> parameter is a <strong>Boolean</strong>.</dd>
+The <strong>namespaceURIArg</strong> parameter shall be a <strong>String</strong>.<br/>
+The <strong>eventTypeArg</strong> parameter shall be a <strong>String</strong>.<br/>
+The <strong>canBubbleArg</strong> parameter shall be a <strong>Boolean</strong>.<br/>
+The <strong>cancelableArg</strong> parameter shall be a <strong>Boolean</strong>.</dd>
                 </dl>
               </dd>
             </dl>
@@ -6937,7 +6937,7 @@ The <strong>cancelableArg</strong> parameter is a <strong>Boolean</strong>.</dd>
                   <dt>
                     <strong>detail</strong>
                   </dt>
-                  <dd>This read-only property is an object that implements the <strong>Object</strong> interface.</dd>
+                  <dd>This read-only property shall be an object that implements the <strong>Object</strong> interface.</dd>
                 </dl>
               </dd>
               <dt>Functions of objects that implement the <strong>CustomEvent</strong> interface:</dt>
@@ -6947,11 +6947,11 @@ The <strong>cancelableArg</strong> parameter is a <strong>Boolean</strong>.</dd>
                     <strong>initCustomEventNS(namespaceURIArg, typeArg, canBubbleArg, cancelableArg, detailArg)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>namespaceURIArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>typeArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>canBubbleArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>cancelableArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>detailArg</strong> parameter is an object that implements the <strong>Object</strong> interface.</dd>
+The <strong>namespaceURIArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>typeArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>canBubbleArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>cancelableArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>detailArg</strong> parameter shall be an object that implements the <strong>Object</strong> interface.</dd>
                 </dl>
               </dd>
             </dl>
@@ -6966,55 +6966,55 @@ The <strong>detailArg</strong> parameter is an object that implements the <stron
                     <strong>addEventListener(type, listener, useCapture)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>type</strong> parameter is a <strong>String</strong>.<br />
-The <strong>listener</strong> parameter is an object that implements the <strong>EventListener</strong> interface.<br />
-The <strong>useCapture</strong> parameter is a <strong>Boolean</strong>.</dd>
+The <strong>type</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>listener</strong> parameter shall be an object that implements the <strong>EventListener</strong> interface.<br />
+The <strong>useCapture</strong> parameter shall be a <strong>Boolean</strong>.</dd>
                   <dt>
                     <strong>removeEventListener(type, listener, useCapture)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>type</strong> parameter is a <strong>String</strong>.<br />
-The <strong>listener</strong> parameter is an object that implements the <strong>EventListener</strong> interface.<br />
-The <strong>useCapture</strong> parameter is a <strong>Boolean</strong>.</dd>
+The <strong>type</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>listener</strong> parameter shall be an object that implements the <strong>EventListener</strong> interface.<br />
+The <strong>useCapture</strong> parameter shall be a <strong>Boolean</strong>.</dd>
                   <dt>
                     <strong>dispatchEvent(evt)</strong>
                   </dt>
                   <dd>This function returns a <strong>Boolean</strong>.<br/>
-The <strong>evt</strong> parameter is an object that implements the <strong>Event</strong> interface.<br />
+The <strong>evt</strong> parameter shall be an object that implements the <strong>Event</strong> interface.<br />
 This function can raise an object that implements the <strong>EventException</strong> interface or the <strong>DOMException</strong> interface.</dd>
                   <dt>
                     <strong>addEventListenerNS(namespaceURI, type, listener, useCapture)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>namespaceURI</strong> parameter is a <strong>String</strong>.<br />
-The <strong>type</strong> parameter is a <strong>String</strong>.<br />
-The <strong>listener</strong> parameter is an object that implements the <strong>EventListener</strong> interface.<br />
-The <strong>useCapture</strong> parameter is a <strong>Boolean</strong>.</dd>
+The <strong>namespaceURI</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>type</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>listener</strong> parameter shall be an object that implements the <strong>EventListener</strong> interface.<br />
+The <strong>useCapture</strong> parameter shall be a <strong>Boolean</strong>.</dd>
                   <dt>
                     <strong>removeEventListenerNS(namespaceURI, type, listener, useCapture)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>namespaceURI</strong> parameter is a <strong>String</strong>.<br />
-The <strong>type</strong> parameter is a <strong>String</strong>.<br />
-The <strong>listener</strong> parameter is an object that implements the <strong>EventListener</strong> interface.<br />
-The <strong>useCapture</strong> parameter is a <strong>Boolean</strong>.</dd>
+The <strong>namespaceURI</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>type</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>listener</strong> parameter shall be an object that implements the <strong>EventListener</strong> interface.<br />
+The <strong>useCapture</strong> parameter shall be a <strong>Boolean</strong>.</dd>
                 </dl>
               </dd>
             </dl>
           </dd>
           <dt><strong>EventListener</strong> function:</dt>
-          <dd>This function has no return value. The parameter is an object that implements the <strong>Event</strong> interface.</dd>
+          <dd>This function has no return value. The parameter shall be an object that implements the <strong>Event</strong> interface.</dd>
           <dt>Properties of the <strong>EventException</strong> Constructor function:</dt>
           <dd>
             <dl>
               <dt>
                 <strong>EventException.UNSPECIFIED_EVENT_TYPE_ERR</strong>
               </dt>
-              <dd>The value of the constant <strong>EventException.UNSPECIFIED_EVENT_TYPE_ERR</strong> is <strong>0</strong>.</dd>
+              <dd>The value of the constant <strong>EventException.UNSPECIFIED_EVENT_TYPE_ERR</strong> shall be <strong>0</strong>.</dd>
               <dt>
                 <strong>EventException.DISPATCH_REQUEST_ERR</strong>
               </dt>
-              <dd>The value of the constant <strong>EventException.DISPATCH_REQUEST_ERR</strong> is <strong>1</strong>.</dd>
+              <dd>The value of the constant <strong>EventException.DISPATCH_REQUEST_ERR</strong> shall be <strong>1</strong>.</dd>
             </dl>
           </dd>
           <dt>Objects that implement the <strong>EventException</strong> interface:</dt>
@@ -7026,7 +7026,7 @@ The <strong>useCapture</strong> parameter is a <strong>Boolean</strong>.</dd>
                   <dt>
                     <strong>code</strong>
                   </dt>
-                  <dd>This property is a <strong>Number</strong>.</dd>
+                  <dd>This property shall be a <strong>Number</strong>.</dd>
                 </dl>
               </dd>
             </dl>
@@ -7041,14 +7041,14 @@ The <strong>useCapture</strong> parameter is a <strong>Boolean</strong>.</dd>
                     <strong>createEvent(eventType)</strong>
                   </dt>
                   <dd>This function returns an object that implements the <strong>Event</strong> interface.<br/>
-The <strong>eventType</strong> parameter is a <strong>String</strong>.<br />
+The <strong>eventType</strong> parameter shall be a <strong>String</strong>.<br />
 This function can raise an object that implements the <strong>DOMException</strong> interface.</dd>
                   <dt>
                     <strong>canDispatch(namespaceURI, type)</strong>
                   </dt>
                   <dd>This function returns a <strong>Boolean</strong>.<br/>
-The <strong>namespaceURI</strong> parameter is a <strong>String</strong>.<br />
-The <strong>type</strong> parameter is a <strong>String</strong>.</dd>
+The <strong>namespaceURI</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>type</strong> parameter shall be a <strong>String</strong>.</dd>
                 </dl>
               </dd>
             </dl>
@@ -7063,11 +7063,11 @@ The <strong>type</strong> parameter is a <strong>String</strong>.</dd>
                   <dt>
                     <strong>view</strong>
                   </dt>
-                  <dd>This read-only property is an object that implements the <strong>AbstractView</strong> interface.</dd>
+                  <dd>This read-only property shall be an object that implements the <strong>AbstractView</strong> interface.</dd>
                   <dt>
                     <strong>detail</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Number</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Number</strong>.</dd>
                 </dl>
               </dd>
               <dt>Functions of objects that implement the <strong>UIEvent</strong> interface:</dt>
@@ -7077,21 +7077,21 @@ The <strong>type</strong> parameter is a <strong>String</strong>.</dd>
                     <strong>initUIEvent(typeArg, canBubbleArg, cancelableArg, viewArg, detailArg)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>typeArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>canBubbleArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>cancelableArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>viewArg</strong> parameter is an object that implements the <strong>AbstractView</strong> interface.<br />
-The <strong>detailArg</strong> parameter is a <strong>Number</strong>.</dd>
+The <strong>typeArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>canBubbleArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>cancelableArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>viewArg</strong> parameter shall be an object that implements the <strong>AbstractView</strong> interface.<br />
+The <strong>detailArg</strong> parameter shall be a <strong>Number</strong>.</dd>
                   <dt>
                     <strong>initUIEventNS(namespaceURIArg, typeArg, canBubbleArg, cancelableArg, viewArg, detailArg)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>namespaceURIArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>typeArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>canBubbleArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>cancelableArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>viewArg</strong> parameter is an object that implements the <strong>AbstractView</strong> interface.<br />
-The <strong>detailArg</strong> parameter is a <strong>Number</strong>.</dd>
+The <strong>namespaceURIArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>typeArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>canBubbleArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>cancelableArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>viewArg</strong> parameter shall be an object that implements the <strong>AbstractView</strong> interface.<br />
+The <strong>detailArg</strong> parameter shall be a <strong>Number</strong>.</dd>
                 </dl>
               </dd>
             </dl>
@@ -7106,7 +7106,7 @@ The <strong>detailArg</strong> parameter is a <strong>Number</strong>.</dd>
                   <dt>
                     <strong>data</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>String</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>String</strong>.</dd>
                 </dl>
               </dd>
               <dt>Functions of objects that implement the <strong>TextEvent</strong> interface:</dt>
@@ -7116,21 +7116,21 @@ The <strong>detailArg</strong> parameter is a <strong>Number</strong>.</dd>
                     <strong>initTextEvent(typeArg, canBubbleArg, cancelableArg, viewArg, dataArg)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>typeArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>canBubbleArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>cancelableArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>viewArg</strong> parameter is an object that implements the <strong>AbstractView</strong> interface.<br />
-The <strong>dataArg</strong> parameter is a <strong>String</strong>.</dd>
+The <strong>typeArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>canBubbleArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>cancelableArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>viewArg</strong> parameter shall be an object that implements the <strong>AbstractView</strong> interface.<br />
+The <strong>dataArg</strong> parameter shall be a <strong>String</strong>.</dd>
                   <dt>
                     <strong>initTextEventNS(namespaceURIArg, typeArg, canBubbleArg, cancelableArg, viewArg, dataArg)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>namespaceURIArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>typeArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>canBubbleArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>cancelableArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>viewArg</strong> parameter is an object that implements the <strong>AbstractView</strong> interface.<br />
-The <strong>dataArg</strong> parameter is a <strong>String</strong>.</dd>
+The <strong>namespaceURIArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>typeArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>canBubbleArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>cancelableArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>viewArg</strong> parameter shall be an object that implements the <strong>AbstractView</strong> interface.<br />
+The <strong>dataArg</strong> parameter shall be a <strong>String</strong>.</dd>
                 </dl>
               </dd>
             </dl>
@@ -7141,19 +7141,19 @@ The <strong>dataArg</strong> parameter is a <strong>String</strong>.</dd>
               <dt>
                 <strong>KeyboardEvent.DOM_KEY_LOCATION_STANDARD</strong>
               </dt>
-              <dd>The value of the constant <strong>KeyboardEvent.DOM_KEY_LOCATION_STANDARD</strong> is <strong>0x00</strong>.</dd>
+              <dd>The value of the constant <strong>KeyboardEvent.DOM_KEY_LOCATION_STANDARD</strong> shall be <strong>0x00</strong>.</dd>
               <dt>
                 <strong>KeyboardEvent.DOM_KEY_LOCATION_LEFT</strong>
               </dt>
-              <dd>The value of the constant <strong>KeyboardEvent.DOM_KEY_LOCATION_LEFT</strong> is <strong>0x01</strong>.</dd>
+              <dd>The value of the constant <strong>KeyboardEvent.DOM_KEY_LOCATION_LEFT</strong> shall be <strong>0x01</strong>.</dd>
               <dt>
                 <strong>KeyboardEvent.DOM_KEY_LOCATION_RIGHT</strong>
               </dt>
-              <dd>The value of the constant <strong>KeyboardEvent.DOM_KEY_LOCATION_RIGHT</strong> is <strong>0x02</strong>.</dd>
+              <dd>The value of the constant <strong>KeyboardEvent.DOM_KEY_LOCATION_RIGHT</strong> shall be <strong>0x02</strong>.</dd>
               <dt>
                 <strong>KeyboardEvent.DOM_KEY_LOCATION_NUMPAD</strong>
               </dt>
-              <dd>The value of the constant <strong>KeyboardEvent.DOM_KEY_LOCATION_NUMPAD</strong> is <strong>0x03</strong>.</dd>
+              <dd>The value of the constant <strong>KeyboardEvent.DOM_KEY_LOCATION_NUMPAD</strong> shall be <strong>0x03</strong>.</dd>
             </dl>
           </dd>
           <dt>Objects that implement the <strong>KeyboardEvent</strong> interface:</dt>
@@ -7166,27 +7166,27 @@ The <strong>dataArg</strong> parameter is a <strong>String</strong>.</dd>
                   <dt>
                     <strong>keyIdentifier</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>String</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>String</strong>.</dd>
                   <dt>
                     <strong>keyLocation</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Number</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Number</strong>.</dd>
                   <dt>
                     <strong>ctrlKey</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Boolean</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Boolean</strong>.</dd>
                   <dt>
                     <strong>shiftKey</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Boolean</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Boolean</strong>.</dd>
                   <dt>
                     <strong>altKey</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Boolean</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Boolean</strong>.</dd>
                   <dt>
                     <strong>metaKey</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Boolean</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Boolean</strong>.</dd>
                 </dl>
               </dd>
               <dt>Functions of objects that implement the <strong>KeyboardEvent</strong> interface:</dt>
@@ -7196,30 +7196,30 @@ The <strong>dataArg</strong> parameter is a <strong>String</strong>.</dd>
                     <strong>getModifierState(keyIdentifierArg)</strong>
                   </dt>
                   <dd>This function returns a <strong>Boolean</strong>.<br/>
-The <strong>keyIdentifierArg</strong> parameter is a <strong>String</strong>.</dd>
+The <strong>keyIdentifierArg</strong> parameter shall be a <strong>String</strong>.</dd>
                   <dt>
                     <strong>initKeyboardEvent(typeArg, canBubbleArg, cancelableArg, viewArg, keyIdentifierArg, keyLocationArg, modifiersListArg)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>typeArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>canBubbleArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>cancelableArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>viewArg</strong> parameter is an object that implements the <strong>AbstractView</strong> interface.<br />
-The <strong>keyIdentifierArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>keyLocationArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>modifiersListArg</strong> parameter is a <strong>String</strong>.</dd>
+The <strong>typeArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>canBubbleArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>cancelableArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>viewArg</strong> parameter shall be an object that implements the <strong>AbstractView</strong> interface.<br />
+The <strong>keyIdentifierArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>keyLocationArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>modifiersListArg</strong> parameter shall be a <strong>String</strong>.</dd>
                   <dt>
                     <strong>initKeyboardEventNS(namespaceURIArg, typeArg, canBubbleArg, cancelableArg, viewArg, keyIdentifierArg, keyLocationArg, modifiersListArg)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>namespaceURIArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>typeArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>canBubbleArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>cancelableArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>viewArg</strong> parameter is an object that implements the <strong>AbstractView</strong> interface.<br />
-The <strong>keyIdentifierArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>keyLocationArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>modifiersListArg</strong> parameter is a <strong>String</strong>.</dd>
+The <strong>namespaceURIArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>typeArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>canBubbleArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>cancelableArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>viewArg</strong> parameter shall be an object that implements the <strong>AbstractView</strong> interface.<br />
+The <strong>keyIdentifierArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>keyLocationArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>modifiersListArg</strong> parameter shall be a <strong>String</strong>.</dd>
                 </dl>
               </dd>
             </dl>
@@ -7234,43 +7234,43 @@ The <strong>modifiersListArg</strong> parameter is a <strong>String</strong>.</d
                   <dt>
                     <strong>screenX</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Number</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Number</strong>.</dd>
                   <dt>
                     <strong>screenY</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Number</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Number</strong>.</dd>
                   <dt>
                     <strong>clientX</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Number</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Number</strong>.</dd>
                   <dt>
                     <strong>clientY</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Number</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Number</strong>.</dd>
                   <dt>
                     <strong>ctrlKey</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Boolean</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Boolean</strong>.</dd>
                   <dt>
                     <strong>shiftKey</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Boolean</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Boolean</strong>.</dd>
                   <dt>
                     <strong>altKey</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Boolean</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Boolean</strong>.</dd>
                   <dt>
                     <strong>metaKey</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Boolean</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Boolean</strong>.</dd>
                   <dt>
                     <strong>button</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Number</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Number</strong>.</dd>
                   <dt>
                     <strong>relatedTarget</strong>
                   </dt>
-                  <dd>This read-only property is an object that implements the <strong>EventTarget</strong> interface.</dd>
+                  <dd>This read-only property shall be an object that implements the <strong>EventTarget</strong> interface.</dd>
                 </dl>
               </dd>
               <dt>Functions of objects that implement the <strong>MouseEvent</strong> interface:</dt>
@@ -7280,43 +7280,43 @@ The <strong>modifiersListArg</strong> parameter is a <strong>String</strong>.</d
                     <strong>initMouseEvent(typeArg, canBubbleArg, cancelableArg, viewArg, detailArg, screenXArg, screenYArg, clientXArg, clientYArg, ctrlKeyArg, altKeyArg, shiftKeyArg, metaKeyArg, buttonArg, relatedTargetArg)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>typeArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>canBubbleArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>cancelableArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>viewArg</strong> parameter is an object that implements the <strong>AbstractView</strong> interface.<br />
-The <strong>detailArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>screenXArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>screenYArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>clientXArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>clientYArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>ctrlKeyArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>altKeyArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>shiftKeyArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>metaKeyArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>buttonArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>relatedTargetArg</strong> parameter is an object that implements the <strong>EventTarget</strong> interface.</dd>
+The <strong>typeArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>canBubbleArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>cancelableArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>viewArg</strong> parameter shall be an object that implements the <strong>AbstractView</strong> interface.<br />
+The <strong>detailArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>screenXArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>screenYArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>clientXArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>clientYArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>ctrlKeyArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>altKeyArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>shiftKeyArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>metaKeyArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>buttonArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>relatedTargetArg</strong> parameter shall be an object that implements the <strong>EventTarget</strong> interface.</dd>
                   <dt>
                     <strong>getModifierState(keyIdentifierArg)</strong>
                   </dt>
                   <dd>This function returns a <strong>Boolean</strong>.<br/>
-The <strong>keyIdentifierArg</strong> parameter is a <strong>String</strong>.</dd>
+The <strong>keyIdentifierArg</strong> parameter shall be a <strong>String</strong>.</dd>
                   <dt>
                     <strong>initMouseEventNS(namespaceURIArg, typeArg, canBubbleArg, cancelableArg, viewArg, detailArg, screenXArg, screenYArg, clientXArg, clientYArg, buttonArg, relatedTargetArg, modifiersListArg)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>namespaceURIArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>typeArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>canBubbleArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>cancelableArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>viewArg</strong> parameter is an object that implements the <strong>AbstractView</strong> interface.<br />
-The <strong>detailArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>screenXArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>screenYArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>clientXArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>clientYArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>buttonArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>relatedTargetArg</strong> parameter is an object that implements the <strong>EventTarget</strong> interface.<br />
-The <strong>modifiersListArg</strong> parameter is a <strong>String</strong>.</dd>
+The <strong>namespaceURIArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>typeArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>canBubbleArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>cancelableArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>viewArg</strong> parameter shall be an object that implements the <strong>AbstractView</strong> interface.<br />
+The <strong>detailArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>screenXArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>screenYArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>clientXArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>clientYArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>buttonArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>relatedTargetArg</strong> parameter shall be an object that implements the <strong>EventTarget</strong> interface.<br />
+The <strong>modifiersListArg</strong> parameter shall be a <strong>String</strong>.</dd>
                 </dl>
               </dd>
             </dl>
@@ -7331,15 +7331,15 @@ The <strong>modifiersListArg</strong> parameter is a <strong>String</strong>.</d
                   <dt>
                     <strong>deltaX</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Number</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Number</strong>.</dd>
                   <dt>
                     <strong>deltaY</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Number</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Number</strong>.</dd>
                   <dt>
                     <strong>deltaZ</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Number</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Number</strong>.</dd>
                 </dl>
               </dd>
               <dt>Functions of objects that implement the <strong>WheelEvent</strong> interface:</dt>
@@ -7349,22 +7349,22 @@ The <strong>modifiersListArg</strong> parameter is a <strong>String</strong>.</d
                     <strong>initWheelEventNS(namespaceURIArg, typeArg, canBubbleArg, cancelableArg, viewArg, detailArg, screenXArg, screenYArg, clientXArg, clientYArg, buttonArg, relatedTargetArg, modifiersListArg, deltaXArg, deltaYArg, deltaZArg)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>namespaceURIArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>typeArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>canBubbleArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>cancelableArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>viewArg</strong> parameter is an object that implements the <strong>AbstractView</strong> interface.<br />
-The <strong>detailArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>screenXArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>screenYArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>clientXArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>clientYArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>buttonArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>relatedTargetArg</strong> parameter is an object that implements the <strong>EventTarget</strong> interface.<br />
-The <strong>modifiersListArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>deltaXArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>deltaYArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>deltaZArg</strong> parameter is a <strong>Number</strong>.</dd>
+The <strong>namespaceURIArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>typeArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>canBubbleArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>cancelableArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>viewArg</strong> parameter shall be an object that implements the <strong>AbstractView</strong> interface.<br />
+The <strong>detailArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>screenXArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>screenYArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>clientXArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>clientYArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>buttonArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>relatedTargetArg</strong> parameter shall be an object that implements the <strong>EventTarget</strong> interface.<br />
+The <strong>modifiersListArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>deltaXArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>deltaYArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>deltaZArg</strong> parameter shall be a <strong>Number</strong>.</dd>
                 </dl>
               </dd>
             </dl>
@@ -7379,7 +7379,7 @@ The <strong>deltaZArg</strong> parameter is a <strong>Number</strong>.</dd>
                   <dt>
                     <strong>wheelDelta</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Number</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Number</strong>.</dd>
                 </dl>
               </dd>
               <dt>Functions of objects that implement the <strong>MouseWheelEvent</strong> interface:</dt>
@@ -7389,20 +7389,20 @@ The <strong>deltaZArg</strong> parameter is a <strong>Number</strong>.</dd>
                     <strong>initMouseWheelEventNS(namespaceURIArg, typeArg, canBubbleArg, cancelableArg, viewArg, detailArg, screenXArg, screenYArg, clientXArg, clientYArg, buttonArg, relatedTargetArg, modifiersListArg, wheelDeltaArg)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>namespaceURIArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>typeArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>canBubbleArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>cancelableArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>viewArg</strong> parameter is an object that implements the <strong>AbstractView</strong> interface.<br />
-The <strong>detailArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>screenXArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>screenYArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>clientXArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>clientYArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>buttonArg</strong> parameter is a <strong>Number</strong>.<br />
-The <strong>relatedTargetArg</strong> parameter is an object that implements the <strong>EventTarget</strong> interface.<br />
-The <strong>modifiersListArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>wheelDeltaArg</strong> parameter is a <strong>Number</strong>.</dd>
+The <strong>namespaceURIArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>typeArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>canBubbleArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>cancelableArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>viewArg</strong> parameter shall be an object that implements the <strong>AbstractView</strong> interface.<br />
+The <strong>detailArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>screenXArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>screenYArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>clientXArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>clientYArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>buttonArg</strong> parameter shall be a <strong>Number</strong>.<br />
+The <strong>relatedTargetArg</strong> parameter shall be an object that implements the <strong>EventTarget</strong> interface.<br />
+The <strong>modifiersListArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>wheelDeltaArg</strong> parameter shall be a <strong>Number</strong>.</dd>
                 </dl>
               </dd>
             </dl>
@@ -7413,15 +7413,15 @@ The <strong>wheelDeltaArg</strong> parameter is a <strong>Number</strong>.</dd>
               <dt>
                 <strong>MutationEvent.MODIFICATION</strong>
               </dt>
-              <dd>The value of the constant <strong>MutationEvent.MODIFICATION</strong> is <strong>1</strong>.</dd>
+              <dd>The value of the constant <strong>MutationEvent.MODIFICATION</strong> shall be <strong>1</strong>.</dd>
               <dt>
                 <strong>MutationEvent.ADDITION</strong>
               </dt>
-              <dd>The value of the constant <strong>MutationEvent.ADDITION</strong> is <strong>2</strong>.</dd>
+              <dd>The value of the constant <strong>MutationEvent.ADDITION</strong> shall be <strong>2</strong>.</dd>
               <dt>
                 <strong>MutationEvent.REMOVAL</strong>
               </dt>
-              <dd>The value of the constant <strong>MutationEvent.REMOVAL</strong> is <strong>3</strong>.</dd>
+              <dd>The value of the constant <strong>MutationEvent.REMOVAL</strong> shall be <strong>3</strong>.</dd>
             </dl>
           </dd>
           <dt>Objects that implement the <strong>MutationEvent</strong> interface:</dt>
@@ -7434,23 +7434,23 @@ The <strong>wheelDeltaArg</strong> parameter is a <strong>Number</strong>.</dd>
                   <dt>
                     <strong>relatedNode</strong>
                   </dt>
-                  <dd>This read-only property is an object that implements the <strong>Node</strong> interface.</dd>
+                  <dd>This read-only property shall be an object that implements the <strong>Node</strong> interface.</dd>
                   <dt>
                     <strong>prevValue</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>String</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>String</strong>.</dd>
                   <dt>
                     <strong>newValue</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>String</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>String</strong>.</dd>
                   <dt>
                     <strong>attrName</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>String</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>String</strong>.</dd>
                   <dt>
                     <strong>attrChange</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>Number</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>Number</strong>.</dd>
                 </dl>
               </dd>
               <dt>Functions of objects that implement the <strong>MutationEvent</strong> interface:</dt>
@@ -7460,27 +7460,27 @@ The <strong>wheelDeltaArg</strong> parameter is a <strong>Number</strong>.</dd>
                     <strong>initMutationEvent(typeArg, canBubbleArg, cancelableArg, relatedNodeArg, prevValueArg, newValueArg, attrNameArg, attrChangeArg)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>typeArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>canBubbleArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>cancelableArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>relatedNodeArg</strong> parameter is an object that implements the <strong>Node</strong> interface.<br />
-The <strong>prevValueArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>newValueArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>attrNameArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>attrChangeArg</strong> parameter is a <strong>Number</strong>.</dd>
+The <strong>typeArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>canBubbleArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>cancelableArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>relatedNodeArg</strong> parameter shall be an object that implements the <strong>Node</strong> interface.<br />
+The <strong>prevValueArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>newValueArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>attrNameArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>attrChangeArg</strong> parameter shall be a <strong>Number</strong>.</dd>
                   <dt>
                     <strong>initMutationEventNS(namespaceURIArg, typeArg, canBubbleArg, cancelableArg, relatedNodeArg, prevValueArg, newValueArg, attrNameArg, attrChangeArg)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>namespaceURIArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>typeArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>canBubbleArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>cancelableArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>relatedNodeArg</strong> parameter is an object that implements the <strong>Node</strong> interface.<br />
-The <strong>prevValueArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>newValueArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>attrNameArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>attrChangeArg</strong> parameter is a <strong>Number</strong>.</dd>
+The <strong>namespaceURIArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>typeArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>canBubbleArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>cancelableArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>relatedNodeArg</strong> parameter shall be an object that implements the <strong>Node</strong> interface.<br />
+The <strong>prevValueArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>newValueArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>attrNameArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>attrChangeArg</strong> parameter shall be a <strong>Number</strong>.</dd>
                 </dl>
               </dd>
             </dl>
@@ -7495,11 +7495,11 @@ The <strong>attrChangeArg</strong> parameter is a <strong>Number</strong>.</dd>
                   <dt>
                     <strong>prevNamespaceURI</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>String</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>String</strong>.</dd>
                   <dt>
                     <strong>prevNodeName</strong>
                   </dt>
-                  <dd>This read-only property is a <strong>String</strong>.</dd>
+                  <dd>This read-only property shall be a <strong>String</strong>.</dd>
                 </dl>
               </dd>
               <dt>Functions of objects that implement the <strong>MutationNameEvent</strong> interface:</dt>
@@ -7509,23 +7509,23 @@ The <strong>attrChangeArg</strong> parameter is a <strong>Number</strong>.</dd>
                     <strong>initMutationNameEvent(typeArg, canBubbleArg, cancelableArg, relatedNodeArg, prevNamespaceURIArg, prevNodeNameArg)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>typeArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>canBubbleArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>cancelableArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>relatedNodeArg</strong> parameter is an object that implements the <strong>Node</strong> interface.<br />
-The <strong>prevNamespaceURIArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>prevNodeNameArg</strong> parameter is a <strong>String</strong>.</dd>
+The <strong>typeArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>canBubbleArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>cancelableArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>relatedNodeArg</strong> parameter shall be an object that implements the <strong>Node</strong> interface.<br />
+The <strong>prevNamespaceURIArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>prevNodeNameArg</strong> parameter shall be a <strong>String</strong>.</dd>
                   <dt>
                     <strong>initMutationNameEventNS(namespaceURIArg, typeArg, canBubbleArg, cancelableArg, relatedNodeArg, prevNamespaceURIArg, prevNodeNameArg)</strong>
                   </dt>
                   <dd>This function has no return value.<br/>
-The <strong>namespaceURIArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>typeArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>canBubbleArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>cancelableArg</strong> parameter is a <strong>Boolean</strong>.<br />
-The <strong>relatedNodeArg</strong> parameter is an object that implements the <strong>Node</strong> interface.<br />
-The <strong>prevNamespaceURIArg</strong> parameter is a <strong>String</strong>.<br />
-The <strong>prevNodeNameArg</strong> parameter is a <strong>String</strong>.</dd>
+The <strong>namespaceURIArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>typeArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>canBubbleArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>cancelableArg</strong> parameter shall be a <strong>Boolean</strong>.<br />
+The <strong>relatedNodeArg</strong> parameter shall be an object that implements the <strong>Node</strong> interface.<br />
+The <strong>prevNamespaceURIArg</strong> parameter shall be a <strong>String</strong>.<br />
+The <strong>prevNodeNameArg</strong> parameter shall be a <strong>String</strong>.</dd>
                 </dl>
               </dd>
             </dl>
