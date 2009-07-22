@@ -385,7 +385,7 @@
         <dd>A <em>namespace URI</em> is a URI that identifies an XML namespace. This is called the namespace name in [<cite><a class="noxref informative" href="#references-Namespaces11">XML Namespaces 1.1</a></cite>]. See also sections 1.3.2 "<a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#baseURIs-Considerations"> <em>DOM URIs</em></a>" and 1.3.3 "<a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Namespaces-Considerations"><em>XML Namespaces</em></a>" regarding URIs and namespace URIs handling and comparison in the DOM APIs.</dd>
 
         <dt id="glossary-dt-phase">phase</dt>
-        <dd>In the context of <a href="#glossary-dt-event">events</a>, a phase is set of logical traversals from node to node along the DOM tree, from the <a href="#glossary-dt-root-element">root element</a> down to the <a href="#glossary-dt-event-target">event target</a> (<a href="glossary-dt-capture-phase">capture phase</a>), at the <a href="#glossary-dt-event-target">event target</a> itself (<a href="glossary-dt-target-phase">target phase</a>), and back up to the <a href="#glossary-dt-root-element">root element</a> (<a href="glossary-dt-bubbling-phase">bubbling phase</a>).</dd>
+        <dd>In the context of <a href="#glossary-dt-event">events</a>, a phase is set of logical traversals from node to node along the DOM tree, from the <a href="#glossary-dt-root-element">root element</a> down to the <a href="#glossary-dt-event-target">event target</a> (<a href="glossary-dt-capture-phase">capture phase</a>), at the <a href="#glossary-dt-event-target">event target</a> itself (<a href="#glossary-dt-target-phase">target phase</a>), and back up to the <a href="#glossary-dt-root-element">root element</a> (<a href="#glossary-dt-bubbling-phase">bubbling phase</a>).</dd>
 
         <dt id="glossary-dt-propagation-path">propagation path</dt>
         <dd>The ordered set of <a href="#glossary-dt-event-target">event targets</a> though which an <a href="#glossary-dt-event">event</a> object will pass sequentially on the way to and back from the ultimate <a href="#glossary-dt-event-target">event target</a>.  The propagation path is initially comprised of one or more <a href="#glossary-dt-event-phase">event phases</a> as defined by the <a href="#glossary-dt-event-type">event type</a>, but may be interrupted.  Also known as an <em>event target chain</em>.</dd>
@@ -1536,6 +1536,20 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
               <td><a href="#events-Events-UIEvent"><code>UIEvent</code></a></td>
             </tr>
             <tr>
+              <td><a href="#events-event-focusin">focusin</a></td>
+              <td>Yes</td>
+              <td>No</td>
+              <td><code>Element</code></td>
+              <td><a href="#events-Events-UIEvent"><code>UIEvent</code></a></td>
+            </tr>
+            <tr>
+              <td><a href="#events-event-focusout">focusout</a></td>
+              <td>Yes</td>
+              <td>No</td>
+              <td><code>Element</code></td>
+              <td><a href="#events-Events-UIEvent"><code>UIEvent</code></a></td>
+            </tr>
+            <tr>
               <td><a href="#events-event-keydown">keydown</a></td>
               <td>Yes</td>
               <td>Yes</td>
@@ -1858,6 +1872,8 @@ interface <a class="noxref" href="#events-Events-UIEvent">UIEvent</a> : <a class
 Refer to <a href="#events-Events-flow-activation">Activation requests and behavior</a>.</dd>
             </dl>
           </div>
+          
+          <!-- DOMFocusIn -->
           <div class="event-definition assert must">
             <dl>
               <dt id="events-event-DOMFocusIn">
@@ -1896,9 +1912,11 @@ Refer to <a href="#events-Events-flow-activation">Activation requests and behavi
                     <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> is in use.</td>
                   </tr>
                 </table>
-An <a href="#glossary-dt-event-target">event target</a> receives focus. The focus shall be given to the element before the dispatch of this event type. This event type shall be dispatched after the event type <a href="#events-event-focus">focus</a>.</dd>
+An <a href="#glossary-dt-event-target">event target</a> receives focus. The focus shall be given to the element before the dispatch of this event type. This event type shall be dispatched after the event type <a href="#events-event-focus">focus</a>.  This event type is deprecated in favor of the equivalent event type <a class="noxref" href="#events-event-focusin">focusin</a>.</dd>
             </dl>
           </div>
+          
+          <!-- DOMFocusOut -->
           <div class="event-definition assert must">
             <dl>
               <dt id="events-event-DOMFocusOut">
@@ -1937,9 +1955,11 @@ An <a href="#glossary-dt-event-target">event target</a> receives focus. The focu
                     <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> is in use.</td>
                   </tr>
                 </table>
-An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus shall be taken from the element before the dispatch of this event type. This event type shall be dispatched after the event type <a href="#events-event-blur">blur</a>.</dd>
+An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus shall be taken from the element before the dispatch of this event type. This event type shall be dispatched after the event type <a href="#events-event-blur">blur</a>.  This event type is deprecated in favor of the equivalent event type <a class="noxref" href="#events-event-focusout">focusout</a>.</dd>
             </dl>
           </div>
+          
+          <!-- focus -->
           <div class="event-definition assert must">
             <dl>
               <dt id="events-event-focus">
@@ -1981,6 +2001,95 @@ An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus s
 An <a href="#glossary-dt-event-target">event target</a> receives focus. The focus shall be given to the element before the dispatch of this event type.</dd>
             </dl>
           </div>
+          
+
+          <!-- focusin -->
+          <div class="event-definition assert must">
+            <dl>
+              <dt id="events-event-focusin">
+                <a class="noxref" href="#events-event-DOMFocusIn">focusin</a>
+              </dt>
+              <dd>
+                <table border="0"
+                  summary="This table contains information about the semantics of the given event type"
+                  cellpadding="2" cellspacing="0">
+                  <tr class="assert must">
+                    <th>Type</th>
+                    <td bgcolor="#CFCFCF"><strong><code>DOMFocusIn</code></strong></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Namespace</th>
+                    <td><code>None</code></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Interface</th>
+                    <td><a href="#events-Events-UIEvent"><code>UIEvent</code></a></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Cancelable</th>
+                    <td>No</td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Bubbles</th>
+                    <td>Yes</td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Target</th>
+                    <td><code>Element</code></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Context info</th>
+                    <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> is in use.</td>
+                  </tr>
+                </table>
+An <a href="#glossary-dt-event-target">event target</a> receives focus. The focus shall be given to the element before the dispatch of this event type. This event type shall be dispatched after the event type <a href="#events-event-focus">focus</a>.  This event type is similar to <a href="#events-event-focus">focus</a>, but it must include the <a href="#glossary-dt-bubbling-phase">bubbling phase</a>.</dd>
+            </dl>
+          </div>
+
+          <!-- focusout -->
+          <div class="event-definition assert must">
+            <dl>
+              <dt id="events-event-focusout">
+                <a class="noxref" href="#events-event-DOMFocusOut">focusout</a>
+              </dt>
+              <dd>
+                <table border="0"
+                  summary="This table contains information about the semantics of the given event type"
+                  cellpadding="2" cellspacing="0">
+                  <tr class="assert must">
+                    <th>Type</th>
+                    <td bgcolor="#CFCFCF"><strong><code>DOMFocusOut</code></strong></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Namespace</th>
+                    <td><code>None</code></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Interface</th>
+                    <td><a href="#events-Events-UIEvent"><code>UIEvent</code></a></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Cancelable</th>
+                    <td>No</td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Bubbles</th>
+                    <td>Yes</td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Target</th>
+                    <td><code>Element</code></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Context info</th>
+                    <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> is in use.</td>
+                  </tr>
+                </table>
+An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus shall be taken from the element before the dispatch of this event type. This event type shall be dispatched after the event type <a href="#events-event-blur">blur</a>.  This event type is similar to <a href="#events-event-blur">blur</a>, but it must include the <a href="#glossary-dt-bubbling-phase">bubbling phase</a>.</dd>
+            </dl>
+          </div>
+
+          <!-- blur -->
           <div class="event-definition assert must">
             <dl>
               <dt id="events-event-blur">
