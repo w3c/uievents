@@ -354,7 +354,7 @@
          <dd>The <code>defaultView</code> is the <a href="http://www.w3.org/TR/DOM-Level-2-Views/views.html#Views-AbstractView" title="Document Object Model Views"><code>AbstractView</code> interface</a> of the <code>Document</code>'s <a href="http://www.w3.org/TR/DOM-Level-2-Views/views.html#Views-DocumentView" title="Document Object Model Views"><code>DocumentView</code> interface</a>, which serves as a reference to the containing frame or window.  This interface may also be accessed as the <code>Window</code> interface in many implementations.</dd>
 
         <dt id="glossary-dt-dispatch">dispatch</dt>
-        <dd>To create an event with attributes and methods appropriate to its type and context, and propagate it through the DOM tree in the specified manner.</dd>
+        <dd>To create an event with attributes and methods appropriate to its type and context, and propagate it through the DOM tree in the specified manner. Interchangeable with the term "fire", e.g. "fire a 'click' event" or "dispatch a 'load' event".</dd>
 
         <dt id="glossary-dt-DOM-Level-0">DOM Level 0</dt>
         <dd>The term "DOM Level 0" refers to a mix (not formally specified) of HTML document functionalities offered by Netscape Navigator version 3.0 and Microsoft Internet Explorer version 3.0. In some cases, attributes or methods have been included for reasons of backward compatibility with "DOM Level 0".</dd>
@@ -1564,6 +1564,20 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
               <td><a href="#events-Events-MouseEvent"><code>MouseEvent</code></a></td>
             </tr>
             <tr>
+              <td><a href="#events-event-mouseenter">mouseenter</a></td>
+              <td>No</td>
+              <td>Yes</td>
+              <td><code>Element</code></td>
+              <td><a href="#events-Events-MouseEvent"><code>MouseEvent</code></a></td>
+            </tr>
+            <tr>
+              <td><a href="#events-event-mouseleave">mouseleave</a></td>
+              <td>No</td>
+              <td>Yes</td>
+              <td><code>Element</code></td>
+              <td><a href="#events-Events-MouseEvent"><code>MouseEvent</code></a></td>
+            </tr>
+            <tr>
               <td><a href="#events-event-mousemove">mousemove</a></td>
               <td>Yes</td>
               <td>Yes</td>
@@ -2704,6 +2718,8 @@ An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus s
         </dl>
         <p>The Mouse event types are listed below. In the case of nested elements, mouse event types are always targeted at the most deeply nested element. Ancestors of the targeted element may use bubbling to obtain notification of mouse events which occur within its descendent elements.</p>
         <p id="events-dt-current-click-count">Implementations must maintain the <em>current click count</em> when generating mouse events. This shall be a non-negative integer indicating the number of consecutive clicks of a pointing device button during a user action. The notion of consecutive clicks depends on the environment configuration. For example, a "double click" might not happen if there is a long delay between the two clicks.</p>
+        
+        <!-- click -->
         <div class="event-definition assert must">
           <dl>
             <dt id="events-event-click">
@@ -2764,6 +2780,8 @@ An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus s
             </dd>
           </dl>
         </div>
+        
+        <!-- dblclick -->
         <div class="event-definition assert must">
           <dl>
             <dt id="events-event-dblclick">
@@ -2805,6 +2823,8 @@ An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus s
     A pointing device button is clicked twice over an element. The definition of a double click depends on the environment configuration, except that the event target must be the same between <a href="#events-event-mousedown">mousedown</a>, <a href="#events-event-mouseup">mouseup</a>, and <a href="#events-event-dblclick">dblclick</a>. This event type must be dispatched after the event type <a href="#events-event-click">click</a> if a click and double click occur simultaneously, and after the event type <a href="#events-event-mouseup">mouseup</a> otherwise.</dd>
           </dl>
         </div>
+        
+        <!-- mousedown -->
         <div class="event-definition assert must">
           <dl>
             <dt id="events-event-mousedown">
@@ -2846,51 +2866,14 @@ An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus s
     A pointing device button must be pressed over an element.</dd>
           </dl>
         </div>
-        <div class="event-definition assert must">
-          <dl>
-            <dt id="events-event-mouseup">
-              <a class="noxref" href="#events-event-mouseup">mouseup</a>
-            </dt>
-            <dd>
-              <table border="0"
-                summary="This table contains information about the semantics of the given event type"
-                cellpadding="2" cellspacing="0">
-                <tr class="assert must">
-                  <th>Type</th>
-                  <td bgcolor="#CFCFCF"><strong><code>mouseup</code></strong></td>
-                </tr>
-                <tr class="assert must">
-                  <th>Namespace</th>
-                  <td><code>None</code></td>
-                </tr>
-                <tr class="assert must">
-                  <th>Interface</th>
-                  <td><a href="#events-Events-MouseEvent"><code>MouseEvent</code></a></td>
-                </tr>
-                <tr class="assert must">
-                  <th>Cancelable</th>
-                  <td>Yes</td>
-                </tr>
-                <tr class="assert must">
-                  <th>Bubbles</th>
-                  <td>Yes</td>
-                </tr>
-                <tr class="assert must">
-                  <th>Target</th>
-                  <td><code>Element</code></td>
-                </tr>
-                <tr class="assert must">
-                  <th>Context info</th>
-                  <td><a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, <a href="#events-Events-MouseEvent-button"><code>MouseEvent.button</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use. The <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> attribute indicates the <a href="#events-dt-current-click-count">current click count</a> incremented by one.</td>
-                </tr>
-              </table>
-    A pointing device button is released over an element.</dd>
-          </dl>
-        </div>
+
+        
+        
+        <!-- mouseenter -->
         <div class="event-definition assert must">
           <dl>
             <dt id="events-event-mouseover">
-              <a class="noxref" href="#events-event-mouseover">mouseover</a>
+              <a class="noxref" href="#events-event-mouseenter">mouseenter</a>
             </dt>
             <dd>
               <table border="0"
@@ -2898,7 +2881,7 @@ An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus s
                 cellpadding="2" cellspacing="0">
                 <tr class="assert must">
                   <th>Type</th>
-                  <td bgcolor="#CFCFCF"><strong><code>mouseover</code></strong></td>
+                  <td bgcolor="#CFCFCF"><strong><code>mouseenter</code></strong></td>
                 </tr>
                 <tr class="assert must">
                   <th>Namespace</th>
@@ -2914,7 +2897,7 @@ An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus s
                 </tr>
                 <tr class="assert must">
                   <th>Bubbles</th>
-                  <td>Yes</td>
+                  <td>No</td>
                 </tr>
                 <tr class="assert must">
                   <th>Target</th>
@@ -2925,9 +2908,59 @@ An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus s
                   <td><a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use. <a href="#events-Events-MouseEvent-relatedTarget"><code>MouseEvent.relatedTarget</code></a> indicates the <a href="#glossary-dt-event-target">event target</a> a pointing device is exiting, if any.</td>
                 </tr>
               </table>
-    A pointing device is moved onto an element.</dd>
+                A pointing device is moved onto an element.  This event type is similar to <a class="noxref" href="#events-event-mouseover">mouseover</a>, but for <a class="noxref" href="#events-event-mouseenter">mouseenter</a>, the <a href="#glossary-dt-propagation-path">propagation path</a> must end at the <a href="#glossary-dt-event-target">event target</a> element, and must not include the target element's child nodes as <a href="#glossary-dt-event-target">event targets</a>. <strong>Note:</strong> This is the event type equivalent of the CSS <a href="http://www.w3.org/TR/CSS2/selector.html#dynamic-pseudo-classes" title="Selectors"><code>:hover</code> pseudo-class</a> <a href="#references-CSS2">[CSS2]</a>.  This matches the <a class="noxref" href="#events-event-mouseleave">mouseleave</a> event type in its <a href="#glossary-dt-propagation-path">propagation path</a> behavior.
+            </dd>
           </dl>
         </div>
+
+
+        <!-- mouseleave -->
+        <div class="event-definition assert must">
+          <dl>
+            <dt id="events-event-mouseout">
+              <a class="noxref" href="#events-event-mouseleave">mouseleave</a>
+            </dt>
+            <dd>
+              <table border="0"
+                summary="This table contains information about the semantics of the given event type"
+                cellpadding="2" cellspacing="0">
+                <tr class="assert must">
+                  <th>Type</th>
+                  <td bgcolor="#CFCFCF"><strong><code>mouseout</code></strong></td>
+                </tr>
+                <tr class="assert must">
+                  <th>Namespace</th>
+                  <td><code>None</code></td>
+                </tr>
+                <tr class="assert must">
+                  <th>Interface</th>
+                  <td><a href="#events-Events-MouseEvent"><code>MouseEvent</code></a></td>
+                </tr>
+                <tr class="assert must">
+                  <th>Cancelable</th>
+                  <td>Yes</td>
+                </tr>
+                <tr class="assert must">
+                  <th>Bubbles</th>
+                  <td>No</td>
+                </tr>
+                <tr class="assert must">
+                  <th>Target</th>
+                  <td><code>Element</code></td>
+                </tr>
+                <tr class="assert must">
+                  <th>Context info</th>
+                  <td><a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use. <a href="#events-Events-MouseEvent-relatedTarget"><code>MouseEvent.relatedTarget</code></a> indicates the <a href="#glossary-dt-event-target">event target</a> a pointing device is entering, if any.</td>
+                </tr>
+              </table>
+                A pointing device is moved away from an element.  This event type is similar to <a class="noxref" href="#events-event-mouseout">mouseout</a>, but for <a class="noxref" href="#events-event-mouseleave">mouseleave</a>, the <a href="#glossary-dt-propagation-path">propagation path</a> must end at the <a href="#glossary-dt-event-target">event target</a> element, and must not include the target element's child nodes as <a href="#glossary-dt-event-target">event targets</a>. <strong>Note:</strong> This matches the <a class="noxref" href="#events-event-mouseenter">mouseenter</a> event type in its <a href="#glossary-dt-propagation-path">propagation path</a> behavior.
+            </dd>
+          </dl>
+        </div>
+      </div>
+
+        
+        <!-- mousemove -->
         <div class="event-definition assert must">
           <dl>
             <dt id="events-event-mousemove">
@@ -2969,6 +3002,9 @@ An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus s
     A pointing device is moved while it is over an element.</dd>
           </dl>
         </div>
+
+
+        <!-- mouseout -->
         <div class="event-definition assert must">
           <dl>
             <dt id="events-event-mouseout">
@@ -3007,10 +3043,101 @@ An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus s
                   <td><a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use. <a href="#events-Events-MouseEvent-relatedTarget"><code>MouseEvent.relatedTarget</code></a> indicates the <a href="#glossary-dt-event-target">event target</a> a pointing device is entering, if any.</td>
                 </tr>
               </table>
-    A pointing device is moved away from an element.</dd>
+                A pointing device is moved away from an element.
+                This event type is similar to <a class="noxref" href="#events-event-mouseleave">mouseleave</a>, but for <a class="noxref" href="#events-event-mouseout">mouseout</a>, the <a href="#glossary-dt-propagation-path">propagation path</a> must include the target element's child nodes as <a href="#glossary-dt-event-target">event targets</a>.  The <a class="noxref" href="#events-event-mouseout">mouseout</a> event type matches the <a class="noxref" href="#events-event-mouseover">mouseover</a> event type in its <a href="#glossary-dt-propagation-path">propagation path</a> behavior.</dd>
+    
+            </dd>
           </dl>
         </div>
       </div>
+        
+
+        <!-- mouseover -->
+        <div class="event-definition assert must">
+          <dl>
+            <dt id="events-event-mouseover">
+              <a class="noxref" href="#events-event-mouseover">mouseover</a>
+            </dt>
+            <dd>
+              <table border="0"
+                summary="This table contains information about the semantics of the given event type"
+                cellpadding="2" cellspacing="0">
+                <tr class="assert must">
+                  <th>Type</th>
+                  <td bgcolor="#CFCFCF"><strong><code>mouseover</code></strong></td>
+                </tr>
+                <tr class="assert must">
+                  <th>Namespace</th>
+                  <td><code>None</code></td>
+                </tr>
+                <tr class="assert must">
+                  <th>Interface</th>
+                  <td><a href="#events-Events-MouseEvent"><code>MouseEvent</code></a></td>
+                </tr>
+                <tr class="assert must">
+                  <th>Cancelable</th>
+                  <td>Yes</td>
+                </tr>
+                <tr class="assert must">
+                  <th>Bubbles</th>
+                  <td>Yes</td>
+                </tr>
+                <tr class="assert must">
+                  <th>Target</th>
+                  <td><code>Element</code></td>
+                </tr>
+                <tr class="assert must">
+                  <th>Context info</th>
+                  <td><a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use. <a href="#events-Events-MouseEvent-relatedTarget"><code>MouseEvent.relatedTarget</code></a> indicates the <a href="#glossary-dt-event-target">event target</a> a pointing device is exiting, if any.</td>
+                </tr>
+              </table>
+    A pointing device is moved onto an element.  This event type is similar to <a class="noxref" href="#events-event-mouseenter">mouseenter</a>, but for <a class="noxref" href="#events-event-mouseover">mouseover</a>, the <a href="#glossary-dt-propagation-path">propagation path</a> must include the target element's child nodes as <a href="#glossary-dt-event-target">event targets</a>.  The <a class="noxref" href="#events-event-mouseover">mouseover</a> event type matches the <a class="noxref" href="#events-event-mouseout">mouseout</a> event type in its <a href="#glossary-dt-propagation-path">propagation path</a> behavior.</dd>
+          </dl>
+        </div>
+
+        
+        
+        <!-- mouseup -->
+        <div class="event-definition assert must">
+          <dl>
+            <dt id="events-event-mouseup">
+              <a class="noxref" href="#events-event-mouseup">mouseup</a>
+            </dt>
+            <dd>
+              <table border="0"
+                summary="This table contains information about the semantics of the given event type"
+                cellpadding="2" cellspacing="0">
+                <tr class="assert must">
+                  <th>Type</th>
+                  <td bgcolor="#CFCFCF"><strong><code>mouseup</code></strong></td>
+                </tr>
+                <tr class="assert must">
+                  <th>Namespace</th>
+                  <td><code>None</code></td>
+                </tr>
+                <tr class="assert must">
+                  <th>Interface</th>
+                  <td><a href="#events-Events-MouseEvent"><code>MouseEvent</code></a></td>
+                </tr>
+                <tr class="assert must">
+                  <th>Cancelable</th>
+                  <td>Yes</td>
+                </tr>
+                <tr class="assert must">
+                  <th>Bubbles</th>
+                  <td>Yes</td>
+                </tr>
+                <tr class="assert must">
+                  <th>Target</th>
+                  <td><code>Element</code></td>
+                </tr>
+                <tr class="assert must">
+                  <th>Context info</th>
+                  <td><a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, <a href="#events-Events-MouseEvent-button"><code>MouseEvent.button</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use. The <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> attribute indicates the <a href="#events-dt-current-click-count">current click count</a> incremented by one.</td>
+                </tr>
+              </table>A pointing device button is released over an element.</dd>
+          </dl>
+        </div>
 
       <!-- div3 Events-eventgroupings-wheelevents -->
       <div class="div3">
@@ -5846,7 +5973,7 @@ DOM Level 3 Events considers the <a href="#events-Events-Event-type"><code>Event
     <div class="div1">
       <h1 id="security-considerations-Security" class="adiv1">Appendix C: Security Considerations</h1>
       <p class="first">This appendix discusses security considerations for DOM Level 3 Events implementations. The discussion is limited to security issues that arise directly from implementation of the event model, APIs and events defined in this specification. Implementations typically support other features like scripting languages, other APIs and additional events not defined in this document; these features constitute an unknown factor and are out of scope of this document. Implementers should consult the specifications of such features for their respective security considerations.</p>
-      <p>Many of the event types defined in this specification are dispatched in response to user actions. This allows malicious event listeners to gain access to information users would typically consider confidential, e.g., typos they might have made when filling out a form, if they reconsider their answer to a multiple choice question shortly before submitting a form, their typing rate or primary input mechanism. In the worst case, malicious event listeners are able to capture all user interactions and submit them to a third party through means, while not defined in DOM Level 3 Events, generally available in DOM implementations, such as the XMLHTTPRequest interface.</p>
+      <p>Many of the event types defined in this specification are dispatched in response to user actions. This allows malicious event listeners to gain access to information users would typically consider confidential, e.g., typos they might have made when filling out a form, if they reconsider their answer to a multiple choice question shortly before submitting a form, their typing rate or primary input mechanism. In the worst case, malicious event listeners are able to capture all user interactions and submit them to a third party through means, while not defined in DOM Level 3 Events, generally available in DOM implementations, such as the XMLHttpRequest interface.</p>
       <p>In DOM implementations that support facilities to load external data, events like the <code>error</code> event can provide access to sensitive information about the environment of the computer system or network; an example would be a malicious HTML document that attempts to embed a resource on the local network or the localhost on different ports; an embedded DOM application could then listen for <code>error</code> and <code>load</code> events to determine which other computers in a network are accessible from the local system or which ports are open on the system to prepare further attacks.</p>
       <p>An implementation of DOM Level 3 Events alone is generally insufficient to perform attacks of this kind and the security considerations of the facilities that possibly support such attacks apply. For conformance with this specification, DOM implementations may take reasonable steps to ensure that DOM applications do not get access to confidential or sensitive information, for example, they may choose to dispatch no <code>load</code> events to nodes that attempt to embed resources on the local network.</p>
       <p>The <a href="#events-Events-DocumentEvent-canDispatch"><code>DocumentEvent.canDispatch()</code></a> method allows DOM applications to retrieve information about which event types the implementation supports, including event types not defined in this specification. Which event types a DOM Level 3 Events implementation supports can depend on configuration settings or on additional software modules available to the implementation.</p>
@@ -7425,10 +7552,16 @@ The <strong>prevNodeNameArg</strong> parameter shall be a <strong>String</strong
       <div class="div2">
         <h2 id="references-References-Informative" class="adiv2">I.2 Informative References</h2>
         <dl>
+
+          <dt class="wip"><strong>[<a id="references-CSS2">CSS2</a>]</strong>
+          </dt>
+          <dd><cite><a href="http://www.w3.org/TR/2009/CR-CSS2-20090423">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a></cite>, B. Bos, T. Çelik, I. Hickson, H.W. Lie, Editors. World Wide Web Consortium, 23 April 2009, <strong>Work in Progress</strong>. This version of the CSS 2.1 Specification is http://www.w3.org/TR/2009/CR-CSS2-20090423. The <a class="normative" href="http://www.w3.org/TR/CSS2/">latest version of CSS 2.1</a> is available at http://www.w3.org/TR/CSS2/.</dd>
+
           <dt>
             <strong>[<a name="references-DOMLS" id="references-DOMLS">DOM Level 3 Load and Save</a>]</strong>
           </dt>
           <dd><cite><a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-LS-20040407">Document Object Model Level 3 Load and Save Specification</a></cite>, J. Stenback, A. Heninger, Editors. World Wide Web Consortium, April 2004. This version of the DOM Level 3 Load and Save Specification is http://www.w3.org/TR/2004/REC-DOM-Level-3-LS-20040407. The <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-LS">latest version of DOM Level 3 Load and Save</a> is available at http://www.w3.org/TR/DOM-Level-3-LS.</dd>
+
           <dt>
             <strong>[<a name="references-DWW95" id="references-DWW95">DWW95</a>]</strong>
           </dt>
