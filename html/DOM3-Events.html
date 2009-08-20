@@ -234,8 +234,9 @@
               <li><a href="#events-Events-eventgroupings-wheelevents">5.2.5 Wheel Event Types</a></li>
               <li><a href="#events-Events-TextEvents-Interfaces">5.2.6 Text Events Types</a></li>
               <li><a href="#events-Events-KeyboardEvents-Interfaces">5.2.7 Keyboard Event Types</a></li>
-              <li><a href="#events-Events-eventgroupings-mutationevents">5.2.8 Mutation Events</a></li>
-              <li><a href="#events-Events-eventgroupings-mutationnameevents">5.2.9 Mutation Name Event Types</a></li>
+              <li><a href="#events-Events-CompositionEvents-Interfaces">5.2.8 Composition Events Types</a></li>
+              <li><a href="#events-Events-eventgroupings-mutationevents">5.2.9 Mutation Events</a></li>
+              <li><a href="#events-Events-eventgroupings-mutationnameevents">5.2.10 Mutation Name Event Types</a></li>
             </ul>
           </li>
         </ul>
@@ -247,8 +248,9 @@
               <li><a href="#keyset-Modifiers">A.1.1 Modifier keys</a></li>
               <li><a href="#keyset-DeadKeys">A.1.2 Dead keys</a></li>
               <li><a href="#keyset-IME">A.1.3 Input Method Editors</a></li>
-              <li><a href="#keyset-cancelable_keys">A.1.4 Default actions and cancelable keyboard events</a></li>
-              <li><a href="#keyset-Guide">A.1.5 Guidelines for defining key identifiers</a></li>
+              <li><a href="#keyset-handwriting">A.1.4 Handwriting Recognition Systems</a></li>
+              <li><a href="#keyset-cancelable_keys">A.1.5 Default actions and cancelable keyboard events</a></li>
+              <li><a href="#keyset-Guide">A.1.6 Guidelines for defining key identifiers</a></li>
             </ul>
           </li>
           <li><a href="#keyset-KeySet-Set">A.2 Key identifiers set</a>
@@ -379,7 +381,7 @@
 
         <dt id="glossary-dt-ime">IME</dt>
         <dt id="glossary-dt-input-method-editor">input method editor</dt>
-        <dd>An <em>input method editor</em> (IME), also known as a <em>front end processor</em>, is an application that performs the conversion between keystrokes and ideographs or other characters, usually by user-guided dictionary lookup, often used in East Asian languages (e.g. Chinese, Japanese, Korean).  An IME may also be used for dictionary-based word completion, such as on mobile devices.  See <a href="#keyset-IME">Input Method Editors</a> in Appendix A for treatment of IMEs in this specification.</dd>
+        <dd>An <em>input method editor</em> (IME), also known as a <em>front end processor</em>, is an application that performs the conversion between keystrokes and ideographs or other characters, usually by user-guided dictionary lookup, often used in East Asian languages (e.g. Chinese, Japanese, Korean).  An IME may also be used for dictionary-based word completion, such as on mobile devices.  See <a href="#keyset-IME">Input Method Editors</a> in Appendix A for treatment of IMEs in this specification.  See also <a href="#glossary-dt-text-composition-system">text composition system</a>.</dd>
 
         <dt id="glossary-dt-localname">local name</dt>
         <dd>See local name in [<cite><a class="noxref informative" href="#references-Namespaces11">XML Namespaces 1.1</a></cite>].</dd>
@@ -395,6 +397,9 @@
 
         <dt id="glossary-dt-target-node">target node</dt>
         <dd>The target node is the node representing the <a href="#glossary-dt-event-target">event target</a> to which an <a href="#glossary-dt-event">event</a> is targeted using the DOM event flow.</dd>
+
+        <dt id="glossary-dt-text-composition-system">text composition system</dt>
+        <dd>A software component which interprets some form of alternate input, such as a <a href="#glossary-dt-ime">input method editor</a>, a speech processor, or a handwriting recognition system, and converts it to text.</dd>
 
         <dt id="glossary-dt-root-element">root element</dt>
         <dd>The first element node of a document, of which all other elements are children; the document element.</dd>
@@ -4251,8 +4256,279 @@ A key is released. This event type is device dependent and relies on the capabil
 
 
 
+
+        <!-- div3 Events-eventgroupings-uievents -->
         <div class="div3">
-          <h3 id="events-Events-eventgroupings-mutationevents" class="div3">5.2.8 Mutation Events</h3>
+          <h3 class="div3" id="events-Events-CompositionEvents-Interfaces">5.2.8 Composition Events Types</h3>
+          <p>This module defines the feature CompositionEvents 3.0 and depends on the feature UIEvents 3.0.</p>
+          <p>Composition Events provide a means for inputing text in a supplementary or alternate manner than by Keyboard Events, in order to allow the use of characters that may not be commonly available on keyboard. For examples, Composition events may be used to add accents to characters despite their absence from standard US keyboards, to build up logograms of many Asian languages from their base components or categories, to select word choices from a combination of key presses on a mobile device keyboard, or to convert voice commands into text using a speech recognition processor.  Refer to Appendix A, "<a href="#keyset-KeySet">Keyboard events and key identifiers</a>", for examples on how Composition Events are used in combination with keyboard events.</p>
+          <dl>
+            <dt><strong>Interface <em>
+                  <a id="events-Events-CompositionEvent">CompositionEvent</a>
+                </em></strong> (introduced in <strong class="since">DOM Level 3</strong>)</dt>
+            <dd>
+              <p>The <code>CompositionEvent</code> interface provides specific contextual information associated with Composition Events.</p>
+              <p>To create an instance of the <code>CompositionEvent</code> interface, use the <a href="#events-Events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("CompositionEvent")</code></a> method call.</p>
+              <dl>
+                <dt>
+                  <br/>
+                  <strong>IDL Definition</strong>
+                </dt>
+                <dd>
+                  <div class="idl-code">
+
+                    <pre>
+        // Introduced in DOM Level 3:
+        interface <a class="noxref" href="#events-Events-CompositionEvent">CompositionEvent</a> : <a class="noxref" href="#events-Events-UIEvent">UIEvent</a> {
+
+        readonly attribute DOMString       <a class="noxref" href="#events-Events-CompositionEvent-data">data</a>;
+        void               <a class="noxref" href="#events-Events-Event-initCompositionEvent">initCompositionEvent</a>(in DOMString typeArg, 
+                                   in boolean canBubbleArg, 
+                                   in boolean cancelableArg, 
+                                   in views::AbstractView viewArg, 
+                                   in DOMString dataArg);
+        void               <a class="noxref" href="#events-Events-Event-initCompositionEventNS">initCompositionEventNS</a>(in DOMString namespaceURIArg, 
+                                     in DOMString typeArg, 
+                                     in boolean canBubbleArg, 
+                                     in boolean cancelableArg, 
+                                     in views::AbstractView viewArg, 
+                                     in DOMString dataArg);
+        };
+        </pre>
+                  </div>
+                  <br/>
+                </dd>
+                <dt>
+                  <strong>Attributes</strong>
+                </dt>
+                <dd>
+                  <dl>
+                    <dt><code class="attribute-name">
+                        <a id="events-Events-CompositionEvent-data">data</a>
+                      </code> of type <code>DOMString</code>, readonly
+                    </dt>
+                    <dd><code>data</code> holds the value of the characters generated by an input method. This may be a single Unicode character or a non-empty sequence of Unicode characters [<cite><a class="noxref normative" href="#references-Unicode">Unicode</a></cite>]. Characters should be normalized as defined by the Unicode normalization form <em>NFC</em>, defined in [<cite><a class="noxref normative" href="#references-UnicodeNormalization">UAX #15</a></cite>]. This attribute may be null or contain the empty string.  When initialized, this attribute may contain the characters currently selected in the document.  <span class="issue">@@ see <a href="http://lists.w3.org/Archives/Public/www-dom/2009JulSep/0143.html" title="Extra notes on composition events from Daniel Danilatos on 2009-08-07 (www-dom@w3.org from July to September 2009)">Extra notes on composition events</a> for more details</span><br/>
+                    </dd>
+                  </dl>
+                </dd>
+                <dt>
+                  <strong>Methods</strong>
+                </dt>
+                <dd>
+                  <dl>
+                    <dt><code class="method-name">
+                        <a id="events-Events-Event-initCompositionEvent">initCompositionEvent</a>
+                      </code>
+                    </dt>
+                    <dd>
+                      <div class="method">Initializes attributes of a <code>CompositionEvent</code> object. This method has the same behavior as <a href="#events-Events-Event-initUIEvent"><code>UIEvent.initUIEvent()</code></a>. The value of <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> remains undefined.
+        <div class="parameters">
+                          <strong>Parameters</strong>
+                          <div class="paramtable">
+                            <dl>
+                              <dt><code class="parameter-name">typeArg</code> of type <code>DOMString</code></dt>
+                              <dd>Refer to the <a href="#events-Events-Event-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.<br/></dd>
+                              <dt><code class="parameter-name">canBubbleArg</code> of type <code>boolean</code></dt>
+                              <dd>Refer to the <a href="#events-Events-Event-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.<br/></dd>
+                              <dt><code class="parameter-name">cancelableArg</code> of type <code>boolean</code></dt>
+                              <dd>Refer to the <a href="#events-Events-Event-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.<br/></dd>
+                              <dt><code class="parameter-name">viewArg</code> of type <code>views::AbstractView</code></dt>
+                              <dd>Refer to the <a href="#events-Events-Event-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.<br/></dd>
+                              <dt><code class="parameter-name">dataArg</code> of type <code>DOMString</code></dt>
+                              <dd>Specifies <a href="#events-Events-CompositionEvent-data"><code>CompositionEvent.data</code></a>.<br/></dd>
+                            </dl>
+                          </div>
+                        </div>
+                        <!-- parameters -->
+                        <div>
+                          <strong>No Return Value</strong>
+                        </div>
+                        <div>
+                          <strong>No Exceptions</strong>
+                        </div>
+                      </div>
+                      <!-- method -->
+                    </dd>
+                    <dt><code class="method-name">
+                        <a id="events-Events-Event-initCompositionEventNS">initCompositionEventNS</a>
+                      </code>
+                    </dt>
+                    <dd>
+                      <div class="method">Initializes attributes of a <code>CompositionEvent</code> object. This method has the same behavior as <a href="#events-Events-Event-initUIEventNS"><code>UIEvent.initUIEventNS()</code></a>. The value of <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> remains undefined.
+        <div class="parameters">
+                          <strong>Parameters</strong>
+                          <div class="paramtable">
+                            <dl>
+                              <dt><code class="parameter-name">namespaceURIArg</code> of type <code>DOMString</code></dt>
+                              <dd>Refer to the <a href="#events-Events-Event-initUIEventNS"><code>UIEvent.initUIEventNS()</code></a> method for a description of this parameter.<br/></dd>
+                              <dt><code class="parameter-name">typeArg</code> of type <code>DOMString</code></dt>
+                              <dd>Refer to the <a href="#events-Events-Event-initUIEventNS"><code>UIEvent.initUIEventNS()</code></a> method for a description of this parameter.<br/></dd>
+                              <dt><code class="parameter-name">canBubbleArg</code> of type <code>boolean</code></dt>
+                              <dd>Refer to the <a href="#events-Events-Event-initUIEventNS"><code>UIEvent.initUIEventNS()</code></a> method for a description of this parameter.<br/></dd>
+                              <dt><code class="parameter-name">cancelableArg</code> of type <code>boolean</code></dt>
+                              <dd>Refer to the <a href="#events-Events-Event-initUIEventNS"><code>UIEvent.initUIEventNS()</code></a> method for a description of this parameter.<br/></dd>
+                              <dt><code class="parameter-name">viewArg</code> of type <code>views::AbstractView</code></dt>
+                              <dd>Refer to the <a href="#events-Events-Event-initUIEventNS"><code>UIEvent.initUIEventNS()</code></a> method for a description of this parameter.<br/></dd>
+                              <dt><code class="parameter-name">dataArg</code> of type <code>DOMString</code></dt>
+                              <dd>Refer to the <a href="#events-Events-Event-initCompositionEvent"><code>CompositionEvent.initCompositionEvent()</code></a> method for a description of this parameter.<br/></dd>
+                            </dl>
+                          </div>
+                        </div>
+                        <!-- parameters -->
+                        <div>
+                          <strong>No Return Value</strong>
+                        </div>
+                        <div>
+                          <strong>No Exceptions</strong>
+                        </div>
+                      </div>
+                      <!-- method -->
+                    </dd>
+                  </dl>
+                </dd>
+              </dl>
+            </dd>
+          </dl>
+          <p>The composition event types are listed below.</p>
+
+          <div class="event-definition assert must">
+            <dl>
+              <dt id="events-event-compositionStart">
+                <a class="noxref" href="#events-event-compositionStart">compositionStart</a>
+              </dt>
+              <dd>
+                <table border="0"
+                  summary="This table contains information about the semantics of the given event type"
+                  cellpadding="2" cellspacing="0">
+                  <tr class="assert must">
+                    <th>Type</th>
+                    <td bgcolor="#CFCFCF"><strong><code>compositionStart</code></strong></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Namespace</th>
+                    <td><code>None</code></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Interface</th>
+                    <td><a href="#events-Events-CompositionEvent"><code>CompositionEvent</code></a></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Cancelable</th>
+                    <td>Yes</td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Bubbles</th>
+                    <td>Yes</td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Target</th>
+                    <td><code>Element</code></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Context info</th>
+                    <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, and <a href="#events-Events-CompositionEvent-data"><code>CompositionEvent.data</code></a>.</td>
+                  </tr>
+                </table>
+                A <a href="#glossary-dt-text-composition-system">text composition system</a> begins composing a passage of text.  This event type is device-dependent, and may rely upon the capabilities of the text conversion system and how it is mapped into the operating system.  When a keyboard is used to feed an input method editor, this event type is generated after a <code>keydown</code> event, but speech or handwriting recognition systems may send this event type without keyboard events.
+              </dd>
+            </dl>
+          </div>
+
+
+          <div class="event-definition assert must">
+            <dl>
+              <dt id="events-event-compositionUpdate">
+                <a class="noxref" href="#events-event-compositionUpdate">compositionUpdate</a>
+              </dt>
+              <dd>
+                <table border="0"
+                  summary="This table contains information about the semantics of the given event type"
+                  cellpadding="2" cellspacing="0">
+                  <tr class="assert must">
+                    <th>Type</th>
+                    <td bgcolor="#CFCFCF"><strong><code>compositionUpdate</code></strong></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Namespace</th>
+                    <td><code>None</code></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Interface</th>
+                    <td><a href="#events-Events-CompositionEvent"><code>CompositionEvent</code></a></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Cancelable</th>
+                    <td>Yes</td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Bubbles</th>
+                    <td>Yes</td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Target</th>
+                    <td><code>Element</code></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Context info</th>
+                    <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, and <a href="#events-Events-CompositionEvent-data"><code>CompositionEvent.data</code></a>.</td>
+                  </tr>
+                </table>
+                A <a href="#glossary-dt-text-composition-system">text composition system</a> updates its active text passage with a new character.
+              </dd>
+            </dl>
+          </div>
+
+
+          <div class="event-definition assert must">
+            <dl>
+              <dt id="events-event-compositionEnd">
+                <a class="noxref" href="#events-event-compositionEnd">compositionEnd</a>
+              </dt>
+              <dd>
+                <table border="0"
+                  summary="This table contains information about the semantics of the given event type"
+                  cellpadding="2" cellspacing="0">
+                  <tr class="assert must">
+                    <th>Type</th>
+                    <td bgcolor="#CFCFCF"><strong><code>compositionEnd</code></strong></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Namespace</th>
+                    <td><code>None</code></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Interface</th>
+                    <td><a href="#events-Events-CompositionEvent"><code>CompositionEvent</code></a></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Cancelable</th>
+                    <td>Yes</td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Bubbles</th>
+                    <td>Yes</td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Target</th>
+                    <td><code>Element</code></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Context info</th>
+                    <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, and <a href="#events-Events-CompositionEvent-data"><code>CompositionEvent.data</code></a>.</td>
+                  </tr>
+                </table>
+                A <a href="#glossary-dt-text-composition-system">text composition system</a> completes the composition of its active text passage, or cancels the composition process.  If the result of the <a href="#glossary-dt-text-composition-system">text composition system</a> is not null and does not contain the empty string, this event type will be followed by a <a href="#events-event-textInput">textInput</a> event type with the appropriate <a href="#events-Events-TextEvent-inputMode">inputMode</a> value, such as <a href="#events-DOM_INPUT_METHOD_IME">DOM_INPUT_METHOD_IME</a>, <a href="#events-DOM_INPUT_METHOD_HANDWRITING">DOM_INPUT_METHOD_HANDWRITING</a>, <a href="#events-DOM_INPUT_METHOD_VOICE">DOM_INPUT_METHOD_VOICE</a>, or <a href="#events-DOM_INPUT_METHOD_MULTIMODAL">DOM_INPUT_METHOD_MULTIMODAL</a>.
+                <br/>
+                <span class="issue">@@ original text: A <a href="#glossary-dt-text-composition-system">text composition system</a> completes the composition of its active text passage.  This event type is similar to a TextInput event but is also sent when an input method cancels composing a text.</span>
+              </dd>
+            </dl>
+          </div>
+
+        </div>
+
+
+        <div class="div3">
+          <h3 id="events-Events-eventgroupings-mutationevents" class="div3">5.2.9 Mutation Events</h3>
           <p>This module defines the feature MutationEvents 3.0 and depends on the feature Events 3.0.</p>
           <p><strong>Note:</strong>  The <code>MutationEvent</code> interface was introduced in DOM Level 2 Events, but has not yet been completely and interoperably implemented across user agents.  In addition, there have been critiques that the interface, as designed, introduces a performance and implementation challenge.  A new specification is under development with the aim of addressing the use cases that mutation events solves, but in more performant manner.  Thus, this specification describes mutation events for completeness, but deprecates the use of both the <code>MutationEvent</code> interface and the <code>MutationNameEvent</code> interface.</p>
           <p>The mutation and mutation name event modules are designed to allow notification of any changes to the structure of a document, including attribute, text, or name modifications. It may be noted that none of the event types associated with the modules are designated as cancelable. This stems from the fact that it is very difficult to make use of existing DOM interfaces which cause document modifications if any change to the document might or might not take place due to cancelation of the resulting event. Although this is still a desired capability, it was decided that it would be better left until the addition of transactions into the DOM.</p>
@@ -4747,7 +5023,7 @@ Occurs after <code>CharacterData.data</code> or <code>ProcessingInstruction.data
         
         <!-- div3 Events-eventgroupings-mutationevents -->
         <div class="div3">
-          <h3 class="div3" id="events-Events-eventgroupings-mutationnameevents">5.2.9 Mutation Name Event Types</h3>
+          <h3 class="div3" id="events-Events-eventgroupings-mutationnameevents">5.2.10 Mutation Name Event Types</h3>
           <p>This module defines the feature MutationNameEvents 3.0 and depends on the features MutationEvents 3.0 and Core 3.0.</p>
           <p><strong>Note:</strong>  The <code>MutationNameEvents</code> interface, introduced in an earlier draft of this specification, derives from the <a href="#events-Events-eventgroupings-mutationevents"><code>MutationEvent</code></a> interface, which is deprecated in this specification.  Thus, this specification describes the mutation name event types for completeness, but deprecates their use.</p>
           <dl>
@@ -4977,34 +5253,6 @@ Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a
 
     <div class="div1">
       <h1 id="keyset-KeySet" class="adiv1">Appendix A: Keyboard events and key identifiers</h1>
-      <!-- <div class="noprint">
-        <h2 id="keyset-table-of-contents">Table of Contents</h2>
-        <ul class="toc">
-          <li class="tocline3">
-            <a class="tocxref" href="#keyset-KeySet-intro">A.1 Introduction</a>
-            <ul class="toc">
-              <li class="tocline4">
-                <a class="tocxref" href="#keyset-Modifiers">A.1.1 Modifier keys</a>
-              </li>
-              <li class="tocline4">
-                <a class="tocxref" href="#keyset-DeadKeys">A.1.2 Dead keys</a>
-              </li>
-              <li class="tocline4">
-                <a class="tocxref" href="#keyset-IME">A.1.3 Input Method Editors</a>
-              </li>
-              <li class="tocline4">
-                <a class="tocxref" href="#keyset-cancelable_keys">A.1.4 Default actions and cancelable keyboard events</a>
-              </li>
-              <li class="tocline4">
-                <a class="tocxref" href="#keyset-Guide">A.1.5 Guidelines for defining key identifiers</a>
-              </li>
-            </ul>
-          </li>
-          <li class="tocline3">
-            <a class="tocxref" href="#keyset-KeySet-Set">A.2 Key identifiers set</a>
-          </li>
-        </ul>
-      </div> -->
        <p>This section contains necessary information regarding keyboard events:</p>
       <ul>
         <li>Relations between keys, such as dead keys or modifiers keys.</li>
@@ -5117,42 +5365,103 @@ Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a
             <li><code>"keyup"</code>: <code>"Control"</code></li>
           </ol>
         </div>
+        
         <!-- div3 Modifiers -->
         <div class="div3">
           <h3 id="keyset-DeadKeys" class="adiv3">A.1.2 Dead keys</h3>
-          <p>Keyboard input uses dead keys for the input of composed character sequences. Unlike the handwriting sequence, in which users enter the base character first, keyboard input requires to enter a special state when a dead key is pressed and emit the character(s) only when one of a limited number of "legal" base character is entered.</p>
+          <p>Keyboard input uses dead keys for the input of composed character sequences. Unlike the handwriting sequence, in which users enter the base character first, keyboard input requires to enter a special state when a dead key is pressed and emit the character(s) only when one of a limited number of "legal" base character is entered.  (NOTE: the MacOS and Linux operating systems use input methods to process dead keys.)
+          </p>
           <p>The dead keys are represented in the key identifiers set using combining diacritical marks. The sequence of keystrokes "U+0302" (Combining Circumflex Accent key) and "U+0045" (Latin Capital Letter E key) will likely produce (on a PC/AT french keyboard using a french mapping and without any modifier activated) the Unicode character &#234; (Latin Small Letter E With Circumflex), as preferred by the Unicode Normalization Form <em>NFC</em>:</p>
           <ol>
             <li><code>"keydown"</code>: <code>"U+0302"</code> (Combining Circumflex Accent key)</li>
+            <li><code>"compositionstart"</code>: <code>""</code></li>
+            <li><code>"compositionupdate"</code>: <code>""</code> <span class="issue">@@ (value undefined - to be discussed)</span></li>
             <li><code>"keyup"</code>: <code>"U+0302"</code></li>
             <li><code>"keydown"</code>: <code>"U+0045"</code> (Latin Capital Letter E key)</li>
-            <li><code>"textInput"</code>: <code>"&#233;"</code></li>
+            <li><code>"compositionend"</code>: <code>"&#233;"</code> <span class="issue">@@ should compositionend come before or after textInput</span></li>
+            <li><code>"textInput"</code>: <code>"&#233;"</code> (<code>"inputMode"</code>: <code>"DOM_INPUT_METHOD_IME"</code>)</li>
             <li><code>"keyup"</code>: <code>"U+0045"</code></li>
           </ol>
+          
+          <p>This process may be aborted when a user types an unsupported base character (that is, a base character for which the which the active diacritical mark is not available) after pressing a dead key:</p>
+          <ol>
+            <li><code>"keydown"</code>: <code>"U+0302"</code> (Combining Circumflex Accent key)</li>
+            <li><code>"compositionstart"</code>: <code>""</code></li>
+            <li><code>"compositionupdate"</code>: <code>""</code> <span class="issue">@@ (undefined - to be discussed)</span></li>
+            <li><code>"keyup"</code>: <code>"U+0302"</code></li>
+            <li><code>"keydown"</code>: <code>"U+0051"</code> (Latin Capital Letter Q key)</li>
+            <li><code>"compositionend"</code>: <code>""</code></li>
+            <li><code>"textInput"</code>: <code>"q"</code> (<code>"inputMode"</code>: <code>"DOM_INPUT_METHOD_KEYBOARD"</code>)</li>
+            <li><code>"keyup"</code>: <code>"U+0051"</code></li>
+          </ol>
+
         </div>
+
         <!-- div3 DeadKeys -->
         <div class="div3">
           <h3 id="keyset-IME" class="adiv3">A.1.3 Input Method Editors</h3>
-          <!-- Moved to glossary
-	      <p id="keyset-dt-ime"> Also known as <em>front end processor</em>, an <em>input method editor</em> (IME) is an application that performs the conversion between keystrokes and ideographs or other characters, usually by user-guided dictionary lookup.</p>-->
+	        <p class="issue">@@ With the inclusion of Composition Events, how should this section be reworded?</p>
+	      
           <p>This specification does not provide a representation of the <a href="#glossary-dt-ime">input method editor (IME)</a> events, i.e. the IME's functions and the IME context are not represented in this set. As an example, receiving a <a href="#events-event-keydown">keydown</a> for the "Accept" key identifier does not necessarily imply that the text currently selected in the IME is being accepted. It only indicates that a keystroke happened, disconnected from the IME Accept functionality. Depending on the device in use, the IME Accept functionality can be obtain using the Accept key or the Return key. Keyboard events cannot be used to determine the current state of the input method editor.</p>
           <p>Keyboard events correspond to the events generated by the input device after the keyboard layout mapping but before the processing of the input method editor.</p>
           <p>The following example describes a possible sequence of keys to generate the Unicode character &#24066; (Kanji character, part of CJK Unified Ideographs) using Japanese input methods. This example assumes that the input method editor is activated and in the Japanese-Romaji input mode. The keys <code>"Convert"</code> and <code>"Accept"</code> may be replaced by others depending on the input device in use and the configuration of the IME, e.g. it could be respectively "U+0020" (Space key) and "Enter".</p>
           <ol>
             <li><code>"keydown"</code>: <code>"U+0053"</code> (Latin Capital Letter S key)</li>
+            <li><code>"compositionstart"</code>: <code>""</code></li>
             <li><code>"keyup"</code>: <code>"U+0053"</code> (Latin Capital Letter S key)</li>
             <li><code>"keydown"</code>: <code>"U+0049"</code> (Latin Capital Letter I key)</li>
             <li><code>"keyup"</code>: <code>"U+0049"</code> (Latin Capital Letter I key)</li>
             <li><code>"keydown"</code>: <code>"Convert"</code></li>
+            <li><code>"compositionupdate"</code>: <code>"&#x8a69;"</code></li>            
+            <li><code>"keyup"</code>: <code>"Convert"</code></li>
+            <li><code>"keydown"</code>: <code>"Convert"</code></li>
+            <li><code>"compositionupdate"</code>: <code>"&#24066;"</code></li>            
             <li><code>"keyup"</code>: <code>"Convert"</code></li>
             <li><code>"keydown"</code>: <code>"Accept"</code></li>
-            <li><code>"textInput"</code>: <code>"&#24066;"</code></li>
+            <li><code>"compositionend"</code>: <code>"&#24066;"</code></li>
+            <li><code>"textInput"</code>: <code>"&#24066;"</code> (<code>"inputMode"</code>: <code>"DOM_INPUT_METHOD_IME"</code>)</li>
             <li><code>"keyup"</code>: <code>"Accept"</code></li>
           </ol>
+
+          <p>IME composition may also be canceled as in the following example, with conditions identical to the previous example.  The key "Cancel" may also be replaced by others depending on the input device in use and the configuration of the IME, e.g. it could be "U+001B" (Escape key).</p>
+          <ol>
+            <li><code>"keydown"</code>: <code>"U+0053"</code> (Latin Capital Letter S key)</li>
+            <li><code>"compositionstart"</code>: <code>""</code></li>
+            <li><code>"keyup"</code>: <code>"U+0053"</code> (Latin Capital Letter S key)</li>
+            <li><code>"keydown"</code>: <code>"U+0049"</code> (Latin Capital Letter I key)</li>
+            <li><code>"keyup"</code>: <code>"U+0049"</code> (Latin Capital Letter I key)</li>
+            <li><code>"keydown"</code>: <code>"Convert"</code></li>
+            <li><code>"compositionupdate"</code>: <code>"&#x8a69;"</code></li>            
+            <li><code>"keyup"</code>: <code>"Convert"</code></li>
+            <li><code>"keydown"</code>: <code>"Convert"</code></li>
+            <li><code>"compositionupdate"</code>: <code>"&#24066;"</code></li>            
+            <li><code>"keyup"</code>: <code>"Convert"</code></li>
+            <li><code>"keydown"</code>: <code>"Cancel"</code></li>
+            <li><code>"compositionupdate"</code>: <code>""</code></li>            
+            <li><code>"compositionend"</code>: <code>""</code></li>
+            <li><code>"keyup"</code>: <code>"Cancel"</code></li>
+          </ol>
+
+          <p>NOTE: Some <a href="#glossary-dt-ime">input method editors</a> (such as on the MacOS operating system) may set an empty string to the composition node before canceling a composition.</p>
         </div>
+        
+        <div class="div3">
+          <h3 id="keyset-handwriting" class="adiv3">A.1.4 Handwriting Recognition Systems</h3>
+
+          <p>The following example describes a possible sequence of events when composing a text passage "text" with a handwriting recognition system, such as on a pen tablet.</p>
+	        <p class="issue">@@ needs more investigation, particularly with regard to pen-tablet events.</p>
+          <ol>
+            <li><code>"compositionstart"</code>: <code>""</code></li>
+            <li><code>"compositionupdate"</code>: <code>"test"</code> <span class="issue">@@ what's going on here? is there a "reject" option that's being exemplified?</span></li>         
+            <li><code>"compositionupdate"</code>: <code>"text"</code></li>            
+            <li><code>"compositionend"</code>: <code>"text"</code></li>
+            <li><code>"textInput"</code>: <code>"text"</code> (<code>"inputMode"</code>: <code>"DOM_INPUT_METHOD_HANDWRITING"</code>)</li>
+          </ol>
+        </div>
+
         <!-- div3 IME -->
         <div class="div3">
-          <h3 id="keyset-cancelable_keys" class="adiv3">A.1.4 Default actions and cancelable keyboard events</h3>
+          <h3 id="keyset-cancelable_keys" class="adiv3">A.1.5 Default actions and cancelable keyboard events</h3>
           <p>Canceling the <a href="#glossary-dt-default-action">default action</a> of a <a href="#events-event-keydown">keydown</a> event does not affect its respective <a href="#events-event-keyup">keyup</a> event; it must however prevent the respective <a href="#events-event-textInput">textInput</a> event from being generated. The following example describes a possible sequence of keys to generate the Unicode character Q (Latin Capital Letter Q) on a PC/AT US keyboard using a US mapping:</p>
           <ol>
             <li><code>"keydown"</code>: <code>"U+0051"</code> (Latin Capital Letter Q key), shiftKey<br/>
@@ -5181,7 +5490,7 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
         </div>
         <!-- div3 cancelable_keys -->
         <div class="div3">
-          <h3 id="keyset-Guide" class="adiv3">A.1.5 Guidelines for defining key identifiers</h3>
+          <h3 id="keyset-Guide" class="adiv3">A.1.6 Guidelines for defining key identifiers</h3>
           <!-- <div class="atrisk">
       <p class="issue">This section is the original guideline.  We are considering making a more detailed, normative guideline, below.</p>
       <p><strong>Note:</strong> This section is non-normative.</p>
@@ -7706,11 +8015,11 @@ The <strong>prevNodeNameArg</strong> parameter shall be a <strong>String</strong
 
 
       <p>In the WebApps Working Group, the following people were active participants in the process of refining and revising the DOM3 Events Specification:</p>
-      <p>Daniel Danilatos (Google), Travis Leithead (Microsoft), Cameron McCormack (Invited Expert), Carmelo Montanez (NIST), Olli Pettay (Mozilla), Jacob Rossi (Microsoft)</p>
+      <p>Hironori Bono (Google), Daniel Danilatos (Google), Travis Leithead (Microsoft), Cameron McCormack (Invited Expert), Carmelo Montanez (NIST), Olli Pettay (Mozilla), Jacob Rossi (Microsoft)</p>
 
 
       <p>Thanks to all those who have helped to improve this specification by sending suggestions and corrections (Please, keep bugging us with your issues!).</p>
-      <p>Many thanks to Brad Pettit, Dylan Schiemann, David Flanagan, Steven Pemberton, Curt Arnold, Al Gilman, Misha Wolf, Sigurd Lerstad, Michael B. Allen, Alexander J. Vincent, Martin D&#252;rst, Ken Rehor, and, Cameron McCormack, for their review and comments of this document.</p>
+      <p>Many thanks to Brad Pettit, Dylan Schiemann, David Flanagan, Steven Pemberton, Curt Arnold, Al Gilman, Misha Wolf, Sigurd Lerstad, Michael B. Allen, Alexander J. Vincent, Martin D&#252;rst, Ken Rehor, NAKANO Masayuki, and Cameron McCormack,  for their review and comments of this document.</p>
       <p>Special thanks to the <a class="normative" href="http://www.w3.org/DOM/Test">DOM Conformance Test Suites</a> contributors: Fred Drake, Mary Brady (NIST), Rick Rivello (NIST), Robert Clary (Netscape), Neil Delima (IBM), with a special mention to Curt Arnold.</p>
       <div class="div2">
         <h2 id="acknowledgements-Productions" class="adiv2">G.1 Production Systems</h2>
