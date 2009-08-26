@@ -234,7 +234,11 @@
               <li><a href="#events-Events-eventgroupings-wheelevents">5.2.5 Wheel Event Types</a></li>
               <li><a href="#events-Events-TextEvents-Interfaces">5.2.6 Text Events Types</a></li>
               <li><a href="#events-Events-KeyboardEvents-Interfaces">5.2.7 Keyboard Event Types</a></li>
-              <li><a href="#events-Events-CompositionEvents-Interfaces">5.2.8 Composition Events Types</a></li>
+              <li><a href="#events-Events-CompositionEvents-Interfaces">5.2.8 Composition Events Types</a>
+                <ul class="toc">
+                  <li><a href="#handwriting">5.2.8.1 Handwriting Recognition Systems</a></li>
+                </ul>
+              </li>              
               <li><a href="#events-Events-eventgroupings-mutationevents">5.2.9 Mutation Events</a></li>
               <li><a href="#events-Events-eventgroupings-mutationnameevents">5.2.10 Mutation Name Event Types</a></li>
             </ul>
@@ -248,9 +252,8 @@
               <li><a href="#keyset-Modifiers">A.1.1 Modifier keys</a></li>
               <li><a href="#keyset-DeadKeys">A.1.2 Dead keys</a></li>
               <li><a href="#keyset-IME">A.1.3 Input Method Editors</a></li>
-              <li><a href="#keyset-handwriting">A.1.4 Handwriting Recognition Systems</a></li>
-              <li><a href="#keyset-cancelable_keys">A.1.5 Default actions and cancelable keyboard events</a></li>
-              <li><a href="#keyset-Guide">A.1.6 Guidelines for defining key identifiers</a></li>
+              <li><a href="#keyset-cancelable_keys">A.1.4 Default actions and cancelable keyboard events</a></li>
+              <li><a href="#keyset-Guide">A.1.5 Guidelines for defining key identifiers</a></li>
             </ul>
           </li>
           <li><a href="#keyset-KeySet-Set">A.2 Key identifiers set</a>
@@ -3934,9 +3937,9 @@ One or more characters have been entered. The characters can originate from a va
         <!-- div3 Events-TextEvents-Interfaces -->
         <div class="div3">
           <h3 id="events-Events-KeyboardEvents-Interfaces" class="div3">5.2.7 Keyboard Event Types</h3>
-          <p>(This part of the specification is likely to be moved to a separate specification on keyboard events.)</p>
+
           <p>This module defines the feature KeyboardEvents 3.0 and depends on the feature UIEvents 3.0.</p>
-          <p>Keyboard events are device dependent, i.e. they rely on the capabilities of the input devices and how they are mapped in the operating systems. It is therefore highly recommended to rely on <a href="#events-Events-TextEvent">Text events types</a> when dealing with character input.</p>
+          <p>Keyboard events are device dependent, i.e. they rely on the capabilities of the input devices and how they are mapped in the operating systems. It is therefore highly recommended to rely on <a href="#events-Events-TextEvent">Text events types</a> when dealing with character input.  Refer to Appendix A, "<a href="#keyset-KeySet">Keyboard events and key identifiers</a>", for more details, including examples on how Keyboard Events are used in combination with Composition Events.</p>
           <dl>
             <dt><strong>Interface <em>
                   <a id="events-Events-KeyboardEvent">KeyboardEvent</a>
@@ -4546,6 +4549,21 @@ A key is released. This event type is device dependent and relies on the capabil
               </dd>
             </dl>
           </div>
+
+          <div class="div3">
+            <h4 id="handwriting" class="adiv3">5.2.8.1 Handwriting Recognition Systems</h4>
+
+            <p>The following example describes a possible sequence of events when composing a text passage "text" with a handwriting recognition system, such as on a pen tablet, as modeled using Composition Events.</p>
+  	        <p class="issue">@@ needs more investigation, particularly with regard to pen-tablet events.</p>
+            <ol>
+              <li><code>"compositionstart"</code>: <code>""</code></li>
+              <li><code>"compositionupdate"</code>: <code>"test"</code> <span class="issue">@@ what's going on here? is there a "reject" option that's being exemplified?</span></li>         
+              <li><code>"compositionupdate"</code>: <code>"text"</code></li>            
+              <li><code>"compositionend"</code>: <code>"text"</code></li>
+              <li><code>"textInput"</code>: <code>"text"</code> (<code>"inputMode"</code>: <code>"DOM_INPUT_METHOD_HANDWRITING"</code>)</li>
+            </ol>
+          </div>
+
 
         </div>
 
@@ -5392,7 +5410,7 @@ Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a
         <!-- div3 Modifiers -->
         <div class="div3">
           <h3 id="keyset-DeadKeys" class="adiv3">A.1.2 Dead keys</h3>
-          <p>Keyboard input uses dead keys for the input of composed character sequences. Unlike the handwriting sequence, in which users enter the base character first, keyboard input requires to enter a special state when a dead key is pressed and emit the character(s) only when one of a limited number of "legal" base character is entered.  (NOTE: the MacOS and Linux operating systems use input methods to process dead keys.)
+          <p>Some keyboard input uses dead keys for the input of composed character sequences. Unlike the handwriting sequence, in which users enter the base character first, keyboard input requires to enter a special state when a dead key is pressed and emit the character(s) only when one of a limited number of "legal" base character is entered.  (NOTE: the MacOS and Linux operating systems use input methods to process dead keys.)
           </p>
           <p>The dead keys are represented in the key identifiers set using combining diacritical marks. The sequence of keystrokes "U+0302" (Combining Circumflex Accent key) and "U+0045" (Latin Capital Letter E key) will likely produce (on a PC/AT french keyboard using a french mapping and without any modifier activated) the Unicode character &#234; (Latin Small Letter E With Circumflex), as preferred by the Unicode Normalization Form <em>NFC</em>:</p>
           <ol>
@@ -5425,7 +5443,7 @@ Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a
         <div class="div3">
           <h3 id="keyset-IME" class="adiv3">A.1.3 Input Method Editors</h3>
           	      
-          <p>This specification includes a representation of the <a href="#glossary-dt-ime">input method editor (IME)</a> events, i.e. the IME's functions and the IME context are not represented in this set, through the <a href="#events-Events-CompositionEvents-Interfaces">CompositionEvent</a> interface and events.  However, composition events and keyboard events does not necessarily map on a one-to-one relationship.  As an example, receiving a <a href="#events-event-keydown">keydown</a> for the "Accept" key identifier does not necessarily imply that the text currently selected in the IME is being accepted, but indicates only that a keystroke happened, disconnected from the IME Accept functionality (which would normally result in a <code>"compositionend"</code> event in most IME systems).  Keyboard events cannot be used to determine the current state of the input method editor, which should be obtained through the <a href="#events-Events-CompositionEvent-data"><code>data</code></a> attribute of the <a href="#events-Events-CompositionEvents-Interfaces">CompositionEvent</a> interface.  Additionally, IME systems and devices vary in their functionality, and which keys are used for selecting that functionality, so the <code>"Convert"</code> and <code>"Accept"</code> keys may be represented by other available keys.</p>  
+          <p>This specification includes a model for <a href="#glossary-dt-ime">input method editors (IMEs)</a>, through the <a href="#events-Events-CompositionEvents-Interfaces">CompositionEvent</a> interface and events.  However, composition events and keyboard events do not necessarily map as a one-to-one relationship.  As an example, receiving a <a href="#events-event-keydown">keydown</a> for the "Accept" key identifier does not necessarily imply that the text currently selected in the IME is being accepted, but indicates only that a keystroke happened, disconnected from the IME Accept functionality (which would normally result in a <code>"compositionend"</code> event in most IME systems).  Keyboard events cannot be used to determine the current state of the input method editor, which should be obtained through the <a href="#events-Events-CompositionEvent-data"><code>data</code></a> attribute of the <a href="#events-Events-CompositionEvents-Interfaces">CompositionEvent</a> interface.  Additionally, IME systems and devices vary in their functionality, and in which keys are used for activating that functionality, such that the <code>"Convert"</code> and <code>"Accept"</code> keys may be represented by other available keys.</p>  
           <p>Keyboard events correspond to the events generated by the input device after the keyboard layout mapping but before the processing of the input method editor.</p>
           <p>The following example describes a possible sequence of keys to generate the Unicode character &#24066; (Kanji character, part of CJK Unified Ideographs) using Japanese input methods. This example assumes that the input method editor is activated and in the Japanese-Romaji input mode. The keys <code>"Convert"</code> and <code>"Accept"</code> may be replaced by others depending on the input device in use and the configuration of the IME, e.g. it could be respectively "U+0020" (Space key) and "Enter".</p>
           <ol>
@@ -5465,26 +5483,13 @@ Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a
             <li><code>"keyup"</code>: <code>"Cancel"</code></li>
           </ol>
 
-          <p>NOTE: Some <a href="#glossary-dt-ime">input method editors</a> (such as on the MacOS operating system) may set an empty string to the composition node before canceling a composition.</p>
+          <p>NOTE: Some <a href="#glossary-dt-ime">input method editors</a> (such as on the MacOS operating system) may set an empty string to the composition data attribute before canceling a composition.</p>
         </div>
         
-        <div class="div3">
-          <h3 id="keyset-handwriting" class="adiv3">A.1.4 Handwriting Recognition Systems</h3>
-
-          <p>The following example describes a possible sequence of events when composing a text passage "text" with a handwriting recognition system, such as on a pen tablet.</p>
-	        <p class="issue">@@ needs more investigation, particularly with regard to pen-tablet events.</p>
-          <ol>
-            <li><code>"compositionstart"</code>: <code>""</code></li>
-            <li><code>"compositionupdate"</code>: <code>"test"</code> <span class="issue">@@ what's going on here? is there a "reject" option that's being exemplified?</span></li>         
-            <li><code>"compositionupdate"</code>: <code>"text"</code></li>            
-            <li><code>"compositionend"</code>: <code>"text"</code></li>
-            <li><code>"textInput"</code>: <code>"text"</code> (<code>"inputMode"</code>: <code>"DOM_INPUT_METHOD_HANDWRITING"</code>)</li>
-          </ol>
-        </div>
 
         <!-- div3 IME -->
         <div class="div3">
-          <h3 id="keyset-cancelable_keys" class="adiv3">A.1.5 Default actions and cancelable keyboard events</h3>
+          <h3 id="keyset-cancelable_keys" class="adiv3">A.1.4 Default actions and cancelable keyboard events</h3>
           <p>Canceling the <a href="#glossary-dt-default-action">default action</a> of a <a href="#events-event-keydown">keydown</a> event does not affect its respective <a href="#events-event-keyup">keyup</a> event; it must however prevent the respective <a href="#events-event-textInput">textInput</a> event from being generated. The following example describes a possible sequence of keys to generate the Unicode character Q (Latin Capital Letter Q) on a PC/AT US keyboard using a US mapping:</p>
           <ol>
             <li><code>"keydown"</code>: <code>"U+0051"</code> (Latin Capital Letter Q key), shiftKey<br/>
@@ -5513,7 +5518,7 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
         </div>
         <!-- div3 cancelable_keys -->
         <div class="div3">
-          <h3 id="keyset-Guide" class="adiv3">A.1.6 Guidelines for defining key identifiers</h3>
+          <h3 id="keyset-Guide" class="adiv3">A.1.5 Guidelines for defining key identifiers</h3>
           <!-- <div class="atrisk">
       <p class="issue">This section is the original guideline.  We are considering making a more detailed, normative guideline, below.</p>
       <p><strong>Note:</strong> This section is non-normative.</p>
