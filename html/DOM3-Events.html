@@ -272,22 +272,27 @@
         <ul class="toc">
           <li><a href="#extending_events-intro">A.1 Introduction</a></li>
           <li><a href="#extending_events-Custom_Events">A.2 Custom Events</a></li>
-          <li><a href="#extending_events-Vendor_Extensions">A.3 Vendor Extensions</a></li>
-        </ul>
-      </li>
-      <li><a href="#changes-Changes">Appendix B: Changes</a>
-        <ul class="toc">
-          <li><a href="#changes-DOMEvents2to3Changes">B.1 Changes between DOM Level 2 Events and DOM Level 3 Events</a>
+          <li><a href="#extending_events-Namespaced_Events">A.3 Namespaced Events</a>
             <ul class="toc">
-              <li><a href="#changes-DOMEvents2to3Changes-flow">B.1.1 Changes to DOM Level 2 event flow</a></li>
-              <li><a href="#changes-DOMEvents2to3Changes-event-types">B.1.2 Changes to DOM Level 2 event types</a></li>
-              <li><a href="#changes-DOMLevel2to3Changes">B.1.3 Changes to DOM Level 2 Events interfaces</a></li>
-              <li><a href="#changes-DOMLevel3Addons">B.1.4 New Interfaces</a></li>
+              <li><a href="#extending_events-Legacy_Events">A.3.1 Legacy Events</a></li>
+              <li><a href="#extending_events-Vendor_Extensions">A.3.2 Vendor Extensions</a></li>
             </ul>
           </li>
         </ul>
       </li>
-      <li><a href="#security-considerations-Security">Appendix C: Security Considerations</a></li>
+      <li><a href="#security-considerations-Security">Appendix B: Security Considerations</a></li>
+      <li><a href="#changes-Changes">Appendix C: Changes</a>
+        <ul class="toc">
+          <li><a href="#changes-DOMEvents2to3Changes">C.1 Changes between DOM Level 2 Events and DOM Level 3 Events</a>
+            <ul class="toc">
+              <li><a href="#changes-DOMEvents2to3Changes-flow">C.1.1 Changes to DOM Level 2 event flow</a></li>
+              <li><a href="#changes-DOMEvents2to3Changes-event-types">C.1.2 Changes to DOM Level 2 event types</a></li>
+              <li><a href="#changes-DOMLevel2to3Changes">C.1.3 Changes to DOM Level 2 Events interfaces</a></li>
+              <li><a href="#changes-DOMLevel3Addons">C.1.4 New Interfaces</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
       <li><a href="#idl-definitions-idl">Appendix D: IDL Definitions</a>
         <!-- <ul class="toc">
           <li><a href="#idl-definitions-idl-events.idl"></a><a href="idl/events.idl">events.idl</a></li>
@@ -6663,14 +6668,27 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
     <!-- div1 Events -->
 
 
+
     <div class="div1">
-      <h1 id="changes-Changes" class="adiv1">Appendix B: Changes</h1>
+      <h1 id="security-considerations-Security" class="adiv1">Appendix B: Security Considerations</h1>
+      <p class="1st">This appendix discusses security considerations for DOM Level 3 Events implementations. The discussion is limited to security issues that arise directly from implementation of the event model, APIs and events defined in this specification. Implementations typically support other features like scripting languages, other APIs and additional events not defined in this document; these features constitute an unknown factor and are out of scope of this document. Implementers should consult the specifications of such features for their respective security considerations.</p>
+      <p>Many of the event types defined in this specification are dispatched in response to user actions. This allows malicious event listeners to gain access to information users would typically consider confidential, e.g., typos they might have made when filling out a form, if they reconsider their answer to a multiple choice question shortly before submitting a form, their typing rate or primary input mechanism. In the worst case, malicious event listeners are able to capture all user interactions and submit them to a third party through means, while not defined in DOM Level 3 Events, generally available in DOM implementations, such as the XMLHttpRequest interface.</p>
+      <p>In DOM implementations that support facilities to load external data, events like the <code>error</code> event can provide access to sensitive information about the environment of the computer system or network; an example would be a malicious HTML document that attempts to embed a resource on the local network or the localhost on different ports; an embedded DOM application could then listen for <code>error</code> and <code>load</code> events to determine which other computers in a network are accessible from the local system or which ports are open on the system to prepare further attacks.</p>
+      <p>An implementation of DOM Level 3 Events alone is generally insufficient to perform attacks of this kind and the security considerations of the facilities that possibly support such attacks apply. For conformance with this specification, DOM implementations may take reasonable steps to ensure that DOM applications do not get access to confidential or sensitive information, for example, they may choose to dispatch no <code>load</code> events to nodes that attempt to embed resources on the local network.</p>
+      <p>The <a href="#events-Events-DocumentEvent-canDispatch"><code>DocumentEvent.canDispatch()</code></a> method allows DOM applications to retrieve information about which event types the implementation supports, including event types not defined in this specification. Which event types a DOM Level 3 Events implementation supports can depend on configuration settings or on additional software modules available to the implementation.</p>
+    </div>
+    <!-- div1 Security -->
+
+
+
+    <div class="div1">
+      <h1 id="changes-Changes" class="adiv1">Appendix C: Changes</h1>
       <div class="div2">
-        <h2 id="changes-DOMEvents2to3Changes" class="adiv2">B.1 Changes between DOM Level 2 Events and DOM Level 3 Events</h2>
+        <h2 id="changes-DOMEvents2to3Changes" class="adiv2">C.1 Changes between DOM Level 2 Events and DOM Level 3 Events</h2>
         <p>Numerous clarifications to the interfaces and event types have been made. The <code>HTMLEvents</code> module is no longer defined in this document. The event types <code>focus</code> and <code>blur</code> have been added to the <a href="#events-Events-UIEvent"><code>UIEvents</code></a> module, the event type <code>dblclick</code> has been added to the <a href="#events-Events-MouseEvent"><code>MouseEvents</code></a> module. This new specification provides a better separation between the DOM event flow, the event types, and the DOM interfaces.</p>
         <p>This specification has been reordered significantly from the earlier W3C Note form, and from the structure of DOM2 Events, in order to clarify the material.  New diagrams have been put in place to represent hierarchies and events flows more clearly.</p>
         <div class="div3">
-          <h3 id="changes-DOMEvents2to3Changes-flow" class="adiv3">B.1.1 Changes to DOM Level 2 event flow</h3>
+          <h3 id="changes-DOMEvents2to3Changes-flow" class="adiv3">C.1.1 Changes to DOM Level 2 event flow</h3>
           <p>This new specification introduced the following new concepts in the event flow:</p>
           <ul>
             <li>ordering of event listeners: event listeners are now ordered while ordering was unspecified in DOM Level 2 Events.</li>
@@ -6679,13 +6697,13 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
         </div>
         <!-- div3 DOMEvents2to3Changes-flow -->
         <div class="div3">
-          <h3 class="adiv3" id="changes-DOMEvents2to3Changes-event-types">B.1.2 Changes to DOM Level 2 event types</h3>
+          <h3 class="adiv3" id="changes-DOMEvents2to3Changes-event-types">C.1.2 Changes to DOM Level 2 event types</h3>
           <p>Lots of clarifications have been made on the event types. The conformance is now explicitly defined against the event types, and not only in terms of interfaces required by the event types. Support for namespaces and the features <code>"BasicEvents"</code>, <code>"TextEvents"</code>, <code>"KeyboardEvents"</code>, and <code>"MutationNameEvents"</code> have been introduced.</p>
           <p>In the most recent drafts of this specification, <code>"MutationEvents"</code> and <code>"MutationNameEvents"</code> have been deprecated.</p>
         </div>
         <!-- div3 DOMEvents2to3Changes-event-types -->
         <div class="div3">
-          <h3 id="changes-DOMLevel2to3Changes" class="adiv3">B.1.3 Changes to DOM Level 2 Events interfaces</h3>
+          <h3 id="changes-DOMLevel2to3Changes" class="adiv3">C.1.3 Changes to DOM Level 2 Events interfaces</h3>
           <dl>
             <dt>Interface <a href="#events-Events-Event"><code>Event</code></a></dt>
             <dd>The <a href="#events-Events-Event"><code>Event</code></a> interface has two new attributes <a href="#events-Events-Event-namespaceURI"><code>Event.namespaceURI</code></a> and <a href="#events-Events-Event-defaultPrevented"><code>Event.defaultPrevented</code></a>, and two new methods: <a href="#events-Events-Event-stopImmediatePropagation"><code>Event.stopImmediatePropagation()</code></a>, <a href="#events-Events-Event-initEventNS"><code>Event.initEventNS()</code></a>.<br/>
@@ -6707,7 +6725,7 @@ DOM Level 3 Events considers the <a href="#events-Events-Event-type"><code>Event
         </div>
         <!-- div3 DOMLevel2to3Changes -->
         <div class="div3">
-          <h3 id="changes-DOMLevel3Addons" class="adiv3">B.1.4 New Interfaces</h3>
+          <h3 id="changes-DOMLevel3Addons" class="adiv3">C.1.4 New Interfaces</h3>
           <p>The interfaces <a href="#events-Events-CustomEvent"><code>CustomEvent</code></a>, <a href="#events-Events-TextEvent"><code>TextEvent</code></a>, <a href="#events-Events-KeyboardEvent"><code>KeyboardEvent</code></a>, <a href="#events-Events-CompositionEvent"><code>CompositionEvent</code></a>, <a href="#events-Events-MutationNameEvent"><code>MutationNameEvent</code></a>, <a href="#events-Events-WheelEvent"><code>WheelEvent</code></a>, and <a href="#events-Events-MouseWheelEvent"><code>MouseWheelEvent</code></a> were added to the Events module.</p>
         </div>
         <!-- div3 DOMLevel3Addons -->
@@ -6715,16 +6733,6 @@ DOM Level 3 Events considers the <a href="#events-Events-Event-type"><code>Event
       <!-- div2 DOMEvents2to3Changes -->
     </div>
     <!-- div1 Changes -->
-
-    <div class="div1">
-      <h1 id="security-considerations-Security" class="adiv1">Appendix C: Security Considerations</h1>
-      <p class="1st">This appendix discusses security considerations for DOM Level 3 Events implementations. The discussion is limited to security issues that arise directly from implementation of the event model, APIs and events defined in this specification. Implementations typically support other features like scripting languages, other APIs and additional events not defined in this document; these features constitute an unknown factor and are out of scope of this document. Implementers should consult the specifications of such features for their respective security considerations.</p>
-      <p>Many of the event types defined in this specification are dispatched in response to user actions. This allows malicious event listeners to gain access to information users would typically consider confidential, e.g., typos they might have made when filling out a form, if they reconsider their answer to a multiple choice question shortly before submitting a form, their typing rate or primary input mechanism. In the worst case, malicious event listeners are able to capture all user interactions and submit them to a third party through means, while not defined in DOM Level 3 Events, generally available in DOM implementations, such as the XMLHttpRequest interface.</p>
-      <p>In DOM implementations that support facilities to load external data, events like the <code>error</code> event can provide access to sensitive information about the environment of the computer system or network; an example would be a malicious HTML document that attempts to embed a resource on the local network or the localhost on different ports; an embedded DOM application could then listen for <code>error</code> and <code>load</code> events to determine which other computers in a network are accessible from the local system or which ports are open on the system to prepare further attacks.</p>
-      <p>An implementation of DOM Level 3 Events alone is generally insufficient to perform attacks of this kind and the security considerations of the facilities that possibly support such attacks apply. For conformance with this specification, DOM implementations may take reasonable steps to ensure that DOM applications do not get access to confidential or sensitive information, for example, they may choose to dispatch no <code>load</code> events to nodes that attempt to embed resources on the local network.</p>
-      <p>The <a href="#events-Events-DocumentEvent-canDispatch"><code>DocumentEvent.canDispatch()</code></a> method allows DOM applications to retrieve information about which event types the implementation supports, including event types not defined in this specification. Which event types a DOM Level 3 Events implementation supports can depend on configuration settings or on additional software modules available to the implementation.</p>
-    </div>
-    <!-- div1 Security -->
 
 
     <div class="div1">
