@@ -24,8 +24,9 @@
           color:green;
       }
       .example {
-          border:2px double gray;
-          padding-left: 2em;
+          border:1px solid #ffa500;
+          background-color:#fffacd;
+          padding: 1em;
       }
 
       .atrisk {
@@ -245,26 +246,33 @@
           </li>
         </ul>
       </li>
-      <li><a href="#keyset-KeySet">Appendix A: Keyboard events and key identifiers</a>
+      <li><a href="#keyset-KeySet">6: Keyboard events and key identifiers</a>
         <ul class="toc">
-          <li><a href="#keyset-KeySet-intro">A.1 Introduction</a>
+          <li><a href="#keyset-KeySet-intro">6.1 Introduction</a>
             <ul class="toc">
-              <li><a href="#keyset-Modifiers">A.1.1 Modifier keys</a></li>
-              <li><a href="#keyset-DeadKeys">A.1.2 Dead keys</a></li>
-              <li><a href="#keyset-IME">A.1.3 Input Method Editors</a>
+              <li><a href="#keyset-Modifiers">6.1.1 Modifier keys</a></li>
+              <li><a href="#keyset-DeadKeys">6.1.2 Dead keys</a></li>
+              <li><a href="#keyset-IME">6.1.3 Input Method Editors</a>
                 <ul class="toc">
-                  <li><a href="#keyset-IME_keys">A.1.3.1 Input Method Editor mode keys</a></li>
+                  <li><a href="#keyset-IME_keys">6.1.3.1 Input Method Editor mode keys</a></li>
                 </ul>
               </li>
-              <li><a href="#keyset-cancelable_keys">A.1.4 Default actions and cancelable keyboard events</a></li>
-              <li><a href="#keyset-Guide">A.1.5 Guidelines for defining key identifiers</a></li>
+              <li><a href="#keyset-cancelable_keys">6.1.4 Default actions and cancelable keyboard events</a></li>
+              <li><a href="#keyset-Guide">6.1.5 Guidelines for defining key identifiers</a></li>
             </ul>
           </li>
-          <li><a href="#keyset-KeySet-Set">A.2 Key identifiers set</a>
+          <li><a href="#keyset-KeySet-Set">6.2 Key identifiers set</a>
             <ul class="toc">
-              <li><a href="#keyset-KeySet-Set-keyCode-charCode">A.2.1 Key identifiers, keyCode, and charCode</a></li>
+              <li><a href="#keyset-KeySet-Set-keyCode-charCode">6.2.1 Key identifiers, keyCode, and charCode</a></li>
             </ul>
           </li>
+        </ul>
+      </li>
+      <li><a href="#extending_events">Appendix A: Extending Events</a>
+        <ul class="toc">
+          <li><a href="#extending_events-intro">A.1 Introduction</a></li>
+          <li><a href="#extending_events-Custom_Events">A.2 Custom Events</a></li>
+          <li><a href="#extending_events-Vendor_Extensions">A.3 Vendor Extensions</a></li>
         </ul>
       </li>
       <li><a href="#changes-Changes">Appendix B: Changes</a>
@@ -326,7 +334,7 @@
       <!-- div1 glossary -->
       <div class="div1" id="glossary-glossary">
         <h1 id="glossary-role-glossary" class="glossary">2. Glossary</h1>
-        <p class="first">Some of the following term definitions have been borrowed or modified from similar definitions in other W3C or standards documents. See the links within the definitions for more information.</p>
+        <p class="1st">Some of the following term definitions have been borrowed or modified from similar definitions in other W3C or standards documents. See the links within the definitions for more information.</p>
         <dl id="glossary-list">
           <dt id="glossary-dt-activation-behavior">activation behavior</dt>
           	<dd>The action taken when an <a href="#glossary-dt-event">event</a>, typically initiated by users through an input device, causes an element to fulfill a defined role.  The role may be defined for that element by the host language, or by author-defined variables, or both.  The role for any given element may be a generic action, or may be unique to that element.  For example, the activation behavior of an HTML or SVG <code>&lt;a&gt;</code> element shall be to cause the user agent to traverse the link specified in the <code>href</code> attribute, with the further optional parameter of specifying the browsing context for the traversal (such as the current window or tab, a named window, or a new window); the activation behavior of an HTML <code>&lt;input&gt;</code> element with the <code>type</code> attribute value <code>submit</code> shall be to send the values of the form elements to an author-defined IRI by the author-defined HTTP method.</dd>
@@ -372,7 +380,7 @@
 
         <dt id="glossary-dt-ime">IME</dt>
         <dt id="glossary-dt-input-method-editor">input method editor</dt>
-        <dd>An <em>input method editor</em> (IME), also known as a <em>front end processor</em>, is an application that performs the conversion between keystrokes and ideographs or other characters, usually by user-guided dictionary lookup, often used in East Asian languages (e.g. Chinese, Japanese, Korean).  An IME may also be used for dictionary-based word completion, such as on mobile devices.  See <a href="#keyset-IME">Input Method Editors</a> in Appendix A for treatment of IMEs in this specification.  See also <a href="#glossary-dt-text-composition-system">text composition system</a>.</dd>
+        <dd>An <em>input method editor</em> (IME), also known as a <em>front end processor</em>, is an application that performs the conversion between keystrokes and ideographs or other characters, usually by user-guided dictionary lookup, often used in East Asian languages (e.g. Chinese, Japanese, Korean).  An IME may also be used for dictionary-based word completion, such as on mobile devices.  See <a href="#keyset-IME">Input Method Editors</a> for treatment of IMEs in this specification.  See also <a href="#glossary-dt-text-composition-system">text composition system</a>.</dd>
 
         <dt id="glossary-dt-localname">local name</dt>
         <dd>See local name in [<cite><a class="noxref informative" href="#references-Namespaces11">XML Namespaces 1.1</a></cite>].</dd>
@@ -929,7 +937,7 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                     </code>
                   </dt>
                   <dd>
-                    <div class="method">Registers an event listener, depending on the <code>useCapture</code> parameter, on the capture phase of the DOM event flow or its target and bubbling phases. Invoking this method shall be equivalent to invoking <code>addEventListenerNS</code> with the same values for the parameters <code>type</code>, <code>listener</code>, and <code>useCapture</code>, and the value <code>null</code> for the parameter <code>namespaceURI</code>.
+                    <div class="method">Registers an event listener, depending on the <code>useCapture</code> parameter, on the capture phase of the DOM event flow or its target and bubbling phases. Invoking this method shall be equivalent to invoking <code>addEventListenerNS</code> with the same values for the parameters <code>type</code>, <code>listener</code>, and <code>useCapture</code>, and the value <code>null</code> for the parameter <code>namespaceURI</code>.  When this method is used to register an event listener, implementations may also dispatch events with the same <code>type</code> in other namespaces, for purposes of extensibility (e.g. this method may be used to dispatch <code>foo</code> event for the <code>null</code> namespace, or for a vendor-specific namespace); see <a href="#extending_events">Appendix A: Extending Events</a> for more details.
 <div class="parameters">
                         <strong>Parameters</strong>
                         <div class="paramtable">
@@ -3805,7 +3813,7 @@ An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus s
         <div class="div3">
           <h3 class="div3" id="events-Events-TextEvents-Interfaces">5.2.6 Text Events Types</h3>
           <p>This module defines the feature TextEvents 3.0 and depends on the feature UIEvents 3.0.</p>
-          <p>The text event module originates from the [<cite><a class="noxref informative" href="#references-HTML40">HTML 4.01</a></cite>] <code>onkeypress</code> attribute. Unlike this attribute, the event type <a href="#events-event-textInput">textInput</a> applies only to characters and is designed for use with any text input devices, not just keyboards. Refer to Appendix A, "<a href="#keyset-KeySet">Keyboard events and key identifiers</a>", for examples on how text events are used in combination with keyboard events.</p>
+          <p>The text event module originates from the [<cite><a class="noxref informative" href="#references-HTML40">HTML 4.01</a></cite>] <code>onkeypress</code> attribute. Unlike this attribute, the event type <a href="#events-event-textInput">textInput</a> applies only to characters and is designed for use with any text input devices, not just keyboards. Refer to <a href="#keyset-KeySet">Keyboard events and key identifiers</a> for examples on how text events are used in combination with keyboard events.</p>
           <dl>
             <dt><strong>Interface <em>
                   <a id="events-Events-TextEvent">TextEvent</a>
@@ -4065,7 +4073,7 @@ One or more characters have been entered. The characters can originate from a va
           <h3 id="events-Events-KeyboardEvents-Interfaces" class="div3">5.2.7 Keyboard Event Types</h3>
 
           <p>This module defines the feature KeyboardEvents 3.0 and depends on the feature UIEvents 3.0.</p>
-          <p>Keyboard events are device dependent, i.e. they rely on the capabilities of the input devices and how they are mapped in the operating systems. It is therefore highly recommended to rely on <a href="#events-Events-TextEvent">Text events types</a> when dealing with character input.  Refer to Appendix A, "<a href="#keyset-KeySet">Keyboard events and key identifiers</a>", for more details, including examples on how Keyboard Events are used in combination with Composition Events.</p>
+          <p>Keyboard events are device dependent, i.e. they rely on the capabilities of the input devices and how they are mapped in the operating systems. It is therefore highly recommended to rely on <a href="#events-Events-TextEvent">Text events types</a> when dealing with character input.  Refer to <a href="#keyset-KeySet">Keyboard events and key identifiers</a> for more details, including examples on how Keyboard Events are used in combination with Composition Events.</p>
           <dl>
             <dt><strong>Interface <em>
                   <a id="events-Events-KeyboardEvent">KeyboardEvent</a>
@@ -4169,7 +4177,7 @@ interface <a class="noxref" href="#events-Events-KeyboardEvent">KeyboardEvent</a
                     <dt><code class="attribute-name">
                         <a id="events-Events-KeyboardEvent-keyIdentifier">keyIdentifier</a>
                       </code> of type <code>DOMString</code>, readonly</dt>
-                    <dd><code>keyIdentifier</code> holds the identifier of the key. The key identifiers are defined in Appendix A.2 "<a href="#keyset-KeySet-Set">Key identifiers set</a>". Implementations that are unable to identify a key must use the key identifier <code>"Unidentified"</code>.<br/></dd>
+                    <dd><code>keyIdentifier</code> holds the identifier of the key. The key identifiers are defined in <a href="#keyset-KeySet-Set">Key identifiers set</a>. Implementations that are unable to identify a key must use the key identifier <code>"Unidentified"</code>.<br/></dd>
                     <dt><code class="attribute-name">
                         <a id="events-Events-KeyboardEvent-keylocation">keyLocation</a>
                       </code> of type <code>unsigned long</code>, readonly</dt>
@@ -4411,7 +4419,7 @@ A key is released. This event type is device dependent and relies on the capabil
         <div class="div3">
           <h3 class="div3" id="events-Events-CompositionEvents-Interfaces">5.2.8 Composition Events Types</h3>
           <p>This module defines the feature CompositionEvents 3.0 and depends on the feature UIEvents 3.0.</p>
-          <p>Composition Events provide a means for inputing text in a supplementary or alternate manner than by Keyboard Events, in order to allow the use of characters that may not be commonly available on keyboard. For examples, Composition events may be used to add accents to characters despite their absence from standard US keyboards, to build up logograms of many Asian languages from their base components or categories, to select word choices from a combination of key presses on a mobile device keyboard, or to convert voice commands into text using a speech recognition processor.  Refer to Appendix A, "<a href="#keyset-KeySet">Keyboard events and key identifiers</a>", for examples on how Composition Events are used in combination with keyboard events.</p>
+          <p>Composition Events provide a means for inputing text in a supplementary or alternate manner than by Keyboard Events, in order to allow the use of characters that may not be commonly available on keyboard. For examples, Composition events may be used to add accents to characters despite their absence from standard US keyboards, to build up logograms of many Asian languages from their base components or categories, to select word choices from a combination of key presses on a mobile device keyboard, or to convert voice commands into text using a speech recognition processor.  Refer to <a href="#keyset-KeySet">Keyboard events and key identifiers</a> for examples on how Composition Events are used in combination with keyboard events.</p>
           <p>Conceptually, a composition session consists of one <a href="#events-event-compositionstart">compositionstart</a> event, one or more <a href="#events-event-compositionupdate">compositionupdate</a> events, and one <a href="#events-event-compositionend">compositionend</a> event, with the value of the <a id="events-Events-CompositionEvent-data">data</a> attribute persisting between each "stage" of this event chain during each session.</p>
           <p>Not all IME systems or devices expose the necessary data to the DOM, so the active composition string (the "Reading Window" or "candidate selection menu option") may not be available through this interface, in which case the selection may be represented by the empty string.</p>
           <dl>
@@ -5418,18 +5426,19 @@ Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a
 
 
 
-    <div class="div1">
-      <h1 id="keyset-KeySet" class="adiv1">Appendix A: Keyboard events and key identifiers</h1>
-       <p>This section contains necessary information regarding keyboard events:</p>
-      <ul>
+
+      <div class="div1">
+        <h1 id="keyset-KeySet" class="adiv1">6. Keyboard events and key identifiers</h1>
+        <p>This section contains necessary information regarding keyboard events:</p>
+        <ul>
         <li>Relations between keys, such as dead keys or modifiers keys.</li>
         <li>Relations between keyboard events, their default actions, and text events.</li>
         <li>The set of key identifiers, and guidelines on how to extend this set.</li>
       </ul>
       <p><strong>Note:</strong> This section uses serbian and kanji characters which are not always available (or are misrepresented) in the alternative versions or printed versions of this specification.</p>
       <div class="div2">
-        <h2 id="keyset-KeySet-intro" class="adiv2">A.1 Introduction</h2>
-        <p class="first">Each keyboard event references a key using a <code>DOMString</code> key identifier. The set contained in this appendix is based on the sets of keycodes from:</p>
+        <h2 id="keyset-KeySet-intro" class="adiv2">6.1 Introduction</h2>
+        <p class="1st">Each keyboard event references a key using a <code>DOMString</code> key identifier. The set contained in this appendix is based on the sets of keycodes from:</p>
         <ul>
           <li>the interface <code>java.awt.event.KeyEvent</code> of the Java 2 Platform v1.4 [<cite><a class="noxref informative" href="#references-KeyEvent">KeyEvent for Java</a></cite>];</li>
           <li>the enumeration <code>System.Windows.Forms.Keys</code> of the Microsoft .NET Framework 1.0 [<cite><a class="noxref informative" href="#references-Keys">Keys enumeration for .Net</a></cite>].</li>
@@ -5514,7 +5523,7 @@ Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a
         </ol>
         <p><strong>Note:</strong> The order between the text event and keyboard events may differ depending on the keyboard devices.</p>
         <div class="div3">
-          <h3 id="keyset-Modifiers" class="adiv3">A.1.1 Modifier keys</h3>
+          <h3 id="keyset-Modifiers" class="adiv3">6.1.1 Modifier keys</h3>
           <p>Keyboard input uses modifier keys to change the normal behavior of a key. Keys associated with modifiers generate, like other keys, <a href="#events-event-keydown">keydown</a> and <a href="#events-event-keyup">keyup</a> events as shown in the example below. Some modifiers are activated while the key is being pressed down or maintained pressed such as <code>"Alt"</code>, <code>"Control"</code>, <code>"Shift"</code>, <code>"AltGraph"</code>, or <code>"Meta"</code>. Others modifiers are activated depending on their state such as <code>"CapsLock"</code>, <code>"NumLock"</code>, or <code>"Scroll"</code>. Change in the state happens when the modifier key is being pressed down. The <a href="#events-Events-KeyboardEvent"><code>KeyboardEvent</code></a> interface provides convenient attributes for some common modifiers keys: <a href="#events-Events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, <a href="#events-Events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-Events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-Events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a>. Some operating systems simulate the <code>"AltGraph"</code> modifier key with the combination of the <code>"Alt</code> and <code>"Control"</code> modifier keys. Implementations are encouraged to use the <code>"AltGraph"</code> modifier key.</p>
           <p>The following example describes a possible sequence of keys to generate the Unicode character Q (Latin Capital Letter Q) on a PC/AT US keyboard using a US mapping:</p>
           <ol>
@@ -5535,7 +5544,7 @@ Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a
         
         <!-- div3 Modifiers -->
         <div class="div3">
-          <h3 id="keyset-DeadKeys" class="adiv3">A.1.2 Dead keys</h3>
+          <h3 id="keyset-DeadKeys" class="adiv3">6.1.2 Dead keys</h3>
           <p>Some keyboard input uses dead keys for the input of composed character sequences. Unlike the handwriting sequence, in which users enter the base character first, keyboard input requires to enter a special state when a dead key is pressed and emit the character(s) only when one of a limited number of "legal" base character is entered.  (NOTE: the MacOS and Linux operating systems use input methods to process dead keys.)
           </p>
           <p>The dead keys are represented in the key identifiers set using combining diacritical marks. The sequence of keystrokes "U+0302" (Combining Circumflex Accent key) and "U+0045" (Latin Capital Letter E key) will likely produce (on a PC/AT french keyboard using a french mapping and without any modifier activated) the Unicode character &#234; (Latin Small Letter E With Circumflex), as preferred by the Unicode Normalization Form <em>NFC</em>:</p>
@@ -5567,7 +5576,7 @@ Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a
 
         <!-- div3 DeadKeys -->
         <div class="div3">
-          <h3 id="keyset-IME" class="adiv3">A.1.3 Input Method Editors</h3>
+          <h3 id="keyset-IME" class="adiv3">6.1.3 Input Method Editors</h3>
           	      
           <p>This specification includes a model for <a href="#glossary-dt-ime">input method editors (IMEs)</a>, through the <a href="#events-Events-CompositionEvents-Interfaces">CompositionEvent</a> interface and events.  However, composition events and keyboard events do not necessarily map as a one-to-one relationship.  As an example, receiving a <a href="#events-event-keydown">keydown</a> for the "Accept" key identifier does not necessarily imply that the text currently selected in the IME is being accepted, but indicates only that a keystroke happened, disconnected from the IME Accept functionality (which would normally result in a <code>"compositionend"</code> event in most IME systems).  Keyboard events cannot be used to determine the current state of the input method editor, which should be obtained through the <a href="#events-Events-CompositionEvent-data"><code>data</code></a> attribute of the <a href="#events-Events-CompositionEvents-Interfaces">CompositionEvent</a> interface.  Additionally, IME systems and devices vary in their functionality, and in which keys are used for activating that functionality, such that the <code>"Convert"</code> and <code>"Accept"</code> keys may be represented by other available keys.</p>  
           <p>Keyboard events correspond to the events generated by the input device after the keyboard layout mapping but before the processing of the input method editor.</p>
@@ -5611,7 +5620,7 @@ Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a
 
           <p>NOTE: Some <a href="#glossary-dt-ime">input method editors</a> (such as on the MacOS operating system) may set an empty string to the composition data attribute before canceling a composition.</p>
 
-          <h4 id="keyset-IME_keys" class="adiv4">A.1.3.1 Input Method Editor mode keys</h4>
+          <h4 id="keyset-IME_keys" class="adiv4">6.1.3.1 Input Method Editor mode keys</h4>
           <p>Some keys on certain devices are intended to activate <a href="#glossary-dt-ime">input method editor</a> functionality, or to change the mode of an active <a href="#glossary-dt-ime">input method editor</a>.  Custom keys for this purpose may be defined for different devices or language modes; the keys defined in this specification for this purpose are: <code>Alphanumeric</code>, <code>CodeInput</code>, <code>FinalMode</code>, <code>HangulMode</code>, <code>HanjaMode</code>, <code>Hiragana</code>, <code>JapaneseHiragana</code>, <code>JapaneseKatakana</code>, <code>JapaneseRomaji</code>, <code>JunjaMode</code>, <code>KanaMode</code>, <code>KanjiMode</code>, <code>Katakana</code>, and <code>RomanCharacters</code>.  When one of these keys is pressed, and no <a href="#glossary-dt-ime">IME</a> is currently active, the appropriate <a href="#glossary-dt-ime">IME</a>, shall be activated in the mode indicated by the key (if available); if an <a href="#glossary-dt-ime">IME</a> is already active when the key is pressed, the active <a href="#glossary-dt-ime">IME</a> may change to the indicated mode, or a different <a href="#glossary-dt-ime">IME</a> may be launched, or the key may be ignored, on a device- and application-specific basis.</p>
           
           <p>This specification also defines other keys which are intended for operation specifically with <a href="#glossary-dt-ime">input method editors</a>: <code>Accept</code>, <code>AllCandidates</code>, <code>Cancel</code>, <code>Convert</code>, <code>Compose</code>, <code>FullWidth</code>, <code>HalfWidth</code>, <code>NextCandidate</code>, <code>Nonconvert</code>, and <code>PreviousCandidate</code>.  The functions of these keys are not defined in this specification; refer to other resources for details on <a href="#glossary-dt-ime">input method editor</a> functionality.</p>
@@ -5623,7 +5632,7 @@ Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a
 
         <!-- div3 IME -->
         <div class="div3">
-          <h3 id="keyset-cancelable_keys" class="adiv3">A.1.4 Default actions and cancelable keyboard events</h3>
+          <h3 id="keyset-cancelable_keys" class="adiv3">6.1.4 Default actions and cancelable keyboard events</h3>
           <p>Canceling the <a href="#glossary-dt-default-action">default action</a> of a <a href="#events-event-keydown">keydown</a> event does not affect its respective <a href="#events-event-keyup">keyup</a> event; it must however prevent the respective <a href="#events-event-textInput">textInput</a> event from being generated. The following example describes a possible sequence of keys to generate the Unicode character Q (Latin Capital Letter Q) on a PC/AT US keyboard using a US mapping:</p>
           <ol>
             <li><code>"keydown"</code>: <code>"U+0051"</code> (Latin Capital Letter Q key), shiftKey<br/>
@@ -5652,7 +5661,7 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
         </div>
         <!-- div3 cancelable_keys -->
         <div class="div3">
-          <h3 id="keyset-Guide" class="adiv3">A.1.5 Guidelines for defining key identifiers</h3>
+          <h3 id="keyset-Guide" class="adiv3">6.1.5 Guidelines for defining key identifiers</h3>
           <!-- <div class="atrisk">
       <p class="issue">This section is the original guideline.  We are considering making a more detailed, normative guideline, below.</p>
       <p><strong>Note:</strong> This section is non-normative.</p>
@@ -5807,7 +5816,7 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
       </div>
       <!-- div2 KeySet-intro -->
       <div class="div2">
-        <h2 id="keyset-KeySet-Set" class="adiv2">A.2 Key identifiers set</h2>
+        <h2 id="keyset-KeySet-Set" class="adiv2">6.2 Key identifiers set</h2>
         <p><strong>Note:</strong> The keycodes <code>Multiply</code>, <code>Add</code>, <code>Substract</code>, <code>Decimal</code>, <code>Separator</code>, <code>Divide</code>, <code>NumPad0</code>, <code>NumPad1</code>, <code>NumPad2</code>, <code>NumPad3</code>, <code>NumPad4</code>, <code>NumPad5</code>, <code>NumPad6</code>, <code>NumPad7</code>, <code>NumPad8</code>, and <code>NumPad9</code> are not part of this set. Use <a href="#events-Events-KeyboardEvent-keylocation"><code>KeyboardEvent.keyLocation</code></a> to know if a key originated from the numeric keypad.</p>
         <dl>
           <dt><a id="keyset-key-Accept">"Accept"</a></dt>
@@ -6354,7 +6363,7 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
 
 
       <div>
-		<h2 id="keyset-KeySet-Set-keyCode-charCode" class="adiv2">A.2.1 Key identifiers, keyCode, and charCode</h2>
+		<h2 id="keyset-KeySet-Set-keyCode-charCode" class="adiv2">6.2.1 Key identifiers, keyCode, and charCode</h2>
 		<p><strong>Note:</strong> This section is non-normative.</p>
 		<p>Browser support for keyboards has traditionally relied on two ad-hoc attributes, <code class="attr-name">keyCode</code>, and <code class="attr-name">charCode</code>.  The values for these attributes, and the availability of the attribute, is inconsistent across platforms, keyboard languages and layouts, User Agents, versions, and even event types.  A significant amount of legacy content, including script libraries, relies upon detecting the User Agent and acting accordingly, and any changes to <code class="attr-name">keyCode</code>, or <code class="attr-name">charCode</code> risk breaking as much content as they fix or enable.  Additionally, these attributes are not suitable for international usage, or accessibility concerns.  Therefore, this specification does not normatively define the <code class="attr-name">keyCode</code>, and <code class="attr-name">charCode</code> attributes, relying instead only on the more robust key identifiers, which can be used safely and consistently in any User Agent which conforms to this specification.  However, for the purpose of documenting the current state of these attributes and their relation to equivalent key identifiers, this specification contains the following table, which is to be used as an informative reference only, and does not document the full range of values for <code class="attr-name">keyCode</code>, and <code class="attr-name">charCode</code>.</p>
 	    
@@ -6602,6 +6611,58 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
     </div>
     <!-- div1 KeySet -->
 
+
+
+    <div class="div1">
+      <h1 id="extending_events" class="adiv1">Appendix A: Extending Events</h1>
+      <p><em>This section is informative</em></p>
+
+      <h2 id="extending_events-intro" class="adiv2">A.1 Introduction</h2>
+      <p class="1st">This specification defines several interfaces and many events; however, this is not an exhaustive set of events for all purposes.  To allow authors and implementers to add desired functionality, this specification provides two mechanisms for extend this set of interfaces and events without creating conflicts: <a href="#extending_events-Custom_Events">custom events</a> and <a href="#extending_events-Namespaced_Events">namespaced events</a></p>
+
+      <h2 id="extending_events-Custom_Events" class="adiv2">A.2 Custom Events</h2>
+      <p>A script author may wish to define an application in terms of functional components, with event types that are meaningful to the application architecture.  The author can use the <a href="#events-Events-CustomEvent"><code>CustomEvent</code></a> interface to create their own events appropriate to the level of abstraction they are using.</p>
+
+      <div class="example">
+        <p>As an example, an author may have created an application which features a dynamically generated bar chart.  This bar chart is meant to be updated every 5 minutes, or when a feed shows new information, or when the user refreshes it manually by clicking a button.  There are several handlers that have to be called when the chart needs to be updated: the application must fetch the most recent data, show an icon to the user that the event is being updated, and rebuild the chart.  To manage this, the author can choose to create a custom "updateChart" event, which is fired whenever one of the trigger conditions is met:</p>
+        <code>
+          <pre>
+            var chartData = ...;
+            var evt = document.createEvent("CustomEvent");
+            evt.initCustomEventNS("http://example.org/charts",
+                                  "updateChart",
+                                  true, false, { data: chartData });
+            document.documentElement.dispatchEvent(evt);          
+          </pre>
+        </code>
+      </div>
+      
+
+
+      <h2 id="extending_events-Namespaced_Events" class="adiv2">A.3 Namespaced Events</h2>
+      <p>This specification introduces namespaces into the event model, in order to allow expansion of the set of events in a manner that doesn't introduce potential conflicts.</p>
+      
+      <h3 id="extending_events-Legacy_Events" class="adiv2">A.3.1 Legacy Events</h3>
+      <p>An existing implementation which is being adapted to work with the W3C DOM Events specifications may have an existing framework and set of proprietary events.  For backwards compatibility, it may be desirable that such an implementation keep these existing events, while providing the means for them to work within the DOM Events framework.  In this case, the implementer can simply assign their own vendor-specific namespace to these proprietary events.</p>
+      
+      <p>In some cases, these legacy events may conflict with other implementation-specific events with the same name, but different functionality.  Using the namespace-aware method <a href="#events-Events-EventTargetGroup-addEventListenerNS"><code>EventTarget.addEventListenerNS()</code></a>, an author can target that event specifically, with no risk of clashes.</p>
+      
+      <p>When there are no known conflicting events, or when such events have the same functionality, the author can simply use the non-namespace-aware method <a href="#events-Events-EventTargetGroup-addEventListener"><code>EventTarget.addEventListener()</code></a>, which can register events without regard to the namespace.</p>
+      
+      <p class="example">As an example, a particular browser vendor, "FooCorp", may have an event, "skip", which was implemented long ago, and which also works with another FooCorp product.  They need to keep this event for backwards compatibility with existing content for some of their clients, but since this event is very specific to their product lines, they don't anticipate that it will be of general use in competing browsers.  This vendor implements "skip" in their browser, using their namespace, <code>"http://example.com/foo/browser/events/"</code>.  Their event continues to work using their existing event registration system, and also works with W3C DOM Events methods, both <code>someElement.addEventListener( "skip", doSkip, false )</code> and <code>someElement.addEventListenerNS( "http://example.com/foo/browser/events/", "skip", doSkip, false )</code>.  Other browsers simply ignore this event, and legacy content continues to work in the FooCorp browser.</p>
+      
+
+      <h3 id="extending_events-Vendor_Extensions" class="adiv2">A.3.2 Vendor Extensions</h3>
+      <p>While a new event is being designed and prototyped, or when an event is intended for implementation-specific functionality, it is desirable to distinguish it from standardized events.  In CSS, the mechanism for doing this is to provide <a href="http://www.w3.org/TR/CSS21/syndata.html#vendor-keywords" title="Syntax and basic data types">vendor-specific keyword prefixes</a>; however, this has the unfortunate side-effect of forcing authors to maintain code that may be identical between vendors, but which nevertheless must retain the prefix.</p>
+      
+      <p>In DOM Events, by using namespaces for vendor-specific events, an author can choose either to target a particular snapshot of an implementation-specific event by using the namespace-aware method <a href="#events-Events-EventTargetGroup-addEventListenerNS"><code>EventTarget.addEventListenerNS()</code></a>, or to write code that assumes broader future implementation by using the non-namespace-aware method <a href="#events-Events-EventTargetGroup-addEventListener"><code>EventTarget.addEventListener()</code></a>.</p>
+      
+      <p class="example">As an example, a particular browser vendor, "FooCorp", may wish to introduce a new event, "jump".  This vendor implements "jump" in their browser, using their namespace, <code>"http://example.com/foo/browser/events/"</code>.  Early adopters start experimenting with the event, using <code>someElement.addEventListenerNS( "http://example.com/foo/browser/events/", "jump", doJump, false )</code>, and provide feedback to FooCorp, who change the behavior of "jump" accordingly.  After some time, another vendor, "BarOrg", decides they also want the functionality, but implement it slightly differently, so they use their own namespace, <code>"http://example.org/bar/browser/events/"</code> but with the same event type, "jump".  Authors experimenting with this version of "jump" register events with BarOrg's namespace.  Authors who wish to write code that accounts for both browsers can either register each event type separately with specific handlers, or use the same handler and switch on the namespace of the event; thus, early experiments in different codebases do not conflict, and the easrly-adopter is able to write easily-maintained code for multiple implementations.  Eventually, as the feature matures, the behavior of both browsers stabilizes and may converge due to author and user feedback or through formal standardization; as this stabilization occurs, and risk of conflicts decrease, authors can remove the forked code, and assume the "jump" event is in the <code>null</code> namespace (even before it is formally standardized), using the same event handler and the more generic registration method <code>someElement.addEventListener( "jump", doJump, false )</code>.</p>
+
+    </div>
+    <!-- div1 Events -->
+
+
     <div class="div1">
       <h1 id="changes-Changes" class="adiv1">Appendix B: Changes</h1>
       <div class="div2">
@@ -6647,7 +6708,7 @@ DOM Level 3 Events considers the <a href="#events-Events-Event-type"><code>Event
         <!-- div3 DOMLevel2to3Changes -->
         <div class="div3">
           <h3 id="changes-DOMLevel3Addons" class="adiv3">B.1.4 New Interfaces</h3>
-          <p>The interfaces <a href="#events-Events-CustomEvent"><code>CustomEvent</code></a>, <a href="#events-Events-TextEvent"><code>TextEvent</code></a>, <a href="#events-Events-KeyboardEvent"><code>KeyboardEvent</code></a>, <a href="#events-Events-MutationNameEvent"><code>MutationNameEvent</code></a>, <a href="#events-Events-WheelEvent"><code>WheelEvent</code></a>, and <a href="#events-Events-MouseWheelEvent"><code>MouseWheelEvent</code></a> were added to the Events module.</p>
+          <p>The interfaces <a href="#events-Events-CustomEvent"><code>CustomEvent</code></a>, <a href="#events-Events-TextEvent"><code>TextEvent</code></a>, <a href="#events-Events-KeyboardEvent"><code>KeyboardEvent</code></a>, <a href="#events-Events-CompositionEvent"><code>CompositionEvent</code></a>, <a href="#events-Events-MutationNameEvent"><code>MutationNameEvent</code></a>, <a href="#events-Events-WheelEvent"><code>WheelEvent</code></a>, and <a href="#events-Events-MouseWheelEvent"><code>MouseWheelEvent</code></a> were added to the Events module.</p>
         </div>
         <!-- div3 DOMLevel3Addons -->
       </div>
@@ -6657,7 +6718,7 @@ DOM Level 3 Events considers the <a href="#events-Events-Event-type"><code>Event
 
     <div class="div1">
       <h1 id="security-considerations-Security" class="adiv1">Appendix C: Security Considerations</h1>
-      <p class="first">This appendix discusses security considerations for DOM Level 3 Events implementations. The discussion is limited to security issues that arise directly from implementation of the event model, APIs and events defined in this specification. Implementations typically support other features like scripting languages, other APIs and additional events not defined in this document; these features constitute an unknown factor and are out of scope of this document. Implementers should consult the specifications of such features for their respective security considerations.</p>
+      <p class="1st">This appendix discusses security considerations for DOM Level 3 Events implementations. The discussion is limited to security issues that arise directly from implementation of the event model, APIs and events defined in this specification. Implementations typically support other features like scripting languages, other APIs and additional events not defined in this document; these features constitute an unknown factor and are out of scope of this document. Implementers should consult the specifications of such features for their respective security considerations.</p>
       <p>Many of the event types defined in this specification are dispatched in response to user actions. This allows malicious event listeners to gain access to information users would typically consider confidential, e.g., typos they might have made when filling out a form, if they reconsider their answer to a multiple choice question shortly before submitting a form, their typing rate or primary input mechanism. In the worst case, malicious event listeners are able to capture all user interactions and submit them to a third party through means, while not defined in DOM Level 3 Events, generally available in DOM implementations, such as the XMLHttpRequest interface.</p>
       <p>In DOM implementations that support facilities to load external data, events like the <code>error</code> event can provide access to sensitive information about the environment of the computer system or network; an example would be a malicious HTML document that attempts to embed a resource on the local network or the localhost on different ports; an embedded DOM application could then listen for <code>error</code> and <code>load</code> events to determine which other computers in a network are accessible from the local system or which ports are open on the system to prepare further attacks.</p>
       <p>An implementation of DOM Level 3 Events alone is generally insufficient to perform attacks of this kind and the security considerations of the facilities that possibly support such attacks apply. For conformance with this specification, DOM implementations may take reasonable steps to ensure that DOM applications do not get access to confidential or sensitive information, for example, they may choose to dispatch no <code>load</code> events to nodes that attempt to embed resources on the local network.</p>
@@ -6668,7 +6729,10 @@ DOM Level 3 Events considers the <a href="#events-Events-Event-type"><code>Event
 
     <div class="div1">
       <h1 id="idl-definitions-idl" class="adiv1">Appendix D: IDL Definitions</h1>
-      <p class="first">This appendix contains the complete OMG IDL [<cite><a class="noxref normative" href="#references-OMGIDL">OMG IDL</a></cite>] for the Level 3 Document Object Model Events definitions.</p>
+      
+      <p class="issue">@@ Note that this section is out of date, and will be updated with the appropriate IDLs once the specification is more stable.</p>
+            
+      <p class="1st">This appendix contains the complete OMG IDL [<cite><a class="noxref normative" href="#references-OMGIDL">OMG IDL</a></cite>] for the Level 3 Document Object Model Events definitions.</p>
       <p>The IDL files are also available as: <a class="normative" href="idl.zip">http://www.w3.org/TR/2007/WD-DOM-Level-3-Events-20071207/idl.zip</a></p>
       <h3 id="idl-definitions-idl-events.idl"><a href="idl/events.idl">events.idl</a>:</h3>
       <div class="idl-code">
@@ -7007,7 +7071,7 @@ module events
     <!-- div1 idl -->
     <div class="div1">
       <h1 id="java-binding-java-binding" class="adiv1">Appendix E: Java Language Binding</h1>
-      <p class="first">This appendix contains the complete Java [<cite><a class="noxref normative" href="#references-Java">Java</a></cite>] bindings for the Level 3 Document Object Model Events.</p>
+      <p class="1st">This appendix contains the complete Java [<cite><a class="noxref normative" href="#references-Java">Java</a></cite>] bindings for the Level 3 Document Object Model Events.</p>
       <p>The Java files are also available as <a class="normative" href="java-binding.zip">http://www.w3.org/TR/2007/WD-DOM-Level-3-Events-20071207/java-binding.zip</a></p>
       <h3 id="java-binding-org.w3c.dom.events.EventException">org\w3c\dom\events\EventException.java:</h3>
       <div class="java-code">
@@ -7459,7 +7523,7 @@ public interface MutationNameEvent extends MutationEvent {
     <!-- div1 java-binding -->
     <div class="div1">
       <h1 id="ecma-script-binding-ecma-binding" class="adiv1">Appendix F: ECMAScript Language Binding</h1>
-      <p class="first">This appendix contains the complete ECMAScript [<cite><a class="noxref normative" href="#references-ECMAScript">ECMAScript</a></cite>] binding for the Level 3 Document Object Model Events definitions.</p>
+      <p class="1st">This appendix contains the complete ECMAScript [<cite><a class="noxref normative" href="#references-ECMAScript">ECMAScript</a></cite>] binding for the Level 3 Document Object Model Events definitions.</p>
       <div class="ecma-block">
         <dl>
           <dt>Properties of the <strong>Event</strong> Constructor function:</dt>
@@ -8174,7 +8238,7 @@ The <strong>prevNodeNameArg</strong> parameter shall be a <strong>String</strong
     <!-- div1 ecma-binding -->
     <div class="div1">
       <h1 id="acknowledgements-contributors" class="adiv1">Appendix G: Acknowledgements</h1>
-      <p class="first">Many people contributed to the DOM specifications (Level 1, 2 or 3), including participants of the DOM Working Group and the DOM Interest Group. We especially thank the following:</p>
+      <p class="1st">Many people contributed to the DOM specifications (Level 1, 2 or 3), including participants of the DOM Working Group and the DOM Interest Group. We especially thank the following:</p>
       <p>Andrew Watson (Object Management Group), Andy Heninger (IBM), Angel Diaz (IBM), Arnaud Le Hors (W3C and IBM), Ashok Malhotra (IBM and Microsoft), Ben Chang (Oracle), Bill Smith (Sun), Bill Shea (Merrill Lynch), Bob Sutor (IBM), Chris Lovett (Microsoft), Chris Wilson (Microsoft), David Brownell (Sun), David Ezell (Hewlett-Packard Company), David Singer (IBM), Dimitris Dimitriadis (Improve AB and invited expert), Don Park (invited), Elena Litani (IBM), Eric Vasilik (Microsoft), Gavin Nicol (INSO), Ian Jacobs (W3C), James Clark (invited), James Davidson (Sun), Jared Sorensen (Novell), Jeroen van Rotterdam (X-Hive Corporation), Joe Kesselman (IBM), Joe Lapp (webMethods), Joe Marini (Macromedia), Johnny Stenback (Netscape/AOL), Jon Ferraiolo (Adobe), Jonathan Marsh (Microsoft), Jonathan Robie (Texcel Research and Software AG), Kim Adamson-Sharpe (SoftQuad Software Inc.), Lauren Wood (SoftQuad Software Inc., <em>former Chair</em>), Laurence Cable (Sun), Mark Davis (IBM), Mark Scardina (Oracle), Martin D&#252;rst (W3C), Mary Brady (NIST), Mick Goulish (Software AG), Mike Champion (Arbortext and Software AG), Miles Sabin (Cromwell Media), Patti Lutsky (Arbortext), Paul Grosso (Arbortext), Peter Sharpe (SoftQuad Software Inc.), Phil Karlton (Netscape), Philippe Le H&#233;garet (W3C, <em>W3C Team Contact and former Chair</em>), Ramesh Lekshmynarayanan (Merrill Lynch), Ray Whitmer (iMall, Excite@Home, and Netscape/AOL, <em>Chair</em>), Rezaur Rahman (Intel), Rich Rollman (Microsoft), Rick Gessner (Netscape), Rick Jelliffe (invited), Rob Relyea (Microsoft), Scott Isaacs (Microsoft), Sharon Adler (INSO), Steve Byrne (JavaSoft), Tim Bray (invited), Tim Yu (Oracle), Tom Pixley (Netscape/AOL), Vidur Apparao (Netscape), Vinod Anupam (Lucent).</p>
       <p>After publication of this document as Working Group Note in November 2003, the participants of the WebAPI Working Group resumed development of this document:</p>
       <p>Anne van Kesteren (Opera Software), Arun Ranganathan (AOL), Bj&#246;rn H&#246;hrmann, Charles McCathieNevile (Opera Software, <em>Co-Chair</em>), Christophe Jolif (ILOG), Dean Jackson (W3C, <em>W3C Team Contact</em>), Doug Schepers (Vectoreal), Gorm Haug Eriksen (Opera Software), Ian Davis (Talis Information Limited), Ian Hickson (Google), John Robinson (AOL), Jonas Sicking (Mozilla Foundation), Luca Mascaro (HTML Writers Guild), Maciej Stachowiak (Apple Computer), Marc Hadley (Sun Microsystems), Michael Shenfield (Research In Motion), Robin Berjon, (Expway, <em>Co-Chair</em>) , Scott Hayman (Research In Motion), St&#233;phane Sire (IntuiLab), T.V. Raman (Google)</p>
@@ -8200,7 +8264,7 @@ The <strong>prevNodeNameArg</strong> parameter shall be a <strong>String</strong
 
     <div class="div1" id="references-References">
       <h1 id="references-role-references" class="references">References</h1>
-      <p class="first">For the latest version of any W3C specification please consult the list of <a class="normative" href="http://www.w3.org/TR">W3C Technical Reports</a> available at http://www.w3.org/TR.</p>
+      <p class="1st">For the latest version of any W3C specification please consult the list of <a class="normative" href="http://www.w3.org/TR">W3C Technical Reports</a> available at http://www.w3.org/TR.</p>
       <div class="div2"> 
         <h2 class="adiv2" id="references-References-Normative">H.1 Normative References</h2>
         <dl>
@@ -8285,8 +8349,15 @@ The <strong>prevNodeNameArg</strong> parameter shall be a <strong>String</strong
       <!-- div2 References-Informative -->
     </div>
     <!-- div1 References -->
+    
+    
+    
+    
     <div class="div1" id="def-index-Index">
       <h1 id="def-index-role-index" class="index">Index</h1>
+      
+      <p class="issue">@@ Note that this index is out of date, and will be updated with the appropriate linked keywords once the specification is more stable.</p>
+      
       <table summary="the table contains all keywords used in this document">
         <tr>
           <td width="30%"><a class="noxref" href="#events-Events-EventTypes-complete">abort</a>
