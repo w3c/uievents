@@ -251,7 +251,11 @@
             <ul class="toc">
               <li><a href="#keyset-Modifiers">A.1.1 Modifier keys</a></li>
               <li><a href="#keyset-DeadKeys">A.1.2 Dead keys</a></li>
-              <li><a href="#keyset-IME">A.1.3 Input Method Editors</a></li>
+              <li><a href="#keyset-IME">A.1.3 Input Method Editors</a>
+                <ul class="toc">
+                  <li><a href="#keyset-IME_keys">A.1.3.1 Input Method Editor mode keys</a></li>
+                </ul>
+              </li>
               <li><a href="#keyset-cancelable_keys">A.1.4 Default actions and cancelable keyboard events</a></li>
               <li><a href="#keyset-Guide">A.1.5 Guidelines for defining key identifiers</a></li>
             </ul>
@@ -282,22 +286,6 @@
         </ul> -->
       </li>
       <li><a href="#java-binding-java-binding">Appendix E: Java Language Binding</a>
-        <!-- <ul class="toc">
-          <li><a href="#java-binding-org.w3c.dom.events.EventException">EventException.java</a></li>
-          <li><a href="#java-binding-org.w3c.dom.events.Event">Event.java</a></li>
-          <li><a href="#java-binding-org.w3c.dom.events.CustomEvent">CustomEvent.java</a></li>
-          <li><a href="#java-binding-org.w3c.dom.events.EventTarget">EventTarget.java</a></li>
-          <li><a href="#java-binding-org.w3c.dom.events.EventListener">EventListener.java</a></li>
-          <li><a href="#java-binding-org.w3c.dom.events.DocumentEvent">DocumentEvent.java</a></li>
-          <li><a href="#java-binding-org.w3c.dom.events.UIEvent">UIEvent.java</a></li>
-          <li><a href="#java-binding-org.w3c.dom.events.TextEvent">TextEvent.java</a></li>
-          <li><a href="#java-binding-org.w3c.dom.events.KeyboardEvent">KeyboardEvent.java</a></li>
-          <li><a href="#java-binding-org.w3c.dom.events.MouseEvent">MouseEvent.java</a></li>
-          <li><a href="#java-binding-org.w3c.dom.events.WheelEvent">WheelEvent.java</a></li>
-          <li><a href="#java-binding-org.w3c.dom.events.MouseWheelEvent">MouseWheelEvent.java</a></li>
-          <li><a href="#java-binding-org.w3c.dom.events.MutationEvent">MutationEvent.java</a></li>
-          <li><a href="#java-binding-org.w3c.dom.events.MutationNameEvent">MutationNameEvent.java</a></li>
-        </ul> -->
       </li>
       <li><a href="#ecma-script-binding-ecma-binding">Appendix F: ECMAScript Language Binding</a></li>
       <li><a href="#acknowledgements-contributors">Appendix G: Acknowledgements</a>
@@ -2616,7 +2604,6 @@ An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus s
     readonly attribute long            <a class="noxref" href="#events-Events-MouseEvent-screenY">screenY</a>;
     readonly attribute long            <a class="noxref" href="#events-Events-MouseEvent-clientX">clientX</a>;
     readonly attribute long            <a class="noxref" href="#events-Events-MouseEvent-clientY">clientY</a>;
-    readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-inputMode">inputMode</a>;
     readonly attribute boolean         <a class="noxref" href="#events-Events-MouseEvent-ctrlKey">ctrlKey</a>;
     readonly attribute boolean         <a class="noxref" href="#events-Events-MouseEvent-shiftKey">shiftKey</a>;
     readonly attribute boolean         <a class="noxref" href="#events-Events-MouseEvent-altKey">altKey</a>;
@@ -3685,15 +3672,6 @@ An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus s
                 </dt>
                 <dd>
                   <div class="idl-code">
-              <!-- 
-                copy-paste/dnd/etc..
-                [6:26pm] smaug: shepazu: would it be useful?
-                [6:26pm] smaug: dand: yes, sounds useful
-                [6:28pm] smaug: we need a list of most common possible values for the "origin"
-                [6:31pm] anne2: (and another name, origin is too confusing with the scheme/hostname/port tuple used for security purposes)
-                [6:31pm] shepazu: agreed, anne2
-                [6:32pm] shepazu: unknown, paste, IME, voice, handwriting, multimodal?  
-                       -->
                     
                     <pre>
 // Introduced in DOM Level 3:
@@ -4286,8 +4264,8 @@ A key is released. This event type is device dependent and relies on the capabil
           <h3 class="div3" id="events-Events-CompositionEvents-Interfaces">5.2.8 Composition Events Types</h3>
           <p>This module defines the feature CompositionEvents 3.0 and depends on the feature UIEvents 3.0.</p>
           <p>Composition Events provide a means for inputing text in a supplementary or alternate manner than by Keyboard Events, in order to allow the use of characters that may not be commonly available on keyboard. For examples, Composition events may be used to add accents to characters despite their absence from standard US keyboards, to build up logograms of many Asian languages from their base components or categories, to select word choices from a combination of key presses on a mobile device keyboard, or to convert voice commands into text using a speech recognition processor.  Refer to Appendix A, "<a href="#keyset-KeySet">Keyboard events and key identifiers</a>", for examples on how Composition Events are used in combination with keyboard events.</p>
+          <p>Conceptually, a composition session consists of one <a href="#events-event-compositionstart">compositionstart</a> event, one or more <a href="#events-event-compositionupdate">compositionupdate</a> events, and one <a href="#events-event-compositionend">compositionend</a> event, with the value of the <a id="events-Events-CompositionEvent-data">data</a> attribute persisting between each "stage" of this event chain during each session.</p>
           <p>Not all IME systems or devices expose the necessary data to the DOM, so the active composition string (the "Reading Window" or "candidate selection menu option") may not be available through this interface, in which case the selection may be represented by the empty string.</p>
-          </p>
           <dl>
             <dt><strong>Interface <em>
                   <a id="events-Events-CompositionEvent">CompositionEvent</a>
@@ -4333,7 +4311,7 @@ A key is released. This event type is device dependent and relies on the capabil
                         <a id="events-Events-CompositionEvent-data">data</a>
                       </code> of type <code>DOMString</code>, readonly
                     </dt>
-                    <dd><code>data</code> holds the value of the characters generated by an input method. This may be a single Unicode character or a non-empty sequence of Unicode characters [<cite><a class="noxref normative" href="#references-Unicode">Unicode</a></cite>]. Characters should be normalized as defined by the Unicode normalization form <em>NFC</em>, defined in [<cite><a class="noxref normative" href="#references-UnicodeNormalization">UAX #15</a></cite>]. This attribute may be null or contain the empty string.  When initialized, this attribute may contain the characters currently selected in the document.  <span class="issue">@@ see <a href="http://lists.w3.org/Archives/Public/www-dom/2009JulSep/0143.html" title="Extra notes on composition events from Daniel Danilatos on 2009-08-07 (www-dom@w3.org from July to September 2009)">Extra notes on composition events</a> for more details</span><br/>
+                    <dd><code>data</code> holds the value of the characters generated by an input method. This may be a single Unicode character or a non-empty sequence of Unicode characters [<cite><a class="noxref normative" href="#references-Unicode">Unicode</a></cite>]. Characters should be normalized as defined by the Unicode normalization form <em>NFC</em>, defined in [<cite><a class="noxref normative" href="#references-UnicodeNormalization">UAX #15</a></cite>]. This attribute may be null or contain the empty string.<br/>
                     </dd>
                   </dl>
                 </dd>
@@ -4455,7 +4433,7 @@ A key is released. This event type is device dependent and relies on the capabil
                     <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, and <a href="#events-Events-CompositionEvent-data"><code>CompositionEvent.data</code></a>.</td>
                   </tr>
                 </table>
-                A <a href="#glossary-dt-text-composition-system">text composition system</a> begins composing a passage of text.  This event type is device-dependent, and may rely upon the capabilities of the text conversion system and how it is mapped into the operating system.  When a keyboard is used to feed an input method editor, this event type is generated after a <code>keydown</code> event, but speech or handwriting recognition systems may send this event type without keyboard events.
+                A <a href="#glossary-dt-text-composition-system">text composition system</a> begins composing a passage of text.  This event type is device-dependent, and may rely upon the capabilities of the text conversion system and how it is mapped into the operating system.  When a keyboard is used to feed an input method editor, this event type is generated after a <code>keydown</code> event, but speech or handwriting recognition systems may send this event type without keyboard events.  Some implemenations may populate the <a href="#events-Events-CompositionEvent-data"><code>data</code></a> attribute of the <a  href="#events-event-compositionstart">compositionstart</a> event with the text currently selected in the document (for editing and replacement); otherwise, the value of the <a href="#events-Events-CompositionEvent-data"><code>data</code></a> attribute shall be <code>null</code>.  (<span class="issue">@@ see <a href="http://lists.w3.org/Archives/Public/www-dom/2009JulSep/0143.html" title="Extra notes on composition events from Daniel Danilatos on 2009-08-07 (www-dom@w3.org from July to September 2009)">Extra notes on composition events</a> for more details.</span>)
               </dd>
             </dl>
           </div>
@@ -4499,7 +4477,7 @@ A key is released. This event type is device dependent and relies on the capabil
                     <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, and <a href="#events-Events-CompositionEvent-data"><code>CompositionEvent.data</code></a>.</td>
                   </tr>
                 </table>
-                A <a href="#glossary-dt-text-composition-system">text composition system</a> updates its active text passage with a new character, which is added to the string in <a href="#events-Events-CompositionEvent-data"><code>CompositionEvent.data</code></a>.  Note that some <a href="#glossary-dt-text-composition-system">text composition systems</a> may not expose this information to the DOM, in which case this event will not fire during the composition process.  If the composition process is canceled, this event will be fired immediately before the <a class="noxref" href="#events-event-compositionend">compositionend</a> event, and the <a href="#events-Events-CompositionEvent-data"><code>CompositionEvent.data</code> attribute will be set to the empty string <span class="issue">(@@ "empty string" or "null"? Is there a distinction?)</span>.</a>
+                A <a href="#glossary-dt-text-composition-system">text composition system</a> updates its active text passage with a new character, which is added to the string in <a href="#events-Events-CompositionEvent-data"><code>CompositionEvent.data</code></a>.  Note that some <a href="#glossary-dt-text-composition-system">text composition systems</a> may not expose this information to the DOM, in which case this event will not fire during the composition process.  If the composition process is canceled, this event will be fired immediately before the <a class="noxref" href="#events-event-compositionend">compositionend</a> event, and the <a href="#events-Events-CompositionEvent-data"><code>CompositionEvent.data</code> attribute will be set to <code>null</code> <span class="issue">(@@ "null" or "empty string"? What's the distinction?)</span>.</a>
               </dd>
             </dl>
           </div>
@@ -5484,6 +5462,14 @@ Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a
           </ol>
 
           <p>NOTE: Some <a href="#glossary-dt-ime">input method editors</a> (such as on the MacOS operating system) may set an empty string to the composition data attribute before canceling a composition.</p>
+
+          <h4 id="keyset-IME_keys" class="adiv4">A.1.3.1 Input Method Editor mode keys</h4>
+          <p>Some keys on certain devices are intended to activate <a href="#glossary-dt-ime">input method editor</a> functionality, or to change the mode of an active <a href="#glossary-dt-ime">input method editor</a>.  Custom keys for this purpose may be defined for different devices or language modes; the keys defined in this specification for this purpose are: <code>Alphanumeric</code>, <code>CodeInput</code>, <code>FinalMode</code>, <code>HangulMode</code>, <code>HanjaMode</code>, <code>Hiragana</code>, <code>JapaneseHiragana</code>, <code>JapaneseKatakana</code>, <code>JapaneseRomaji</code>, <code>JunjaMode</code>, <code>KanaMode</code>, <code>KanjiMode</code>, <code>Katakana</code>, and <code>RomanCharacters</code>.  When one of these keys is pressed, and no <a href="#glossary-dt-ime">IME</a> is currently active, the appropriate <a href="#glossary-dt-ime">IME</a>, shall be activated in the mode indicated by the key (if available); if an <a href="#glossary-dt-ime">IME</a> is already active when the key is pressed, the active <a href="#glossary-dt-ime">IME</a> may change to the indicated mode, or a different <a href="#glossary-dt-ime">IME</a> may be launched, or the key may be ignored, on a device- and application-specific basis.</p>
+          
+          <p>This specification also defines other keys which are intended for operation specifically with <a href="#glossary-dt-ime">input method editors</a>: <code>Accept</code>, <code>AllCandidates</code>, <code>Cancel</code>, <code>Convert</code>, <code>Compose</code>, <code>FullWidth</code>, <code>HalfWidth</code>, <code>NextCandidate</code>, <code>Nonconvert</code>, and <code>PreviousCandidate</code>.  The functions of these keys are not defined in this specification; refer to other resources for details on <a href="#glossary-dt-ime">input method editor</a> functionality.</p>
+          
+          <p>Note that keys with <a href="#glossary-dt-ime">input method editor</a> functions are note restricted to that purpose, and may have other device- or implementation-specific purposes, as well.</p>
+
         </div>
         
 
@@ -5706,6 +5692,8 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
              <dd>The Browser Search key.</dd>
           <dt><a id="keyset-key-BrowserStop">"BrowserStop"</a></dt>
              <dd>The Browser Stop key.</dd>
+          <dt><a id="keyset-key-Cancel">"Cancel"</a></dt>
+            <dd>The Cancel key.</dd>
           <dt><a id="keyset-key-CapsLock">"CapsLock"</a></dt>
              <dd>The Caps Lock (Capital) key.</dd>
           <dt><a id="keyset-key-Clear">"Clear"</a></dt>
@@ -5846,6 +5834,8 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
              <dd>The Media Stop key.</dd>
           <dt><a id="keyset-key-ModeChange">"ModeChange"</a></dt>
              <dd>The Mode Change key.</dd>
+          <dt><a id="keyset-key-NextCandidate">"NextCandidate"</a></dt>
+            <dd>The Next Candidate function key.</dd>
           <dt><a id="keyset-key-Nonconvert">"Nonconvert"</a></dt>
              <dd>The Nonconvert (Don't Convert) key.</dd>
           <dt><a id="keyset-key-NumLock">"NumLock"</a></dt>
@@ -6240,6 +6230,7 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
 	      <tr><td> </td><td><a id="tbl-keyset-key-BrowserRefresh"> BrowserRefresh </a></td><td> </td><td>The Browser Refresh key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 	      <tr><td> </td><td><a id="tbl-keyset-key-BrowserSearch"> BrowserSearch </a></td><td> </td><td>The Browser Search key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 	      <tr><td> </td><td><a id="tbl-keyset-key-BrowserStop"> BrowserStop </a></td><td> </td><td>The Browser Stop key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	      <tr><td> </td><td><a id="tbl-keyset-key-Cancel"> Cancel </a></td><td> </td><td>The Cancel key.</td><td>20</td><td>-</td><td>-</td><td>-</td><td>20</td><td>-</td><td>20</td><td>-</td><td>-</td><td>-</td><td>20</td><td>-</td><td>20</td><td>-</td><td>-</td><td>-</td><td>20</td><td>-</td><td>20</td><td>-</td><td>-</td><td>-</td><td>20</td><td>-</td></tr>
 	      <tr><td> </td><td><a id="tbl-keyset-key-CapsLock"> CapsLock </a></td><td> </td><td>The Caps Lock (Capital) key.</td><td>20</td><td>-</td><td>-</td><td>-</td><td>20</td><td>-</td><td>20</td><td>-</td><td>-</td><td>-</td><td>20</td><td>-</td><td>20</td><td>-</td><td>-</td><td>-</td><td>20</td><td>-</td><td>20</td><td>-</td><td>-</td><td>-</td><td>20</td><td>-</td></tr>
 	      <tr><td> </td><td><a id="tbl-keyset-key-Clear"> Clear </a></td><td> </td><td>The Clear key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 	      <tr><td> </td><td><a id="tbl-keyset-key-CodeInput"> CodeInput </a></td><td> </td><td>The Code Input key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
@@ -6309,6 +6300,7 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
 	      <tr><td> </td><td><a id="tbl-keyset-key-MediaPreviousTrack"> MediaPreviousTrack </a></td><td> </td><td>The Media Previous Track key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 	      <tr><td> </td><td><a id="tbl-keyset-key-MediaStop"> MediaStop </a></td><td> </td><td>The Media Stop key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 	      <tr><td> </td><td><a id="tbl-keyset-key-ModeChange"> ModeChange </a></td><td> </td><td>The Mode Change key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	      <tr><td> </td><td><a id="tbl-keyset-key-NextCandidate"> NextCandidate </a></td><td> </td><td>The Next Candidate function key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 	      <tr><td> </td><td><a id="tbl-keyset-key-Nonconvert"> Nonconvert </a></td><td> </td><td>The Nonconvert (Don't Convert) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 	      <tr><td> </td><td><a id="tbl-keyset-key-NumLock"> NumLock </a></td><td> </td><td>The Number Lock key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 	      <tr><td> </td><td><a id="tbl-keyset-key-PageDown"> PageDown </a></td><td> </td><td>The Page Down (Next) key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
@@ -6695,7 +6687,6 @@ module events
 
     readonly attribute DOMString       <a class="noxref" href="#events-Events-KeyboardEvent-keyIdentifier">keyIdentifier</a>;
     readonly attribute unsigned long   <a class="noxref" href="#events-Events-KeyboardEvent-keylocation">keyLocation</a>;
-    <!-- readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-inputMode">inputMode</a>; -->
     readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-ctrlKey">ctrlKey</a>;
     readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-shiftKey">shiftKey</a>;
     readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-altKey">altKey</a>;
@@ -6724,7 +6715,6 @@ module events
     readonly attribute long            <a class="noxref" href="#events-Events-MouseEvent-screenY">screenY</a>;
     readonly attribute long            <a class="noxref" href="#events-Events-MouseEvent-clientX">clientX</a>;
     readonly attribute long            <a class="noxref" href="#events-Events-MouseEvent-clientY">clientY</a>;
-    <!-- readonly attribute boolean         <a class="noxref" href="#events-Events-MouseEvent-inputMode">inputMode</a>; -->
     readonly attribute boolean         <a class="noxref" href="#events-Events-MouseEvent-ctrlKey">ctrlKey</a>;
     readonly attribute boolean         <a class="noxref" href="#events-Events-MouseEvent-shiftKey">shiftKey</a>;
     readonly attribute boolean         <a class="noxref" href="#events-Events-MouseEvent-altKey">altKey</a>;
