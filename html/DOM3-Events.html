@@ -1464,7 +1464,7 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
               <td><a href="#events-Events-CompositionEvent"><code>CompositionEvent</code></a></td>
             </tr>
             <tr>
-              <td><a href="#events-event-click">dblclick</a></td>
+              <td><a href="#events-event-dblclick">dblclick</a></td>
               <td>Yes</td>
               <td>Yes</td>
               <td><code>Element</code></td>
@@ -2865,7 +2865,9 @@ An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus s
           </dd>
         </dl>
         <p>The Mouse event types are listed below. In the case of nested elements, mouse event types are always targeted at the most deeply nested element. Ancestors of the targeted element may use bubbling to obtain notification of mouse events which occur within its descendent elements.</p>
-        <p id="events-dt-current-click-count">Implementations must maintain the <em>current click count</em> when generating mouse events. This shall be a non-negative integer indicating the number of consecutive clicks of a pointing device button during a user action. The notion of consecutive clicks depends on the environment configuration. For example, a "double click" might not happen if there is a long delay between the two clicks.</p>
+        <p id="events-dt-current-click-count">Implementations must maintain the <em>current click count</em> when generating mouse events. This shall be a non-negative integer indicating the number of consecutive clicks of a pointing device button during a user action. The notion of consecutive clicks depends on the environment configuration. For example, a <code><a href="#events-event-dblclick">dblclick</a></code> event type might not happen if there is a long delay between the two clicks.
+        <span class="note"><strong>Note:</strong> The value of <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> for a number of clicks greater than 2 is platform-dependent.  For example, on the Windows OS, the click-count series seems to be <code>1, 2, 3, 2, 3</code>, while on MacOS, the click-count series seems to be <code>1, 2, 3, 4, 5, ...</code>.</span></p>
+        
         
         <!-- click -->
         <div class="event-definition assert must">
@@ -2968,7 +2970,9 @@ An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus s
                   <td><a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, <a href="#events-Events-MouseEvent-button"><code>MouseEvent.button</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use. The <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> attribute indicates the <a href="#events-dt-current-click-count">current click count</a>.</td>
                 </tr>
               </table>
-    A pointing device button is clicked twice over an element. The definition of a double click depends on the environment configuration, except that the event target must be the same between <a href="#events-event-mousedown">mousedown</a>, <a href="#events-event-mouseup">mouseup</a>, and <a href="#events-event-dblclick">dblclick</a>. This event type must be dispatched after the event type <a href="#events-event-click">click</a> if a click and double click occur simultaneously, and after the event type <a href="#events-event-mouseup">mouseup</a> otherwise.</dd>
+    A pointing device button is clicked twice over an element. The definition of a double click depends on the environment configuration, except that the event target must be the same between <a href="#events-event-mousedown">mousedown</a>, <a href="#events-event-mouseup">mouseup</a>, and <a href="#events-event-dblclick">dblclick</a>. This event type must be dispatched after the event type <a href="#events-event-click">click</a> if a click and double click occur simultaneously, and after the event type <a href="#events-event-mouseup">mouseup</a> otherwise.
+              <p class="note"><strong>Note:</strong> Canceling the <a href="#events-event-click">click</a> event must not not affect the firing of a <a href="#events-event-dblclick">dblclick</a> event.</p>
+            </dd>
           </dl>
         </div>
         
