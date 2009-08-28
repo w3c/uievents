@@ -4125,6 +4125,7 @@ interface <a class="noxref" href="#events-Events-KeyboardEvent">KeyboardEvent</a
   const unsigned long       <a class="noxref" href="#events-DOM_KEY_LOCATION_JOYSTICK">DOM_KEY_LOCATION_JOYSTICK</a>      = 0x05;
 
   readonly attribute DOMString       <a class="noxref" href="#events-Events-KeyboardEvent-keyIdentifier">keyIdentifier</a>;
+  <!-- @@ readonly attribute DOMString       <a class="noxref" href="#events-Events-KeyboardEvent-keyValue">keyValue</a>; -->
   readonly attribute unsigned long   <a class="noxref" href="#events-Events-KeyboardEvent-keylocation">keyLocation</a>;
   readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-ctrlKey">ctrlKey</a>;
   readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-shiftKey">shiftKey</a>;
@@ -5625,6 +5626,8 @@ Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a
             <li><code>"keyup"</code>: <code class="value">'U+0056'</code>, ctrlKey</li>
             <li><code>"keyup"</code>: <code class="value">'Control'</code></li>
           </ol>
+          
+          <p>In some cases, modifier keys change the key identifier value for a key event.  For example, on some MacOS keyboards, the  key labeled <code class="value">'delete'</code> functions the same as the <code class="value">'Backspace'</code> key on the Windows OS when unmodified, but when modified by the <code class="value">'Fn'</code> key, acts as the <code class="value">'Del'</code> key, and the value of the key identifier must match the most appropriate function of the key in its current modified state.</p>
         </div>
         
         <!-- div3 Modifiers -->
@@ -5888,7 +5891,9 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
 		some extra key identifiers in the list to avoid different names being
 		invented for the same key.
 		
-	-->	
+	-->
+	
+	<p>Future versions of this specification may include key identifiers not included here, which have become common since the publication of this specification.</p>
 		
  </div>
 
@@ -5971,7 +5976,7 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
              <dd>The End key.</dd>
           <dt><a id="keyset-key-Enter"><code class="value">'Enter'</code></a></dt>
              <dd>The Enter key.
-			    <em><strong>Note:</strong> This key identifier shall be also used for the Return (Macintosh numpad) key.</em>
+			         <span class="note"><strong>Note:</strong> This key identifier shall be also used for the Return (Macintosh numpad) key.</span>
              </dd>
           <dt><a id="keyset-key-EraseEof"><code class="value">'EraseEof'</code></a></dt>
              <dd>The Erase EOF key.</dd>
@@ -5979,8 +5984,10 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
              <dd>The Execute key.</dd>
           <dt><a id="keyset-key-Exsel"><code class="value">'Exsel'</code></a></dt>
              <dd>The Exsel key.</dd>
+          <dt><a id="keyset-key-Fn"><code class="value">'Fn'</code></a></dt>
+             <dd>The Function switch key.</dd>
           <dt><a id="keyset-key-F1"><code class="value">'F1'</code></a></dt>
-             <dd>The F1 key.</dd>
+            <dd>The F1 key.</dd>
           <dt><a id="keyset-key-F2"><code class="value">'F2'</code></a></dt>
              <dd>The F2 key.</dd>
           <dt><a id="keyset-key-F3"><code class="value">'F3'</code></a></dt>
@@ -6155,7 +6162,9 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
              <dd>The Zoom key.</dd>
           <dt><a id="keyset-key-Backspace"><code class="value">'Backspace'</code></a></dt>
           <dt><a id="keyset-key-U-0008"><code class="value">'U+0008'</code></a></dt>
-             <dd>The Backspace (Back) key.</dd>
+             <dd>The Backspace (Back) key.
+			         <span class="note"><strong>Note:</strong> This key identifier shall be also used for the key labeled <code class="value">'delete'</code> MacOS keyboards when not modified by the <code class="value">'Fn'</code> key.</span>
+            </dd>
           <dt><a id="keyset-key-Tab"><code class="value">'Tab'</code></a></dt>
           <dt><a id="keyset-key-U-0009"><code class="value">'U+0009'</code></a></dt>
              <dd>The Horizontal Tabulation (Tab) key.</dd>
@@ -6398,7 +6407,9 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
              <dd>The Right Curly Bracket (Closing Curly Bracket, Closing Brace, Brace Right) key (}).</dd>
           <dt><a id="keyset-key-Del"><code class="value">'Del'</code></a></dt>
           <dt><a id="keyset-key-U-007F"><code class="value">'U+007F'</code></a></dt>
-             <dd>The Delete (Del) Key.</dd>
+             <dd>The Delete (Del) Key.
+			         <span class="note"><strong>Note:</strong> This key identifier shall be also used for the key labeled <code class="value">'delete'</code> MacOS keyboards when modified by the <code class="value">'Fn'</code> key.</span>
+             </dd>
           <dt><a id="keyset-key-InvertedExclamationChar"><code class="value">'¡'</code></a></dt>
           <dt><a id="keyset-key-InvertedExclamation"><code class="value">'InvertedExclamation'</code></a></dt>
           <dt><a id="keyset-key-U-00A1"><code class="value">'U+00A1'</code></a></dt>
@@ -6506,6 +6517,7 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
 	      <tr><td> </td><td><code id="tbl-keyset-key-EraseEof" class="value">'EraseEof'</code></td><td> </td><td>The Erase EOF key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 	      <tr><td> </td><td><code id="tbl-keyset-key-Execute" class="value">'Execute'</code></td><td> </td><td>The Execute key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
 	      <tr><td> </td><td><code id="tbl-keyset-key-Exsel" class="value">'Exsel'</code></td><td> </td><td>The Exsel key.</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+	      <tr><td> </td><td><code id="tbl-keyset-key-Fn" class="value">'Fn'</code></td><td> </td><td>The Function switch key.</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
 	      <tr><td> </td><td><code id="tbl-keyset-key-F1" class="value">'F1'</code></td><td> </td><td>The F1 key.</td><td>112</td><td>-</td><td>-</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td><td>-</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td></tr>
 	      <tr><td> </td><td><code id="tbl-keyset-key-F2" class="value">'F2'</code></td><td> </td><td>The F2 key.</td><td>113</td><td>-</td><td>-</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td><td>-</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td></tr>
 	      <tr><td> </td><td><code id="tbl-keyset-key-F3" class="value">'F3'</code></td><td> </td><td>The F3 key.</td><td>114</td><td>-</td><td>-</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td><td>-</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td></tr>
@@ -7007,6 +7019,7 @@ module events
     const unsigned long       <a class="noxref" href="#events-DOM_KEY_LOCATION_JOYSTICK">DOM_KEY_LOCATION_JOYSTICK</a>      = 0x05;
 
     readonly attribute DOMString       <a class="noxref" href="#events-Events-KeyboardEvent-keyIdentifier">keyIdentifier</a>;
+    <!-- readonly attribute DOMString       <a class="noxref" href="#events-Events-KeyboardEvent-keyValue">keyValue</a>; -->
     readonly attribute unsigned long   <a class="noxref" href="#events-Events-KeyboardEvent-keylocation">keyLocation</a>;
     readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-ctrlKey">ctrlKey</a>;
     readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-shiftKey">shiftKey</a>;
