@@ -4130,8 +4130,7 @@ interface <a class="noxref" href="#events-Events-KeyboardEvent">KeyboardEvent</a
   readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-shiftKey">shiftKey</a>;
   readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-altKey">altKey</a>;
   readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-metaKey">metaKey</a>;
-  <!--   readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-repeat">repeat</a>;
-    readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-longpress">longpress</a>; -->
+  readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-repeat">repeat</a>;
   boolean            <a class="noxref" href="#events-Events-KeyboardEvent-getModifierState">getModifierState</a>(in DOMString keyIdentifierArg);
   void               <a class="noxref" href="#events-Events-KeyboardEvent-initKeyboardEvent">initKeyboardEvent</a>(in DOMString typeArg, 
                                        in boolean canBubbleArg, 
@@ -4139,7 +4138,8 @@ interface <a class="noxref" href="#events-Events-KeyboardEvent">KeyboardEvent</a
                                        in views::AbstractView viewArg, 
                                        in DOMString keyIdentifierArg, 
                                        in unsigned long keyLocationArg, 
-                                       in DOMString modifiersListArg);
+                                       in DOMString modifiersListArg,
+                                       in boolean repeat);
   void               <a class="noxref" href="#events-Events-KeyboardEvent-initKeyboardEventNS">initKeyboardEventNS</a>(in DOMString namespaceURIArg, 
                                          in DOMString typeArg, 
                                          in boolean canBubbleArg, 
@@ -4147,7 +4147,8 @@ interface <a class="noxref" href="#events-Events-KeyboardEvent">KeyboardEvent</a
                                          in views::AbstractView viewArg, 
                                          in DOMString keyIdentifierArg, 
                                          in unsigned long keyLocationArg, 
-                                         in DOMString modifiersListArg);
+                                         in DOMString modifiersListArg,
+                                         in boolean repeat);
 };
 </pre>
                   </div>
@@ -4227,6 +4228,10 @@ interface <a class="noxref" href="#events-Events-KeyboardEvent">KeyboardEvent</a
                         <a id="events-Events-KeyboardEvent-shiftKey">shiftKey</a>
                       </code> of type <code>boolean</code>, readonly</dt>
                     <dd><code>true</code> if the shift (Shift) key modifier is activated.<br/></dd>
+                    <dt><code class="attribute-name">
+                        <a id="events-Events-KeyboardEvent-repeat">repeat</a>
+                      </code> of type <code>boolean</code>, readonly</dt>
+                    <dd><code>true</code> if the key has been pressed in a sustained manner.  Depending on the system configuration, holding down a key results may result in multiple consecutive <a href="#events-event-keydown">keydown</a> events,  <a href="#events-event-keypress">keypress</a> events, and <a href="#events-event-textInput">textInput</a> events, for appropriate keys.   For mobile devices which have <em>long-key-press</em> behavior, the first key event with a <a href="#events-Events-KeyboardEvent-repeat">repeat</a> attribute value of <code>'true'</code> shall serve as an indication of a <em>long-key-press</em>.  The length of time that the key must be pressed in order to begin repeating is configuration-dependent.</dd>
                   </dl>
                 </dd>
                 <dt>
@@ -4397,7 +4402,7 @@ interface <a class="noxref" href="#events-Events-KeyboardEvent">KeyboardEvent</a
                   </tr>
                   <tr class="assert must">
                     <th>Context info</th>
-                    <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, <a href="#events-Events-KeyboardEvent-keyIdentifier"><code>KeyboardEvent.keyIdentifier</code></a>, <a href="#events-Events-KeyboardEvent-keylocation"><code>KeyboardEvent.keyLocation</code></a>, <a href="#events-Events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-Events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-Events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, and <a href="#events-Events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a> are in use.</td>
+                    <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, <a href="#events-Events-KeyboardEvent-keyIdentifier"><code>KeyboardEvent.keyIdentifier</code></a>, <a href="#events-Events-KeyboardEvent-keylocation"><code>KeyboardEvent.keyLocation</code></a>, <a href="#events-Events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-Events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-Events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, <a href="#events-Events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a>, and <a href="#events-Events-KeyboardEvent-repeat"><code>KeyboardEvent.repeat</code></a> are in use.</td>
                   </tr>
                 </table>
 A key is pressed down. This event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type shall be generated after the keyboard mapping but before the processing of an <a href="#glossary-dt-ime">input method editor</a>. This event should logically happen before the event <a href="#events-event-keyup">keyup</a> is produced. Whether a <a href="#events-event-keydown">keydown</a> contributes or not to the generation of a text event is implementation dependent.
@@ -4441,7 +4446,7 @@ A key is pressed down. This event type is device dependent and relies on the cap
                   </tr>
                   <tr class="assert must">
                     <th>Context info</th>
-                    <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, <a href="#events-Events-KeyboardEvent-keyIdentifier"><code>KeyboardEvent.keyIdentifier</code></a>, <a href="#events-Events-KeyboardEvent-keylocation"><code>KeyboardEvent.keyLocation</code></a>, <a href="#events-Events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-Events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-Events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, and <a href="#events-Events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a> are in use.</td>
+                    <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, <a href="#events-Events-KeyboardEvent-keyIdentifier"><code>KeyboardEvent.keyIdentifier</code></a>, <a href="#events-Events-KeyboardEvent-keylocation"><code>KeyboardEvent.keyLocation</code></a>, <a href="#events-Events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-Events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-Events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, <a href="#events-Events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a>, and <a href="#events-Events-KeyboardEvent-repeat"><code>KeyboardEvent.repeat</code></a> are in use.</td>
                   </tr>
                 </table>
 A key is pressed down. This event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type shall be generated after the keyboard mapping but before the processing of an <a href="#glossary-dt-ime">input method editor</a>. This event should logically happen before the event <a href="#events-event-keyup">keyup</a> is produced. Whether a <a href="#events-event-keypress">keypress</a> contributes or not to the generation of a text event is implementation dependent.
