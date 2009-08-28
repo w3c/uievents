@@ -496,7 +496,7 @@
         <p>Implementations must dispatch the <code>DOMActivate</code> event as the <a href="#glossary-dt-default-action">default action</a> of a <a href="#events-event-click">click</a> event. This click event shall be either part of the activation request (e.g., a user requests activiation using a mouse), or synthesized by the implementation to accomodate legacy applications. Context information of such a <code>click</code> event is implementation dependent.</p>
         <p>When implementations dispatch a synthesized <code>click</code> event, the expectation shall be that they do so as <a href="#glossary-dt-default-action">default action</a> of another event type. For example, when a user activates a hyperlink using a keyboard, the <code>click</code> event would be dispatched as <a href="#glossary-dt-default-action">default action</a> of the respective keyboard event.</p>
         <p>Implementations are required to dispatch the synthesized <code>click</code> event as described above even if they do not dispatch such an event (e.g., when activation is requested by a voice command, since this specification does not address event types for voice input).</p>
-        <p><strong>Note:</strong> The activation of an event target is device dependent but is also application dependent, e.g. a link in a document can be activated using a mouse click or a mouse double click.</p>
+        <p class="note"><strong>Note:</strong> The activation of an event target is device dependent but is also application dependent, e.g. a link in a document can be activated using a mouse click or a mouse double click.</p>
       </div>
 
 
@@ -715,7 +715,7 @@ This method sets the <a href="#events-Events-Event-type"><code>Event.type</code>
                   </dt>
                   <dd>
                     <div class="method">Signifies that the event shall be to be canceled, meaning any <a href="#glossary-dt-default-action">default action</a> normally taken by the implementation as a result of the event must not occur (see also <a href="#events-Events-flow-cancelation">Default actions and cancelable events</a>). Calling this method for a non-cancelable event has no effect.
-<p><strong>Note:</strong> This method does not stop the event propagation; use <a href="#events-Events-Event-stopPropagation"><code>Event.stopPropagation()</code></a> or <a href="#events-Events-Event-stopImmediatePropagation"><code>Event.stopImmediatePropagation()</code></a> for that effect.</p>
+<p class="note"><strong>Note:</strong> This method does not stop the event propagation; use <a href="#events-Events-Event-stopPropagation"><code>Event.stopPropagation()</code></a> or <a href="#events-Events-Event-stopImmediatePropagation"><code>Event.stopImmediatePropagation()</code></a> for that effect.</p>
                       <div>
                         <strong>No Parameters</strong>
                       </div>
@@ -733,7 +733,7 @@ This method sets the <a href="#events-Events-Event-type"><code>Event.type</code>
                     </code> introduced in <strong class="since">DOM Level 3</strong></dt>
                   <dd>
                     <div class="method">Prevents other event listeners from being triggered and, unlike <a href="#events-Events-Event-stopPropagation"><code>Event.stopPropagation()</code></a> its effect shall be immediate . Once it has been called, further calls to this method have no additional effect.
-<p><strong>Note:</strong> This method does not prevent the <a href="#glossary-dt-default-action">default action</a> from being invoked; use <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a> for that effect.</p>
+<p class="note"><strong>Note:</strong> This method does not prevent the <a href="#glossary-dt-default-action">default action</a> from being invoked; use <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a> for that effect.</p>
                       <div>
                         <strong>No Parameters</strong>
                       </div>
@@ -752,7 +752,7 @@ This method sets the <a href="#events-Events-Event-type"><code>Event.type</code>
                   </dt>
                   <dd>
                     <div class="method">Prevents other event listeners from being triggered but its effect shall be deferred until all event listeners attached on the <a href="#events-Events-Event-currentTarget"><code>Event.currentTarget</code></a> have been triggered . Once it has been called, further calls to this method have no additional effect.
-<p><strong>Note:</strong> This method does not prevent the <a href="#glossary-dt-default-action">default action</a> from being invoked; use <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a> for that effect.</p>
+<p class="note"><strong>Note:</strong> This method does not prevent the <a href="#glossary-dt-default-action">default action</a> from being invoked; use <a href="#events-Events-Event-preventDefault"><code>Event.preventDefault()</code></a> for that effect.</p>
                       <div>
                         <strong>No Parameters</strong>
                       </div>
@@ -1584,6 +1584,13 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
             </tr>
             <tr>
               <td><a href="#events-event-keydown">keydown</a></td>
+              <td>Yes</td>
+              <td>Yes</td>
+              <td><code>Element</code></td>
+              <td><a href="#events-Events-KeyboardEvent"><code>KeyboardEvent</code></a></td>
+            </tr>
+            <tr>
+              <td><a href="#events-event-keypress">keypress</a></td>
               <td>Yes</td>
               <td>Yes</td>
               <td><code>Element</code></td>
@@ -2602,7 +2609,7 @@ An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus s
             <p>The <code>MouseEvent</code> interface provides specific contextual information associated with Mouse events.</p>
             <p>In the case of nested elements mouse events are always targeted at the most deeply nested element. Ancestors of the targeted element may use bubbling to obtain notification of mouse events which occur within their descendent elements.</p>
             <p>To create an instance of the <code>MouseEvent</code> interface, use the <a href="#events-Events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("MouseEvent")</code></a> method call.</p>
-            <p><strong>Note:</strong> When initializing <code>MouseEvent</code> objects using <code>initMouseEvent</code> or <code>initMouseEventNS</code>, implementations should use the client coordinates <code>clientX</code> and <code>clientY</code> for calculation of other coordinates (such as target coordinates exposed by <a href="#glossary-dt-DOM-Level-0">DOM Level 0</a> implementations).</p>
+            <p class="note"><strong>Note:</strong> When initializing <code>MouseEvent</code> objects using <code>initMouseEvent</code> or <code>initMouseEventNS</code>, implementations should use the client coordinates <code>clientX</code> and <code>clientY</code> for calculation of other coordinates (such as target coordinates exposed by <a href="#glossary-dt-DOM-Level-0">DOM Level 0</a> implementations).</p>
             <dl>
               <dt>
                 <br/>
@@ -3049,7 +3056,9 @@ An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus s
                   <td><a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use. <a href="#events-Events-MouseEvent-relatedTarget"><code>MouseEvent.relatedTarget</code></a> indicates the <a href="#glossary-dt-event-target">event target</a> a pointing device is exiting, if any.</td>
                 </tr>
               </table>
-                A pointing device is moved onto an element.  This event type is similar to <a class="noxref" href="#events-event-mouseover">mouseover</a>, but for <a class="noxref" href="#events-event-mouseenter">mouseenter</a>, the <a href="#glossary-dt-propagation-path">propagation path</a> must end at the <a href="#glossary-dt-event-target">event target</a> element, and must not include the target element's child nodes as <a href="#glossary-dt-event-target">event targets</a>. <strong>Note:</strong> This is the event type equivalent of the CSS <a href="http://www.w3.org/TR/CSS2/selector.html#dynamic-pseudo-classes" title="Selectors"><code>:hover</code> pseudo-class</a> <a href="#references-CSS2">[CSS2]</a>.  This matches the <a class="noxref" href="#events-event-mouseleave">mouseleave</a> event type in its <a href="#glossary-dt-propagation-path">propagation path</a> behavior.
+              A pointing device is moved onto an element.  This event type is similar to <a class="noxref" href="#events-event-mouseover">mouseover</a>, but for <a class="noxref" href="#events-event-mouseenter">mouseenter</a>, the <a href="#glossary-dt-propagation-path">propagation path</a> must end at the <a href="#glossary-dt-event-target">event target</a> element, and must not include the target element's child nodes as <a href="#glossary-dt-event-target">event targets</a>. 
+                
+              <p class="note"><strong>Note:</strong> This is the event type equivalent of the CSS <a href="http://www.w3.org/TR/CSS2/selector.html#dynamic-pseudo-classes" title="Selectors"><code>:hover</code> pseudo-class</a> <a href="#references-CSS2">[CSS2]</a>.  This matches the <a class="noxref" href="#events-event-mouseleave">mouseleave</a> event type in its <a href="#glossary-dt-propagation-path">propagation path</a> behavior.</p>
             </dd>
           </dl>
         </div>
@@ -3094,7 +3103,8 @@ An <a href="#glossary-dt-event-target">event target</a> loses focus. The focus s
                   <td><a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use. <a href="#events-Events-MouseEvent-relatedTarget"><code>MouseEvent.relatedTarget</code></a> indicates the <a href="#glossary-dt-event-target">event target</a> a pointing device is entering, if any.</td>
                 </tr>
               </table>
-                A pointing device is moved away from an element.  This event type is similar to <a class="noxref" href="#events-event-mouseout">mouseout</a>, but for <a class="noxref" href="#events-event-mouseleave">mouseleave</a>, the <a href="#glossary-dt-propagation-path">propagation path</a> must end at the <a href="#glossary-dt-event-target">event target</a> element, and must not include the target element's child nodes as <a href="#glossary-dt-event-target">event targets</a>. <strong>Note:</strong> This matches the <a class="noxref" href="#events-event-mouseenter">mouseenter</a> event type in its <a href="#glossary-dt-propagation-path">propagation path</a> behavior.
+              A pointing device is moved away from an element.  This event type is similar to <a class="noxref" href="#events-event-mouseout">mouseout</a>, but for <a class="noxref" href="#events-event-mouseleave">mouseleave</a>, the <a href="#glossary-dt-propagation-path">propagation path</a> must end at the <a href="#glossary-dt-event-target">event target</a> element, and must not include the target element's child nodes as <a href="#glossary-dt-event-target">event targets</a>. 
+              <p class="note"><strong>Note:</strong> This matches the <a class="noxref" href="#events-event-mouseenter">mouseenter</a> event type in its <a href="#glossary-dt-propagation-path">propagation path</a> behavior.</p>
             </dd>
           </dl>
         </div>
@@ -4173,7 +4183,7 @@ interface <a class="noxref" href="#events-Events-KeyboardEvent">KeyboardEvent</a
                         <a id="events-Events-KeyboardEvent-altKey">altKey</a>
                       </code> of type <code>boolean</code>, readonly</dt>
                     <dd><code>true</code> if the alternative (Alt) key modifier is activated.
-<p><strong>Note:</strong> The Option key modifier on Macintosh systems must be represented using this key modifier.</p>
+<p class="note"><strong>Note:</strong> The Option key modifier on Macintosh systems must be represented using this key modifier.</p>
                     </dd>
                     <dt><code class="attribute-name">
                         <a id="events-Events-KeyboardEvent-ctrlKey">ctrlKey</a>
@@ -4191,7 +4201,7 @@ interface <a class="noxref" href="#events-Events-KeyboardEvent">KeyboardEvent</a
                         <a id="events-Events-KeyboardEvent-metaKey">metaKey</a>
                       </code> of type <code>boolean</code>, readonly</dt>
                     <dd><code>true</code> if the meta (Meta) key modifier is activated.
-<p><strong>Note:</strong> The Command key modifier on Macintosh systems must be represented using this key modifier.</p>
+<p class="note"><strong>Note:</strong> The Command key modifier on Macintosh systems must be represented using this key modifier.</p>
                     </dd>
                     <dt><code class="attribute-name">
                         <a id="events-Events-KeyboardEvent-shiftKey">shiftKey</a>
@@ -4216,7 +4226,7 @@ interface <a class="noxref" href="#events-Events-KeyboardEvent">KeyboardEvent</a
                             <dl>
                               <dt><code class="parameter-name">keyIdentifierArg</code> of type <code>DOMString</code></dt>
                               <dd>A modifier key identifier. Common modifier keys are <code>"Alt"</code>, <code>"AltGraph"</code>, <code>"CapsLock"</code>, <code>"Control"</code>, <code>"Meta"</code>, <code>"NumLock"</code>, <code>"Scroll"</code>, or <code>"Shift"</code>.
-<p><strong>Note:</strong> If an application wishes to distinguish between right and left modifiers, this information could be deduced using keyboard events and <a href="#events-Events-KeyboardEvent-keylocation"><code>KeyboardEvent.keyLocation</code></a>.</p>
+<p class="note"><strong>Note:</strong> If an application wishes to distinguish between right and left modifiers, this information could be deduced using keyboard events and <a href="#events-Events-KeyboardEvent-keylocation"><code>KeyboardEvent.keyLocation</code></a>.</p>
                               </dd>
                             </dl>
                           </div>
@@ -4370,7 +4380,56 @@ interface <a class="noxref" href="#events-Events-KeyboardEvent">KeyboardEvent</a
                     <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, <a href="#events-Events-KeyboardEvent-keyIdentifier"><code>KeyboardEvent.keyIdentifier</code></a>, <a href="#events-Events-KeyboardEvent-keylocation"><code>KeyboardEvent.keyLocation</code></a>, <a href="#events-Events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-Events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-Events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, and <a href="#events-Events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a> are in use.</td>
                   </tr>
                 </table>
-A key is pressed down. This event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type shall be generated after the keyboard mapping but before the processing of an <a href="#glossary-dt-ime">input method editor</a>. This event should logically happen before the event <a href="#events-event-keyup">keyup</a> is produced. Whether a <a href="#events-event-keydown">keydown</a> contributes or not to the generation of a text event is implementation dependent.</dd>
+A key is pressed down. This event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type shall be generated after the keyboard mapping but before the processing of an <a href="#glossary-dt-ime">input method editor</a>. This event should logically happen before the event <a href="#events-event-keyup">keyup</a> is produced. Whether a <a href="#events-event-keydown">keydown</a> contributes or not to the generation of a text event is implementation dependent.
+
+                <p class="note"><strong>Note:</strong> the <a href="#events-event-keydown">keydown</a> and <a href="#events-event-keyup">keyup</a> events are traditionally associated with detecting a physical key rather than a character value.</p>
+              </dd>
+            </dl>
+          </div>
+          <div class="event-definition assert must">
+            <dl>
+              <dt id="events-event-keypress">
+                <a class="noxref" href="#events-event-keypress">keypress</a>
+              </dt>
+              <dd>
+                <table border="0"
+                  summary="This table contains information about the semantics of the given event type"
+                  cellpadding="2" cellspacing="0">
+                  <tr class="assert must">
+                    <th>Type</th>
+                    <td bgcolor="#CFCFCF"><strong><code>keypress</code></strong></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Namespace</th>
+                    <td><code>None</code></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Interface</th>
+                    <td><a href="#events-Events-KeyboardEvent"><code>KeyboardEvent</code></a></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Cancelable</th>
+                    <td>Yes</td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Bubbles</th>
+                    <td>Yes</td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Target</th>
+                    <td><code>Element</code></td>
+                  </tr>
+                  <tr class="assert must">
+                    <th>Context info</th>
+                    <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, <a href="#events-Events-KeyboardEvent-keyIdentifier"><code>KeyboardEvent.keyIdentifier</code></a>, <a href="#events-Events-KeyboardEvent-keylocation"><code>KeyboardEvent.keyLocation</code></a>, <a href="#events-Events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-Events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-Events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, and <a href="#events-Events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a> are in use.</td>
+                  </tr>
+                </table>
+A key is pressed down. This event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type shall be generated after the keyboard mapping but before the processing of an <a href="#glossary-dt-ime">input method editor</a>. This event should logically happen before the event <a href="#events-event-keyup">keyup</a> is produced. Whether a <a href="#events-event-keypress">keypress</a> contributes or not to the generation of a text event is implementation dependent.
+
+                <p class="note"><strong>Note:</strong> the <a href="#events-event-keypress">keypress</a> event is traditionally associated with detecting a character value rather than a physical key, and may not be available on all keys in some configurations.</p>
+
+                <p class="warning"><strong>Warning:</strong> the <a href="#events-event-keypress">keypress</a> event type is defined in this specification for reference and completeness, but this specification <a href="#glossary-dt-deprecated">deprecates</a> the use of this event type.</p>
+              </dd>
             </dl>
           </div>
           <div class="event-definition assert must">
@@ -4411,7 +4470,10 @@ A key is pressed down. This event type is device dependent and relies on the cap
                     <td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, <a href="#events-Events-KeyboardEvent-keyIdentifier"><code>KeyboardEvent.keyIdentifier</code></a>, and <a href="#events-Events-KeyboardEvent-keylocation"><code>KeyboardEvent.keyLocation</code></a> are in use. <a href="#events-Events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-Events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-Events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, and <a href="#events-Events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a> are in use unless the <a class="noxref" href="#events-Events-KeyboardEvent-keyIdentifier"><code>KeyboardEvent.keyIdentifier</code></a> corresponds to the key modifier itself.</td>
                   </tr>
                 </table>
-A key is released. This event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type shall be generated after the keyboard mapping but before the processing of an <a href="#glossary-dt-ime">input method editor</a>. This event should logically happen after the event <a href="#events-event-keydown">keydown</a> shall be produced. Whether a keyup contributes or not to the generation of a text event is implementation dependent.</dd>
+                A key is released. This event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type shall be generated after the keyboard mapping but before the processing of an <a href="#glossary-dt-ime">input method editor</a>. This event should logically happen after the event <a href="#events-event-keydown">keydown</a> shall be produced. Whether a keyup contributes or not to the generation of a text event is implementation dependent.
+
+                <p class="note"><strong>Note:</strong> the <a href="#events-event-keydown">keydown</a> and <a href="#events-event-keyup">keyup</a> events are traditionally associated with detecting a physical key rather than a character value.</p>
+              </dd>
             </dl>
           </div>
         </div>
@@ -4710,7 +4772,7 @@ A key is released. This event type is device dependent and relies on the capabil
         <div class="div3">
           <h3 id="events-Events-eventgroupings-mutationevents" class="div3">5.2.9 Mutation Events</h3>
           <p>This module defines the feature MutationEvents 3.0 and depends on the feature Events 3.0.</p>
-          <p><strong>Note:</strong>  The <code>MutationEvent</code> interface was introduced in DOM Level 2 Events, but has not yet been completely and interoperably implemented across user agents.  In addition, there have been critiques that the interface, as designed, introduces a performance and implementation challenge.  A new specification is under development with the aim of addressing the use cases that mutation events solves, but in more performant manner.  Thus, this specification describes mutation events for completeness, but deprecates the use of both the <code>MutationEvent</code> interface and the <code>MutationNameEvent</code> interface.</p>
+          <p class="note"><strong>Note:</strong>  The <code>MutationEvent</code> interface was introduced in DOM Level 2 Events, but has not yet been completely and interoperably implemented across user agents.  In addition, there have been critiques that the interface, as designed, introduces a performance and implementation challenge.  A new specification is under development with the aim of addressing the use cases that mutation events solves, but in more performant manner.  Thus, this specification describes mutation events for completeness, but deprecates the use of both the <code>MutationEvent</code> interface and the <code>MutationNameEvent</code> interface.</p>
           <p>The mutation and mutation name event modules are designed to allow notification of any changes to the structure of a document, including attribute, text, or name modifications. It may be noted that none of the event types associated with the modules are designated as cancelable. This stems from the fact that it is very difficult to make use of existing DOM interfaces which cause document modifications if any change to the document might or might not take place due to cancelation of the resulting event. Although this is still a desired capability, it was decided that it would be better left until the addition of transactions into the DOM.</p>
       <!-- <p class="issue">Note that nodes that are not in the document, such as elements freshly created, or elements removed from the DOM, shall not fire mutation events when changed.  For example, if an element is created but not yet inserted into the document, then an existing element located in the document shall be moved from its current location to be a child of the new element, there must be one mutation event, for removing the existing element from its previous location, but no event must fire for insertion of the element into the new element, regardless of any assigned mutation event listeners.</p>
       <p class="issue">?What happens to event listeners on an element when it is removed from the tree, or moved elsewhere in the tree?</p> -->
@@ -5205,7 +5267,7 @@ Occurs after <code>CharacterData.data</code> or <code>ProcessingInstruction.data
         <div class="div3">
           <h3 class="div3" id="events-Events-eventgroupings-mutationnameevents">5.2.10 Mutation Name Event Types</h3>
           <p>This module defines the feature MutationNameEvents 3.0 and depends on the features MutationEvents 3.0 and Core 3.0.</p>
-          <p><strong>Note:</strong>  The <code>MutationNameEvents</code> interface, introduced in an earlier draft of this specification, derives from the <a href="#events-Events-eventgroupings-mutationevents"><code>MutationEvent</code></a> interface, which is deprecated in this specification.  Thus, this specification describes the mutation name event types for completeness, but deprecates their use.</p>
+          <p class="note"><strong>Note:</strong>  The <code>MutationNameEvents</code> interface, introduced in an earlier draft of this specification, derives from the <a href="#events-Events-eventgroupings-mutationevents"><code>MutationEvent</code></a> interface, which is deprecated in this specification.  Thus, this specification describes the mutation name event types for completeness, but deprecates their use.</p>
           <dl>
             <dt><strong>Interface <em>
                   <a id="events-Events-MutationNameEvent">MutationNameEvent</a>
@@ -5440,7 +5502,7 @@ Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a
         <li>Relations between keyboard events, their default actions, and text events.</li>
         <li>The set of key identifiers, and guidelines on how to extend this set.</li>
       </ul>
-      <p><strong>Note:</strong> This section uses serbian and kanji characters which are not always available (or are misrepresented) in the alternative versions or printed versions of this specification.</p>
+      <p class="note"><strong>Note:</strong> This section uses serbian and kanji characters which are not always available (or are misrepresented) in the alternative versions or printed versions of this specification.</p>
       <div class="div2">
         <h2 id="keyset-KeySet-intro" class="adiv2">6.1 Introduction</h2>
         <p class="1st">Each keyboard event references a key using a <code>DOMString</code> key identifier. The set contained in this appendix is based on the sets of keycodes from:</p>
@@ -5526,7 +5588,7 @@ Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a
           <li><code>"textInput"</code>: <code>"&#1113;"</code></li>
           <li><code>"keyup"</code>: <code>"U+0409"</code></li>
         </ol>
-        <p><strong>Note:</strong> The order between the text event and keyboard events may differ depending on the keyboard devices.</p>
+        <p class="note"><strong>Note:</strong> The order between the text event and keyboard events may differ depending on the keyboard devices.</p>
         <div class="div3">
           <h3 id="keyset-Modifiers" class="adiv3">6.1.1 Modifier keys</h3>
           <p>Keyboard input uses modifier keys to change the normal behavior of a key. Keys associated with modifiers generate, like other keys, <a href="#events-event-keydown">keydown</a> and <a href="#events-event-keyup">keyup</a> events as shown in the example below. Some modifiers are activated while the key is being pressed down or maintained pressed such as <code>"Alt"</code>, <code>"Control"</code>, <code>"Shift"</code>, <code>"AltGraph"</code>, or <code>"Meta"</code>. Others modifiers are activated depending on their state such as <code>"CapsLock"</code>, <code>"NumLock"</code>, or <code>"Scroll"</code>. Change in the state happens when the modifier key is being pressed down. The <a href="#events-Events-KeyboardEvent"><code>KeyboardEvent</code></a> interface provides convenient attributes for some common modifiers keys: <a href="#events-Events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, <a href="#events-Events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-Events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-Events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a>. Some operating systems simulate the <code>"AltGraph"</code> modifier key with the combination of the <code>"Alt</code> and <code>"Control"</code> modifier keys. Implementations are encouraged to use the <code>"AltGraph"</code> modifier key.</p>
@@ -5669,7 +5731,7 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
           <h3 id="keyset-Guide" class="adiv3">6.1.5 Guidelines for defining key identifiers</h3>
           <!-- <div class="atrisk">
       <p class="issue">This section is the original guideline.  We are considering making a more detailed, normative guideline, below.</p>
-      <p><strong>Note:</strong> This section is non-normative.</p>
+      <p class="note"><strong>Note:</strong> This section is non-normative.</p>
           <p>The list of key identifiers contained in this appendix is not exhaustive and input devices may have to define their own key identifiers. Here is a algorithm to determine which key identifier to use:</p>
           <ol>
             <li>Determine a representation for the key by looking at the keyboard layout mapping in use (and not the keyboard device in use). This representation should be unique, as human friendly as possible, platform independent, and consistent. For example, on PC/AT US keyboards with a US mapping, the 'Q' key shall be mapped to the key identifier "U+0051" (Latin Capital Letter Q key), the '1/!' key shall be mapped to the key identifier "U+0031" (Digit One key), the key '`/~' shall be mapped to the key identifier "U+0060" (Grave Accent key), and the 'Enter' key shall be mapped to the key identifier "Enter".</li>
@@ -5679,7 +5741,7 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
         </div> -->
 
 
-		<p><strong>Note:</strong> This section is normative.</p>
+		<p class="note"><strong>Note:</strong> This section is normative.</p>
 <p>The list of key identifiers contained in this appendix is not exhaustive and input devices may have to define their own key identifiers. Here is a algorithm to determine which key identifier to use:</p>  
 
 	<ol>
@@ -5822,7 +5884,7 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
       <!-- div2 KeySet-intro -->
       <div class="div2">
         <h2 id="keyset-KeySet-Set" class="adiv2">6.2 Key identifiers set</h2>
-        <p><strong>Note:</strong> The keycodes <code>Multiply</code>, <code>Add</code>, <code>Substract</code>, <code>Decimal</code>, <code>Separator</code>, <code>Divide</code>, <code>NumPad0</code>, <code>NumPad1</code>, <code>NumPad2</code>, <code>NumPad3</code>, <code>NumPad4</code>, <code>NumPad5</code>, <code>NumPad6</code>, <code>NumPad7</code>, <code>NumPad8</code>, and <code>NumPad9</code> are not part of this set. Use <a href="#events-Events-KeyboardEvent-keylocation"><code>KeyboardEvent.keyLocation</code></a> to know if a key originated from the numeric keypad.</p>
+        <p class="note"><strong>Note:</strong> The keycodes <code>Multiply</code>, <code>Add</code>, <code>Substract</code>, <code>Decimal</code>, <code>Separator</code>, <code>Divide</code>, <code>NumPad0</code>, <code>NumPad1</code>, <code>NumPad2</code>, <code>NumPad3</code>, <code>NumPad4</code>, <code>NumPad5</code>, <code>NumPad6</code>, <code>NumPad7</code>, <code>NumPad8</code>, and <code>NumPad9</code> are not part of this set. Use <a href="#events-Events-KeyboardEvent-keylocation"><code>KeyboardEvent.keyLocation</code></a> to know if a key originated from the numeric keypad.</p>
         <dl>
           <dt><a id="keyset-key-Accept">"Accept"</a></dt>
              <dd>The Accept (Commit, OK) key.</dd>
@@ -6369,7 +6431,7 @@ the <a href="#glossary-dt-default-action">default action</a> of the keydown even
 
       <div>
 		<h2 id="keyset-KeySet-Set-keyCode-charCode" class="adiv2">6.2.1 Key identifiers, keyCode, and charCode</h2>
-		<p><strong>Note:</strong> This section is non-normative.</p>
+		<p class="note"><strong>Note:</strong> This section is non-normative.</p>
 		<p>Browser support for keyboards has traditionally relied on two ad-hoc attributes, <code class="attr-name">keyCode</code>, and <code class="attr-name">charCode</code>.  The values for these attributes, and the availability of the attribute, is inconsistent across platforms, keyboard languages and layouts, User Agents, versions, and even event types.  A significant amount of legacy content, including script libraries, relies upon detecting the User Agent and acting accordingly, and any changes to <code class="attr-name">keyCode</code>, or <code class="attr-name">charCode</code> risk breaking as much content as they fix or enable.  Additionally, these attributes are not suitable for international usage, or accessibility concerns.  Therefore, this specification does not normatively define the <code class="attr-name">keyCode</code>, and <code class="attr-name">charCode</code> attributes, relying instead only on the more robust key identifiers, which can be used safely and consistently in any User Agent which conforms to this specification.  However, for the purpose of documenting the current state of these attributes and their relation to equivalent key identifiers, this specification contains the following table, which is to be used as an informative reference only, and does not document the full range of values for <code class="attr-name">keyCode</code>, and <code class="attr-name">charCode</code>.</p>
 	    
 	    <table id="tbl-keyIdentifiers-keyCode-charCode">
