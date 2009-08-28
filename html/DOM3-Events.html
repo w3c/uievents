@@ -4124,13 +4124,14 @@ interface <a class="noxref" href="#events-Events-KeyboardEvent">KeyboardEvent</a
   const unsigned long       <a class="noxref" href="#events-DOM_KEY_LOCATION_MOBILE">DOM_KEY_LOCATION_MOBILE</a>        = 0x04;
   const unsigned long       <a class="noxref" href="#events-DOM_KEY_LOCATION_JOYSTICK">DOM_KEY_LOCATION_JOYSTICK</a>      = 0x05;
 
-  readonly attribute DOMString       <a class="noxref" href="#events-Events-KeyboardEvent-keyIdentifier">keyIdentifier</a>;
-  <!-- @@ readonly attribute DOMString       <a class="noxref" href="#events-Events-KeyboardEvent-keyValue">keyValue</a>; -->
+  readonly attribute DOMString       <a class="noxref" href="#events-Events-KeyboardEvent-keyIdentifier">keyIdentifier</a>;                <!-- @@ readonly attribute DOMString       <a class="noxref" href="#events-Events-KeyboardEvent-keyValue">keyValue</a>; -->
   readonly attribute unsigned long   <a class="noxref" href="#events-Events-KeyboardEvent-keylocation">keyLocation</a>;
   readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-ctrlKey">ctrlKey</a>;
   readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-shiftKey">shiftKey</a>;
   readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-altKey">altKey</a>;
   readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-metaKey">metaKey</a>;
+  <!--   readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-repeat">repeat</a>;
+    readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-longpress">longpress</a>; -->
   boolean            <a class="noxref" href="#events-Events-KeyboardEvent-getModifierState">getModifierState</a>(in DOMString keyIdentifierArg);
   void               <a class="noxref" href="#events-Events-KeyboardEvent-initKeyboardEvent">initKeyboardEvent</a>(in DOMString typeArg, 
                                        in boolean canBubbleArg, 
@@ -5524,13 +5525,29 @@ Occurs after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a
       <p class="note"><strong>Note:</strong> This section uses serbian and kanji characters which are not always available (or are misrepresented) in the alternative versions or printed versions of this specification.</p>
       <div class="div2">
         <h2 id="keyset-KeySet-intro" class="adiv2">6.1 Introduction</h2>
+        <p>The relationship of each key to the complete keyboard has three separate aspects, each of which vary among different models and configurations of keyboards, particularly for locale-specific reasons:</p>
+        <ul>
+          <li><strong>Mechanical layout:</strong> the dimensions, size, and placement of the physical keys on the keyboard</li>
+          <li><strong>Visual markings:</strong> the labels (or <em>legends</em>) that mark each key</li>
+          <li><strong>Functional mapping:</strong> the abstract key-identifier association of each key.</li>
+        </ul>
+
+        <p>This specification only defines the functional mapping, in terms of key identifiers.  The visual marking has no bearing on the digital representation of the keys, and in many configurations may be completely inaccurate.  The physical layout of the keys may be of interest to authors developing games or other applications wherein the location of the keys has an ergonomic relationship as the desired user interface controls, with little or no attention paid to the representational value of the key itself.  For example, many games may use the keys <code class="value">'A'</code>, <code class="value">'S'</code>, <code class="value">'D'</code>, and <code class="value">'W'</code> for <code class="value">'left'</code>, <code class="value">'down'</code>, <code class="value">'right'</code>, and <code class="value">'up'</code> respectively.  Authors are encouraged to provide a means for the user to assign the controller keys to a custom setting appropriate to their keyboard configurations.  In the case where an author wishes to rely on the mechanical layout of the keyboard, this specification recommends the keyboard configuration specified in ISO/IEC-9995-3-FCD:2009A as a common layout appropriate to many international uses.</p>
+        
+        <div class="figure" style="text-align: center">
+          <object type="image/svg+xml" data="images/ISOIEC-9995-3-FCD-2009A.svg" width="900" height="300">
+            <img src="images/ISOIEC-9995-3-FCD-2009A.png" alt="A graphical depiction of an ISO standard defining layouts of computer keyboards, ISO/IEC 9995-3:2009A"/>
+          </object>
+          <p style="text-align:left"><em>Figure: A graphical depiction of an ISO standard defining layouts of computer keyboards, ISO/IEC 9995-3:2009A</em></p>
+        </div>
+        
         <p class="1st">Each keyboard event references a key using a <code>DOMString</code> key identifier. The set contained in this appendix is based on the sets of keycodes from:</p>
         <ul>
           <li>the interface <code>java.awt.event.KeyEvent</code> of the Java 2 Platform v1.4 [<cite><a class="noxref informative" href="#references-KeyEvent">KeyEvent for Java</a></cite>];</li>
           <li>the enumeration <code>System.Windows.Forms.Keys</code> of the Microsoft .NET Framework 1.0 [<cite><a class="noxref informative" href="#references-Keys">Keys enumeration for .Net</a></cite>].</li>
         </ul>
 
-		<p>Key identifiers are strings used for uniquely addressing keyboard buttons, and intended for use in two primary scenarios:  as attributes for a keyboard event; or as string values for markup attributes, such as so-called "hotkeys" (or keyboard shortcuts).  As attributes on an event, the key identifier shall be a single canonical value.  As author-generated content, the key identifier may be one of three equivalent string values, which all evaluate to the same key identifier; the string may be a character string (a single character, such as a letter or symbol), a key name (a multi-character string, such as <code>enter</code> or <code>tab</code>, for control or dead keys, or certain symbols), or a Unicode codepoint ("U+" followed by a hexadecimal character index).  The event attribute must always be the most author-friendly of these, in the following order: character string, key name, or Unicode codepoint.</p>
+		    <p>Key identifiers are strings used for uniquely addressing keyboard buttons, and intended for use in two primary scenarios:  as attributes for a keyboard event; or as string values for markup attributes, such as so-called "hotkeys" (or keyboard shortcuts).  As attributes on an event, the key identifier shall be a single canonical value.  As author-generated content, the key identifier may be one of three equivalent string values, which all evaluate to the same key identifier; the string may be a character string (a single character, such as a letter or symbol), a key name (a multi-character string, such as <code>enter</code> or <code>tab</code>, for control or dead keys, or certain symbols), or a Unicode codepoint ("U+" followed by a hexadecimal character index).  The event attribute must always be the most author-friendly of these, in the following order: character string, key name, or Unicode codepoint.</p>
 		
 		<p>There are several use cases for keyboard events.  The first use case is to retrieve the value of the key itself, in whichever mode that key currently represents (i.e. the value of a key as an upper- or lower-case letter, or a symbol or number, depending upon the current modifier keys, or as a key name); this may be used for monitoring particular input strings, or for modifier key input, or for author-generated virtual keyboards, and does not not depend upon the location of the key in the physical layout of the device, which may be mapped to different configurations based on user or system preference.  The second use case is for keyboard shortcuts, where the string itself may be of secondary importance, and where they key used should default to the most appropriate key for the function, language, operating system, device, and other environmental factors (such as <code>ctrl+c</code> for copy operations).  The final use case is completely independent of the value of the key identifier, and relies solely on the physical layout of the input device itself (such as for game controls); this is highly variable device-dependent functionality, and is not within the scope of this specification.  Implementations should provide an option for users to establish their own preferential mapping for keyboard layout, and may rely upon ISO 9995-3, which defines a common layout for primary and secondary key mappings on a typical alphanumeric keyboard, or on ISO 9995-8, which defines a numeric keypad layout and secondary assignment of Unicode characters in the range <abbr title="a-z">U+0061..U+007A</abbr> to the number keys <code>2</code> through <code>9</code>.</p>
 		
