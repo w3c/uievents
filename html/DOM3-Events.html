@@ -119,7 +119,7 @@
         </dd>
         <dt>Previous version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.58">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.58</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.60">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.60</a>
         </dd>
         <dt>Editor's Draft:</dt>
         <dd>
@@ -2131,11 +2131,39 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
       </div>
 <!-- div3 Events-eventgroupings-basicevents -->
     </div>
+    
+    
+    
 <!-- div3 Events-KeyboardEvents-Interfaces -->
     <div class="div3">
       <h3 id="events-mouseevents" class="div3">5.2.3 Mouse Event Types</h3>
       <p>This module defines the feature MouseEvents 3.0 and depends on the feature UIEvents 3.0.</p>
       <p>The Mouse event module originates from the [<cite><a class="noxref informative" href="#references-HTML40">HTML 4.01</a></cite>] <code>onclick</code>, <code>ondblclick</code>, <code>onmousedown</code>, <code>onmouseup</code>, <code>onmouseover</code>, <code>onmousemove</code>, and <code>onmouseout</code> attributes. This event module is specifically designed for use with pointing input devices, such as a mouse or a trackball.</p>
+
+      <h4 id="events-mouseevent-event-order" class="div3 needswork">Mouse Event Order</h4>
+      <p>Certain mouse events occur in a set order relative to one another.</p>
+      <p>The following is the typical sequence of events when a pointing device's cursor is moved over an element:</p>
+      <ol>
+        <li>mousemove</li>
+        <li>mouseover</li>
+        <li>mouseenter</li>
+        <li>mousemove (multiple events)</li>
+        <li>mouseout</li>
+        <li>mouseleave</li>
+      </ol>
+      
+      <p>The following is the typical sequence of events when a button associated with a pointing device (e.g., a mouse button or trackpad) is pressed and released over an element:</p>
+      <ol>
+        <li>mousedown</li>
+        <li>mousemove (optional, multiple events, some limits)</li>
+        <li>mouseup</li>
+        <li>click</li>
+        <li>mousemove (optional, multiple events, some limits)</li>
+        <li>dblclick</li>
+      </ol>
+      
+      <p>Note that the lag time, degree, distance, and number of mousemove events allowed while still firing a click or dblclick event shall be implementation-, device-, and platform-specific.  Each implementation should determine the appropriate hysteresis tolerance, but in general should fire click and dblclick events when the event target of the associated mousedown and mouseup events is the same element with no mouseout or mouseleave events intervening, and should not fire click and dblclick events when the event target of the associated mousedown and mouseup events is different.</p>
+
       <dl>
         <dt><strong>Interface <em><a id="events-Events-MouseEvent">MouseEvent</a></em></strong> (introduced in <strong class="since">DOM Level 2</strong>)</dt>
         <dd>
@@ -2355,7 +2383,7 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
           </dt>
           <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>mousemove</code></strong></td></tr><tr class="assert must"><th>Namespace</th><td><code>None</code></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-MouseEvent"><code>MouseEvent</code></a></td></tr><tr class="assert must"><th>Cancelable</th><td>Yes</td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use.</td></tr></table>
 
-            A pointing device is moved while it is over an element.</dd>
+            A pointing device is moved while it is over an element.  The frequency rate of events while the pointing device is moved shall be implementation-, device-, and platform-specific, but multiple consecutive <a href="#event-type-mousemove"><code>mousemove</code></a> events should be fired for sustained pointer-device movement, rather than a single event for each instance of mouse movement.  Implementations are encouraged to determine the optimal frequency rate to balance responsiveness with performance.</dd>
         </dl>
       </div>
 <!-- mouseout -->
