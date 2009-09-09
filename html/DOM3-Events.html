@@ -135,7 +135,7 @@
       <dl>
         <dt>This version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.65">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.65</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.66">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.66</a>
         </dd>
         <dt>Latest stable version:</dt>
         <dd>
@@ -143,7 +143,7 @@
         </dd>
         <dt>Previous version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.64">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.64</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.65">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.65</a>
         </dd>
         <dt>Editor's Draft:</dt>
         <dd>
@@ -2054,9 +2054,23 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
               <a class="noxref" href="#event-type-load">load</a>
             </dt>
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>load</code></strong></td></tr><tr class="assert must"><th>Namespace</th><td><code>None</code></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Events-Event"><code>Event</code></a> otherwise.</td></tr><tr class="assert must"><th>Cancelable</th><td>No</td></tr><tr class="assert must"><th>Bubbles</th><td>No</td></tr><tr class="assert must"><th>Target</th><td><code>Document</code>, <code>Element</code></td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> may be in use.</td></tr></table>
-      A user agent must dispatch this event when the DOM implementation finishes loading the resource (such as the document) and any dependent resources (such as images, style sheets, or scripts). Dependent resources that fail to load must not prevent this event from firing if the resource that loaded them is still accessible via the DOM. If this event type is dispatched, implementations are required to dispatch this event at least on the <code>Document</code> node.</dd>
+      A user agent must dispatch this event when the DOM implementation finishes loading the resource (such as the document) and any dependent resources (such as images, style sheets, or scripts). Dependent resources that fail to load must not prevent this event from firing if the resource that loaded them is still accessible via the DOM. If this event type is dispatched, implementations are required to dispatch this event at least on the <code>Document</code> node.  This event differs from the <a href="#event-type-DOMContentLoaded"><code>DOMContentLoaded</code></a> event in that it is not dispatched until all external resources are loaded. 
+            </dd>
           </dl>
         </div>
+
+<!-- DOMContentLoaded -->
+        <div class="event-definition assert must">
+          <dl>
+            <dt id="event-type-DOMContentLoaded">
+              <a class="noxref" href="#event-type-DOMContentLoaded">DOMContentLoaded</a>
+            </dt>
+            <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMContentLoaded</code></strong></td></tr><tr class="assert must"><th>Namespace</th><td><code>None</code></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Events-Event"><code>Event</code></a> otherwise.</td></tr><tr class="assert must"><th>Cancelable</th><td>No</td></tr><tr class="assert must"><th>Bubbles</th><td>No</td></tr><tr class="assert must"><th>Target</th><td><code>Document</code>, <code>Element</code></td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> may be in use.</td></tr></table>
+              A user agent must dispatch this event when the DOM implementation finishes loading the resource (such as the document), but before any dependent resources (such as images, style sheets, or scripts) are necessary loaded.  If this event type is dispatched, implementations are required to dispatch this event at least on the <code>Document</code> node.  This event differs from the <a href="#event-type-load"><code>load</code></a> event in that it is dispatched immediately when the document markup is loaded, rather than waiting on external resources. 
+            </dd>
+          </dl>
+        </div>
+
         
 <!-- unload -->
         <div class="event-definition assert must">
