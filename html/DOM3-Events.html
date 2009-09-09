@@ -135,7 +135,7 @@
       <dl>
         <dt>This version:</dt>
         <dd>
-          <a href="http://www.w3.org/TR/2009/WD-DOM-Level-3-Events-20090908">http://www.w3.org/TR/2009/WD-DOM-Level-3-Events-20090908</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.64">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.64</a>
         </dd>
         <dt>Latest stable version:</dt>
         <dd>
@@ -143,7 +143,7 @@
         </dd>
         <dt>Previous version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.62">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.62</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.63">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.63</a>
         </dd>
         <dt>Editor's Draft:</dt>
         <dd>
@@ -308,6 +308,7 @@
               <li>
                 <a href="#events-mouseevents">5.2.3 Mouse Event Types</a>
                 <ul class="toc">
+                  <li><a href="#events-mouse-event-order">5.2.7.1 Mouse Event Order</a></li>
                   <li><a href="#event-type-click"><code>click</code> event</a></li>
                   <li><a href="#event-type-dblclick"><code>dblclick</code> event</a></li>
                   <li><a href="#event-type-mousedown"><code>mousedown</code> event</a></li>
@@ -340,6 +341,7 @@
               <li>
                 <a href="#events-keyboardevents">5.2.7 Keyboard Event Types</a>
                 <ul class="toc">
+                  <li><a href="#events-keyboard-event-order">5.2.7.1 Keyboard Event Order</a></li>
                   <li><a href="#event-type-keydown"><code>keydown</code> event</a></li>
                   <li><a href="#event-type-keypress"><code>keypress</code> event</a></li>
                   <li><a href="#event-type-keyup"><code>keyup</code> event</a></li>
@@ -348,11 +350,12 @@
               <li>
                 <a href="#events-compositionevents">5.2.8 Composition Events Types</a>
                 <ul class="toc">
+                  <li><a href="#events-composition-event-order">5.2.8.1 Composition Event Order</a></li>
                   <li><a href="#event-type-compositionstart"><code>compositionstart</code> event</a></li>
                   <li><a href="#event-type-compositionupdate"><code>compositionupdate</code> event</a></li>
                   <li><a href="#event-type-compositionend"><code>compositionend</code> event</a></li>
                   <li>
-                    <a href="#handwriting">5.2.8.1 Handwriting Recognition Systems</a>
+                    <a href="#handwriting">5.2.8.2 Handwriting Recognition Systems</a>
                   </li>
                 </ul>
               </li>
@@ -2165,30 +2168,6 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
       <p>This module defines the feature MouseEvents 3.0 and depends on the feature UIEvents 3.0.</p>
       <p>The Mouse event module originates from the [<cite><a class="noxref informative" href="#references-HTML40">HTML 4.01</a></cite>] <code>onclick</code>, <code>ondblclick</code>, <code>onmousedown</code>, <code>onmouseup</code>, <code>onmouseover</code>, <code>onmousemove</code>, and <code>onmouseout</code> attributes. This event module is specifically designed for use with pointing input devices, such as a mouse or a trackball.</p>
 
-      <h4 class="div3 needswork"><a id="events-mouseevent-event-order" href="#events-mouseevent-event-order">Mouse Event Order</a></h4>
-      <p>Certain mouse events occur in a set order relative to one another.</p>
-      <p>The following is the typical sequence of events when a pointing device's cursor is moved over an element:</p>
-      <ol>
-        <li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a></li>
-        <li><a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a></li>
-        <li><a class="eventtype" href="#event-type-mouseenter"><code>mouseenter</code></a></li>
-        <li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a> (multiple events)</li>
-        <li><a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a></li>
-        <li><a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a></li>
-      </ol>
-      
-      <p>The following is the typical sequence of events when a button associated with a pointing device (e.g., a mouse button or trackpad) is pressed and released over an element:</p>
-      <ol>
-        <li><a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a></li>
-        <li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a> (optional, multiple events, some limits)</li>
-        <li><a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a></li>
-        <li><a class="eventtype" href="#event-type-click"><code>click</code></a></li>
-        <li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a> (optional, multiple events, some limits)</li>
-        <li><a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a></li>
-      </ol>
-      
-      <p>Note that the lag time, degree, distance, and number of <a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a> events allowed between the <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> and <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> events while still firing a <a class="eventtype" href="#event-type-click"><code>click</code></a> or <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> event shall be implementation-, device-, and platform-specific.  Each implementation should determine the appropriate hysteresis tolerance, but in general should fire <a class="eventtype" href="#event-type-click"><code>click</code></a> and <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> events when the event target of the associated <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> and <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> events is the same element with no <a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a> or <a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a> events intervening, and should not fire <a class="eventtype" href="#event-type-click"><code>click</code></a> and <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> events when the event target of the associated <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> and <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> events is different.</p>
-
       <dl>
         <dt><strong>Interface <em><a id="events-Events-MouseEvent">MouseEvent</a></em></strong> (introduced in <strong class="since">DOM Level 2</strong>)</dt>
         <dd>
@@ -2328,6 +2307,30 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
       <p id="events-dt-current-click-count">Implementations must maintain the <em>current click count</em> when generating mouse events. This shall be a non-negative integer indicating the number of consecutive clicks of a pointing device button during a user action. The notion of consecutive clicks depends on the environment configuration. For example, a <code><a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a></code> event type might not happen if there is a long delay between the two clicks.
       <span class="note"><strong>Note:</strong> The value of <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> for a number of clicks greater than 2 is platform-dependent.  For example, on the Windows OS, the click-count series seems to be <code>1, 2, 3, 2, 3</code>, while on MacOS, the click-count series seems to be <code>1, 2, 3, 4, 5, ...</code>.</span></p>
 <!-- click -->
+
+
+    <h4 class="div3 needswork"><a id="events-mouseevent-event-order" href="#events-mouseevent-event-order">5.2.3.1 Mouse Event Order</a></h4>
+    <p>Certain mouse events defined in this specification occur in a set order relative to one another.  The following is the typical sequence of events when a pointing device's cursor is moved over an element:</p>
+    <ol>
+      <li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a></li>
+      <li><a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a></li>
+      <li><a class="eventtype" href="#event-type-mouseenter"><code>mouseenter</code></a></li>
+      <li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a> (multiple events)</li>
+      <li><a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a></li>
+      <li><a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a></li>
+    </ol>
+
+    <p>The following is the typical sequence of events when a button associated with a pointing device (e.g., a mouse button or trackpad) is pressed and released over an element:</p>
+    <ol>
+      <li><a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a></li>
+      <li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a> (optional, multiple events, some limits)</li>
+      <li><a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a></li>
+      <li><a class="eventtype" href="#event-type-click"><code>click</code></a></li>
+      <li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a> (optional, multiple events, some limits)</li>
+      <li><a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a></li>
+    </ol>
+
+    <p>Note that the lag time, degree, distance, and number of <a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a> events allowed between the <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> and <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> events while still firing a <a class="eventtype" href="#event-type-click"><code>click</code></a> or <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> event shall be implementation-, device-, and platform-specific.  Each implementation should determine the appropriate hysteresis tolerance, but in general should fire <a class="eventtype" href="#event-type-click"><code>click</code></a> and <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> events when the event target of the associated <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> and <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> events is the same element with no <a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a> or <a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a> events intervening, and should not fire <a class="eventtype" href="#event-type-click"><code>click</code></a> and <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> events when the event target of the associated <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> and <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> events is different.</p>
 
       <div class="event-definition assert must">
         <dl>
@@ -3116,6 +3119,14 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
         </dl>
         <p>Depending on the character generation device, keyboard events may or may not be generated.</p>
         <p>The keyboard event types are listed below.</p>
+        
+        <h4 class="div3 needswork"><a id="events-keyboard-event-order" href="#events-keyboard-event-order">5.2.7.1 Keyboard Event Order</a></h4>
+        <p>The keyboard events defined in this specification occur in a set order relative to one another, for any given key:</p>
+        <ol>
+          <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></li>
+          <li><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a></li>
+          <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></li>
+        </ol>        
 
         <div class="event-definition assert must">
           <dl>
@@ -3123,7 +3134,7 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
               <a class="noxref" href="#event-type-keydown">keydown</a>
             </dt>
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>keydown</code></strong></td></tr><tr class="assert must"><th>Namespace</th><td><code>None</code></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-KeyboardEvent"><code>KeyboardEvent</code></a></td></tr><tr class="assert must"><th>Cancelable</th><td>Yes</td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, <a href="#events-Events-KeyboardEvent-keyIdentifier"><code>KeyboardEvent.keyIdentifier</code></a>, <a href="#events-Events-KeyboardEvent-keylocation"><code>KeyboardEvent.keyLocation</code></a>, <a href="#events-Events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-Events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-Events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, <a href="#events-Events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a>, and <a href="#events-Events-KeyboardEvent-repeat"><code>KeyboardEvent.repeat</code></a> are in use.</td></tr></table>
-               A user agent must dispatch this event when a key is pressed down. The <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type shall be generated after the keyboard mapping but before the processing of an <a href="#glossary-ime">input method editor</a>, normally associated with the dispatching of a <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> event. This event type must be dispatched before the <a class="eventtype" href="#event-type-compositionstart"><code>keypress</code></a> and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events event associated with the same key.  Whether or not a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> contributes to the generation of a text event is implementation dependent.
+               A user agent must dispatch this event when a key is pressed down. The <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type shall be generated after the keyboard mapping but before the processing of an <a href="#glossary-ime">input method editor</a>, normally associated with the dispatching of a <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>, <a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>, or <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event. This event type must be dispatched before the <a class="eventtype" href="#event-type-compositionstart"><code>keypress</code></a> and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events event associated with the same key.  Whether or not a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> contributes to the generation of a text event is implementation dependent.
 
               <p class="note"><strong>Note:</strong> the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events are traditionally associated with detecting a physical key rather than a character value.</p></dd>
           </dl>
@@ -3135,7 +3146,7 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
               <a class="noxref" href="#event-type-keypress">keypress</a>
             </dt>
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>keypress</code></strong></td></tr><tr class="assert must"><th>Namespace</th><td><code>None</code></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-KeyboardEvent"><code>KeyboardEvent</code></a></td></tr><tr class="assert must"><th>Cancelable</th><td>Yes</td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, <a href="#events-Events-KeyboardEvent-keyIdentifier"><code>KeyboardEvent.keyIdentifier</code></a>, <a href="#events-Events-KeyboardEvent-keylocation"><code>KeyboardEvent.keyLocation</code></a>, <a href="#events-Events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-Events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-Events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, <a href="#events-Events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a>, and <a href="#events-Events-KeyboardEvent-repeat"><code>KeyboardEvent.repeat</code></a> are in use.</td></tr></table>
-               A user agent must dispatch this event when a key is pressed down. The <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type shall be generated after the keyboard mapping but before the processing of an <a href="#glossary-ime">input method editor</a>, normally associated with the dispatching of a <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> event. This event type must be dispatched after the <a class="eventtype" href="#event-type-compositionstart"><code>keypress</code></a> event and before the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event associated with the same key.
+               A user agent must dispatch this event when a key is pressed down. The <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type shall be generated after the keyboard mapping but before the processing of an <a href="#glossary-ime">input method editor</a>, normally associated with the dispatching of a <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>, <a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>, or <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event. This event type must be dispatched after the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event and before the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event associated with the same key.
 
               <p class="note"><strong>Note:</strong> the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event is traditionally associated with detecting a character value rather than a physical key, and may not be available on all keys in some configurations.</p><p class="warning"><strong>Warning:</strong> the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event type is defined in this specification for reference and completeness, but this specification <a href="#glossary-deprecated">deprecates</a> the use of this event type.</p></dd>
           </dl>
@@ -3147,7 +3158,7 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
               <a class="noxref" href="#event-type-keyup">keyup</a>
             </dt>
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>keyup</code></strong></td></tr><tr class="assert must"><th>Namespace</th><td><code>None</code></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-KeyboardEvent"><code>KeyboardEvent</code></a></td></tr><tr class="assert must"><th>Cancelable</th><td>Yes</td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, <a href="#events-Events-KeyboardEvent-keyIdentifier"><code>KeyboardEvent.keyIdentifier</code></a>, and <a href="#events-Events-KeyboardEvent-keylocation"><code>KeyboardEvent.keyLocation</code></a> are in use. <a href="#events-Events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-Events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-Events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, and <a href="#events-Events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a> are in use unless the <a class="noxref" href="#events-Events-KeyboardEvent-keyIdentifier"><code>KeyboardEvent.keyIdentifier</code></a> corresponds to the key modifier itself.</td></tr></table>
-               A user agent must dispatch this event when a user agent must dispatch this event when a key is released. This event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type shall be generated after the keyboard mapping but before the processing of an <a href="#glossary-ime">input method editor</a>. This event should logically happen after the event <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> shall be produced. Whether a keyup contributes or not to the generation of a text event is implementation dependent.
+               A user agent must dispatch this event when a key is released.  The <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system.  This event type shall be generated after the keyboard mapping. This event type must be dispatched after the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> and <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> events event associated with the same key.  Whether or not a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> contributes to the generation of a text event is implementation dependent.
 
               <p class="note"><strong>Note:</strong> the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events are traditionally associated with detecting a physical key rather than a character value.</p></dd>
           </dl>
@@ -3243,6 +3254,15 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
         </dl>
         <p>The composition event types are listed below.</p>
 
+        <h4 class="div3 needswork"><a id="events-composition-event-order" href="#events-composition-event-order">5.2.8.1 Composition Event Order</a></h4>
+        <p>The composition events defined in this specification occur in a set order relative to one another:</p>
+        <ol>
+          <li><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></li>
+          <li><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> (multiple events)</li>
+          <li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></li>
+        </ol>        
+
+
         <div class="event-definition assert must">
           <dl>
             <dt id="event-type-compositionstart">
@@ -3276,7 +3296,7 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
           </dl>
         </div>
         <div class="div3">
-          <h4 class="adiv3"><a id="handwriting" href="#handwriting">5.2.8.1 Handwriting Recognition Systems</a></h4>
+          <h4 class="adiv3"><a id="handwriting" href="#handwriting">5.2.8.2 Handwriting Recognition Systems</a></h4>
           <p>The following example describes a possible sequence of events when composing a text passage "text" with a handwriting recognition system, such as on a pen tablet, as modeled using Composition Events.</p>
           <p class="issue">@@ needs more investigation, particularly with regard to pen-tablet events.</p>
           <ol>
