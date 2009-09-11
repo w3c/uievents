@@ -24,6 +24,12 @@
         color:green;
       }
       
+      .proposal {
+         border:1px solid green;
+         background-color: yellow;
+         color: green;
+      }
+      
       .example {
         border:1px solid #ffa500;
         background-color: #fffacd;
@@ -143,7 +149,7 @@
       <dl>
         <dt>This version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.76">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.76</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.77">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.77</a>
         </dd>
         <dt>Latest stable version:</dt>
         <dd>
@@ -151,7 +157,7 @@
         </dd>
         <dt>Previous version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.75">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.75</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.76">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.76</a>
         </dd>
         <dt>Editor's Draft:</dt>
         <dd>
@@ -603,7 +609,7 @@
             <img src="images/eventflow.png" alt="graphical representation of an event dispatched in a DOM tree using the DOM event flow" title="graphical representation of an event dispatched in a DOM tree using the DOM event flow" />
           </object>
           <p style="text-align:left">
-            <em>Figure: graphical representation of an event dispatched in a DOM tree using the DOM event flow</em>
+            <em>Figure 1: graphical representation of an event dispatched in a DOM tree using the DOM event flow</em>
           </p>
         </div>
         <p>Event objects are always dispatched to a node called the <em>event target</em>.  <span class="assert must">At the beginning of the dispatch, implementations must first determine the event object's <a href="#glossary-propagation-path">propagation path</a>. The propagation path shall be an ordered list of event targets through which the object must pass.</span> <span class="assert must">The last item in the list shall be the event target</span>; the preceding items in the list are referred to as the <em>target's ancestors</em>, and the immediately preceding item as the <em>target's parent</em>.  <span class="assert mustnot">Once determined, the propagation path must not be changed, even if an element in the propagation path is moved within the DOM or removed from the DOM.</span> As an example, in the DOM event flow event listeners might change the position of the target node in the document while the event object is being dispatched; such changes do not affect the propagation path.</p>
@@ -677,7 +683,7 @@
             <img src="images/event-inheritance.png" alt="graphical representation of the DOM3 Events interface inheritance" />
           </object>
           <p style="text-align:left">
-            <em>Figure: graphical representation of the DOM3 Events interface inheritance</em>
+            <em>Figure 2: graphical representation of the DOM3 Events interface inheritance</em>
           </p>
         </div>
         <h3 class="div2"><a id="interface-Event" href="#interface-Event">4.1 Interface Event</a></h3>
@@ -947,6 +953,11 @@ interface <a class="noxref" href="#events-Events-CustomEvent">CustomEvent</a> : 
             <p>The <code>EventTarget</code> interface shall be implemented by all the objects which could be <a href="#glossary-event-target">event targets</a> in an implementation which supports an event flow. The interface allows registration and removal of event listeners, and dispatch of events to an event target.</p>
             <p>When used with the DOM event flow, this interface must be implemented by all <a href="#glossary-target-node">target nodes</a> and target ancestors, i.e. all DOM <code>Nodes</code> of the tree support this interface when the implementation conforms to DOM Level 3 Events and, therefore, this interface can be obtained by using binding-specific casting methods on an instance of the <code>Node</code> interface.</p>
             <p>Invoking <code>addEventListener</code> or <code>addEventListenerNS</code> repeatedly on the same <code>EventTarget</code> with the same values for the parameters <code>namespaceURI</code>, <code>type</code>, <code>listener</code>, and <code>useCapture</code> has no effect. Doing so does not cause the <a href="#events-Events-EventListener"><code>EventListener</code></a> to be called more than once and does not cause a change in the triggering order.</p>
+            
+
+        		<p class="issue">@@ add special key event listener that listens for a particular key or set of keys?  That way, authors could maps functionality more easily to specific keys... <code>myEl.addKeyListener("Down, DownLeft, DownRight", moveDown);</code></p>
+
+            
             <dl>
               <dt>
                 <br />
@@ -965,8 +976,8 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                                          in boolean useCapture);
   // Modified in DOM Level 3:
   boolean            <a class="noxref" href="#events-Events-EventTarget-dispatchEvent">dispatchEvent</a>(in <a class="noxref" href="#events-Events-Event">Event</a> evt)
-                                        raises(<a class="noxref" href="#events-Events-EventException">EventException</a>, 
-                                               DOMException);
+                                   raises(<a class="noxref" href="#events-Events-EventException">EventException</a>, 
+                                   DOMException);
   // Introduced in DOM Level 3:
   void               <a class="noxref" href="#events-Events-EventTargetGroup-addEventListenerNS">addEventListenerNS</a>(in DOMString namespaceURI, 
                                         in DOMString type, 
@@ -977,6 +988,16 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                                            in DOMString type, 
                                            in <a class="noxref" href="#events-Events-EventListener">EventListener</a> listener, 
                                            in boolean useCapture);
+<span class="proposal">
+  
+ // Introduced in DOM Level 3:
+ void               <a class="noxref" href="#events-Events-EventTargetGroup-addKeyListener">addKeyListener</a>(in DOMStringList keyIdentifiers, 
+                                   in <a class="noxref" href="#events-Events-EventListener">EventListener</a> listener);
+ // Introduced in DOM Level 3:
+ void               <a class="noxref" href="#events-Events-EventTargetGroup-removeKeyListener">removeKeyListener</a>(in DOMStringList keyIdentifiers, 
+                                      in <a class="noxref" href="#events-Events-EventListener">EventListener</a> listener);
+
+</span>
 };
 </pre>
                 </div>
@@ -994,13 +1015,26 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                   </dt>
                   <dd>
                     <div class="method">Registers an event listener, depending on the <code>useCapture</code> parameter, on the capture phase of the DOM event flow or its target and bubbling phases. Invoking this method shall be equivalent to invoking <code>addEventListenerNS</code> with the same values for the parameters <code>type</code>, <code>listener</code>, and <code>useCapture</code>, and the value <code>null</code> for the parameter <code>namespaceURI</code>.  When this method is used to register an event listener, implementations may also dispatch events with the same <code>type</code> in other namespaces, for purposes of extensibility (e.g. this method may be used to dispatch <code>foo</code> event for the <code>null</code> namespace, or for a vendor-specific namespace); see <a href="#extending_events">Appendix A: Extending Events</a> for more details.
-<div class="parameters"><strong>Parameters</strong><div class="paramtable"><dl><dt><code class="parameter-name">type</code> of type <code>DOMString</code></dt><dd>Specifies the <a href="#events-event-type-type"><code>Event.type</code></a> associated with the event for which the user is registering.<br /></dd><dt><code class="parameter-name">listener</code> of type <a href="#events-Events-EventListener"><code>EventListener</code></a></dt><dd>The <code>listener</code> parameter takes an object implemented by the user which implements the <a class="noxref" href="#events-Events-EventListener"><code>EventListener</code></a> interface and contains the method to be called when the event occurs.<br /></dd><dt><code class="parameter-name">useCapture</code> of type <code>boolean</code></dt><dd>If true, <code>useCapture</code> indicates that the user wishes to add the event listener for the <a href="#glossary-capture-phase">capture phase</a> only, i.e. this event listener will not be triggered during the <a href="#glossary-target-phase">target</a> and <a href="#glossary-bubbling-phase">bubbling</a> phases. If <code>false</code>, the event listener must only be triggered during the target and bubbling phases.<br /></dd></dl></div></div>
+                      <div class="parameters"><strong>Parameters</strong>
+                        <div class="paramtable">
+                          <dl>
+                            <dt><code class="parameter-name">type</code> of type <code>DOMString</code></dt>
+                            <dd>Specifies the <a href="#events-event-type-type"><code>Event.type</code></a> associated with the event for which the user is registering.<br /></dd>
+                            <dt><code class="parameter-name">listener</code> of type <a href="#events-Events-EventListener"><code>EventListener</code></a></dt>
+                            <dd>The <code>listener</code> parameter takes an object implemented by the user which implements the <a class="noxref" href="#events-Events-EventListener"><code>EventListener</code></a> interface and contains the method to be called when the event occurs.<br /></dd>
+                            <dt><code class="parameter-name">useCapture</code> of type <code>boolean</code></dt>
+                            <dd>If true, <code>useCapture</code> indicates that the user wishes to add the event listener for the <a href="#glossary-capture-phase">capture phase</a> only, i.e. this event listener will not be triggered during the <a href="#glossary-target-phase">target</a> and <a href="#glossary-bubbling-phase">bubbling</a> phases. If <code>false</code>, the event listener must only be triggered during the target and bubbling phases.<br /></dd>
+                          </dl>
+                        </div>
+                      </div>
                       <!-- parameters -->
                       <div><strong>No Return Value</strong></div>
                       <div><strong>No Exceptions</strong></div>
                     </div>
 <!-- method -->
                   </dd>
+                  
+                  
                   <dt><code class="method-name"><a id="events-Events-EventTargetGroup-addEventListenerNS">addEventListenerNS</a></code> introduced in <strong class="since">DOM Level 3</strong></dt>
                   <dd>
                     <div class="method">Registers an event listener, depending on the <code>useCapture</code> parameter, on the capture phase of the DOM event flow or its target and bubbling phases.
@@ -1011,7 +1045,30 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                     </div>
 <!-- method -->
                   </dd>
-                  <dt><code class="method-name"><a id="events-Events-EventTarget-dispatchEvent">dispatchEvent</a></code> modified in <strong class="version">DOM Level 3</strong></dt>
+                  
+
+                  <dt class="proposal"><code class="method-name"><a id="events-Events-EventTargetGroup-addKeyListener">addKeyListener</a></code> introduced in <strong class="since">DOM Level 3</strong></dt>
+                  <dd class="proposal">
+                    <div class="method">Registers an event listener of <a href="#events-event-type-type"><code>event type</code></a> <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> on the target and bubbling phases of the DOM event flow.
+                      <div class="parameters"><strong>Parameters</strong>
+                        <div class="paramtable">
+                          <dl>
+                            <dt><code class="parameter-name">keyIdentifiers</code> of type <code>DOMStringList</code></dt>
+                            <dd>Specifies the list of key identifiers associated with the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event type which the user is registering.  The possible key identifiers are defined in <a href="#keyset-keyidentifiers">Key identifiers set</a>.<br /></dd>
+                            <dt><code class="parameter-name">listener</code> of type <a href="#events-Events-EventListener"><code>EventListener</code></a></dt>
+                            <dd>Refer to the <a href="#events-Events-EventTarget-addEventListener"><code>EventTarget.addEventListener()</code></a> method for a description of this parameter.<br /></dd>
+                          </dl>
+                        </div>
+                      </div>
+                      <!-- parameters -->
+                      <div><strong>No Return Value</strong></div>
+                      <div><strong>No Exceptions</strong></div>
+                    </div>
+    <!-- method -->
+                  </dd>
+
+
+                <dt><code class="method-name"><a id="events-Events-EventTarget-dispatchEvent">dispatchEvent</a></code> modified in <strong class="version">DOM Level 3</strong></dt>
                   <dd>
                     <div class="method">Dispatches an event into the implementation's event model. The <a href="#glossary-event-target">event target</a> of the event shall be the <code>EventTarget</code> object on which <code>dispatchEvent</code> is called.
 <div class="parameters"><strong>Parameters</strong><div class="paramtable"><dl><dt><code class="parameter-name">evt</code> of type <a href="#events-Events-Event"><code>Event</code></a></dt><dd>The event to be dispatched.<br /></dd></dl></div></div>
@@ -1029,7 +1086,18 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                   </dt>
                   <dd>
                     <div class="method">Removes an event listener. Calling <code>removeEventListener</code> with arguments which do not identify any currently registered <a href="#events-Events-EventListener"><code>EventListener</code></a> on the <code>EventTarget</code> has no effect. The <a href="#events-event-type-namespaceURI"><code>Event.namespaceURI</code></a> for which the user registered the event listener is implied and shall be <code>null</code>.
-<div class="parameters"><strong>Parameters</strong><div class="paramtable"><dl><dt><code class="parameter-name">type</code> of type <code>DOMString</code></dt><dd>Specifies the <a href="#events-event-type-type"><code>Event.type</code></a> for which the user registered the event listener.<br /></dd><dt><code class="parameter-name">listener</code> of type <a href="#events-Events-EventListener"><code>EventListener</code></a></dt><dd>The <a class="noxref" href="#events-Events-EventListener"><code>EventListener</code></a> to be removed.<br /></dd><dt><code class="parameter-name">useCapture</code> of type <code>boolean</code></dt><dd>Specifies whether the <a class="noxref" href="#events-Events-EventListener"><code>EventListener</code></a> being removed was registered for the capture phase or not. If a listener was registered twice, once for the capture phase and once for the target and bubbling phases, each must be removed separately. Removal of an event listener registered for the capture phase does not affect the same event listener registered for the target and bubbling phases, and vice versa.<br /></dd></dl></div></div>
+                      <div class="parameters"><strong>Parameters</strong>
+                        <div class="paramtable">
+                          <dl>
+                            <dt><code class="parameter-name">type</code> of type <code>DOMString</code></dt>
+                            <dd>Specifies the <a href="#events-event-type-type"><code>Event.type</code></a> for which the user registered the event listener.<br /></dd>
+                            <dt><code class="parameter-name">listener</code> of type <a href="#events-Events-EventListener"><code>EventListener</code></a></dt>
+                            <dd>The <a class="noxref" href="#events-Events-EventListener"><code>EventListener</code></a> to be removed.<br /></dd>
+                            <dt><code class="parameter-name">useCapture</code> of type <code>boolean</code></dt>
+                            <dd>Specifies whether the <a class="noxref" href="#events-Events-EventListener"><code>EventListener</code></a> being removed was registered for the capture phase or not. If a listener was registered twice, once for the capture phase and once for the target and bubbling phases, each must be removed separately. Removal of an event listener registered for the capture phase does not affect the same event listener registered for the target and bubbling phases, and vice versa.<br /></dd>
+                          </dl>
+                        </div>
+                      </div>
                       <!-- parameters -->
                       <div><strong>No Return Value</strong></div>
                       <div><strong>No Exceptions</strong></div>
@@ -1046,6 +1114,30 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                     </div>
 <!-- method -->
                   </dd>
+                  
+
+
+                  <dt class="proposal"><code class="method-name"><a id="events-Events-EventTargetGroup-removeKeyListener">removeKeyListener</a></code> introduced in <strong class="since">DOM Level 3</strong></dt>
+                  <dd class="proposal">
+                    <div class="method">Registers an event listener of <a href="#events-event-type-type"><code>event type</code></a> <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> on the target and bubbling phases of the DOM event flow.
+                      <div class="parameters"><strong>Parameters</strong>
+                        <div class="paramtable">
+                          <dl>
+                            <dt><code class="parameter-name">keyIdentifiers</code> of type <code>DOMStringList</code></dt>
+                            <dd>Specifies the list of key identifiers associated with the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event type for which the user registered the event listener.  The list of keyIdentifiers must match the registered list in an order-insensitive manner.<br /></dd>
+                            <dt><code class="parameter-name">listener</code> of type <a href="#events-Events-EventListener"><code>EventListener</code></a></dt>
+                            <dd>The <a class="noxref" href="#events-Events-EventListener"><code>EventListener</code></a> to be removed.<br /></dd>
+                          </dl>
+                        </div>
+                      </div>
+                      <!-- parameters -->
+                      <div><strong>No Return Value</strong></div>
+                      <div><strong>No Exceptions</strong></div>
+                    </div>
+    <!-- method -->
+                  </dd>
+                  
+                  
                 </dl>
               </dd>
             </dl>
@@ -1335,7 +1427,7 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
                 <code>CompositionEvent</code>
               </a>
             </td>
-            <td>Yes</td>
+            <td>No</td>
             <td>none</td>
           </tr>
           <tr>
@@ -3812,7 +3904,7 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
         <object type="image/svg+xml" data="images/ISOIEC-9995-3-FCD-2009A.svg" width="900" height="300">
           <img src="images/ISOIEC-9995-3-FCD-2009A.png" alt="A graphical depiction of an ISO standard defining layouts of computer keyboards, ISO/IEC 9995-3:2009A"/>
         </object>
-        <p style="text-align:left"><em>Figure: A graphical depiction of an ISO standard defining layouts of computer keyboards, ISO/IEC 9995-3:2009A</em></p>
+        <p style="text-align:left"><em>Figure 3: A graphical depiction of an ISO standard defining layouts of computer keyboards, ISO/IEC 9995-3:2009A</em></p>
       </div>
 
       <h5 class="adiv2"><a id="keyboard-mobile" href="#keyboard-mobile">6.1.1.2 Mobile Keypads</a></h5>
@@ -3824,7 +3916,7 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
         <object type="image/svg+xml" data="images/ISOIEC-9995-8-2006.svg" width="180" height="240">
           <img src="images/ISOIEC-9995-8-2006.png" alt="A graphical depiction of an ISO standard defining layouts of numeric keypads, with distribution of letters on the keys, ISO/IEC 9995-8:2006"/>
         </object>
-        <p style="text-align:left"><em>Figure: A graphical depiction of an ISO standard defining layouts of numeric keypads, with distribution of letters on the keys, ISO/IEC 9995-8:2006</em></p>
+        <p style="text-align:left"><em>Figure 4: A graphical depiction of an ISO standard defining layouts of numeric keypads, with distribution of letters on the keys, ISO/IEC 9995-8:2006</em></p>
       </div>
 
 
@@ -4059,10 +4151,6 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
 
      </div>
 
-    	<ul>
-    		<li class="issue">Add a "power" key?</li>
-    		<li class="issue">In the case of markup and attribute values, should the Key Identifiers for character keys be case-insensitive?</li>
-    	</ul>
 
             <!-- div3 Guide -->
           </div>
@@ -4216,6 +4304,11 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
           	-->
 
           	  <p>Future versions of this specification may include key identifiers not included here, which have become common since the publication of this specification.</p>
+
+          		<p class="issue">@@ Add a <code class="value">'power'</code> key?</p>
+
+          		<p class="issue">@@ In the case of markup and attribute values, should the Key Identifiers for character keys be case-insensitive?</p>
+          		
         	  </div>
         	  
             <div>
