@@ -159,7 +159,7 @@
       <dl>
         <dt>This version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.78">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.78</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.79">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.79</a>
         </dd>
         <dt>Latest stable version:</dt>
         <dd>
@@ -167,7 +167,7 @@
         </dd>
         <dt>Previous version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.77">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.77</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.78">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.78</a>
         </dd>
         <dt>Editor's Draft:</dt>
         <dd>
@@ -1017,16 +1017,23 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                                            in DOMString type, 
                                            in <a class="noxref" href="#events-Events-EventListener">EventListener</a> listener, 
                                            in boolean useCapture);
-<span class="proposal">
-  
+
+<div class="proposal">
+ // Introduced in DOM Level 3:
+ void               <a class="noxref" href="#events-Events-EventTarget-listen">listen</a>(in DOMString type, 
+                           in <a class="noxref" href="#events-Events-EventListener">EventListener</a> listener);
+ void               <a class="noxref" href="#events-Events-EventTarget-unlisten">unlisten</a>(in DOMString type, 
+                           in <a class="noxref" href="#events-Events-EventListener">EventListener</a> listener);
+</div>
+
+<div class="proposal">
  // Introduced in DOM Level 3:
  void               <a class="noxref" href="#events-Events-EventTargetGroup-addKeyListener">addKeyListener</a>(in DOMStringList keyIdentifiers, 
                                    in <a class="noxref" href="#events-Events-EventListener">EventListener</a> listener);
  // Introduced in DOM Level 3:
  void               <a class="noxref" href="#events-Events-EventTargetGroup-removeKeyListener">removeKeyListener</a>(in DOMStringList keyIdentifiers, 
                                       in <a class="noxref" href="#events-Events-EventListener">EventListener</a> listener);
-
-</span>
+</div>
 };
 </pre>
                 </div>
@@ -1074,6 +1081,26 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                     </div>
 <!-- method -->
                   </dd>
+
+                  <dt class="proposal"><code class="method-name"><a id="events-Events-EventTargetGroup-listen">listen</a></code> introduced in <strong class="since">DOM Level 3</strong></dt>
+                  <dd class="proposal">
+                    <div class="method">Registers an event listener on the target and bubbling phases of the DOM event flow.  <span class="note"><strong>Note:</strong> <code>EventTarget.unlisten()</code> is a shorthand method for the <a href="#events-Events-EventTarget-addEventListener"><code>EventTarget.addEventListener()</code></a> method, and functions identically to that method with the exception that it cannot be used to register events on the capture phase of the DOM event flow.</span>
+                      <div class="parameters"><strong>Parameters</strong>
+                        <div class="paramtable">
+                          <dl>
+                            <dt><code class="parameter-name">type</code> of type <code>DOMString</code></dt>
+                            <dd>Refer to the <a href="#events-Events-EventTarget-addEventListener"><code>EventTarget.addEventListener()</code></a> method for a description of this parameter.<br /></dd>
+                            <dt><code class="parameter-name">listener</code> of type <a href="#events-Events-EventListener"><code>EventListener</code></a></dt>
+                            <dd>Refer to the <a href="#events-Events-EventTarget-addEventListener"><code>EventTarget.addEventListener()</code></a> method for a description of this parameter.<br /></dd>
+                          </dl>
+                        </div>
+                      </div>
+                      <!-- parameters -->
+                      <div><strong>No Return Value</strong></div>
+                      <div><strong>No Exceptions</strong></div>
+                    </div>
+<!-- method -->
+                  </dd>
                   
 
                   <dt class="proposal"><code class="method-name"><a id="events-Events-EventTargetGroup-addKeyListener">addKeyListener</a></code> introduced in <strong class="since">DOM Level 3</strong></dt>
@@ -1114,7 +1141,7 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                     </code>
                   </dt>
                   <dd>
-                    <div class="method">Removes an event listener. Calling <code>removeEventListener</code> with arguments which do not identify any currently registered <a href="#events-Events-EventListener"><code>EventListener</code></a> on the <code>EventTarget</code> has no effect. The <a href="#events-event-type-namespaceURI"><code>Event.namespaceURI</code></a> for which the user registered the event listener is implied and shall be <code>null</code>.
+                    <div class="method">Removes an event listener. Calling <code>removeEventListener</code> with arguments which do not identify any currently registered <a href="#events-Events-EventListener"><code>EventListener</code></a> on the <code>EventTarget</code> has no effect. The <a href="#events-event-type-namespaceURI"><code>Event.namespaceURI</code></a> for which the user registered the event listener is implied and shall be <code>null</code>.  <span class="note proposal"><strong>Note:</strong> The <a href="#events-Events-EventTarget-removeEventListener"><code>EventTarget.removeEventListener()</code></a> method may be used to remove event listeners registered with either <a href="#events-Events-EventTarget-addEventListener"><code>EventTarget.addEventListener()</code></a> or <a href="#events-Events-EventTarget-listen"><code>EventTarget.listen()</code></a> with the same parameters.</span>
                       <div class="parameters"><strong>Parameters</strong>
                         <div class="paramtable">
                           <dl>
@@ -1133,6 +1160,7 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                     </div>
 <!-- method -->
                   </dd>
+                  
                   <dt><code class="method-name"><a id="events-Events-EventTargetGroup-removeEventListenerNS">removeEventListenerNS</a></code> introduced in <strong class="since">DOM Level 3</strong></dt>
                   <dd>
                     <div class="method">Removes an event listener. Calling <code>removeEventListenerNS</code> with arguments which do not identify any currently registered <a href="#events-Events-EventListener"><code>EventListener</code></a> on the <code>EventTarget</code> has no effect.
@@ -1144,6 +1172,27 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
 <!-- method -->
                   </dd>
                   
+
+                  <dt class="proposal"><code class="method-name"><a id="events-Events-EventTargetGroup-unlisten">unlisten</a></code> introduced in <strong class="since">DOM Level 3</strong></dt>
+                  <dd class="proposal">
+                    <div class="method">Removes an event listener. Calling <code>unlisten</code> with arguments which do not identify any currently registered <a href="#events-Events-EventListener"><code>EventListener</code></a> on the <code>EventTarget</code> has no effect.  <span class="note"><strong>Note:</strong> <code>EventTarget.unlisten()</code> is a shorthand method for the <a href="#events-Events-EventTarget-removeEventListener"><code>EventTarget.removeEventListener()</code></a> method, and may be used to remove event listeners registered with either <a href="#events-Events-EventTarget-addEventListener"><code>EventTarget.addEventListener()</code></a> or <a href="#events-Events-EventTarget-listen"><code>EventTarget.listen()</code></a> with the same parameters.</span>
+                      <div class="parameters"><strong>Parameters</strong>
+                        <div class="paramtable">
+                          <dl>
+                            <dt><code class="parameter-name">type</code> of type <code>DOMString</code></dt>
+                            <dd>Refer to the <a href="#events-Events-EventTarget-removeEventListener"><code>EventTarget.removeEventListener()</code></a> method for a description of this parameter.<br /></dd>
+                            <dt><code class="parameter-name">listener</code> of type <a href="#events-Events-EventListener"><code>EventListener</code></a></dt>
+                            <dd>Refer to the <a href="#events-Events-EventTarget-removeEventListener"><code>EventTarget.removeEventListener()</code></a> method for a description of this parameter.<br /></dd>
+                          </dl>
+                        </div>
+                      </div>
+                      <!-- parameters -->
+                      <div><strong>No Return Value</strong></div>
+                      <div><strong>No Exceptions</strong></div>
+                    </div>
+<!-- method -->
+                  </dd>
+
 
 
                   <dt class="proposal"><code class="method-name"><a id="events-Events-EventTargetGroup-removeKeyListener">removeKeyListener</a></code> introduced in <strong class="since">DOM Level 3</strong></dt>
@@ -6066,7 +6115,7 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
 
       <p>In the WebApps Working Group, the following people made substantial material contributions in the process of refining and revising this specification:  Hironori Bono (Google), Daniel Danilatos (Google), Travis Leithead (Microsoft), Cameron McCormack (Invited Expert), Olli Pettay (Mozilla), Jacob Rossi (Microsoft), Hallvord R. M. Steen (Opera)</p>
 
-      <p>Thanks to all those who have helped to improve this specification by sending suggestions and corrections (Please, keep bugging us with your issues!):  Brad Pettit, Dylan Schiemann, David Flanagan, Steven Pemberton, Curt Arnold, Al Gilman, Misha Wolf, Sigurd Lerstad, Michael B. Allen, Alexander J. Vincent, Martin D&#xFC;rst, Ken Rehor, NAKANO Masayuki, Garrett Smith, Martijn Wargers, Sean Hogan, Magnus Kristiansen, and Cameron McCormack.</p>
+      <p>Thanks to all those who have helped to improve this specification by sending suggestions and corrections (Please, keep bugging us with your issues!):  Brad Pettit, Dylan Schiemann, David Flanagan, Steven Pemberton, Curt Arnold, Al Gilman, Misha Wolf, Sigurd Lerstad, Michael B. Allen, Alexander J. Vincent, Martin D&#xFC;rst, Ken Rehor, NAKANO Masayuki, Garrett Smith, Martijn Wargers, Sean Hogan, Magnus Kristiansen, Alex Russell, and Cameron McCormack.</p>
       <div class="div2">
         <h2 class="adiv2"><a id="acknowledgements-Productions" href="#acknowledgements-Productions">D.1 Production Systems</a></h2>
         <p>The current drafts of this specification are lovingly hand-crafted in HTML and SVG.</p>
