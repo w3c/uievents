@@ -24,6 +24,10 @@
         color:green;
       }
       
+      .warning {
+        color: #8b0000;
+      }
+      
       .proposal {
          border:1px solid green;
          background-color: yellow;
@@ -160,7 +164,7 @@
       <dl>
         <dt>This version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.81">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.81</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.82">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.82</a>
         </dd>
         <dt>Latest stable version:</dt>
         <dd>
@@ -168,7 +172,7 @@
         </dd>
         <dt>Previous version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.80">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.80</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.81">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.81</a>
         </dd>
         <dt>Editor's Draft:</dt>
         <dd>
@@ -557,6 +561,7 @@
             <p><a class="eventtype"><code>This is an event type</code></a></p>
             <p><a class="def">This is a link to a definition in the glossary</a></p>
             <p class="note">This is a note.</p>
+            <p class="warning">This is a warning.  It is used to mark <a class="def" href="#glossary-deprecated">deprecated</a> features and on security notes.</p>
             <p class="example">This is an example.</p>
             <p class="atrisk">This is a feature at risk, which is likely to be removed from the specification.</p>
             <p class="proposal">This is a proposed new feature.</p>
@@ -2125,10 +2130,13 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
       </div>
 <!-- div3 Events-EventTypes-complete -->
     </div>
+    
+    
 <!-- div2 Events-definitions -->
     <div class="div2">
       <h2 class="div2"><a id="event-definitions" href="#event-definitions">5.2 Event Module Definitions</a></h2>
       <p>The DOM Event Model allows a DOM implementation to support multiple modules of events. The model has been designed to allow addition of new event modules if required. This document does not attempt to define all possible events. For purposes of interoperability, the DOM defines a module of user interface events including lower level device dependent events and a module of document mutation events.</p>
+      
       <div class="div3">
         <h3 class="div3"><a id="events-uievents" href="#events-uievents">5.2.1 User Interface Event Types</a></h3>
         <p>This module defines the feature UIEvents 3.0 and depends on the features Events 3.0 and Views 2.0.</p>
@@ -2216,6 +2224,32 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
         </dl>
         <p>The User Interface event types are listed below.</p>
 
+        <h4 class="div3 needswork"><a id="events-uievent-event-order" href="#events-uievent-event-order">5.2.1.1 User Interface Event Order</a></h4>
+        <p>Certain user interface events defined in this specification occur in a set order relative to one another.  The following is the typical sequence of events when a focus is shifted between elements (this order assumes that no element is initially focused):</p>
+        <ol>
+          <li><em>[user shifts focus]</em> <a class="eventtype" href="#event-type-focusin"><code>focusin</code></a> (before first target element receives focus)</li>
+          <li><a class="eventtype" href="#event-type-focus"><code>focus</code></a> (after first target element receives focus)</li>
+          <li><a class="eventtype" href="#event-type-DOMFocusIn"><code>DOMFocusIn</code></a> (if supported)</li>
+          <li><em>[user shifts focus]</em> <a class="eventtype" href="#event-type-focusout"><code>focusout</code></a> (before first target element loses focus)</li>
+          <li><a class="eventtype" href="#event-type-focusin"><code>focusin</code></a> (before second target element receives focus)</li>
+          <li><a class="eventtype" href="#event-type-blur"><code>blur</code></a> (after first target element loses focus)</li>
+          <li><a class="eventtype" href="#event-type-DOMFocusOut"><code>DOMFocusOut</code></a> (if supported)</li>
+          <li><a class="eventtype" href="#event-type-focus"><code>focus</code></a> (after second target element receives focus)</li>
+          <li><a class="eventtype" href="#event-type-DOMFocusIn"><code>DOMFocusIn</code></a> (if supported)</li>
+        </ol>
+
+<!-- blur -->
+        <div class="event-definition assert must">
+          <dl>
+            <dt id="event-type-blur">
+              <a class="eventtype noxref" href="#event-type-blur">blur</a>
+            </dt>
+            <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>blur</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-UIEvent"><code>UIEvent</code></a></td></tr><tr class="assert must"><th>Bubbles</th><td>No</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>No</td></tr><tr class="assert must"><th>Default action</th><td>none</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> is in use.</td></tr></table>
+    A user agent must dispatch this event when an <a class="def" href="#glossary-event-target">event target</a> loses focus. The focus shall be taken from the element before the dispatch of this event type.  This event type is similar to <a class="eventtype" href="#event-type-focusout"><code>focusout</code></a>, but is dispatched after focus is shifted, and does not bubble.
+            </dd>
+          </dl>
+        </div>
+
 <!-- DOMActivate -->
         <div class="event-definition assert must">
           <dl>
@@ -2234,7 +2268,9 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
               <a class="eventtype noxref" href="#event-type-DOMFocusIn">DOMFocusIn</a>
             </dt>
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMFocusIn</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-UIEvent"><code>UIEvent</code></a></td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>No</td></tr><tr class="assert must"><th>Default action</th><td>none</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> is in use.</td></tr></table>
-              A user agent must dispatch this event when an <a class="def" href="#glossary-event-target">event target</a> receives focus. The focus shall be given to the element before the dispatch of this event type. This event type shall be dispatched after the event type <a class="eventtype" href="#event-type-focus"><code>focus</code></a>.  This event type is deprecated in favor of the equivalent event type <a class="eventtype" href="#event-type-focusin">focusin</a>.</dd>
+              A user agent must dispatch this event when an <a class="def" href="#glossary-event-target">event target</a> receives focus. The focus shall be given to the element before the dispatch of this event type. This event type shall be dispatched after the event type <a class="eventtype" href="#event-type-focus"><code>focus</code></a>.
+              <p class="warning"><strong>Warning:</strong> the <a class="eventtype" href="#event-type-DOMFocusIn"><code>DOMFocusIn</code></a> event type is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type in favor of the related event types <a class="eventtype" href="#event-type-focus"><code>focus</code></a> and <a class="eventtype" href="#event-type-focusin"><code>focusin</code></a>.</p>
+            </dd>
           </dl>
         </div>
 
@@ -2245,7 +2281,9 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
               <a class="eventtype noxref" href="#event-type-DOMFocusOut">DOMFocusOut</a>
             </dt>
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMFocusOut</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-UIEvent"><code>UIEvent</code></a></td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>No</td></tr><tr class="assert must"><th>Default action</th><td>none</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> is in use.</td></tr></table>
-    A user agent must dispatch this event when an <a class="def" href="#glossary-event-target">event target</a> loses focus. The focus shall be taken from the element before the dispatch of this event type. This event type shall be dispatched after the event type <a class="eventtype" href="#event-type-blur"><code>blur</code></a>.  This event type is deprecated in favor of the equivalent event type <a class="eventtype" href="#event-type-focusout">focusout</a>.</dd>
+    A user agent must dispatch this event when an <a class="def" href="#glossary-event-target">event target</a> loses focus. The focus shall be taken from the element before the dispatch of this event type. This event type shall be dispatched after the event type <a class="eventtype" href="#event-type-blur"><code>blur</code></a>.
+    <p class="warning"><strong>Warning:</strong> the <a class="eventtype" href="#event-type-DOMFocusOut"><code>DOMFocusOut</code></a> event type is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type in favor of the related event types <a class="eventtype" href="#event-type-blur"><code>blur</code></a> and <a class="eventtype" href="#event-type-focusout"><code>focusout</code></a>.</p>
+            </dd>
           </dl>
         </div>
 
@@ -2256,7 +2294,8 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
               <a class="eventtype noxref" href="#event-type-focus">focus</a>
             </dt>
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>focus</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-UIEvent"><code>UIEvent</code></a></td></tr><tr class="assert must"><th>Bubbles</th><td>No</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>No</td></tr><tr class="assert must"><th>Default action</th><td>none</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> is in use.</td></tr></table>
-    A user agent must dispatch this event when an <a class="def" href="#glossary-event-target">event target</a> receives focus. The focus shall be given to the element before the dispatch of this event type.</dd>
+    A user agent must dispatch this event when an <a class="def" href="#glossary-event-target">event target</a> receives focus. The focus shall be given to the element before the dispatch of this event type.  This event type is similar to <a class="eventtype" href="#event-type-focusin"><code>focusin</code></a>, but is dispatched after focus is shifted, and does not bubble..
+            </dd>
           </dl>
         </div>
 
@@ -2264,10 +2303,12 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
         <div class="event-definition assert must">
           <dl>
             <dt id="event-type-focusin">
-              <a class="eventtype noxref" href="#event-type-DOMFocusIn">focusin</a>
+              <a class="eventtype noxref" href="#event-type-focusIn">focusin</a>
             </dt>
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMFocusIn</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-UIEvent"><code>UIEvent</code></a></td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>No</td></tr><tr class="assert must"><th>Default action</th><td>none</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> is in use.</td></tr></table>
-    A user agent must dispatch this event when an <a class="def" href="#glossary-event-target">event target</a> receives focus. The focus shall be given to the element before the dispatch of this event type. This event type shall be dispatched after the event type <a class="eventtype" href="#event-type-focus"><code>focus</code></a>.  This event type is similar to <a class="eventtype" href="#event-type-focus"><code>focus</code></a>, but it must include the <a class="def" href="#glossary-bubbling-phase">bubbling phase</a>.</dd>
+              A user agent must dispatch this event when an <a class="def" href="#glossary-event-target">event target</a> is about to receive focus. This event type must be dispatched before the element is given focus.  The <a class="def" href="#glossary-event-target">event target</a> must be the element which is about to receive focus.  This event type is similar to <a class="eventtype" href="#event-type-focus"><code>focus</code></a>, but is dispatched before focus is shifted, and does bubble..
+              <p class="note"><strong>Note:</strong> When using this event type, the author may use a host-language-specific method or means to get the currently focused element before the focus shifts to the next focus <a class="def" href="#glossary-event-target">event target</a>, thus having optional access to both the element losing focus and the element gaining focus without the use of the <a class="eventtype" href="#event-type-blur"><code>blur</code></a> or <a class="eventtype" href="#event-type-focusout">focusout</a> event types.</p>
+            </dd>
           </dl>
         </div>
 
@@ -2275,21 +2316,11 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
         <div class="event-definition assert must">
           <dl>
             <dt id="event-type-focusout">
-              <a class="eventtype noxref" href="#event-type-DOMFocusOut">focusout</a>
+              <a class="eventtype noxref" href="#event-type-focusOut">focusout</a>
             </dt>
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMFocusOut</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-UIEvent"><code>UIEvent</code></a></td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>No</td></tr><tr class="assert must"><th>Default action</th><td>none</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> is in use.</td></tr></table>
-    A user agent must dispatch this event when an <a class="def" href="#glossary-event-target">event target</a> loses focus. The focus shall be taken from the element before the dispatch of this event type. This event type shall be dispatched after the event type <a class="eventtype" href="#event-type-blur"><code>blur</code></a>.  This event type is similar to <a class="eventtype" href="#event-type-blur"><code>blur</code></a>, but it must include the <a class="def" href="#glossary-bubbling-phase">bubbling phase</a>.</dd>
-          </dl>
-        </div>
-
-<!-- blur -->
-        <div class="event-definition assert must">
-          <dl>
-            <dt id="event-type-blur">
-              <a class="eventtype noxref" href="#event-type-blur">blur</a>
-            </dt>
-            <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>blur</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-UIEvent"><code>UIEvent</code></a></td></tr><tr class="assert must"><th>Bubbles</th><td>No</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>No</td></tr><tr class="assert must"><th>Default action</th><td>none</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> is in use.</td></tr></table>
-    A user agent must dispatch this event when an <a class="def" href="#glossary-event-target">event target</a> loses focus. The focus shall be taken from the element before the dispatch of this event type.</dd>
+              A user agent must dispatch this event when an <a class="def" href="#glossary-event-target">event target</a> is about to lose focus. This event type must be dispatched before the element loses focus.  The <a class="def" href="#glossary-event-target">event target</a> must be the element which is about to lose focus.  This event type is similar to <a class="eventtype" href="#event-type-blur"><code>blur</code></a>, but is dispatched before focus is shifted, and does bubble..
+            </dd>
           </dl>
         </div>
       </div>
@@ -3463,7 +3494,9 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
 
                <p>The default action of the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event depends upon the key: if the key is associated with a character, the default action is to dispatch a <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event with the character as the value of the <a href="#events-Events-TextEvent-data"><code>TextEvent.data</code></a> attribute; if the key is associated with a <a class="def" href="#glossary-text-composition-system">text composition system</a>, the default action is to launch that system; if the key is the <code>tab</code> key, the default action is to dispatch a <a class="eventtype" href="#event-type-blur"><code>blur</code></a> event with the currently focused element (if any) as the value of the <a href="#events-event-type-target">Event.target</a> attribute, followed by a <a class="eventtype" href="#event-type-focus"><code>focus</code></a> event with the new focused element as the value of the <a href="#events-event-type-target">Event.target</a> attribute; if the key is the <code>enter</code> key and the current focus is on a state-changing element, the default action is to dispatch a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event; if the key is associated with any other event type, such as the <a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> event, the default action is to dispatch an event of that type.  If this event is canceled, the associated events types must not be dispatched, and the associated actions must not be performed.</p>
 
-              <p class="note"><strong>Note:</strong> the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event is traditionally associated with detecting a character value rather than a physical key, and may not be available on all keys in some configurations.</p><p class="warning"><strong>Warning:</strong> the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event type is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type.</p></dd>
+              <p class="note"><strong>Note:</strong> the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event is traditionally associated with detecting a character value rather than a physical key, and may not be available on all keys in some configurations.</p>
+              <p class="warning"><strong>Warning:</strong> the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event type is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type.</p>
+            </dd>
           </dl>
         </div>
 
