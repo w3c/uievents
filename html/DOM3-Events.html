@@ -164,7 +164,7 @@
       <dl>
         <dt>This version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.83">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.83</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.84">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.84</a>
         </dd>
         <dt>Latest stable version:</dt>
         <dd>
@@ -172,7 +172,7 @@
         </dd>
         <dt>Previous version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.82">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.82</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.83">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.83</a>
         </dd>
         <dt>Editor's Draft:</dt>
         <dd>
@@ -1002,10 +1002,6 @@ interface <a class="noxref" href="#events-Events-CustomEvent">CustomEvent</a> : 
             <p>When used with the DOM event flow, this interface must be implemented by all <a class="def" href="#glossary-target-node">target nodes</a> and target ancestors, i.e. all DOM <code>Nodes</code> of the tree support this interface when the implementation conforms to DOM Level 3 Events and, therefore, this interface can be obtained by using binding-specific casting methods on an instance of the <code>Node</code> interface.</p>
             <p>Invoking <code>addEventListener</code> or <code>addEventListenerNS</code> repeatedly on the same <code>EventTarget</code> with the same values for the parameters <code>namespaceURI</code>, <code>type</code>, <code>listener</code>, and <code>useCapture</code> has no effect. Doing so does not cause the <a href="#events-Events-EventListener"><code>EventListener</code></a> to be called more than once and does not cause a change in the triggering order.</p>
             
-
-        		<p class="issue">@@ add special key event listener that listens for a particular key or set of keys?  That way, authors could maps functionality more easily to specific keys... <code>myEl.addKeyListener("Down, DownLeft, DownRight", moveDown);</code></p>
-
-            
             <dl>
               <dt>
                 <br />
@@ -1046,15 +1042,6 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                            in <a class="noxref" href="#events-Events-EventListener">EventListener</a> listener);
  void               <a class="noxref" href="#events-Events-EventTarget-unlisten">unlisten</a>(in DOMString type, 
                            in <a class="noxref" href="#events-Events-EventListener">EventListener</a> listener);
-</div>
-
-<div class="proposal">
- // Introduced in DOM Level 3:
- void               <a class="noxref" href="#events-Events-EventTargetGroup-addKeyListener">addKeyListener</a>(in DOMStringList keyIdentifiers, 
-                                   in <a class="noxref" href="#events-Events-EventListener">EventListener</a> listener);
- // Introduced in DOM Level 3:
- void               <a class="noxref" href="#events-Events-EventTargetGroup-removeKeyListener">removeKeyListener</a>(in DOMStringList keyIdentifiers, 
-                                      in <a class="noxref" href="#events-Events-EventListener">EventListener</a> listener);
 </div>
 };
 </pre>
@@ -1122,27 +1109,6 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                       <div><strong>No Exceptions</strong></div>
                     </div>
 <!-- method -->
-                  </dd>
-                  
-
-                  <dt class="proposal"><code class="method-name"><a id="events-Events-EventTargetGroup-addKeyListener">addKeyListener</a></code> introduced in <strong class="since">DOM Level 3</strong></dt>
-                  <dd class="proposal">
-                    <div class="method">Registers an event listener of <a href="#events-event-type-type"><code>event type</code></a> <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> on the target and bubbling phases of the DOM event flow.
-                      <div class="parameters"><strong>Parameters</strong>
-                        <div class="paramtable">
-                          <dl>
-                            <dt><code class="parameter-name">keyIdentifiers</code> of type <code>DOMStringList</code></dt>
-                            <dd>Specifies the list of key identifiers associated with the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event type which the user is registering.  The possible key identifiers are defined in <a href="#keyset-keyidentifiers">Key identifiers set</a>.<br /></dd>
-                            <dt><code class="parameter-name">listener</code> of type <a href="#events-Events-EventListener"><code>EventListener</code></a></dt>
-                            <dd>Refer to the <a href="#events-Events-EventTarget-addEventListener"><code>EventTarget.addEventListener()</code></a> method for a description of this parameter.<br /></dd>
-                          </dl>
-                        </div>
-                      </div>
-                      <!-- parameters -->
-                      <div><strong>No Return Value</strong></div>
-                      <div><strong>No Exceptions</strong></div>
-                    </div>
-    <!-- method -->
                   </dd>
 
 
@@ -1213,30 +1179,7 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                       <div><strong>No Exceptions</strong></div>
                     </div>
 <!-- method -->
-                  </dd>
-
-
-
-                  <dt class="proposal"><code class="method-name"><a id="events-Events-EventTargetGroup-removeKeyListener">removeKeyListener</a></code> introduced in <strong class="since">DOM Level 3</strong></dt>
-                  <dd class="proposal">
-                    <div class="method">Registers an event listener of <a href="#events-event-type-type"><code>event type</code></a> <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> on the target and bubbling phases of the DOM event flow.
-                      <div class="parameters"><strong>Parameters</strong>
-                        <div class="paramtable">
-                          <dl>
-                            <dt><code class="parameter-name">keyIdentifiers</code> of type <code>DOMStringList</code></dt>
-                            <dd>Specifies the list of key identifiers associated with the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event type for which the user registered the event listener.  The list of keyIdentifiers must match the registered list in an order-insensitive manner.<br /></dd>
-                            <dt><code class="parameter-name">listener</code> of type <a href="#events-Events-EventListener"><code>EventListener</code></a></dt>
-                            <dd>The <a class="noxref" href="#events-Events-EventListener"><code>EventListener</code></a> to be removed.<br /></dd>
-                          </dl>
-                        </div>
-                      </div>
-                      <!-- parameters -->
-                      <div><strong>No Return Value</strong></div>
-                      <div><strong>No Exceptions</strong></div>
-                    </div>
-    <!-- method -->
-                  </dd>
-                  
+                  </dd>                  
                   
                 </dl>
               </dd>
