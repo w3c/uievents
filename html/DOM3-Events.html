@@ -164,7 +164,7 @@
       <dl>
         <dt>This version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.84">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.84</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.85">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.85</a>
         </dd>
         <dt>Latest stable version:</dt>
         <dd>
@@ -172,7 +172,7 @@
         </dd>
         <dt>Previous version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.83">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.83</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.84">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.84</a>
         </dd>
         <dt>Editor's Draft:</dt>
         <dd>
@@ -622,6 +622,10 @@
           <dd>In the context of <a class="def" href="#glossary-event">events</a>, a phase is set of logical traversals from node to node along the DOM tree, from the <a class="def" href="#glossary-root-element">root element</a> down to the <a class="def" href="#glossary-event-target">event target</a> (<a class="def" href="#glossary-capture-phase">capture phase</a>), at the <a class="def" href="#glossary-event-target">event target</a> itself (<a class="def" href="#glossary-target-phase">target phase</a>), and back up to the <a class="def" href="#glossary-root-element">root element</a> (<a class="def" href="#glossary-bubbling-phase">bubbling phase</a>).</dd>
           <dt id="glossary-propagation-path">propagation path</dt>
           <dd>The ordered set of <a class="def" href="#glossary-event-target">event targets</a> though which an <a class="def" href="#glossary-event">event</a> object will pass sequentially on the way to and back from the ultimate <a class="def" href="#glossary-event-target">event target</a>.  The propagation path is initially comprised of one or more <a class="def" href="#glossary-event-phase">event phases</a> as defined by the <a class="def" href="#glossary-event-type">event type</a>, but may be interrupted.  Also known as an <em>event target chain</em>.</dd>
+
+          <dt id="glossary-qwerty">QWERTY</dt>
+          <dd>QWERTY (pronounced "ˈkwɜrti") is a common keyboard layout, so named because the first five character keys on the top row of letter keys are Q, W, E, R, T, and Y.  There are many other popular keyboard layouts, most designed for localization or ergonomics.</dd>
+
           <dt id="glossary-target-node">target node</dt>
           <dd>The target node is the node representing the <a class="def" href="#glossary-event-target">event target</a> to which an <a class="def" href="#glossary-event">event</a> is targeted using the DOM event flow.</dd>
           <dt id="glossary-text-composition-system">text composition system</dt>
@@ -3249,7 +3253,7 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
   const unsigned long       <a class="noxref" href="#events-DOM_KEY_LOCATION_MOBILE">DOM_KEY_LOCATION_MOBILE</a>        = 0x04;
   const unsigned long       <a class="noxref" href="#events-DOM_KEY_LOCATION_JOYSTICK">DOM_KEY_LOCATION_JOYSTICK</a>      = 0x05;
 
-  readonly attribute DOMString       <a class="noxref" href="#events-Events-KeyboardEvent-keyIdentifier">keyIdentifier</a>;                <!-- @@ readonly attribute DOMString       <a class="noxref" href="#events-Events-KeyboardEvent-keyValue">keyValue</a>; -->
+  readonly attribute DOMString       <a class="noxref" href="#events-Events-KeyboardEvent-keyIdentifier">keyIdentifier</a>;                   <!--   readonly attribute DOMString       <a class="noxref" href="#events-Events-KeyboardEvent-character">character</a>;    readonly attribute DOMString       <a class="noxref" href="#events-Events-KeyboardEvent-name">name</a>;    readonly attribute DOMString       <a class="noxref" href="#events-Events-KeyboardEvent-unicode">unicode</a>; -->
   readonly attribute unsigned long   <a class="noxref" href="#events-Events-KeyboardEvent-keylocation">keyLocation</a>;
   readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-ctrlKey">ctrlKey</a>;
   readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-shiftKey">shiftKey</a>;
@@ -3262,6 +3266,9 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
                                      in boolean cancelableArg, 
                                      in views::AbstractView viewArg, 
                                      in DOMString keyIdentifierArg, 
+                                     in DOMString characterArg, 
+                                     in DOMString nameArg, 
+                                     in DOMString unicodeArg, 
                                      in unsigned long keyLocationArg, 
                                      in DOMString modifiersListArg,
                                      in boolean repeat);
@@ -3375,8 +3382,9 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
                       <!-- return -->
                       <div><strong>No Exceptions</strong></div>
                     </div>
-<!-- method -->
+                    <!-- method -->
                   </dd>
+                 
                   <dt>
                     <code class="method-name">
                       <a id="events-Events-KeyboardEvent-initKeyboardEvent">initKeyboardEvent</a>
@@ -3418,6 +3426,13 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
         <ol>
           <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></li>
           <li><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a></li>
+          <li>If the key is depressed for a sustained period, the following events may repeat at an environment-dependent rate:
+            <!-- and the key should seek counseling -->
+            <ul>
+              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> (with <a href="#events-Events-KeyboardEvent-repeat">repeat</a> property set to <code class="value">true</code>)</li>
+              <li><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> (with <a href="#events-Events-KeyboardEvent-repeat">repeat</a> property set to <code class="value">true</code>)</li>
+            </ul>
+          </li>
           <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></li>
         </ol>        
 
@@ -3445,7 +3460,7 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>keypress</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-KeyboardEvent"><code>KeyboardEvent</code></a></td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>Yes</td></tr><tr class="assert must"><th>Default action</th><td>Varies: <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event; launch <a class="def" href="#glossary-text-composition-system">text composition system</a>; <a class="eventtype" href="#event-type-blur"><code>blur</code></a> and <a class="eventtype" href="#event-type-focus"><code>focus</code></a> events; <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event; other event</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, <a href="#events-Events-KeyboardEvent-keyIdentifier"><code>KeyboardEvent.keyIdentifier</code></a>, <a href="#events-Events-KeyboardEvent-keylocation"><code>KeyboardEvent.keyLocation</code></a>, <a href="#events-Events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-Events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-Events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, <a href="#events-Events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a>, and <a href="#events-Events-KeyboardEvent-repeat"><code>KeyboardEvent.repeat</code></a> are in use.</td></tr></table>
                A user agent must dispatch this event when a key is pressed down. The <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type shall be generated after the keyboard mapping but before the processing of an <a class="def" href="#glossary-ime">input method editor</a>, normally associated with the dispatching of a <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>, <a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>, or <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event. This event type must be dispatched after the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event and before the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event associated with the same key.
 
-               <p>The default action of the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event depends upon the key: if the key is associated with a character, the default action is to dispatch a <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event with the character as the value of the <a href="#events-Events-TextEvent-data"><code>TextEvent.data</code></a> attribute; if the key is associated with a <a class="def" href="#glossary-text-composition-system">text composition system</a>, the default action is to launch that system; if the key is the <code>tab</code> key, the default action is to dispatch a <a class="eventtype" href="#event-type-blur"><code>blur</code></a> event with the currently focused element (if any) as the value of the <a href="#events-event-type-target">Event.target</a> attribute, followed by a <a class="eventtype" href="#event-type-focus"><code>focus</code></a> event with the new focused element as the value of the <a href="#events-event-type-target">Event.target</a> attribute; if the key is the <code>enter</code> key and the current focus is on a state-changing element, the default action is to dispatch a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event; if the key is associated with any other event type, such as the <a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> event, the default action is to dispatch an event of that type.  If this event is canceled, the associated events types must not be dispatched, and the associated actions must not be performed.</p>
+               <p>The default action of the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event depends upon the key and the context: if the key is associated with a character, and if there currently focused element in the document can receive text (such as a form input or an editable text block), the default action is to dispatch a <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event with the character as the value of the <a href="#events-Events-TextEvent-data"><code>TextEvent.data</code></a> attribute; if the key is associated with a <a class="def" href="#glossary-text-composition-system">text composition system</a>, the default action is to launch that system; if the key is the <code>tab</code> key, the default action is to dispatch a <a class="eventtype" href="#event-type-focusout"><code>focusout</code></a>, <a class="eventtype" href="#event-type-blur"><code>blur</code></a>, and <a class="eventtype" href="#event-type-DOMFocusOut"><code>DOMFocusOut</code></a> events with the currently focused element (if any) as the value of the <a href="#events-event-type-target">Event.target</a> attribute, followed by a <a class="eventtype" href="#event-type-focusin"><code>focusin</code></a>, <a class="eventtype" href="#event-type-focus"><code>focus</code></a>, and <a class="eventtype" href="#event-type-DOMFocusIn"><code>DOMFocusIn</code></a> events with the new focused element as the value of the <a href="#events-event-type-target">Event.target</a> attribute; if the key is the <code>enter</code> key and the current focus is on a state-changing element, the default action is to dispatch a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event; if the key is associated with any other event type, such as the <a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> event, the default action is to dispatch an event of that type.  If this event is canceled, the associated events types must not be dispatched, and the associated actions must not be performed.</p>
 
               <p class="note"><strong>Note:</strong> the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event is traditionally associated with detecting a character value rather than a physical key, and may not be available on all keys in some configurations.</p>
               <p class="warning"><strong>Warning:</strong> the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event type is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type.</p>
@@ -3969,7 +3984,7 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
       <h2 class="adiv1"><a id="keyset" href="#keyset">6. Keyboard events and key identifiers</a></h2>
       <p>This section contains necessary information regarding keyboard events:</p>
       <ul>
-      <li>Relations between keys, such as dead keys or modifiers keys.</li>
+      <li>Relations between keys, such as <a class="def" href="#glossary-dead-key">dead keys</a> or modifiers keys.</li>
       <li>Relations between keyboard events, their default actions, and text events.</li>
       <li>The set of key identifiers, and guidelines on how to extend this set.</li>
     </ul>
@@ -3994,10 +4009,12 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
       <p>As with the key labels, the physical layout of the keys on the keyboard does not not affect the digital identifier for any given key.  It is outside the scope of this specification to provide key identifiers based on keyboard layout, particularly since there are so many possible layouts for a keyboard, and since users can change the mapping of keys in their operating system, e.g. selecting a Dvorak key mapping.</p>
       <p>However, the physical layout of the keys may be of interest to authors developing games or other applications wherein the location of the keys has an ergonomic relationship as the desired user interface controls, with little or no attention paid to the representational value of the key itself.  For example, many games may use the keys <code class="value">'A'</code>, <code class="value">'S'</code>, <code class="value">'D'</code>, and <code class="value">'W'</code> for <code class="value">'left'</code>, <code class="value">'down'</code>, <code class="value">'right'</code>, and <code class="value">'up'</code> respectively.  Authors should provide a means for the user to assign the controller keys to a custom setting appropriate to their keyboard configurations.</p>
 
+      <p class="note"><strong>Note:</strong> Key identifiers should not be confused with <em>scan codes</em>, which are the low-level hexadecimal signals produced for each key by the keyboard driver software, and which are mapped at the operating system to a <acronym title="Virtual Key">VK</acronym> ("virtual key"), which in turn may be mapped to the user-defined key configuration.  Key identifiers are a high-level abstraction of that final mapping.</p>
+
       <h5 class="adiv2"><a id="keyboard-desktop" href="#keyboard-desktop">6.1.1.1 Desktop and Laptop Keyboards</a></h5>
       <p>In the case where an author wishes to rely on the mechanical layout of a desktop or laptop keyboard, this specification suggests the keyboard configuration specified in ISO/IEC 9995-3-FCD:2009A [<cite><a class="noxref informative" href="#references-ISO-9995-3">ISO-9995-3</a></cite>] as a common layout appropriate to some international uses.</p>
 
-      <p class="note"><strong>Note:</strong> This keyboard layout is still, in essence, a QWERTY keyboard, and will not match the keyboards or configurations of many users.  Authors cannot rely upon any particular configuration, and should create content in an internationalized and localizable manner.</p>
+      <p class="note"><strong>Note:</strong> This keyboard layout is still, in essence, a <a class="def" href="#glossary-qwerty">QWERTY</a> keyboard, and will not match the keyboards or configurations of many users.  Authors cannot rely upon any particular configuration, and should create content in an internationalized and localizable manner.</p>
 
       <div class="figure" style="text-align: center">
         <object type="image/svg+xml" data="images/ISOIEC-9995-3-FCD-2009A.svg" width="900" height="300">
@@ -4028,7 +4045,7 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
         <li>the enumeration <code>System.Windows.Forms.Keys</code> of the Microsoft .NET Framework 1.0 [<cite><a class="noxref informative" href="#references-Keys">Keys enumeration for .Net</a></cite>].</li>
       </ul>
 
-	    <p>Key identifiers are strings used for uniquely addressing keyboard buttons, and intended for use in two primary scenarios:  as attributes for a keyboard event; or as string values for markup attributes, such as so-called "hotkeys" (or keyboard shortcuts).  As attributes on an event, the key identifier shall be a single canonical value.  As author-generated content, the key identifier may be one of three equivalent string values, which all evaluate to the same key identifier; the string may be a character string (a single character, such as a letter or symbol), a key name (a multi-character string, such as <code>enter</code> or <code>tab</code>, for control or dead keys, or certain symbols), or a Unicode codepoint ("U+" followed by a hexadecimal character index).  The event attribute must always be the most author-friendly of these, in the following order: character string, key name, or Unicode codepoint.</p>
+	    <p>Key identifiers are strings used for uniquely addressing keyboard buttons, and intended for use in two primary scenarios:  as attributes for a keyboard event; or as string values for markup attributes, such as so-called "hotkeys" (or keyboard shortcuts).  As attributes on an event, the key identifier shall be a single canonical value.  As author-generated content, the key identifier may be one of three equivalent string values, which all evaluate to the same key identifier; the string may be a character string (a single character, such as a letter or symbol), a key name (a multi-character string, such as <code>enter</code> or <code>tab</code>, for control or <a class="def" href="#glossary-dead-key">dead keys</a>, or certain symbols), or a Unicode codepoint ("U+" followed by a hexadecimal character index).  The event attribute must always be the most author-friendly of these, in the following order: character string, key name, or Unicode codepoint.</p>
 
     <p>There are several use cases for keyboard events.  The first use case is to retrieve the value of the key itself, in whichever mode that key currently represents (i.e. the value of a key as an upper- or lower-case letter, or a symbol or number, depending upon the current modifier keys, or as a key name); this may be used for monitoring particular input strings, or for modifier key input, or for author-generated virtual keyboards, and does not not depend upon the location of the key in the physical layout of the device, which may be mapped to different configurations based on user or system preference.  The second use case is for keyboard shortcuts, where the string itself may be of secondary importance, and where they key used should default to the most appropriate key for the function, language, operating system, device, and other environmental factors (such as <code>ctrl+c</code> for copy operations).  The final use case is completely independent of the value of the key identifier, and relies solely on the physical layout of the input device itself (such as for game controls); this is highly variable device-dependent functionality, and is not within the scope of this specification.  Implementations should provide an option for users to establish their own preferential mapping for keyboard layout, and may rely upon ISO 9995-3, which defines a common layout for primary and secondary key mappings on a typical alphanumeric keyboard, or on ISO 9995-8, which defines a numeric keypad layout and secondary assignment of Unicode characters in the range <abbr title="a-z">U+0061..U+007A</abbr> to the number keys <code>2</code> through <code>9</code>.</p>
 
@@ -4131,9 +4148,9 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
             <!-- div3 Modifiers -->
             <div class="div3">
               <h4 class="adiv3"><a id="keyset-DeadKeys" href="#keyset-DeadKeys">6.2.2 Dead keys</a></h4>
-              <p>Some keyboard input uses dead keys for the input of composed character sequences. Unlike the handwriting sequence, in which users enter the base character first, keyboard input requires to enter a special state when a dead key is pressed and emit the character(s) only when one of a limited number of "legal" base character is entered.  (NOTE: the MacOS and Linux operating systems use input methods to process dead keys.)
+              <p>Some keyboard input uses <a class="def" href="#glossary-dead-key">dead keys</a> for the input of composed character sequences. Unlike the handwriting sequence, in which users enter the base character first, keyboard input requires to enter a special state when a <a class="def" href="#glossary-dead-key">dead key</a> is pressed and emit the character(s) only when one of a limited number of "legal" base character is entered.  (NOTE: the MacOS and Linux operating systems use input methods to process <a class="def" href="#glossary-dead-key">dead keys</a>.)
               </p>
-              <p>The dead keys are represented in the key identifiers set using combining diacritical marks. The sequence of keystrokes "U+0302" (Combining Circumflex Accent key) and "U+0045" (Latin Capital Letter E key) will likely produce (on a PC/AT french keyboard using a french mapping and without any modifier activated) the Unicode character &#234; (Latin Small Letter E With Circumflex), as preferred by the Unicode Normalization Form <em>NFC</em>:</p>
+              <p>The <a class="def" href="#glossary-dead-key">dead keys</a> are represented in the key identifiers set using combining diacritical marks. The sequence of keystrokes "U+0302" (Combining Circumflex Accent key) and "U+0045" (Latin Capital Letter E key) will likely produce (on a PC/AT french keyboard using a french mapping and without any modifier activated) the Unicode character &#234; (Latin Small Letter E With Circumflex), as preferred by the Unicode Normalization Form <em>NFC</em>:</p>
               <ol>
                 <li><code>"keydown"</code>: <code class="value">'U+0302'</code> (Combining Circumflex Accent key)</li>
                 <li><code>"compositionstart"</code>: <code class="value">''</code></li>
@@ -4145,7 +4162,7 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
                 <li><code>"keyup"</code>: <code class="value">'U+0045'</code></li>
               </ol>
 
-              <p>This process may be aborted when a user types an unsupported base character (that is, a base character for which the which the active diacritical mark is not available) after pressing a dead key:</p>
+              <p>This process may be aborted when a user types an unsupported base character (that is, a base character for which the which the active diacritical mark is not available) after pressing a <a class="def" href="#glossary-dead-key">dead key</a>:</p>
               <ol>
                 <li><code>"keydown"</code>: <code class="value">'U+0302'</code> (Combining Circumflex Accent key)</li>
                 <li><code>"compositionstart"</code>: <code class="value">''</code></li>
@@ -4235,7 +4252,7 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
                 <li><code>"keyup"</code>: <code class="value">'U+0051'</code>, shiftKey</li>
                 <li><code>"keyup"</code>: <code class="value">'Shift'</code></li>
               </ol>
-              <p>If the key is part of a sequence of several keystrokes, whether it is a dead key or it is contributing to an Input Method Editor sequence, the keystroke shall be ignored (not taken into account) only if the <a class="def" href="#glossary-default-action">default action</a> is canceled on the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event. Canceling a dead key on a <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event has not effect on <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> events. The following example uses the keystrokes <code class="value">'U+0302'</code> (Combining Circumflex Accent key) and <code class="value">'U+0045'</code> (Latin Capital Letter E key) (on a PC/AT french keyboard using a french mapping and without any modifier activated):</p>
+              <p>If the key is part of a sequence of several keystrokes, whether it is a <a class="def" href="#glossary-dead-key">dead key</a> or it is contributing to an Input Method Editor sequence, the keystroke shall be ignored (not taken into account) only if the <a class="def" href="#glossary-default-action">default action</a> is canceled on the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event. Canceling a <a class="def" href="#glossary-dead-key">dead key</a> on a <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event has not effect on <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> events. The following example uses the keystrokes <code class="value">'U+0302'</code> (Combining Circumflex Accent key) and <code class="value">'U+0045'</code> (Latin Capital Letter E key) (on a PC/AT french keyboard using a french mapping and without any modifier activated):</p>
               <ol>
                 <li><code>"keydown"</code>: <code class="value">'U+0302'</code> (Combining Circumflex Accent key)<br/>
     the <a class="def" href="#glossary-default-action">default action</a> of the keydown event shall be prevented</li>
@@ -4256,6 +4273,17 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
           <!-- div2 KeySet-intro -->
           <div class="div2">
             <h3 class="adiv2"><a id="keyset-keyidentifiers" href="#keyset-keyidentifiers">6.3 Key Identifiers</a></h3>
+            
+            <p>A key identifier is a string that can be used to indicate any given key on a keyboard, regardless of position or state, by the value it produces.  These key identifiers may be used as return values for keyboard events generated by the implementation, or as input values by the author to specify desired input (such as for keyboard shortcuts).  This specification defines a set of common key identifiers (called the <a href="#keyset-key-identifiers">Key Identifiers Set</a>), and rules for production of new key identifiers.</p>
+            
+            <p>It is important to note that a key identifier does not indicate a specific key on the physical keyboard, nor does it reflect the character printed on the key; a key identifier indicates the current value of the event with consideration to the current state of all active keys and key input modes (including shift modes and <a class="def" href="#glossary-dead-key">dead keys</a>), as reflected in the operating-system mapping of the keyboard and reported to the implementation.  In other words, the key identifier for the key marked <code>'O'</code> on a <a class="def" href="#glossary-qwerty">QWERTY</a> keyboard has the key identifier <code>'o'</code> in an unshifted state, <code>'O'</code> in a shifted state, <code>'ö'</code> in an unshifted state during a dead-key operation to add an umlaut diacritic, and <code>'Ö'</code> in a shifted state during a dead-key operation to add an umlaut diacritic.  Because a user may map their keyboard to an arbitrary custom configuration, the author should not assume that a relationship exists between the shifted and unshifted states of a key and the majuscule form (uppercase or capital letters) and minuscule form (lowercase or small letters) of a character representation, but should instead use the value of the <a href="#events-Events-KeyboardEvent-keyIdentifier"><code>KeyboardEvent.keyIdentifier</code></a> property.  The keyboard depicted in Figure 3 illustrates one possible set of key mappings on one possible keyboard layout; many others exist, both standard and idiosyncratic.</p>
+            
+            <p>It is also important to note that a given key event state may have multiple key identifiers: the key identifier name; the Unicode value; and the character representation itself.  or example, the question mark key has the following key identifiers: <code>'?'</code> (the character); <code>'QuestionMark'</code> (the name); and <code>'U+003F'</code> (the Unicode value).  Note that not all keys will have all these identifiers; for example, the horizontal tabulation (tab) key has a name (<code class="value">'Tab'</code>) and a Unicode value (<code class="value">'U+0009'</code>) but no character representation, the <code>A</code> key has a character representation (<code class="value">'A'</code>) and a Unicode value (<code class="value">'U+0041'</code>) but no name, and the volume mute key has only a name, <code class="value">'VolumeMute'</code>. <span class="issue">@@ Should there always be a name for a key?  The Unicode name for <code class="value">'A'</code> is "LATIN CAPITAL LETTER A"... should the name be the case-insensitive (or camelcased) Unicode name with no spaces (<code class="value">'LatinCapitalLetterA'</code>) or just the character (<code class="value">'A'</code>)?</span></p>
+
+              <p>The value of the <a href="#events-Events-KeyboardEvent-keyIdentifier"><code>KeyboardEvent.keyIdentifier</code></a> property of the <a href="#events-Events-KeyboardEvent">KeyboardEvent</a> interface event types (e.g. <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>, <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>, and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>) must default to the character itself; if the key identifier does not have a character representation, the value of the <a href="#events-Events-KeyboardEvent-keyIdentifier"><code>KeyboardEvent.keyIdentifier</code></a> property must be the Unicode value; if no Unicode value for the key identifier exists, the value of the <a href="#events-Events-KeyboardEvent-keyIdentifier"><code>KeyboardEvent.keyIdentifier</code></a> property must be the key identifier name.  <span class="issue">@@ Should there always be a name for a key?  The Unicode name for <code class="value">'A'</code> is "LATIN CAPITAL LETTER A"... should there be a <code>convertKeyIdentifier</code> method of to allow the author to find either the name, character representation, or Unicode value of any given key identifier?</span></p>
+
+              <p>The meaning of any given character representation is context-dependent and complex.  For example, in some contexts, the asterisk (star) glyph (<code class="value">'*'</code>) represents a footnote or emphasis (when bracketing a passage of text); however, in some documents or executable programs it is equivalent to the mathematical multiplication operation, while in other documents or executable programs, that function is reserved for the multiplication symbol (<code class="value">'×'</code>, Unicode value <code class="value">'U+00D7'</code>) or the miniscule letter <code class="value">'x'</code> (because of that lack of a multiplication key on many keyboard and the superficial resemblance of the glyphs <code class="value">'×'</code> and <code class="value">'x'</code>).  Thus, the semantic meaning or function of character representations is outside the scope of this specification.</p>
+
 
             <div class="div3">
               <h4 class="adiv3"><a id="keyset-Guide" href="#keyset-Guide">6.3.1 Guidelines for defining key identifiers</a></h4>
@@ -4277,7 +4305,7 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
           	<ol>
           		<li> Consider the primary function of the key (i.e., without modifiers), taking into consideration the keyboard layout mapping in use, to determine if a corresponding Unicode character exists from which a key identifier may be derived.  If multiple Unicode characters exist which correspond to the primary function of the key, the Unicode character with the lowest codepoint must be used. 
           			<ol>
-          				<li> If the primary function of the key is to generate a character, and that character is in one of the <a class="def" href="#glossary-Unicode-character-categories">Unicode character categories</a>, then the key identifier shall be a string consisting of just that character.  If the primary function of the key is to generate a character in class <abbr title="Letter, Lowercase">Ll</abbr> for which there exists an equivalent, single character in class <abbr title="Letter, Uppercase">Lu</abbr>, the uppercase character should be used instead. <br/><span class="issue">Is this necessary?  Why can't we simply allow lowercase letters as well?  If a script author wishes to do a comparison, they can cast the output to upper or lower case as needed.  See <a href="http://www.w3.org/2008/webapps/track/issues/23" title="ISSUE-23 - Web Applications Working Group Tracker">ISSUE-23</a>.</span></li>
+          				<li> If the primary function of the key is to generate a character, and that character is in one of the <a class="def" href="#glossary-Unicode-character-categories">Unicode character categories</a>, then the key identifier shall be a string consisting of just that character.  <!-- If the primary function of the key is to generate a character in class <abbr title="Letter, Lowercase">Ll</abbr> for which there exists an equivalent, single character in class <abbr title="Letter, Uppercase">Lu</abbr>, the uppercase character should be used instead. <br/><span class="issue">Is this necessary?  Why can't we simply allow lowercase letters as well?  If a script author wishes to do a comparison, they can cast the output to upper or lower case as needed.  See <a href="http://www.w3.org/2008/webapps/track/issues/23" title="ISSUE-23 - Web Applications Working Group Tracker">ISSUE-23</a>.</span> --></li>
           				<li> If the primary function of the key is to generate a character that is not in one of the above general categories, or if the primary function of the key is a function for which there exists a corresponding Unicode character that is not in one of the above general categories, then: 
           					<ol>
           						<li>If there exists an appropriate key identifier in the <a href="#keyset-keyidentifiers">key identifiers set</a>, and that key identifier does not have a Unicode codepoint, that key identifier must be used.</li>
@@ -4295,112 +4323,13 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
           	</ol>
           	<p>Examples:</p>
           	<ul>
-          		<li> On a PC/AT US keyboard with a US keyboard mapping, the primary function (unmodified) of the 'Q' key is to generate the character U+0071.  Since this character is in general category Ll, and there is a single corresponding character in Lu, U+0051, this character is used instead.  Thus, the key identifier is "Q". <br/><span class="issue">What is the use case here?  Why are uppercase letters being given priority?  See <a href="http://www.w3.org/2008/webapps/track/issues/23" title="ISSUE-23 - Web Applications Working Group Tracker">ISSUE-23</a>.</span></li>
+          		<!-- <li> On a PC/AT US keyboard with a US keyboard mapping, the primary function (unmodified) of the 'Q' key is to generate the character U+0071.  Since this character is in general category Ll, and there is a single corresponding character in Lu, U+0051, this character is used instead.  Thus, the key identifier is "Q". <br/><span class="issue">What is the use case here?  Why are uppercase letters being given priority?  See <a href="http://www.w3.org/2008/webapps/track/issues/23" title="ISSUE-23 - Web Applications Working Group Tracker">ISSUE-23</a>.</span></li> -->
           		<li> On a PC/AT US keyboard with a two-handed Dvorak keyboard mapping, the 'Q' key maps to the '5/%' key.  The primary function of this key is to generate the character U+0035.  Since this character is in general category Nd, the key identifier shall be "5". </li>
-          		<li> On a French PC keyboard with a standard French mapping, the primary function of the '^' key is as a dead key for the circumflex diacritical mark.  This corresponds to the combining Unicode character U+0302.  Since this character is in general category Mn, the key identifier shall be "U+0302". </li>
+          		<li> On a French PC keyboard with a standard French mapping, the primary function of the '^' key is as a <a class="def" href="#glossary-dead-key">dead key</a> for the circumflex diacritical mark.  This corresponds to the combining Unicode character U+0302.  Since this character is in general category Mn, the key identifier shall be "U+0302". </li>
           		<li> On a Korean PC keyboard with a standard Korean mapping, the primary function of the 'Ha/En' key is to switch between Hangul and English input.  The predefined key identifier list has an appropriate entry for this key, "HangulMode", so this shall be the key identifier. </li>
           		<li> On some models of PDAs, the primary function of the key with a picture of a calendar on it is to launch the calendaring program. Since there is no Unicode character that corresponds to this function, and there is no appropriate entry in the predefined key identifier list, a new identifier may be devised, such as "Calendar".
           		</li>
           	</ul>
-
-          	<!--
-          		If these are equivalent to U+0030 to U+0039 then they certainly
-          		shouldn't be prefixed with Dial, since that's not appropriate for
-          		computer keyboards.  If you wanted to avoid the "U+...." naming scheme
-          		for the key identifiers altogether, the "Guidelines for defining key
-          		identifiers" section could be rewritten to achieve this.  Actually, I
-          		would prefer this.  Currently the only requirement is that the
-          		identifier not include any whitespace.  I don't see any problem with
-          		using the actual characters (for those keys that map to non-control
-          		Unicode characters and aren't combining characters).
-
-          		 A.1.5 Guidelines for defining key identifiers
-
-          		 The list of key identifiers contained in this appendix is not
-          		 exhaustive and input devices may have to define their own key
-          		 identifiers. Here is a algorithm to determine which key identifier to
-          		 use:
-
-          		   1. Consider the primary function of the key (i.e., without
-          		      modifiers), taking into consideration the keyboard layout mapping
-          		      in use, to determine if a corresponding Unicode character exists
-          		      from which a key identifier may be derived.  If there exists
-          		      multiple Unicode characters that correspond to the primary
-          		      function of the key, the Unicode character with the lowest
-          		      codepoint must be used.
-
-          		      1.1. If the primary function of the key is to generate a
-          		           character, and that character is in one of the Unicode
-          		           general categories Lu, Ll, Lt, Lm, Lo, Nd, Nl, No, Pc, Pd,
-          		           Ps, Pe, Pi, Pf, Po, Sm, Sc, Sk or So, then the key
-          		           identifier is a string consisting of just that character.
-          		           If the primary function of the key is to generate a
-          		           character in class Ll for which there exists an equivalent,
-          		           single character in class Lu, the uppercase character should
-          		           be used instead.
-
-          		      1.2. If the primary function of the key is to generate a
-          		           character that is not in one of the above general
-          		           categories, or if the primary function of the key is a
-          		           function for which there exists a corresponding Unicode
-          		           character that is not in one of the above general categories, then:
-
-          		           1.2.1. If there exists an appropriate key identifier in the
-          		                  list in section A.2 below, that key identifier must
-          		                  be used.
-
-          		           1.2.2. If there is no appropriate key identifier in A.2, 
-          		                  then the key identifier is a string beginning with
-          		                  "U+" and followed by the Unicode codepoint of the
-          		                  character in hexadecimal, using at least four digits.
-          		                  Leading zeroes must be omitted unless they are
-          		                  required to make the codepoint use at least four
-          		                  digits.
-
-          		   2. For keys with no corresponding Unicode character, a key
-          		      identifier can be devised.  The key identifier should be as human
-          		      friendly as possible and must not contain whitespace.  The
-          		      identifier must be composed only of characters in the ranges
-          		      U+0030..U+0039, U+0041..U+005A, U+0061..U+007A and must begin
-          		      with a character in the range U+0041..U+005A.
-
-          		 Examples:
-
-          		   * On a PC/AT US keyboard with a US keyboard mapping, the primary
-          		     function (unmodified) of the 'Q' key is to generate the character
-          		     U+0071.  Since this character is in general category Ll, and there
-          		     is a single corresponding character in Lu, U+0051, this character
-          		     is used instead.  Thus, the key identifier is "Q".
-
-          		   * On a PC/AT US keyboard with a two-handed Dvorak keyboard mapping,
-          		     the 'Q' key maps to the '5/%' key.  The primary function of this
-          		     key is to generate the character U+0035.  Since this character is
-          		     in general category Nd, the key identifier is "5".
-
-          		   * On a French PC keyboard with a standard French mapping, the primary
-          		     function of the '^' key is as a dead key for the circumflex
-          		     diacritical mark.  This corresponds to the combining Unicode
-          		     character U+0302.  Since this character is in general category Mn,
-          		     the key identifier is "U+0302".
-
-          		   * On a Korean PC keyboard with a standard Korean mapping, the
-          		     primary function of the 'Ha/En' key is to switch between Hangul
-          		     and English input.  The predefined key identifier list has an
-          		     appropriate entry for this key, "HangulMode", so this is the key
-          		     identifier.
-
-          		   * On some models of PDAs, the primary function of the key with a
-          		     picture of a calendar on it is to launch the calendaring program.
-          		     Since there is no Unicode character that corresponds to this
-          		     function, and there is no appropriate entry in the predefined key
-          		     identifier list, an new identifier can be devised, such as
-          		     "Calendar".
-
-          		It may be a good idea to survey recent phone and PDA models and include
-          		some extra key identifiers in the list to avoid different names being
-          		invented for the same key.
-
-          	-->
 
           	  <p>Future versions of this specification may include key identifiers not included here, which have become common since the publication of this specification.</p>
 
@@ -4416,561 +4345,879 @@ void               <a class="noxref" href="#events-event-type-initTextEventNS">i
 
             <dl>
               <dt><a id="keyset-key-Accept"><code class="value">'Accept'</code></a></dt>
-                 <dd>The Accept (Commit, OK) key.</dd>
+              <dd>The Accept (Commit, OK) key.</dd>
+
               <dt><a id="keyset-key-Add"><code class="value">'Add'</code></a></dt>
-                 <dd>The Add key.</dd>
+              <dd>The Add key.</dd>
+
               <dt><a id="keyset-key-Again"><code class="value">'Again'</code></a></dt>
-                 <dd>The Again key.</dd>
+              <dd>The Again key.</dd>
+
               <dt><a id="keyset-key-AllCandidates"><code class="value">'AllCandidates'</code></a></dt>
-                 <dd>The All Candidates key.</dd>
+              <dd>The All Candidates key.</dd>
+
               <dt><a id="keyset-key-Alphanumeric"><code class="value">'Alphanumeric'</code></a></dt>
-                 <dd>The Alphanumeric key.</dd>
+              <dd>The Alphanumeric key.</dd>
+
               <dt><a id="keyset-key-Alt"><code class="value">'Alt'</code></a></dt>
-                 <dd>The Alt (Menu) key.</dd>
+              <dd>The Alt (Menu) key.</dd>
+
               <dt><a id="keyset-key-AltGraph"><code class="value">'AltGraph'</code></a></dt>
-                 <dd>The Alt-Graph key.</dd>
+              <dd>The Alt-Graph key.</dd>
+
               <dt><a id="keyset-key-Apps"><code class="value">'Apps'</code></a></dt>
-                 <dd>The Application key.</dd>
+              <dd>The Application key.</dd>
+
               <dt><a id="keyset-key-Attn"><code class="value">'Attn'</code></a></dt>
-                 <dd>The ATTN key.</dd>
+              <dd>The ATTN key.</dd>
+
               <dt><a id="keyset-key-BrowserBack"><code class="value">'BrowserBack'</code></a></dt>
-                 <dd>The Browser Back key.</dd>
+              <dd>The Browser Back key.</dd>
+
               <dt><a id="keyset-key-BrowserFavorites"><code class="value">'BrowserFavorites'</code></a></dt>
-                 <dd>The Browser Favorites key.</dd>
+              <dd>The Browser Favorites key.</dd>
+
               <dt><a id="keyset-key-BrowserForward"><code class="value">'BrowserForward'</code></a></dt>
-                 <dd>The Browser Forward key.</dd>
+              <dd>The Browser Forward key.</dd>
+
               <dt><a id="keyset-key-BrowserHome"><code class="value">'BrowserHome'</code></a></dt>
-                 <dd>The Browser Home key.</dd>
+              <dd>The Browser Home key.</dd>
+
               <dt><a id="keyset-key-BrowserRefresh"><code class="value">'BrowserRefresh'</code></a></dt>
-                 <dd>The Browser Refresh key.</dd>
+              <dd>The Browser Refresh key.</dd>
+
               <dt><a id="keyset-key-BrowserSearch"><code class="value">'BrowserSearch'</code></a></dt>
-                 <dd>The Browser Search key.</dd>
+              <dd>The Browser Search key.</dd>
+
               <dt><a id="keyset-key-BrowserStop"><code class="value">'BrowserStop'</code></a></dt>
-                 <dd>The Browser Stop key.</dd>
+              <dd>The Browser Stop key.</dd>
+
               <dt><a id="keyset-key-CapsLock"><code class="value">'CapsLock'</code></a></dt>
-                 <dd>The Caps Lock (Capital) key.</dd>
+              <dd>The Caps Lock (Capital) key.</dd>
+
               <dt><a id="keyset-key-Clear"><code class="value">'Clear'</code></a></dt>
-                 <dd>The Clear key.</dd>
+              <dd>The Clear key.</dd>
+
               <dt><a id="keyset-key-CodeInput"><code class="value">'CodeInput'</code></a></dt>
-                 <dd>The Code Input key.</dd>
+              <dd>The Code Input key.</dd>
+
               <dt><a id="keyset-key-Compose"><code class="value">'Compose'</code></a></dt>
-                 <dd>The Compose key.</dd>
+              <dd>The Compose key.</dd>
+
               <dt><a id="keyset-key-Control"><code class="value">'Control'</code></a></dt>
-                 <dd>The Control (Ctrl) key.</dd>
+              <dd>The Control (Ctrl) key.</dd>
+
               <dt><a id="keyset-key-Crsel"><code class="value">'Crsel'</code></a></dt>
-                 <dd>The Crsel key.</dd>
+              <dd>The Crsel key.</dd>
+
               <dt><a id="keyset-key-Convert"><code class="value">'Convert'</code></a></dt>
-                 <dd>The Convert key.</dd>
+              <dd>The Convert key.</dd>
+
               <dt><a id="keyset-key-Copy"><code class="value">'Copy'</code></a></dt>
-                 <dd>The Copy key.</dd>
+              <dd>The Copy key.</dd>
+
               <dt><a id="keyset-key-Cut"><code class="value">'Cut'</code></a></dt>
-                 <dd>The Cut key.</dd>
+              <dd>The Cut key.</dd>
+
               <dt><a id="keyset-key-Decimal"><code class="value">'Decimal'</code></a></dt>
-                 <dd>The Decimal key.</dd>
+              <dd>The Decimal key.</dd>
+
               <dt><a id="keyset-key-Divide"><code class="value">'Divide'</code></a></dt>
-                 <dd>The Divide key.</dd>
+              <dd>The Divide key.</dd>
+
               <dt><a id="keyset-key-Down"><code class="value">'Down'</code></a></dt>
-                 <dd>The Down Arrow key.</dd>
+              <dd>The Down Arrow key.</dd>
+
               <dt><a id="keyset-key-DownLeft"><code class="value">'DownLeft'</code></a></dt>
-                 <dd>The diagonal Down-Left Arrow key.</dd>
+              <dd>The diagonal Down-Left Arrow key.</dd>
+
               <dt><a id="keyset-key-DownRight"><code class="value">'DownRight'</code></a></dt>
-                 <dd>The diagonal Down-Right Arrow key.</dd>
+              <dd>The diagonal Down-Right Arrow key.</dd>
+
               <dt><a id="keyset-key-End"><code class="value">'End'</code></a></dt>
-                 <dd>The End key.</dd>
+              <dd>The End key.</dd>
+
               <dt><a id="keyset-key-Enter"><code class="value">'Enter'</code></a></dt>
-                 <dd>The Enter key.
-    			         <span class="note"><strong>Note:</strong> This key identifier shall be also used for the Return (Macintosh numpad) key.</span>
-                 </dd>
+              <dd>The Enter key.
+               <span class="note"><strong>Note:</strong> This key identifier shall be also used for the Return (Macintosh numpad) key.</span>
+              </dd>
+
               <dt><a id="keyset-key-EraseEof"><code class="value">'EraseEof'</code></a></dt>
-                 <dd>The Erase EOF key.</dd>
+              <dd>The Erase EOF key.</dd>
+
               <dt><a id="keyset-key-Execute"><code class="value">'Execute'</code></a></dt>
-                 <dd>The Execute key.</dd>
+              <dd>The Execute key.</dd>
+
               <dt><a id="keyset-key-Exsel"><code class="value">'Exsel'</code></a></dt>
-                 <dd>The Exsel key.</dd>
+              <dd>The Exsel key.</dd>
+
               <dt><a id="keyset-key-Fn"><code class="value">'Fn'</code></a></dt>
-                 <dd>The Function switch key.</dd>
+              <dd>The Function switch key.</dd>
+
               <dt><a id="keyset-key-F1"><code class="value">'F1'</code></a></dt>
-                <dd>The F1 key.</dd>
+              <dd>The F1 key.</dd>
+
               <dt><a id="keyset-key-F2"><code class="value">'F2'</code></a></dt>
-                 <dd>The F2 key.</dd>
+              <dd>The F2 key.</dd>
+
               <dt><a id="keyset-key-F3"><code class="value">'F3'</code></a></dt>
-                 <dd>The F3 key.</dd>
+              <dd>The F3 key.</dd>
+
               <dt><a id="keyset-key-F4"><code class="value">'F4'</code></a></dt>
-                 <dd>The F4 key.</dd>
+              <dd>The F4 key.</dd>
+
               <dt><a id="keyset-key-F5"><code class="value">'F5'</code></a></dt>
-                 <dd>The F5 key.</dd>
+              <dd>The F5 key.</dd>
+
               <dt><a id="keyset-key-F6"><code class="value">'F6'</code></a></dt>
-                 <dd>The F6 key.</dd>
+              <dd>The F6 key.</dd>
+
               <dt><a id="keyset-key-F7"><code class="value">'F7'</code></a></dt>
-                 <dd>The F7 key.</dd>
+              <dd>The F7 key.</dd>
+
               <dt><a id="keyset-key-F8"><code class="value">'F8'</code></a></dt>
-                 <dd>The F8 key.</dd>
+              <dd>The F8 key.</dd>
+
               <dt><a id="keyset-key-F9"><code class="value">'F9'</code></a></dt>
-                 <dd>The F9 key.</dd>
+              <dd>The F9 key.</dd>
+
               <dt><a id="keyset-key-F10"><code class="value">'F10'</code></a></dt>
-                 <dd>The F10 key.</dd>
+              <dd>The F10 key.</dd>
+
               <dt><a id="keyset-key-F11"><code class="value">'F11'</code></a></dt>
-                 <dd>The F11 key.</dd>
+              <dd>The F11 key.</dd>
+
               <dt><a id="keyset-key-F12"><code class="value">'F12'</code></a></dt>
-                 <dd>The F12 key.</dd>
+              <dd>The F12 key.</dd>
+
               <dt><a id="keyset-key-F13"><code class="value">'F13'</code></a></dt>
-                 <dd>The F13 key.</dd>
+              <dd>The F13 key.</dd>
+
               <dt><a id="keyset-key-F14"><code class="value">'F14'</code></a></dt>
-                 <dd>The F14 key.</dd>
+              <dd>The F14 key.</dd>
+
               <dt><a id="keyset-key-F15"><code class="value">'F15'</code></a></dt>
-                 <dd>The F15 key.</dd>
+              <dd>The F15 key.</dd>
+
               <dt><a id="keyset-key-F16"><code class="value">'F16'</code></a></dt>
-                 <dd>The F16 key.</dd>
+              <dd>The F16 key.</dd>
+
               <dt><a id="keyset-key-F17"><code class="value">'F17'</code></a></dt>
-                 <dd>The F17 key.</dd>
+              <dd>The F17 key.</dd>
+
               <dt><a id="keyset-key-F18"><code class="value">'F18'</code></a></dt>
-                 <dd>The F18 key.</dd>
+              <dd>The F18 key.</dd>
+
               <dt><a id="keyset-key-F19"><code class="value">'F19'</code></a></dt>
-                 <dd>The F19 key.</dd>
+              <dd>The F19 key.</dd>
+
               <dt><a id="keyset-key-F20"><code class="value">'F20'</code></a></dt>
-                 <dd>The F20 key.</dd>
+              <dd>The F20 key.</dd>
+
               <dt><a id="keyset-key-F21"><code class="value">'F21'</code></a></dt>
-                 <dd>The F21 key.</dd>
+              <dd>The F21 key.</dd>
+
               <dt><a id="keyset-key-F22"><code class="value">'F22'</code></a></dt>
-                 <dd>The F22 key.</dd>
+              <dd>The F22 key.</dd>
+
               <dt><a id="keyset-key-F23"><code class="value">'F23'</code></a></dt>
-                 <dd>The F23 key.</dd>
+              <dd>The F23 key.</dd>
+
               <dt><a id="keyset-key-F24"><code class="value">'F24'</code></a></dt>
-                 <dd>The F24 key.</dd>
+              <dd>The F24 key.</dd>
+
               <dt><a id="keyset-key-FinalMode"><code class="value">'FinalMode'</code></a></dt>
-                 <dd>The Final Mode (Final) key used on some asian keyboards.</dd>
+              <dd>The Final Mode (Final) key used on some asian keyboards.</dd>
+
               <dt><a id="keyset-key-Find"><code class="value">'Find'</code></a></dt>
-                 <dd>The Find key.</dd>
+              <dd>The Find key.</dd>
+
               <dt><a id="keyset-key-FullWidth"><code class="value">'FullWidth'</code></a></dt>
-                 <dd>The Full-Width Characters key.</dd>
+              <dd>The Full-Width Characters key.</dd>
+
               <dt><a id="keyset-key-HalfWidth"><code class="value">'HalfWidth'</code></a></dt>
-                 <dd>The Half-Width Characters key.</dd>
+              <dd>The Half-Width Characters key.</dd>
+
               <dt><a id="keyset-key-HangulMode"><code class="value">'HangulMode'</code></a></dt>
-                 <dd>The Hangul (Korean characters) Mode key.</dd>
+              <dd>The Hangul (Korean characters) Mode key.</dd>
+
               <dt><a id="keyset-key-HanjaMode"><code class="value">'HanjaMode'</code></a></dt>
-                 <dd>The Hanja (Korean characters) Mode key.</dd>
+              <dd>The Hanja (Korean characters) Mode key.</dd>
+
               <dt><a id="keyset-key-Help"><code class="value">'Help'</code></a></dt>
-                 <dd>The Help key.</dd>
+              <dd>The Help key.</dd>
+
               <dt><a id="keyset-key-Hiragana"><code class="value">'Hiragana'</code></a></dt>
-                 <dd>The Hiragana (Japanese Kana characters) key.</dd>
+              <dd>The Hiragana (Japanese Kana characters) key.</dd>
+
               <dt><a id="keyset-key-Home"><code class="value">'Home'</code></a></dt>
-                 <dd>The Home key.</dd>
+              <dd>The Home key.</dd>
+
               <dt><a id="keyset-key-Insert"><code class="value">'Insert'</code></a></dt>
-                 <dd>The Insert (Ins) key.</dd>
+              <dd>The Insert (Ins) key.</dd>
+
               <dt><a id="keyset-key-JapaneseHiragana"><code class="value">'JapaneseHiragana'</code></a></dt>
-                 <dd>The Japanese-Hiragana key.</dd>
+              <dd>The Japanese-Hiragana key.</dd>
+
               <dt><a id="keyset-key-JapaneseKatakana"><code class="value">'JapaneseKatakana'</code></a></dt>
-                 <dd>The Japanese-Katakana key.</dd>
+              <dd>The Japanese-Katakana key.</dd>
+
               <dt><a id="keyset-key-JapaneseRomaji"><code class="value">'JapaneseRomaji'</code></a></dt>
-                 <dd>The Japanese-Romaji key.</dd>
+              <dd>The Japanese-Romaji key.</dd>
+
               <dt><a id="keyset-key-JunjaMode"><code class="value">'JunjaMode'</code></a></dt>
-                 <dd>The Junja Mode key.</dd>
+              <dd>The Junja Mode key.</dd>
+
               <dt><a id="keyset-key-KanaMode"><code class="value">'KanaMode'</code></a></dt>
-                 <dd>The Kana Mode (Kana Lock) key.</dd>
+              <dd>The Kana Mode (Kana Lock) key.</dd>
+
               <dt><a id="keyset-key-KanjiMode"><code class="value">'KanjiMode'</code></a></dt>
-                 <dd>The Kanji (Japanese name for ideographic characters of Chinese origin) Mode key.</dd>
+              <dd>The Kanji (Japanese name for ideographic characters of Chinese origin) Mode key.</dd>
+
               <dt><a id="keyset-key-Katakana"><code class="value">'Katakana'</code></a></dt>
-                 <dd>The Katakana (Japanese Kana characters) key.</dd>
+              <dd>The Katakana (Japanese Kana characters) key.</dd>
+
               <dt><a id="keyset-key-LaunchApplication1"><code class="value">'LaunchApplication1'</code></a></dt>
-                 <dd>The Start Application One key.</dd>
+              <dd>The Start Application One key.</dd>
+
               <dt><a id="keyset-key-LaunchApplication2"><code class="value">'LaunchApplication2'</code></a></dt>
-                 <dd>The Start Application Two key.</dd>
+              <dd>The Start Application Two key.</dd>
+
               <dt><a id="keyset-key-LaunchMail"><code class="value">'LaunchMail'</code></a></dt>
-                 <dd>The Start Mail key.</dd>
+              <dd>The Start Mail key.</dd>
+
               <dt><a id="keyset-key-Left"><code class="value">'Left'</code></a></dt>
-                 <dd>The Left Arrow key.</dd>
+              <dd>The Left Arrow key.</dd>
+
               <dt><a id="keyset-key-Menu"><code class="value">'Menu'</code></a></dt>
-                 <dd>The Menu key.</dd>
+              <dd>The Menu key.</dd>
+
               <dt><a id="keyset-key-Meta"><code class="value">'Meta'</code></a></dt>
-                 <dd>The Meta key.</dd>
+              <dd>The Meta key.</dd>
+
               <dt><a id="keyset-key-MediaNextTrack"><code class="value">'MediaNextTrack'</code></a></dt>
-                 <dd>The Media Next Track key.</dd>
+              <dd>The Media Next Track key.</dd>
+
               <dt><a id="keyset-key-MediaPlayPause"><code class="value">'MediaPlayPause'</code></a></dt>
-                 <dd>The Media Play Pause key.</dd>
+              <dd>The Media Play Pause key.</dd>
+
               <dt><a id="keyset-key-MediaPreviousTrack"><code class="value">'MediaPreviousTrack'</code></a></dt>
-                 <dd>The Media Previous Track key.</dd>
+              <dd>The Media Previous Track key.</dd>
+
               <dt><a id="keyset-key-MediaStop"><code class="value">'MediaStop'</code></a></dt>
-                 <dd>The Media Stop key.</dd>
+              <dd>The Media Stop key.</dd>
+
               <dt><a id="keyset-key-ModeChange"><code class="value">'ModeChange'</code></a></dt>
-                 <dd>The Mode Change key.</dd>
+              <dd>The Mode Change key.</dd>
+
               <dt><a id="keyset-key-MultiplyChar"><code class="value">'×'</code></a></dt>
               <dt><a id="keyset-key-Multiply"><code class="value">'Multiply'</code></a></dt>
               <dt><a id="keyset-key-U-00D7"><code class="value">'U+00D7'</code></a></dt>
-                 <dd>The Multiply key.</dd>
+              <dd>The Multiply key.</dd>
+
               <dt><a id="keyset-key-NextCandidate"><code class="value">'NextCandidate'</code></a></dt>
-                <dd>The Next Candidate function key.</dd>
+              <dd>The Next Candidate function key.</dd>
+
               <dt><a id="keyset-key-Nonconvert"><code class="value">'Nonconvert'</code></a></dt>
-                 <dd>The Nonconvert (Don't Convert) key.</dd>
+              <dd>The Nonconvert (Don't Convert) key.</dd>
+
               <dt><a id="keyset-key-NumLock"><code class="value">'NumLock'</code></a></dt>
-                 <dd>The Number Lock key.</dd>
+              <dd>The Number Lock key.</dd>
+
               <dt><a id="keyset-key-PageDown"><code class="value">'PageDown'</code></a></dt>
-                 <dd>The Page Down (Next) key.</dd>
+              <dd>The Page Down (Next) key.</dd>
+
               <dt><a id="keyset-key-PageUp"><code class="value">'PageUp'</code></a></dt>
-                 <dd>The Page Up key.</dd>
+              <dd>The Page Up key.</dd>
+
               <dt><a id="keyset-key-Paste"><code class="value">'Paste'</code></a></dt>
-                 <dd>The Paste key.</dd>
+              <dd>The Paste key.</dd>
+
               <dt><a id="keyset-key-Pause"><code class="value">'Pause'</code></a></dt>
-                 <dd>The Pause key.</dd>
+              <dd>The Pause key.</dd>
+
               <dt><a id="keyset-key-Play"><code class="value">'Play'</code></a></dt>
-                 <dd>The Play key.</dd>
+              <dd>The Play key.</dd>
+
               <dt><a id="keyset-key-PreviousCandidate"><code class="value">'PreviousCandidate'</code></a></dt>
-                 <dd>The Previous Candidate function key.</dd>
+              <dd>The Previous Candidate function key.</dd>
+
               <dt><a id="keyset-key-PrintScreen"><code class="value">'PrintScreen'</code></a></dt>
-                 <dd>The Print Screen (PrintScrn, SnapShot) key.</dd>
+              <dd>The Print Screen (PrintScrn, SnapShot) key.</dd>
+
               <dt><a id="keyset-key-Process"><code class="value">'Process'</code></a></dt>
-                 <dd>The Process key.</dd>
+              <dd>The Process key.</dd>
+
               <dt><a id="keyset-key-Props"><code class="value">'Props'</code></a></dt>
-                 <dd>The Props key.</dd>
+              <dd>The Props key.</dd>
+
               <dt><a id="keyset-key-Right"><code class="value">'Right'</code></a></dt>
-                 <dd>The Right Arrow key.</dd>
+              <dd>The Right Arrow key.</dd>
+
               <dt><a id="keyset-key-RomanCharacters"><code class="value">'RomanCharacters'</code></a></dt>
-                 <dd>The Roman Characters function key.</dd>
+              <dd>The Roman Characters function key.</dd>
+
               <dt><a id="keyset-key-Scroll"><code class="value">'Scroll'</code></a></dt>
-                 <dd>The Scroll Lock key.</dd>
+              <dd>The Scroll Lock key.</dd>
+
               <dt><a id="keyset-key-Select"><code class="value">'Select'</code></a></dt>
-                 <dd>The Select key.</dd>
+              <dd>The Select key.</dd>
+
               <dt><a id="keyset-key-SelectMedia"><code class="value">'SelectMedia'</code></a></dt>
-                 <dd>The Select Media key.</dd>
+              <dd>The Select Media key.</dd>
+
               <dt><a id="keyset-key-Separator"><code class="value">'Separator'</code></a></dt>
-                 <dd>The Separator key.</dd>
+              <dd>The Separator key.</dd>
+
               <dt><a id="keyset-key-Shift"><code class="value">'Shift'</code></a></dt>
-                 <dd>The Shift key.</dd>
+              <dd>The Shift key.</dd>
+
               <dt><a id="keyset-key-Soft1"><code class="value">'Soft1'</code></a></dt>
-                 <dd>The Soft1 key.</dd>
+              <dd>The Soft1 key.</dd>
+
               <dt><a id="keyset-key-Soft2"><code class="value">'Soft2'</code></a></dt>
-                 <dd>The Soft2 key.</dd>
+              <dd>The Soft2 key.</dd>
+
               <dt><a id="keyset-key-Soft3"><code class="value">'Soft3'</code></a></dt>
-                 <dd>The Soft3 key.</dd>
+              <dd>The Soft3 key.</dd>
+
               <dt><a id="keyset-key-Soft4"><code class="value">'Soft4'</code></a></dt>
-                 <dd>The Soft4 key.</dd>
+              <dd>The Soft4 key.</dd>
+
               <dt><a id="keyset-key-Stop"><code class="value">'Stop'</code></a></dt>
-                 <dd>The Stop key.</dd>
+              <dd>The Stop key.</dd>
+
               <dt><a id="keyset-key-Subtract"><code class="value">'Subtract'</code></a></dt>
-                 <dd>The Subtract key.</dd>
+              <dd>The Subtract key.</dd>
+
               <dt><a id="keyset-key-Up"><code class="value">'Up'</code></a></dt>
-                 <dd>The Up Arrow key.</dd>
+              <dd>The Up Arrow key.</dd>
+
               <dt><a id="keyset-key-UpLeft"><code class="value">'UpLeft'</code></a></dt>
-                 <dd>The diagonal Up-Left Arrow key.</dd>
+              <dd>The diagonal Up-Left Arrow key.</dd>
+
               <dt><a id="keyset-key-UpRight"><code class="value">'UpRight'</code></a></dt>
-                 <dd>The diagonal Up-Right Arrow key.</dd>
+              <dd>The diagonal Up-Right Arrow key.</dd>
+
               <dt><a id="keyset-key-Undo"><code class="value">'Undo'</code></a></dt>
-                 <dd>The Undo key.</dd>
+              <dd>The Undo key.</dd>
+
               <dt><a id="keyset-key-VolumeDown"><code class="value">'VolumeDown'</code></a></dt>
-                 <dd>The Volume Down key.</dd>
+              <dd>The Volume Down key.</dd>
+
               <dt><a id="keyset-key-VolumeMute"><code class="value">'VolumeMute'</code></a></dt>
-                 <dd>The Volume Mute key.</dd>
+              <dd>The Volume Mute key.</dd>
+
               <dt><a id="keyset-key-VolumeUp"><code class="value">'VolumeUp'</code></a></dt>
-                 <dd>The Volume Up key.</dd>
+              <dd>The Volume Up key.</dd>
+
               <dt><a id="keyset-key-Win"><code class="value">'Win'</code></a></dt>
-                 <dd>The Windows Logo key.</dd>
+              <dd>The Windows Logo key.</dd>
+
               <dt><a id="keyset-key-Zoom"><code class="value">'Zoom'</code></a></dt>
-                 <dd>The Zoom key.</dd>
+              <dd>The Zoom key.</dd>
+
               <dt><a id="keyset-key-Backspace"><code class="value">'Backspace'</code></a></dt>
               <dt><a id="keyset-key-U-0008"><code class="value">'U+0008'</code></a></dt>
-                 <dd>The Backspace (Back) key.
-    			         <span class="note"><strong>Note:</strong> This key identifier shall be also used for the key labeled <code class="value">'delete'</code> MacOS keyboards when not modified by the <code class="value">'Fn'</code> key.</span>
-                </dd>
+              <dd>The Backspace (Back) key.
+               <span class="note"><strong>Note:</strong> This key identifier shall be also used for the key labeled <code class="value">'delete'</code> MacOS keyboards when not modified by the <code class="value">'Fn'</code> key.</span>
+              </dd>
+
               <dt><a id="keyset-key-Tab"><code class="value">'Tab'</code></a></dt>
               <dt><a id="keyset-key-U-0009"><code class="value">'U+0009'</code></a></dt>
-                 <dd>The Horizontal Tabulation (Tab) key.</dd>
+              <dd>The Horizontal Tabulation (Tab) key.</dd>
+
               <dt><a id="keyset-key-Cancel"><code class="value">'Cancel'</code></a></dt>
               <dt><a id="keyset-key-U-0018"><code class="value">'U+0018'</code></a></dt>
-                 <dd>The Cancel key.</dd>
+              <dd>The Cancel key.</dd>
+
               <dt><a id="keyset-key-Esc"><code class="value">'Esc'</code></a></dt>
               <dt><a id="keyset-key-U-001B"><code class="value">'U+001B'</code></a></dt>
-                 <dd>The Escape (Esc) key.</dd>
+              <dd>The Escape (Esc) key.</dd>
+
               <dt><a id="keyset-key-Spacebar"><code class="value">'Spacebar'</code></a></dt>
               <dt><a id="keyset-key-U-0020"><code class="value">'U+0020'</code></a></dt>
-                 <dd>The Space (Spacebar) key.</dd>
+              <dd>The Space (Spacebar) key.</dd>
+
               <dt><a id="keyset-key-ExclamationChar"><code class="value">'!'</code></a></dt>
               <dt><a id="keyset-key-Exclamation"><code class="value">'Exclamation'</code></a></dt>
               <dt><a id="keyset-key-U-0021"><code class="value">'U+0021'</code></a></dt>
-                 <dd>The Exclamation Mark (Factorial, Bang) key (!).</dd>
+              <dd>The Exclamation Mark (Factorial, Bang) key (!).</dd>
+
               <dt><a id="keyset-key-DoubleQuote"><code class="value">'DoubleQuote'</code></a></dt>
               <dt><a id="keyset-key-U-0022"><code class="value">'U+0022'</code></a></dt>
-                 <dd>The Quotation Mark (Quote Double) key (").</dd>
+              <dd>The Quotation Mark (Quote Double) key (").</dd>
+
               <dt><a id="keyset-key-HashChar"><code class="value">'#'</code></a></dt>
               <dt><a id="keyset-key-Hash"><code class="value">'Hash'</code></a></dt>
               <dt><a id="keyset-key-U-0023"><code class="value">'U+0023'</code></a></dt>
-                 <dd>The Number Sign (Pound Sign, Hash, Crosshatch, Octothorpe) key (#).</dd>
+              <dd>The Number Sign (Pound Sign, Hash, Crosshatch, Octothorpe) key (#).</dd>
+
               <dt><a id="keyset-key-DollarChar"><code class="value">'$'</code></a></dt>
               <dt><a id="keyset-key-Dollar"><code class="value">'Dollar'</code></a></dt>
               <dt><a id="keyset-key-U-0024"><code class="value">'U+0024'</code></a></dt>
-                 <dd>The Dollar Sign (milreis, escudo) key ($).</dd>
+              <dd>The Dollar Sign (milreis, escudo) key ($).</dd>
+
               <dt><a id="keyset-key-AmpersandChar"><code class="value">'&amp;'</code></a></dt>
               <dt><a id="keyset-key-Ampersand"><code class="value">'Ampersand'</code></a></dt>
               <dt><a id="keyset-key-U-0026"><code class="value">'U+0026'</code></a></dt>
-                 <dd>The Ampersand key (&amp;).</dd>
+              <dd>The Ampersand key (&amp;).</dd>
+
               <dt><a id="keyset-key-Apostrophe"><code class="value">'Apostrophe'</code></a></dt>
               <dt><a id="keyset-key-U-0027"><code class="value">'U+0027'</code></a></dt>
-                 <dd>The Apostrophe (Apostrophe-Quote, APL Quote) key (').</dd>
+              <dd>The Apostrophe (Apostrophe-Quote, APL Quote) key (').</dd>
+
               <dt><a id="keyset-key-LeftParenChar"><code class="value">'('</code></a></dt>
               <dt><a id="keyset-key-LeftParen"><code class="value">'LeftParen'</code></a></dt>
               <dt><a id="keyset-key-U-0028"><code class="value">'U+0028'</code></a></dt>
-                 <dd>The Left Parenthesis (Opening Parenthesis) key (().</dd>
+              <dd>The Left Parenthesis (Opening Parenthesis) key (().</dd>
+
               <dt><a id="keyset-key-RightParenChar"><code class="value">')'</code></a></dt>
               <dt><a id="keyset-key-RightParen"><code class="value">'RightParen'</code></a></dt>
               <dt><a id="keyset-key-U-0029"><code class="value">'U+0029'</code></a></dt>
-                 <dd>The Right Parenthesis (Closing Parenthesis) key ()).</dd>
+              <dd>The Right Parenthesis (Closing Parenthesis) key ()).</dd>
+
               <dt><a id="keyset-key-AsteriskChar"><code class="value">'*'</code></a></dt>
               <dt><a id="keyset-key-Asterisk"><code class="value">'Asterisk'</code></a></dt>
               <dt><a id="keyset-key-U-002A"><code class="value">'U+002A'</code></a></dt>
-                 <dd>The Asterisk (Star) key (*).</dd>
+              <dd>The Asterisk (Star) key (*).</dd>
+
               <dt><a id="keyset-key-PlusChar"><code class="value">'+'</code></a></dt>
               <dt><a id="keyset-key-Plus"><code class="value">'Plus'</code></a></dt>
               <dt><a id="keyset-key-U-002B"><code class="value">'U+002B'</code></a></dt>
-                 <dd>The Plus Sign (Plus) key (+).</dd>
+              <dd>The Plus Sign (Plus) key (+).</dd>
+
               <dt><a id="keyset-key-PercentChar"><code class="value">'%'</code></a></dt>
               <dt><a id="keyset-key-Percent"><code class="value">'Percent'</code></a></dt>
               <dt><a id="keyset-key-U-0025"><code class="value">'U+0025'</code></a></dt>
-                 <dd>The Percent Sign (Percent) key (+).</dd>
+              <dd>The Percent Sign (Percent) key (+).</dd>
+
               <dt><a id="keyset-key-CommaChar"><code class="value">','</code></a></dt>
               <dt><a id="keyset-key-Comma"><code class="value">'Comma'</code></a></dt>
               <dt><a id="keyset-key-U-002C"><code class="value">'U+002C'</code></a></dt>
-                 <dd>The Comma (decimal separator) sign key (,).</dd>
+              <dd>The Comma (decimal separator) sign key (,).</dd>
+
               <dt><a id="keyset-key-HyphenMinusChar"><code class="value">'-'</code></a></dt>
               <dt><a id="keyset-key-HyphenMinus"><code class="value">'HyphenMinus'</code></a></dt>
               <dt><a id="keyset-key-U-002D"><code class="value">'U+002D'</code></a></dt>
-                 <dd>The Hyphen-minus (hyphen or minus sign) key (-).</dd>
+              <dd>The Hyphen-minus (hyphen or minus sign) key (-).</dd>
+
               <dt><a id="keyset-key-PeriodChar"><code class="value">'.'</code></a></dt>
               <dt><a id="keyset-key-Period"><code class="value">'Period'</code></a></dt>
               <dt><a id="keyset-key-U-002E"><code class="value">'U+002E'</code></a></dt>
-                 <dd>The Full Stop (period, dot, decimal point) key (.).</dd>
+              <dd>The Full Stop (period, dot, decimal point) key (.).</dd>
+
               <dt><a id="keyset-key-SolidusChar"><code class="value">'/'</code></a></dt>
               <dt><a id="keyset-key-Solidus"><code class="value">'Solidus'</code></a></dt>
               <dt><a id="keyset-key-U-002F"><code class="value">'U+002F'</code></a></dt>
-                 <dd>The Solidus (slash, virgule, shilling) key (/).</dd>
+              <dd>The Solidus (slash, virgule, shilling) key (/).</dd>
+
               <dt><a id="keyset-key-0"><code class="value">'0'</code></a></dt>
               <dt><a id="keyset-key-U-0030"><code class="value">'U+0030'</code></a></dt>
-                 <dd>The Digit Zero key (0).</dd>
+              <dd>The Digit Zero key (0).</dd>
+
               <dt><a id="keyset-key-1"><code class="value">'1'</code></a></dt>
               <dt><a id="keyset-key-U-0031"><code class="value">'U+0031'</code></a></dt>
-                 <dd>The Digit One key (1).</dd>
+              <dd>The Digit One key (1).</dd>
+
               <dt><a id="keyset-key-2"><code class="value">'2'</code></a></dt>
               <dt><a id="keyset-key-U-0032"><code class="value">'U+0032'</code></a></dt>
-                 <dd>The Digit Two key (2).</dd>
+              <dd>The Digit Two key (2).</dd>
+
               <dt><a id="keyset-key-3"><code class="value">'3'</code></a></dt>
               <dt><a id="keyset-key-U-0033"><code class="value">'U+0033'</code></a></dt>
-                 <dd>The Digit Three key (3).</dd>
+              <dd>The Digit Three key (3).</dd>
+
               <dt><a id="keyset-key-4"><code class="value">'4'</code></a></dt>
               <dt><a id="keyset-key-U-0034"><code class="value">'U+0034'</code></a></dt>
-                 <dd>The Digit Four key (4).</dd>
+              <dd>The Digit Four key (4).</dd>
+
               <dt><a id="keyset-key-5"><code class="value">'5'</code></a></dt>
               <dt><a id="keyset-key-U-0035"><code class="value">'U+0035'</code></a></dt>
-                 <dd>The Digit Five key (5).</dd>
+              <dd>The Digit Five key (5).</dd>
+
               <dt><a id="keyset-key-6"><code class="value">'6'</code></a></dt>
               <dt><a id="keyset-key-U-0036"><code class="value">'U+0036'</code></a></dt>
-                 <dd>The Digit Six key (6).</dd>
+              <dd>The Digit Six key (6).</dd>
+
               <dt><a id="keyset-key-7"><code class="value">'7'</code></a></dt>
               <dt><a id="keyset-key-U-0037"><code class="value">'U+0037'</code></a></dt>
-                 <dd>The Digit Seven key (7).</dd>
+              <dd>The Digit Seven key (7).</dd>
+
               <dt><a id="keyset-key-8"><code class="value">'8'</code></a></dt>
               <dt><a id="keyset-key-U-0038"><code class="value">'U+0038'</code></a></dt>
-                 <dd>The Digit Eight key (8).</dd>
+              <dd>The Digit Eight key (8).</dd>
+
               <dt><a id="keyset-key-9"><code class="value">'9'</code></a></dt>
               <dt><a id="keyset-key-U-0039"><code class="value">'U+0039'</code></a></dt>
-                 <dd>The Digit Nine key (9).</dd>
+              <dd>The Digit Nine key (9).</dd>
+
               <dt><a id="keyset-key-ColonChar"><code class="value">':'</code></a></dt>
               <dt><a id="keyset-key-Colon"><code class="value">'Colon'</code></a></dt>
               <dt><a id="keyset-key-U-003A"><code class="value">'U+003A'</code></a></dt>
-                 <dd>The Colon key (:).</dd>
+              <dd>The Colon key (:).</dd>
+
               <dt><a id="keyset-key-SemicolonChar"><code class="value">';'</code></a></dt>
               <dt><a id="keyset-key-Semicolon"><code class="value">'Semicolon'</code></a></dt>
               <dt><a id="keyset-key-U-003B"><code class="value">'U+003B'</code></a></dt>
-                 <dd>The Semicolon key (;).</dd>
+              <dd>The Semicolon key (;).</dd>
+
               <dt><a id="keyset-key-LessThan"><code class="value">'LessThan'</code></a></dt>
               <dt><a id="keyset-key-U-003C"><code class="value">'U+003C'</code></a></dt>
-                 <dd>The Less-Than Sign key (&lt;).</dd>
+              <dd>The Less-Than Sign key (&lt;).</dd>
+
               <dt><a id="keyset-key-EqualsChar"><code class="value">'='</code></a></dt>
               <dt><a id="keyset-key-Equals"><code class="value">'Equals'</code></a></dt>
               <dt><a id="keyset-key-U-003D"><code class="value">'U+003D'</code></a></dt>
-                 <dd>The Equals Sign key (=).</dd>
+              <dd>The Equals Sign key (=).</dd>
+
               <dt><a id="keyset-key-"><code class="value">'GreaterThan'</code></a></dt>
               <dt><a id="keyset-key-U-003E"><code class="value">'U+003E'</code></a></dt>
-                 <dd>The Greater-Than Sign key (&gt;).</dd>
+              <dd>The Greater-Than Sign key (&gt;).</dd>
+
               <dt><a id="keyset-key-QuestionMarkChar"><code class="value">'?'</code></a></dt>
               <dt><a id="keyset-key-QuestionMark"><code class="value">'QuestionMark'</code></a></dt>
               <dt><a id="keyset-key-U-003F"><code class="value">'U+003F'</code></a></dt>
-                 <dd>The Question Mark key (?).</dd>
+              <dd>The Question Mark key (?).</dd>
+
               <dt><a id="keyset-key-AtChar"><code class="value">'@'</code></a></dt>
               <dt><a id="keyset-key-At"><code class="value">'At'</code></a></dt>
               <dt><a id="keyset-key-U-0040"><code class="value">'U+0040'</code></a></dt>
-                 <dd>The Commercial At (@) key.</dd>
+              <dd>The Commercial At (@) key.</dd>
+
               <dt><a id="keyset-key-A"><code class="value">'A'</code></a></dt>
               <dt><a id="keyset-key-U-0041"><code class="value">'U+0041'</code></a></dt>
-                 <dd>The Latin Capital Letter A key (A).</dd>
+              <dd>The Latin Capital Letter A key (A).</dd>
+
               <dt><a id="keyset-key-B"><code class="value">'B'</code></a></dt>
               <dt><a id="keyset-key-U-0042"><code class="value">'U+0042'</code></a></dt>
-                 <dd>The Latin Capital Letter B key (B).</dd>
+              <dd>The Latin Capital Letter B key (B).</dd>
+
               <dt><a id="keyset-key-C"><code class="value">'C'</code></a></dt>
               <dt><a id="keyset-key-U-0043"><code class="value">'U+0043'</code></a></dt>
-                 <dd>The Latin Capital Letter C key (C).</dd>
+              <dd>The Latin Capital Letter C key (C).</dd>
+
               <dt><a id="keyset-key-D"><code class="value">'D'</code></a></dt>
               <dt><a id="keyset-key-U-0044"><code class="value">'U+0044'</code></a></dt>
-                 <dd>The Latin Capital Letter D key (D).</dd>
+              <dd>The Latin Capital Letter D key (D).</dd>
+
               <dt><a id="keyset-key-E"><code class="value">'E'</code></a></dt>
               <dt><a id="keyset-key-U-0045"><code class="value">'U+0045'</code></a></dt>
-                 <dd>The Latin Capital Letter E key (E).</dd>
+              <dd>The Latin Capital Letter E key (E).</dd>
+
               <dt><a id="keyset-key-F"><code class="value">'F'</code></a></dt>
               <dt><a id="keyset-key-U-0046"><code class="value">'U+0046'</code></a></dt>
-                 <dd>The Latin Capital Letter F key (F).</dd>
+              <dd>The Latin Capital Letter F key (F).</dd>
+
               <dt><a id="keyset-key-G"><code class="value">'G'</code></a></dt>
               <dt><a id="keyset-key-U-0047"><code class="value">'U+0047'</code></a></dt>
-                 <dd>The Latin Capital Letter G key (G).</dd>
+              <dd>The Latin Capital Letter G key (G).</dd>
+
               <dt><a id="keyset-key-H"><code class="value">'H'</code></a></dt>
               <dt><a id="keyset-key-U-0048"><code class="value">'U+0048'</code></a></dt>
-                 <dd>The Latin Capital Letter H key (H).</dd>
+              <dd>The Latin Capital Letter H key (H).</dd>
+
               <dt><a id="keyset-key-I"><code class="value">'I'</code></a></dt>
               <dt><a id="keyset-key-U-0049"><code class="value">'U+0049'</code></a></dt>
-                 <dd>The Latin Capital Letter I key (I).</dd>
+              <dd>The Latin Capital Letter I key (I).</dd>
+
               <dt><a id="keyset-key-J"><code class="value">'J'</code></a></dt>
               <dt><a id="keyset-key-U-004A"><code class="value">'U+004A'</code></a></dt>
-                 <dd>The Latin Capital Letter J key (J).</dd>
+              <dd>The Latin Capital Letter J key (J).</dd>
+
               <dt><a id="keyset-key-K"><code class="value">'K'</code></a></dt>
               <dt><a id="keyset-key-U-004B"><code class="value">'U+004B'</code></a></dt>
-                 <dd>The Latin Capital Letter K key (K).</dd>
+              <dd>The Latin Capital Letter K key (K).</dd>
+
               <dt><a id="keyset-key-L"><code class="value">'L'</code></a></dt>
               <dt><a id="keyset-key-U-004C"><code class="value">'U+004C'</code></a></dt>
-                 <dd>The Latin Capital Letter L key (L).</dd>
+              <dd>The Latin Capital Letter L key (L).</dd>
+
               <dt><a id="keyset-key-M"><code class="value">'M'</code></a></dt>
               <dt><a id="keyset-key-U-004D"><code class="value">'U+004D'</code></a></dt>
-                 <dd>The Latin Capital Letter M key (M).</dd>
+              <dd>The Latin Capital Letter M key (M).</dd>
+
               <dt><a id="keyset-key-N"><code class="value">'N'</code></a></dt>
               <dt><a id="keyset-key-U-004E"><code class="value">'U+004E'</code></a></dt>
-                 <dd>The Latin Capital Letter N key (N).</dd>
+              <dd>The Latin Capital Letter N key (N).</dd>
+
               <dt><a id="keyset-key-O"><code class="value">'O'</code></a></dt>
               <dt><a id="keyset-key-U-004F"><code class="value">'U+004F'</code></a></dt>
-                 <dd>The Latin Capital Letter O key (O).</dd>
+              <dd>The Latin Capital Letter O key (O).</dd>
+
               <dt><a id="keyset-key-P"><code class="value">'P'</code></a></dt>
               <dt><a id="keyset-key-U-0050"><code class="value">'U+0050'</code></a></dt>
-                 <dd>The Latin Capital Letter P key (P).</dd>
+              <dd>The Latin Capital Letter P key (P).</dd>
+
               <dt><a id="keyset-key-Q"><code class="value">'Q'</code></a></dt>
               <dt><a id="keyset-key-U-0051"><code class="value">'U+0051'</code></a></dt>
-                 <dd>The Latin Capital Letter Q key (Q).</dd>
+              <dd>The Latin Capital Letter Q key (Q).</dd>
+
               <dt><a id="keyset-key-R"><code class="value">'R'</code></a></dt>
               <dt><a id="keyset-key-U-0052"><code class="value">'U+0052'</code></a></dt>
-                 <dd>The Latin Capital Letter R key (R).</dd>
+              <dd>The Latin Capital Letter R key (R).</dd>
+
               <dt><a id="keyset-key-S"><code class="value">'S'</code></a></dt>
               <dt><a id="keyset-key-U-0053"><code class="value">'U+0053'</code></a></dt>
-                 <dd>The Latin Capital Letter S key (S).</dd>
+              <dd>The Latin Capital Letter S key (S).</dd>
+
               <dt><a id="keyset-key-T"><code class="value">'T'</code></a></dt>
               <dt><a id="keyset-key-U-0054"><code class="value">'U+0054'</code></a></dt>
-                 <dd>The Latin Capital Letter T key (T).</dd>
+              <dd>The Latin Capital Letter T key (T).</dd>
+
               <dt><a id="keyset-key-U"><code class="value">'U'</code></a></dt>
               <dt><a id="keyset-key-U-0055"><code class="value">'U+0055'</code></a></dt>
-                 <dd>The Latin Capital Letter U key (U).</dd>
+              <dd>The Latin Capital Letter U key (U).</dd>
+
               <dt><a id="keyset-key-V"><code class="value">'V'</code></a></dt>
               <dt><a id="keyset-key-U-0056"><code class="value">'U+0056'</code></a></dt>
-                 <dd>The Latin Capital Letter V key (V).</dd>
+              <dd>The Latin Capital Letter V key (V).</dd>
+
               <dt><a id="keyset-key-W"><code class="value">'W'</code></a></dt>
               <dt><a id="keyset-key-U-0057"><code class="value">'U+0057'</code></a></dt>
-                 <dd>The Latin Capital Letter W key (W).</dd>
+              <dd>The Latin Capital Letter W key (W).</dd>
+
               <dt><a id="keyset-key-X"><code class="value">'X'</code></a></dt>
               <dt><a id="keyset-key-U-0058"><code class="value">'U+0058'</code></a></dt>
-                 <dd>The Latin Capital Letter X key (X).</dd>
+              <dd>The Latin Capital Letter X key (X).</dd>
+
               <dt><a id="keyset-key-Y"><code class="value">'Y'</code></a></dt>
               <dt><a id="keyset-key-U-0059"><code class="value">'U+0059'</code></a></dt>
-                 <dd>The Latin Capital Letter Y key (Y).</dd>
+              <dd>The Latin Capital Letter Y key (Y).</dd>
+
               <dt><a id="keyset-key-Z"><code class="value">'Z'</code></a></dt>
               <dt><a id="keyset-key-U-005A"><code class="value">'U+005A'</code></a></dt>
-                 <dd>The Latin Capital Letter Z key (Z).</dd>
+              <dd>The Latin Capital Letter Z key (Z).</dd>
+
+              <dt><a id="keyset-key-a"><code class="value">'a'</code></a></dt>
+              <dt><a id="keyset-key-U-0061"><code class="value">'U+0061'</code></a></dt>
+              <dd>The Latin Miniscule Letter a key.</dd>
+
+              <dt><a id="keyset-key-b"><code class="value">'b'</code></a></dt>
+              <dt><a id="keyset-key-U-0062"><code class="value">'U+0062'</code></a></dt>
+              <dd>The Latin Miniscule Letter b key.</dd>
+
+              <dt><a id="keyset-key-c"><code class="value">'c'</code></a></dt>
+              <dt><a id="keyset-key-U-0063"><code class="value">'U+0063'</code></a></dt>
+              <dd>The Latin Miniscule Letter c key.</dd>
+
+              <dt><a id="keyset-key-d"><code class="value">'d'</code></a></dt>
+              <dt><a id="keyset-key-U-0064"><code class="value">'U+0064'</code></a></dt>
+              <dd>The Latin Miniscule Letter d key.</dd>
+
+              <dt><a id="keyset-key-e"><code class="value">'e'</code></a></dt>
+              <dt><a id="keyset-key-U-0065"><code class="value">'U+0065'</code></a></dt>
+              <dd>The Latin Miniscule Letter e key.</dd>
+
+              <dt><a id="keyset-key-f"><code class="value">'f'</code></a></dt>
+              <dt><a id="keyset-key-U-0066"><code class="value">'U+0066'</code></a></dt>
+              <dd>The Latin Miniscule Letter f key.</dd>
+
+              <dt><a id="keyset-key-g"><code class="value">'g'</code></a></dt>
+              <dt><a id="keyset-key-U-0067"><code class="value">'U+0067'</code></a></dt>
+              <dd>The Latin Miniscule Letter g key.</dd>
+
+              <dt><a id="keyset-key-h"><code class="value">'h'</code></a></dt>
+              <dt><a id="keyset-key-U-0068"><code class="value">'U+0068'</code></a></dt>
+              <dd>The Latin Miniscule Letter h key.</dd>
+
+              <dt><a id="keyset-key-i"><code class="value">'i'</code></a></dt>
+              <dt><a id="keyset-key-U-0069"><code class="value">'U+0069'</code></a></dt>
+              <dd>The Latin Miniscule Letter i key.</dd>
+
+              <dt><a id="keyset-key-j"><code class="value">'j'</code></a></dt>
+              <dt><a id="keyset-key-U-006A"><code class="value">'U+006A'</code></a></dt>
+              <dd>The Latin Miniscule Letter j key.</dd>
+
+              <dt><a id="keyset-key-k"><code class="value">'k'</code></a></dt>
+              <dt><a id="keyset-key-U-006B"><code class="value">'U+006B'</code></a></dt>
+              <dd>The Latin Miniscule Letter k key.</dd>
+
+              <dt><a id="keyset-key-l"><code class="value">'l'</code></a></dt>
+              <dt><a id="keyset-key-U-006C"><code class="value">'U+006C'</code></a></dt>
+              <dd>The Latin Miniscule Letter l key.</dd>
+
+              <dt><a id="keyset-key-m"><code class="value">'m'</code></a></dt>
+              <dt><a id="keyset-key-U-006D"><code class="value">'U+006D'</code></a></dt>
+              <dd>The Latin Miniscule Letter m key.</dd>
+
+              <dt><a id="keyset-key-n"><code class="value">'n'</code></a></dt>
+              <dt><a id="keyset-key-U-006E"><code class="value">'U+006E'</code></a></dt>
+              <dd>The Latin Miniscule Letter n key.</dd>
+
+              <dt><a id="keyset-key-o"><code class="value">'o'</code></a></dt>
+              <dt><a id="keyset-key-U-006F"><code class="value">'U+006F'</code></a></dt>
+              <dd>The Latin Miniscule Letter o key.</dd>
+
+              <dt><a id="keyset-key-p"><code class="value">'p'</code></a></dt>
+              <dt><a id="keyset-key-U-0070"><code class="value">'U+0070'</code></a></dt>
+              <dd>The Latin Miniscule Letter p key.</dd>
+
+              <dt><a id="keyset-key-q"><code class="value">'q'</code></a></dt>
+              <dt><a id="keyset-key-U-0071"><code class="value">'U+0071'</code></a></dt>
+              <dd>The Latin Miniscule Letter q key.</dd>
+
+              <dt><a id="keyset-key-r"><code class="value">'r'</code></a></dt>
+              <dt><a id="keyset-key-U-0072"><code class="value">'U+0072'</code></a></dt>
+              <dd>The Latin Miniscule Letter r key.</dd>
+
+              <dt><a id="keyset-key-s"><code class="value">'s'</code></a></dt>
+              <dt><a id="keyset-key-U-0073"><code class="value">'U+0073'</code></a></dt>
+              <dd>The Latin Miniscule Letter s key.</dd>
+
+              <dt><a id="keyset-key-t"><code class="value">'t'</code></a></dt>
+              <dt><a id="keyset-key-U-0074"><code class="value">'U+0074'</code></a></dt>
+              <dd>The Latin Miniscule Letter t key.</dd>
+
+              <dt><a id="keyset-key-u"><code class="value">'u'</code></a></dt>
+              <dt><a id="keyset-key-U-0075"><code class="value">'U+0075'</code></a></dt>
+              <dd>The Latin Miniscule Letter u key.</dd>
+
+              <dt><a id="keyset-key-v"><code class="value">'v'</code></a></dt>
+              <dt><a id="keyset-key-U-0076"><code class="value">'U+0076'</code></a></dt>
+              <dd>The Latin Miniscule Letter v key.</dd>
+
+              <dt><a id="keyset-key-w"><code class="value">'w'</code></a></dt>
+              <dt><a id="keyset-key-U-0077"><code class="value">'U+0077'</code></a></dt>
+              <dd>The Latin Miniscule Letter w key.</dd>
+
+              <dt><a id="keyset-key-x"><code class="value">'x'</code></a></dt>
+              <dt><a id="keyset-key-U-0078"><code class="value">'U+0078'</code></a></dt>
+              <dd>The Latin Miniscule Letter x key.</dd>
+
+              <dt><a id="keyset-key-y"><code class="value">'y'</code></a></dt>
+              <dt><a id="keyset-key-U-0079"><code class="value">'U+0079'</code></a></dt>
+              <dd>The Latin Miniscule Letter y key.</dd>
+
+              <dt><a id="keyset-key-z"><code class="value">'z'</code></a></dt>
+              <dt><a id="keyset-key-U-007A"><code class="value">'U+007A'</code></a></dt>
+              <dd>The Latin Miniscule Letter z key.</dd>
+
+
               <dt><a id="keyset-key-LeftSquareBracketChar"><code class="value">'['</code></a></dt>
               <dt><a id="keyset-key-LeftSquareBracket"><code class="value">'LeftSquareBracket'</code></a></dt>
               <dt><a id="keyset-key-U-005B"><code class="value">'U+005B'</code></a></dt>
-                 <dd>The Left Square Bracket (Opening Square Bracket) key ([).</dd>
+              <dd>The Left Square Bracket (Opening Square Bracket) key ([).</dd>
+
               <dt><a id="keyset-key-BackslashChar"><code class="value">'\'</code></a></dt>
               <dt><a id="keyset-key-Backslash"><code class="value">'Backslash'</code></a></dt>
               <dt><a id="keyset-key-U-005C"><code class="value">'U+005C'</code></a></dt>
-                 <dd>The Reverse Solidus (Backslash) key (\).</dd>
+              <dd>The Reverse Solidus (Backslash) key (\).</dd>
+
               <dt><a id="keyset-key-RightSquareBracketChar"><code class="value">']'</code></a></dt>
               <dt><a id="keyset-key-RightSquareBracket"><code class="value">'RightSquareBracket'</code></a></dt>
               <dt><a id="keyset-key-U-005D"><code class="value">'U+005D'</code></a></dt>
-                 <dd>The Right Square Bracket (Closing Square Bracket) key (]).</dd>
+              <dd>The Right Square Bracket (Closing Square Bracket) key (]).</dd>
+
               <dt><a id="keyset-key-CircumflexChar"><code class="value">'^'</code></a></dt>
               <dt><a id="keyset-key-Circumflex"><code class="value">'Circumflex'</code></a></dt>
               <dt><a id="keyset-key-U-005E"><code class="value">'U+005E'</code></a></dt>
-                 <dd>The Circumflex Accent key (^).</dd>
+              <dd>The Circumflex Accent key (^).</dd>
+
               <dt><a id="keyset-key-UnderscoreChar"><code class="value">'_'</code></a></dt>
               <dt><a id="keyset-key-Underscore"><code class="value">'Underscore'</code></a></dt>
               <dt><a id="keyset-key-U-005F"><code class="value">'U+005F'</code></a></dt>
-                 <dd>The Low Sign (Spacing Underscore, Underscore) key (_).</dd>
+              <dd>The Low Sign (Spacing Underscore, Underscore) key (_).</dd>
+
               <dt><a id="keyset-key-GraveChar"><code class="value">'`'</code></a></dt>
               <dt><a id="keyset-key-Grave"><code class="value">'Grave'</code></a></dt>
               <dt><a id="keyset-key-U-0060"><code class="value">'U+0060'</code></a></dt>
-                 <dd>The Grave Accent (Back Quote) key (`).</dd>
+              <dd>The Grave Accent (Back Quote) key (`).</dd>
+
               <dt><a id="keyset-key-LeftCurlyBracketChar"><code class="value">'{'</code></a></dt>
               <dt><a id="keyset-key-LeftCurlyBracket"><code class="value">'LeftCurlyBracket'</code></a></dt>
               <dt><a id="keyset-key-U-007B"><code class="value">'U+007B'</code></a></dt>
-                 <dd>The Left Curly Bracket (Opening Curly Bracket, Opening Brace, Brace Left) key ({).</dd>
+              <dd>The Left Curly Bracket (Opening Curly Bracket, Opening Brace, Brace Left) key ({).</dd>
+
               <dt><a id="keyset-key-PipeChar"><code class="value">'|'</code></a></dt>
               <dt><a id="keyset-key-Pipe"><code class="value">'Pipe'</code></a></dt>
               <dt><a id="keyset-key-U-007C"><code class="value">'U+007C'</code></a></dt>
-                 <dd>The Vertical Line (Vertical Bar, Pipe) key (|).</dd>
+              <dd>The Vertical Line (Vertical Bar, Pipe) key (|).</dd>
+
               <dt><a id="keyset-key-RightCurlyBracketChar"><code class="value">'}'</code></a></dt>
               <dt><a id="keyset-key-RightCurlyBracket"><code class="value">'RightCurlyBracket'</code></a></dt>
               <dt><a id="keyset-key-U-007D"><code class="value">'U+007D'</code></a></dt>
-                 <dd>The Right Curly Bracket (Closing Curly Bracket, Closing Brace, Brace Right) key (}).</dd>
+              <dd>The Right Curly Bracket (Closing Curly Bracket, Closing Brace, Brace Right) key (}).</dd>
+
               <dt><a id="keyset-key-Del"><code class="value">'Del'</code></a></dt>
               <dt><a id="keyset-key-U-007F"><code class="value">'U+007F'</code></a></dt>
-                 <dd>The Delete (Del) Key.
-    			         <span class="note"><strong>Note:</strong> This key identifier shall be also used for the key labeled <code class="value">'delete'</code> MacOS keyboards when modified by the <code class="value">'Fn'</code> key.</span>
-                 </dd>
+              <dd>The Delete (Del) Key.
+               <span class="note"><strong>Note:</strong> This key identifier shall be also used for the key labeled <code class="value">'delete'</code> MacOS keyboards when modified by the <code class="value">'Fn'</code> key.</span>
+              </dd>
+
               <dt><a id="keyset-key-InvertedExclamationChar"><code class="value">'¡'</code></a></dt>
               <dt><a id="keyset-key-InvertedExclamation"><code class="value">'InvertedExclamation'</code></a></dt>
               <dt><a id="keyset-key-U-00A1"><code class="value">'U+00A1'</code></a></dt>
-                 <dd>The Inverted Exclamation Mark key (&#161;).</dd>
+              <dd>The Inverted Exclamation Mark key (&#161;).</dd>
+
               <dt><a id="keyset-key-DeadGrave"><code class="value">'DeadGrave'</code></a></dt>
               <dt><a id="keyset-key-U-0300"><code class="value">'U+0300'</code></a></dt>
-                 <dd>The Combining Grave Accent (Greek Varia, Dead Grave) key.</dd>
+              <dd>The Combining Grave Accent (Greek Varia, Dead Grave) key.</dd>
+
               <dt><a id="keyset-key-DeadEacute"><code class="value">'DeadEacute'</code></a></dt>
               <dt><a id="keyset-key-U-0301"><code class="value">'U+0301'</code></a></dt>
-                 <dd>The Combining Acute Accent (Stress Mark, Greek Oxia, Tonos, Dead Eacute) key.</dd>
+              <dd>The Combining Acute Accent (Stress Mark, Greek Oxia, Tonos, Dead Eacute) key.</dd>
+
               <dt><a id="keyset-key-DeadCircumflex"><code class="value">'DeadCircumflex'</code></a></dt>
               <dt><a id="keyset-key-U-0302"><code class="value">'U+0302'</code></a></dt>
-                 <dd>The Combining Circumflex Accent (Hat, Dead Circumflex) key.</dd>
+              <dd>The Combining Circumflex Accent (Hat, Dead Circumflex) key.</dd>
+
               <dt><a id="keyset-key-DeadTilde"><code class="value">'DeadTilde'</code></a></dt>
               <dt><a id="keyset-key-U-0303"><code class="value">'U+0303'</code></a></dt>
-                 <dd>The Combining Tilde (Dead Tilde) key.</dd>
+              <dd>The Combining Tilde (Dead Tilde) key.</dd>
+
               <dt><a id="keyset-key-DeadMacron"><code class="value">'DeadMacron'</code></a></dt>
               <dt><a id="keyset-key-U-0304"><code class="value">'U+0304'</code></a></dt>
-                 <dd>The Combining Macron (Long, Dead Macron) key.</dd>
+              <dd>The Combining Macron (Long, Dead Macron) key.</dd>
+
               <dt><a id="keyset-key-DeadBreve"><code class="value">'DeadBreve'</code></a></dt>
               <dt><a id="keyset-key-U-0306"><code class="value">'U+0306'</code></a></dt>
-                 <dd>The Combining Breve (Short, Dead Breve) key.</dd>
+              <dd>The Combining Breve (Short, Dead Breve) key.</dd>
+
               <dt><a id="keyset-key-DeadAboveDot"><code class="value">'DeadAboveDot'</code></a></dt>
               <dt><a id="keyset-key-U-0307"><code class="value">'U+0307'</code></a></dt>
-                 <dd>The Combining Dot Above (Derivative, Dead Above Dot) key.</dd>
+              <dd>The Combining Dot Above (Derivative, Dead Above Dot) key.</dd>
+
               <dt><a id="keyset-key-DeadUmlaut"><code class="value">'DeadUmlaut'</code></a></dt>
               <dt><a id="keyset-key-U-0308"><code class="value">'U+0308'</code></a></dt>
-                 <dd>The Combining Diaeresis (Double Dot Abode, Umlaut, Greek Dialytika, Double Derivative, Dead Diaeresis) key.</dd>
+              <dd>The Combining Diaeresis (Double Dot Abode, Umlaut, Greek Dialytika, Double Derivative, Dead Diaeresis) key.</dd>
+
               <dt><a id="keyset-key-DeadAboveRing"><code class="value">'DeadAboveRing'</code></a></dt>
               <dt><a id="keyset-key-U-030A"><code class="value">'U+030A'</code></a></dt>
-                 <dd>The Combining Ring Above (Dead Above Ring) key.</dd>
+              <dd>The Combining Ring Above (Dead Above Ring) key.</dd>
+
               <dt><a id="keyset-key-DeadDoubleacute"><code class="value">'DeadDoubleacute'</code></a></dt>
               <dt><a id="keyset-key-U-030B"><code class="value">'U+030B'</code></a></dt>
-                 <dd>The Combining Double Acute Accent (Dead Doubleacute) key.</dd>
+              <dd>The Combining Double Acute Accent (Dead Doubleacute) key.</dd>
+
               <dt><a id="keyset-key-DeadCaron"><code class="value">'DeadCaron'</code></a></dt>
               <dt><a id="keyset-key-U-030C"><code class="value">'U+030C'</code></a></dt>
-                 <dd>The Combining Caron (Hacek, V Above, Dead Caron) key.</dd>
+              <dd>The Combining Caron (Hacek, V Above, Dead Caron) key.</dd>
+
               <dt><a id="keyset-key-DeadCedilla"><code class="value">'DeadCedilla'</code></a></dt>
               <dt><a id="keyset-key-U-0327"><code class="value">'U+0327'</code></a></dt>
-                 <dd>The Combining Cedilla (Dead Cedilla) key.</dd>
+              <dd>The Combining Cedilla (Dead Cedilla) key.</dd>
+
               <dt><a id="keyset-key-DeadOgonek"><code class="value">'DeadOgonek'</code></a></dt>
               <dt><a id="keyset-key-U-0328"><code class="value">'U+0328'</code></a></dt>
-                 <dd>The Combining Ogonek (Nasal Hook, Dead Ogonek) key.</dd>
+              <dd>The Combining Ogonek (Nasal Hook, Dead Ogonek) key.</dd>
+
               <dt><a id="keyset-key-DeadIota"><code class="value">'DeadIota'</code></a></dt>
               <dt><a id="keyset-key-U-0345"><code class="value">'U+0345'</code></a></dt>
-                 <dd>The Combining Greek Ypogegrammeni (Greek Non-Spacing Iota Below, Iota Subscript, Dead Iota) key.</dd>
+              <dd>The Combining Greek Ypogegrammeni (Greek Non-Spacing Iota Below, Iota Subscript, Dead Iota) key.</dd>
+
               <dt><a id="keyset-key-EuroChar"><code class="value">'€'</code></a></dt>
               <dt><a id="keyset-key-Euro"><code class="value">'Euro'</code></a></dt>
               <dt><a id="keyset-key-U-20AC"><code class="value">'U+20AC'</code></a></dt>
-                 <dd>The Euro Currency Sign key (&#8364;).</dd>
+              <dd>The Euro Currency Sign key (&#8364;).</dd>
+
               <dt><a id="keyset-key-DeadVoicedSound"><code class="value">'DeadVoicedSound'</code></a></dt>
               <dt><a id="keyset-key-U-3099"><code class="value">'U+3099'</code></a></dt>
-                 <dd>The Combining Katakana-Hiragana Voiced Sound Mark (Dead Voiced Sound) key.</dd>
+              <dd>The Combining Katakana-Hiragana Voiced Sound Mark (Dead Voiced Sound) key.</dd>
+
               <dt><a id="keyset-key-DeadSemivoicedSound"><code class="value">'DeadSemivoicedSound'</code></a></dt>
               <dt><a id="keyset-key-U-309A"><code class="value">'U+309A'</code></a></dt>
-                 <dd>The Combining Katakana-Hiragana Semi-Voiced Sound Mark (Dead Semivoiced Sound) key.</dd>
+              <dd>The Combining Katakana-Hiragana Semi-Voiced Sound Mark (Dead Semivoiced Sound) key.</dd>
             </dl>
           </div>
           <!-- div2 KeySet-Set -->
