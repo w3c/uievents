@@ -160,11 +160,11 @@
       </p>
       <h1 id="Overview-title">Document Object Model (DOM) Level 3 Events Specification</h1>
 <!-- @@@ -->
-      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <span class="date">16 September 2009</span></h2>
+      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <span class="date">17 September 2009</span></h2>
       <dl>
         <dt>This version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.86">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.86</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.87">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.87</a>
         </dd>
         <dt>Latest stable version:</dt>
         <dd>
@@ -172,7 +172,7 @@
         </dd>
         <dt>Previous version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.85">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.85</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.86">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.86</a>
         </dd>
         <dt>Editor's Draft:</dt>
         <dd>
@@ -210,7 +210,7 @@
         knowledge of a patent which the individual believes contains <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential
         Claim(s)</a> must disclose the information in accordance with <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section
         6 of the W3C Patent Policy</a>.</p>
-      <p id="working-draft">This is the <span class="date">16 September 2009</span> Editor's Draft version of the "Document Object Model (DOM) Level 3 Events" specification.  This document was previously published as a W3C Note, pending further feedback from implementers, and is now being revised to reflect the current state of implementation.  It is expected that this specification will progress to Recommendation status.</p>
+      <p id="working-draft">This is the <span class="date">17 September 2009</span> Editor's Draft version of the "Document Object Model (DOM) Level 3 Events" specification.  This document was previously published as a W3C Note, pending further feedback from implementers, and is now being revised to reflect the current state of implementation.  It is expected that this specification will progress to Recommendation status.</p>
       <p id="this-document-is-produced-by-the-web-app">This document is produced
         by the <a href="http://www.w3.org/2008/webapps/">Web Applications WG</a>,
         part of the <a href="http://www.w3.org/2006/rwc/Activity">Rich Web
@@ -581,28 +581,46 @@
         <dl id="glossary-list">
           <dt id="glossary-activation-behavior">activation behavior</dt>
           <dd>The action taken when an <a class="def" href="#glossary-event">event</a>, typically initiated by users through an input device, causes an element to fulfill a defined role.  The role may be defined for that element by the host language, or by author-defined variables, or both.  The role for any given element may be a generic action, or may be unique to that element.  For example, the activation behavior of an HTML or SVG <code>&lt;a&gt;</code> element shall be to cause the user agent to traverse the link specified in the <code>href</code> attribute, with the further optional parameter of specifying the browsing context for the traversal (such as the current window or tab, a named window, or a new window); the activation behavior of an HTML <code>&lt;input&gt;</code> element with the <code>type</code> attribute value <code>submit</code> shall be to send the values of the form elements to an author-defined IRI by the author-defined HTTP method.</dd>
+
           <dt id="glossary-bubbling-phase">bubbling phase</dt>
           <dd>The process by which an <a class="def" href="#glossary-event">event</a> can be handled by one of the target ancestors after being handled by the <a class="def" href="#glossary-target-node">target node</a>.</dd>
+
           <dt id="glossary-capture-phase">capture phase</dt>
           <dd>The process by which an <a class="def" href="#glossary-event">event</a> can be handled by one of the target ancestors before being handled by the <a class="def" href="#glossary-target-node">target node</a>.</dd>
+
           <dt id="glossary-dead-key">dead key</dt>
           <dd>A dead key is a key or combination of key that produces no character by itself, but which in combination or sequence with another key produces a modified character, such as a character with diacritical marks (e.g. <code>&#xF6;</code>, <code>&#xE9;</code>, <code>&#xE2;</code>).</dd>
+
           <dt id="glossary-default-action">default action</dt>
           <dd>A <a class="def" href="#glossary-default-action">default action</a> is a supplementary behavior that an implementation must perform in combination with the dispatch of the event object.  Each event, and each specification, defines the <a class="def" href="#glossary-default-action">default action</a> for that event.  A <a class="def" href="#glossary-default-action">default action</a> may be cancelled through the invocation of the <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> method.  For more details, see <a href="#event-flow-cancelation">Default actions and cancelable events</a>.</dd>
+
           <dt id="glossary-defaultView">defaultView</dt>
           <dd>The <code>defaultView</code> is the <a href="http://www.w3.org/TR/DOM-Level-2-Views/views.html#Views-AbstractView" title="Document Object Model Views"><code>AbstractView</code> interface</a> of the <code>Document</code>'s <a href="http://www.w3.org/TR/DOM-Level-2-Views/views.html#Views-DocumentView" title="Document Object Model Views"><code>DocumentView</code> interface</a>, which serves as a reference to the containing frame or window.  This interface may also be accessed as the <code>Window</code> interface in many implementations.</dd>
+
+          <dt id="glossary-delta">delta</dt>
+          <dd>
+            <p>The distance an input device using the <a href="#events-wheelevents">WheelEvent</a> interface (such as a mouse wheel) has rotated around its axis.</p>
+            <p>The value of a <a class="def" href="#glossary-delta">delta</a> shall be a integer indicating a distance, measured as the number of <a class="def" href="#glossary-roll">rolls</a> the wheel has been <a class="def" href="#events-Events-WheelEvent-rotation">rotated</a>. A positive value shall indicate that the wheel has been <a class="def" href="#events-Events-WheelEvent-rotation">rotated</a> away from the user on vertically-aligned devices or in a left-hand manner on horizontally aligned devices, and a negative value shall indicate that the wheel has been <a class="def" href="#events-Events-WheelEvent-rotation">rotated</a> towards the user on vertically-aligned devices or in a right-hand manner on horizontally-aligned devices.  The default value of a delta attribute shall be 0.</p>
+          </dd>
+
           <dt id="glossary-deprecated">deprecated</dt>
           <dd>Features marked as deprecated are included in the specification as reference to older implementations or specifications, but are optional and discouraged.  Only features which have existing or in-progress replacements shall be deprecated in this specification.  Implementations which do not already include support for the feature should not implement deprecated features, and authors creating content should not use deprecated features, unless there is no other way to solve a use case.  Other specifications which reference this specification should not use deprecated features, but should point instead to the replacements of which the feature is deprecated in favor.</dd>
+
           <dt id="glossary-dispatch">dispatch</dt>
           <dd>To create an event with attributes and methods appropriate to its type and context, and propagate it through the DOM tree in the specified manner. Interchangeable with the term "fire", e.g. "fire a 'click' event" or "dispatch a 'load' event".</dd>
+
           <dt id="glossary-DOM-Level-0">DOM Level 0</dt>
           <dd>The term "DOM Level 0" refers to a mix (not formally specified) of HTML document functionalities offered by Netscape Navigator version 3.0 and Microsoft Internet Explorer version 3.0. In some cases, attributes or methods have been included for reasons of backward compatibility with "DOM Level 0".</dd>
+
           <dt id="glossary-event">event</dt>
           <dd>An event is the representation of some asynchronous occurrence (such as a mouse click on the presentation of the element, or the removal of child node from an element, or any of unthinkably many other possibilities) that gets associated with an <a class="def" href="#glossary-event-target">event target</a>.</dd>
+
           <dt id="glossary-event-phase">event phase</dt>
           <dd>See <a class="def" href="#glossary-phase">phase</a>.</dd>
+
           <dt id="glossary-event-target">event target</dt>
           <dd>The object to which an <a class="def" href="#glossary-event">event</a> is targeted.</dd>
+
           <dt id="glossary-event-type">event type</dt>
           <dd>An <a class="def" href="#glossary-event">event</a> object which defines particular trigger conditions, properties, interfaces, and other characteristics which distinguish it from other event types.  For example, the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type has different characteristics than the <a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a> or <a class="eventtype" href="#event-type-load"><code>load</code></a> event types. The event type is exposed as the <a href="#events-event-type-type"><code class="interface-attribute">type</code></a> attribute on the event object.  See <a href="#event-types">event types</a> for more details.  Also loosely referred to as 'event', such as the <em><a class="eventtype" href="#event-type-click"><code>click</code></a> event</em>.</dd>
           <dt id="glossary-event-focus">focus</dt>
@@ -625,6 +643,12 @@
 
           <dt id="glossary-qwerty">QWERTY</dt>
           <dd>QWERTY (pronounced "ˈkwɜrti") is a common keyboard layout, so named because the first five character keys on the top row of letter keys are Q, W, E, R, T, and Y.  There are many other popular keyboard layouts, most designed for localization or ergonomics.</dd>
+
+          <dt id="glossary-roll">roll</dt>
+          <dd>A unit of <a class="def" href="#events-Events-WheelEvent-rotation">rotation</a> for an input device using the <a href="#events-wheelevents">WheelEvent</a> interface. On some devices this may be a finite physical step. On devices with smooth <a class="def" href="#events-Events-WheelEvent-rotation">rotation</a>, a <a class="def" href="#glossary-roll">roll</a> becomes the smallest reported amount of <a class="def" href="#events-Events-WheelEvent-rotation">rotation</a>.</dd>
+
+          <dt id="events-Events-WheelEvent-rotation">rotation</dt>
+          <dd>An indication of incremental change on an input device using the <a href="#events-wheelevents">WheelEvent</a> interface. On some devices this may be a literal rotation of a wheel, while on others, it may be movement along a flat surface, or pressure on a particular button.</dd>
 
           <dt id="glossary-target-node">target node</dt>
           <dd>The target node is the node representing the <a class="def" href="#glossary-event-target">event target</a> to which an <a class="def" href="#glossary-event">event</a> is targeted using the DOM event flow.</dd>
@@ -1905,7 +1929,7 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
               </a>
             </td>
             <td>Yes</td>
-            <td><a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> event</td>
+            <td>Scroll (or zoom) the document</td>
           </tr>
           <tr>
             <td>
@@ -2025,7 +2049,7 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
               </a>
             </td>
             <td>Yes</td>
-            <td><a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> event</td>
+            <td>Scroll (or zoom) the document</td>
           </tr>
         </table>
         <p>As an example, the event <a class="eventtype" href="#event-type-load"><code>load</code></a> must trigger event listeners attached on <code>Element</code> nodes for that event and on the capture and target phases. This event cannot be cancelled. If an event listener for the <a class="eventtype" href="#event-type-load"><code>load</code></a> event is attached to a node other than <code>Document</code> or <code>Element</code> nodes, or if it is attached to the bubbling phase only, this event listener must not be triggered.</p>
@@ -2680,14 +2704,13 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
       </div>
     </div>
 <!-- div2 Events-eventgroupings -->
+
 <!-- div3 Events-eventgroupings-wheelevents -->
     <div class="div3">
       <h3 class="div3"><a id="events-mousewheelevents" href="#events-mousewheelevents">5.2.4 Mouse Wheel Event Types</a></h3>
       <p>This module defines the feature MouseWheelEvents 3.0 and depends on the feature MouseEvents 3.0.</p>
-      <p>Mouse wheel events are included for specification of legacy support, but are deprecated.  Authors are encouraged to use <a href="#events-wheelevents">Wheel event types</a> instead.</p>
-<!--
-        <p>Mouse wheel events are a subset of mouse multi wheel events. See <a href='#events-wheelevents'>Wheel event types</a> for additional information.</p>
-        -->
+      <p class="warning"><strong>Warning:</strong> the <a href="#events-Events-MouseWheelEvent">MouseWheelEvent interface</a> is defined in this specification for reference and completeness of legacy behavior, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this interface in favor of the related <a href="#events-Events-WheelEvent">WheelEvent interface</a>.</p>
+
       <dl>
         <dt><strong>Interface <em><a id="events-Events-MouseWheelEvent">MouseWheelEvent</a></em></strong> (introduced in <strong class="since">DOM Level 3</strong>)</dt>
         <dd>
@@ -2784,9 +2807,10 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
           <dt id="event-type-mousewheel">
             <a class="eventtype noxref" href="#event-type-mousewheel"><code>mousewheel</code></a>
           </dt>
-          <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>mousewheel</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-MouseWheelEvent"><code>MouseWheelEvent</code></a></td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Document</code>, <code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>Yes</td></tr><tr class="assert must"><th>Default action</th><td><a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> event</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-MouseWheelEvent-wheelDelta"><code>MouseWheelEvent.wheelDelta</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use. <a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, and <a href="#events-Events-MouseEvent-button"><code>MouseEvent.button</code></a> are in use if the wheel is associated to a pointing device. <a href="#events-Events-MouseEvent-relatedTarget"><code>MouseEvent.relatedTarget</code></a> indicates the <a class="def" href="#glossary-event-target">event target</a> the pointing device is pointing at, if any. <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> is not in use.</td></tr></table>
-            A user agent must dispatch this event when a mouse wheel has been rotated around the y-axis.
-            <p>The default action of the <a class="eventtype" href="#event-type-mousewheel"><code>mousewheel</code></a> event is to dispatch a <a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> event with the appropriate values.  If this event is canceled, the <a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> event must not be dispatched.</p>
+          <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>mousewheel</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-MouseWheelEvent"><code>MouseWheelEvent</code></a></td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Document</code>, <code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>Yes</td></tr><tr class="assert must"><th>Default action</th><td>scroll (or zoom) the document</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-MouseWheelEvent-wheelDelta"><code>MouseWheelEvent.wheelDelta</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use. <a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, and <a href="#events-Events-MouseEvent-button"><code>MouseEvent.button</code></a> are in use if the wheel is associated to a pointing device. <a href="#events-Events-MouseEvent-relatedTarget"><code>MouseEvent.relatedTarget</code></a> indicates the <a class="def" href="#glossary-event-target">event target</a> the pointing device is pointing at, if any. <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> is not in use.</td></tr></table>
+            A user agent must dispatch this event when a mouse wheel has been rotated around the y-axis, or when an equivalent input device (such as a mouse-ball, certain tablets or touchpads, etc.) has emulated such an action. 
+            <p>The typical default action of the <a class="eventtype" href="#event-type-mousewheel"><code>mousewheel</code></a> event type is to scroll (or in some cases, zoom) the document by the indicated amount.  If this event is canceled, the implementation must not scroll or zoom the document (or perform whatever other implementation-specific default action is associated with this event type).</p>
+            <p class="warning"><strong>Warning:</strong> the <a class="eventtype" href="#event-type-mousewheel"><code>mousewheel</code></a> event type is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type in favor of the related <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event type.</p>
           </dd>
         </dl>
       </div>
@@ -2799,25 +2823,8 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
     <div class="div3">
       <h3 class="div3"><a id="events-wheelevents" href="#events-wheelevents">5.2.5 Wheel Event Types</a></h3>
       <p>This module defines the feature WheelEvents 3.0 and depends on the feature MouseEvents 3.0.</p>
-      <p>Wheels are devices that can be rotated in one or more spatial dimensions, and which may or may not be associated with a pointer device. The coordinate system depends on the environment configuration. As an example, the environment may be configured to associate vertical scrolling with rotation along the y-axis, horizontal scrolling with rotation along the x-axis, and zooming with rotation along the z-axis.  The deltax, deltaY, and deltaX attributes of <a href="#events-Events-WheelEvent"><code>WheelEvent</code></a> objects indicate the distance of the rotation, as specified in the <a class="def-term" href="#events-Events-WheelEvent-delta">delta</a> definition. <!--The delta attributes of <a href='#events-Events-WheelEvent'><code>WheelEvent</code></a> objects indicate the distance of the rotation. The measurement unit depends on the environment configuration. The sign of the delta value should indicate the direction of the rotation.--></p>
-      <dl>
-        <dt>
-          <code class="def-term" id="events-Events-WheelEvent-delta">delta</code>
-        </dt>
-        <dd>
-          <p>The distance the wheel has rotated around the its axis.</p>
-          <p>The value of a <a class="def-term" href="#events-Events-WheelEvent-delta">delta</a> shall be a integer indicating a distance, measured as the number of <a class="def-term" href="#events-Events-WheelEvent-roll">rolls</a> the wheel has been <a class="def-term" href="#events-Events-WheelEvent-rotation">rotated</a>. A positive value shall indicate that the wheel has been <a class="def-term" href="#events-Events-WheelEvent-rotation">rotated</a> away from the user on vertically-aligned devices or in a left-hand manner on horizontally aligned devices, and a negative value shall indicate that the wheel has been <a class="def-term" href="#events-Events-WheelEvent-rotation">rotated</a> towards the user on vertically-aligned devices or in a right-hand manner on horizontally-aligned devices.  The default value of a delta attribute shall be 0.</p>
-        </dd>
-        <dt>
-          <code class="def-term" id="events-Events-WheelEvent-roll">roll</code>
-        </dt>
-        <dd>A unit of <a class="def-term" href="#events-Events-WheelEvent-rotation">rotation</a> for a device using the <a href="#events-wheelevents">WheelEvent</a> interface. On some devices this may be a finite physical step. On devices with smooth <a class="def-term" href="#events-Events-WheelEvent-rotation">rotation</a>, a <a class="def-term" href="#events-Events-WheelEvent-roll">roll</a> becomes the smallest reported amount of <a class="def-term" href="#events-Events-WheelEvent-rotation">rotation</a>.</dd>
-        <dt>
-          <code class="def-term" id="events-Events-WheelEvent-rotation">rotation</code>
-        </dt>
-        <dd>An indication of incremental change. On some devices this may be a literal rotation of a wheel, while on others, it may be 
-        movement along a flat surface, or pressure on a particular button.</dd>
-      </dl>
+      <p>Wheels are devices that can be rotated in one or more spatial dimensions, and which may or may not be associated with a pointer device. The coordinate system depends on the environment configuration. As an example, the environment may be configured to associate vertical scrolling with rotation along the y-axis, horizontal scrolling with rotation along the x-axis, and zooming with rotation along the z-axis.  The deltax, deltaY, and deltaX attributes of <a href="#events-Events-WheelEvent"><code>WheelEvent</code></a> objects indicate the distance of the rotation, as specified in the <a class="def" href="#glossary-delta">delta</a> definition. <!--The delta attributes of <a href='#events-Events-WheelEvent'><code>WheelEvent</code></a> objects indicate the distance of the rotation. The measurement unit depends on the environment configuration. The sign of the delta value should indicate the direction of the rotation.--></p>
+
       <dl>
         <dt><strong>Interface <em><a id="events-Events-WheelEvent">WheelEvent</a></em></strong> (introduced in <strong class="since">DOM Level 3</strong>)</dt>
         <dd>
@@ -2887,7 +2894,7 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
               <strong>Definition group <em><a id="events-ID-WheelEvent-DeltaModeCode">DeltaModeCode</a></em></strong>
             </dt>
             <dd>
-              <p>This set of constants shall be used to indicate the units of measurement for the <a href="#events-Events-WheelEvent-delta"><code>delta</code></a> values.  The precise measurement is specific to device, operating system, and application configurations.</p>
+              <p>This set of constants shall be used to indicate the units of measurement for the <a href="#glossary-delta"><code>delta</code></a> values.  The precise measurement is specific to device, operating system, and application configurations.</p>
               <dl>
                 <dt>
                   <strong>Defined Constants</strong>
@@ -2899,19 +2906,19 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
                         <code class="constant-name">DOM_DELTA_PIXEL</code>
                       </a>
                     </dt>
-                    <dd>The units of measurement for the <a href="#events-Events-WheelEvent-delta"><code>delta</code></a> shall be pixels.  This is the most typical case in most operating system and implementation configurations.</dd>
+                    <dd>The units of measurement for the <a href="#glossary-delta"><code>delta</code></a> shall be pixels.  This is the most typical case in most operating system and implementation configurations.</dd>
                     <dt>
                       <a id="events-DOM_DELTA_LINE">
                         <code class="constant-name">DOM_DELTA_LINE</code>
                       </a>
                     </dt>
-                    <dd>The units of measurement for the <a href="#events-Events-WheelEvent-delta"><code>delta</code></a> shall be individual lines of text.  This is the case for many form controls.</dd>
+                    <dd>The units of measurement for the <a href="#glossary-delta"><code>delta</code></a> shall be individual lines of text.  This is the case for many form controls.</dd>
                     <dt>
                       <a id="events-DOM_DELTA_PAGE">
                         <code class="constant-name">DOM_DELTA_PAGE</code>
                       </a>
                     </dt>
-                    <dd>The units of measurement for the <a href="#events-Events-WheelEvent-delta"><code>delta</code></a> shall be pages, either defined as a single screen or as a demarcated page.</dd>
+                    <dd>The units of measurement for the <a href="#glossary-delta"><code>delta</code></a> shall be pages, either defined as a single screen or as a demarcated page.</dd>
                   </dl>
                 </dd>
               </dl>
@@ -2928,7 +2935,7 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
                 <dt><code class="attribute-name"><a id="events-Events-WheelEvent-deltaZ">deltaZ</a></code> of type <code>long</code>, readonly</dt>
                 <dd>The distance the wheel has rotated around the z-axis.<br /></dd>
                 <dt><code class="attribute-name"><a id="events-Events-WheelEvent-deltaMode">deltaMode</a></code> of type <code>unsigned long</code>, readonly</dt>
-                <dd>The <code>deltaMode</code> attribute contains an indication of to indicate the units of measurement for the <a href="#events-Events-WheelEvent-delta"><code>delta</code></a> values.  The default value is <a href="#events-DOM_DELTA_PIXEL"><code class="constant-name">DOM_DELTA_PIXEL</code></a> (pixels).  The value of <code>deltaMode</code> may be different for each of <code class="attribute-name"><a href="#events-Events-WheelEvent-deltaX">deltaX</a></code>, <code class="attribute-name"><a href="#events-Events-WheelEvent-deltaY">deltaY</a></code>, and <code class="attribute-name"><a href="#events-Events-WheelEvent-deltaZ">deltaZ</a></code>, based on system configuration.<br />
+                <dd>The <code>deltaMode</code> attribute contains an indication of to indicate the units of measurement for the <a href="#glossary-delta"><code>delta</code></a> values.  The default value is <a href="#events-DOM_DELTA_PIXEL"><code class="constant-name">DOM_DELTA_PIXEL</code></a> (pixels).  The value of <code>deltaMode</code> may be different for each of <code class="attribute-name"><a href="#events-Events-WheelEvent-deltaX">deltaX</a></code>, <code class="attribute-name"><a href="#events-Events-WheelEvent-deltaY">deltaY</a></code>, and <code class="attribute-name"><a href="#events-Events-WheelEvent-deltaZ">deltaZ</a></code>, based on system configuration.<br />
 
                         <p class="issue">@@ deltaMode is the proposed solution for <a href="http://www.w3.org/2008/webapps/track/issues/9" title="ISSUE-9 - Web Applications Working Group Tracker">ISSUE-9</a>.</p>
 
@@ -2972,13 +2979,15 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
           <dt id="event-type-wheel">
             <a class="eventtype noxref" href="#event-type-wheel"><code>wheel</code></a>
           </dt>
-          <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>wheel</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-WheelEvent"><code>WheelEvent</code></a></td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Document</code>, <code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>Yes</td></tr><tr class="assert must"><th>Default action</th><td><a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> event</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-WheelEvent-deltaX"><code>WheelEvent.deltaX</code></a>, <a href="#events-Events-WheelEvent-deltaY"><code>WheelEvent.deltaY</code></a>, <a href="#events-Events-WheelEvent-deltaZ"><code>WheelEvent.deltaZ</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use. <a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, and <a href="#events-Events-MouseEvent-button"><code>MouseEvent.button</code></a> are in use if the wheel is associated to a pointing device. <a href="#events-Events-MouseEvent-relatedTarget"><code>MouseEvent.relatedTarget</code></a> indicates the <a class="def" href="#glossary-event-target">event target</a> the pointing device is pointing at, if any. <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> is not in use.</td></tr></table>
-            A user agent must dispatch this event when a mouse wheel has been rotated. 
-            <p>The default action of the <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event is to dispatch a <a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> event with the appropriate values.  If this event is canceled, the <a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> event must not be dispatched.</p>
-            <p>A <a class="def" href="#glossary-default-action">default action</a> of user agent generated event objects of this type causes implementations to dispatch a <a class="eventtype" href="#event-type-mousewheel"><code>mousewheel</code></a> event iff it supports that event type and <a href="#events-Events-WheelEvent-deltaY"><code>WheelEvent.deltaY</code></a> is non-zero. <span class="issue">(@@ is this still true? why are we doing this this way?  this doesn't make sense to me...)</span></p>
+          <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>wheel</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-WheelEvent"><code>WheelEvent</code></a></td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Document</code>, <code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>Yes</td></tr><tr class="assert must"><th>Default action</th><td>scroll (or zoom) the document</a> event</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-WheelEvent-deltaX"><code>WheelEvent.deltaX</code></a>, <a href="#events-Events-WheelEvent-deltaY"><code>WheelEvent.deltaY</code></a>, <a href="#events-Events-WheelEvent-deltaZ"><code>WheelEvent.deltaZ</code></a>, <a href="#events-Events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>, <a href="#events-Events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>, <a href="#events-Events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>, <a href="#events-Events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>, and <a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> are in use. <a href="#events-Events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>, <a href="#events-Events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>, <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>, <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>, and <a href="#events-Events-MouseEvent-button"><code>MouseEvent.button</code></a> are in use if the wheel is associated to a pointing device. <a href="#events-Events-MouseEvent-relatedTarget"><code>MouseEvent.relatedTarget</code></a> indicates the <a class="def" href="#glossary-event-target">event target</a> the pointing device is pointing at, if any. <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> is not in use.</td></tr></table>
+            A user agent must dispatch this event when a mouse wheel has been rotated around any axis, or when an equivalent input device (such as a mouse-ball, certain tablets or touchpads, etc.) has emulated such an action. 
+            <p>The typical default action of the <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event type is to scroll (or in some cases, zoom) the document by the indicated amount.  If this event is canceled, the implementation must not scroll or zoom the document (or perform whatever other implementation-specific default action is associated with this event type).</p>
+
+            <p class="issue">@@ / ?? A <a class="def" href="#glossary-default-action">default action</a> of user agent generated event objects of this type causes implementations to dispatch a <a class="eventtype" href="#event-type-mousewheel"><code>mousewheel</code></a> event iff it supports that event type and <a href="#events-Events-WheelEvent-deltaY"><code>WheelEvent.deltaY</code></a> is non-zero. <span class="issue">(@@ is this still true? why are we doing this this way?  this doesn't make sense to me...)</span></p>
           </dd>
         </dl>
       </div>
+      
 <!-- div3 Events-eventgroupings-uievents -->
       <div class="div3">
         <h3 class="div3"><a id="events-textevents" href="#events-textevents">5.2.6 Text Events Types</a></h3>
