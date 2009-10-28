@@ -40,6 +40,30 @@
         padding: 1em;
       }
 
+      .atrisk {
+        border:1px solid red;
+        background-color: #fff0f5;
+        color: gray;
+      }
+
+      /* style for heading links */
+      a[id]:hover:after { 
+        content: "   #" attr(id) " § "; 
+        font-size: 80%;
+        color: #ccc;
+        text-decoration: none;
+      }
+      
+      h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+        color: inherit !important;
+        font-weight: inherit !important;
+        text-decoration: none !important;
+        font-style: inherit !important;
+      }
+
+
+
+
       .inline {
         display: inline;
         border-left: none;
@@ -49,12 +73,6 @@
 
       .value {
         color: #191970;
-      }
-
-      .atrisk {
-        border:1px solid red;
-        background-color: #fff0f5;
-        color: gray;
       }
 
       .typeCell {
@@ -186,7 +204,7 @@
       </p>
       <h1 id="Overview-title">Document Object Model (DOM) Level 3 Events Specification</h1>
 <!-- @@@ -->
-      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <span class="date">29 September 2009</span></h2>
+      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <span class="date">28 October 2009</span></h2>
       <dl>
         <dt>This version:</dt>
         <dd>
@@ -236,7 +254,7 @@
         knowledge of a patent which the individual believes contains <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential
         Claim(s)</a> must disclose the information in accordance with <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section
         6 of the W3C Patent Policy</a>.</p>
-      <p id="working-draft">This is the <span class="date">29 September 2009</span> Editor's Draft version of the "Document Object Model (DOM) Level 3 Events" specification.  This document was previously published as a W3C Note, pending further feedback from implementers, and is now being revised to reflect the current state of implementation.  It is expected that this specification will progress to Recommendation status.</p>
+      <p id="working-draft">This is the <span class="date">28 October 2009</span> Editor's Draft version of the "Document Object Model (DOM) Level 3 Events" specification.  This document was previously published as a W3C Note, pending further feedback from implementers, and is now being revised to reflect the current state of implementation.  It is expected that this specification will progress to Recommendation status.</p>
       <p id="this-document-is-produced-by-the-web-app">This document is produced
         by the <a href="http://www.w3.org/2008/webapps/">Web Applications WG</a>,
         part of the <a href="http://www.w3.org/2006/rwc/Activity">Rich Web
@@ -348,9 +366,6 @@
                   <li><a class="eventtype" href="#event-type-abort"><code>abort</code> event</a></li>
                   <li><a class="eventtype" href="#event-type-error"><code>error</code> event</a></li>
                   <li><a class="eventtype" href="#event-type-select"><code>select</code> event</a></li>
-                  <li><a class="eventtype" href="#event-type-change"><code>change</code> event</a></li>
-                  <li><a class="eventtype" href="#event-type-submit"><code>submit</code> event</a></li>
-                  <li><a class="eventtype" href="#event-type-reset"><code>reset</code> event</a></li>
                   <li><a class="eventtype" href="#event-type-resize"><code>resize</code> event</a></li>
                   <li><a class="eventtype" href="#event-type-scroll"><code>scroll</code> event</a></li>
                 </ul>
@@ -581,6 +596,22 @@
           <h3 class="div3"><a id="dom-events-conformance" href="#dom-events-conformance">1.2 Conformance</a></h3>
           <p><strong>This section is normative.</strong></p>
           
+          <p>Within this specification, the key words 
+            "MUST", 
+            "MUST NOT",
+            "REQUIRED", 
+            "SHALL", 
+            "SHALL NOT", 
+            "SHOULD", 
+            "SHOULD NOT",
+            "RECOMMENDED", 
+            "MAY", and 
+            "OPTIONAL" are to be interpreted as
+            described in <a href="http://www.ietf.org/rfc/rfc2119.txt">RFC 2119</a>
+            [<a href="ref-RFC2119">RFC2119</a>].
+            However, for readability, these words do not necessarily appear in uppercase in this specification.</p>
+          
+          
           <p>This specification is to be understood in the context of the DOM Level 3 Core specification [<cite><a class="noxref normative" href="#references-DOMCore">DOM Level 3 Core</a></cite>] and the general considerations for DOM implementations apply. For example, behavior in exceptional circumstances (such as when a <code>null</code> argument is passed when <code>null</code> was not expected) is discussed under <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-17189187"><em>DOMException</em></a>, and handling of <a class="def" href="#glossary-namespaceURI">namespace URIs</a> is discussed in <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Namespaces-Considerations"><em>XML Namespaces</em></a>. For additional information about <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/introduction.html#ID-Conformance"><em>conformance</em></a>, please see the DOM Level 3 Core specification [<cite><a class="noxref normative" href="#references-DOMCore">DOM Level 3 Core</a></cite>].</p>
           
           <p>This specification defines several classes of conformance for different <a class="def" href="#glossary-user-agent">user agents</a>, specifications, and authors:</p>
@@ -680,13 +711,13 @@
         
         <dl id="glossary-list">
           <dt id="glossary-activation-behavior">activation behavior</dt>
-          <dd>The action taken when an <a class="def" href="#glossary-event">event</a>, typically initiated by users through an input device, causes an element to fulfill a defined role.  The role may be defined for that element by the <a class="def" href="#glossary-host-language">host language</a>, or by author-defined variables, or both.  The role for any given element may be a generic action, or may be unique to that element.  For example, the activation behavior of an HTML or SVG <code>&lt;a&gt;</code> element shall be to cause the <a class="def" href="#glossary-user-agent">user agent</a> to traverse the link specified in the <code>href</code> attribute, with the further optional parameter of specifying the browsing context for the traversal (such as the current window or tab, a named window, or a new window); the activation behavior of an HTML <code>&lt;input&gt;</code> element with the <code>type</code> attribute value <code>submit</code> shall be to send the values of the form elements to an author-defined IRI by the author-defined HTTP method.</dd>
+          <dd>The action taken when an <a class="def" href="#glossary-event">event</a>, typically initiated by users through an input device, causes an element to fulfill a defined task.  The task may be defined for that element by the <a class="def" href="#glossary-host-language">host language</a>, or by author-defined variables, or both.  The default task for any given element may be a generic action, or may be unique to that element.  For example, the activation behavior of an HTML or SVG <code>&lt;a&gt;</code> element shall be to cause the <a class="def" href="#glossary-user-agent">user agent</a> to traverse the link specified in the <code>href</code> attribute, with the further optional parameter of specifying the browsing context for the traversal (such as the current window or tab, a named window, or a new window); the activation behavior of an HTML <code>&lt;input&gt;</code> element with the <code>type</code> attribute value <code>submit</code> shall be to send the values of the form elements to an author-defined IRI by the author-defined HTTP method.</dd>
 
           <dt id="glossary-bubbling-phase">bubbling phase</dt>
-          <dd>The process by which an <a class="def" href="#glossary-event">event</a> can be handled by one of the target ancestors after being handled by the <a class="def" href="#glossary-target-node">target node</a>.</dd>
+          <dd>The process by which an <a class="def" href="#glossary-event">event</a> can be handled by one of the target ancestors after being handled by the <a class="def" href="#glossary-proximal-event-target">proximal event target</a>.</dd>
 
           <dt id="glossary-capture-phase">capture phase</dt>
-          <dd>The process by which an <a class="def" href="#glossary-event">event</a> can be handled by one of the target ancestors before being handled by the <a class="def" href="#glossary-target-node">target node</a>.</dd>
+          <dd>The process by which an <a class="def" href="#glossary-event">event</a> can be handled by one of the target ancestors before being handled by the <a class="def" href="#glossary-proximal-event-target">proximal event target</a>.</dd>
 
           <dt id="glossary-character-value">character value</dt>
           <dd>In the context of key identifiers, a character value is a string representing a single character, such as a letter or symbol.</dd>
@@ -695,7 +726,7 @@
           <dd>A dead key is a key or combination of key that produces no character by itself, but which in combination or sequence with another key produces a modified character, such as a character with diacritical marks (e.g. <code>&#xF6;</code>, <code>&#xE9;</code>, <code>&#xE2;</code>).</dd>
 
           <dt id="glossary-default-action">default action</dt>
-          <dd>A <a class="def" href="#glossary-default-action">default action</a> is a supplementary behavior that an implementation must perform in combination with the dispatch of the event object.  Each event, and each specification, defines the <a class="def" href="#glossary-default-action">default action</a> for that event.  A <a class="def" href="#glossary-default-action">default action</a> may be cancelled through the invocation of the <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> method.  For more details, see <a href="#event-flow-cancelation">Default actions and cancelable events</a>.</dd>
+          <dd>A <a class="def" href="#glossary-default-action">default action</a> is an optional supplementary behavior that an implementation must perform in combination with the dispatch of the event object.  Each event type definition, and each specification, defines the <a class="def" href="#glossary-default-action">default action</a> for that event type, if it has one.  A <a class="def" href="#glossary-default-action">default action</a> may be cancelled through the invocation of the <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> method.  For more details, see <a href="#event-flow-cancelation">Default actions and cancelable events</a>.</dd>
 
           <dt id="glossary-defaultView">defaultView</dt>
           <dd>The <code>defaultView</code> is an object which implements the <a href="http://www.w3.org/TR/DOM-Level-2-Views/views.html#Views-AbstractView" title="Document Object Model Views"><code>AbstractView</code> interface</a> of the <code>Document</code>'s <a href="http://www.w3.org/TR/DOM-Level-2-Views/views.html#Views-DocumentView" title="Document Object Model Views"><code>DocumentView</code> interface</a>, which serves as a reference to the containing frame or window.  This interface may also be accessed as the <code>Window</code> interface in many implementations.</dd>
@@ -714,7 +745,7 @@
           <dd>A DOM application is script or code, written by an author or automatically generated, which takes advantage of the interfaces, methods, attributes, events, and other features described in this specification in order to make dynamic or interactive content, such as Web applications, exposed to users in a <a class="def" href="#glossary-user-agent">user agent</a>.</dd>
 
           <dt id="glossary-DOM-Level-0">DOM Level 0</dt>
-          <dd>The term "DOM Level 0" refers to a mix (not formally specified) of HTML document functionalities offered by Netscape Navigator version 3.0 and Microsoft Internet Explorer version 3.0. In some cases, attributes or methods have been included for reasons of backward compatibility with "DOM Level 0".</dd>
+          <dd>The term "DOM Level 0" refers to a mix of HTML document functionalities, often not formally specified but traditionally supported as de facto standards, implemented originally by Netscape Navigator version 3.0 or Microsoft Internet Explorer version 3.0.  In many cases, attributes or methods have been included for reasons of backward compatibility with "DOM Level 0".</dd>
 
           <dt id="glossary-event">event</dt>
           <dd>An event is the representation of some asynchronous occurrence (such as a mouse click on the presentation of the element, or the removal of child node from an element, or any of unthinkably many other possibilities) that gets associated with an <a class="def" href="#glossary-event-target">event target</a>.  An event is the instantiation of an <a class="def" href="#glossary-event-type">event type</a>.</dd>
@@ -726,7 +757,7 @@
           <dd>The object to which an <a class="def" href="#glossary-event">event</a> is targeted.</dd>
 
           <dt id="glossary-event-type">event type</dt>
-          <dd>An <a class="def" href="#glossary-event">event</a> object which defines particular trigger conditions, attributes, interfaces, and other characteristics which distinguish it from other event types.  For example, the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type has different characteristics than the <a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a> or <a class="eventtype" href="#event-type-load"><code>load</code></a> event types. The event type is exposed as the  the <a href="#events-event-type-type"><code class="interface-attribute">Event.type</code></a> attribute on the event object.  See <a href="#event-types">event types</a> for more details.  Also loosely referred to as 'event', such as the <em><a class="eventtype" href="#event-type-click"><code>click</code></a> event</em>.</dd>
+          <dd>The name of an <a class="def" href="#glossary-event">event</a> object which defines particular trigger conditions, attributes, interfaces, and other characteristics which distinguish it from other event types.  For example, the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type has different characteristics than the <a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a> or <a class="eventtype" href="#event-type-load"><code>load</code></a> event types. The event type is exposed as the  the <a href="#events-event-type-type"><code class="interface-attribute">Event.type</code></a> attribute on the event object.  See <a href="#event-types">event types</a> for more details.  Also loosely referred to as 'event', such as the <em><a class="eventtype" href="#event-type-click"><code>click</code></a> event</em>.</dd>
           
           <dt id="glossary-event-focus">focus</dt>
           <dd>Focus is a special state of receptivity and concentration on an particular element or other <a class="def" href="#glossary-event-target">event target</a> within a document.  Each element has different behavior when focused, depending on its functionality, such as priming the element for activation (as for a button or hyperlink) or toggling state (as for a checkbox), receiving text input (as for a text form field), or copying selected text.  For more details, see <a href="#events-uievent-doc-focus">Document Focus and Focus Context</a>.</dd>
@@ -735,7 +766,7 @@
           <dd>A focus ring is a an ordered set of <a class="def" href="#glossary-event-focus">focus</a> targets within a document.  A <a class="def" href="#glossary-host-language">host language</a> may define one or more ways to determine the order of targets, such as document order, a numerical index defined per focus target, explicit pointers between focus targets, or a hybrid of different models.  Each document may contain multiple focus rings, or conditional focus rings.  Typically, for document-order or indexed focus rings, focus "wraps around" from the last focus target to the first.</dd>
           
           <dt id="glossary-host-language">host language</dt>
-          <dd>Any language which integrates the features of another language, while normatively referencing the origin language rather than redefining those features, and extending those features only in ways defined by the origin language.  An origin language typically is only intended to be implemented in the context of one or more host languages, not as a standalone language.  For example, XHTML, HTML, and SVG are host languages for DOM 3 Events, and they integrate and extend the objects and models defined in this specification.</dd>
+          <dd>Any language which integrates the features of another language or API specification, while normatively referencing the origin specification rather than redefining those features, and extending those features only in ways defined by the origin specification.  An origin specification typically is only intended to be implemented in the context of one or more host languages, not as a standalone language.  For example, XHTML, HTML, and SVG are host languages for DOM 3 Events, and they integrate and extend the objects and models defined in this specification.</dd>
           
           <dt id="glossary-ime">IME</dt>
           <dt id="glossary-input-method-editor">input method editor</dt>
@@ -747,10 +778,10 @@
             such as <code class="value">'Enter'</code> or <code>tab</code>, for control or <a class="def" href="#glossary-character-value">character value</a>, or certain symbols).</dd>
           
           <dt id="glossary-localname">local name</dt>
-          <dd>See local name in [<cite><a class="noxref informative" href="#references-Namespaces11">XML Namespaces 1.1</a></cite>].</dd>
+          <dd>See local name in [<cite><a class="noxref informative" href="#references-Namespaces10">XML Namespaces 1.0</a></cite>].</dd>
           
           <dt id="glossary-namespaceURI">namespace URI</dt>
-          <dd>A <em>namespace URI</em> is a URI that identifies an XML namespace. This is called the namespace name in [<cite><a class="noxref informative" href="#references-Namespaces11">XML Namespaces 1.1</a></cite>]. See also sections 1.3.2 "<a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#baseURIs-Considerations"><em>DOM URIs</em></a>" and 1.3.3 "<a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Namespaces-Considerations"><em>XML Namespaces</em></a>" regarding URIs and namespace URIs handling and comparison in the DOM APIs.</dd>
+          <dd>A <em>namespace URI</em> is a URI that identifies an XML namespace. This is called the namespace name in [<cite><a class="noxref informative" href="#references-Namespaces10">XML Namespaces 1.0</a></cite>]. See also sections 1.3.2 "<a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#baseURIs-Considerations"><em>DOM URIs</em></a>" and 1.3.3 "<a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Namespaces-Considerations"><em>XML Namespaces</em></a>" regarding URIs and namespace URIs handling and comparison in the DOM APIs.</dd>
           
 <!-- 
           <dt id="glossary-obsolete">obsolete</dt>
@@ -758,13 +789,16 @@
 -->
 
           <dt id="glossary-phase">phase</dt>
-          <dd>In the context of <a class="def" href="#glossary-event">events</a>, a phase is set of logical traversals from node to node along the DOM tree, from the <a class="def" href="#glossary-root-element">root element</a> down to the <a class="def" href="#glossary-event-target">event target</a> (<a class="def" href="#glossary-capture-phase">capture phase</a>), at the <a class="def" href="#glossary-event-target">event target</a> itself (<a class="def" href="#glossary-target-phase">target phase</a>), and back up to the <a class="def" href="#glossary-root-element">root element</a> (<a class="def" href="#glossary-bubbling-phase">bubbling phase</a>).</dd>
+          <dd>In the context of <a class="def" href="#glossary-event">events</a>, a phase is set of logical traversals from node to node along the DOM tree, from the <a class="def" href="#glossary-defaultView">defaultView</a> (window), to the <code>Document</code> object, <a class="def" href="#glossary-root-element">root element</a> down to the <a class="def" href="#glossary-event-target">event target</a> (<a class="def" href="#glossary-capture-phase">capture phase</a>), at the <a class="def" href="#glossary-event-target">event target</a> itself (<a class="def" href="#glossary-target-phase">target phase</a>), and back up to the same chain (<a class="def" href="#glossary-bubbling-phase">bubbling phase</a>).</dd>
           
           <dt id="glossary-propagation-path">propagation path</dt>
           <dd>The ordered set of <a class="def" href="#glossary-event-target">event targets</a> though which an <a class="def" href="#glossary-event">event</a> object will pass sequentially on the way to and back from the ultimate <a class="def" href="#glossary-event-target">event target</a>.  The propagation path is initially comprised of one or more <a class="def" href="#glossary-event-phase">event phases</a> as defined by the <a class="def" href="#glossary-event-type">event type</a>, but may be interrupted.  Also known as an <em>event target chain</em>.</dd>
 
+          <dt id="glossary-proximal-event-target">proximal event target</dt>
+          <dd>The proximal event target is the object representing the <a class="def" href="#glossary-event-target">event target</a> to which an <a class="def" href="#glossary-event">event</a> is targeted using the DOM event flow.</dd>
+
           <dt id="glossary-qwerty">QWERTY</dt>
-          <dd>QWERTY (pronounced "ˈkwɜrti") is a common keyboard layout, so named because the first five character keys on the top row of letter keys are Q, W, E, R, T, and Y.  There are many other popular keyboard layouts (including the popular Dvorak layout), most designed for localization or ergonomics.</dd>
+          <dd>QWERTY (pronounced "ˈkwɜrti") is a common keyboard layout, so named because the first five character keys on the top row of letter keys are Q, W, E, R, T, and Y.  There are many other popular keyboard layouts (including the Dvorak layout), most designed for localization or ergonomics.</dd>
 
           <dt id="glossary-roll">roll</dt>
           <dd>A unit of <a class="def" href="#events-Events-WheelEvent-rotation">rotation</a> for an input device using the <a href="#events-wheelevents">WheelEvent</a> interface. On some devices this may be a finite physical step. On devices with smooth <a class="def" href="#events-Events-WheelEvent-rotation">rotation</a>, a <a class="def" href="#glossary-roll">roll</a> becomes the smallest reported amount of <a class="def" href="#events-Events-WheelEvent-rotation">rotation</a>.</dd>
@@ -774,18 +808,15 @@
 
           <dt id="events-Events-WheelEvent-rotation">rotation</dt>
           <dd>An indication of incremental change on an input device using the <a href="#events-wheelevents">WheelEvent</a> interface. On some devices this may be a literal rotation of a wheel, while on others, it may be movement along a flat surface, or pressure on a particular button.</dd>
-
-          <dt id="glossary-target-node">target node</dt>
-          <dd>The target node is the node representing the <a class="def" href="#glossary-event-target">event target</a> to which an <a class="def" href="#glossary-event">event</a> is targeted using the DOM event flow.</dd>
           
           <dt id="glossary-text-composition-system">text composition system</dt>
           <dd>A software component which interprets some form of alternate input, such as a <a class="def" href="#glossary-ime">input method editor</a>, a speech processor, or a handwriting recognition system, and converts it to text.</dd>
           
           <dt id="glossary-target-phase">target phase</dt>
-          <dd>The process by which an <a class="def" href="#glossary-event">event</a> can be handled by the <a class="def" href="#glossary-event-target">event target</a>.</dd>
+          <dd>The process by which an <a class="def" href="#glossary-event">event</a> can be handled by the <a class="def" href="#glossary-proximal-event-target">proximal event target</a>.</dd>
           
           <dt id="glossary-topmost-event-target">topmost event target</dt>
-          <dd>The <a class="def" href="#glossary-topmost-event-target">topmost event target</a> shall be the element highest in the rendering order which is capable of being an <a class="def" href="#glossary-event-target">event target</a>.  In this case, 'top' shall refer not to the position on the screen, but the logical order of the element in relation to other elements in drawing or stacking order on the z-axis (where the x-axis is the screen width and the y-axis is the screen height).  In HTML and CSS, or in SVG, this is controlled by the document order, as modified in HTML and CSS by the <code>'z-index'</code> property.  In some cases, such as when using some values of the SVG <code>'pointer-events'</code> property, the topmost element may not receive pointer events, in which case, the next element in z-index order which can receive pointer-events is the <a class="def" href="#glossary-topmost-event-target">topmost event target</a>.  Note that visibility of the element does not necessarily affect its ability to be the <a class="def" href="#glossary-topmost-event-target">topmost event target</a>, since an element which is hidden by use of the CSS <code>'visibility'</code> property can still receive pointer events (though not one with a <code>'display'</code> property of <code>none</code>), and the <a class="def" href="#glossary-topmost-event-target">topmost event target</a> may be completely obscured by another element which cannot receive pointer events.  Unless otherwise noted, there is only one <a class="def" href="#glossary-topmost-event-target">topmost event target</a> in any event.</dd>
+          <dd>The <a class="def" href="#glossary-topmost-event-target">topmost event target</a> shall be the element highest in the rendering order which is capable of being an <a class="def" href="#glossary-event-target">event target</a>.  In this case, 'top' shall refer not to the position on the screen, but the logical order of the element in relation to other elements in drawing or stacking order on the z-axis (where the x-axis is the screen width and the y-axis is the screen height).  In HTML and CSS, or in SVG, this is controlled by the document order, as modified in HTML and CSS by the <code>'z-index'</code> property.  In some cases, such as when using some values of the SVG <code>'pointer-events'</code> property, the topmost element may not receive pointer events, in which case, the next element in z-index order which can receive pointer-events is the <a class="def" href="#glossary-topmost-event-target">topmost event target</a>.  Note that visibility of the element does not necessarily affect its ability to be the <a class="def" href="#glossary-topmost-event-target">topmost event target</a>, since an element which is hidden by use of the CSS <code>'visibility'</code> property can still receive pointer events (though not one with a <code>'display'</code> property of <code>none</code>), and the <a class="def" href="#glossary-topmost-event-target">topmost event target</a> may be completely obscured by another element which cannot receive pointer events.  Unless otherwise noted, there is only one <a class="def" href="#glossary-topmost-event-target">topmost event target</a> in any event.  For specific details regarding hit testing and stacking order, refer to the <a class="def" href="#glossary-host-language">host language</a>.</dd>
           
           <dt id="glossary-tree">tree</dt>
           <dd>A data structure that represents a document as a hierarchical set of nodes with child-parent-sibling relationships, i.e. each node having one or more possible ancestors (nodes higher in the hierarchy in a direct lineage), one or more possible descendants (nodes lower in the hierarchy in a direct lineage), and one or more possible peers (nodes of the same level in the hierarchy, with the same immediate ancestor).</dd>
@@ -816,11 +847,11 @@
             <em>Figure 1: graphical representation of an event dispatched in a DOM tree using the DOM event flow</em>
           </p>
         </div>
-        <p>Event objects are always dispatched to a node called the <em>event target</em>.  <span class="assert must">At the beginning of the dispatch, implementations must first determine the event object's <a class="def" href="#glossary-propagation-path">propagation path</a>. The propagation path shall be an ordered list of event targets through which the object must pass.</span> <span class="assert must">The last item in the list shall be the event target</span>; the preceding items in the list are referred to as the <em>target's ancestors</em>, and the immediately preceding item as the <em>target's parent</em>.  <span class="assert mustnot">Once determined, the propagation path must not be changed, even if an element in the propagation path is moved within the DOM or removed from the DOM.</span> As an example, in the DOM event flow event listeners might change the position of the target node in the document while the event object is being dispatched; such changes do not affect the propagation path.</p>
+        <p>Event objects are always dispatched to the <a class="def" href="#glossary-proximal-event-target">proximal event target</a>.  <span class="assert must">At the beginning of the dispatch, implementations must first determine the event object's <a class="def" href="#glossary-propagation-path">propagation path</a>. The propagation path shall be an ordered list of <a class="def" href="#glossary-event-target">event targets</a> through which the event object must pass.</span> <span class="assert must">The last item in the list shall be the <a class="def" href="#glossary-proximal-event-target">proximal event target</a></span>; the preceding items in the list are referred to as the <em>target's ancestors</em>, and the immediately preceding item as the <em>target's parent</em>.  <span class="assert mustnot">Once determined, the propagation path must not be changed, even if an element in the propagation path is moved within the DOM or removed from the DOM.</span> As an example, in the DOM event flow event listeners might change the position of the <a class="def" href="#glossary-proximal-event-target">proximal event target</a> in the document while the event object is being dispatched; such changes do not affect the propagation path.</p>
         <p id="event-phase">As the next step, the event object must complete one or more <a class="def" href="#glossary-phase">event phases</a>. This specification defines three event phases: <a href="#capture-phase">capture phase</a>; <a href="#target-phase">target phase</a>; and <a href="#bubble-phase">bubble phase</a>.  Event objects complete these phases in the specified order using the partial propagation paths as defined below.  <span class="assert must">A phase shall be skipped if it is not supported, or if the event object's propagation has been stopped.</span>  For example, if the <a href="#events-event-type-canBubble"><code>Event.bubbles</code></a> attribute is set to false, the bubble phase shall be skipped, and if <a href="#events-event-type-stopPropagation"><code>Event.stopPropagation()</code></a> has been called prior to the dispatch, all phases must be skipped.</p>
         <ol>
           <li>The <strong id="capture-phase">capture phase</strong>: <span class="assert must">the event object must propagate through the target's ancestors from the <a class="def" href="#glossary-defaultView">defaultView</a> to the target's parent.</span> This phase is also known as the <em>capturing phase</em>. <span class="assert must">Event listeners registered for this phase must handle the event before it reaches its target.</span></li>
-          <li>The <strong id="target-phase">target phase</strong>: <span class="assert must">the event object must arrive at the event's target.</span> This phase is also known as the <em>at-target phase</em>. <span class="assert must">Event listeners registered for this phase must handle the event once it has reached its target.</span>  <span class="assert must">If the <a class="def" href="#glossary-event-type">event type</a> indicates that the event must not bubble, the event object must halt after completion of this phase.</span></li>
+          <li>The <strong id="target-phase">target phase</strong>: <span class="assert must">the event object must arrive at the event object's <a class="def" href="#glossary-proximal-event-target">proximal event target</a>.</span> This phase is also known as the <em>at-target phase</em>. <span class="assert must">Event listeners registered for this phase must handle the event once it has reached its target.</span>  <span class="assert must">If the <a class="def" href="#glossary-event-type">event type</a> indicates that the event must not bubble, the event object must halt after completion of this phase.</span></li>
           <li>The <strong id="bubble-phase">bubble phase</strong>: <span class="assert must">the event object propagates through the target's ancestors in reverse order, starting with the target's parent and ending with the <a class="def" href="#glossary-defaultView">defaultView</a>.</span> This phase is also known as the <em>bubbling phase</em>. <span class="assert must">Event listeners registered for this phase shall handle the event after it has reached its target.</span></li>
         </ol>
         <p>
@@ -1016,17 +1047,17 @@ interface <a class="noxref" href="#events-Events-Event">Event</a> {
                   <dt><code class="attribute-name"><a id="events-event-type-canCancel">cancelable</a></code> of type <code>boolean</code>, readonly</dt>
                   <dd>Used to indicate whether or not an event can have its <a class="def" href="#glossary-default-action">default action</a> prevented (see also <a href="#event-flow-cancelation">Default actions and cancelable events</a>). If the <a class="def" href="#glossary-default-action">default action</a> can be prevented the value shall be <code>true</code>, otherwise the value shall be <code>false</code>.<br /></dd>
                   <dt><code class="attribute-name"><a id="events-event-type-currentTarget">currentTarget</a></code> of type <a href="#events-Events-EventTarget"><code>EventTarget</code></a>, readonly</dt>
-                  <dd>Used to indicate the <a href="#events-Events-EventTarget"><code>EventTarget</code></a> whose <a href="#events-Events-EventListener"><code>EventListeners</code></a> are currently being processed. This is particularly useful during the capture and bubbling phases. When used with the <a href="#event-flow">Event dispatch and DOM event flow</a>, this attribute contains the <a class="def" href="#glossary-target-node">target node</a> or a target ancestor.<br /></dd>
+                  <dd>Used to indicate the <a href="#events-Events-EventTarget"><code>EventTarget</code></a> whose <a href="#events-Events-EventListener"><code>EventListeners</code></a> are currently being processed. This is particularly useful during the capture and bubbling phases. When used with the <a href="#event-flow">Event dispatch and DOM event flow</a>, this attribute contains the <a class="def" href="#glossary-proximal-event-target">proximal event target</a> or a target ancestor.<br /></dd>
                   <dt><code class="attribute-name"><a id="events-event-type-defaultPrevented">defaultPrevented</a></code> of type <code>boolean</code>, readonly, introduced in <strong class="version">DOM Level 3</strong></dt>
                   <dd>Used to indicate whether <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> has been called for this event.<br /></dd>
                   <dt><code class="attribute-name"><a id="events-event-type-eventPhase">eventPhase</a></code> of type <code>unsigned short</code>, readonly</dt>
                   <dd>Used to indicate which phase of event flow is currently being accomplished.<br /></dd>
                   <dt><code class="attribute-name"><a id="events-event-type-target">target</a></code> of type <a href="#events-Events-EventTarget"><code>EventTarget</code></a>, readonly</dt>
-                  <dd>Used to indicate the <a class="def" href="#glossary-event-target">event target</a>. This attribute contains the <a class="def" href="#glossary-target-node">target node</a> when used with the <a href="#event-flow">Event dispatch and DOM event flow</a>.<br /></dd>
+                  <dd>Used to indicate the <a class="def" href="#glossary-event-target">event target</a>. This attribute contains the <a class="def" href="#glossary-proximal-event-target">proximal event target</a> when used with the <a href="#event-flow">Event dispatch and DOM event flow</a>.<br /></dd>
                   <dt><code class="attribute-name"><a id="events-event-type-timeStamp">timeStamp</a></code> of type <code>DOMTimeStamp</code>, readonly</dt>
                   <dd>Used to specify the time at which the event was created in milliseconds relative to 1970-01-01T00:00:00Z. Due to the fact that some systems may not provide this information the value of <code>timeStamp</code> may be not available for all events. When not available, the value shall be <code>0</code>.<br /></dd>
                   <dt><code class="attribute-name"><a id="events-event-type-type">type</a></code> of type <code>DOMString</code>, readonly</dt>
-                  <dd>The name of the event type. The name must be a <code>DOMString</code>, must not contain space characters, and must be case-sensitive.<br /></dd>
+                  <dd>The name of the event type. The name must be a <code>DOMString</code>, must not contain whitespace characters, and must be case-sensitive.<br /></dd>
                 </dl>
               </dd>
               <dt>
@@ -1156,7 +1187,7 @@ interface <a class="noxref" href="#events-Events-CustomEvent">CustomEvent</a> : 
           <dt><strong>Interface <em><a id="events-Events-EventTarget">EventTarget</a></em></strong> (introduced in <strong class="since">DOM Level 2</strong>)</dt>
           <dd>
             <p>The <code>EventTarget</code> interface shall be implemented by all the objects which could be <a class="def" href="#glossary-event-target">event targets</a> in an implementation which supports an event flow. The interface allows registration and removal of event listeners, and dispatch of events to an event target.</p>
-            <p>When used with the DOM event flow, this interface must be implemented by all <a class="def" href="#glossary-target-node">target nodes</a> and target ancestors, i.e. all DOM <code>Nodes</code> of the tree support this interface when the implementation conforms to DOM Level 3 Events and, therefore, this interface can be obtained by using binding-specific casting methods on an instance of the <code>Node</code> interface.</p>
+            <p>When used with the DOM event flow, this interface must be implemented by all <a class="def" href="#glossary-proximal-event-target">proximal event targets</a> and target ancestors, i.e. all DOM <code>Nodes</code> of the tree support this interface when the implementation conforms to DOM Level 3 Events and, therefore, this interface can be obtained by using binding-specific casting methods on an instance of the <code>Node</code> interface.</p>
             <p>Invoking <code>addEventListener</code> or <code>addEventListenerNS</code> repeatedly on the same <code>EventTarget</code> with the same values for the parameters <code>type</code>, <code>listener</code>, and <code>useCapture</code> has no effect. Doing so does not cause the <a href="#events-Events-EventListener"><code>EventListener</code></a> to be called more than once and does not cause a change in the triggering order.</p>
             
             <dl>
@@ -1224,7 +1255,7 @@ interface <a class="noxref" href="#events-Events-EventTarget">EventTarget</a> {
                       <!-- parameters -->
                       <div class="return"><strong>Return Value</strong><div class="returntable"><table summary="Layout table: the first cell contains the type of the return value, the second contains a short description" border="0"><tr><td><p><code>boolean</code></p></td><td><p>Indicates whether any of the listeners which handled the event called <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a>. If <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> was called the returned value shall be <code>false</code>, else it shall be <code>true</code>.</p></td></tr></table></div></div>
                       <!-- return -->
-                      <div class="exceptions"><strong>Exceptions</strong><div class="exceptiontable"><table summary="Layout table: the first cell contains the type of the exception, the second contains the specific error code and a short description" border="0"><tr><td><p><a href="#events-Events-EventException"><code>EventException</code></a></p></td><td><p>UNSPECIFIED_EVENT_TYPE_ERR: Raised if the <a href="#events-event-type-type"><code>Event.type</code></a> was not specified by initializing the event before <code>dispatchEvent</code> was called. Specification of the <a class="noxref" href="#events-event-type-type"><code>Event.type</code></a> as <code>null</code> or an empty string must also trigger this exception.</p><p>DISPATCH_REQUEST_ERR: Raised if the <a href="#events-Events-Event"><code>Event</code></a> object is already being dispatched.</p></td></tr><tr><td><p><code>DOMException</code></p></td><td><p>NOT_SUPPORTED_ERR: Raised if the <a href="#events-Events-Event"><code>Event</code></a> object has not been created using <a href="#events-Events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a>.</p><p>INVALID_CHARACTER_ERR: Raised if <a href="#events-event-type-type"><code>Event.type</code></a> is not an <a class="normative" href="http://www.w3.org/TR/2004/REC-xml-names11-20040204/#NT-NCName"><em>NCName</em></a> as defined in [<cite><a class="noxref normative" href="#references-Namespaces11">XML Namespaces 1.1</a></cite>].</p></td></tr></table></div></div>
+                      <div class="exceptions"><strong>Exceptions</strong><div class="exceptiontable"><table summary="Layout table: the first cell contains the type of the exception, the second contains the specific error code and a short description" border="0"><tr><td><p><a href="#events-Events-EventException"><code>EventException</code></a></p></td><td><p>UNSPECIFIED_EVENT_TYPE_ERR: Raised if the <a href="#events-event-type-type"><code>Event.type</code></a> was not specified by initializing the event before <code>dispatchEvent</code> was called. Specification of the <a class="noxref" href="#events-event-type-type"><code>Event.type</code></a> as <code>null</code> or an empty string must also trigger this exception.</p><p>DISPATCH_REQUEST_ERR: Raised if the <a href="#events-Events-Event"><code>Event</code></a> object is already being dispatched.</p></td></tr><tr><td><p><code>DOMException</code></p></td><td><p>NOT_SUPPORTED_ERR: Raised if the <a href="#events-Events-Event"><code>Event</code></a> object has not been created using <a href="#events-Events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a>.</p><p>INVALID_CHARACTER_ERR: Raised if <a href="#events-event-type-type"><code>Event.type</code></a> is not a <code>DOMString</code> as conforming to the restrictions in <a href="#events-event-type-type"><code>Event.type</code></a>.</p></td></tr></table></div></div>
                       <!-- exceptions --></div>
 <!-- method -->
                   </dd>
@@ -1546,13 +1577,13 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
       <p>Each event shall be associated with a type, called <em>event type</em> and available as the <a class="noxref" href="#events-event-type-type"><code class="interface-attribute">type</code></a> attribute on the event object. The event type must be of type <code>DOMString</code>.</p>
       <div class="div3">
         <h4 class="div3"><a id="event-types-list" href="#event-types-list">5.1.1 List of DOM3 Event Types</a></h4>
-        <p>Depending on the level of DOM support, or the devices used for display (e.g. screen) or interaction (e.g., mouse, keyboard, touch screen, or voice), these event types can be generated by the implementation. When used with an [<cite><a class="noxref informative" href="#references-XML">XML 1.0</a></cite>] or [<cite><a class="noxref informative" href="#references-HTML40">HTML 4.01</a></cite>] application, the specifications of those languages may restrict the semantics and scope (in particular the possible target nodes) associated with an event type. Refer to the specification defining the language used in order to find those restrictions or to find event types that are not defined in this document.</p>
+        <p>Depending on the level of DOM support, or the devices used for display (e.g. screen) or interaction (e.g., mouse, keyboard, touch screen, or voice), these event types can be generated by the implementation. When used with an [<cite><a class="noxref informative" href="#references-XML">XML 1.0</a></cite>] or [<cite><a class="noxref informative" href="#references-HTML40">HTML 4.01</a></cite>] application, the specifications of those languages may restrict the semantics and scope (in particular the possible <a class="def" href="#glossary-proximal-event-target">proximal event targets</a>) associated with an event type. Refer to the specification defining the language used in order to find those restrictions or to find event types that are not defined in this document.</p>
         <p>The following table provides a non-normative summary of the event types defined in this specification.  All events must accomplish the capture and target phases, but not all of them must accomplish the bubbling phase (see also <a href="#event-flow">Event dispatch and DOM event flow</a>). Some events are not <a href="#events-dt-cancelable-event">cancelable</a> (see <a href="#event-flow-cancelation">Default actions and cancelable events</a>). Some events must only be dispatched to a specific set of possible targets in the DOM event flow, specified using node types. Contextual information related to the event type must be accessible using DOM interfaces.</p>
         <table border="1" cellpadding="2" cellspacing="0" summary="This table contains the complete list of event types defined by DOM Level 3 Events. The first column contains the local name of the event type. The second column indicates if the event accomplish the bubbling phase or not (all events accomplish the capture and target phases). The third column indicates if the default action associated with the event can be canceled. The fourth column indicates the nodes that can be target of the event. the fifth (and last) column indicates the DOM interface implemented by the event object.">
           <tr>
             <th>type</th>
             <th>Bubbling phase</th>
-            <th>Target node types</th>
+            <th>Proximal event target types</th>
             <th>DOM interface</th>
             <th>Cancelable</th>
             <th>Default Action</th>
@@ -1584,22 +1615,6 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
             <td>
               <a href="#events-Events-FocusEvent">
                 <code>FocusEvent</code>
-              </a>
-            </td>
-            <td>No</td>
-            <td>none</td>
-          </tr>
-          <tr>
-            <td>
-              <a class="eventtype" href="#event-type-change"><code>change</code></a>
-            </td>
-            <td>Yes</td>
-            <td>
-              <code>Element</code>
-            </td>
-            <td>
-              <a href="#events-Events-Event">
-                <code>Event</code>
               </a>
             </td>
             <td>No</td>
@@ -2133,22 +2148,6 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
           </tr>
           <tr>
             <td>
-              <a class="eventtype" href="#event-type-reset"><code>reset</code></a>
-            </td>
-            <td>Yes</td>
-            <td>
-              <code>Element</code>
-            </td>
-            <td>
-              <a href="#events-Events-Event">
-                <code>Event</code>
-              </a>
-            </td>
-            <td>Yes</td>
-            <td>none</td>
-          </tr>
-          <tr>
-            <td>
               <a class="eventtype" href="#event-type-resize"><code>resize</code></a>
             </td>
             <td>Yes</td>
@@ -2189,22 +2188,6 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
               </a>
             </td>
             <td>No</td>
-            <td>none</td>
-          </tr>
-          <tr>
-            <td>
-              <a class="eventtype" href="#event-type-submit"><code>submit</code></a>
-            </td>
-            <td>Yes</td>
-            <td>
-              <code>Element</code>
-            </td>
-            <td>
-              <a href="#events-Events-Event">
-                <code>Event</code>
-              </a>
-            </td>
-            <td>Yes</td>
             <td>none</td>
           </tr>
           <tr>
@@ -2411,43 +2394,6 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>select</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Events-Event"><code>Event</code></a> otherwise.</td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>No</td></tr><tr class="assert must"><th>Default action</th><td>none</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> may be in use</td></tr></table>
               A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a user selects some text.  This specification does not provide contextual information to access the selected text. <span class="issue">@@ need to detail how the author can get at this information, perhaps through HTML5 <a href="http://dev.w3.org/html5/spec/editing.html#selection" title="7 User Interaction &#8212; HTML 5">text selection APIs</a></span> <!-- The <a class="def" href="#glossary-user-agent">user agent</a> must make the selected text passage available through the <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> attribute.  <span class="issue">@@ should the selection include the markup structure, or just the text-content?</span> --> This event is dispatched after the selection has occurred.
               <p class="note"><strong>Note:</strong> The <a class="eventtype" href="#event-type-select"><code>select</code></a> event may not be available for all elements in all languages.  For example, in [<cite><a class="noxref informative" href="#references-HTML40">HTML 4.01</a></cite>], <a class="eventtype" href="#event-type-select"><code>select</code></a> events will only be dispatched on only form <code>input</code> and <code>textarea</code> elements.  Implementations may dispatch <a class="eventtype" href="#event-type-select"><code>select</code></a> events in any context deemed appropriate, including text selections outside of form controls, or image or markup selections such as in SVG.</p>
-            </dd>
-          </dl>
-        </div>
-        
-<!-- change -->
-        <div class="event-definition assert must atrisk">
-          <dl>
-            <dt id="event-type-change">
-              <a class="eventtype noxref" href="#event-type-change"><code>change</code></a>
-            </dt>
-            <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>change</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Events-Event"><code>Event</code></a> otherwise.</td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>No</td></tr><tr class="assert must"><th>Default action</th><td>none</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> may be in use.</td></tr></table>
-              A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a form control loses the input focus and its value has been modified since gaining focus. This event type shall be dispatched before the event type <a class="eventtype" href="#event-type-blur"><code>blur</code></a>.</dd>
-          </dl>
-        </div>
-
-<!-- submit -->
-        <div class="event-definition assert must atrisk">
-          <dl>
-            <dt id="event-type-submit">
-              <a class="eventtype noxref" href="#event-type-submit"><code>submit</code></a>
-            </dt>
-            <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>submit</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Events-Event"><code>Event</code></a> otherwise.</td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>Yes</td></tr><tr class="assert must"><th>Default action</th><td>form data and HTTP request sent to server</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> may be in use.</td></tr></table>
-              A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a form, such as a [<cite><a class="noxref informative" href="#references-HTML5">HTML 5</a></cite>] or [<cite><a class="noxref informative" href="#references-XHTML10">XHTML 1.0</a></cite>] form, is submitted.  This event must be dispatched immediately before the form data and HTTP request is sent to the server.  If this event is canceled, the form data and HTTP request must not be sent to the server.
-              <p class="note"><strong>Note:</strong> The actual behavior for form data and HTTP request submission is host-language dependent.  Typically, canceling a <a class="eventtype" href="#event-type-submit"><code>submit</code></a> event will prevent <a class="def" href="#glossary-user-agent">user agent</a> from navigating away from the current page.</p>
-            </dd>
-          </dl>
-        </div>
-
-<!-- reset -->
-        <div class="event-definition assert must atrisk">
-          <dl>
-            <dt id="event-type-reset">
-              <a class="eventtype noxref" href="#event-type-reset"><code>reset</code></a>
-            </dt>
-            <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>reset</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Events-Event"><code>Event</code></a> otherwise.</td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>Yes</td></tr><tr class="assert must"><th>Default action</th><td>form elements are returned to initial state</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> may be in use.</td></tr></table>
-              A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event immediately before a form, such as a [<cite><a class="noxref informative" href="#references-HTML5">HTML 5</a></cite>] or [<cite><a class="noxref informative" href="#references-XHTML10">XHTML 1.0</a></cite>] form, is reset.   If this event is canceled, the form elements are not returned to their initial state.
-              <p class="note"><strong>Note:</strong> The actual behavior for resetting form data is host-language dependent.</p>
             </dd>
           </dl>
         </div>
@@ -3901,7 +3847,7 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
               <a class="eventtype noxref" href="#event-type-DOMNodeInserted"><code>DOMNodeInserted</code></a>
             </dt>
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMNodeInserted</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-MutationEvent"><code>MutationEvent</code></a></td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code>, <code>Attr</code>, <code>Text</code>, <code>Comment</code>, <code>CDATASection</code>, <code>DocumentType</code>, <code>EntityReference</code>, <code>ProcessingInstruction</code></td></tr><tr class="assert must"><th>Cancelable</th><td>No</td></tr><tr class="assert must"><th>Default action</th><td>none</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-MutationEvent-relatedNode"><code>MutationEvent.relatedNode</code></a> holds the parent node of the node that has been inserted or, in case of <code>Attr</code> nodes, the <code>ownerElement</code> of the <code>Attr</code> node.</td></tr></table>
-              A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a node has been added as a child of another node or, in case of <code>Attr</code> nodes, has been added to an <code>Element</code>. This event shall be dispatched after the insertion has taken place. The <a class="def" href="#glossary-target-node">target node</a> of this event shall be the node being inserted.
+              A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a node has been added as a child of another node or, in case of <code>Attr</code> nodes, has been added to an <code>Element</code>. This event shall be dispatched after the insertion has taken place. The <a class="def" href="#glossary-proximal-event-target">proximal event target</a> of this event shall be the node being inserted.
               <p class="warning"><strong>Warning:</strong> the <a class="eventtype" href="#event-type-DOMNodeInserted"><code>DOMNodeInserted</code></a> event type is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type.</p>
             </dd>
           </dl>
@@ -3914,7 +3860,7 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
               <a class="eventtype noxref" href="#event-type-DOMNodeRemoved"><code>DOMNodeRemoved</code></a>
             </dt>
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMNodeRemoved</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-MutationEvent"><code>MutationEvent</code></a></td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code>, <code>Attr</code>, <code>Text</code>, <code>Comment</code>, <code>CDATASection</code>, <code>DocumentType</code>, <code>EntityReference</code>, <code>ProcessingInstruction</code></td></tr><tr class="assert must"><th>Cancelable</th><td>No</td></tr><tr class="assert must"><th>Default action</th><td>none</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-MutationEvent-relatedNode"><code>MutationEvent.relatedNode</code></a> holds the parent node of the node being removed or, in case of <code>Attr</code> nodes, the <code>ownerElement</code> of the <code>Attr</code> node.</td></tr></table>
-              A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a node is being removed from its parent node or, in case of <code>Attr</code> nodes, removed from its <code>ownerElement</code>. This event shall be dispatched before the removal takes place. The <a class="def" href="#glossary-target-node">target node</a> of this event shall be the node being removed.
+              A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a node is being removed from its parent node or, in case of <code>Attr</code> nodes, removed from its <code>ownerElement</code>. This event shall be dispatched before the removal takes place. The <a class="def" href="#glossary-proximal-event-target">proximal event target</a> of this event shall be the node being removed.
               <p class="warning"><strong>Warning:</strong> the <a class="eventtype" href="#event-type-DOMNodeRemoved"><code>DOMNodeRemoved</code></a> event type is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type.</p>
             </dd>
           </dl>
@@ -3927,7 +3873,7 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
               <a class="eventtype noxref" href="#event-type-DOMNodeRemovedFromDocument"><code>DOMNodeRemovedFromDocument</code></a>
             </dt>
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMNodeRemovedFromDocument</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-MutationEvent"><code>MutationEvent</code></a></td></tr><tr class="assert must"><th>Bubbles</th><td>No</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code>, <code>Attr</code>, <code>Text</code>, <code>Comment</code>, <code>CDATASection</code>, <code>DocumentType</code>, <code>EntityReference</code>, <code>ProcessingInstruction</code></td></tr><tr class="assert must"><th>Cancelable</th><td>No</td></tr><tr class="assert must"><th>Default action</th><td>none</td></tr><tr class="assert must"><th>Context info</th><td>None</td></tr></table>
-              A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a node is being removed from a document, either through direct removal of the node or removal of a subtree in which it is contained; <code>Attr</code> nodes are considered part of an <code>Element</code>'s subtree. This event shall be dispatched before the removal takes place. The <a class="def" href="#glossary-target-node">target node</a> of this event type shall be the node being removed. If the node is being directly removed, the event type <a class="eventtype" href="#event-type-DOMNodeRemoved"><code>DOMNodeRemoved</code></a> must occur before this event type.
+              A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a node is being removed from a document, either through direct removal of the node or removal of a subtree in which it is contained; <code>Attr</code> nodes are considered part of an <code>Element</code>'s subtree. This event shall be dispatched before the removal takes place. The <a class="def" href="#glossary-proximal-event-target">proximal event target</a> of this event type shall be the node being removed. If the node is being directly removed, the event type <a class="eventtype" href="#event-type-DOMNodeRemoved"><code>DOMNodeRemoved</code></a> must occur before this event type.
               <p class="warning"><strong>Warning:</strong> the <a class="eventtype" href="#event-type-DOMNodeRemovedFromDocument"><code>DOMNodeRemovedFromDocument</code></a> event type is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type.</p>
             </dd>
           </dl>
@@ -3940,7 +3886,7 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
               <a class="eventtype noxref" href="#event-type-DOMNodeInsertedIntoDocument"><code>DOMNodeInsertedIntoDocument</code></a>
             </dt>
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMNodeInsertedIntoDocument</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-MutationEvent"><code>MutationEvent</code></a></td></tr><tr class="assert must"><th>Bubbles</th><td>No</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code>, <code>Attr</code>, <code>Text</code>, <code>Comment</code>, <code>CDATASection</code>, <code>DocumentType</code>, <code>EntityReference</code>, <code>ProcessingInstruction</code></td></tr><tr class="assert must"><th>Cancelable</th><td>No</td></tr><tr class="assert must"><th>Default action</th><td>none</td></tr><tr class="assert must"><th>Context info</th><td>None</td></tr></table>
-              A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a node has been inserted into a document, either through direct insertion of the node or insertion of a subtree in which it is contained; <code>Attr</code> nodes are considered part of an <code>Element</code>'s subtree. This event shall be dispatched after the insertion has taken place. The <a class="def" href="#glossary-target-node">target node</a> of this event shall be the node being inserted. If the node is being directly inserted, the event type <a class="eventtype" href="#event-type-DOMNodeInserted"><code>DOMNodeInserted</code></a> must occur before this event type.
+              A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a node has been inserted into a document, either through direct insertion of the node or insertion of a subtree in which it is contained; <code>Attr</code> nodes are considered part of an <code>Element</code>'s subtree. This event shall be dispatched after the insertion has taken place. The <a class="def" href="#glossary-proximal-event-target">proximal event target</a> of this event shall be the node being inserted. If the node is being directly inserted, the event type <a class="eventtype" href="#event-type-DOMNodeInserted"><code>DOMNodeInserted</code></a> must occur before this event type.
               <p class="warning"><strong>Warning:</strong> the <a class="eventtype" href="#event-type-DOMNodeInsertedIntoDocument"><code>DOMNodeInsertedIntoDocument</code></a> event type is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type.</p>
             </dd>
           </dl>
@@ -3953,7 +3899,7 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
               <a class="eventtype noxref" href="#event-type-DOMAttrModified"><code>DOMAttrModified</code></a>
             </dt>
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMAttrModified</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-MutationEvent"><code>MutationEvent</code></a></td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>No</td></tr><tr class="assert must"><th>Default action</th><td>none</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-MutationEvent-attrName"><code>MutationEvent.attrName</code></a> and <a href="#events-Events-MutationEvent-attrChange"><code>MutationEvent.attrChange</code></a> are in use. The value of <a href="#events-Events-MutationEvent-relatedNode"><code>MutationEvent.relatedNode</code></a> indicates the <code>Attr</code> node that has been modified, added, or removed. If the <code>Attr</code> node has been added, <a href="#events-Events-MutationEvent-newValue"><code>MutationEvent.newValue</code></a> shall be in use. If the <code>Attr</code> node has been removed, <a href="#events-Events-MutationEvent-prevValue"><code>MutationEvent.prevValue</code></a> shall be in use. If the <code>Attr</code> node has been modified, <a class="noxref" href="#events-Events-MutationEvent-newValue"><code>MutationEvent.newValue</code></a> and <a class="noxref" href="#events-Events-MutationEvent-prevValue"><code>MutationEvent.prevValue</code></a> are in use.</td></tr></table>
-              A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event after an <code>Attr.value</code> has been modified and after an <code>Attr</code> node has been added to or removed from an <code>Element</code>. The <a class="def" href="#glossary-target-node">target node</a> of this event shall be the <code>Element</code> node where the change occurred. It is implementation dependent whether this event type occurs when the children of the <code>Attr</code> node are changed in ways that do not affect the value of <code>Attr.value</code>.
+              A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event after an <code>Attr.value</code> has been modified and after an <code>Attr</code> node has been added to or removed from an <code>Element</code>. The <a class="def" href="#glossary-proximal-event-target">proximal event target</a> of this event shall be the <code>Element</code> node where the change occurred. It is implementation dependent whether this event type occurs when the children of the <code>Attr</code> node are changed in ways that do not affect the value of <code>Attr.value</code>.
               <p class="warning"><strong>Warning:</strong> the <a class="eventtype" href="#event-type-DOMAttrModified"><code>DOMAttrModified</code></a> event type is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type.</p>
             </dd>
           </dl>
@@ -3966,7 +3912,7 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
               <a class="eventtype noxref" href="#event-type-DOMCharacterDataModified"><code>DOMCharacterDataModified</code></a>
             </dt>
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMCharacterDataModified</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-MutationEvent"><code>MutationEvent</code></a></td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Text</code>, <code>Comment</code>, <code>CDATASection</code>, <code>ProcessingInstruction</code></td></tr><tr class="assert must"><th>Cancelable</th><td>No</td></tr><tr class="assert must"><th>Default action</th><td>none</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-MutationEvent-prevValue"><code>MutationEvent.prevValue</code></a>, and <a href="#events-Events-MutationEvent-newValue"><code>MutationEvent.newValue</code></a> are in use.</td></tr></table>
-              A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event after <code>CharacterData.data</code> or <code>ProcessingInstruction.data</code> have been modified, but the node itself has not been inserted or deleted.  The <a class="def" href="#glossary-target-node">target node</a> of this event shall be the <code>CharacterData</code> node or the <code>ProcessingInstruction</code> node.
+              A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event after <code>CharacterData.data</code> or <code>ProcessingInstruction.data</code> have been modified, but the node itself has not been inserted or deleted.  The <a class="def" href="#glossary-proximal-event-target">proximal event target</a> of this event shall be the <code>CharacterData</code> node or the <code>ProcessingInstruction</code> node.
               <p class="warning"><strong>Warning:</strong> the <a class="eventtype" href="#event-type-DOMCharacterDataModified"><code>DOMCharacterDataModified</code></a> event type is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type.</p>
             </dd>
           </dl>
@@ -4048,7 +3994,7 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
               <a class="eventtype noxref" href="#event-type-DOMElementNameChanged"><code>DOMElementNameChanged</code></a>
             </dt>
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMElementNameChanged</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-MutationNameEvent"><code>MutationNameEvent</code></a></td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>No</td></tr><tr class="assert must"><th>Default action</th><td>none</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-MutationNameEvent-prevNamespaceURI"><code>MutationNameEvent.prevNamespaceURI</code></a>, and <a href="#events-Events-MutationNameEvent-prevNodeName"><code>MutationNameEvent.prevNodeName</code></a> are in use.</td></tr></table>
-              A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event after the <code>namespaceURI</code> and/or the <code>nodeName</code> of an <code>Element</code> node have been modified (e.g., the element was renamed using <code>Document.renameNode()</code>). The <a class="def" href="#glossary-target-node">target node</a> of this event shall be the renamed <code>Element</code> node.
+              A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event after the <code>namespaceURI</code> and/or the <code>nodeName</code> of an <code>Element</code> node have been modified (e.g., the element was renamed using <code>Document.renameNode()</code>). The <a class="def" href="#glossary-proximal-event-target">proximal event target</a> of this event shall be the renamed <code>Element</code> node.
               <p class="warning"><strong>Warning:</strong> the <a class="eventtype" href="#event-type-DOMElementNameChanged"><code>DOMElementNameChanged</code></a> event type is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type.</p>
             </dd>
           </dl>
@@ -4061,7 +4007,7 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
               <a class="eventtype noxref" href="#event-type-DOMAttributeNameChanged"><code>DOMAttributeNameChanged</code></a>
             </dt>
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMAttributeNameChanged</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-MutationNameEvent"><code>MutationNameEvent</code></a></td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>No</td></tr><tr class="assert must"><th>Default action</th><td>none</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-MutationNameEvent-prevNamespaceURI"><code>MutationNameEvent.prevNamespaceURI</code></a>, and <a href="#events-Events-MutationNameEvent-prevNodeName"><code>MutationNameEvent.prevNodeName</code></a> are in use. The value of <a href="#events-Events-MutationEvent-relatedNode"><code>MutationEvent.relatedNode</code></a> contains the renamed <code>Attr</code> node.</td></tr></table>
-              A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a <code>Attr</code> node have been modified (e.g., the attribute was renamed using <code>Document.renameNode()</code>). The <a class="def" href="#glossary-target-node">target node</a> of this event shall be the <code>Element</code> node whose <code>Attr</code> has been renamed.
+              A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event after the <code>namespaceURI</code> and/or the <code>nodeName</code> of a <code>Attr</code> node have been modified (e.g., the attribute was renamed using <code>Document.renameNode()</code>). The <a class="def" href="#glossary-proximal-event-target">proximal event target</a> of this event shall be the <code>Element</code> node whose <code>Attr</code> has been renamed.
               <p class="warning"><strong>Warning:</strong> the <a class="eventtype" href="#event-type-DOMAttributeNameChanged"><code>DOMAttributeNameChanged</code></a> event type is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type.</p>
             </dd>
           </dl>
@@ -4276,10 +4222,10 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
             <li><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>: <code class="value">''</code></li>
             <li><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>: <code class="value">''</code><span class="issue">@@ (undefined - to be discussed)</span></li>
             <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'U+0302'</code> (Combining Circumflex Accent key)</li>
-            <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'q'</code> (<code class="value">'U+0071'</code>, The Latin Miniscule Letter Q key)</li>
+            <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'q'</code> (<code class="value">'U+0071'</code>, The Latin Small Letter Q key)</li>
             <li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>: <code class="value">''</code></li>
             <li><a class="eventtype" href="#event-type-textInput"><code>textInput</code></a>: <code class="value">'q'</code> (<code>"inputMode"</code>: <code class="value">'DOM_INPUT_METHOD_KEYBOARD'</code>)</li>
-            <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'q'</code> (<code class="value">'U+0071'</code>, The Latin Miniscule Letter Q key)</li>
+            <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'q'</code> (<code class="value">'U+0071'</code>, The Latin Small Letter Q key)</li>
           </ol>
         </div>
     <!-- div3 DeadKeys -->
@@ -5075,107 +5021,107 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
 
             <dt><a id="keyset-key-a"><code class="value keyname">'a'</code></a></dt>
             <dt><a id="keyset-key-U-0061"><code class="value codepoint">'U+0061'</code></a></dt>
-            <dd>The Latin Miniscule Letter a key.</dd>
+            <dd>The Latin Small Letter A key.</dd>
 
             <dt><a id="keyset-key-b"><code class="value keyname">'b'</code></a></dt>
             <dt><a id="keyset-key-U-0062"><code class="value codepoint">'U+0062'</code></a></dt>
-            <dd>The Latin Miniscule Letter b key.</dd>
+            <dd>The Latin Small Letter B key.</dd>
 
             <dt><a id="keyset-key-c"><code class="value keyname">'c'</code></a></dt>
             <dt><a id="keyset-key-U-0063"><code class="value codepoint">'U+0063'</code></a></dt>
-            <dd>The Latin Miniscule Letter c key.</dd>
+            <dd>The Latin Small Letter C key.</dd>
 
             <dt><a id="keyset-key-d"><code class="value keyname">'d'</code></a></dt>
             <dt><a id="keyset-key-U-0064"><code class="value codepoint">'U+0064'</code></a></dt>
-            <dd>The Latin Miniscule Letter d key.</dd>
+            <dd>The Latin Small Letter D key.</dd>
 
             <dt><a id="keyset-key-e"><code class="value keyname">'e'</code></a></dt>
             <dt><a id="keyset-key-U-0065"><code class="value codepoint">'U+0065'</code></a></dt>
-            <dd>The Latin Miniscule Letter e key.</dd>
+            <dd>The Latin Small Letter E key.</dd>
 
             <dt><a id="keyset-key-f"><code class="value keyname">'f'</code></a></dt>
             <dt><a id="keyset-key-U-0066"><code class="value codepoint">'U+0066'</code></a></dt>
-            <dd>The Latin Miniscule Letter f key.</dd>
+            <dd>The Latin Small Letter F key.</dd>
 
             <dt><a id="keyset-key-g"><code class="value keyname">'g'</code></a></dt>
             <dt><a id="keyset-key-U-0067"><code class="value codepoint">'U+0067'</code></a></dt>
-            <dd>The Latin Miniscule Letter g key.</dd>
+            <dd>The Latin Small Letter G key.</dd>
 
             <dt><a id="keyset-key-h"><code class="value keyname">'h'</code></a></dt>
             <dt><a id="keyset-key-U-0068"><code class="value codepoint">'U+0068'</code></a></dt>
-            <dd>The Latin Miniscule Letter h key.</dd>
+            <dd>The Latin Small Letter H key.</dd>
 
             <dt><a id="keyset-key-i"><code class="value keyname">'i'</code></a></dt>
             <dt><a id="keyset-key-U-0069"><code class="value codepoint">'U+0069'</code></a></dt>
-            <dd>The Latin Miniscule Letter i key.</dd>
+            <dd>The Latin Small Letter I key.</dd>
 
             <dt><a id="keyset-key-j"><code class="value keyname">'j'</code></a></dt>
             <dt><a id="keyset-key-U-006A"><code class="value codepoint">'U+006A'</code></a></dt>
-            <dd>The Latin Miniscule Letter j key.</dd>
+            <dd>The Latin Small Letter J key.</dd>
 
             <dt><a id="keyset-key-k"><code class="value keyname">'k'</code></a></dt>
             <dt><a id="keyset-key-U-006B"><code class="value codepoint">'U+006B'</code></a></dt>
-            <dd>The Latin Miniscule Letter k key.</dd>
+            <dd>The Latin Small Letter K key.</dd>
 
             <dt><a id="keyset-key-l"><code class="value keyname">'l'</code></a></dt>
             <dt><a id="keyset-key-U-006C"><code class="value codepoint">'U+006C'</code></a></dt>
-            <dd>The Latin Miniscule Letter l key.</dd>
+            <dd>The Latin Small Letter L key.</dd>
 
             <dt><a id="keyset-key-m"><code class="value keyname">'m'</code></a></dt>
             <dt><a id="keyset-key-U-006D"><code class="value codepoint">'U+006D'</code></a></dt>
-            <dd>The Latin Miniscule Letter m key.</dd>
+            <dd>The Latin Small Letter M key.</dd>
 
             <dt><a id="keyset-key-n"><code class="value keyname">'n'</code></a></dt>
             <dt><a id="keyset-key-U-006E"><code class="value codepoint">'U+006E'</code></a></dt>
-            <dd>The Latin Miniscule Letter n key.</dd>
+            <dd>The Latin Small Letter N key.</dd>
 
             <dt><a id="keyset-key-o"><code class="value keyname">'o'</code></a></dt>
             <dt><a id="keyset-key-U-006F"><code class="value codepoint">'U+006F'</code></a></dt>
-            <dd>The Latin Miniscule Letter o key.</dd>
+            <dd>The Latin Small Letter O key.</dd>
 
             <dt><a id="keyset-key-p"><code class="value keyname">'p'</code></a></dt>
             <dt><a id="keyset-key-U-0070"><code class="value codepoint">'U+0070'</code></a></dt>
-            <dd>The Latin Miniscule Letter p key.</dd>
+            <dd>The Latin Small Letter P key.</dd>
 
             <dt><a id="keyset-key-q"><code class="value keyname">'q'</code></a></dt>
             <dt><a id="keyset-key-U-0071"><code class="value codepoint">'U+0071'</code></a></dt>
-            <dd>The Latin Miniscule Letter q key.</dd>
+            <dd>The Latin Small Letter Q key.</dd>
 
             <dt><a id="keyset-key-r"><code class="value keyname">'r'</code></a></dt>
             <dt><a id="keyset-key-U-0072"><code class="value codepoint">'U+0072'</code></a></dt>
-            <dd>The Latin Miniscule Letter r key.</dd>
+            <dd>The Latin Small Letter R key.</dd>
 
             <dt><a id="keyset-key-s"><code class="value keyname">'s'</code></a></dt>
             <dt><a id="keyset-key-U-0073"><code class="value codepoint">'U+0073'</code></a></dt>
-            <dd>The Latin Miniscule Letter s key.</dd>
+            <dd>The Latin Small Letter S key.</dd>
 
             <dt><a id="keyset-key-t"><code class="value keyname">'t'</code></a></dt>
             <dt><a id="keyset-key-U-0074"><code class="value codepoint">'U+0074'</code></a></dt>
-            <dd>The Latin Miniscule Letter t key.</dd>
+            <dd>The Latin Small Letter T key.</dd>
 
             <dt><a id="keyset-key-u"><code class="value keyname">'u'</code></a></dt>
             <dt><a id="keyset-key-U-0075"><code class="value codepoint">'U+0075'</code></a></dt>
-            <dd>The Latin Miniscule Letter u key.</dd>
+            <dd>The Latin Small Letter U key.</dd>
 
             <dt><a id="keyset-key-v"><code class="value keyname">'v'</code></a></dt>
             <dt><a id="keyset-key-U-0076"><code class="value codepoint">'U+0076'</code></a></dt>
-            <dd>The Latin Miniscule Letter v key.</dd>
+            <dd>The Latin Small Letter V key.</dd>
 
             <dt><a id="keyset-key-w"><code class="value keyname">'w'</code></a></dt>
             <dt><a id="keyset-key-U-0077"><code class="value codepoint">'U+0077'</code></a></dt>
-            <dd>The Latin Miniscule Letter w key.</dd>
+            <dd>The Latin Small Letter W key.</dd>
 
             <dt><a id="keyset-key-x"><code class="value keyname">'x'</code></a></dt>
             <dt><a id="keyset-key-U-0078"><code class="value codepoint">'U+0078'</code></a></dt>
-            <dd>The Latin Miniscule Letter x key.</dd>
+            <dd>The Latin Small Letter X key.</dd>
 
             <dt><a id="keyset-key-y"><code class="value keyname">'y'</code></a></dt>
             <dt><a id="keyset-key-U-0079"><code class="value codepoint">'U+0079'</code></a></dt>
-            <dd>The Latin Miniscule Letter y key.</dd>
+            <dd>The Latin Small Letter Y key.</dd>
 
             <dt><a id="keyset-key-z"><code class="value keyname">'z'</code></a></dt>
             <dt><a id="keyset-key-U-007A"><code class="value codepoint">'U+007A'</code></a></dt>
-            <dd>The Latin Miniscule Letter z key.</dd>
+            <dd>The Latin Small Letter Z key.</dd>
 
 
             <dt><a id="keyset-key-LeftSquareBracketChar"><code class="value charval">'['</code></a></dt>
@@ -6063,132 +6009,132 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
         <code id="tbl-keyset-key-a" class="value">'a'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-0061" class="value">'U+0061'</code>
-      </td><td>The Latin Miniscule Letter a key.</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>-</td><td>0</td><td>97</td><td>65</td><td>-</td><td>65</td><td>-</td><td>97</td><td>97</td><td>65</td><td>-</td><td>65</td><td>-</td><td>97</td><td>-</td><td>65</td><td>-</td></tr>
+      </td><td>The Latin Small Letter A key.</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>-</td><td>0</td><td>97</td><td>65</td><td>-</td><td>65</td><td>-</td><td>97</td><td>97</td><td>65</td><td>-</td><td>65</td><td>-</td><td>97</td><td>-</td><td>65</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-b" class="value">'b'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-0062" class="value">'U+0062'</code>
-      </td><td>The Latin Miniscule Letter b key.</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>-</td><td>0</td><td>98</td><td>66</td><td>-</td><td>66</td><td>-</td><td>98</td><td>98</td><td>66</td><td>-</td><td>66</td><td>-</td><td>98</td><td>-</td><td>66</td><td>-</td></tr>
+      </td><td>The Latin Small Letter B key.</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>-</td><td>0</td><td>98</td><td>66</td><td>-</td><td>66</td><td>-</td><td>98</td><td>98</td><td>66</td><td>-</td><td>66</td><td>-</td><td>98</td><td>-</td><td>66</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-c" class="value">'c'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-0063" class="value">'U+0063'</code>
-      </td><td>The Latin Miniscule Letter c key.</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>-</td><td>0</td><td>99</td><td>67</td><td>-</td><td>67</td><td>-</td><td>99</td><td>99</td><td>67</td><td>-</td><td>67</td><td>-</td><td>99</td><td>-</td><td>67</td><td>-</td></tr>
+      </td><td>The Latin Small Letter C key.</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>-</td><td>0</td><td>99</td><td>67</td><td>-</td><td>67</td><td>-</td><td>99</td><td>99</td><td>67</td><td>-</td><td>67</td><td>-</td><td>99</td><td>-</td><td>67</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-d" class="value">'d'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-0064" class="value">'U+0064'</code>
-      </td><td>The Latin Miniscule Letter d key.</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>-</td><td>0</td><td>100</td><td>68</td><td>-</td><td>68</td><td>-</td><td>100</td><td>100</td><td>68</td><td>-</td><td>68</td><td>-</td><td>100</td><td>-</td><td>68</td><td>-</td></tr>
+      </td><td>The Latin Small Letter D key.</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>-</td><td>0</td><td>100</td><td>68</td><td>-</td><td>68</td><td>-</td><td>100</td><td>100</td><td>68</td><td>-</td><td>68</td><td>-</td><td>100</td><td>-</td><td>68</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-e" class="value">'e'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-0065" class="value">'U+0065'</code>
-      </td><td>The Latin Miniscule Letter e key.</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>-</td><td>0</td><td>101</td><td>69</td><td>-</td><td>69</td><td>-</td><td>101</td><td>101</td><td>69</td><td>-</td><td>69</td><td>-</td><td>101</td><td>-</td><td>69</td><td>-</td></tr>
+      </td><td>The Latin Small Letter E key.</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>-</td><td>0</td><td>101</td><td>69</td><td>-</td><td>69</td><td>-</td><td>101</td><td>101</td><td>69</td><td>-</td><td>69</td><td>-</td><td>101</td><td>-</td><td>69</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-f" class="value">'f'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-0066" class="value">'U+0066'</code>
-      </td><td>The Latin Miniscule Letter f key.</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>-</td><td>0</td><td>102</td><td>70</td><td>-</td><td>70</td><td>-</td><td>102</td><td>102</td><td>70</td><td>-</td><td>70</td><td>-</td><td>102</td><td>-</td><td>70</td><td>-</td></tr>
+      </td><td>The Latin Small Letter F key.</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>-</td><td>0</td><td>102</td><td>70</td><td>-</td><td>70</td><td>-</td><td>102</td><td>102</td><td>70</td><td>-</td><td>70</td><td>-</td><td>102</td><td>-</td><td>70</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-g" class="value">'g'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-0067" class="value">'U+0067'</code>
-      </td><td>The Latin Miniscule Letter g key.</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>-</td><td>0</td><td>103</td><td>71</td><td>-</td><td>71</td><td>-</td><td>103</td><td>103</td><td>71</td><td>-</td><td>71</td><td>-</td><td>103</td><td>-</td><td>71</td><td>-</td></tr>
+      </td><td>The Latin Small Letter G key.</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>-</td><td>0</td><td>103</td><td>71</td><td>-</td><td>71</td><td>-</td><td>103</td><td>103</td><td>71</td><td>-</td><td>71</td><td>-</td><td>103</td><td>-</td><td>71</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-h" class="value">'h'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-0068" class="value">'U+0068'</code>
-      </td><td>The Latin Miniscule Letter h key.</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>-</td><td>0</td><td>104</td><td>72</td><td>-</td><td>72</td><td>-</td><td>104</td><td>104</td><td>72</td><td>-</td><td>72</td><td>-</td><td>104</td><td>-</td><td>72</td><td>-</td></tr>
+      </td><td>The Latin Small Letter H key.</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>-</td><td>0</td><td>104</td><td>72</td><td>-</td><td>72</td><td>-</td><td>104</td><td>104</td><td>72</td><td>-</td><td>72</td><td>-</td><td>104</td><td>-</td><td>72</td><td>-</td></tr>f
     <tr><td>
         <code id="tbl-keyset-key-i" class="value">'i'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-0069" class="value">'U+0069'</code>
-      </td><td>The Latin Miniscule Letter i key.</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>-</td><td>0</td><td>105</td><td>73</td><td>-</td><td>73</td><td>-</td><td>105</td><td>105</td><td>73</td><td>-</td><td>73</td><td>-</td><td>105</td><td>-</td><td>73</td><td>-</td></tr>
+      </td><td>The Latin Small Letter I key.</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>-</td><td>0</td><td>105</td><td>73</td><td>-</td><td>73</td><td>-</td><td>105</td><td>105</td><td>73</td><td>-</td><td>73</td><td>-</td><td>105</td><td>-</td><td>73</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-j" class="value">'j'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-006A" class="value">'U+006A'</code>
-      </td><td>The Latin Miniscule Letter j key.</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>-</td><td>0</td><td>106</td><td>74</td><td>-</td><td>74</td><td>-</td><td>106</td><td>106</td><td>74</td><td>-</td><td>74</td><td>-</td><td>106</td><td>-</td><td>74</td><td>-</td></tr>
+      </td><td>The Latin Small Letter J key.</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>-</td><td>0</td><td>106</td><td>74</td><td>-</td><td>74</td><td>-</td><td>106</td><td>106</td><td>74</td><td>-</td><td>74</td><td>-</td><td>106</td><td>-</td><td>74</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-k" class="value">'k'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-006B" class="value">'U+006B'</code>
-      </td><td>The Latin Miniscule Letter k key.</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>-</td><td>0</td><td>107</td><td>75</td><td>-</td><td>75</td><td>-</td><td>107</td><td>107</td><td>75</td><td>-</td><td>75</td><td>-</td><td>107</td><td>-</td><td>75</td><td>-</td></tr>
+      </td><td>The Latin Small Letter K key.</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>-</td><td>0</td><td>107</td><td>75</td><td>-</td><td>75</td><td>-</td><td>107</td><td>107</td><td>75</td><td>-</td><td>75</td><td>-</td><td>107</td><td>-</td><td>75</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-l" class="value">'l'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-006C" class="value">'U+006C'</code>
-      </td><td>The Latin Miniscule Letter l key.</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>-</td><td>0</td><td>108</td><td>76</td><td>-</td><td>76</td><td>-</td><td>108</td><td>108</td><td>76</td><td>-</td><td>76</td><td>-</td><td>108</td><td>-</td><td>76</td><td>-</td></tr>
+      </td><td>The Latin Small Letter L key.</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>-</td><td>0</td><td>108</td><td>76</td><td>-</td><td>76</td><td>-</td><td>108</td><td>108</td><td>76</td><td>-</td><td>76</td><td>-</td><td>108</td><td>-</td><td>76</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-m" class="value">'m'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-006D" class="value">'U+006D'</code>
-      </td><td>The Latin Miniscule Letter m key.</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>-</td><td>0</td><td>109</td><td>77</td><td>-</td><td>77</td><td>-</td><td>109</td><td>109</td><td>77</td><td>-</td><td>77</td><td>-</td><td>109</td><td>-</td><td>77</td><td>-</td></tr>
+      </td><td>The Latin Small Letter M key.</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>-</td><td>0</td><td>109</td><td>77</td><td>-</td><td>77</td><td>-</td><td>109</td><td>109</td><td>77</td><td>-</td><td>77</td><td>-</td><td>109</td><td>-</td><td>77</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-n" class="value">'n'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-006E" class="value">'U+006E'</code>
-      </td><td>The Latin Miniscule Letter n key.</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>-</td><td>0</td><td>110</td><td>78</td><td>-</td><td>78</td><td>-</td><td>110</td><td>110</td><td>78</td><td>-</td><td>78</td><td>-</td><td>110</td><td>-</td><td>78</td><td>-</td></tr>
+      </td><td>The Latin Small Letter N key.</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>-</td><td>0</td><td>110</td><td>78</td><td>-</td><td>78</td><td>-</td><td>110</td><td>110</td><td>78</td><td>-</td><td>78</td><td>-</td><td>110</td><td>-</td><td>78</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-o" class="value">'o'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-006F" class="value">'U+006F'</code>
-      </td><td>The Latin Miniscule Letter o key.</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>-</td><td>0</td><td>111</td><td>79</td><td>-</td><td>79</td><td>-</td><td>111</td><td>111</td><td>79</td><td>-</td><td>79</td><td>-</td><td>111</td><td>-</td><td>79</td><td>-</td></tr>
+      </td><td>The Latin Small Letter O key.</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>-</td><td>0</td><td>111</td><td>79</td><td>-</td><td>79</td><td>-</td><td>111</td><td>111</td><td>79</td><td>-</td><td>79</td><td>-</td><td>111</td><td>-</td><td>79</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-p" class="value">'p'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-0070" class="value">'U+0070'</code>
-      </td><td>The Latin Miniscule Letter p key.</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>-</td><td>0</td><td>112</td><td>80</td><td>-</td><td>80</td><td>-</td><td>112</td><td>112</td><td>80</td><td>-</td><td>80</td><td>-</td><td>112</td><td>-</td><td>80</td><td>-</td></tr>
+      </td><td>The Latin Small Letter P key.</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>-</td><td>0</td><td>112</td><td>80</td><td>-</td><td>80</td><td>-</td><td>112</td><td>112</td><td>80</td><td>-</td><td>80</td><td>-</td><td>112</td><td>-</td><td>80</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-q" class="value">'q'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-0071" class="value">'U+0071'</code>
-      </td><td>The Latin Miniscule Letter q key.</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>-</td><td>0</td><td>113</td><td>81</td><td>-</td><td>81</td><td>-</td><td>113</td><td>113</td><td>81</td><td>-</td><td>81</td><td>-</td><td>113</td><td>-</td><td>81</td><td>-</td></tr>
+      </td><td>The Latin Small Letter Q key.</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>-</td><td>0</td><td>113</td><td>81</td><td>-</td><td>81</td><td>-</td><td>113</td><td>113</td><td>81</td><td>-</td><td>81</td><td>-</td><td>113</td><td>-</td><td>81</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-r" class="value">'r'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-0072" class="value">'U+0072'</code>
-      </td><td>The Latin Miniscule Letter r key.</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>-</td><td>0</td><td>114</td><td>82</td><td>-</td><td>82</td><td>-</td><td>114</td><td>114</td><td>82</td><td>-</td><td>82</td><td>-</td><td>114</td><td>-</td><td>82</td><td>-</td></tr>
+      </td><td>The Latin Small Letter R key.</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>-</td><td>0</td><td>114</td><td>82</td><td>-</td><td>82</td><td>-</td><td>114</td><td>114</td><td>82</td><td>-</td><td>82</td><td>-</td><td>114</td><td>-</td><td>82</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-s" class="value">'s'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-0073" class="value">'U+0073'</code>
-      </td><td>The Latin Miniscule Letter s key.</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>-</td><td>0</td><td>115</td><td>83</td><td>-</td><td>83</td><td>-</td><td>115</td><td>115</td><td>83</td><td>-</td><td>83</td><td>-</td><td>115</td><td>-</td><td>83</td><td>-</td></tr>
+      </td><td>The Latin Small Letter S key.</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>-</td><td>0</td><td>115</td><td>83</td><td>-</td><td>83</td><td>-</td><td>115</td><td>115</td><td>83</td><td>-</td><td>83</td><td>-</td><td>115</td><td>-</td><td>83</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-t" class="value">'t'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-0074" class="value">'U+0074'</code>
-      </td><td>The Latin Miniscule Letter t key.</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>-</td><td>0</td><td>116</td><td>84</td><td>-</td><td>84</td><td>-</td><td>116</td><td>116</td><td>84</td><td>-</td><td>84</td><td>-</td><td>116</td><td>-</td><td>84</td><td>-</td></tr>
+      </td><td>The Latin Small Letter T key.</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>-</td><td>0</td><td>116</td><td>84</td><td>-</td><td>84</td><td>-</td><td>116</td><td>116</td><td>84</td><td>-</td><td>84</td><td>-</td><td>116</td><td>-</td><td>84</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-u" class="value">'u'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-0075" class="value">'U+0075'</code>
-      </td><td>The Latin Miniscule Letter u key.</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>-</td><td>0</td><td>117</td><td>85</td><td>-</td><td>85</td><td>-</td><td>117</td><td>117</td><td>85</td><td>-</td><td>85</td><td>-</td><td>117</td><td>-</td><td>85</td><td>-</td></tr>
+      </td><td>The Latin Small Letter U key.</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>-</td><td>0</td><td>117</td><td>85</td><td>-</td><td>85</td><td>-</td><td>117</td><td>117</td><td>85</td><td>-</td><td>85</td><td>-</td><td>117</td><td>-</td><td>85</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-v" class="value">'v'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-0076" class="value">'U+0076'</code>
-      </td><td>The Latin Miniscule Letter v key.</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>-</td><td>0</td><td>118</td><td>86</td><td>-</td><td>86</td><td>-</td><td>118</td><td>118</td><td>86</td><td>-</td><td>86</td><td>-</td><td>118</td><td>-</td><td>86</td><td>-</td></tr>
+      </td><td>The Latin Small Letter V key.</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>-</td><td>0</td><td>118</td><td>86</td><td>-</td><td>86</td><td>-</td><td>118</td><td>118</td><td>86</td><td>-</td><td>86</td><td>-</td><td>118</td><td>-</td><td>86</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-w" class="value">'w'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-0077" class="value">'U+0077'</code>
-      </td><td>The Latin Miniscule Letter w key.</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>-</td><td>0</td><td>119</td><td>87</td><td>-</td><td>87</td><td>-</td><td>119</td><td>119</td><td>87</td><td>-</td><td>87</td><td>-</td><td>119</td><td>-</td><td>87</td><td>-</td></tr>
+      </td><td>The Latin Small Letter W key.</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>-</td><td>0</td><td>119</td><td>87</td><td>-</td><td>87</td><td>-</td><td>119</td><td>119</td><td>87</td><td>-</td><td>87</td><td>-</td><td>119</td><td>-</td><td>87</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-x" class="value">'x'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-0078" class="value">'U+0078'</code>
-      </td><td>The Latin Miniscule Letter x key.</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>-</td><td>0</td><td>120</td><td>88</td><td>-</td><td>88</td><td>-</td><td>120</td><td>120</td><td>88</td><td>-</td><td>88</td><td>-</td><td>120</td><td>-</td><td>88</td><td>-</td></tr>
+      </td><td>The Latin Small Letter X key.</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>-</td><td>0</td><td>120</td><td>88</td><td>-</td><td>88</td><td>-</td><td>120</td><td>120</td><td>88</td><td>-</td><td>88</td><td>-</td><td>120</td><td>-</td><td>88</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-y" class="value">'y'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-0079" class="value">'U+0079'</code>
-      </td><td>The Latin Miniscule Letter y key.</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>-</td><td>0</td><td>121</td><td>89</td><td>-</td><td>89</td><td>-</td><td>121</td><td>121</td><td>89</td><td>-</td><td>89</td><td>-</td><td>121</td><td>-</td><td>89</td><td>-</td></tr>
+      </td><td>The Latin Small Letter Y key.</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>-</td><td>0</td><td>121</td><td>89</td><td>-</td><td>89</td><td>-</td><td>121</td><td>121</td><td>89</td><td>-</td><td>89</td><td>-</td><td>121</td><td>-</td><td>89</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-z" class="value">'z'</code>
       </td><td> </td><td>
         <code id="tbl-keyset-key-U-007A" class="value">'U+007A'</code>
-      </td><td>The Latin Miniscule Letter z key.</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>-</td><td>0</td><td>122</td><td>90</td><td>-</td><td>90</td><td>-</td><td>122</td><td>122</td><td>90</td><td>-</td><td>90</td><td>-</td><td>122</td><td>-</td><td>90</td><td>-</td></tr>
+      </td><td>The Latin Small Letter Z key.</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>-</td><td>0</td><td>122</td><td>90</td><td>-</td><td>90</td><td>-</td><td>122</td><td>122</td><td>90</td><td>-</td><td>90</td><td>-</td><td>122</td><td>-</td><td>90</td><td>-</td></tr>
     <tr><td>
         <code id="tbl-keyset-key-LeftSquareBracketChar" class="value">'['</code>
       </td><td>
@@ -6414,6 +6360,7 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
         <h2 class="adiv2"><a id="changes-DOMEvents2to3Changes" href="#changes-DOMEvents2to3Changes">C.1 Changes between DOM Level 2 Events and DOM Level 3 Events</a></h2>
         <p>Numerous clarifications to the interfaces and event types have been made. The <code>HTMLEvents</code> module is no longer defined in this document. The event types <code>focus</code> and <code>blur</code> have been added to the <a href="#events-Events-UIEvent"><code>UIEvents</code></a> module, the event type <code>dblclick</code> has been added to the <a href="#events-Events-MouseEvent"><code>MouseEvents</code></a> module. This new specification provides a better separation between the DOM event flow, the event types, and the DOM interfaces.</p>
         <p>This specification has been reordered significantly from the earlier W3C Note form, and from the structure of DOM2 Events, in order to clarify the material.  New diagrams have been put in place to represent hierarchies and events flows more clearly.</p>
+        <p>The <code>change</code>, <code>submit</code>, and <code>reset</code> events were removed, since they were specific to HTML forms, and are specified in HTML5.</p>
         <div class="div3">
           <h3 class="adiv3"><a id="changes-DOMEvents2to3Changes-flow" href="#changes-DOMEvents2to3Changes-flow">C.1.1 Changes to DOM Level 2 event flow</a></h3>
           <p>This new specification introduced the following new concepts in the event flow:</p>
@@ -6529,9 +6476,9 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
           </dt>
           <dd><cite><a href="http://www.unicode.org/reports/tr15/">Unicode Normalization Forms</a></cite>, The Unicode Standard Annex #15. The Unicode Consortium, 2006. The latest version of this annex is available at http://www.unicode.org/reports/tr15/.</dd>
           <dt>
-            <strong>[<a id="references-Namespaces11">XML Namespaces 1.1</a>]</strong>
+            <strong>[<a id="references-Namespaces10">XML Namespaces 1.0</a>]</strong>
           </dt>
-          <dd><cite><a href="http://www.w3.org/TR/2006/REC-xml-names11-20060816">Namespaces in XML 1.1</a></cite>, T. Bray, D. Hollander, A. Layman, and R. Tobin, Editors. World Wide Web Consortium, August 2006. This version of the Namespaces in XML 1.1 Specification is http://www.w3.org/TR/2006/REC-xml-names11-20060816. The <a class="normative" href="http://www.w3.org/TR/xml-names11/">latest version of Namespaces in XML 1.1</a> is available at http://www.w3.org/TR/xml-names11/.</dd>
+          <dd><cite><a href="http://www.w3.org/TR/2006/REC-xml-names-20060816">Namespaces in XML 1.0</a></cite>, T. Bray, D. Hollander, A. Layman, and R. Tobin, Editors. World Wide Web Consortium, 16 August 2006. This version of the Namespaces in XML 1.0 Specification is http://www.w3.org/TR/2006/REC-xml-names-20060816. The <a class="normative" href="http://www.w3.org/TR/xml-names/">latest version of Namespaces in XML 1.0</a> is available at http://www.w3.org/TR/xml-names/.</dd>
         </dl>
       </div>
 <!-- div2 References-Normative -->
