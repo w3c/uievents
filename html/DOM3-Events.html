@@ -208,7 +208,7 @@
       <dl>
         <dt>This version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.106">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.106</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.107">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.107</a>
         </dd>
         <dt>Latest stable version:</dt>
         <dd>
@@ -216,7 +216,7 @@
         </dd>
         <dt>Previous version:</dt>
         <dd>
-          <a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.105">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.105</a>
+          <a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.106">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.106</a>
         </dd>
         <dt>Editor's Draft:</dt>
         <dd>
@@ -526,6 +526,14 @@
           </li>
           <li>
             <a href="#extending_events-Custom_Events">A.2 Custom Events</a>
+          </li>
+          <li>
+            <a href="#extending_events-Impl_Extensions">A.3 Implementation-Specific Extensions</a>
+            <ul class="toc">
+              <li>
+                <a href="#extending_events-prefixes">A.3.1 Known Implementation-Specific Prefixes</a>
+              </li>
+            </ul>
           </li>
         </ul>
       </li>
@@ -2622,7 +2630,8 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
   readonly attribute boolean         <a class="noxref" href="#events-Events-MouseEvent-shiftKey">shiftKey</a>;
   readonly attribute boolean         <a class="noxref" href="#events-Events-MouseEvent-altKey">altKey</a>;
   readonly attribute boolean         <a class="noxref" href="#events-Events-MouseEvent-metaKey">metaKey</a>;
-  readonly attribute unsigned short  <a class="noxref" href="#events-Events-MouseEvent-button">button</a>;  <!-- readonly attribute unsigned short  <a class="noxref" href="#events-Events-MouseEvent-buttons">buttons</a>; -->
+  readonly attribute unsigned short  <a class="noxref" href="#events-Events-MouseEvent-button">button</a>;  
+  readonly attribute unsigned short  <a class="noxref" href="#events-Events-MouseEvent-buttons">buttons</a>;
   readonly attribute <a class="noxref" href="#events-Events-EventTarget">EventTarget</a>     <a class="noxref" href="#events-Events-MouseEvent-relatedTarget">relatedTarget</a>;
   void               <a class="noxref" href="#events-event-type-initMouseEvent">initMouseEvent</a>(in DOMString typeArg, 
                                 in boolean canBubbleArg, 
@@ -2656,7 +2665,7 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
                 <dt><code class="attribute-name"><a id="events-Events-MouseEvent-button">button</a></code> of type <code>unsigned short</code>, readonly</dt>
                 <dd>During mouse events caused by the depression or release of a mouse button, <code>button</code> shall be used to indicate which pointer device button changed state. <code>0</code> must indicate the primary button of the device (in general, the left button  or the only button on single-button devices, used to activate a user interface control or select text). <code>2</code> must indicate the secondary button (in general, the right button, often used to display a context menu). <code>1</code> must indicate the auxiliary button (in general, the middle button, often combined with a mouse wheel).  Some mice may provide or simulate more buttons, and values higher than <code>2</code> may be used to represent such buttons.<br /></dd>
                 
-                <!-- 
+                
                 <dt><code class="attribute-name"><a id="events-Events-MouseEvent-buttons">buttons</a></code> of type <code>unsigned short</code>, readonly</dt>
                 <dd>During mouse events caused by the depression or release of a mouse button, <code>buttons</code> shall be used to indicate which combination of mouse buttons are currently being pressed, expressed as a bitmask.  <span class="note"><strong>Note:</strong> This should not be confused with the <a class="noxref" href="#events-Events-MouseEvent-button">button</a> attribute.</span>
                 <code>0</code> must indicates no button is currently active.
@@ -2664,7 +2673,7 @@ interface <a class="noxref" href="#events-Events-DocumentEvent">DocumentEvent</a
                 <code>2</code> must indicate the secondary button (in general, the right button, often used to display a context menu), if present.
                 <code>4</code> must indicate the auxiliary button (in general, the middle button, often combined with a mouse wheel).
                 Some pointer devices may provide or simulate more buttons.  To represent such buttons, the value must be doubled for each successive button (in the binary series <code>8</code>, <code>16</code>, <code>32</code>, ... ), and the buttons should alternate sides of the device, from left to right.  For example, with a 5-button mouse, the primary button (on the left) would have the value <code>1</code>, the secondary button (on the right) would have the value <code>2</code>, the auxiliary button (in the middle) would have the value <code>4</code>, the fourth button (on the left) would have the value <code>8</code>, and the fifth button (on the right) would have the value <code>16</code>.  Because no the sum of any set of button values is a unique number, an author can use a bitwise operation to determine how many buttons are currently being pressed and which buttons they are, for an arbitrary number of mouse buttons on a device, e.g. the value <code>3</code> indicates that the left and right button are currently both pressed, while the value <code>5</code> indicates that the left and middle button are currently both pressed.                  
-                -->
+               
                 
                 <dt><code class="attribute-name"><a id="events-Events-MouseEvent-clientX">clientX</a></code> of type <code>long</code>, readonly</dt>
                 <dd>The horizontal coordinate at which the event occurred relative to the viewport associated with the event.<br /></dd>
@@ -3315,7 +3324,7 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
   const unsigned long       <a class="noxref" href="#events-DOM_KEY_LOCATION_MOBILE">DOM_KEY_LOCATION_MOBILE</a>        = 0x04;
   const unsigned long       <a class="noxref" href="#events-DOM_KEY_LOCATION_JOYSTICK">DOM_KEY_LOCATION_JOYSTICK</a>      = 0x05;
 
-  readonly attribute DOMString       <a class="noxref" href="#events-Events-KeyboardEvent-key">key</a>;                   <!--   readonly attribute DOMString       <a class="noxref" href="#events-Events-KeyboardEvent-character">character</a>;    readonly attribute DOMString       <a class="noxref" href="#events-Events-KeyboardEvent-name">name</a>;    readonly attribute DOMString       <a class="noxref" href="#events-Events-KeyboardEvent-unicode">unicode</a>; -->
+  readonly attribute DOMString       <a class="noxref" href="#events-Events-KeyboardEvent-key">key</a>;
   readonly attribute unsigned long   <a class="noxref" href="#events-Events-KeyboardEvent-location">location</a>;
   readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-ctrlKey">ctrlKey</a>;
   readonly attribute boolean         <a class="noxref" href="#events-Events-KeyboardEvent-shiftKey">shiftKey</a>;
@@ -3328,9 +3337,6 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
                                      in boolean cancelableArg, 
                                      in views::AbstractView viewArg, 
                                      in DOMString keyArg, 
-                                     in DOMString characterArg, 
-                                     in DOMString nameArg, 
-                                     in DOMString unicodeArg, 
                                      in unsigned long locationArg, 
                                      in DOMString modifiersListArg,
                                      in boolean repeat);
@@ -4014,7 +4020,7 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
 
 
       <div class="div2">
-        <h3 class="adiv2"><a id="keyboard-input" href="#keyboard-input">6.1 Keyboard Input</a></h3>
+        <h3><a id="keyboard-input" href="#keyboard-input">6.1 Keyboard Input</a></h3>
       
         <p><em>This section is informative</em></p>
       
@@ -4027,7 +4033,7 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
 
         <p>This specification only defines the functional mapping, in terms of <a href="#keyset-keyvalues">key values</a>, but briefly describes <a href="#key-legends">key legends</a> and <a href="#keyboard-layout">keyboard layout</a> for background.</p>
 
-        <h4 class="adiv2"><a id="key-legends" href="#key-legends">6.1.1 Key Legends</a></h4>
+        <h4><a id="key-legends" href="#key-legends">6.1.1 Key Legends</a></h4>
         <p><em>This section is informative</em></p>
 
         <p>The visual markings normally consist of one or more characters which a keystroke on that key will produce (such as <code class="value">'F'</code> or <code class="value">'8'</code>), or names or symbols which indicate that key's function (such as an upward-pointing arrow &#x21e7; indicating <code class="value">'Shift'</code>, or the string <code class="value">'Enter'</code>).  Keys are often referred to by this marking (e.g. "Press the <code class="value">'Shift'</code> and <code class="value">'F'</code> keys.").  However, the visual appearance of the key has no bearing on its digital representation, and in many configurations may be completely inaccurate; even the control and function keys, such as <code class="value">'Enter'</code>, may be mapped to different functionality, or even mapped as character keys.</p>  
@@ -4036,7 +4042,7 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
         
         <p>Note that the key legends for function keys do not normally produce any characters, although the symbol may have a Unicode equivalent; for example, the <code class="value">'Shift'</code> key may bear the symbol &#x21e7;, which has the <a class="def" href="#glossary-unicode-code-point">Unicode code point</a> <code class="value">'21E7'</code>, but pressing the <code class="value">'Shift'</code> key will not produce this character value, and there is no <a class="def" href="#glossary-unicode-code-point">Unicode code point</a> for <code class="value">'Shift'</code>.</p>
 
-        <h4 class="adiv2"><a id="keyboard-layout" href="#keyboard-layout">6.1.2 Keyboard Layout</a></h4>
+        <h4><a id="keyboard-layout" href="#keyboard-layout">6.1.2 Keyboard Layout</a></h4>
         <p><em>This section is informative</em></p>
 
         <p>As with the key labels, the physical layout of the keys on the keyboard does not not affect the digital key value for any given key.  It is outside the scope of this specification to provide key values based on keyboard layout, particularly since there are so many possible layouts for a keyboard, and since users can change the mapping of keys in their operating system, e.g. by selecting a Dvorak key mapping.</p>
@@ -4047,7 +4053,7 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
         
         <p class="note"><strong>Note:</strong> Key values should not be confused with <em>scan codes</em>, which are the low-level hexadecimal signals produced for each key by the keyboard driver software, and which are mapped at the operating system to a <acronym title="Virtual Key">VK</acronym> ("virtual key"), which in turn may be mapped to the user-defined key configuration.  Key values are a high-level abstraction of that final mapping.</p>
 
-        <h5 class="adiv2"><a id="keyboard-desktop" href="#keyboard-desktop">6.1.2.1 Desktop and Laptop Keyboards</a></h5>
+        <h5><a id="keyboard-desktop" href="#keyboard-desktop">6.1.2.1 Desktop and Laptop Keyboards</a></h5>
         <p>In the case where an author wishes to rely on the mechanical layout of a desktop or laptop keyboard, this specification suggests the keyboard configuration specified in ISO/IEC 9995, parts 2 and 3 [<cite><a class="noxref informative" href="#references-ISO-9995-2-3">ISO-9995-2/3</a></cite>], which defines a common layout for primary, secondary, and auxiliary key mappings on a typical alphanumeric keyboard, as a common layout appropriate to some international uses.</p>
 
         <p class="note"><strong>Note:</strong> This keyboard layout is still, in essence, a <a class="def" href="#glossary-qwerty">QWERTY</a> keyboard, and will not match the keyboards or configurations of many users.  Authors cannot rely upon any particular configuration, and should create content in an internationalized and localizable manner.</p>
@@ -4059,7 +4065,7 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
           <p style="text-align:left"><em>Figure 3: A graphical depiction of an ISO standard defining layouts of computer keyboards, ISO 9995, parts 2 and 3</em></p>
         </div>
 
-        <h5 class="adiv2"><a id="keyboard-mobile" href="#keyboard-mobile">6.1.2.2 Mobile Keypads</a></h5>
+        <h5><a id="keyboard-mobile" href="#keyboard-mobile">6.1.2.2 Mobile Keypads</a></h5>
         <p>In the case where an author wishes to rely on the mechanical layout of a mobile keypad, this specification suggests the keyboard configuration specified in ISO/IEC 9995-8:2006 [<cite><a class="noxref informative" href="#references-ISO-9995-8">ISO-9995-8</a></cite>], which defines a numeric keypad layout and secondary assignment of Unicode characters in the range <abbr title="a-z">\u0061..\u007A</abbr> to the number keys <code>2</code> through <code>9</code>, as a common layout appropriate to some international uses.</p>
 
         <p class="note"><strong>Note:</strong> This keypad layout, and in particular the distribution of letters is for Western devices, and will not match the keypads or configurations of many users.  Authors cannot rely upon any particular configuration, and should create content in an internationalized and localizable manner.</p>
@@ -4074,7 +4080,7 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
 
 
       <div class="div2">
-        <h3 class="adiv2"><a id="keyset-keyvalues" href="#keyset-keyvalues">6.2 Key Values</a></h3>
+        <h3><a id="keyset-keyvalues" href="#keyset-keyvalues">6.2 Key Values</a></h3>
         
         <p>A key value is a <code>DOMString</code> that can be used to indicate any given key on a keyboard, regardless of position or state, by the value it produces.  These key values may be used as return values for keyboard events generated by the implementation, or as input values by the author to specify desired input (such as for keyboard shortcuts).  This specification defines a set of common key values (called the <a href="#keyset-key-values">Key Values Set</a>), and rules for production of new key values.</p>
         
@@ -6297,9 +6303,10 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
       <p>
         <em>This section is informative</em>
       </p>
-      <h2 class="adiv2"><a id="extending_events-intro" href="#extending_events-intro">A.1 Introduction</a></h2>
-      <p class="1st">This specification defines several interfaces and many events; however, this is not an exhaustive set of events for all purposes.  To allow authors and implementers to add desired functionality, this specification provides two mechanisms for extend this set of interfaces and events without creating conflicts: <a href="#extending_events-Custom_Events">custom events</a> and application-specific prefix strings. <!-- <a href="#extending_events-Namespaced_Events">namespaced events</a> --></p>
-      <h2 class="adiv2"><a id="extending_events-Custom_Events" href="#extending_events-Custom_Events">A.2 Custom Events</a></h2>
+      <h2><a id="extending_events-intro" href="#extending_events-intro">A.1 Introduction</a></h2>
+      <p class="1st">This specification defines several interfaces and many events; however, this is not an exhaustive set of events for all purposes.  To allow authors and implementers to add desired functionality, this specification provides two mechanisms for extend this set of interfaces and events without creating conflicts: <a href="#extending_events-Custom_Events">custom events</a> and <a href="#extending_events-Vendor_Extensions">implementation-specific prefix strings</a>.</p>
+
+      <h2><a id="extending_events-Custom_Events" href="#extending_events-Custom_Events">A.2 Custom Events</a></h2>
       <p>A script author may wish to define an application in terms of functional components, with event types that are meaningful to the application architecture.  The author can use the <a href="#events-Events-CustomEvent"><code>CustomEvent</code></a> interface to create their own events appropriate to the level of abstraction they are using.</p>
       <div class="example">
         <p>As an example, an author may have created an application which features a dynamically generated bar chart.  This bar chart is meant to be updated every 5 minutes, or when a feed shows new information, or when the user refreshes it manually by clicking a button.  There are several handlers that have to be called when the chart needs to be updated: the application must fetch the most recent data, show an icon to the user that the event is being updated, and rebuild the chart.  To manage this, the author can choose to create a custom "updateChart" event, which is fired whenever one of the trigger conditions is met:</p>
@@ -6315,6 +6322,58 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
         </pre>
       </div>
       
+      <h2><a id="extending_events-Impl_Extensions" href="#extending_events-Impl_Extensions">A.3 Implementation-Specific Extensions</a></h2>
+
+      <p>While a new event is being designed and prototyped, or when an event is intended for implementation-specific functionality, it is desirable to distinguish it from standardized events.  Implementors should prefix event types specific to their implementations with a short string to distinguish it from the same event in other implementations and from standardized events.  This is similar to the <a href="http://www.w3.org/TR/CSS21/syndata.html#vendor-keywords" title="CSS 2.1: Syntax and basic data types">vendor-specific keyword prefixes</a> in CSS, though without the dashes ("-") used in CSS, since that can cause problems when used as an attribute name in Javascript.</p>
+      <p class="example">As an example, a particular browser vendor, "FooCorp", may wish to introduce a new event, "<code>jump</code>".  This vendor implements "<code>fooJump</code>" in their browser, using their vendor-specific prefix, <code class="value">foo</code>.  Early adopters start experimenting with the event, using <code>someElement.addEventListener( "fooJump", doJump, false )</code>, and provide feedback to FooCorp, who change the behavior of "<code>fooJump</code>" accordingly.  After some time, another vendor, "BarOrg", decides they also want the functionality, but implement it slightly differently, so they use their own vendor-specific prefix, <code class="value">bar</code> in their event type name, "<code>barJump</code>".  Authors experimenting with this version of the "<code>jump</code>" event type register events with BarOrg's event type name.  Authors who wish to write code that accounts for both browsers can either register each event type separately with specific handlers, or use the same handler and switch on the name of the event type; thus, early experiments in different codebases do not conflict, and the early adopter is able to write easily-maintained code for multiple implementations.  Eventually, as the feature matures, the behavior of both browsers stabilize and may converge due to author and user feedback or through formal standardization; as this stabilization occurs, and risk of conflicts decrease, authors can remove the forked code, and use the "<code>jump</code>" event type name (even before it is formally standardized) using the same event handler and the more generic registration method <code>someElement.addEventListener( "jump", doJump, false )</code>.</p>
+
+      <h3><a id="extending_events-prefixes" href="#extending_events-prefixes">A.3.1 Known Implementation-Specific Prefixes</a></h3>
+
+      <p>At the time of writing, the following event-type name prefixes are known to exist:</p>
+
+      <table border="1" cellpadding="2" cellspacing="0" summary="Known event-type name prefixes">
+        <thead>
+          <tr>
+            <th>Prefix</th>
+            <th>Organization</th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><code>moz</code>, <code>Moz</code></td>
+          <td>Mozilla</td>
+        </tr>
+        <tr>
+          <td><code>ms</code></td>
+          <td>Microsoft</td>
+        </tr>
+        <tr>
+          <td><code>o</code> <em class="issue" id="issue-50"><strong>Issue:</strong> is this correct?</em></td>
+          <td>Opera Software</td>
+        </tr>
+        <tr>
+          <td><code>webkit</code></td>
+          <td>WebKit (Apple, Nokia, Google, others)</td>
+        </tr>
+        </tbody>
+      </table>
+      
+      <!-- <div class="atrisk">
+              <h2><a id="extending_events-Namespaced_Events" href="#extending_events-Namespaced_Events">A.3 Namespaced Events</a></h2>
+              <p>This specification introduces namespaces into the event model, in order to allow expansion of the set of events in a manner that doesn't introduce potential conflicts.</p>
+              <h3><a id="extending_events-Legacy_Events" href="#extending_events-Legacy_Events">A.3.1 Legacy Events</a></h3>
+              <p>An existing implementation which is being adapted to work with the W3C DOM Events specifications may have an existing framework and set of proprietary events.  For backwards compatibility, it may be desirable that such an implementation keep these existing events, while providing the means for them to work within the DOM Events framework.  In this case, the implementer can simply assign their own vendor-specific namespace to these proprietary events.</p>
+              <p>In some cases, these legacy events may conflict with other implementation-specific events with the same name, but different functionality.  Using the namespace-aware method <a href="#events-Events-EventTargetGroup-addEventListenerNS"><code>EventTarget.addEventListenerNS()</code></a>, an author can target that event specifically, with no risk of clashes.</p>
+
+              <p>When there are no known conflicting events, or when such events have the same functionality, the author can simply use the non-namespace-aware method <a href="#events-Events-EventTarget-addEventListener"><code>EventTarget.addEventListener()</code></a>, which can register events without regard to the namespace.</p>
+              <p class="example">As an example, a particular browser vendor, "FooCorp", may have an event, "skip", which was implemented long ago, and which also works with another FooCorp product.  They need to keep this event for backwards compatibility with existing content for some of their clients, but since this event is very specific to their product lines, they don't anticipate that it will be of general use in competing browsers.  This vendor implements "skip" in their browser, using their namespace, <code class="value">'http://example.com/foo/browser/events/'</code>.  Their event continues to work using their existing event registration system, and also works with W3C DOM Events methods, both <code>someElement.addEventListener( "skip", doSkip, false )</code> and <code>someElement.addEventListenerNS( "http://example.com/foo/browser/events/", "skip", doSkip, false )</code>.  Other browsers simply ignore this event, and legacy content continues to work in the FooCorp browser.</p>
+              <h3><a id="extending_events-Vendor_Extensions" href="#extending_events-Vendor_Extensions">A.3.2 Vendor Extensions</a></h3>
+
+              <p>While a new event is being designed and prototyped, or when an event is intended for implementation-specific functionality, it is desirable to distinguish it from standardized events.  In CSS, the mechanism for doing this is to provide <a href="http://www.w3.org/TR/CSS21/syndata.html#vendor-keywords" title="Syntax and basic data types">vendor-specific keyword prefixes</a>; however, this has the unfortunate side-effect of forcing authors to maintain code that may be identical between vendors, but which nevertheless must retain the prefix.</p>
+              <p>In DOM Events, by using namespaces for vendor-specific events, an author can choose either to target a particular snapshot of an implementation-specific event by using the namespace-aware method <a href="#events-Events-EventTargetGroup-addEventListenerNS"><code>EventTarget.addEventListenerNS()</code></a>, or to write code that assumes broader future implementation by using the non-namespace-aware method <a href="#events-Events-EventTarget-addEventListener"><code>EventTarget.addEventListener()</code></a>.</p>
+              <p class="example">As an example, a particular browser vendor, "FooCorp", may wish to introduce a new event, "jump".  This vendor implements "jump" in their browser, using their namespace, <code class="value">'http://example.com/foo/browser/events/'</code>.  Early adopters start experimenting with the event, using <code>someElement.addEventListenerNS( "http://example.com/foo/browser/events/", "jump", doJump, false )</code>, and provide feedback to FooCorp, who change the behavior of "jump" accordingly.  After some time, another vendor, "BarOrg", decides they also want the functionality, but implement it slightly differently, so they use their own namespace, <code class="value">'http://example.org/bar/browser/events/'</code> but with the same event type, "jump".  Authors experimenting with this version of "jump" register events with BarOrg's namespace.  Authors who wish to write code that accounts for both browsers can either register each event type separately with specific handlers, or use the same handler and switch on the namespace of the event; thus, early experiments in different codebases do not conflict, and the easrly-adopter is able to write easily-maintained code for multiple implementations.  Eventually, as the feature matures, the behavior of both browsers stabilizes and may converge due to author and user feedback or through formal standardization; as this stabilization occurs, and risk of conflicts decrease, authors can remove the forked code, and assume the "jump" event is in the <code>null</code> namespace (even before it is formally standardized), using the same event handler and the more generic registration method <code>someElement.addEventListener( "jump", doJump, false )</code>.</p>
+          </div>
+       -->
       <br />
     </div>
 <!-- div1 Events -->
@@ -6332,7 +6391,7 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
     <div class="div1">
       <h1 class="adiv1"><a id="changes-Changes" href="#changes-Changes">Appendix C: Changes</a></h1>
       <div class="div2">
-        <h2 class="adiv2"><a id="changes-DOMEvents2to3Changes" href="#changes-DOMEvents2to3Changes">C.1 Changes between DOM Level 2 Events and DOM Level 3 Events</a></h2>
+        <h2><a id="changes-DOMEvents2to3Changes" href="#changes-DOMEvents2to3Changes">C.1 Changes between DOM Level 2 Events and DOM Level 3 Events</a></h2>
         <p>Numerous clarifications to the interfaces and event types have been made. The <code>HTMLEvents</code> module is no longer defined in this document. The event types <code>focus</code> and <code>blur</code> have been added to the <a href="#events-Events-UIEvent"><code>UIEvents</code></a> module, the event type <code>dblclick</code> has been added to the <a href="#events-Events-MouseEvent"><code>MouseEvents</code></a> module. This new specification provides a better separation between the DOM event flow, the event types, and the DOM interfaces.</p>
         
         <div class="div3">
@@ -6382,7 +6441,7 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
 <!-- div2 DOMEvents2to3Changes -->
 
     <div class="div2">
-      <h2 class="adiv2"><a id="changes-drafts" href="#changes-drafts">C.2 Changes between different drafts of DOM Level 3 Events</a></h2>
+      <h2><a id="changes-drafts" href="#changes-drafts">C.2 Changes between different drafts of DOM Level 3 Events</a></h2>
       <p>The DOM Level 3 Events document was previously developed between 2000 and 2003, and and published as a W3C Note, pending further feedback and interest from implementers.  In 2006, it was picked up for revision and progress on the Recommendation Track, and is now being revised to reflect the current state of implementation and the needs of script authors.</p>
       <p>Despite its status only as a W3C Note, rather than an official Recommendation, DOM 3 Events saw some implementation, and reference by other specifications, so care is being taken to cause minimal disruption, while still adapting the specification to the current environment.</p>
       <p>This specification has been reordered significantly from the earlier W3C Note form, and from the structure of DOM2 Events, in order to clarify the material.  New diagrams have been put in place to represent hierarchies and events flows more clearly.  Here are some of the more important changes between drafts:</p>
@@ -6409,10 +6468,10 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
 
       <p>In the WebApps Working Group, the following people made substantial material contributions in the process of refining and revising this specification:  Hironori Bono (Google), Daniel Danilatos (Google), Travis Leithead (Microsoft), Cameron McCormack (Invited Expert), Olli Pettay (Mozilla), Jacob Rossi (Microsoft), Hallvord R. M. Steen (Opera)</p>
 
-      <p>Thanks to all those who have helped to improve this specification by sending suggestions and corrections (Please, keep bugging us with your issues!), or writing informative books or Web sites:  Brad Pettit, Dylan Schiemann, David Flanagan, Steven Pemberton, Curt Arnold, Al Gilman, Misha Wolf, Sigurd Lerstad, Michael B. Allen, Alexander J. Vincent, Martin D&#xFC;rst, Ken Rehor, NAKANO Masayuki, Garrett Smith, Martijn Wargers, Sean Hogan, Magnus Kristiansen, Alex Russell, Cameron McCormack, Kazuyuki Ashimura, and Jan Goyvaerts (regular-expressions.info).</p>
+      <p>Thanks to all those who have helped to improve this specification by sending suggestions and corrections (Please, keep bugging us with your issues!), or writing informative books or Web sites:  Brad Pettit, Dylan Schiemann, David Flanagan, Steven Pemberton, Curt Arnold, Al Gilman, Misha Wolf, Sigurd Lerstad, Michael B. Allen, Alexander J. Vincent, Martin D&#xFC;rst, Ken Rehor, NAKANO Masayuki, Garrett Smith, Sergey Ilinsky, Martijn Wargers, Sean Hogan, Magnus Kristiansen, Alex Russell, Cameron McCormack, Kazuyuki Ashimura, and Jan Goyvaerts (regular-expressions.info).</p>
       
       <div class="div2">
-        <h2 class="adiv2"><a id="acknowledgements-Productions" href="#acknowledgements-Productions">D.1 Production Systems</a></h2>
+        <h2><a id="acknowledgements-Productions" href="#acknowledgements-Productions">D.1 Production Systems</a></h2>
         <p>The current drafts of this specification are lovingly hand-crafted in HTML and SVG.</p>
         
         <p>Earlier versions of this specification were written in XML; the HTML, OMG IDL, Java and ECMAScript bindings were all produced automatically.  Thanks to Joe English, author of <a class="normative" href="http://www.flightlab.com/cost">cost</a>, which was used as the basis for producing DOM Level 1. Thanks also to Gavin Nicol, who wrote the scripts which run on top of cost. Arnaud Le Hors and Philippe Le H&#xE9;garet maintained the scripts.</p>
@@ -6431,7 +6490,7 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
 
 
       <div class="div2">
-        <h2 class="adiv2"><a id="references-References-Normative" href="#references-References-Normative">E.1 Normative References</a></h2>
+        <h2><a id="references-References-Normative" href="#references-References-Normative">E.1 Normative References</a></h2>
         <dl>
 
           <dt>
@@ -6484,7 +6543,7 @@ void               <a class="noxref" href="#events-event-type-initTextEvent">ini
 
 
       <div class="div2">
-        <h2 class="adiv2"><a id="references-References-Informative" href="#references-References-Informative">E.2 Informative References</a></h2>
+        <h2><a id="references-References-Informative" href="#references-References-Informative">E.2 Informative References</a></h2>
         <dl>
           <dt class="wip">
             <strong>[<a id="references-CSS2">CSS2</a>]</strong>
