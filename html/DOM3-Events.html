@@ -24,11 +24,11 @@
       </p>
       <h1 id="Overview-title">Document Object Model (DOM) Level 3 Events Specification</h1>
 <!-- @@@ -->
-      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2010-01-27">27 January 2010</time></h2>
+      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2010-01-28">28 January 2010</time></h2>
       <dl>
         <dt>This version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.113">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.113</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.114">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.114</a>
         </dd>
         <dt>Latest stable version:</dt>
         <dd>
@@ -36,7 +36,7 @@
         </dd>
         <dt>Previous version:</dt>
         <dd>
-          <a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.112">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.112</a>
+          <a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.113">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.113</a>
         </dd>
         <dt>Editor's Draft:</dt>
         <dd>
@@ -197,10 +197,10 @@
                 </ul>
               </li>
               <li>
-                <a href="#events-basicevents">5.2.2 Focus Event Types</a>
+                <a href="#events-focusevent">5.2.2 Focus Event Types</a>
                 <ul class="toc">
-                  <li><a href="#events-uievent-event-order">5.2.1.1 Focus Interface Event Order</a></li>
-                  <li><a href="#events-uievent-doc-focus">5.2.1.2 Document Focus and Focus Context</a></li>
+                  <li><a href="#events-focusevent-event-order">5.2.1.1 Focus Interface Event Order</a></li>
+                  <li><a href="#events-focusevent-doc-focus">5.2.1.2 Document Focus and Focus Context</a></li>
                   <li><a class="eventtype" href="#event-type-blur"><code>blur</code> event</a></li>
                   <li><a class="eventtype" href="#event-type-DOMFocusIn"><code>DOMFocusIn</code> event</a></li>
                   <li><a class="eventtype" href="#event-type-DOMFocusOut"><code>DOMFocusOut</code> event</a></li>
@@ -590,7 +590,7 @@
           <dd>The name of an <a class="def" href="#glossary-event">event</a> object which defines particular trigger conditions, attributes, interfaces, and other characteristics which distinguish it from other event types.  For example, the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type has different characteristics than the <a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a> or <a class="eventtype" href="#event-type-load"><code>load</code></a> event types. The event type is exposed as the  the <a href="#events-event-type-type"><code class="interface-attribute">Event.type</code></a> attribute on the event object.  See <a href="#event-types">event types</a> for more details.  Also loosely referred to as 'event', such as the <em><a class="eventtype" href="#event-type-click"><code>click</code></a> event</em>.</dd>
           
           <dt id="glossary-event-focus">focus</dt>
-          <dd>Focus is a special state of receptivity and concentration on an particular element or other <a class="def" href="#glossary-event-target">event target</a> within a document.  Each element has different behavior when focused, depending on its functionality, such as priming the element for activation (as for a button or hyperlink) or toggling state (as for a checkbox), receiving text input (as for a text form field), or copying selected text.  For more details, see <a href="#events-uievent-doc-focus">Document Focus and Focus Context</a>.</dd>
+          <dd>Focus is a special state of receptivity and concentration on an particular element or other <a class="def" href="#glossary-event-target">event target</a> within a document.  Each element has different behavior when focused, depending on its functionality, such as priming the element for activation (as for a button or hyperlink) or toggling state (as for a checkbox), receiving text input (as for a text form field), or copying selected text.  For more details, see <a href="#events-focusevent-doc-focus">Document Focus and Focus Context</a>.</dd>
           
           <dt id="glossary-event-focus-ring">focus ring</dt>
           <dd>A focus ring is a an ordered set of <a class="def" href="#glossary-event-focus">focus</a> targets within a document.  A <a class="def" href="#glossary-host-language">host language</a> may define one or more ways to determine the order of targets, such as document order, a numerical index defined per focus target, explicit pointers between focus targets, or a hybrid of different models.  Each document may contain multiple focus rings, or conditional focus rings.  Typically, for document-order or indexed focus rings, focus "wraps around" from the last focus target to the first.</dd>
@@ -733,7 +733,7 @@
 <!-- div2 sync-async -->
       <div class="div2">
         <h3 class="div2"><a id="sync-async" href="#sync-async">3.3 Synchronous and asynchronous events</a></h3>
-        <p>Events may occur either synchronously (sync) or asynchronously (async).</p> 
+        <p>Events may occur either synchronously (<em>"sync"</em>) or asynchronously (<em>"async"</em>).</p> 
         <p>Events which are synchronous must be treated as if they are in a virtual queue in a first-in-first-out model, ordered by sequence of temporal occurrence, with respect to other events, to changes in the DOM, and to user interaction.  Each event in this virtual queue must be delayed until the previous event has completed its propagation behavior, or been canceled.  Some sync events are driven by a specific device or process, such as mouse button events; these events are governed by the event order algorithms defined for that set of events, and a user agent must dispatch these events in the defined order.</p>
         
         <p class="example" id="example-sync"><strong>Example:</strong> A user double-clicks a passage of text to select a word, then presses the <code class="value">'delete'</code> key to erase the word, triggering the following synchronous sequence of events: <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a>, <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a>, <a class="eventtype" href="#event-type-click"><code>click</code></a>, <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a>, <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a>, <a class="eventtype" href="#event-type-click"><code>click</code></a>, <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a>, <a class="eventtype" href="#event-type-select"><code>select</code></a>, <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>, <a class="eventtype" href="#event-type-DOMCharacterDataModified"><code>DOMCharacterDataModified</code></a>.  Each of these events are fired in the sequence initiated by the user's actions.</p>
@@ -747,7 +747,7 @@
 <!-- div2 sync-async -->
       <div class="div2">
         <h3 class="div2"><a id="trusted-events" href="#trusted-events">3.4 Trusted events</a></h3>
-        <p>Events which are generated by the user agent, either as a result of user interaction, or as a direct result of changes to the DOM, are trusted by the user agent with privileges that are not afforded to events generated by script through the <a href="#events-Events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("Event")</code></a> method or the <a href="#events-Events-CustomEvent">CustomEvent</a> interface, or modified using the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method.</p> 
+        <p>Events which are generated by the user agent, either as a result of user interaction, or as a direct result of changes to the DOM, are trusted by the user agent with privileges that are not afforded to events generated by script through the <a href="#events-Events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("Event")</code></a> method or the <a href="#events-Events-CustomEvent">CustomEvent</a> interface, modified using the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method, or dispatched via the <a href="#events-Events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method.</p> 
 
       </div>
 
@@ -768,60 +768,44 @@
         
         <p>An <a class="def" href="#glossary-activation-trigger">activation trigger</a> is a user action or an event which indicates to the implementation that an activation behavior should be initiated.  User-initiated <a class="def" href="#glossary-activation-trigger">activation triggers</a> include clicking a mouse button on an activatable element, pressing the <a href="#key-Enter"><code class="value keyname">'Enter'</code></a> key when an activatable element has focus, or pressing a key that is somehow linked to an activatable element (a "hotkey" or "access key") even when that element does not have focus.  Event-based <a class="def" href="#glossary-activation-trigger">activation triggers</a> may include timer-based events that activate an element at a certain clock time or after a certain time period has elapsed, progress events after a certain action has been completed, or many other condition-based or state-based events.</p>        
 
-        <p>In some cases, a <a class="def" href="#glossary-host-language">host language</a> may define attributes or even attribute values which add to or change the native <a class="def" href="#glossary-activation-trigger">activation trigger</a> or <a class="def" href="#glossary-activation-behavior">activation behavior</a> of an element.  For example, ARIA <i class="issue"><strong>To Do:</strong>create informative reference</i> defines values for the <code class="attr">role</code> attribute that add semantics to the element to which it is applied, for purposes of enhanced accessibility.  In such cases, if the <a class="def" href="#glossary-host-language">host language</a> does not explicitly define the <a class="def" href="#glossary-activation-trigger">activation trigger</a> or <a class="def" href="#glossary-activation-behavior">activation behavior</a>, the author must provide the mechanics of the <a class="def" href="#glossary-activation-trigger">activation trigger</a> (via an event listener) or <a class="def" href="#glossary-activation-behavior">activation behavior</a> (such as calling an ECMAScript function) for that element when applying that attributes or attribute value.</p>
+        <p>In some cases, a <a class="def" href="#glossary-host-language">host language</a> may define attributes or even attribute values which add to or change the native <a class="def" href="#glossary-activation-trigger">activation trigger</a> or <a class="def" href="#glossary-activation-behavior">activation behavior</a> of an element.  For example, ARIA [<cite><a class="noxref informative" href="#ref-ARIA">ARIA</a></cite>] defines values for the <code class="attr">role</code> attribute that add semantics to the element to which it is applied, for purposes of enhanced accessibility.  In such cases, if the <a class="def" href="#glossary-host-language">host language</a> does not explicitly define the <a class="def" href="#glossary-activation-trigger">activation trigger</a> or <a class="def" href="#glossary-activation-behavior">activation behavior</a>, the author must provide the mechanics of the <a class="def" href="#glossary-activation-trigger">activation trigger</a> (via an event listener) or <a class="def" href="#glossary-activation-behavior">activation behavior</a> (such as calling an ECMAScript function) for that element when applying that attributes or attribute value.</p>
 
-        <p>In terms of this specification, one <a class="def" href="#glossary-default-action">default action</a> of any <a class="def" href="#glossary-activation-trigger">activation trigger</a> is to dispatch an event of <a class="def" href="#glossary-event-type">event type</a> <a class="eventtype" href="#event-type-click"><code>click</code></a>.  This <a class="eventtype" href="#event-type-click"><code>click</code></a> event may be either an explicit action, such as the result of a user activating a button or link using a mouse, or synthesized by the implementation to trigger the expected behavior. Context information of such a <code>click</code> event is implementation dependent.</p>
+        <p>If the instance of the <a class="def" href="#glossary-activation-trigger">activation trigger</a> is not an event of <a class="def" href="#glossary-event-type">event type</a> <a class="eventtype" href="#event-type-click"><code>click</code></a> (that is, when it does not result from a user activating a button or link using a mouse or equivalent pointing device), the implementation must synthesize and dispatch an event of <a class="def" href="#glossary-event-type">event type</a> <a class="eventtype" href="#event-type-click"><code>click</code></a> as one of the <a class="def" href="#glossary-default-action">default actions</a> of that <a class="def" href="#glossary-activation-trigger">activation trigger</a>.  Context information of such a <a class="eventtype" href="#event-type-click"><code>click</code></a> event is implementation dependent, but for historical purposes, the interface for the <a class="eventtype" href="#event-type-click"><code>click</code></a> event must be the <a href="#events-Events-MouseEvent"><code>MouseEvent interface</code></a>, regardless of the actual device used to activate the element.  Preventing the <a class="def" href="#glossary-default-action">default action</a> of the <a class="def" href="#glossary-activation-trigger">activation trigger</a>, such as with the <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a>, must stop the initiation of the <a class="def" href="#glossary-activation-behavior">activation behavior</a>.</p>
+        
+        <p class="example" id="example-activation-click"><strong>Example:</strong>  When a user activates a hyperlink using a keyboard, such as by focusing the hyperlink element and pressing the <a href="#key-Enter"><code class="value keyname">'Enter'</code></a> or <a href="#key-Space"><code class="value keyname">'Space'</code></a> key, a <a class="eventtype" href="#event-type-click"><code>click</code></a> event would be dispatched as the <a class="def" href="#glossary-default-action">default action</a> of the respective <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event.</p>
 
-      <p>When implementations dispatch a synthesized <a class="eventtype" href="#event-type-click"><code>click</code></a> event, the expectation shall be that they do so as <a class="def" href="#glossary-default-action">default action</a> of another <a class="def" href="#glossary-event-type">event type</a>. For example, when a user activates a hyperlink using a keyboard, the <code>click</code> event would be dispatched as <a class="def" href="#glossary-default-action">default action</a> of the respective keyboard event.  Implementations must dispatch the synthesized <a class="eventtype" href="#event-type-click"><code>click</code></a> event as described above even if they do not normally dispatch such an event (e.g., when activation is requested by a voice command, since this specification does not address <a class="def" href="#glossary-event-type">event types</a> for voice input).</p>
-
-
-      <p>Implementations which support the <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> should also dispatch a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event as the <a class="def" href="#glossary-default-action">default action</a> of a <a class="eventtype" href="#event-type-click"><code>click</code></a> event which is associated with an <a class="def" href="#glossary-activation-trigger">activation trigger</a>.  However, such implementations should only initiate the associated <a class="def" href="#glossary-activation-behavior">activation behavior</a> once for any given occurrence of an <a class="def" href="#glossary-activation-trigger">activation trigger</a>.</p>   
-
+      <p>Implementations must dispatch the synthesized <a class="eventtype" href="#event-type-click"><code>click</code></a> event as described above even if they do not normally dispatch such an event (e.g. when activation is requested by a voice command, since this specification does not address <a class="def" href="#glossary-event-type">event types</a> for voice input).</p>
 
       <p class="note" id="application-dependent-activation"><strong>Note:</strong> The activation of an event target is device dependent but is also application dependent, e.g. a link in a document can be activated using a mouse click or a mouse double click.</p>
+
+      <p>Implementations which support the <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> should also dispatch a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event as the <a class="def" href="#glossary-default-action">default action</a> of a <a class="eventtype" href="#event-type-click"><code>click</code></a> event which is associated with an <a class="def" href="#glossary-activation-trigger">activation trigger</a>.  However, such implementations should only initiate the associated <a class="def" href="#glossary-activation-behavior">activation behavior</a> once for any given occurrence of an <a class="def" href="#glossary-activation-trigger">activation trigger</a>.</p>   
       
       <p class="note" id="authors-activation"><strong>Note:</strong>  Authors cannot rely upon the interoperable support of <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> in many <a class="def" href="#glossary-user-agent">user agents</a>.  Thus, authors may use the <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> whenever they wish to make or react to an <a class="def" href="#glossary-activation-trigger">activation trigger</a>, but should use the <a class="eventtype" href="#event-type-click"><code>click</code></a> <a class="def" href="#glossary-event-type">event type</a> for more accessible behavior instead, due to wider implementation.</p>
         
-        
        <!--
-       <h4 id="s-1.7.7.1-h4" class="div4">1.7.7.1 
-       Activation and default actions</h4><p>
-       	  The concept of activation (<code>{"http://www.w3.org/2001/xml-events",
-       	  "DOMActivate"}</code>) was introduced in [<a class="noxref normative" href="references.html#DOM2Events">DOM Level 2 Events</a>] to separate generic actions from the
-       	  devices used to activate them. For example, an hyperlink can
-       	  be activated using a mouse or a keyboard, and the activation
-       	  will force the <a class="def" href="#glossary-user-agent">user agent</a> to follow the link. It is expected
-       	  that the action of following the link is done using a default
-       	  action attached to the hyperlink element. In such case, the
-       	  default action of the device event type is to trigger the
-       	  event type <code>{"http://www.w3.org/2001/xml-events",
-       	  "DOMActivate"}</code>. Preventing the default action of a
-       	  mouse click when the target node is an hyperlink will prevent
-       	  the activation. The same approach is made for control
-       	  elements.
-       	</p><p>
-       	  Implementations could react to an event before dispatching it
+       <p>Implementations could react to an event before dispatching it
        	  and do changes on the display and the DOM tree. In such case,
        	  if a DOM attribute is changed before the event is fired,
        	  cancelling the device event type will also reverse the
        	  change. A good example is the attribute
-       	  <code>HTMLInputElement.checked</code>: As described in [<a class="noxref normative" href="references.html#DOM2HTML">DOM Level 2 HTML</a>], the value of this property may be changed
-       	  before the dispatch of the event; the user clicks on the radio
-       	  button, the radio button is being checked (or unchecked) on
-       	  the display, the attribute
+       	  <code>HTMLInputElement.checked</code>: As described in 
+       	  [<a class="noxref normative" href="references.html#DOM2HTML">DOM Level 2 HTML</a>], 
+       	  the value of this property may be changed before the dispatch of the event;
+       	  the user clicks on the radio button, the radio button is being
+       	  checked (or unchecked) on the display, the attribute
        	  <code>HTMLInputElement.checked</code> is changed as well, and
        	  then the device event type <code>{"http://www.w3.org/2001/xml-events",
        	  "click"}</code> is being dispatched. If the default action of
        	  the device event type is prevented, or if the default action
        	  attached to the <code>{"http://www.w3.org/2001/xml-events", "DOMActivate"}</code>
-
-       	  event type is prevented, the property
-       	  <code>HTMLInputElement.checked</code> will need to be changed
+       	  event type is prevented, the property <code>HTMLInputElement.checked</code> will need to be changed
        	  back to its original value.
        	</p>
        -->
+       
       </div>
 <!-- div2 Events-flow-activation -->
+
 <!-- div2 Event-interfaces -->
       <div class="div2">
         <h2 class="div2"><a id="event-interfaces" href="#event-interfaces">4. Basic Event Interfaces</a></h2>
@@ -1136,6 +1120,8 @@ interface <a href="#events-Events-EventTarget">EventTarget</a> {
                 <dt><code class="method-name"><a id="events-Events-EventTarget-dispatchEvent">dispatchEvent</a></code> modified in <strong class="version">DOM Level 3</strong></dt>
                   <dd>
                     <div class="method">Dispatches an event into the implementation's event model. The <a class="def" href="#glossary-event-target">event target</a> of the event shall be the <code>EventTarget</code> object on which <code>dispatchEvent</code> is called.
+                      <p class="warning" id="warning-initEvent-untrusted"><strong>Warning!</strong>  For security reasons, events dispatched using <a href="#events-Events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> must have a <code class="attribute-name"><a href="#events-event-type-trusted">trusted</a></code> attribute value of <code>false</code>.  See <a href="#trusted-events">trusted events</a> for more details.</p>
+                      
 <div class="parameters"><strong>Parameters</strong><div class="paramtable"><dl><dt><code class="parameter-name">evt</code> of type <a href="#events-Events-Event"><code>Event</code></a></dt><dd>The event to be dispatched.<br /></dd></dl></div></div>
                       <!-- parameters -->
                       <div class="return"><strong>Return Value</strong><div class="returntable"><table summary="Layout table: the first cell contains the type of the return value, the second contains a short description" border="0"><tr><td><p><code>boolean</code></p></td><td><p>Indicates whether any of the listeners which handled the event called <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a>. If <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> was called the returned value shall be <code>false</code>, else it shall be <code>true</code>.</p></td></tr></table></div></div>
@@ -1299,7 +1285,7 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
   const unsigned long       <a href="#events-DOM_KEY_FORMAT_ENTITY">DOM_KEY_FORMAT_ENTITY</a>         = 0x03;
 
   // Modified in DOM Level 3:
-  <a href="#events-Events-Event">Event</a>              <a href="#events-Events-DocumentEvent-createEvent">createEvent</a>(in DOMString eventType)
+  <a href="#events-Events-Event">Event</a>              <a href="#events-Events-DocumentEvent-createEvent">createEvent</a>(in DOMString eventInterface)
                                         raises(DOMException);
 <div class="proposal">
   // Introduced in DOM Level 3:
@@ -1357,18 +1343,6 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
                 </dt>
                 <dd>
                   <dl>
-                    <!-- <dt class="atrisk"><code class="method-name"><a id="events-Events-DocumentEvent-canDispatch">canDispatch</a></code> introduced in <strong class="since">DOM Level 3</strong></dt>
-                    <dd class="atrisk">
-                      <div class="method atrisk">Tests if the implementation can generate events of a specified type.  
-                        <br /><i class="issue" id="issue-???"><strong>Issue:</strong> what is the use case for this? Perhaps to test if an implementation supports a particular event, such as an event from an uncommon language, or a custom event?</i>
-                        <br /><i class="issue" id="issue-???"><strong>Issue:</strong> Or what does the "implementation can generate" mean? -Olli</i>
-                        
-<div class="parameters"><strong>Parameters</strong><div class="paramtable"><dl><dt><code class="parameter-name">namespaceURI</code> of type <code>DOMString</code></dt><dd>Specifies the <a href="#events-event-type-namespaceURI"><code>Event.namespaceURI</code></a> of the event.<br /></dd><dt><code class="parameter-name">type</code> of type <code>DOMString</code></dt><dd>Specifies the <a href="#events-event-type-type"><code>Event.type</code></a> of the event.<br /></dd></dl></div></div>
-                        <div class="return"><strong>Return Value</strong><div class="returntable"><table summary="Layout table: the first cell contains the type of the return value, the second contains a short description" border="0"><tr><td><p><code>boolean</code></p></td><td><p><code>true</code> if the implementation can generate and dispatch this event type, <code>false</code> otherwise.</p></td></tr></table></div></div>
-                        <div><strong>No Exceptions</strong></div>
-                      </div>
-                    </dd>
-                     -->
                     <dt>
                       <code class="method-name">
                         <a id="events-Events-DocumentEvent-createEvent">createEvent</a>
@@ -1380,25 +1354,17 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
                           <strong>Parameters</strong>
                           <div class="paramtable">
                             <dl>
-                              <dt><code class="parameter-name">eventType</code> of type <code>DOMString</code></dt>
+                              <dt><code class="parameter-name">eventInterface</code> of type <code>DOMString</code></dt>
                               <dd>
-                                <p>The <code>eventType</code> parameter specifies the name of a DOM Events <a class="def" href="#glossary-event-type">event type</a> (e.g. <a class="eventtype" href="#event-type-click"><code>click</code></a>, ), or a DOM Events interface (e.g. <a href="#interface-Event"><code>Event</code></a>, <a href="#events-Events-MouseEvent"><code>MouseEvent</code></a>, <a href="#events-Events-MutationEvent"><code>MutationEvent</code></a>) to be supported by the created event object.</p>
                                 
-                                <p>If the parameter string matches an <a class="def" href="#glossary-event-type">event type</a> supported by the implementation (e.g. <code>"click"</code>), then an <a href="#events-Events-Event"><code>Event</code></a> is created and initialized with the appropriate event interface (e.g. <a href="#events-Events-MouseEvent"><code>MouseEvent</code></a>) and <a class="def" href="#glossary-event-type">event type</a> (e.g. <a class="eventtype" href="#event-type-click"><code>click</code></a>).</p>
+                                <p>The <code>eventInterface</code> parameter specifies the name of the DOM Events interface to be supported by the created event object, e.g. <code>"Event"</code>, <code>"MouseEvent"</code>, <code>"MutationEvent"</code>, and so on. If the <a href="#events-Events-Event"><code>Event</code></a> is to be dispatched via the <a href="#events-Events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method, the appropriate event initialization method must be called after creation in order to initialize the <a class="noxref" href="#events-Events-Event"><code>Event</code></a>'s values.</p>
                                 
-                                <p>If the parameter string does not match an <a class="def" href="#glossary-event-type">event type</a> supported by the implementation (e.g. <code>"click"</code>), but does match an interface name supported by the implementation, then an <a href="#events-Events-Event"><code>Event</code></a> is created and initialized with the appropriate event interface (e.g. <a href="#events-Events-MouseEvent"><code>MouseEvent</code></a>).</p>
-                                
-                                <p>If the parameter does not match an <a class="def" href="#glossary-event-type">event type</a> or an interface name supported by the implementation, the implementation must raise a <code>NOT_SUPPORTED_ERR</code>  <code>DOMException</code></p>
-                                
-                                <p>After the creation of the <a href="#events-Events-Event"><code>Event</code></a> by the <a href="#events-Events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("Event")</code></a> method, but prior to the <a href="#events-Events-Event"><code>Event</code></a>'s dispatch via the <a href="#events-Events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method, the properties of the <a href="#events-Events-Event"><code>Event</code></a> must be writable, except the <a href="#events-event-type-trusted">trusted</a> property, which must be read-only and initialized to <code>false</code> by the implementation.  An author may initialize the <a href="#events-Events-Event"><code>Event</code></a> by directly setting the <a href="#events-Events-Event"><code>Event</code></a>'s property values, by using the generic <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method, or by using the appropriate interface-specific event initialization method for that interface if one exists.  After the <a href="#events-Events-Event"><code>Event</code></a> has been dispatched via the <a href="#events-Events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method, the properties of the <a href="#events-Events-Event"><code>Event</code></a> must be read-only.</p>
-                                  
+                                <p class="example" id="example-createEvent"><strong>Example:</strong>  An author wishing to synthesize some kind of <a href="#events-Events-UIEvent"><code>UIEvent</code></a> would invoke <a href="#events-Events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("UIEvent")</code></a>. The <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method could then be called on the newly created <a class="noxref" href="#events-Events-UIEvent"><code>UIEvent</code></a> object to set the specific type of user interface event to be dispatched, <a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> for example, and set its context information, e.g. <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a>.</p>
 
-                                <!-- 
-                                <p>As an example, a user wishing to synthesize some kind of <a href="#events-Events-UIEvent"><code>UIEvent</code></a> would invoke <a href="#events-Events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("UIEvent")</code></a>. The <a href="#events-event-type-initUIEventNS"><code>UIEvent.initUIEventNS()</code></a> method could then be called on the newly created <a href="#events-Events-UIEvent"><code>UIEvent</code></a> object to set the specific type of user interface event to be dispatched, <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> for example, and set its context information, e.g. <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> in this example.</p> -->
-
-                                <!-- <p class="example" id="example-create-event-1"><strong>Example:</strong> a user wishing to synthesize some kind of <a href="#events-Events-UIEvent"><code>UIEvent</code></a> would invoke <a href="#events-Events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("UIEvent")</code></a>. The <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method could then be called on the newly created <a href="#events-Events-UIEvent"><code>UIEvent</code></a> object to set the specific type of user interface event to be dispatched, <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> for example, and set its context information, e.g. <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> in this example.</p> -->
-
-                                <p>For backward compatibility reason, <code>"UIEvents"</code>, <code>"MouseEvents"</code>, <code>"MutationEvents"</code>, and <code>"HTMLEvents"</code> feature names are valid values for the parameter <code>eventType</code> and represent respectively the interfaces <a href="#events-Events-UIEvent"><code>UIEvent</code></a>, <a href="#events-Events-MouseEvent"><code>MouseEvent</code></a>, <a href="#events-Events-MutationEvent"><code>MutationEvent</code></a>, and <a href="#interface-Event"><code>Event</code></a>, and the characters 'a'..'z' are considered equivalent to the characters 'A'..'Z'.</p>
+                                
+                                <p>For backward compatibility reason, <code>"UIEvents"</code>, <code>"MouseEvents"</code>, <code>"MutationEvents"</code>, and <code>"HTMLEvents"</code> feature names are valid values for the parameter <code>eventInterface</code> and represent respectively the interfaces <a href="#events-Events-UIEvent"><code>UIEvent</code></a>, <a href="#events-Events-MouseEvent"><code>MouseEvent</code></a>, <a href="#events-Events-MutationEvent"><code>MutationEvent</code></a>, and <a href="#interface-Event"><code>Event</code></a>, and the characters <code>'a'..'z'</code> are considered equivalent to the characters <code>'A'..'Z'</code>.</p>
+                                
+                                <p>If the parameter does not match an event interface name supported by the implementation, the implementation must raise a <code>NOT_SUPPORTED_ERR</code>  <code>DOMException</code></p>
                                 
                                 <p class="warning" id="warning-createEvent-untrusted"><strong>Warning!</strong>  For security reasons, events generated using <a href="#events-Events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("Event")</code></a> must have a <code class="attribute-name"><a href="#events-event-type-trusted">trusted</a></code> attribute value of <code>false</code>.  See <a href="#trusted-events">trusted events</a> for more details.</p>
 
@@ -2382,7 +2348,7 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
 
     <!-- interface events-focusevents -->
     <div class="div3">
-      <h3 class="div3"><a id="events-focusevents" href="#events-focusevents">5.2.2 Focus Event Types</a></h3>
+      <h3 class="div3"><a id="events-focusevent" href="#events-focusevent">5.2.2 Focus Event Types</a></h3>
       <p>This module defines the feature FocusEvents 3.0 and depends on the feature UIEvents 3.0.</p>
 
       <dl>
@@ -2400,12 +2366,13 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
                 <pre>
   // Introduced in DOM Level 3:
   interface <a href="#events-Events-FocusEvent">FocusEvent</a> : <a href="#events-Events-UIEvent">UIEvent</a> {
-    readonly attribute <a href="#events-Events-EventTarget">EventTarget</a>     <a href="#events-Events-FocusEvent-relatedTarget">relatedTarget</a>;<!--   void               <a href="#events-event-type-initFocusEvent">initFocusEvent</a>(in DOMString typeArg, 
+    readonly attribute <a href="#events-Events-EventTarget">EventTarget</a>     <a href="#events-Events-FocusEvent-relatedTarget">relatedTarget</a>;
+    void               <a href="#events-event-type-initFocusEvent">initFocusEvent</a>(in DOMString typeArg, 
                                   in boolean canBubbleArg, 
                                   in boolean cancelableArg, 
                                   in views::AbstractView viewArg, 
                                   in long detailArg, 
-                                  in <a href="#events-Events-EventTarget">EventTarget</a> relatedTargetArg); -->
+                                  in <a href="#events-Events-EventTarget">EventTarget</a> relatedTargetArg);
   };
   </pre>
               </div>
@@ -2423,8 +2390,7 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
             <dt>
               <strong>Methods</strong>
             </dt>
-            <dd>None</dd>
-            <!-- <dd>
+            <dd>
               <dl>
                 <dt>
                   <code class="method-name">
@@ -2458,13 +2424,13 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
 <!-- method -->
                 </dd>
               </dl>
-            </dd> -->
+            </dd>
           </dl>
         </dd>
       </dl>
       <p>The Focus event types are listed below.</p>
 
-      <h4 class="div3 needswork"><a id="events-uievent-event-order" href="#events-uievent-event-order">5.2.2.1 Focus Event Order</a></h4>
+      <h4 class="div3 needswork"><a id="events-focusevent-event-order" href="#events-focusevent-event-order">5.2.2.1 Focus Event Order</a></h4>
       <p>The focus events defined in this specification occur in a set order relative to one another.  The following is the typical sequence of events when a focus is shifted between elements (this order assumes that no element is initially focused):</p>
       <ol>
         <li><em>[user shifts focus]</em> <a class="eventtype" href="#event-type-focusin"><code>focusin</code></a> (before first target element receives focus)</li>
@@ -2481,7 +2447,7 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
       
       <p class="issue"><strong>Issue:</strong> Behavior of focus events when interacting with focus()/blur() methods needs to be defined.  See [<a href="http://www.w3.org/2008/webapps/track/issues/102">ISSUE-102</a>]</p>
 
-      <h4 class="div3 needswork"><a id="events-uievent-doc-focus" href="#events-uievent-doc-focus">5.2.2.2 Document Focus and Focus Context</a></h4>
+      <h4 class="div3 needswork"><a id="events-focusevent-doc-focus" href="#events-focusevent-doc-focus">5.2.2.2 Document Focus and Focus Context</a></h4>
       <p>This event module includes event types for notification of changes in document <a class="def" href="#glossary-event-focus">focus</a>.  Depending on the environment, document focus may be distinct from <a class="def" href="#glossary-user-agent">user agent</a> focus and operating system focus; this is referred to as focus context.  For example, in a typical desktop browser environment, the operating system context focus may be on one of many different applications, one of which is the browser; when the browser has focus, the user may shift  the application context focus (such as with the tab key) among different browser user interface fields (e.g. the Web site location bar, a search field, etc.) before or after achieving document focus; once the document itself has focus, sequential shifting of focus will step through the focusable elements in the document.  The event types defined in this specification deal exclusively with document focus, and the <a class="def" href="#glossary-event-target">event target</a> identified in the event details must only be part of the document or documents in the window, never a part of the browser or operating system, even when switching from one focus context to another.</p>
       <p>Normally, a document always has a focused element, even if it is the document element itself, and a persistent <a class="def" href="#glossary-event-focus-ring">focus ring</a>; when switching between focus contexts, the document's currently focused element and focus ring normally remain the their current state; for example, if a document has three focusable elements, with the second element focused, when a user changes operating system focus to another application and then back to the browser, the second element will still be focused within the document, and tabbing will change the focus to the third element.  A <a class="def" href="#glossary-host-language">host language</a> may define specific elements which may or may not receive focus, the conditions user which an element may receive focus, the means by which focus may be changed, and the order in which the focus changes.  For example, in some cases an element may be given focus by moving a pointer over it, while other circumstances may require a mouse click; some elements may not be focusable at all, and some may be focusable only by special means (clicking on the element), but not by tabbing to it.  Documents may contain multiple focus rings.  Other specifications may define a more complex focus model than is described in this specification, including allowing multiple elements to have the current focus.</p>
 
@@ -3052,8 +3018,8 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
           readonly attribute long            <a href="#events-Events-WheelEvent-deltaX">deltaX</a>;
           readonly attribute long            <a href="#events-Events-WheelEvent-deltaY">deltaY</a>;
           readonly attribute long            <a href="#events-Events-WheelEvent-deltaZ">deltaZ</a>;
-          readonly attribute unsigned long   <a href="#events-Events-WheelEvent-deltaMode">deltaMode</a>;<!--    
-        void               <a href="#events-event-type-initWheelEvent">initWheelEvent</a>(in DOMString typeArg, 
+          readonly attribute unsigned long   <a href="#events-Events-WheelEvent-deltaMode">deltaMode</a>;    
+          void               <a href="#events-event-type-initWheelEvent">initWheelEvent</a>(in DOMString typeArg, 
                                                           in boolean canBubbleArg, 
                                                           in boolean cancelableArg, 
                                                           in views::AbstractView viewArg, 
@@ -3068,7 +3034,7 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
                                                           in long deltaXArg, 
                                                           in long deltaYArg, 
                                                           in long deltaZArg, 
-                                                          in unsigned long deltaMode); -->
+                                                          in unsigned long deltaMode);
         };
         </pre>
               </div>
@@ -3129,9 +3095,7 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
             <dt>
               <strong>Methods</strong>
             </dt>
-            <dd>None</dd>
-            
-            <!-- <dd>
+            <dd>
               <dl>
                 <dt><code class="method-name"><a id="events-event-type-initWheelEvent">initWheelEvent</a></code> introduced in <strong class="since">DOM Level 3</strong></dt>
                 <dd>
@@ -3144,7 +3108,7 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
 <!-- method -->
                 </dd>
               </dl>
-            </dd> -->
+            </dd>
             
           </dl>
         </dd>
@@ -3199,13 +3163,13 @@ interface <a href="#events-Events-TextEvent">TextEvent</a> : <a href="#events-Ev
   const unsigned long       <a href="#events-DOM_INPUT_METHOD_SCRIPT">DOM_INPUT_METHOD_SCRIPT</a>        = 0x09;
 
   readonly attribute DOMString       <a href="#events-Events-TextEvent-data">data</a>;
-  readonly attribute unsigned long   <a href="#events-Events-TextEvent-inputMode">inputMode</a>;    <!--   
+  readonly attribute unsigned long   <a href="#events-Events-TextEvent-inputMode">inputMode</a>;  
   void               <a href="#events-event-type-initTextEvent">initTextEvent</a>(in DOMString typeArg, 
                                      in boolean canBubbleArg, 
                                      in boolean cancelableArg, 
                                      in views::AbstractView viewArg, 
                                      in DOMString dataArg, 
-                                     in unsigned long inputMode); -->
+                                     in unsigned long inputMode);
 };
 </pre>
                 </div>
@@ -3300,9 +3264,7 @@ interface <a href="#events-Events-TextEvent">TextEvent</a> : <a href="#events-Ev
               <dt>
                 <strong>Methods</strong>
               </dt>
-              <dd>None</dd>
-              
-              <!-- <dd>
+              <dd>
                 <dl>
                   <dt>
                     <code class="method-name">
@@ -3319,7 +3281,7 @@ interface <a href="#events-Events-TextEvent">TextEvent</a> : <a href="#events-Ev
 <!-- method -->
                   </dd>
                 </dl>
-              </dd> -->
+              </dd>
               
             </dl>
           </dd>
@@ -6404,9 +6366,7 @@ interface <a href="#events-Events-TextEvent">TextEvent</a> : <a href="#events-Ev
         <pre><code>
     var chartData = ...;
     var evt = document.createEvent("CustomEvent");
-    evt.initCustomEventNS("http://example.org/charts",
-                          "updateChart",
-                          true, false, { data: chartData });
+    evt.initCustomEvent( "updateChart", true, false, { data: chartData });
     document.documentElement.dispatchEvent(evt);          
         </code></pre>
       </div>
@@ -6634,6 +6594,16 @@ interface <a href="#events-Events-TextEvent">TextEvent</a> : <a href="#events-Ev
       <div class="div2">
         <h2><a id="references-References-Informative" href="#references-References-Informative">E.2 Informative References</a></h2>
         <dl>
+          <dt id="ref-ARIA"><strong class="informref">[ARIA]</strong></dt>
+          <dd>
+            <cite class="w3cwd"><a href="http://www.w3.org/TR/2009/WD-wai-aria-20091215/">Accessible Rich Internet Applications (WAI-ARIA) Version 1.0</a></cite>,
+            M. Cooper, R. Schwerdtfeger, L. Seeman, L. Pappas, eds.
+            World Wide Web Consortium, <span class="wip">work in progress</span>, 15 December 2009.
+            <br />This edition of WAI-ARIA is http://www.w3.org/TR/2009/WD-wai-aria-20091215/.
+            <br />The <a href="http://www.w3.org/TR/wai-aria/">latest edition of WAI-ARIA</a> is available at
+            http://www.w3.org/TR/wai-aria/.
+          </dd>
+
           <dt class="wip">
             <strong>[<a id="references-CSS2">CSS2</a>]</strong>
           </dt>
