@@ -24,11 +24,11 @@
       </p>
       <h1 id="Overview-title">Document Object Model (DOM) Level 3 Events Specification</h1>
 <!-- @@@ -->
-      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2010-01-29">29 January 2010</time></h2>
+      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2010-01-30">30 January 2010</time></h2>
       <dl>
         <dt>This version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.116">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.116</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.117">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.117</a>
         </dd>
         <dt>Latest stable version:</dt>
         <dd>
@@ -36,7 +36,7 @@
         </dd>
         <dt>Previous version:</dt>
         <dd>
-          <a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.115">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.115</a>
+          <a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.116">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.116</a>
         </dd>
         <dt>Editor's Draft:</dt>
         <dd>
@@ -217,7 +217,6 @@
               <li>
                 <a href="#events-mouseevents">5.2.3 Mouse Event Types</a>
                 <ul class="toc">
-                  <li><a href="#events-mouseevent-coord-norm">5.2.3.1 Coordinate Normalization</a></li>
                   <li><a href="#events-mouseevent-event-order">5.2.3.2 Mouse Event Order</a></li>
                   <li><a class="eventtype" href="#event-type-click"><code>click</code> event</a></li>
                   <li><a class="eventtype" href="#event-type-dblclick"><code>dblclick</code> event</a></li>
@@ -2614,38 +2613,37 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
             <dd>
               <div class="idl-code">
                 <pre>
-  // Introduced in DOM Level 2:
+  // Modified in DOM Level 3:
   interface <a href="#events-Events-MouseEvent">MouseEvent</a> : <a href="#events-Events-UIEvent">UIEvent</a> {
-  readonly attribute long            <a href="#events-Events-MouseEvent-screenX">screenX</a>;
-  readonly attribute long            <a href="#events-Events-MouseEvent-screenY">screenY</a>;
-  readonly attribute long            <a href="#events-Events-MouseEvent-clientX">clientX</a>;
-  readonly attribute long            <a href="#events-Events-MouseEvent-clientY">clientY</a>;
-  readonly attribute long            <a href="#events-Events-MouseEvent-nx">nx</a>;
-  readonly attribute long            <a href="#events-Events-MouseEvent-ny">ny</a>;
-  readonly attribute boolean         <a href="#events-Events-MouseEvent-ctrlKey">ctrlKey</a>;
-  readonly attribute boolean         <a href="#events-Events-MouseEvent-shiftKey">shiftKey</a>;
-  readonly attribute boolean         <a href="#events-Events-MouseEvent-altKey">altKey</a>;
-  readonly attribute boolean         <a href="#events-Events-MouseEvent-metaKey">metaKey</a>;
-  readonly attribute unsigned short  <a href="#events-Events-MouseEvent-button">button</a>;  
-  readonly attribute unsigned short  <a href="#events-Events-MouseEvent-buttons">buttons</a>;
-  readonly attribute <a href="#events-Events-EventTarget">EventTarget</a>     <a href="#events-Events-MouseEvent-relatedTarget">relatedTarget</a>;
-  void               <a href="#events-event-type-initMouseEvent">initMouseEvent</a>(in DOMString typeArg, 
-                                in boolean canBubbleArg, 
-                                in boolean cancelableArg, 
-                                in views::AbstractView viewArg, 
-                                in long detailArg, 
-                                in long screenXArg, 
-                                in long screenYArg, 
-                                in long clientXArg, 
-                                in long clientYArg, 
-                                in boolean ctrlKeyArg, 
-                                in boolean altKeyArg, 
-                                in boolean shiftKeyArg, 
-                                in boolean metaKeyArg, 
-                                in unsigned short buttonArg, 
-                                in <a href="#events-Events-EventTarget">EventTarget</a> relatedTargetArg);
-  // Introduced in DOM Level 3:
-  boolean            <a href="#events-Events-MouseEvent-getModifierState">getModifierState</a>(in DOMString keyArg);
+    readonly attribute long            <a href="#events-Events-MouseEvent-screenX">screenX</a>;
+    readonly attribute long            <a href="#events-Events-MouseEvent-screenY">screenY</a>;
+    readonly attribute long            <a href="#events-Events-MouseEvent-clientX">clientX</a>;
+    readonly attribute long            <a href="#events-Events-MouseEvent-clientY">clientY</a>;
+    readonly attribute boolean         <a href="#events-Events-MouseEvent-ctrlKey">ctrlKey</a>;
+    readonly attribute boolean         <a href="#events-Events-MouseEvent-shiftKey">shiftKey</a>;
+    readonly attribute boolean         <a href="#events-Events-MouseEvent-altKey">altKey</a>;
+    readonly attribute boolean         <a href="#events-Events-MouseEvent-metaKey">metaKey</a>;
+    readonly attribute unsigned short  <a href="#events-Events-MouseEvent-button">button</a>;  
+    readonly attribute unsigned short  <a href="#events-Events-MouseEvent-buttons">buttons</a>;
+    readonly attribute <a href="#events-Events-EventTarget">EventTarget</a>     <a href="#events-Events-MouseEvent-relatedTarget">relatedTarget</a>;
+    void               <a href="#events-event-type-initMouseEvent">initMouseEvent</a>(in DOMString typeArg, 
+                                  in boolean canBubbleArg, 
+                                  in boolean cancelableArg, 
+                                  in views::AbstractView viewArg, 
+                                  in long detailArg, 
+                                  in long screenXArg, 
+                                  in long screenYArg, 
+                                  in long clientXArg, 
+                                  in long clientYArg, 
+                                  in boolean ctrlKeyArg, 
+                                  in boolean altKeyArg, 
+                                  in boolean shiftKeyArg, 
+                                  in boolean metaKeyArg, 
+                                  in unsigned short buttonArg, 
+                                  in unsigned short buttonsArg, 
+                                  in <a href="#events-Events-EventTarget">EventTarget</a> relatedTargetArg);
+    // Introduced in DOM Level 3:
+    boolean            <a href="#events-Events-MouseEvent-getModifierState">getModifierState</a>(in DOMString keyArg);
   };
   </pre>
               </div>
@@ -2688,12 +2686,6 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
                 <dd>The horizontal coordinate at which the event occurred relative to the origin of the screen coordinate system.<br /></dd>
                 <dt><code class="attribute-name"><a id="events-Events-MouseEvent-screenY">screenY</a></code> of type <code>long</code>, readonly</dt>
                 <dd>The vertical coordinate at which the event occurred relative to the origin of the screen coordinate system.<br /></dd>
-
-                <dt><code class="attribute-name"><a id="events-Events-MouseEvent-nx">nx</a></code> of type <code>long</code>, readonly</dt>
-                <dd>The horizontal coordinate at which the event occurred relative to the origin of the screen coordinate system, taking into account all transformations and viewport adjustments, as described in the <a href="#events-mouseevent-coord-norm">coordinate normalization algorithm</a>.<br /></dd>
-                <dt><code class="attribute-name"><a id="events-Events-MouseEvent-ny">ny</a></code> of type <code>long</code>, readonly</dt>
-                <dd>The vertical coordinate at which the event occurred relative to the origin of the screen coordinate system, taking into account all transformations and viewport adjustments, as described in the <a href="#events-mouseevent-coord-norm">coordinate normalization algorithm</a>.<br /></dd>
-                
                 <dt><code class="attribute-name"><a id="events-Events-MouseEvent-shiftKey">shiftKey</a></code> of type <code>boolean</code>, readonly</dt>
                 <dd>Refer to the <a href="#events-Events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a> attribute.<br /></dd>
               </dl>
@@ -2737,68 +2729,6 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
       <p id="events-dt-current-click-count">Implementations must maintain the <em>current click count</em> when generating mouse events. This shall be a non-negative integer indicating the number of consecutive clicks of a pointing device button during a user action. The notion of consecutive clicks depends on the environment configuration. For example, a <code><a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a></code> event type might not happen if there is a long delay between the two clicks.
       <span class="note"><strong>Note:</strong> The value of <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> for a number of clicks greater than 2 is platform-dependent.  For example, on the Windows OS, the click-count series seems to be <code>1, 2, 3, 2, 3</code>, while on MacOS, the click-count series seems to be <code>1, 2, 3, 4, 5, ...</code>.</span></p>
 <!-- click -->
-
-
-    <h4 class="div3 needswork"><a id="events-mouseevent-coord-norm" href="#events-mouseevent-coord-norm">5.2.3.1 Coordinate Normalization</a></h4>
-    <p>Some languages, such as SVG or CSS, may allow the author to apply matrix transformations to the content, such as coordinate translations, rotation, skewing, or scaling, or adjustments to the viewport to show only a selected portion of the whole document canvas.  These combined transformations distort the perceived client coordinates with respect to the rendered content.  In order to provide coordinates to realigned the client coordinates relative to the transformed content, the user agent must return results as if the following coordinate normalization algorithm were applied:</p>
-    <ol class="proposal">
-      <li>Establish a point, CP, initialized with the clientX and clientY attributes of the event</li>
-      <li>Establish a <code>2x3</code> calculation matrix (CM) with all values set to <code>0</code>.</li>
-      <li>Find the coordinate transformation matrix (CTM) for the proximal target element, and store it in the calculation matrix as the initial value</li>
-      <li>For each ancestor element of the proximal target element, in ascending order toward the rootmost element:
-        <ol>
-          <li>Find the coordinate transformation matrix (CTM) for the current target element</li>
-          <li>Multiply the calculation matrix by the new CTM</li>
-          <li>Store the result as the new value of the the calculation matrix</li>
-        </ol>
-      </li>
-      <li>Calculate the inverse of the calculation matrix, and store the result as the new value of the the calculation matrix</li>
-      <li>Find the transformation matrix for the rootmost element
-        <ol>
-          <li><i class="issue" id="ratio"><strong>To Do:</strong> the following is half-baked... work out real algorithm</i></li>
-          <li>Determine the width and height of the viewport</li>
-          <li>Find the width and height of the document, if any</li>
-          <li>Calculate the ratio of the viewport dimensions to the document dimensions
-            <ol>
-              <li>If the width of the document is expressed as a percentage, then:
-                <ol>
-                  <li>Multiply the width of the viewport by the numerical percentage of the width of the document</li>
-                </ol>
-              </li>
-              <li>Otherwise:
-                <ol>
-                  <li>Divide the width of the viewport by the numerical width of the document</li>
-                </ol>
-              </li>
-            </ol>
-            <ol>
-              <li>If the height of the document is expressed as a percentage, then:
-                <ol>
-                  <li>Multiply the height of the viewport by the numerical percentage of the height of the document</li>
-                </ol>
-              </li>
-              <li>Otherwise:
-                <ol>
-                  <li>Divide the height of the viewport by the numerical height of the document</li>
-                </ol>
-              </li>
-            </ol>
-          </li>
-          <li><i class="issue" id="meet-slice-mid-max"><strong>To Do:</strong> describe the effects of "meet", "slice", "Mid", "Max" on the ratio</i></li>
-          <li><i class="issue" id="currentTranslate-currentScale"><strong>To Do:</strong>take into account the currentTranslate and currentScale</i></li>
-          <li>Store the ratio as the scale and translate values of the transformation matrix for the rootmost element</li>
-        </ol>
-      </li>
-      <li>Apply a matrix tranformation to CP using the transformation matrix for the rootmost element, and store the result as the new value of CP</li>
-      <li>Apply a matrix tranformation to CP using the calculation matrix, and store the result as the new value of CP</li>
-      <li>Set the value of the event.tx and event.ty attributes to CP.x and CP.y, respectively</li>
-    </ol>
-
-    <p class="note"><strong>Note:</strong> If no transformations or viewport adjustments are in effect in the document, the <a href="#events-Events-MouseEvent-nx"><code>MouseEvent.nx</code></a> and <a href="#events-Events-MouseEvent-ny"><code>MouseEvent.ny</code></a> attributes must have identical values to the <a href="#events-Events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a> and <a href="#events-Events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a> attributes, respectively.</p>
-
-    <p class="issue" id="issue-coord-norm-scroll"><strong>Issue:</strong> coordinate normalization scrolling.  Should this algorithm also account for scrolling "transformations"?</p>
-
-    <p class="issue" id="issue-coord-norm-root"><strong>Issue:</strong> coordinate normalization root.  Should this algorithm apply only to the nearest nested root, or to the document as a whole?</p>
 
 
     <h4 class="div3 needswork"><a id="events-mouseevent-event-order" href="#events-mouseevent-event-order">5.2.3.2 Mouse Event Order</a></h4>
