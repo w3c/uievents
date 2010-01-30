@@ -24,11 +24,11 @@
       </p>
       <h1 id="Overview-title">Document Object Model (DOM) Level 3 Events Specification</h1>
 <!-- @@@ -->
-      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2010-01-28">28 January 2010</time></h2>
+      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2010-01-29">29 January 2010</time></h2>
       <dl>
         <dt>This version:</dt>
         <dd>
-          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.115">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.115</a>
+          <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.116">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.116</a>
         </dd>
         <dt>Latest stable version:</dt>
         <dd>
@@ -36,7 +36,7 @@
         </dd>
         <dt>Previous version:</dt>
         <dd>
-          <a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.114">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.114</a>
+          <a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.115">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.115</a>
         </dd>
         <dt>Editor's Draft:</dt>
         <dd>
@@ -59,7 +59,7 @@
     <hr title="separator from header" />
     <h2><a id="Overview-abstract" href="#Overview-abstract">Abstract</a></h2>
     <div class="abstract">
-      <p>This specification defines the Document Object Model Events Level 3, a generic platform- and language-neutral event system which allows registration of event handlers, describes event flow through a tree structure, and provides basic contextual information for each event. The Document Object Model Events Level 3 builds on the Document Object Model Events Level 2 [<a href="#references-DOM2Events">DOM Level 2 Events</a>].</p>
+      <p>This specification defines the Document Object Model Events Level 3, a generic platform- and language-neutral event system which allows registration of event handlers, describes event flow through a tree structure, and provides basic contextual information for each event. The Document Object Model Events Level 3 builds on the Document Object Model Events Level 2 [<a href="#references-DOM2Events">DOM2 Events</a>].</p>
     </div>
     <h2 class="no-num no-toc" id="sotd">Status of This Document</h2>
     <div>
@@ -131,7 +131,7 @@
             <a href="#event-flow">3.1 Event dispatch and DOM event flow</a>
           </li>
           <li>
-            <a href="#event-flow-cancelation">3.2 Default actions and cancelable events</a>
+            <a href="#event-flow-default-cancel">3.2 Default actions and cancelable events</a>
           </li>
           <li>
             <a href="#sync-async">3.3 Synchronous and asynchronous events</a>
@@ -141,6 +141,11 @@
           </li>
           <li>
             <a href="#event-flow-activation">3.5 Activation triggers and behavior</a>
+            <ul class="toc">
+              <li>
+                <a href="#events-activation-event-order">3.5.1 Activation Event Order</a>
+              </li>
+            </ul>
           </li>
         </ul>
       </li>
@@ -439,13 +444,13 @@
             However, for readability, these words do not necessarily appear in uppercase in this specification.</p>
           
           
-          <p>This specification is to be understood in the context of the DOM Level 3 Core specification [<cite><a class="noxref normative" href="#references-DOMCore">DOM Level 3 Core</a></cite>] and the general considerations for DOM implementations apply. For example, behavior in exceptional circumstances (such as when a <code>null</code> argument is passed when <code>null</code> was not expected) is discussed under <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-17189187"><em>DOMException</em></a>, and handling of <a class="def" href="#glossary-namespaceURI">namespace URIs</a> is discussed in <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Namespaces-Considerations"><em>XML Namespaces</em></a>. For additional information about <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/introduction.html#ID-Conformance"><em>conformance</em></a>, please see the DOM Level 3 Core specification [<cite><a class="noxref normative" href="#references-DOMCore">DOM Level 3 Core</a></cite>].</p>
+          <p>This specification is to be understood in the context of the DOM Level 3 Core specification [<cite><a class="noxref normative" href="#references-DOMCore">DOM3 Core</a></cite>] and the general considerations for DOM implementations apply. For example, behavior in exceptional circumstances (such as when a <code>null</code> argument is passed when <code>null</code> was not expected) is discussed under <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-17189187"><em>DOMException</em></a>, and handling of <a class="def" href="#glossary-namespaceURI">namespace URIs</a> is discussed in <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Namespaces-Considerations"><em>XML Namespaces</em></a>. For additional information about <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/introduction.html#ID-Conformance"><em>conformance</em></a>, please see the DOM Level 3 Core specification [<cite><a class="noxref normative" href="#references-DOMCore">DOM3 Core</a></cite>].</p>
           
           <p>This specification defines several classes of conformance for different <a class="def" href="#glossary-user-agent">user agents</a>, specifications, and authors:</p>
           <dl>
             <dt id="conf-interactive-ua">Web browsers and other dynamic or interactive <a class="def" href="#glossary-user-agent">user agents</a></dt>
             <dd>
-              <p>A dynamic or interactive <a class="def" href="#glossary-user-agent">user agent</a>, referred to here as a "browser" (be it a Web browser or other similar program), conforms to DOM Level 3 Events if it supports the Core module defined in [<cite><a class="noxref normative" href="#references-DOMCore">DOM Level 3 Core</a></cite>], the <a href="#event-flow">Event dispatch and DOM event flow</a> mechanism, all the interfaces and events with their associated methods, attributes, and semantics defined in this specification which are not marked as <a class="def" href="#glossary-deprecated">deprecated</a><!--  or <a class="def" href="#glossary-obsolete">obsolete</a> -->, and the complete set of <a class="def" href="#glossary-character-value">character values</a> and <a class="def" href="#glossary-key-name">key names</a> in the <a href="#key-values">Key Values Set</a>, as well as all other normative requirements defined in this specification.  A conforming browser must <a class="def" href="#glossary-dispatch">dispatch</a> events appropriate to the given <a href="#events-Events-EventTarget">EventTarget</a> when the conditions defined for that <a class="def" href="#glossary-event-type">event type</a> have been met.</p>
+              <p>A dynamic or interactive <a class="def" href="#glossary-user-agent">user agent</a>, referred to here as a "browser" (be it a Web browser or other similar program), conforms to DOM Level 3 Events if it supports the Core module defined in [<cite><a class="noxref normative" href="#references-DOMCore">DOM3 Core</a></cite>], the <a href="#event-flow">Event dispatch and DOM event flow</a> mechanism, all the interfaces and events with their associated methods, attributes, and semantics defined in this specification which are not marked as <a class="def" href="#glossary-deprecated">deprecated</a><!--  or <a class="def" href="#glossary-obsolete">obsolete</a> -->, and the complete set of <a class="def" href="#glossary-character-value">character values</a> and <a class="def" href="#glossary-key-name">key names</a> in the <a href="#key-values">Key Values Set</a>, as well as all other normative requirements defined in this specification.  A conforming browser must <a class="def" href="#glossary-dispatch">dispatch</a> events appropriate to the given <a href="#events-Events-EventTarget">EventTarget</a> when the conditions defined for that <a class="def" href="#glossary-event-type">event type</a> have been met.</p>
               
               <p><span id="conform-arch">A browser conforms specifically to the DOM Level 3 Events Architecture if it implements the <a href="#dom-event-architecture">DOM Event Architecture</a> and <a href="#event-interfaces">Basic Event Interfaces</a>, regardless of its support for any other event interfaces or <a class="def" href="#glossary-event-type">event types</a> defined in this specification.</span>  <span id="conform-module">A browser conforms specifically to the DOM Level 3 Events Module if it implements the interfaces and its related <a class="def" href="#glossary-event-type">event types</a> specified in the <a href="#events-module">Events Module</a>, and to each event interface if it implements that interface and its related <a class="def" href="#glossary-event-type">event types</a>.</span></p>
               
@@ -483,7 +488,7 @@
           <h3 class="div3"><a id="feature-detection" href="#feature-detection">1.3 Feature Detection</a></h3>
           <p><em>This section is normative</em></p>
           
-          <p>A conforming DOM Level 3 Events <a class="def" href="#glossary-user-agent">user agent</a> must implement the <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-5CED94D7"><code>DOMImplementation.hasFeature()</code></a> method to allow authors to detect for support of features defined in this specification.  Refer to <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#DOMFeatures"><em>DOM Features</em></a> in [<cite><a class="noxref normative" href="#references-DOMCore">DOM Level 3 Core</a></cite>] for additional information on feature strings.</p>
+          <p>A conforming DOM Level 3 Events <a class="def" href="#glossary-user-agent">user agent</a> must implement the <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-5CED94D7"><code>DOMImplementation.hasFeature()</code></a> method to allow authors to detect for support of features defined in this specification.  Refer to <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#DOMFeatures"><em>DOM Features</em></a> in [<cite><a class="noxref normative" href="#references-DOMCore">DOM3 Core</a></cite>] for additional information on feature strings.</p>
           
           <p class="note"><strong>Note:</strong> The <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-5CED94D7"><code>DOMImplementation.hasFeature()</code></a> method has been of limited utility to authors in some instances, because of imprecision in conformance criteria in some specifications, and insufficient granularity of feature strings, leading to implementations misrepresenting the degree of support for a class of features.  This specification seeks to remedy that in the context of <a class="def" href="#glossary-user-agent">user agents</a> conforming to DOM Level 3 Events by providing discrete feature strings and clear guidelines for the circumstances under which a <a class="def" href="#glossary-user-agent">user agent</a> must or must not report in a positive manner when queried for support of the feature which that feature string represents.</p>
 
@@ -492,7 +497,7 @@
           <ul>
             <li id="base-feature-string">The primary base feature string for DOM Level 3 Events shall be "<code>Events</code>", with the optional version string "<code>3.0</code>", indicating that the <a class="def" href="#glossary-user-agent">user agent</a> supports the <a href="#conform-arch">DOM Level 3 Events Architecture</a> in the manner described in the appropriate conformance section.
               <ul>
-                <li><span class="assert must">Since DOM Level 3 Events is built on top of DOM Level 2 Events [<cite><a class="noxref normative" href="#references-DOM2Events">DOM Level 2 Events</a></cite>], an implementation that returns <code>true</code> for <code>"Events"</code> and <code>"3.0"</code> shall also return <code>true</code> for the parameters <code>"Events"</code> and <code>"2.0"</code>.</span></li>
+                <li><span class="assert must">Since DOM Level 3 Events is built on top of DOM Level 2 Events [<cite><a class="noxref normative" href="#references-DOM2Events">DOM2 Events</a></cite>], an implementation that returns <code>true</code> for <code>"Events"</code> and <code>"3.0"</code> shall also return <code>true</code> for the parameters <code>"Events"</code> and <code>"2.0"</code>.</span></li>
                 <li><span class="assert mustnot">If the version parameter is omitted, the <a class="def" href="#glossary-user-agent">user agent</a> must not differentiate between the <a href="#conform-arch">DOM Events Architecture</a> as described in DOM Level 3 Events and DOM Level 2 Events, in terms of reporting support for the features indicated by the base feature string.</span></li>
               </ul>
             </li>
@@ -537,127 +542,133 @@
         <p class="1st">Some of the following term definitions have been borrowed or modified from similar definitions in other W3C or standards documents. See the links within the definitions for more information.</p>
         
         <dl id="glossary-list">
-          <dt id="glossary-activation-behavior">activation behavior</dt>
-          <dd>The action taken when an <a class="def" href="#glossary-event">event</a>, typically initiated by users through an input device, causes an element to fulfill a defined task.  The task may be defined for that element by the <a class="def" href="#glossary-host-language">host language</a>, or by author-defined variables, or both.  The default task for any given element may be a generic action, or may be unique to that element.  For example, the activation behavior of an HTML or SVG <code>&lt;a&gt;</code> element shall be to cause the <a class="def" href="#glossary-user-agent">user agent</a> to traverse the link specified in the <code>href</code> attribute, with the further optional parameter of specifying the browsing context for the traversal (such as the current window or tab, a named window, or a new window); the activation behavior of an HTML <code>&lt;input&gt;</code> element with the <code>type</code> attribute value <code>submit</code> shall be to send the values of the form elements to an author-defined IRI by the author-defined HTTP method.  See to <a href="#event-flow-activation">Activation triggers and behavior</a> for more details.</dd>
+          <dt id="glossary-activation-behavior"><dfn>activation behavior</dfn></dt>
+          <dd>The action taken when an <a class="def" href="#glossary-event">event</a>, typically initiated by users through an input device, causes an element to fulfill a defined task.  The task may be defined for that element by the <a class="def" href="#glossary-host-language">host language</a>, or by author-defined variables, or both.  The default task for any given element may be a generic action, or may be unique to that element.  For example, the activation behavior of an HTML or SVG <code>&lt;a&gt;</code> element shall be to cause the <a class="def" href="#glossary-user-agent">user agent</a> to traverse the link specified in the <code>href</code> attribute, with the further optional parameter of specifying the browsing context for the traversal (such as the current window or tab, a named window, or a new window); the activation behavior of an HTML <code>&lt;input&gt;</code> element with the <code>type</code> attribute value <code>submit</code> shall be to send the values of the form elements to an author-defined IRI by the author-defined HTTP method.  See <a href="#event-flow-activation">Activation triggers and behavior</a> for more details.</dd>
 
-          <dt id="glossary-activation-trigger">activation trigger</dt>
+          <dt id="glossary-activation-trigger"><dfn>activation trigger</dfn></dt>
           <dd>An event which is defined to initiate an <a class="def" href="#glossary-activation-behavior">activation behavior</a>.  Refer to <a href="#event-flow-activation">Activation triggers and behavior</a> for more details.</dd>
 
-          <dt id="glossary-bubbling-phase">bubbling phase</dt>
+          <dt id="glossary-bubbling-phase"><dfn>bubbling phase</dfn></dt>
           <dd>The process by which an <a class="def" href="#glossary-event">event</a> can be handled by one of the target ancestors after being handled by the <a class="def" href="#glossary-proximal-event-target">proximal event target</a>.</dd>
 
-          <dt id="glossary-capture-phase">capture phase</dt>
+          <dt id="glossary-capture-phase"><dfn>capture phase</dfn></dt>
           <dd>The process by which an <a class="def" href="#glossary-event">event</a> can be handled by one of the target ancestors before being handled by the <a class="def" href="#glossary-proximal-event-target">proximal event target</a>.</dd>
 
-          <dt id="glossary-character-value">character value</dt>
+          <dt id="glossary-character-value"><dfn>character value</dfn></dt>
           <dd>In the context of key values, a character value is a string representing a single Unicode character, such as a letter or symbol, as a UTF-16 character escape (e.g. <code class="value">'\u0041'</code> for the Latin Capital Letter A key, <code class="value charval">A</code>.). <i class="issue" id="issue-character_value"><strong>Issue:</strong> this may not be the best way to represent a character value, see notes in key values.  Also, is "character value" the best term?</i></dd>
 
-          <dt id="glossary-dead-key">dead key</dt>
+          <dt id="glossary-dead-key"><dfn>dead key</dfn></dt>
           <dd>A dead key is a key or combination of key that produces no character by itself, but which in combination or sequence with another key produces a modified character, such as a character with diacritical marks (e.g. <code>&#xF6;</code>, <code>&#xE9;</code>, <code>&#xE2;</code>).</dd>
 
-          <dt id="glossary-default-action">default action</dt>
-          <dd>A <a class="def" href="#glossary-default-action">default action</a> is an optional supplementary behavior that an implementation must perform in combination with the dispatch of the event object.  Each event type definition, and each specification, defines the <a class="def" href="#glossary-default-action">default action</a> for that event type, if it has one.  An instance of an event may have more than one <a class="def" href="#glossary-default-action">default action</a> under some circumstances, such as when associated with an <a class="def" href="#glossary-activation-trigger">activation trigger</a>.  A <a class="def" href="#glossary-default-action">default action</a> may be cancelled through the invocation of the <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> method.  For more details, see <a href="#event-flow-cancelation">Default actions and cancelable events</a>.</dd>
+          <dt id="glossary-default-action"><dfn>default action</dfn></dt>
+          <dd>A <a class="def" href="#glossary-default-action">default action</a> is an optional supplementary behavior that an implementation must perform in combination with the dispatch of the event object.  Each event type definition, and each specification, defines the <a class="def" href="#glossary-default-action">default action</a> for that event type, if it has one.  An instance of an event may have more than one <a class="def" href="#glossary-default-action">default action</a> under some circumstances, such as when associated with an <a class="def" href="#glossary-activation-trigger">activation trigger</a>.  A <a class="def" href="#glossary-default-action">default action</a> may be cancelled through the invocation of the <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> method.  For more details, see <a href="#event-flow-default-cancel">Default actions and cancelable events</a>.</dd>
 
-          <dt id="glossary-defaultView">defaultView</dt>
+          <dt id="glossary-defaultView"><dfn>defaultView</dfn></dt>
           <dd>The <code>defaultView</code> is an object which implements the <a href="http://www.w3.org/TR/DOM-Level-2-Views/views.html#Views-AbstractView" title="Document Object Model Views"><code>AbstractView</code> interface</a> of the <code>Document</code>'s <a href="http://www.w3.org/TR/DOM-Level-2-Views/views.html#Views-DocumentView" title="Document Object Model Views"><code>DocumentView</code> interface</a>, which serves as a reference to the containing frame or window.  This interface may also be accessed as the <code>Window</code> interface in many implementations.</dd>
 
-          <dt id="glossary-delta">delta</dt>
+          <dt id="glossary-delta"><dfn>delta</dfn></dt>
           <dd>The distance an input device using the <a href="#events-wheelevents">WheelEvent</a> interface (such as a mouse wheel) has rotated around its axis.  The value of a <a class="def" href="#glossary-delta">delta</a> shall be a integer indicating a distance, measured as the number of <a class="def" href="#glossary-roll">rolls</a> the wheel has been <a class="def" href="#events-Events-WheelEvent-rotation">rotated</a>. A positive value shall indicate that the wheel has been <a class="def" href="#events-Events-WheelEvent-rotation">rotated</a> towards the user on vertically-aligned devices or in a right-hand manner on horizontally-aligned devices, and a negative value shall indicate that the wheel has been <a class="def" href="#events-Events-WheelEvent-rotation">rotated</a> away from the user on vertically-aligned devices or in a left-hand manner on horizontally aligned devices.  The default value of a delta attribute shall be <code>0</code>.
           </dd>
 
-          <dt id="glossary-deprecated">deprecated</dt>
+          <dt id="glossary-deprecated"><dfn>deprecated</dfn></dt>
           <dd>Features marked as deprecated are included in the specification as reference to older implementations or specifications, but are optional and discouraged.  Only features which have existing or in-progress replacements shall be deprecated in this specification.  Implementations which do not already include support for the feature may implement deprecated features for reasons of backwards compatibility with existing content, but authors creating content should not use deprecated features, unless there is no other way to solve a use case.  Other specifications which reference this specification should not use deprecated features, but should point instead to the replacements of which the feature is deprecated in favor.  Features marked as deprecated in this specification are expected to be dropped from future specifications. <!-- Features marked as deprecated in this specification are expected to be <a class="def" href="#glossary-obsolete">obsolete</a> in future specifications. --></dd>
 
-          <dt id="glossary-dispatch">dispatch</dt>
-          <dd>To create an event with attributes and methods appropriate to its type and context, and propagate it through the DOM tree in the specified manner. Interchangeable with the term "fire", e.g. "fire a 'click' event" or "dispatch a 'load' event".</dd>
+          <dt id="glossary-dispatch"><dfn>dispatch</dfn></dt>
+          <dd>To create an event with attributes and methods appropriate to its type and context, and propagate it through the DOM tree in the specified manner. Interchangeable with the term "<a href="#glossary-fire">fire</a>", e.g. "fire a 'click' event" or "dispatch a 'load' event".</dd>
 
-          <dt id="glossary-DOM-application">DOM application</dt>
+          <dt id="glossary-document"><dfn>document</dfn></dt>
+          <dd>An object instantiating the <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#i-Document" title="Document Object Model Core"><code>Document</code> interface</a> [<cite><a class="noxref normative" href="#references-DOMCore">DOM3 Core</a></cite>], representing the entire HTML or XML text document.  Conceptually, it is the root of the document tree, and provides the primary access to the document's data.</dd>
+
+          <dt id="glossary-DOM-application"><dfn>DOM application</dfn></dt>
           <dd>A DOM application is script or code, written by an author or automatically generated, which takes advantage of the interfaces, methods, attributes, events, and other features described in this specification in order to make dynamic or interactive content, such as Web applications, exposed to users in a <a class="def" href="#glossary-user-agent">user agent</a>.</dd>
 
-          <dt id="glossary-DOM-Level-0">DOM Level 0</dt>
+          <dt id="glossary-DOM-Level-0"><dfn>DOM Level 0</dfn></dt>
           <dd>The term "DOM Level 0" refers to a mix of HTML document functionalities, often not formally specified but traditionally supported as de facto standards, implemented originally by Netscape Navigator version 3.0 or Microsoft Internet Explorer version 3.0.  In many cases, attributes or methods have been included for reasons of backward compatibility with "DOM Level 0".</dd>
 
-          <dt id="glossary-event">event</dt>
+          <dt id="glossary-event"><dfn>event</dfn></dt>
           <dd>An event is the representation of some occurrence (such as a mouse click on the presentation of an element, the removal of child node from an element, or any number of other possibilities) which is associated with its <a class="def" href="#glossary-proximal-event-target">proximal event target</a>.  Each event is an instantiation of one specific <a class="def" href="#glossary-event-type">event type</a>.</dd>
 
-          <dt id="glossary-event-phase">event phase</dt>
+          <dt id="glossary-event-phase"><dfn>event phase</dfn></dt>
           <dd>See <a class="def" href="#glossary-phase">phase</a>.</dd>
 
-          <dt id="glossary-event-target">event target</dt>
+          <dt id="glossary-event-target"><dfn>event target</dfn></dt>
           <dd>The object to which an <a class="def" href="#glossary-event">event</a> is targeted.</dd>
 
-          <dt id="glossary-event-type">event type</dt>
+          <dt id="glossary-event-type"><dfn>event type</dfn></dt>
           <dd>The name of an <a class="def" href="#glossary-event">event</a> object which defines particular trigger conditions, attributes, interfaces, and other characteristics which distinguish it from other event types.  For example, the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type has different characteristics than the <a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a> or <a class="eventtype" href="#event-type-load"><code>load</code></a> event types. The event type is exposed as the  the <a href="#events-event-type-type"><code class="interface-attribute">Event.type</code></a> attribute on the event object.  See <a href="#event-types">event types</a> for more details.  Also loosely referred to as 'event', such as the <em><a class="eventtype" href="#event-type-click"><code>click</code></a> event</em>.</dd>
           
-          <dt id="glossary-event-focus">focus</dt>
+          <dt id="glossary-event-focus"><dfn>focus</dfn></dt>
           <dd>Focus is a special state of receptivity and concentration on an particular element or other <a class="def" href="#glossary-event-target">event target</a> within a document.  Each element has different behavior when focused, depending on its functionality, such as priming the element for activation (as for a button or hyperlink) or toggling state (as for a checkbox), receiving text input (as for a text form field), or copying selected text.  For more details, see <a href="#events-focusevent-doc-focus">Document Focus and Focus Context</a>.</dd>
           
-          <dt id="glossary-event-focus-ring">focus ring</dt>
+          <dt id="glossary-event-focus-ring"><dfn>focus ring</dfn></dt>
           <dd>A focus ring is a an ordered set of <a class="def" href="#glossary-event-focus">focus</a> targets within a document.  A <a class="def" href="#glossary-host-language">host language</a> may define one or more ways to determine the order of targets, such as document order, a numerical index defined per focus target, explicit pointers between focus targets, or a hybrid of different models.  Each document may contain multiple focus rings, or conditional focus rings.  Typically, for document-order or indexed focus rings, focus "wraps around" from the last focus target to the first.</dd>
           
-          <dt id="glossary-host-language">host language</dt>
+          <dt id="glossary-fire"><dfn>fire</dfn></dt>
+          <dd>A synonym for <a href="#glossary-dispatch">dispatch</a>.</dd>
+
+          <dt id="glossary-host-language"><dfn>host language</dfn></dt>
           <dd>Any language which integrates the features of another language or API specification, while normatively referencing the origin specification rather than redefining those features, and extending those features only in ways defined by the origin specification.  An origin specification typically is only intended to be implemented in the context of one or more host languages, not as a standalone language.  For example, XHTML, HTML, and SVG are host languages for DOM 3 Events, and they integrate and extend the objects and models defined in this specification.</dd>
           
-          <dt id="glossary-ime">IME</dt>
-          <dt id="glossary-input-method-editor">input method editor</dt>
+          <dt id="glossary-ime"><dfn>IME</dfn></dt>
+          <dt id="glossary-input-method-editor"><dfn>input method editor</dfn></dt>
           <dd>An <em>input method editor</em> (IME), also known as a <em>front end processor</em>, is an application that performs the conversion between keystrokes and ideographs or other characters, usually by user-guided dictionary lookup, often used in East Asian languages (e.g. Chinese, Japanese, Korean).  An <a class="def" href="#glossary-ime">IME</a> may also be used for dictionary-based word completion, such as on mobile devices.  See <a href="#keyset-IME">Input Method Editors</a> for treatment of IMEs in this specification.  See also <a class="def" href="#glossary-text-composition-system">text composition system</a>.</dd>
 
-          <dt id="glossary-key-name">key name</dt>
+          <dt id="glossary-key-name"><dfn>key name</dfn></dt>
           <dd>In the context of key values, a key name is a multi-character string (such as <code class="value">'Enter'</code>, <code class="value">'Tab'</code>, or <code class="value">'MediaNextTrack'</code>) which indicates a key.  Control keys, function keys, modifier keys, <a class="def" href="#glossary-dead-key">dead keys</a>, and others may only have a key name, without an equivalent <a class="def" href="#glossary-character-value">character value</a>.
             
             such as <code class="value">'Enter'</code> or <code>tab</code>, for control or <a class="def" href="#glossary-character-value">character value</a>, or certain symbols).</dd>
           
-          <dt id="glossary-localname">local name</dt>
+          <dt id="glossary-localname"><dfn>local name</dfn></dt>
           <dd>See local name in [<cite><a class="noxref informative" href="#references-Namespaces10">XML Namespaces 1.0</a></cite>].</dd>
           
-          <dt id="glossary-namespaceURI">namespace URI</dt>
+          <dt id="glossary-namespaceURI"><dfn>namespace URI</dfn></dt>
           <dd>A <em>namespace URI</em> is a URI that identifies an XML namespace. This is called the namespace name in [<cite><a class="noxref informative" href="#references-Namespaces10">XML Namespaces 1.0</a></cite>]. See also sections 1.3.2 "<a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#baseURIs-Considerations"><em>DOM URIs</em></a>" and 1.3.3 "<a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Namespaces-Considerations"><em>XML Namespaces</em></a>" regarding URIs and namespace URIs handling and comparison in the DOM APIs.</dd>
           
 <!-- 
-          <dt id="glossary-obsolete">obsolete</dt>
+          <dt id="glossary-obsolete"><dfn>obsolete</dfn></dt>
           <dd>An obsolete feature is one which has previously been defined in a specification or implemented, but which is deemed to be no longer useful, problematic to implement interoperably or performantly, or even actively harmful, and are thus not formally defined in this specification.  Obsolete features may be implemented by <a class="def" href="#glossary-user-agent">user agents</a> (if they are not harmful), but should not be used by authors.  Obsolete features are not defined in this specification, but may be listed for historical purposes in the context of related features, and are marked as obsolete.</dd>
 -->
 
-          <dt id="glossary-phase">phase</dt>
+          <dt id="glossary-phase"><dfn>phase</dfn></dt>
           <dd>In the context of <a class="def" href="#glossary-event">events</a>, a phase is set of logical traversals from node to node along the DOM tree, from the <a class="def" href="#glossary-defaultView">defaultView</a> (window), to the <code>Document</code> object, <a class="def" href="#glossary-root-element">root element</a> down to the <a class="def" href="#glossary-event-target">event target</a> (<a class="def" href="#glossary-capture-phase">capture phase</a>), at the <a class="def" href="#glossary-event-target">event target</a> itself (<a class="def" href="#glossary-target-phase">target phase</a>), and back up to the same chain (<a class="def" href="#glossary-bubbling-phase">bubbling phase</a>).</dd>
           
-          <dt id="glossary-propagation-path">propagation path</dt>
-          <dd>The ordered set of <a class="def" href="#glossary-event-target">event targets</a> though which an <a class="def" href="#glossary-event">event</a> object will pass sequentially on the way to and back from the ultimate <a class="def" href="#glossary-event-target">event target</a>.  The propagation path is initially comprised of one or more <a class="def" href="#glossary-event-phase">event phases</a> as defined by the <a class="def" href="#glossary-event-type">event type</a>, but may be interrupted.  Also known as an <em>event target chain</em>.</dd>
+          <dt id="glossary-propagation-path"><dfn>propagation path</dfn></dt>
+          <dd>The ordered set of <a class="def" href="#glossary-event-target">event targets</a> though which an <a class="def" href="#glossary-event">event</a> object will pass sequentially on the way to and back from the <a class="def" href="#glossary-proximal-event-target">proximal event target</a>.  As the event propagates, each <a class="def" href="#glossary-event-target">event target</a> in the propagation path shall in turn be set as the <a href="#events-event-type-currentTarget"><code>Event.currentTarget</code></a>.  The propagation path is initially comprised of one or more <a class="def" href="#glossary-event-phase">event phases</a> as defined by the <a class="def" href="#glossary-event-type">event type</a>, but may be interrupted.  Also known as an <em>event target chain</em>.</dd>
 
-          <dt id="glossary-proximal-event-target">proximal event target</dt>
-          <dd>The proximal event target is the object representing the <a class="def" href="#glossary-event-target">event target</a> to which an <a class="def" href="#glossary-event">event</a> is targeted using the DOM event flow.</dd>
+          <dt id="glossary-proximal-event-target"><dfn>proximal event target</dfn></dt>
+          <dd>The proximal event target is the object representing the <a class="def" href="#glossary-event-target">event target</a> to which an <a class="def" href="#glossary-event">event</a> is targeted using the DOM event flow.  The proximal event target is the value of the <a href="#events-event-type-target">Event.target</a> attribute.</dd>
 
-          <dt id="glossary-qwerty">QWERTY</dt>
+          <dt id="glossary-qwerty"><dfn>QWERTY</dfn></dt>
           <dd>QWERTY (pronounced "ˈkwɜrti") is a common keyboard layout, so named because the first five character keys on the top row of letter keys are Q, W, E, R, T, and Y.  There are many other popular keyboard layouts (including the Dvorak layout), most designed for localization or ergonomics.</dd>
 
-          <dt id="glossary-roll">roll</dt>
+          <dt id="glossary-roll"><dfn>roll</dfn></dt>
           <dd>A unit of <a class="def" href="#events-Events-WheelEvent-rotation">rotation</a> for an input device using the <a href="#events-wheelevents">WheelEvent</a> interface. On some devices this may be a finite physical step. On devices with smooth <a class="def" href="#events-Events-WheelEvent-rotation">rotation</a>, a <a class="def" href="#glossary-roll">roll</a> becomes the smallest reported amount of <a class="def" href="#events-Events-WheelEvent-rotation">rotation</a>.</dd>
           
-          <dt id="glossary-root-element">root element</dt>
+          <dt id="glossary-root-element"><dfn>root element</dfn></dt>
           <dd>The first element node of a document, of which all other elements are children; the document element.</dd>
 
-          <dt id="events-Events-WheelEvent-rotation">rotation</dt>
+          <dt id="events-Events-WheelEvent-rotation"><dfn>rotation</dfn></dt>
           <dd>An indication of incremental change on an input device using the <a href="#events-wheelevents">WheelEvent</a> interface. On some devices this may be a literal rotation of a wheel, while on others, it may be movement along a flat surface, or pressure on a particular button.</dd>
           
-          <dt id="glossary-text-composition-system">text composition system</dt>
+          <dt id="glossary-text-composition-system"><dfn>text composition system</dfn></dt>
           <dd>A software component which interprets some form of alternate input, such as a <a class="def" href="#glossary-ime">input method editor</a>, a speech processor, or a handwriting recognition system, and converts it to text.</dd>
           
-          <dt id="glossary-target-phase">target phase</dt>
+          <dt id="glossary-target-phase"><dfn>target phase</dfn></dt>
           <dd>The process by which an <a class="def" href="#glossary-event">event</a> can be handled by the <a class="def" href="#glossary-proximal-event-target">proximal event target</a>.</dd>
           
-          <dt id="glossary-topmost-event-target">topmost event target</dt>
+          <dt id="glossary-topmost-event-target"><dfn>topmost event target</dfn></dt>
           <dd>The <a class="def" href="#glossary-topmost-event-target">topmost event target</a> shall be the element highest in the rendering order which is capable of being an <a class="def" href="#glossary-event-target">event target</a>.  In this case, 'top' shall refer not to the position on the screen, but the logical order of the element in relation to other elements in drawing or stacking order on the z-axis (where the x-axis is the screen width and the y-axis is the screen height).  In HTML and CSS, or in SVG, this is controlled by the document order, as modified in HTML and CSS by the <code>'z-index'</code> property.  In some cases, such as when using some values of the SVG <code>'pointer-events'</code> property, the topmost element may not receive pointer events, in which case, the next element in z-index order which can receive pointer-events is the <a class="def" href="#glossary-topmost-event-target">topmost event target</a>.  Note that visibility of the element does not necessarily affect its ability to be the <a class="def" href="#glossary-topmost-event-target">topmost event target</a>, since an element which is hidden by use of the CSS <code>'visibility'</code> property can still receive pointer events (though not one with a <code>'display'</code> property of <code>none</code>), and the <a class="def" href="#glossary-topmost-event-target">topmost event target</a> may be completely obscured by another element which cannot receive pointer events.  Unless otherwise noted, there is only one <a class="def" href="#glossary-topmost-event-target">topmost event target</a> in any event.  For specific details regarding hit testing and stacking order, refer to the <a class="def" href="#glossary-host-language">host language</a>.</dd>
           
-          <dt id="glossary-tree">tree</dt>
+          <dt id="glossary-tree"><dfn>tree</dfn></dt>
           <dd>A data structure that represents a document as a hierarchical set of nodes with child-parent-sibling relationships, i.e. each node having one or more possible ancestors (nodes higher in the hierarchy in a direct lineage), one or more possible descendants (nodes lower in the hierarchy in a direct lineage), and one or more possible peers (nodes of the same level in the hierarchy, with the same immediate ancestor).</dd>
           
-          <dt id="glossary-Unicode-character-categories">Unicode character categories</dt>
+          <dt id="glossary-Unicode-character-categories"><dfn>Unicode character categories</dfn></dt>
           <dd>The Unicode character categories, a subset of the complete Unicode general categories, comprise the categories <abbr title="Letter, Lowercase">Ll</abbr>, <abbr title="Letter, Modifier">Lm</abbr>, <abbr title="Letter, Other">Lo</abbr>, <abbr title="Letter, Titlecase">Lt</abbr>, <abbr title="Letter, Uppercase">Lu</abbr>, <abbr title="Number, Decimal Digit">Nd</abbr>, <abbr title="Number, Letter">Nl</abbr>, <abbr title="Number, Other">No</abbr>, <abbr title="Punctuation, Connector">Pc</abbr>, <abbr title="Punctuation, Dash">Pd</abbr>, <abbr title="Punctuation, Close">Pe</abbr>, <abbr title="Punctuation, Final quote">Pf</abbr>, <abbr title="Punctuation, Initial quote">Pi</abbr>, <abbr title="Punctuation, Other">Po</abbr>, <abbr title="Punctuation, Open">Ps</abbr>, <abbr title="Symbol, Currency">Sc</abbr>, <abbr title="Symbol, Modifier">Sk</abbr>, <abbr title="Symbol, Math">Sm</abbr>, and <abbr title="Symbol, Other">So</abbr>.</dd>
           
-          <dt id="glossary-unicode-code-point">Unicode code point</dt>
+          <dt id="glossary-unicode-code-point"><dfn>Unicode code point</dfn></dt>
           <dd>A Unicode code point is a unique hexadecimal number signifying a character by its index in the Unicode codespace (or library of characters).  In the context of key values, a Unicode code point is expressed as a string in the format "\u" followed by a hexadecimal character index in the range <code>0000</code> to <code>10FFFF</code>, using at least four digits.  See also <a class="def charval" href="#glossary-character-value">character value</a>.</dd>
 
-          <dt id="glossary-user-agent">user agent</dt>
+          <dt id="glossary-user-agent"><dfn>user agent</dfn></dt>
           <dd>A program, such as a browser or authoring tool, normally running on a client machine, which acts on a user's behalf in retrieving, interpreting, executing, presenting, or creating content conforming to a specification.  Users may act on the content using different user agents at different times, for different purposes.</dd>
           
         </dl>
@@ -713,12 +724,12 @@
         <p><span class="assert must">As the final step of the event dispatch, for reasons of backwards compatibility, the implementation must reset the event object's internal-propagation and default-action-prevention states.</span> This ensures that an event object may be properly dispatched multiple times while also allowing to prevent the event objects propagation or <a class="def" href="#glossary-default-action">default actions</a> prior to the event dispatch.</p>
         <p>In the production of the <a class="def" href="#glossary-propagation-path">propagation path</a>, if the <a class="def" href="#glossary-defaultView">defaultView</a> implements the <a href="#events-Events-EventTarget">EventTarget</a> interface, the event propagates from <a class="def" href="#glossary-defaultView">defaultView</a> to the <code>document</code> object during the <a class="def" href="#glossary-capture-phase">capture phase</a>, and from the <code>document</code> object to the <a class="def" href="#glossary-defaultView">defaultView</a> during the <a class="def" href="#glossary-bubbling-phase">bubble phase</a>.  
           <span class="note"><strong>Note:</strong> for legacy reasons, the <a class="eventtype" href="#event-type-load"><code>load</code></a> event does not propagate to the <a class="def" href="#glossary-defaultView">defaultView</a> in HTML implementations.</span></p>
-        <p>The model defined above must be applied regardless of the specific event flow associated with an event target. Each event flow must define how the propagation path shall be determined and which event phases are supported. The <em>DOM event flow</em> is an application of this model: the propagation path for a <code>Node</code> object shall be determined by its <code>Node.parentNode</code> chain, and if applicable, the document's containing <a class="def" href="#glossary-defaultView">defaultView</a>; all events accomplish the capture and target phases; whether an event accomplishes the bubble phase shall be defined individually for each <a class="def" href="#glossary-event-type">event type</a>. An alternate application of this model can be found in [<cite><a class="noxref informative" href="#references-DOMLS">DOM Level 3 Load and Save</a></cite>].</p>
+        <p>The model defined above must be applied regardless of the specific event flow associated with an event target. Each event flow must define how the propagation path shall be determined and which event phases are supported. The <em>DOM event flow</em> is an application of this model: the propagation path for a <code>Node</code> object shall be determined by its <code>Node.parentNode</code> chain, and if applicable, the document's containing <a class="def" href="#glossary-defaultView">defaultView</a>; all events accomplish the capture and target phases; whether an event accomplishes the bubble phase shall be defined individually for each <a class="def" href="#glossary-event-type">event type</a>. An alternate application of this model can be found in [<cite><a class="noxref informative" href="#references-DOMLS">DOM3 Load and Save</a></cite>].</p>
         <p>Implementations of the DOM event model must be reentrant. Event listeners may perform actions that cause additional events to be dispatched. Such events are handled in a synchronous manner, the event propagation that causes the event listener to be triggered must resume only after the event dispatch of the new event is completed.</p>
       </div>
 <!-- div2 Events-flow -->
       <div class="div2">
-        <h3 class="div2"><a id="event-flow-cancelation" href="#event-flow-cancelation">3.2 Default actions and cancelable events</a></h3>
+        <h3 class="div2"><a id="event-flow-default-cancel" href="#event-flow-default-cancel">3.2 Default actions and cancelable events</a></h3>
         <p>Event objects may have one or more <a class="def" href="#glossary-default-action">default actions</a> associated with them.  These are actions the implementation must perform in combination with the dispatch of the event object.  An example is the [<cite><a class="noxref informative" href="#references-HTML5">HTML5</a></cite>] form element. When the user submits the form (e.g. by pressing on a submit button), the event <a class="eventtype" href="#event-type-submit"><code>submit</code></a> shall be dispatched to the element and the <a class="def" href="#glossary-default-action">default action</a> for this <a class="def" href="#glossary-event-type">event type</a> shall be generally to send a request to a Web server with the parameters from the form.</p>
         <p><a class="def" href="#glossary-default-action">Default actions</a> should be performed after the event dispatch has been completed, but in exceptional cases also immediately before the event is dispatched.</p>
         <span class="issue"><strong>Issue:</strong> insert example here: &lt;input type="checkbox"&gt;'s .checked handling comes to mind.
@@ -747,7 +758,14 @@
 <!-- div2 sync-async -->
       <div class="div2">
         <h3 class="div2"><a id="trusted-events" href="#trusted-events">3.4 Trusted events</a></h3>
-        <p>Events which are generated by the user agent, either as a result of user interaction, or as a direct result of changes to the DOM, are trusted by the user agent with privileges that are not afforded to events generated by script through the <a href="#events-Events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("Event")</code></a> method or the <a href="#events-Events-CustomEvent">CustomEvent</a> interface, modified using the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method, or dispatched via the <a href="#events-Events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method.</p> 
+        <p>Events which are generated by the user agent, either as a result of user interaction, or as a direct result of changes to the DOM, are trusted by the user agent with privileges that are not afforded to events generated by script through the <a href="#events-Events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("Event")</code></a> method or the <a href="#events-Events-CustomEvent">CustomEvent</a> interface, modified using the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method, or dispatched via the <a href="#events-Events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method.  The <a href="#events-event-type-trusted"><code>trusted</code></a> attribute of trusted events has a value of <code>true</code>, while untrusted events have a <a href="#events-event-type-trusted"><code>trusted</code></a> attribute value of <code>false</code>.</p>
+        
+        <p>Most untrusted events should not trigger <a class="def" href="#glossary-default-action">default actions</a>, with the exception of <a class="eventtype" href="#event-type-click"><code>click</code></a> or <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> events which have been synthesized and are managed by the <a class="def" href="#glossary-user-agent">user agents</a> event as the <a class="def" href="#glossary-default-action">default action</a> of an <a class="def" href="#glossary-activation-trigger">activation trigger</a> (see <a href="#event-flow-activation">Activation triggers and behavior</a> for more details); these <a class="def" href="#glossary-user-agent">user-agent</a>-managed synthesized events have a have a <a href="#events-event-type-trusted"><code>trusted</code></a> attribute value of <code>false</code>, but still initiate any <a class="def" href="#glossary-default-action">default actions</a>.  All other untrusted events must behave as if the <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> method had been called on that event.</p>
+        
+        <p>For security reasons, a <a class="def" href="#glossary-host-language">host language</a> should not define events which are not cancelable (see <a href="#event-flow-default-cancel">Default actions and cancelable events</a>), but also have <a class="def" href="#glossary-default-action">default actions</a>, since these <a class="def" href="#glossary-default-action">default actions</a> may be initiated by untrusted events.</p>
+        
+        <p class="issue" id="issue-trusted-nonui"><strong>Issue:</strong> Are all non-script-generated events trusted events, or are only user-interaction-based events trusted events?</p>
+        
 
       </div>
 
@@ -764,7 +782,7 @@
         
         <p>A <a class="def" href="#glossary-host-language">host language</a> should indicate which, if any, elements have activation behavior, describe appropriate <a class="def" href="#glossary-activation-trigger">activation triggers</a>, and define the result of that activation behavior.  An implementation which supports a <a class="def" href="#glossary-host-language">host language</a> should initiate these <a class="def" href="#glossary-activation-behavior">activation behavior</a> when the associated <a class="def" href="#glossary-activation-trigger">activation trigger</a> occurs.</p>  
         
-        <p class="example" id="example-activation"><strong>Example:</strong> Both HTML and SVG have an <code class="element">a</code> element which indicates a link.  Relevant <a class="def" href="#glossary-activation-trigger">activation triggers</a> for an <code class="element">a</code> element are a <a class="eventtype" href="#event-type-click"><code>click</code></a> event on the text or image  content of the <code class="element">a</code> element, or a <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event with a <a href="#events-Events-KeyboardEvent-key">key</a> attribute value of <a href="#key-Enter"><code class="value keyname">'Enter'</code></a> key when the <code class="element">a</code> element has focus.  The activation behavior for an <code class="element">a</code> element is normally to change the content of the window to the content of the new document, in the case of external links, or to reposition the current document relative to the new anchor, in the case of internal links.</p>
+        <p class="example" id="example-activation"><strong>Example:</strong> Both HTML and SVG have an <code class="element">a</code> element which indicates a link.  Relevant <a class="def" href="#glossary-activation-trigger">activation triggers</a> for an <code class="element">a</code> element are a <a class="eventtype" href="#event-type-click"><code>click</code></a> event on the text or image  content of the <code class="element">a</code> element, or a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event with a <a href="#events-Events-KeyboardEvent-key">key</a> attribute value of <a href="#key-Enter"><code class="value keyname">'Enter'</code></a> key when the <code class="element">a</code> element has focus.  The activation behavior for an <code class="element">a</code> element is normally to change the content of the window to the content of the new document, in the case of external links, or to reposition the current document relative to the new anchor, in the case of internal links.</p>
         
         <p>An <a class="def" href="#glossary-activation-trigger">activation trigger</a> is a user action or an event which indicates to the implementation that an activation behavior should be initiated.  User-initiated <a class="def" href="#glossary-activation-trigger">activation triggers</a> include clicking a mouse button on an activatable element, pressing the <a href="#key-Enter"><code class="value keyname">'Enter'</code></a> key when an activatable element has focus, or pressing a key that is somehow linked to an activatable element (a "hotkey" or "access key") even when that element does not have focus.  Event-based <a class="def" href="#glossary-activation-trigger">activation triggers</a> may include timer-based events that activate an element at a certain clock time or after a certain time period has elapsed, progress events after a certain action has been completed, or many other condition-based or state-based events.</p>        
 
@@ -772,15 +790,34 @@
 
         <p>If the instance of the <a class="def" href="#glossary-activation-trigger">activation trigger</a> is not an event of <a class="def" href="#glossary-event-type">event type</a> <a class="eventtype" href="#event-type-click"><code>click</code></a> (that is, when it does not result from a user activating a button or link using a mouse or equivalent pointing device), the implementation must synthesize and dispatch an event of <a class="def" href="#glossary-event-type">event type</a> <a class="eventtype" href="#event-type-click"><code>click</code></a> as one of the <a class="def" href="#glossary-default-action">default actions</a> of that <a class="def" href="#glossary-activation-trigger">activation trigger</a>.  Context information of such a <a class="eventtype" href="#event-type-click"><code>click</code></a> event is implementation dependent, but for historical purposes, the interface for the <a class="eventtype" href="#event-type-click"><code>click</code></a> event must be the <a href="#events-Events-MouseEvent"><code>MouseEvent interface</code></a>, regardless of the actual device used to activate the element.  Preventing the <a class="def" href="#glossary-default-action">default action</a> of the <a class="def" href="#glossary-activation-trigger">activation trigger</a>, such as with the <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a>, must stop the initiation of the <a class="def" href="#glossary-activation-behavior">activation behavior</a>.</p>
         
-        <p class="example" id="example-activation-click"><strong>Example:</strong>  When a user activates a hyperlink using a keyboard, such as by focusing the hyperlink element and pressing the <a href="#key-Enter"><code class="value keyname">'Enter'</code></a> or <a href="#key-Space"><code class="value keyname">'Space'</code></a> key, a <a class="eventtype" href="#event-type-click"><code>click</code></a> event would be dispatched as the <a class="def" href="#glossary-default-action">default action</a> of the respective <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event.</p>
+        <p class="example" id="example-activation-click"><strong>Example:</strong>  When a user activates a hyperlink using a keyboard, such as by focusing the hyperlink element and pressing the <a href="#key-Enter"><code class="value keyname">'Enter'</code></a> or <a href="#key-Space"><code class="value keyname">'Space'</code></a> key, a <a class="eventtype" href="#event-type-click"><code>click</code></a> event would be dispatched as the <a class="def" href="#glossary-default-action">default action</a> of the respective <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event.</p>
 
       <p>Implementations must dispatch the synthesized <a class="eventtype" href="#event-type-click"><code>click</code></a> event as described above even if they do not normally dispatch such an event (e.g. when activation is requested by a voice command, since this specification does not address <a class="def" href="#glossary-event-type">event types</a> for voice input).</p>
 
       <p class="note" id="application-dependent-activation"><strong>Note:</strong> The activation of an event target is device dependent but is also application dependent, e.g. a link in a document can be activated using a mouse click or a mouse double click.</p>
 
-      <p>Implementations which support the <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> should also dispatch a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event as the <a class="def" href="#glossary-default-action">default action</a> of a <a class="eventtype" href="#event-type-click"><code>click</code></a> event which is associated with an <a class="def" href="#glossary-activation-trigger">activation trigger</a>.  However, such implementations should only initiate the associated <a class="def" href="#glossary-activation-behavior">activation behavior</a> once for any given occurrence of an <a class="def" href="#glossary-activation-trigger">activation trigger</a>.</p>   
+      <p>Implementations which support the <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> should also dispatch a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event as a <a class="def" href="#glossary-default-action">default action</a> of a <a class="eventtype" href="#event-type-click"><code>click</code></a> event which is associated with an <a class="def" href="#glossary-activation-trigger">activation trigger</a>.  However, such implementations should only initiate the associated <a class="def" href="#glossary-activation-behavior">activation behavior</a> once for any given occurrence of an <a class="def" href="#glossary-activation-trigger">activation trigger</a>.</p>   
+        
+        <p class="example" id="example-activation-DOMActivate"><strong>Example:</strong> The <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> is required to be supported for XForms [<cite><a class="noxref informative" href="#ref-xforms">XFORMS</a></cite>], which is intended for implementation within a <a class="def" href="#glossary-host-language">host language</a>.  In a scenario where a plugin or script-based implementation of XForms is intended for installation in a native implementation of this specification which does not support the <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a>, the XForms <a class="def" href="#glossary-user-agent">user agent</a> must synthesize and dispatch its own <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> events based on the appropriate <a class="def" href="#glossary-activation-trigger">activation triggers</a>.  Thus, when a <a class="eventtype" href="#event-type-click"><code>click</code></a> event is dispatched by the DOM Level 3 Events <a class="def" href="#glossary-user-agent">user agent</a>, the XForms <a class="def" href="#glossary-user-agent">user agent</a> must determine whether to synthesize a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event with the same relevant properties as a <a class="def" href="#glossary-default-action">default action</a> of that <a class="eventtype" href="#event-type-click"><code>click</code></a> event; appropriate cues may be whether the <a class="eventtype" href="#event-type-click"><code>click</code></a> event is <a href="#trusted-events">trusted</a>, or whether its <a class="def" href="#glossary-proximal-event-target">proximal event target</a> has a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event listener registered.</p>
       
-      <p class="note" id="authors-activation"><strong>Note:</strong>  Authors cannot rely upon the interoperable support of <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> in many <a class="def" href="#glossary-user-agent">user agents</a>.  Thus, authors may use the <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> whenever they wish to make or react to an <a class="def" href="#glossary-activation-trigger">activation trigger</a>, but should use the <a class="eventtype" href="#event-type-click"><code>click</code></a> <a class="def" href="#glossary-event-type">event type</a> for more accessible behavior instead, due to wider implementation.</p>
+      <p class="note" id="authors-activation"><strong>Note:</strong>  Authors should not rely upon the interoperable support of <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> in many <a class="def" href="#glossary-user-agent">user agents</a>.  Thus, authors may use the <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> whenever they wish to make or react to an <a class="def" href="#glossary-activation-trigger">activation trigger</a>, but should use the <a class="eventtype" href="#event-type-click"><code>click</code></a> <a class="def" href="#glossary-event-type">event type</a> for more accessible behavior instead, due to wider implementation.</p>
+
+
+      <h4 class="div3 needswork"><a id="events-activation-event-order" href="#events-activation-event-order">3.5.1 Activation Event Order</a></h4>
+      <p>Activation triggers and behavior can be defined in part by the events which are dispatched in a set order relative to one another.  The following is the typical sequence of events for an element activated by a pointing device (with only pertinent events listed):</p>
+      <ol>
+        <li><a class="eventtype" href="#event-type-click"><code>click</code></a></li>
+        <li><a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> (<a class="def" href="#glossary-default-action">default action</a>, if supported by the <a class="def" href="#glossary-user-agent">user agent</a>; synthesized; <code>trusted="false"</code>)</li>
+        <li><em>All other <a class="def" href="#glossary-default-action">default actions</a>, including the <a class="def" href="#glossary-activation-behavior">activation behavior</a></em></li>
+      </ol>
+
+      <p>The following is the typical sequence of events when a focused element is activated by a key event (with only pertinent events listed):</p>
+      <ol>
+        <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> (must be a key which can activate the element, such as the <a href="#key-Enter"><code class="value keyname">'Enter'</code></a> or <a href="#key-Space"><code class="value keyname">'Space'</code></a> key, or the element is not activated)</li>
+        <li><a class="eventtype" href="#event-type-click"><code>click</code></a> (<a class="def" href="#glossary-default-action">default action</a>; synthesized; <code>trusted="false"</code>)</li>
+        <li><a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> (<a class="def" href="#glossary-default-action">default action</a>, if supported by the <a class="def" href="#glossary-user-agent">user agent</a>; synthesized; <code>trusted="false"</code>)</li>
+        <li><em>All other <a class="def" href="#glossary-default-action">default actions</a>, including the <a class="def" href="#glossary-activation-behavior">activation behavior</a></em></li>
+      </ol>
         
        <!--
        <p>Implementations could react to an event before dispatching it
@@ -880,7 +917,7 @@ interface <a href="#events-Events-Event">Event</a> {
                           <code class="constant-name">AT_TARGET</code>
                         </a>
                       </dt>
-                      <dd>The current event is in the <a class="def" href="#glossary-target-phase">target phase</a>, i.e. it is being evaluated at the <a class="def" href="#glossary-event-target">event target</a>.</dd>
+                      <dd>The current event is in the <a class="def" href="#glossary-target-phase">target phase</a>, i.e. it is being evaluated at the <a class="def" href="#glossary-proximal-event-target">proximal event target</a>.</dd>
                       <dt>
                         <a id="events-BUBBLING_PHASE">
                           <code class="constant-name">BUBBLING_PHASE</code>
@@ -905,7 +942,7 @@ interface <a href="#events-Events-Event">Event</a> {
                   <dt><code class="attribute-name"><a id="events-event-type-canBubble">bubbles</a></code> of type <code>boolean</code>, readonly</dt>
                   <dd>Used to indicate whether or not an event is a bubbling event. If the event can bubble the value shall be <code>true</code>, otherwise the value shall be <code>false</code>.<br /></dd>
                   <dt><code class="attribute-name"><a id="events-event-type-canCancel">cancelable</a></code> of type <code>boolean</code>, readonly</dt>
-                  <dd>Used to indicate whether or not an event can have its <a class="def" href="#glossary-default-action">default action</a> prevented (see also <a href="#event-flow-cancelation">Default actions and cancelable events</a>). If the <a class="def" href="#glossary-default-action">default action</a> can be prevented the value shall be <code>true</code>, otherwise the value shall be <code>false</code>.<br /></dd>
+                  <dd>Used to indicate whether or not an event can have its <a class="def" href="#glossary-default-action">default action</a> prevented (see also <a href="#event-flow-default-cancel">Default actions and cancelable events</a>). If the <a class="def" href="#glossary-default-action">default action</a> can be prevented the value shall be <code>true</code>, otherwise the value shall be <code>false</code>.<br /></dd>
                   <dt><code class="attribute-name"><a id="events-event-type-currentTarget">currentTarget</a></code> of type <a href="#events-Events-EventTarget"><code>EventTarget</code></a>, readonly</dt>
                   <dd>Used to indicate the <a href="#events-Events-EventTarget"><code>EventTarget</code></a> whose <a href="#events-Events-EventListener"><code>EventListeners</code></a> are currently being processed. This is particularly useful during the capture and bubbling phases. When used with the <a href="#event-flow">Event dispatch and DOM event flow</a>, this attribute contains the <a class="def" href="#glossary-proximal-event-target">proximal event target</a> or a target ancestor.<br /></dd>
 
@@ -954,7 +991,7 @@ This method sets the <a href="#events-event-type-type"><code>Event.type</code></
                     </code>
                   </dt>
                   <dd>
-                    <div class="method">When this method is evoked, the event must be canceled, meaning any <a class="def" href="#glossary-default-action">default actions</a> normally taken by the implementation as a result of the event must not occur (see also <a href="#event-flow-cancelation">Default actions and cancelable events</a>). Calling this method for a non-cancelable event shall have no effect.  If an event has more than one <a class="def" href="#glossary-default-action">default action</a>, each cancelable <a class="def" href="#glossary-default-action">default action</a> must be canceled.
+                    <div class="method">When this method is evoked, the event must be canceled, meaning any <a class="def" href="#glossary-default-action">default actions</a> normally taken by the implementation as a result of the event must not occur (see also <a href="#event-flow-default-cancel">Default actions and cancelable events</a>). Calling this method for a non-cancelable event shall have no effect.  If an event has more than one <a class="def" href="#glossary-default-action">default action</a>, each cancelable <a class="def" href="#glossary-default-action">default action</a> must be canceled.
 <p class="note"><strong>Note:</strong> This method does not stop the event propagation; use <a href="#events-event-type-stopPropagation"><code>Event.stopPropagation()</code></a> or <a href="#events-event-type-stopImmediatePropagation"><code>Event.stopImmediatePropagation()</code></a> for that effect.</p>
                       <div><strong>No Parameters</strong></div>
                       <div><strong>No Return Value</strong></div>
@@ -1462,7 +1499,7 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
       <div class="div3">
         <h4 class="div3"><a id="event-types-list" href="#event-types-list">5.1.1 List of DOM3 Event Types</a></h4>
         <p>Depending on the level of DOM support, or the devices used for display (e.g. screen) or interaction (e.g., mouse, keyboard, touch screen, or voice), these event types can be generated by the implementation. When used with an [<cite><a class="noxref informative" href="#references-XML">XML 1.0</a></cite>] or [<cite><a class="noxref informative" href="#references-HTML5">HTML5</a></cite>] application, the specifications of those languages may restrict the semantics and scope (in particular the possible <a class="def" href="#glossary-proximal-event-target">proximal event targets</a>) associated with an event type. Refer to the specification defining the language used in order to find those restrictions or to find event types that are not defined in this document.</p>
-        <p>The following table provides a non-normative summary of the event types defined in this specification.  All events must accomplish the capture and target phases, but not all of them must accomplish the bubbling phase (see also <a href="#event-flow">Event dispatch and DOM event flow</a>). Some events are not <a href="#events-dt-cancelable-event">cancelable</a> (see <a href="#event-flow-cancelation">Default actions and cancelable events</a>). Some events must only be dispatched to a specific set of possible targets in the DOM event flow, specified using node types. Contextual information related to the event type must be accessible using DOM interfaces.</p>
+        <p>The following table provides a non-normative summary of the event types defined in this specification.  All events must accomplish the capture and target phases, but not all of them must accomplish the bubbling phase (see also <a href="#event-flow">Event dispatch and DOM event flow</a>). Some events are not <a href="#events-dt-cancelable-event">cancelable</a> (see <a href="#event-flow-default-cancel">Default actions and cancelable events</a>). Some events must only be dispatched to a specific set of possible targets in the DOM event flow, specified using node types. Contextual information related to the event type must be accessible using DOM interfaces.</p>
         <table id="table-event-summary" summary="This table contains the complete list of event types defined by DOM Level 3 Events. The first column contains the local name of the event type. The second column indicates if the event accomplish the bubbling phase or not (all events accomplish the capture and target phases). The third column indicates if the default action associated with the event can be canceled. The fourth column indicates the nodes that can be target of the event. the fifth (and last) column indicates the DOM interface implemented by the event object.">
            <!-- border="1" cellpadding="2" cellspacing="0"  -->
           <tr>
@@ -2147,6 +2184,21 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
             <td>Yes</td>
             <td>Scroll (or zoom) the document</td>
           </tr>
+          <!-- <tr>
+            <td>
+              <a class="eventtype" href="#event-type-zoom"><code>zoom</code></a>
+            </td>
+            <td>Async</td>
+            <td>No</td>
+            <td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>Element</code></td>
+            <td>
+              <a href="#events-Events-UIEvent">
+                <code>UIEvent</code>
+              </a>
+            </td>
+            <td>No</td>
+            <td>none</td>
+          </tr> -->
         </table>
         <p>As an example of interpreting of this table, the event <a class="eventtype" href="#event-type-load"><code>load</code></a> must trigger event listeners attached on <code>Element</code> nodes for that event and on the capture and target phases. This event cannot be cancelled. If an event listener for the <a class="eventtype" href="#event-type-load"><code>load</code></a> event is attached to a node other than <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, or <code>Element</code> nodes, or if it is attached to the bubbling phase only, this event listener must not be triggered.</p>
         <p>The event objects associated with the event types described above may contain context information. Refer to the description of the DOM interfaces for further information.</p>
@@ -2339,10 +2391,21 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
               A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a document view or an element has been scrolled.  This event type is dispatched after the scroll has occurred.</dd>
           </dl>
         </div>
+
+<!-- zoom -->
+        <!-- <div class="event-definition assert must">
+          <dl>
+            <dt id="event-type-zoom">
+              <a class="eventtype noxref" href="#event-type-zoom"><code>zoom</code></a>
+            </dt>
+            <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>zoom</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-UIEvent"><code>UIEvent</code></a></td></tr><tr class="assert must"><th>Sync / Async</th><td>Async</td></tr><tr class="assert must"><th>Bubbles</th><td>No</td></tr><tr class="assert must"><th>Target</th><td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>No</td></tr><tr class="assert must"><th>Default action</th><td>none</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> is in use.  The <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> attribute indicates the <a href="#events-current-scale-coefficient">current scale coefficient</a> of the <a class="def" href="#glossary-event-target">event target</a>.</td></tr></table>
+              A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a document view or an element has been zoomed.  This event type is dispatched after the scroll has occurred.
+              <p>The value of <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> must reflect the <dfn id="events-current-scale-coefficient">current scale coefficient</dfn> (or "zoom level") of the document or element.  The initial value for the current scale coefficient must be 1.  Each doubling in size of the <a class="def" href="#glossary-event-target">event target</a> must multiply the current scale coefficient, and each halving</p>
+            </dd>
+          </dl>
+        </div>
       </div>
-<!-- div3 Events-eventgroupings-basicevents -->
-    </div>
-<!-- div3 Events-KeyboardEvents-Interfaces -->
+    </div> -->
 
 
 
@@ -3165,6 +3228,8 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
             <p><code>MozMousePixelScroll.axis = HORIZONTAL_AXIS</code></p>
 
             <p class="note" id="note-delta-speed"><strong>Note:</strong> In some <a class="def" href="#glossary-user-agent">user agents</a>, or with some input devices, the speed that the wheel has been turned may affect the <a href="#glossary-delta"><code>delta</code></a> values, with a faster speed producing a higher <a href="#glossary-delta"><code>delta</code></a> value.</p>
+
+            <p class="note" id="note-no-scroll-default"><strong>Note:</strong> Though events of event type <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> often result in scrolling, which results in a <a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> event, there is no direct connection between these event types, and the <a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> event is not a <a class="def" href="#glossary-default-action">default action</a> of the <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event.</p>
           </dd>
         </dl>
       </div>
@@ -3512,38 +3577,45 @@ interface <a href="#events-Events-TextEvent">TextEvent</a> : <a href="#events-Ev
         <p class="warning" id="keycode-charcode"><strong>Warning!</strong>  Legacy keyboard event implementations may include two additional attributes, <code>keyCode</code> and <code>charCode</code>.  The <code>keyCode</code> attribute indicates a numeric value associated with a particular key on a computer keyboard, while the <code>charCode</code> attribute indicates the <acronym title="American Standard Code for Information Interchange">ASCII</acronym> value of the character associated with that key (which may or may not be the same as the <code>keyCode</code> value) and is applicable only to keys that produce a <a class="def" href="#glossary-character-value">character value</a>.  In practice, <code>keyCode</code> and <code>charCode</code> are inconsistent across platforms and even the same implementation on different operating systems or using different localizations.  DOM Level 3 Events  does not define behavior for either <code>keyCode</code> or <code>charCode</code>; authors should use <a href="#events-Events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> instead, in conforming DOM Level 3 Events implementations.  <em>For more information, see the informative table in <a href="#keyset-keyCode-charCode">Key values, keyCode, and charCode</a>.</em></p>
                 
         <p>Depending on the character generation device, keyboard events may or may not be generated.</p>
+        
+        <p class="note" id="note-virtual-keyboards"><strong>Note:</strong>  For compatibility with existing content, virtual keyboards, such as software keyboards on screen-based input devices, should produce the normal range of keyboard events, even though they do not possess physical keys.</p>
+        
         <p>The keyboard event types are listed below.</p>
         
         <h4 class="div3 needswork"><a id="events-keyboard-event-order" href="#events-keyboard-event-order">5.2.6.1 Keyboard Event Order</a></h4>
         <p>The keyboard events defined in this specification occur in a set order relative to one another, for any given key:</p>
         <ol>
           <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></li>
-          <li><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a></li>
+          <li><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> (only for keys which produce a <a class="def" href="#glossary-character-value">character value</a>)</li>
           <li>If the key is depressed for a sustained period, the following events may repeat at an environment-dependent rate:
             <!-- and the key should seek counseling -->
             <ul>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> (with <a href="#events-Events-KeyboardEvent-repeat">repeat</a> attribute set to <code class="value">true</code>)</li>
-              <li><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> (with <a href="#events-Events-KeyboardEvent-repeat">repeat</a> attribute set to <code class="value">true</code>)</li>
+              <li><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> (with <a href="#events-Events-KeyboardEvent-repeat">repeat</a> attribute set to <code class="value">true</code>; only for keys which produce a <a class="def" href="#glossary-character-value">character value</a>)</li>
             </ul>
           </li>
+          <li><em>Any <a class="def" href="#glossary-default-action">default actions</a> related to this key</em></li>
           <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></li>
         </ol>
         
         <p>Keys associated with a <a class="def" href="#glossary-character-value">character value</a> must, under normal circumstances, produce a <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event as well.  The order of text events relative to keyboard events is as follows:</p>
         <ol>
           <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></li>
-          <li><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a></li>
+          <li><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> (only for keys which produce a <a class="def" href="#glossary-character-value">character value</a>)</li>
           <li>If a <a class="def" href="#glossary-character-value">character value</a> is produced, <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a></li>
           <li>If the key is depressed for a sustained period, the following events may repeat at an environment-dependent rate:
             <!-- and the key should seek counseling -->
             <ul>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> (with <a href="#events-Events-KeyboardEvent-repeat">repeat</a> attribute set to <code class="value">true</code>)</li>
-              <li><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> (with <a href="#events-Events-KeyboardEvent-repeat">repeat</a> attribute set to <code class="value">true</code>)</li>
+              <li><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> (with <a href="#events-Events-KeyboardEvent-repeat">repeat</a> attribute set to <code class="value">true</code>; only for keys which produce a <a class="def" href="#glossary-character-value">character value</a>)</li>
               <li>If a <a class="def" href="#glossary-character-value">character value</a> is produced, <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a></li>
             </ul>
           </li>
+          <li><em>Any <a class="def" href="#glossary-default-action">default actions</a> associated with this key</em></li>
           <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></li>
         </ol>
+        
+        <p class="note" id="key-default"><strong>Note</strong>  Typically, any <a class="def" href="#glossary-default-action">default actions</a> associated with any particular key must be completed before the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event is dispatched, which may delay the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event slightly (though this is not likely to be a perceptible delay).</p>
         
         <p class="warning"><strong>Warning!</strong> Because of hardware limitations, on some keyboard devices, the order between the text event and keyboard events may differ.  For example, some mobile devices may dispatch the <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event after the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event.</p>
                 
@@ -3558,9 +3630,25 @@ interface <a href="#events-Events-TextEvent">TextEvent</a> : <a href="#events-Ev
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>keydown</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-KeyboardEvent"><code>KeyboardEvent</code></a></td></tr><tr class="assert must"><th>Sync / Async</th><td>Sync</td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>Yes</td></tr><tr class="assert must"><th>Default action</th><td>Varies: <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event; launch <a class="def" href="#glossary-text-composition-system">text composition system</a>; <a class="eventtype" href="#event-type-blur"><code>blur</code></a> and <a class="eventtype" href="#event-type-focus"><code>focus</code></a> events; <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event; other event</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, <a href="#events-Events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>, <a href="#events-Events-KeyboardEvent-location"><code>KeyboardEvent.location</code></a>, <a href="#events-Events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-Events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-Events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, <a href="#events-Events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a>, and <a href="#events-Events-KeyboardEvent-repeat"><code>KeyboardEvent.repeat</code></a> are in use.</td></tr></table>
                A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a key is pressed down. The <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type shall be generated after the keyboard mapping but before the processing of an <a class="def" href="#glossary-ime">input method editor</a>, normally associated with the dispatching of a <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>, <a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>, or <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event. This event type must be dispatched before the <a class="eventtype" href="#event-type-compositionstart"><code>keypress</code></a> and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events event associated with the same key.  Whether or not a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> contributes to the generation of a text event is implementation dependent.
                
-               <p>The default action of the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event depends upon the key: if the key is associated with a character, the default action is to dispatch a <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event with the character as the value of the <a href="#events-Events-TextEvent-data"><code>TextEvent.data</code></a> attribute; if the key is associated with a <a class="def" href="#glossary-text-composition-system">text composition system</a>, the default action is to launch that system; if the key is the <code>tab</code> key, the default action is to dispatch a <a class="eventtype" href="#event-type-blur"><code>blur</code></a> event with the currently focused element (if any) as the value of the <a href="#events-event-type-target">Event.target</a> attribute, followed by a <a class="eventtype" href="#event-type-focus"><code>focus</code></a> event with the new focused element as the value of the <a href="#events-event-type-target">Event.target</a> attribute; if the key is the <code class="value">'Enter'</code> key and the current focus is on a state-changing element, the default action is to dispatch a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event; if the key is associated with any other event type, such as the <a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> event, the default action is to dispatch an event of that type.  If this event is canceled, the associated events types must not be dispatched, and the associated actions must not be performed.</p>
+               <p>if the document's currently focused element can receive text (such as a form input or an editable text block), the default action shall be to dispatch a <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event with the character as the value of the <a href="#events-Events-TextEvent-data"><code>TextEvent.data</code></a> attribute, and the focused element as the  <a class="def" href="#glossary-proximal-event-target">proximal event target</a>, and for that character to be appended to the text content of that element;</p>
+               
+               <p>The default action of the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event depends upon the key:</p>
+               <ul>
+                 <li>if the key is associated with a character, the default action shall be to dispatch a <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event with the character as the value of the <a href="#events-Events-TextEvent-data"><code>TextEvent.data</code></a> attribute
+                   <ul>
+                     <li>if the document's currently focused element can receive text (such as a form input or an editable text block), the default action shall be to dispatch a <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event with the character as the value of the <a href="#events-Events-TextEvent-data"><code>TextEvent.data</code></a> attribute, and the focused element as the value of the <a href="#events-event-type-target">Event.target</a> attribute, and for that character to be appended to the text content of that element</li>
+                   </ul>
+                 </li>
+                 <li>if the key is associated with a <a class="def" href="#glossary-text-composition-system">text composition system</a>, the default action shall be to launch that system</li>
+                 <li>if the key is the <code>tab</code> key, the default action shall be to shift the document focus from the currently focused element (if any) to the new focused element, as described in <a href="#events-focusevent">Focus Event Types</a></li>
+                 <li>if the key is the <a href="#key-Enter"><code class="value keyname">'Enter'</code></a> or <a href="#key-Space"><code class="value keyname">'Space'</code></a> key and the current focus is on a state-changing element, the default action shall be to dispatch a <a class="eventtype" href="#event-type-click"><code>click</code></a> event, and a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event if that event type is supported by the <a class="def" href="#glossary-user-agent">user agent</a> (refer to <a href="#event-flow-activation">activation triggers and behavior</a> for more details)</li>
+                 <li>if the key is associated with any other event type, such as the <a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> event, the default action shall be to dispatch an event of that type.</li>
+               </ul>
 
-              <p class="note"><strong>Note:</strong> the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events are traditionally associated with detecting a physical key rather than a <a class="def" href="#glossary-character-value">character value</a>.</p></dd>
+               
+               <p>If this event is canceled, the associated events types must not be dispatched, and the associated actions must not be performed.</p>
+
+               <p class="note"><strong>Note:</strong> the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events are traditionally associated with detecting any key, not just those which produce a <a class="def" href="#glossary-character-value">character value</a>.</p></dd>
           </dl>
         </div>
 
@@ -3571,12 +3659,11 @@ interface <a href="#events-Events-TextEvent">TextEvent</a> : <a href="#events-Ev
               <a class="eventtype noxref" href="#event-type-keypress"><code>keypress</code></a>
             </dt>
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>keypress</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-KeyboardEvent"><code>KeyboardEvent</code></a></td></tr><tr class="assert must"><th>Sync / Async</th><td>Sync</td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>Yes</td></tr><tr class="assert must"><th>Default action</th><td>Varies: <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event; launch <a class="def" href="#glossary-text-composition-system">text composition system</a>; <a class="eventtype" href="#event-type-blur"><code>blur</code></a> and <a class="eventtype" href="#event-type-focus"><code>focus</code></a> events; <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event; other event</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, <a href="#events-Events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>, <a href="#events-Events-KeyboardEvent-location"><code>KeyboardEvent.location</code></a>, <a href="#events-Events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-Events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-Events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, <a href="#events-Events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a>, and <a href="#events-Events-KeyboardEvent-repeat"><code>KeyboardEvent.repeat</code></a> are in use.</td></tr></table>
-               A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a key is pressed down. The <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type shall be generated after the keyboard mapping but before the processing of an <a class="def" href="#glossary-ime">input method editor</a>, normally associated with the dispatching of a <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>, <a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>, or <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event. This event type must be dispatched after the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event and before the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event associated with the same key.
-
-               <p>The default action of the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event depends upon the key and the context: if the key is associated with a character, and if there currently focused element in the document can receive text (such as a form input or an editable text block), the default action is to dispatch a <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event with the character as the value of the <a href="#events-Events-TextEvent-data"><code>TextEvent.data</code></a> attribute; if the key is associated with a <a class="def" href="#glossary-text-composition-system">text composition system</a>, the default action is to launch that system; if the key is the <code>tab</code> key, the default action is to dispatch a <a class="eventtype" href="#event-type-focusout"><code>focusout</code></a>, <a class="eventtype" href="#event-type-blur"><code>blur</code></a>, and <a class="eventtype" href="#event-type-DOMFocusOut"><code>DOMFocusOut</code></a> events with the currently focused element (if any) as the value of the <a href="#events-event-type-target">Event.target</a> attribute, followed by a <a class="eventtype" href="#event-type-focusin"><code>focusin</code></a>, <a class="eventtype" href="#event-type-focus"><code>focus</code></a>, and <a class="eventtype" href="#event-type-DOMFocusIn"><code>DOMFocusIn</code></a> events with the new focused element as the value of the <a href="#events-event-type-target">Event.target</a> attribute; if the key is the <code class="value">'Enter'</code> key and the current focus is on a state-changing element, the default action is to dispatch a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event; if the key is associated with any other event type, such as the <a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> event, the default action is to dispatch an event of that type.  If this event is canceled, the associated events types must not be dispatched, and the associated actions must not be performed.</p>
+               A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a key is pressed down, if and only if that key normally produces a <a class="def" href="#glossary-character-value">character value</a>. The <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type shall be generated after the keyboard mapping but before the processing of an <a class="def" href="#glossary-ime">input method editor</a>, normally associated with the dispatching of a <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>, <a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>, or <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event. This event type must be dispatched after the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event and before the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event associated with the same key.
 
               <p class="note"><strong>Note:</strong> the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event is traditionally associated with detecting a <a class="def" href="#glossary-character-value">character value</a> rather than a physical key, and may not be available on all keys in some configurations.</p>
-              <p class="warning"><strong>Warning!</strong> the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event type is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type.</p>
+              
+              <p class="warning"><strong>Warning!</strong> the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event type is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type in favor of the <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event type.</p>
             </dd>
           </dl>
         </div>
@@ -3590,7 +3677,7 @@ interface <a href="#events-Events-TextEvent">TextEvent</a> : <a href="#events-Ev
             <dd><table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0"><tr class="assert must"><th>Type</th><td class="eventname"><strong><code>keyup</code></strong></td></tr><tr class="assert must"><th>Interface</th><td><a href="#events-Events-KeyboardEvent"><code>KeyboardEvent</code></a></td></tr><tr class="assert must"><th>Sync / Async</th><td>Sync</td></tr><tr class="assert must"><th>Bubbles</th><td>Yes</td></tr><tr class="assert must"><th>Target</th><td><code>Element</code></td></tr><tr class="assert must"><th>Cancelable</th><td>Yes</td></tr><tr class="assert must"><th>Default action</th><td>none</td></tr><tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a>, <a href="#events-Events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>, and <a href="#events-Events-KeyboardEvent-location"><code>KeyboardEvent.location</code></a> are in use. <a href="#events-Events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-Events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-Events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, and <a href="#events-Events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a> are in use unless the <a href="#events-Events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> corresponds to the key modifier itself.</td></tr></table>
                A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a key is released.  The <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system.  This event type shall be generated after the keyboard mapping. This event type must be dispatched after the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> and <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> events event associated with the same key.  Whether or not a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> contributes to the generation of a text event is implementation dependent.
 
-              <p class="note"><strong>Note:</strong> the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events are traditionally associated with detecting a physical key rather than a <a class="def" href="#glossary-character-value">character value</a>.</p></dd>
+               <p class="note"><strong>Note:</strong> the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events are traditionally associated with detecting any key, not just those which produce a <a class="def" href="#glossary-character-value">character value</a>.</p></dd>
           </dl>
         </div>
       </div>
@@ -6506,7 +6593,7 @@ interface <a href="#events-Events-TextEvent">TextEvent</a> : <a href="#events-Ev
           <dl>
             <dt>Interface <a href="#events-Events-Event"><code>Event</code></a></dt>
             <dd>The <a href="#events-Events-Event"><code>Event</code></a> interface has one new attribute, <a href="#events-event-type-defaultPrevented"><code>Event.defaultPrevented</code></a>, and one new methods, <a href="#events-event-type-stopImmediatePropagation"><code>Event.stopImmediatePropagation()</code></a>.<br />
-                  <a href="#events-event-type-timeStamp"><code>Event.timeStamp</code></a> is now a <code>Number</code> in the ECMAScript binding; a proposed correction to make the same change in [<cite><a class="noxref normative" href="#references-DOMCore">DOM Level 3 Core</a></cite>] is forthcoming.<br />
+                  <a href="#events-event-type-timeStamp"><code>Event.timeStamp</code></a> is now a <code>Number</code> in the ECMAScript binding; a proposed correction to make the same change in [<cite><a class="noxref normative" href="#references-DOMCore">DOM3 Core</a></cite>] is forthcoming.<br />
     DOM Level 3 Events considers the <a href="#events-event-type-type"><code>Event.type</code></a> attribute to be case-sensitive, while DOM Level 2 Events considers <a href="#events-event-type-type"><code>Event.type</code></a> to be case-insensitive.</dd>
             <dt>Interface <a href="#events-Events-EventTarget"><code>EventTarget</code></a></dt>
             <dd><!-- The <a href="#events-Events-EventTarget"><code>EventTarget</code></a> interface has foo new methods: . --> The method <a href="#events-Events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> was modified.</dd>
@@ -6588,12 +6675,12 @@ interface <a href="#events-Events-TextEvent">TextEvent</a> : <a href="#events-Ev
           <dd><cite><a href="http://www.w3.org/TR/2005/REC-charmod-20050215/">Character Model for the World Wide Web 1.0: Fundamentals</a></cite>, M. Dürst, F. Yergeau, R. Ishida, M. Wolf, T. Texin, Editors. World Wide Web Consortium, 15 February 2005. This version of the Character Model for the World Wide Web 1.0: Fundamentals specification is http://www.w3.org/TR/2005/REC-charmod-20050215/. The <a class="normative" href="http://www.w3.org/TR/charmod/">latest version of Character Model for the World Wide Web 1.0: Fundamentals</a> is available at http://www.w3.org/TR/charmod/.</dd>
 
           <dt>
-            <strong>[<a id="references-DOMCore">DOM Level 3 Core</a>]</strong>
+            <strong>[<a id="references-DOMCore">DOM3 Core</a>]</strong>
           </dt>
           <dd><cite><a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407">Document Object Model Level 3 Core Specification</a></cite>, A. Le Hors, et al., Editors. World Wide Web Consortium, April 2004. This version of the Document Object Model Level 3 Core Specification is http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407. The <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core">latest version of DOM Level 3 Core</a> is available at http://www.w3.org/TR/DOM-Level-3-Core.</dd>
 
           <dt>
-            <strong>[<a id="references-DOM2Events">DOM Level 2 Events</a>]</strong>
+            <strong>[<a id="references-DOM2Events">DOM2 Events</a>]</strong>
           </dt>
           <dd><cite><a href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Events-20001113">Document Object Model Level 2 Events Specification</a></cite>, T. Pixley, Editor. World Wide Web Consortium, November 2000. This version of the Document Object Model Level 2 Events Specification is http://www.w3.org/TR/2000/REC-DOM-Level-2-Events-20001113. The <a class="normative" href="http://www.w3.org/TR/DOM-Level-2-Events">latest version of Document Object Model Level 2 Events</a> is available at http://www.w3.org/TR/DOM-Level-2-Events.</dd>
           <dt>
@@ -6643,13 +6730,23 @@ interface <a href="#events-Events-TextEvent">TextEvent</a> : <a href="#events-Ev
             <br />The <a href="http://www.w3.org/TR/wai-aria/">latest edition of WAI-ARIA</a> is available at
             http://www.w3.org/TR/wai-aria/.
           </dd>
+          
+          <dt id="ref-xforms"><strong class="informref">[XFORMS]</strong></dt>
+          <dd>
+            <cite class="w3crec"><a href="http://www.w3.org/TR/2009/REC-xforms-20091020/">XForms 1.1</a></cite>,
+            J. Boyer, ed.
+            World Wide Web Consortium, <span class="wip">work in progress</span>, 20 October 2009.
+            <br />This edition of XForms 1.1 is http://www.w3.org/TR/2009/REC-xforms-20091020/.
+            <br />The <a href="http://www.w3.org/TR/xforms/">latest edition of XForms</a> is available at
+            http://www.w3.org/TR/xforms/.
+          </dd>
 
           <dt class="wip">
             <strong>[<a id="references-CSS2">CSS2</a>]</strong>
           </dt>
           <dd><cite><a href="http://www.w3.org/TR/2009/CR-CSS2-20090423">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a></cite>, B. Bos, T. &#xC7;elik, I. Hickson, H.W. Lie, Editors. World Wide Web Consortium, 23 April 2009, <strong>Work in Progress</strong>. This version of the CSS 2.1 Specification is http://www.w3.org/TR/2009/CR-CSS2-20090423. The <a class="normative" href="http://www.w3.org/TR/CSS2/">latest version of CSS 2.1</a> is available at http://www.w3.org/TR/CSS2/.</dd>
           <dt>
-            <strong>[<a id="references-DOMLS">DOM Level 3 Load and Save</a>]</strong>
+            <strong>[<a id="references-DOMLS">DOM3 Load and Save</a>]</strong>
           </dt>
           <dd><cite><a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-LS-20040407">Document Object Model Level 3 Load and Save Specification</a></cite>, J. Stenback, A. Heninger, Editors. World Wide Web Consortium, April 2004. This version of the DOM Level 3 Load and Save Specification is http://www.w3.org/TR/2004/REC-DOM-Level-3-LS-20040407. The <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-LS">latest version of DOM Level 3 Load and Save</a> is available at http://www.w3.org/TR/DOM-Level-3-LS.</dd>
           <dt>
