@@ -23,13 +23,13 @@
       <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2010-02-28">28 February 2010</time></h2>
       <dl>
         <dt>This version:</dt>
-        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.121">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.121</a></dd>
+        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.122">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.122f</a></dd>
 
         <dt>Latest stable version:</dt>
         <dd><a href="http://www.w3.org/TR/DOM-Level-3-Events">http://www.w3.org/TR/DOM-Level-3-Events</a></dd>
 
         <dt>Previous version:</dt>
-        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.120">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.120</a></dd>
+        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.121">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.121</a></dd>
 
         <dt>Editor's Draft:</dt>
         <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
@@ -436,7 +436,10 @@
           <dd>The process by which an <a class="def" href="#glossary-event">event</a> can be handled by one of the target ancestors before being handled by the <a class="def" href="#glossary-proximal-event-target">proximal event target</a>.  See the description of the <a href="#capture-phase">capture phase</a> in the context of event flow for more details.</dd>
 
           <dt id="glossary-character-value"><dfn>character value</dfn></dt>
-          <dd>In the context of key values, a character value is a string representing a single Unicode character, such as a letter or symbol, as a UTF-16 character escape (e.g. <code class="value">'\u0041'</code> for the Latin Capital Letter A key, <code class="value charval">A</code>.). <i class="issue" id="issue-character_value"><strong>Issue:</strong> this may not be the best way to represent a character value, see notes in key values.  Also, is "character value" the best term?</i></dd>
+          <dd>In the context of key values, a character value is a string representing a single Unicode character, such as a letter or symbol.  
+            <span class="note" id="note_character-value-escapes"><strong>Note:</strong> in source code, some key values, such as non-graphic characters, may be represented using the character escape syntax of the programming language in use.</span>
+          </dd>
+          <!-- <dd>In the context of key values, a character value is a string representing a single Unicode character, such as a letter or symbol, as a UTF-16 character escape (e.g. <code class="value">U+0041</code> for the Latin Capital Letter A key, <code class="value charrep">A</code>.). <i class="issue" id="issue-character_value"><strong>Issue:</strong> this may not be the best way to represent a character value, see notes in key values.  Also, is "character value" the best term?</i></dd> -->
 
           <dt id="glossary-dead-key"><dfn>dead key</dfn></dt>
           <dd>A dead key is a key or combination of key that produces no character by itself, but which in combination or sequence with another key produces a modified character, such as a character with diacritical marks (e.g. <code>&#xF6;</code>, <code>&#xE9;</code>, <code>&#xE2;</code>).</dd>
@@ -542,7 +545,7 @@
           <dd>The Unicode character categories, a subset of the complete Unicode general categories, comprise the categories <abbr title="Letter, Lowercase">Ll</abbr>, <abbr title="Letter, Modifier">Lm</abbr>, <abbr title="Letter, Other">Lo</abbr>, <abbr title="Letter, Titlecase">Lt</abbr>, <abbr title="Letter, Uppercase">Lu</abbr>, <abbr title="Number, Decimal Digit">Nd</abbr>, <abbr title="Number, Letter">Nl</abbr>, <abbr title="Number, Other">No</abbr>, <abbr title="Punctuation, Connector">Pc</abbr>, <abbr title="Punctuation, Dash">Pd</abbr>, <abbr title="Punctuation, Close">Pe</abbr>, <abbr title="Punctuation, Final quote">Pf</abbr>, <abbr title="Punctuation, Initial quote">Pi</abbr>, <abbr title="Punctuation, Other">Po</abbr>, <abbr title="Punctuation, Open">Ps</abbr>, <abbr title="Symbol, Currency">Sc</abbr>, <abbr title="Symbol, Modifier">Sk</abbr>, <abbr title="Symbol, Math">Sm</abbr>, and <abbr title="Symbol, Other">So</abbr>.</dd>
 
           <dt id="glossary-unicode-code-point"><dfn>Unicode code point</dfn></dt>
-          <dd>A Unicode code point is a unique hexadecimal number signifying a character by its index in the Unicode codespace (or library of characters).  In the context of key values, a Unicode code point is expressed as a string in the format "\u" followed by a hexadecimal character index in the range <code>0000</code> to <code>10FFFF</code>, using at least four digits.  See also <a class="def charval" href="#glossary-character-value">character value</a>.</dd>
+          <dd>A Unicode code point is a unique hexadecimal number signifying a character by its index in the Unicode codespace (or library of characters).  In the context of key values, a Unicode code point is expressed as a string in the format "\u" followed by a hexadecimal character index in the range <code>0000</code> to <code>10FFFF</code>, using at least four digits.  See also <a class="def charrep" href="#glossary-character-value">character value</a>.</dd>
 
           <dt id="glossary-user-agent"><dfn>user agent</dfn></dt>
           <dd>A program, such as a browser or authoring tool, normally running on a client machine, which acts on a user's behalf in retrieving, interpreting, executing, presenting, or creating content conforming to a specification.  Users may act on the content using different user agents at different times, for different purposes.  See the <a href="#conf-interactive-ua">Web browsers and other dynamic or interactive user agents</a> and <a href="#conf-author-tools">Authoring tools</a> conformance categories for more details.</dd>
@@ -657,7 +660,7 @@
         <p class="note" id="application-dependent-activation"><strong>Note:</strong> The activation of an event target is device dependent, but is also application dependent, e.g. a link in a document can be activated using a mouse click or a mouse double click.</p>
         <p>Implementations which support the <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> should also dispatch a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event as a <a class="def" href="#glossary-default-action">default action</a> of a <a class="eventtype" href="#event-type-click"><code>click</code></a> event which is associated with an <a class="def" href="#glossary-activation-trigger">activation trigger</a>.  However, such implementations should only initiate the associated <a class="def" href="#glossary-activation-behavior">activation behavior</a> once for any given occurrence of an <a class="def" href="#glossary-activation-trigger">activation trigger</a>.</p>
         <p class="example" id="example-activation-DOMActivate"><strong>Example:</strong> The <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> is required to be supported for XForms [<cite><a class="informative" href="#ref-xforms">XFORMS</a></cite>], which is intended for implementation within a <a class="def" href="#glossary-host-language">host language</a>.  In a scenario where a plugin or script-based implementation of XForms is intended for installation in a native implementation of this specification which does not support the <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a>, the XForms <a class="def" href="#glossary-user-agent">user agent</a> must synthesize and dispatch its own <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> events based on the appropriate <a class="def" href="#glossary-activation-trigger">activation triggers</a>.  Thus, when a <a class="eventtype" href="#event-type-click"><code>click</code></a> event is dispatched by the DOM Level 3 Events <a class="def" href="#glossary-user-agent">user agent</a>, the XForms <a class="def" href="#glossary-user-agent">user agent</a> must determine whether to synthesize a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event with the same relevant properties as a <a class="def" href="#glossary-default-action">default action</a> of that <a class="eventtype" href="#event-type-click"><code>click</code></a> event; appropriate cues may be whether the <a class="eventtype" href="#event-type-click"><code>click</code></a> event is <a href="#trusted-events">trusted</a>, or whether its <a class="def" href="#glossary-proximal-event-target">proximal event target</a> has a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event listener registered.</p>
-        <p class="note" id="authors-activation"><strong>Note:</strong>  Authors should not rely upon the interoperable support of <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> in many <a class="def" href="#glossary-user-agent">user agents</a>.  Thus, authors may use the <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> whenever they wish to make or react to an <a class="def" href="#glossary-activation-trigger">activation trigger</a>, but should use the <a class="eventtype" href="#event-type-click"><code>click</code></a><a class="def" href="#glossary-event-type">event type</a> for more accessible behavior instead, due to wider implementation.</p>
+        <p class="note" id="authors-activation"><strong>Note:</strong>  Authors should not rely upon the interoperable support of <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> in many <a class="def" href="#glossary-user-agent">user agents</a>.  Thus, authors may use the <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> whenever they wish to make or react to an <a class="def" href="#glossary-activation-trigger">activation trigger</a>, but should use the <a class="eventtype" href="#event-type-click"><code>click</code></a> <a class="def" href="#glossary-event-type">event type</a> for more accessible behavior instead, due to wider implementation.</p>
 
         <p class="warning" id="activation-deprecated"><strong>Warning!</strong> The <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> is deprecated in this specification.</p>
 
@@ -1230,50 +1233,11 @@ const unsigned short      <a href="#events-DISPATCH_REQUEST_ERR">DISPATCH_REQUES
                   <pre class="idl" id="idl-interface-DocumentEvent"><code>
 // Introduced in DOM Level 2:
 interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
-
-  // Introduced in DOM Level 3:
-  // KeyValueFormatCode
-  const unsigned long       <a href="#events-DOM_KEY_FORMAT_CHARACTER">DOM_KEY_FORMAT_CHARACTER</a>      = 0x00;
-  const unsigned long       <a href="#events-DOM_KEY_FORMAT_NAME">DOM_KEY_FORMAT_NAME</a>           = 0x01;
-  const unsigned long       <a href="#events-DOM_KEY_FORMAT_UNICODE">DOM_KEY_FORMAT_UNICODE</a>        = 0x02;
-  const unsigned long       <a href="#events-DOM_KEY_FORMAT_ENTITY">DOM_KEY_FORMAT_ENTITY</a>         = 0x03;
-
   // Modified in DOM Level 3:
   <a href="#events-Events-Event">Event</a>                     <a href="#events-Events-DocumentEvent-createEvent">createEvent</a>(in DOMString eventInterface)
                                         raises(DOMException);
-<!-- <div class="proposal"> -->
-  // Introduced in DOM Level 3:
-  DOMString                 <a href="#events-Events-DocumentEvent-convertKeyValue">convertKeyValue</a>(in DOMString keyArg,
-                                            in unsigned long KeyValueFormatArg);
-<!-- </div> -->
 };
                   </code></pre>
-                </dd>
-
-                <dt>
-                  <strong>Definition group <em><a id="events-Events-DocumentEvent-KeyValueFormatCode">KeyValueFormatCode</a></em></strong>
-                </dt>
-                <dd>
-                  <p>This set of constants shall be used to indicate the format to which the key value must be converted.</p>
-                  <dl>
-                    <dt><strong>Defined Constants</strong></dt>
-                    <dd>
-                      <dl>
-                        <dt><a id="events-DOM_KEY_FORMAT_CHARACTER"><code class="constant-name">DOM_KEY_FORMAT_CHARACTER</code></a></dt>
-                        <dd>The format to which the key value must be converted is a <a class="def" href="#glossary-character-value">character value</a>.</dd>
-
-                        <dt><a id="events-DOM_KEY_FORMAT_NAME"><code class="constant-name">DOM_KEY_FORMAT_NAME</code></a></dt>
-                        <dd>The format to which the key value must be converted is a key name (as from the <a href="#key-values">Key Values Set</a>).</dd>
-
-                        <dt><a id="events-DOM_KEY_FORMAT_UNICODE"><code class="constant-name">DOM_KEY_FORMAT_UNICODE</code></a></dt>
-                        <dd>The format to which the key value must be converted is a bare <a class="def" href="#glossary-unicode-code-point">Unicode code point</a>.</dd>
-
-                        <dt><a id="events-DOM_KEY_FORMAT_ENTITY"><code class="constant-name">DOM_KEY_FORMAT_ENTITY</code></a></dt>
-                        <dd>The format to which the key value must be converted is a numberic entity reference representing the <a class="def" href="#glossary-unicode-code-point">Unicode code point</a> for that character.  For example, the <a class="def" href="#glossary-character-value">character value</a> <code class="value">'&#xE9;'</code> must be converted to the entity string <code class="value">'&amp;#xE9;'</code>.</dd>
-
-                      </dl>
-                    </dd>
-                  </dl>
                 </dd>
 
                 <dt><strong>Methods</strong></dt>
@@ -1316,44 +1280,6 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
                       </div>
                       <!-- exceptions -->
                     </div>
-<!-- method -->
-                    </dd>
-
-                    <dt class="proposal">
-                      <code class="method-name">
-                        <a id="events-Events-DocumentEvent-convertKeyValue">convertKeyValue</a>
-                      </code>
-                    </dt>
-                    <dd class="proposal">
-                      <div class="method">
-                        Given a key value and the desired format, this method returns the equivalent key value in the specified format, if the key value exists in that format.
-                        
-                        <p class="issue"><strong>Issue:</strong> some disagreement on including this (see <a href="http://lists.w3.org/Archives/Public/www-dom/2009JulSep/0412.html">Re: convertKeyValue from Anne van Kesteren on 2009-09-22</a>)</p>
-                        <div class="parameters">
-                          <strong>Parameters</strong>
-                          <div class="paramtable">
-                          <dl>
-                            <dt><code class="parameter-name">key</code> of type <code>DOMString</code></dt>
-                            <dd><p>The <code>key</code> parameter specifies the string to be converted, as a key value.   This parameter must be one of the following formats: a single character, or a key name (as from the <a href="#key-values">Key Values Set</a>).</p><p>The key value need not be represent a value capable of being produced by the system keyboard  in order to be converted.  For example, this method may be used to find the raw <a class="def" href="#glossary-unicode-code-point">Unicode code point</a> of a Chinese ideographic glyph on a computer with only a <a class="def" href="#glossary-qwerty">QWERTY</a> keyboard and no <a class="def" href="#glossary-ime">IME</a> software.</p></dd>
-                            <dt><code class="parameter-name">KeyValueFormat</code> of type <code>unsigned long</code></dt>
-                            <dd><p>The <code>KeyValueFormat</code> parameter specifies the format to which the key value must be converted.</p></dd>
-                          </dl>
-                        </div>
-                      </div>
-
-                        <!-- parameters -->
-                        <div class="return"><strong>Return Value</strong><div class="returntable"><table summary="Layout table: the first cell contains the type of the return value, the second contains a short description" border="0"><tr><td><p><a href="#events-Events-Event"><code>DOMString</code></a></p></td><td><p>The key value in the converted format, or the empty string if no equivalent of the key value exists in the format indicated.</p></td></tr></table></div></div>
-                        <!-- return -->
-                        <div class="exceptions"><strong>Exceptions</strong><div class="exceptiontable">None
-                            <!-- <table summary="Layout table: the first cell contains the type of the exception, the second contains the specific error code and a short description" border="0">
-                              <tr>
-                                <td><p><code>DOMException</code></p></td>
-                                <td><p>NOT_SUPPORTED_ERR: Raised if the implementation does not support the <a href="#events-Events-Event"><code>Event</code></a> interface requested.</p></td>
-                              </tr>
-                           </table> -->
-                          </div></div>
-                        <!-- exceptions -->
-                      </div>
 <!-- method -->
                     </dd>
                   </dl>
@@ -1973,8 +1899,12 @@ interface <a href="#events-Events-UIEvent">UIEvent</a> : <a href="#events-Events
                  </tr>
               </table>
               <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a button, link, or other state-changing element is activated.  Refer to <a href="#event-flow-activation">Activation triggers and behavior</a> for more details.</p>
-              <p class="warning" id="DOMActivate-deprecated"><strong>Warning!</strong> The <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type in favor of the related <a class="def" href="#glossary-event-type">event type</a><a class="eventtype" href="#event-type-click"><code>click</code></a>.  Other specifications may define and maintain their own <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> for backwards compatibility.</p>
-              <p class="note" id="DOMActivate-click"><strong>Note:</strong>   While <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> and <a class="eventtype" href="#event-type-click"><code>click</code></a> are not completely equivalent, implemented behavior for the <a class="eventtype" href="#event-type-click"><code>click</code></a><a class="def" href="#glossary-event-type">event type</a> has developed to encompass the most critical accessibility aspects for which the <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> was designed, and is more widely implemented.  Authors are encouraged to use the <a class="eventtype" href="#event-type-click"><code>click</code></a><a class="def" href="#glossary-event-type">event type</a> rather than the related <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> or <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a><a class="def" href="#glossary-event-type">event type</a> to ensure maximum accessibility.</p>
+              <p class="warning" id="DOMActivate-deprecated"><strong>Warning!</strong> The <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type in favor of the related <a class="def" href="#glossary-event-type">event type</a> <a class="eventtype" href="#event-type-click"><code>click</code></a>.  Other specifications may define and maintain their own <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> for backwards compatibility.</p>
+              <p class="note" id="DOMActivate-click"><strong>Note:</strong>   While <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> and <a class="eventtype" href="#event-type-click"><code>click</code></a> are not completely equivalent, implemented behavior for the <a class="eventtype" href="#event-type-click"><code>click</code></a> <a class="def" href="#glossary-event-type">event type</a> has developed to encompass the most critical accessibility aspects for which the <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> was designed, and is more widely implemented.  Authors are encouraged to use the <a class="eventtype" href="#event-type-click"><code>click</code></a> <a class="def" href="#glossary-event-type">event type</a> rather than the related <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> or <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> <a class="def" href="#glossary-event-type">event type</a> to ensure maximum accessibility.</p>
+              
+              
+              The activate event occurs when an element is activated, for instance, thru a mouse click or a keypress. A numerical argument is provided to give an indication of the type of activation that occurs: 1 for a simple activation (e.g. a simple click or Enter), 2 for hyperactivation (for instance a double click or Shift Enter).
+              
             </dd>
           </dl>
         </div>
@@ -3055,16 +2985,15 @@ interface <a href="#events-Events-MouseEvent">MouseEvent</a> : <a href="#events-
                     <li><a href="#events-Events-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="value keyname">'Control'</code></a> key is depressed, otherwise <code>false</code></li>
                     <li><a href="#events-Events-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="value keyname">'Shift'</code></a> key is depressed, otherwise <code>false</code></li>
                     <li><a href="#events-Events-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="value keyname">'Meta'</code></a> key is depressed, otherwise <code>false</code></li>
-                    <li><a href="#events-Events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: indicates the <a class="def" href="#glossary-event-target">event target</a> a pointing device is exiting, if any.</li>
                     <li><a href="#events-Events-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: <code>null</code></li>
                     <li><a href="#events-Events-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if no buttons pressed</li>
-                    <li><a href="#events-Events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: <code>null</code></li>
+                    <li><a href="#events-Events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: indicates the <a class="def" href="#glossary-event-target">event target</a> a pointing device is exiting, if any.</li>
                   </ul>
                 </td>
               </tr>
             </table>
             <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a pointing device is moved onto the boundaries of an element or one of its descendent elements.  This event type is similar to <a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a>, but differs in that it does not bubble, and must not be dispatched when the pointer device moves from an element onto the boundaries of one of its descendent elements.</p>
-            <p class="note" id="_14"><strong>Note:</strong> There are similarities between this event type and the CSS <a href="http://www.w3.org/TR/CSS2/selector.html#dynamic-pseudo-classes" title="Selectors"><code>:hover</code> pseudo-class</a><a href="#references-CSS2">[CSS2]</a>.  See also the <a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a> event type.</p>
+            <p class="note" id="_14"><strong>Note:</strong> There are similarities between this event type and the CSS <a href="http://www.w3.org/TR/CSS2/selector.html#dynamic-pseudo-classes" title="Selectors"><code>:hover</code> pseudo-class</a> <a href="#references-CSS2">[CSS2]</a>.  See also the <a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a> event type.</p>
           </dd>
         </dl>
       </div>
@@ -3098,16 +3027,15 @@ interface <a href="#events-Events-MouseEvent">MouseEvent</a> : <a href="#events-
                     <li><a href="#events-Events-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="value keyname">'Control'</code></a> key is depressed, otherwise <code>false</code></li>
                     <li><a href="#events-Events-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="value keyname">'Shift'</code></a> key is depressed, otherwise <code>false</code></li>
                     <li><a href="#events-Events-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="value keyname">'Meta'</code></a> key is depressed, otherwise <code>false</code></li>
-                    <li><a href="#events-Events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: indicates the <a class="def" href="#glossary-event-target">event target</a> a pointing device is entering, if any.</li>
                     <li><a href="#events-Events-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: <code>null</code></li>
                     <li><a href="#events-Events-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if no buttons pressed</li>
-                    <li><a href="#events-Events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: <code>null</code></li>
+                    <li><a href="#events-Events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: indicates the <a class="def" href="#glossary-event-target">event target</a> a pointing device is entering, if any.</li>
                   </ul>
                 </td>
               </tr>
             </table>
             <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a pointing device is moved off of the boundaries of an element and all of its descendent elements.  This event type is similar to <a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a>, but differs in that does not bubble, and that it must not be dispatched until the pointing device has left the boundaries of the element and the boundaries of all of its children.</p>
-            <p class="note" id="_15"><strong>Note:</strong> There are similarities between this event type and the CSS <a href="http://www.w3.org/TR/CSS2/selector.html#dynamic-pseudo-classes" title="Selectors"><code>:hover</code> pseudo-class</a><a href="#references-CSS2">[CSS2]</a>.  See also the <a class="eventtype" href="#event-type-mouseenter"><code>mouseenter</code></a> event type.</p>
+            <p class="note" id="_15"><strong>Note:</strong> There are similarities between this event type and the CSS <a href="http://www.w3.org/TR/CSS2/selector.html#dynamic-pseudo-classes" title="Selectors"><code>:hover</code> pseudo-class</a> <a href="#references-CSS2">[CSS2]</a>.  See also the <a class="eventtype" href="#event-type-mouseenter"><code>mouseenter</code></a> event type.</p>
           </dd>
         </dl>
       </div>
@@ -3182,10 +3110,9 @@ interface <a href="#events-Events-MouseEvent">MouseEvent</a> : <a href="#events-
                     <li><a href="#events-Events-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="value keyname">'Control'</code></a> key is depressed, otherwise <code>false</code></li>
                     <li><a href="#events-Events-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="value keyname">'Shift'</code></a> key is depressed, otherwise <code>false</code></li>
                     <li><a href="#events-Events-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="value keyname">'Meta'</code></a> key is depressed, otherwise <code>false</code></li>
-                    <li><a href="#events-Events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>:  indicates the <a class="def" href="#glossary-event-target">event target</a> a pointing device is entering, if any.</li>
                     <li><a href="#events-Events-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: <code>null</code></li>
                     <li><a href="#events-Events-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if no buttons pressed</li>
-                    <li><a href="#events-Events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: <code>null</code></li>
+                    <li><a href="#events-Events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>:  indicates the <a class="def" href="#glossary-event-target">event target</a> a pointing device is entering, if any.</li>
                   </ul>
                 </td>
               </tr>
@@ -3226,10 +3153,9 @@ interface <a href="#events-Events-MouseEvent">MouseEvent</a> : <a href="#events-
                       <li><a href="#events-Events-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="value keyname">'Control'</code></a> key is depressed, otherwise <code>false</code></li>
                       <li><a href="#events-Events-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="value keyname">'Shift'</code></a> key is depressed, otherwise <code>false</code></li>
                       <li><a href="#events-Events-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="value keyname">'Meta'</code></a> key is depressed, otherwise <code>false</code></li>
-                      <li><a href="#events-Events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>:  indicates the <a class="def" href="#glossary-event-target">event target</a> a pointing device is exiting, if any.</li>
                       <li><a href="#events-Events-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: <code>null</code></li>
                       <li><a href="#events-Events-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if no buttons pressed</li>
-                      <li><a href="#events-Events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: <code>null</code></li>
+                      <li><a href="#events-Events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>:  indicates the <a class="def" href="#glossary-event-target">event target</a> a pointing device is exiting, if any.</li>
                     </ul>
                   </td>
                 </tr>
@@ -4885,7 +4811,7 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
         <li>Relations between keyboard events, their default actions, and text events.</li>
         <li>The set of key values, and guidelines on how to extend this set.</li>
       </ul>
-      <p class="note" id="_49"><strong>Note:</strong> This section uses Serbian and Kanji characters which are not always available (or are misrepresented) in the alternative versions or printed versions of this specification.</p>
+      <p class="note" id="_49"><strong>Note:</strong> This section uses Serbian and Kanji characters which may be misrepresented or unavailable in the PDF version or printed version of this specification.</p>
       <div>
         <h3><a id="keyboard-input" href="#keyboard-input">6.1 Keyboard Input</a></h3>
 
@@ -4900,14 +4826,14 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
         <h4><a id="key-legends" href="#key-legends">6.1.1 Key Legends</a></h4>
 
         <p><em>This section is informative</em></p>
-        <p>The visual markings normally consist of one or more characters which a keystroke on that key will produce (such as <code class="value">'F'</code> or <code class="value">'8'</code>), or names or symbols which indicate that key's function (such as an upward-pointing arrow &#x21E7; indicating <code class="value">'Shift'</code>, or the string <code class="value">'Enter'</code>).  Keys are often referred to by this marking (e.g. "Press the <code class="value">'Shift'</code> and <code class="value">'F'</code> keys.").  However, the visual appearance of the key has no bearing on its digital representation, and in many configurations may be completely inaccurate; even the control and function keys, such as <code class="value">'Enter'</code>, may be mapped to different functionality, or even mapped as character keys.</p>
+        <p>The visual markings normally consist of one or more characters which a keystroke on that key will produce (such as <code class="value">'F'</code>, <code class="value">'8'</code>, or <code class="value">'ш'</code>), or names or symbols which indicate that key's function (such as an upward-pointing arrow &#x21E7; indicating <code class="value">'Shift'</code>, or the string <code class="value">'Enter'</code>).  Keys are often referred to by this marking (e.g. "Press the <code class="value">'Shift'</code> and <code class="value">'F'</code> keys.").  However, the visual appearance of the key has no bearing on its digital representation, and in many configurations may be completely inaccurate; even the control and function keys, such as <code class="value">'Enter'</code>, may be mapped to different functionality, or even mapped as character keys.</p>
         <p>For historical reasons, the character keys are typically marked with the capital-letter equivalents of the character value they produce, e.g. the <code class="value">'F'</code> key (the key marked with the glyph <code class="value">'F'</code>), will produce the character value <code class="value">'f'</code> when pressing without an active modifier key (<code class="value">'Shift'</code>) or modifier state (<code class="value">'CapsLock'</code>).</p>
         <p>Note that the key legends for function keys do not normally produce any characters, although the symbol may have a Unicode equivalent; for example, the <code class="value">'Shift'</code> key may bear the symbol &#x21E7;, which has the <a class="def" href="#glossary-unicode-code-point">Unicode code point</a> <code class="value">'21E7'</code>, but pressing the <code class="value">'Shift'</code> key will not produce this character value, and there is no <a class="def" href="#glossary-unicode-code-point">Unicode code point</a> for <code class="value">'Shift'</code>.</p>
         <h4><a id="keyboard-layout" href="#keyboard-layout">6.1.2 Keyboard Layout</a></h4>
 
         <p><em>This section is informative</em></p>
         <p>As with the key labels, the physical layout of the keys on the keyboard does not not affect the digital key value for any given key.  It is outside the scope of this specification to provide key values based on keyboard layout, particularly since there are so many possible layouts for a keyboard, and since users can change the mapping of keys in their operating system, e.g. by selecting a Dvorak key mapping.</p>
-        <p>To illustrate the concept of keyboard layout mappings and its relation with keyboard events and key values, on the same keyboard (a PC/AT US keyboard), pressing the key labeled <code>Q</code> (with no modifier key activated) will produce different key values based on the mapping.  With a typical US <a class="def" href="#glossary-qwerty">QWERTY</a> keyboard layout mapping, it will produce <code class="value">'q'</code> (<code class="value">'\u0071'</code>, Latin Small Letter Q).  If the keyboard layout mapping is switched to a French mapping, pressing the same key will produce <code class="value">'a'</code> (<code class="value">'\u0041'</code>, Latin Capital Letter A).  If the keyboard layout mapping is switched to a Serbian (Cyrillic) mapping, pressing the same key will produce <code class="value">'&#x459;'</code> (<code class="value">'\u0459'</code>, Cyrillic Small Letter LJE).</p>
+        <p>To illustrate the concept of keyboard layout mappings and its relation with keyboard events and key values, on the same keyboard (a PC/AT US keyboard), pressing the key labeled <code>Q</code> (with no modifier key activated) will produce different key values based on the mapping.  With a typical US <a class="def" href="#glossary-qwerty">QWERTY</a> keyboard layout mapping, it will produce <code class="value">'q'</code> (<code class="value">U+0071</code>, Latin Small Letter Q).  If the keyboard layout mapping is switched to a French mapping, pressing the same key will produce <code class="value">'a'</code> (<code class="value">U+0041</code>, Latin Capital Letter A).  If the keyboard layout mapping is switched to a Serbian (Cyrillic) mapping, pressing the same key will produce <code class="value">'&#x459;'</code> (<code class="value">U+0459</code>, Cyrillic Small Letter LJE).</p>
         <p>However, the physical layout of the keys may be of interest to authors developing games or other applications wherein the location of the keys has an ergonomic relationship as the desired user interface controls, with little or no attention paid to the representational value of the key itself.  For example, many games may use the keys <code class="value">'A'</code>, <code class="value">'S'</code>, <code class="value">'D'</code>, and <code class="value">'W'</code> for <code class="value">'left'</code>, <code class="value">'down'</code>, <code class="value">'right'</code>, and <code class="value">'up'</code> respectively.  Authors should provide a means for the user to assign such controller keys to a custom setting appropriate to their keyboard configurations.  Implementations may provide a means for the user to more comprehensively map the keyboard to their customized keyboard layout, but this is beyond the scope of this specification.</p>
         <p class="note" id="_60"><strong>Note:</strong> Key values should not be confused with <em>scan codes</em>, which are the low-level hexadecimal signals produced for each key by the keyboard driver software, and which are mapped at the operating system to a <acronym title="Virtual Key">VK</acronym> ("virtual key"), which in turn may be mapped to the user-defined key configuration.  Key values are a high-level abstraction of that final mapping.</p>
         <h5><a id="keyboard-desktop" href="#keyboard-desktop">6.1.2.1 Desktop and Laptop Keyboards</a></h5>
@@ -4925,7 +4851,7 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
         <h5><a id="keyboard-mobile" href="#keyboard-mobile">6.1.2.2 Mobile Keypads</a></h5>
 
         <p>In the case where an author wishes to rely on the mechanical layout of a mobile keypad, this specification suggests the keyboard configuration specified in ISO/IEC 9995-8:2006 [<cite><a class="informative" href="#references-ISO-9995-8">ISO-9995-8</a></cite>], which defines a numeric keypad layout and secondary assignment of Unicode characters in the range <abbr title="a-z">\u0061..\u007A</abbr> to the number keys <code>2</code> through <code>9</code>, as a common layout appropriate to some international uses.</p>
-        <p class="note" id="_52"><strong>Note:</strong> This keypad layout, and in particular the distribution of letters is for Western devices, and will not match the keypads or configurations of many users.  Authors cannot rely upon any particular configuration, and should create content in an internationalized and localizable manner.</p>
+        <p class="note" id="_52"><strong>Note:</strong> This keypad layout, and in particular the distribution of letters is for English devices, and will not match the keypads or configurations of many users.  Authors cannot rely upon any particular configuration, and should create content in an internationalized and localizable manner.</p>
         <div class="figure" style="text-align: center">
           <object type="image/svg+xml" data="images/ISOIEC-9995-8-2006.svg" width="180" height="240">
             <img src="images/ISOIEC-9995-8-2006.png" alt="A graphical depiction of an ISO standard defining layouts of numeric keypads, with distribution of letters on the keys, ISO/IEC 9995-8:2006" />
@@ -4940,6 +4866,10 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
         <h3><a id="keyset-keyvalues" href="#keyset-keyvalues">6.2 Key Values</a></h3>
 
         <p>A key value is a <code>DOMString</code> that can be used to indicate any given key on a keyboard, regardless of position or state, by the value it produces.  These key values may be used as return values for keyboard events generated by the implementation, or as input values by the author to specify desired input (such as for keyboard shortcuts).  This specification defines a set of common key values (called the <a href="#key-values">Key Values Set</a>), and rules for production of new key values.</p>
+        
+        <p class="issue" id="issue-keyvalues-textInput"><strong>Issue:</strong> Add mention of textInput and it's relationship to key values, per <a href="http://lists.w3.org/Archives/Public/www-dom/2010JanMar/0052.html">Ishida</a></p>
+        <!-- It is therefore highly recommended to rely on <a href="#events-Events-TextEvent">Text events types</a> when dealing with character input. -->
+        
         <p>Key values can be used to detect the value of a key which has been pressed, using the <a href="#events-Events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attribute.  Authors can retrieve the <a class="def" href="#glossary-character-value">character value</a> of upper- or lower-case letters, number, symbols, or other character-producing keys, and also the <a class="def" href="#glossary-key-name">key name</a> of control keys, modifier keys, function keys, or other keys that do not generate characters; these values can be used for monitoring particular input strings, for detecting and acting on modifier key input in combination with other inputs (such as a mouse), for creating virtual keyboards, or for any number of other purposes.</p>
         <p>Key values can also be used by authors in string comparisons, as values for markup attributes (such as the HTML <code>accesskey</code>) in conforming <a class="def" href="#glossary-host-language">host languages</a>, or for other related purposes.   A conforming <a class="def" href="#glossary-host-language">host language</a> should allow authors to use either of the two equivalent string values for a key value: the <a class="def" href="#glossary-character-value">character value</a>, or the <a class="def" href="#glossary-key-name">key name</a>.</p>
         <p class="issue"><strong>Issue:</strong> mention that author should use case-insensitive matching to capture both "t" and "T" for hotkeys, etc.?</p>
@@ -4947,13 +4877,13 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
 <!-- , and where the key used should default to the most appropriate key for the function, language, operating system, device, and other environmental factors (such as <code>ctrl+c</code> for copy operations) -->
         <p>It is important to note that a key value does not indicate a specific key on the physical keyboard, nor does it reflect the character printed on the key; a key value indicates the current value of the event with consideration to the current state of all active keys and key input modes (including shift modes and <a class="def" href="#glossary-dead-key">dead keys</a>), as reflected in the operating-system mapping of the keyboard and reported to the implementation.  In other words, the key value for the key marked <code>'O'</code> on a <a class="def" href="#glossary-qwerty">QWERTY</a> keyboard has the key value <code>'o'</code> in an unshifted state, <code>'O'</code> in a shifted state, <code>'&#xF6;'</code> in an unshifted state during a dead-key operation to add an umlaut diacritic, and <code>'&#xD6;'</code> in a shifted state during a dead-key operation to add an umlaut diacritic.  Because a user may map their keyboard to an arbitrary custom configuration, the author should not assume that a relationship exists between the shifted and unshifted states of a key and the majuscule form (uppercase or capital letters) and minuscule form (lowercase or small letters) of a character representation, but should instead use the value of the <a href="#events-Events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attribute.  The keyboard depicted in Figure 3 illustrates one possible set of key mappings on one possible keyboard layout; many others exist, both standard and idiosyncratic.</p>
         <p>It is also important to note that there is not a one-to-one relationship between key event states and key values.  A particular key value may be associated with multiple keys; for example, many standard keyboards contain more than one key with the <code class="value">'Shift'</code> key value (normally distinguished by the <a href="#events-Events-KeyboardEvent-location"><code>KeyboardEvent.location</code></a> values <a href="#events-DOM_KEY_LOCATION_LEFT"><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></a> and <a href="#events-DOM_KEY_LOCATION_RIGHT"><code class="constant-name">DOM_KEY_LOCATION_RIGHT</code></a>) or <code class="value">'8'</code> key value (normally distinguished by the <a href="#events-Events-KeyboardEvent-location"><code>KeyboardEvent.location</code></a> values <a href="#events-DOM_KEY_LOCATION_STANDARD"><code class="constant-name">DOM_KEY_LOCATION_STANDARD</code></a> and <a href="#events-DOM_KEY_LOCATION_NUMPAD"><code class="constant-name">DOM_KEY_LOCATION_NUMPAD</code></a>), and user-configured custom keyboard layouts may duplicate any key value in multiple key-state scenarios (note that <a href="#events-Events-KeyboardEvent-location"><code>KeyboardEvent.location</code></a> is intended for standard keyboard layouts, and cannot always indicate a meaningful distinction).</p>
-        <p>Similarly, a given key event state may have multiple key values, some of which may represent a character in one of the <a class="def" href="#glossary-Unicode-character-categories">Unicode character categories</a>: a <a class="def" href="#glossary-character-value">character value</a>; and the <a class="def" href="#glossary-key-name">key name</a>.  For example, the question mark (<code>'?'</code>) key has the following key values: <code>'\u003F'</code> (the Unicode code point as an escaped character value, which is in the range of <a class="def" href="#glossary-Unicode-character-categories">Unicode character categories</a>); and <code>'QuestionMark'</code> (the name), while the horizontal tabulation (tab) key has a name (<code class="value">'Tab'</code>) and a <a class="def" href="#glossary-character-value">character value</a> (<code class="value">'\u0009'</code>) but no character representation.   Note that not all keys will have both these values; for example, the volume mute key has only a <a class="def" href="#glossary-key-name">key name</a>, <code class="value">'VolumeMute'</code>, and no <a class="def" href="#glossary-character-value">character value</a> or character representation, since it doesn't have a corresponding <a class="def" href="#glossary-unicode-code-point">Unicode code point</a>.</p>
-        <p>The value of the <a href="#events-Events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attribute of the <a href="#events-Events-KeyboardEvent">KeyboardEvent</a> interface event types (e.g. <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>, <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>, and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>) must default to the <a class="def" href="#glossary-character-value">character value</a> itself; if the key value does not have a character representation, the value of the <a href="#events-Events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attribute must be the <a class="def" href="#glossary-key-name">key name</a>.  The author may use the <a href="#events-Events-DocumentEvent-convertKeyValue"><code>DocumentEvent.convertKeyValue</code></a> method to find either the <a class="def" href="#glossary-character-value">character value</a>, the <a class="def" href="#glossary-key-name">key name</a>, or the raw <a class="def" href="#glossary-unicode-code-point">Unicode code point</a> of any given key value.</p>
-        <p>The meaning of any given character representation is context-dependent and complex.  For example, in some contexts, the asterisk (star) glyph (<code class="value">'*'</code>) represents a footnote or emphasis (when bracketing a passage of text); however, in some documents or executable programs it is equivalent to the mathematical multiplication operation, while in other documents or executable programs, that function is reserved for the multiplication symbol (<code class="value">'&#xD7;'</code>, Unicode value <code class="value">'\u00D7'</code>) or the Latin small letter <code class="value">'x'</code> (due to the lack of a multiplication key on many keyboard and the superficial resemblance of the glyphs <code class="value">'&#xD7;'</code> and <code class="value">'x'</code>).  Thus, the semantic meaning or function of character representations is outside the scope of this specification.</p>
+        <p>Similarly, a given key event state may have multiple key values, some of which may represent a character in one of the <a class="def" href="#glossary-Unicode-character-categories">Unicode character categories</a>: a <a class="def" href="#glossary-character-value">character value</a>; and the <a class="def" href="#glossary-key-name">key name</a>.  For example, the question mark (<code>'?'</code>) key has the following key values: <code>'\u003F'</code> (the Unicode code point as an escaped character value, which is in the range of <a class="def" href="#glossary-Unicode-character-categories">Unicode character categories</a>); and <code>'QuestionMark'</code> (the name), while the horizontal tabulation (tab) key has a name (<code class="value">'Tab'</code>) and a <a class="def" href="#glossary-character-value">character value</a> (<code class="value">U+0009</code>) but no character representation.   Note that not all keys will have both these values; for example, the volume mute key has only a <a class="def" href="#glossary-key-name">key name</a>, <code class="value">'VolumeMute'</code>, and no <a class="def" href="#glossary-character-value">character value</a> or character representation, since it doesn't have a corresponding <a class="def" href="#glossary-unicode-code-point">Unicode code point</a>.</p>
+        <p>The value of the <a href="#events-Events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attribute of the <a href="#events-Events-KeyboardEvent">KeyboardEvent</a> interface event types (e.g. <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>, <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>, and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>) must default to the <a class="def" href="#glossary-character-value">character value</a> itself; if the key value does not have a character representation, the value of the <a href="#events-Events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attribute must be the <a class="def" href="#glossary-key-name">key name</a>.</p>
+        <p>The meaning of any given character representation is context-dependent and complex.  For example, in some contexts, the asterisk (star) glyph (<code class="value">'*'</code>) represents a footnote or emphasis (when bracketing a passage of text); however, in some documents or executable programs it is equivalent to the mathematical multiplication operation, while in other documents or executable programs, that function is reserved for the multiplication symbol (<code class="value">'&#xD7;'</code>, Unicode value <code class="value">U+00D7</code>) or the Latin small letter <code class="value">'x'</code> (due to the lack of a multiplication key on many keyboard and the superficial resemblance of the glyphs <code class="value">'&#xD7;'</code> and <code class="value">'x'</code>).  Thus, the semantic meaning or function of character representations is outside the scope of this specification.</p>
         <div>
           <h4><a id="keyset-unicode" href="#keyset-unicode">6.2.1 Key Values and Unicode</a></h4>
 
-          <p>The <a class="def" href="#glossary-character-value">character values</a> in the <a href="#keyset-keyvalues">key values set</a> are derived from the popular Unicode standard [<a href="#references-Unicode">Unicode</a>], and as such, have certain advantages.</p>
+          <p>The <a class="def" href="#glossary-character-value">character values</a> in the <a href="#keyset-keyvalues">key values set</a> are Unicode [<a href="#references-Unicode">Unicode</a>] codepoints, and as such, have certain advantages.</p>
           <p>The most obvious advantage is that it allows the author to use the full range of internationalized language functionality available in the implementation, regardless of the limitations of the text input devices on the system.  This opens up possibilities for virtual keyboards and Web-application-based <a class="def" href="#glossary-ime">input method editors</a>.</p>
           <p>Another benefit is that it allows the author to utilize the Unicode general category properties <!-- <a class="def" href="#glossary-Unicode-character-categories">Unicode character categories</a> --> programmatically.</p>
           <p>With legacy keyboard event attributes such as <code>keyCode</code> and <code>charCode</code>, authors are forced to filter key input using cryptic, platform- and implementation-specific numeric codes, with poor internationalization, such as the following pseudocode:</p>
@@ -5004,14 +4934,15 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
           <h4><a id="keyset-Modifiers" href="#keyset-Modifiers">6.2.2 Modifier keys</a></h4>
 
           <p>Keyboard input uses modifier keys to change the normal behavior of a key.  Like other keys, modifier keys generate <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events, as shown in the example below. Some modifiers are activated while the key is being pressed down or maintained pressed such as <code class="value">'Alt'</code>, <code class="value">'Control'</code>, <code class="value">'Shift'</code>, <code class="value">'AltGraph'</code>, or <code class="value">'Meta'</code>. Others modifiers are activated depending on their state such as <code class="value">'CapsLock'</code>, <code class="value">'NumLock'</code>, or <code class="value">'Scroll'</code>. Change in the state happens when the modifier key is being pressed down. The <a href="#events-Events-KeyboardEvent"><code>KeyboardEvent</code></a> interface provides convenient attributes for some common modifiers keys: <a href="#events-Events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, <a href="#events-Events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-Events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-Events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a>. Some operating systems simulate the <code class="value">'AltGraph'</code> modifier key with the combination of the <code>"Alt</code> and <code class="value">'Control'</code> modifier keys. Implementations are encouraged to use the <code class="value">'AltGraph'</code> modifier key.</p>
-          <p>The following example describes a possible sequence of keys to generate the Unicode character Q (Latin Capital Letter Q, <a class="def" href="#glossary-unicode-code-point">Unicode code point</a> <code class="value">'\u0051'</code>) on a PC/AT US keyboard using a US mapping:</p>
+          <p>The following example describes a possible sequence of events associated with the generation of the Unicode character Q (Latin Capital Letter Q, <a class="def" href="#glossary-unicode-code-point">Unicode code point</a> <code class="value">U+0051</code>) on a PC/AT US keyboard using a US mapping:</p>
+          <p class="issue" id="issue-keyset-Modifiers-example"><strong>Issue:</strong> Reformat example as table with "Event",		"Returned value", and "Keys involved", per <a href="http://lists.w3.org/Archives/Public/www-dom/2010JanMar/0052.html">Ishida</a>?</p>
           <div class="example" id="example-keyvalue_Q">
             <p><strong>Example:</strong></p>
             <ol>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Shift'</code>, <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
-              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Q'</code> (<code class="value">'\u0051'</code>, Latin Capital Letter Q key), <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
+              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Q'</code> (<code class="value">U+0051</code>, Latin Capital Letter Q key), <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
               <li><a class="eventtype" href="#event-type-textInput"><code>textInput</code></a>: <code class="value">'Q'</code></li>
-              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Q'</code> (<code class="value">'\u0051'</code>, Latin Capital Letter Q key), <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
+              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Q'</code> (<code class="value">U+0051</code>, Latin Capital Letter Q key), <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Shift'</code></li>
             </ol>
           </div>
@@ -5020,10 +4951,10 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
             <p><strong>Example:</strong></p>
             <ol>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Shift'</code>, <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
-              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Q'</code> (<code class="value">'\u0051'</code>, Latin Capital Letter Q key), <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
+              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Q'</code> (<code class="value">U+0051</code>, Latin Capital Letter Q key), <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
               <li><a class="eventtype" href="#event-type-textInput"><code>textInput</code></a>: <code class="value">'Q'</code></li>
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Shift'</code></li>
-              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'q'</code> (<code class="value">'\u0071'</code>, Latin Small Letter Q key)</li>
+              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'q'</code> (<code class="value">U+0071</code>, Latin Small Letter Q key)</li>
             </ol>
           </div>
           <p>The following example describes a possible sequence of keys that does not generate a Unicode character (using the same configuration):</p>
@@ -5031,8 +4962,8 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
             <p><strong>Example:</strong></p>
             <ol>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Control'</code>, ctrlKey</li>
-              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'v'</code> (<code class="value">'\u0076'</code>, Latin Small Letter V key), ctrlKey</li>
-              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>:  <code class="value">'v'</code> (<code class="value">'\u0076'</code>, Latin Small Letter V key), ctrlKey</li>
+              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'v'</code> (<code class="value">U+0076</code>, Latin Small Letter V key), ctrlKey</li>
+              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>:  <code class="value">'v'</code> (<code class="value">U+0076</code>, Latin Small Letter V key), ctrlKey</li>
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Control'</code></li>
             </ol>
           </div>
@@ -5048,28 +4979,28 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
           <div class="example" id="example-deadkey">
             <p><strong>Example:</strong></p>
             <ol>
-              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'\u0302'</code> (Combining Circumflex Accent key)</li>
+              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">U+0302</code> (Combining Circumflex Accent key)</li>
               <li><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>: <code class="value">''</code></li>
               <li><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>: <code class="value">''</code><i class="issue" id="issue-compositionupdate_value_undefined"><strong>Issue:</strong> (value undefined - to be discussed)</i></li>
-              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'\u0302'</code> (Combining Circumflex Accent key)</li>
-              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'e'</code> (<code class="value">'\u0065'</code>, Latin Small Letter E key) <i class="issue" id="issue-keydown_e"><strong>Issue:</strong> shouldn't this be <code class="value">'&#xE9;'</code>?</i></li>
-              <li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>: <code class="value">'&#xE9;'</code></li>
-              <li><a class="eventtype" href="#event-type-textInput"><code>textInput</code></a>: <code class="value">'&#xE9;'</code> (<code>"inputMode"</code>: <code class="value">'DOM_INPUT_METHOD_IME'</code>)</li>
-              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'e'</code> (<code class="value">'\u0065'</code>, Latin Small Letter E key)</li>
+              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">U+0302</code> (Combining Circumflex Accent key)</li>
+              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'e'</code> (<code class="value">U+0065</code>, Latin Small Letter E key) <i class="issue" id="issue-keydown_e"><strong>Issue:</strong> shouldn't this be <code class="value">'ê'</code>?</i></li>
+              <li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>: <code class="value">'ê'</code></li>
+              <li><a class="eventtype" href="#event-type-textInput"><code>textInput</code></a>: <code class="value">'ê'</code> (<code>"inputMode"</code>: <code class="value">'DOM_INPUT_METHOD_IME'</code>)</li>
+              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'e'</code> (<code class="value">U+0065</code>, Latin Small Letter E key)</li>
             </ol>
           </div>
           <p>This process may be aborted when a user types an unsupported base character (that is, a base character for which the which the active diacritical mark is not available) after pressing a <a class="def" href="#glossary-dead-key">dead key</a>:</p>
           <div class="example" id="example-deadkey_abort">
             <p><strong>Example:</strong></p>
             <ol>
-              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'\u0302'</code> (Combining Circumflex Accent key)</li>
+              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">U+0302</code> (Combining Circumflex Accent key)</li>
               <li><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>: <code class="value">''</code></li>
               <li><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>: <code class="value">''</code><i class="issue" id="issue-compositionupdate_undefined"><strong>Issue:</strong> (undefined - to be discussed)</i></li>
-              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'\u0302'</code> (Combining Circumflex Accent key)</li>
-              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'q'</code> (<code class="value">'\u0071'</code>, The Latin Small Letter Q key)</li>
+              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">U+0302</code> (Combining Circumflex Accent key)</li>
+              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'q'</code> (<code class="value">U+0071</code>, The Latin Small Letter Q key)</li>
               <li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>: <code class="value">''</code></li>
               <li><a class="eventtype" href="#event-type-textInput"><code>textInput</code></a>: <code class="value">'q'</code> (<code>"inputMode"</code>: <code class="value">'DOM_INPUT_METHOD_KEYBOARD'</code>)</li>
-              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'q'</code> (<code class="value">'\u0071'</code>, The Latin Small Letter Q key)</li>
+              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'q'</code> (<code class="value">U+0071</code>, The Latin Small Letter Q key)</li>
             </ol>
           </div>
         </div>
@@ -5079,15 +5010,15 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
 
           <p>This specification includes a model for <a class="def" href="#glossary-ime">input method editors (IMEs)</a>, through the <a href="#events-compositionevents">CompositionEvent</a> interface and events.  However, composition events and keyboard events do not necessarily map as a one-to-one relationship.  As an example, receiving a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> for the "Accept" key value does not necessarily imply that the text currently selected in the <a class="def" href="#glossary-ime">IME</a> is being accepted, but indicates only that a keystroke happened, disconnected from the <a class="def" href="#glossary-ime">IME</a> Accept functionality (which would normally result in a <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event in most <a class="def" href="#glossary-ime">IME</a> systems).  Keyboard events cannot be used to determine the current state of the input method editor, which should be obtained through the <a href="#events-Events-CompositionEvent-data"><code>data</code></a> attribute of the <a href="#events-compositionevents">CompositionEvent</a> interface.  Additionally, <a class="def" href="#glossary-ime">IME</a> systems and devices vary in their functionality, and in which keys are used for activating that functionality, such that the <code class="value">'Convert'</code> and <code class="value">'Accept'</code> keys may be represented by other available keys.</p>
           <p>Keyboard events correspond to the events generated by the input device after the keyboard layout mapping but before the processing of the input method editor.</p>
-          <p>The following example describes a possible sequence of keys to generate the Unicode character &#x5E02; (Kanji character, part of CJK Unified Ideographs) using Japanese input methods. This example assumes that the input method editor is activated and in the Japanese-Romaji input mode. The keys <code class="value">'Convert'</code> and <code class="value">'Accept'</code> may be replaced by others depending on the input device in use and the configuration of the IME, e.g. it could be respectively <code class="value">'\u0020'</code> (Space key) and <code class="value">'Enter'</code>. <span class="note" id="_54"><strong>Note:</strong><code class="value">'&#x8A69;'</code> ("poem") and <code class="value">'&#x5E02;'</code> ("city") are homophones, both pronounced "shi", so the user must use the <code class="value">'Convert'</code> key to select the proper option.</span></p>
+          <p>The following example describes a possible sequence of keys to generate the Unicode character &#x5E02; (Kanji character, part of CJK Unified Ideographs) using Japanese input methods. This example assumes that the input method editor is activated and in the Japanese-Romaji input mode. The keys <code class="value">'Convert'</code> and <code class="value">'Accept'</code> may be replaced by others depending on the input device in use and the configuration of the IME, e.g. it could be respectively <code class="value">U+0020</code> (Space key) and <code class="value">'Enter'</code>. <span class="note" id="_54"><strong>Note:</strong><code class="value">'&#x8A69;'</code> ("poem") and <code class="value">'&#x5E02;'</code> ("city") are homophones, both pronounced "shi", so the user must use the <code class="value">'Convert'</code> key to select the proper option.</span></p>
           <div class="example" id="example-compo">
             <p><strong>Example:</strong></p>
             <ol>
-              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'s'</code> (<code class="value">'\u0073'</code>, Latin Small Letter S key)</li>
+              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'s'</code> (<code class="value">U+0073</code>, Latin Small Letter S key)</li>
               <li><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>: <code class="value">''</code></li>
-              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'s'</code> (<code class="value">'\u0073'</code>, Latin Small Letter S key)</li>
-              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'i'</code> (<code class="value">'\u0069'</code>, Latin Small Letter I key)</li>
-              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'i'</code> (<code class="value">'\u0069'</code>, Latin Small Letter I key)</li>
+              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'s'</code> (<code class="value">U+0073</code>, Latin Small Letter S key)</li>
+              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'i'</code> (<code class="value">U+0069</code>, Latin Small Letter I key)</li>
+              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'i'</code> (<code class="value">U+0069</code>, Latin Small Letter I key)</li>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Convert'</code></li>
               <li><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>: <code class="value">'&#x8A69;'</code></li>
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Convert'</code></li>
@@ -5104,11 +5035,11 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
           <div class="example" id="example-compo_cancel">
             <p><strong>Example:</strong></p>
             <ol>
-              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'s'</code> (<code class="value">'\u0073'</code>, Latin Small Letter S key)</li>
+              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'s'</code> (<code class="value">U+0073</code>, Latin Small Letter S key)</li>
               <li><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>: <code class="value">''</code></li>
-              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'s'</code> (<code class="value">'\u0073'</code>, Latin Small Letter S key)</li>
-              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'i'</code> (<code class="value">'\u0069'</code>, Latin Small Letter I key)</li>
-              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'i'</code> (<code class="value">'\u0069'</code>, Latin Small Letter I key)</li>
+              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'s'</code> (<code class="value">U+0073</code>, Latin Small Letter S key)</li>
+              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'i'</code> (<code class="value">U+0069</code>, Latin Small Letter I key)</li>
+              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'i'</code> (<code class="value">U+0069</code>, Latin Small Letter I key)</li>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Convert'</code></li>
               <li><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>: <code class="value">'&#x8A69;'</code></li>
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Convert'</code></li>
@@ -5137,14 +5068,14 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
             <p><strong>Example:</strong></p>
             <ol>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Shift'</code>, <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
-              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Q'</code> (<code class="value">'\u0051'</code>, Latin Capital Letter Q key), <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
+              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Q'</code> (<code class="value">U+0051</code>, Latin Capital Letter Q key), <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
               <li>
                 <em>The <a class="def" href="#glossary-default-action">default action</a> of the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event is prevented, e.g. by invoking <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> during the dispatch of the keydown event object</em>
               </li>
               <li>
                 <em>No <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event is generated</em>
               </li>
-              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Q'</code> (<code class="value">'\u0051'</code>, Latin Capital Letter Q key), <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
+              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Q'</code> (<code class="value">U+0051</code>, Latin Capital Letter Q key), <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Shift'</code></li>
             </ol>
           </div>
@@ -5156,9 +5087,9 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
               <li>
                 <em>The <a class="def" href="#glossary-default-action">default action</a> of the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event is prevented, e.g. by invoking <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> during the dispatch of the keydown event object</em>
               </li>
-              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Q'</code> (<code class="value">'\u0051'</code>, Latin Capital Letter Q key), <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
+              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Q'</code> (<code class="value">U+0051</code>, Latin Capital Letter Q key), <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
               <li><a class="eventtype" href="#event-type-textInput"><code>textInput</code></a>: <code class="value">'Q'</code></li>
-              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Q'</code> (<code class="value">'\u0051'</code>, Latin Capital Letter Q key), <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
+              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Q'</code> (<code class="value">U+0051</code>, Latin Capital Letter Q key), <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Shift'</code></li>
             </ol>
           </div>
@@ -5167,23 +5098,23 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
           <ol>
             <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Shift'</code>, <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
             <li><em>The <a class="def" href="#glossary-default-action">default action</a> of the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event is prevented, e.g. by invoking <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> during the dispatch of the keydown event object</em></li>
-            <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'q'</code> (<code class="value">'\u0071'</code>, Latin Small Letter Q key), no <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
+            <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'q'</code> (<code class="value">U+0071</code>, Latin Small Letter Q key), no <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
             <li><a class="eventtype" href="#event-type-textInput"><code>textInput</code></a>: <code class="value">'q'</code></li>
-            <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'q'</code> (<code class="value">'\u0071'</code>, Latin Small Letter Q key), no <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
+            <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'q'</code> (<code class="value">U+0071</code>, Latin Small Letter Q key), no <code class="attribute-name"><a href="#events-Events-MouseEvent-shiftKey">shiftKey</a></code></li>
             <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Shift'</code></li>
           </ol> -->
-          <p>If the key is part of a sequence of several keystrokes, whether it is a <a class="def" href="#glossary-dead-key">dead key</a> or it is contributing to an Input Method Editor sequence, the keystroke shall be ignored (not taken into account) only if the <a class="def" href="#glossary-default-action">default action</a> is canceled on the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event. Canceling a <a class="def" href="#glossary-dead-key">dead key</a> on a <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event has no effect on <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> events. The following example uses the keystrokes <code class="value">'\u0302'</code> (Combining Circumflex Accent key) and <code class="value">'e'</code> (<code class="value">'\u0065'</code>, Latin Small Letter E key) (on a PC/AT french keyboard using a french mapping and without any modifier activated):</p>
+          <p>If the key is part of a sequence of several keystrokes, whether it is a <a class="def" href="#glossary-dead-key">dead key</a> or it is contributing to an Input Method Editor sequence, the keystroke shall be ignored (not taken into account) only if the <a class="def" href="#glossary-default-action">default action</a> is canceled on the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event. Canceling a <a class="def" href="#glossary-dead-key">dead key</a> on a <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event has no effect on <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> events. The following example uses the keystrokes <code class="value">U+0302</code> (Combining Circumflex Accent key) and <code class="value">'e'</code> (<code class="value">U+0065</code>, Latin Small Letter E key) (on a PC/AT french keyboard using a french mapping and without any modifier activated):</p>
           <div class="example" id="example-default_action_cancel">
             <p><strong>Example:</strong></p>
             <ol>
-              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'\u0302'</code> (Combining Circumflex Accent key)</li>
+              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">U+0302</code> (Combining Circumflex Accent key)</li>
               <li>
                 <em>The <a class="def" href="#glossary-default-action">default action</a> of the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event is prevented, e.g. by invoking <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> during the dispatch of the keydown event object</em>
               </li>
-              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'\u0302'</code> (Combining Circumflex Accent key)</li>
-              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'e'</code> (<code class="value">'\u0065'</code>, Latin Small Letter E key) <i class="issue" id="issue-keydown_e2"><strong>Issue:</strong> shouldn't this be <code class="value">'&#xE9;'</code>?</i></li>
+              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">U+0302</code> (Combining Circumflex Accent key)</li>
+              <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'e'</code> (<code class="value">U+0065</code>, Latin Small Letter E key) <i class="issue" id="issue-keydown_e2"><strong>Issue:</strong> shouldn't this be <code class="value">'&#xE9;'</code>?</i></li>
               <li><a class="eventtype" href="#event-type-textInput"><code>textInput</code></a>: <code class="value">'a'</code><i class="issue" id="issue-textInput_a"><strong>Issue:</strong> shouldn't this be <code class="value">'&#xE9;'</code>?</i></li>
-              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'e'</code> (<code class="value">'\u0065'</code>, Latin Small Letter E key) <i class="issue" id="issue-keyup_e"><strong>Issue:</strong> shouldn't this be <code class="value">'&#xE9;'</code>?</i></li>
+              <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'e'</code> (<code class="value">U+0065</code>, Latin Small Letter E key) <i class="issue" id="issue-keyup_e"><strong>Issue:</strong> shouldn't this be <code class="value">'&#xE9;'</code>?</i></li>
             </ol>
           </div>
         </div>
@@ -5192,14 +5123,14 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
           <h4><a id="keyset-Guide" href="#keyset-Guide">6.2.6 Guidelines for selecting and defining key values</a></h4>
 
           <p class="note" id="_55"><strong>Note:</strong> This section is normative.</p>
-          <p>The list of key values contained in this specification is not exhaustive and input devices may have to define their own key values. Here is a algorithm to determine which key value to use:</p>
+          <p>The list of key values contained in this specification is not exhaustive and input devices may have to define their own key values. Here is an algorithm to determine which key value to use:</p>
           <ol>
             <li>Consider the current function of the key (i.e., with modifiers), taking into consideration the keyboard layout mapping in use, to determine if the key is represented by the set of defined key values, if a corresponding Unicode character exists from which a key value may be derived, or if a new key value must be defined.  
         			<ol>
         			  <li>If the primary current function of the key is to generate a character, then:
         					<ol>
-        					  <li>If there exists an appropriate key value in the <a href="#keyset-keyvalues">key values set</a>, that the key value shall be a string consisting of just that character as a <a class="def" href="#glossary-character-value">character value</a>.</li>
-                    <li>If there is no appropriate key value in the <a href="#keyset-keyvalues">key values set</a>, and there exists an appropriate <a class="def" href="#glossary-unicode-code-point">Unicode code point</a>, then the key value is a string beginning with "\u" and followed by the <a class="def" href="#glossary-unicode-code-point">Unicode code point</a> of the character in hexadecimal, using at least four digits. Leading zeroes must be omitted unless they are required to buffer the code point to a length of at least four digits.</li>
+        					  <li>If there exists an appropriate key value in the <a href="#keyset-keyvalues">key values set</a>, then the key value shall be a string consisting of just that character as a <a class="def" href="#glossary-character-value">character value</a>.</li>
+                    <li>If there is no appropriate key value in the <a href="#keyset-keyvalues">key values set</a>, and there exists an appropriate <a class="def" href="#glossary-unicode-code-point">Unicode code point</a>, then the key value shall be a string consisting of just that character as a <a class="def" href="#glossary-character-value">character value</a>.</li>
                     <li>If there is no appropriate key value in the <a href="#keyset-keyvalues">key values set</a>, and no appropriate <a class="def" href="#glossary-unicode-code-point">Unicode code point</a> exists, then... uh, are you sure this is meant to produce a character?</li>
                   </ol>
         				</li>
@@ -5215,8 +5146,8 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
           <div class="example" id="example-keyvalues">
             <p><strong>Examples:</strong></p>
             <ul>
-              <li>On a PC/AT US keyboard with a two-handed Dvorak keyboard mapping, the key labeled <code class="value">'Q'</code> maps to the key values <code class="value">'5'</code> (unmodified) and <code class="value">'%'</code> (shifted).  The primary function of this key is to generate the character <code class="value">'\u0035'</code>.  Since this character is in general category <abbr title="Number, Decimal Digit">Nd</abbr>, the key value for the unmodified key shall be <code class="value">'5'</code>.</li>
-              <li>On a French PC keyboard with a standard French mapping, the primary function of the <code class="value">'^'</code> key is as a <a class="def" href="#glossary-dead-key">dead key</a> for the circumflex diacritical mark.  This corresponds to the combining Unicode character <code class="value">'\u0302'</code>.  Since this character is in general category <abbr title="Mark, Nonspacing">Mn</abbr>, the key value shall be <code class="value">'\u0302'</code>.</li>
+              <li>On a PC/AT US keyboard with a two-handed Dvorak keyboard mapping, the key labeled <code class="value">'Q'</code> maps to the key values <code class="value">'5'</code> (unmodified) and <code class="value">'%'</code> (shifted).  The primary function of this key is to generate the character <code class="value">U+0035</code>.  Since this character is in general category <abbr title="Number, Decimal Digit">Nd</abbr>, the key value for the unmodified key shall be <code class="value">'5'</code>.</li>
+              <li>On a French PC keyboard with a standard French mapping, the primary function of the <code class="value">'^'</code> key is as a <a class="def" href="#glossary-dead-key">dead key</a> for the circumflex diacritical mark.  This corresponds to the combining Unicode character <code class="value">U+0302</code>.  Since this character is in general category <abbr title="Mark, Nonspacing">Mn</abbr>, the key value shall be <code class="value">U+0302</code>.</li>
               <li>On a Korean PC keyboard with a standard Korean mapping, the primary function of the <code class="value">'Ha/En'</code> key is to switch between Hangul and English input.  The predefined key value list has an appropriate entry for this key, <code class="value">'HangulMode'</code>, so this shall be the key value.</li>
               <li>On some models of mobile devices, the primary function of the key with a picture of a calendar on it is to launch the calendaring program. Since there is no Unicode character that corresponds to this function, and there is no appropriate entry in the predefined key value list, a new value may be devised, such as <code class="value">'Calendar'</code>.</li>
             </ul>
@@ -5226,14 +5157,17 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
         <div>
           <h4><a id="key-values" href="#key-values">6.2.7 Key Values Set</a></h4>
 
-          <p>This section defines a list of key values which implementations must support, at a minimum; implementations may support additional key values, in a manner conforming to the <a href="#keyset-Guide">guidelines for selecting and defining key values</a>.  Each key value defines one or both of the following: a <a class="def" href="#glossary-character-value">character value</a> and a <a class="def" href="#glossary-key-name">key name</a>.  The <a href="#events-Events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attribute of an event must always be the most author-friendly of these available, in the following order: <a class="def codepoint" href="#glossary-character-value">character value</a>, or <a class="def keyname" href="#glossary-key-name">key name</a>.  Future versions of this specification may include key values not included here, which have become common since the publication of this specification.</p>
+          <p>This section defines a list of key values which implementations must support, at a minimum; implementations may support additional key values, in a manner conforming to the <a href="#keyset-Guide">guidelines for selecting and defining key values</a>.  Each key value defines one or both of the following: a <a class="def" href="#glossary-character-value">character value</a> and a <a class="def" href="#glossary-key-name">key name</a>.  The <a href="#events-Events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attribute of an event must always be the most author-friendly of these available, in the following order: <a class="def charval" href="#glossary-character-value">character value</a>, or <a class="def keyname" href="#glossary-key-name">key name</a>.  Future versions of this specification may include key values not included here, which have become common since the publication of this specification.</p>
           <p>The <a class="def" href="#glossary-key-name">key names</a> defined in this specification are based on the sets of keycodes from the <code>java.awt.event.KeyEvent</code> interface of the Java Platform, Standard Edition 6 API Specification [<cite><a class="informative" href="#references-KeyEvent">KeyEvent for Java</a></cite>], and the <code>System.Windows.Forms.Keys</code> key enumeration of the Microsoft .NET Framework 4.0 Class Library [<cite><a class="informative" href="#references-Keys">Keys enumeration for .Net</a></cite>].  The <a class="def" href="#glossary-character-value">character values</a> defined in this specification are derived from the Unicode standard [<a href="#references-Unicode">Unicode</a>].</p>
           <p class="note" id="_56"><strong>Note:</strong> The key names <code class="value">'NumPad0'</code>, <code class="value">'NumPad1'</code>, <code class="value">'NumPad2'</code>, <code class="value">'NumPad3'</code>, <code class="value">'NumPad4'</code>, <code class="value">'NumPad5'</code>, <code class="value">'NumPad6'</code>, <code class="value">'NumPad7'</code>, <code class="value">'NumPad8'</code>, and <code class="value">'NumPad9'</code>, found in some keyboard enumeration sets, are not distinguished from other numerical key values in this set; an author may use the <a href="#events-Events-KeyboardEvent-location"><code>KeyboardEvent.location</code></a> attribute to discover if a key originated from the numeric keypad.</p>
 <!-- <p>Javascript escaped characters may have issues because they are based on UTF-16 encoding, in that it uses surrogate pairs for values outside the Basic Multilingual Plane.</p> -->
+
+          <p>Character values for graphic characters are shown as the character itself in the list that follows.  Where a character value doesn't have a graphic form, it is listed here using, for convenience, an equivalent character escape. We have adopted the JavaScript notation for escapes in this list.</p>
+          
           <div id="js-escape" class="issue">
             <p><strong>Issue:</strong> Javascript escaped characters may have issues:</p>
             <ul>
-              <li>may not be suitable for Java or C, which use different escaping mechanisms (could be solved with a normalizing methods such as <a href="#events-Events-DocumentEvent-convertKeyValue"><code>DocumentEvent.convertKeyValue</code></a>)</li>
+              <li>may not be suitable for Java or C, which use different escaping mechanisms (could be solved with a normalizing method)</li>
               <li>based on UTF-16 encoding, in that it uses surrogate pairs for values outside the Basic Multilingual Plane</li>
               <li>expressing characters using surrogate pairs makes it difficult for a human to look up the value, and requires unnecessary overhead for machine processing; can also cause problems with software written in the incorrect belief that Unicode is a 16-bit character set</li>
               <li>problematic for characters on supplementary planes (emoji, or Chinese characters on plane 2), some of which are keyable</li>
@@ -5241,6 +5175,14 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
               <li>Javascript escaped characters use surrogate pairs for characters outside the Basic Multilingual Plane ("\uD84E\uDDC2" for &#x239C2;), rather than C-style fixed-length characters ("\U000239c2" for &#x239C2;) or delimited escapes such as Numeric Character References ("&amp;#x239C2;").  <span class="note" id="_57"><strong>Note:</strong> &#x239C2; is a Chinese character meaning "untidy".</span></li>
             </ul>
           </div>
+          
+          <h5>Legend for the following list:</h5>
+          <ul>
+            <li>Character values, where present, are denoted with a <code class="value charval">green background</code>, and are the first term in a set</li>
+            <li>Key names are denoted with a <code class="value keyname">blue background</code>, and come after the character value</li>
+            <li>Character representations are denoted with a <code class="value charrep">pale orange background</code>, and do not represent a special data type; the color is only to distinguish the representation from the surrounding text.</li>
+          </ul>
+          
           <dl id="key-value-set">
             <dt><a id="key-Accept"><code class="value keyname">'Accept'</code></a></dt>
             <dd>The Accept (Commit, OK) key.</dd>
@@ -5623,479 +5565,479 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
             <dt><a id="key-Zoom"><code class="value keyname">'Zoom'</code></a></dt>
             <dd>The Zoom key.</dd>
 
-            <dt><a id="key-U-0008"><code class="value codepoint">'\u0008'</code></a></dt>
+            <dt><a id="key-U-0008"><code class="value charval">\u0008</code></a></dt>
             <dt><a id="key-Backspace"><code class="value keyname">'Backspace'</code></a></dt>
             <dd>The Backspace (Back) key.
              <span class="note" id="_62"><strong>Note:</strong> This key value shall be also used for the key labeled <code class="value">'delete'</code> MacOS keyboards when not modified by the <code class="value">'Fn'</code> key.</span>
             </dd>
 
-            <dt><a id="key-U-0009"><code class="value codepoint">'\u0009'</code></a></dt>
+            <dt><a id="key-U-0009"><code class="value charval">\u0009</code></a></dt>
             <dt><a id="key-Tab"><code class="value keyname">'Tab'</code></a></dt>
             <dd>The Horizontal Tabulation (Tab) key.</dd>
 
-            <dt><a id="key-U-0018"><code class="value codepoint">'\u0018'</code></a></dt>
+            <dt><a id="key-U-0018"><code class="value charval">\u0018</code></a></dt>
             <dt><a id="key-Cancel"><code class="value keyname">'Cancel'</code></a></dt>
             <dd>The Cancel key.</dd>
 
-            <dt><a id="key-U-001B"><code class="value codepoint">'\u001B'</code></a></dt>
+            <dt><a id="key-U-001B"><code class="value charval">\u001B</code></a></dt>
             <dt><a id="key-Esc"><code class="value keyname">'Esc'</code></a></dt>
             <dd>The Escape (Esc) key.</dd>
 
-            <dt><a id="key-U-0020"><code class="value codepoint">'\u0020'</code></a></dt>
+            <dt><a id="key-U-0020"><code class="value charval">\u0020</code></a></dt>
             <dt><a id="key-Spacebar"><code class="value keyname">'Spacebar'</code></a></dt>
-            <dd>The Space (Spacebar) key: <code class="value charval">&nbsp;</code>.</dd>
+            <dd>The Space (Spacebar) key: <code class="value charrep">&nbsp;</code>.</dd>
 
-            <dt><a id="key-U-0021"><code class="value codepoint">'\u0021'</code></a></dt>
+            <dt><a id="key-U-0021"><code class="value charval">\u0021</code></a></dt>
             <dt><a id="key-Exclamation"><code class="value keyname">'Exclamation'</code></a></dt>
-            <dd>The Exclamation Mark (Factorial, Bang) key: <code class="value charval">!</code>.</dd>
+            <dd>The Exclamation Mark (Factorial, Bang) key: <code class="value charrep">!</code>.</dd>
 
-            <dt><a id="key-U-0022"><code class="value codepoint">'\u0022'</code></a></dt>
+            <dt><a id="key-U-0022"><code class="value charval">\u0022</code></a></dt>
             <dt><a id="key-DoubleQuote"><code class="value keyname">'DoubleQuote'</code></a></dt>
-            <dd>The Quotation Mark (Quote Double) key: <code class="value charval">"</code>.</dd>
+            <dd>The Quotation Mark (Quote Double) key: <code class="value charrep">"</code>.</dd>
 
-            <dt><a id="key-U-0023"><code class="value codepoint">'\u0023'</code></a></dt>
+            <dt><a id="key-U-0023"><code class="value charval">\u0023</code></a></dt>
             <dt><a id="key-Hash"><code class="value keyname">'Hash'</code></a></dt>
-            <dd>The Number Sign (Pound Sign, Hash, Crosshatch, Octothorpe) key: <code class="value charval">#</code>.</dd>
+            <dd>The Number Sign (Pound Sign, Hash, Crosshatch, Octothorpe) key: <code class="value charrep">#</code>.</dd>
 
-            <dt><a id="key-U-0024"><code class="value codepoint">'\u0024'</code></a></dt>
+            <dt><a id="key-U-0024"><code class="value charval">\u0024</code></a></dt>
             <dt><a id="key-Dollar"><code class="value keyname">'Dollar'</code></a></dt>
-            <dd>The Dollar Sign (milreis, escudo) key: <code class="value charval">$</code>.</dd>
+            <dd>The Dollar Sign (milreis, escudo) key: <code class="value charrep">$</code>.</dd>
 
-            <dt><a id="key-U-0026"><code class="value codepoint">'\u0026'</code></a></dt>
+            <dt><a id="key-U-0026"><code class="value charval">\u0026</code></a></dt>
             <dt><a id="key-Ampersand"><code class="value keyname">'Ampersand'</code></a></dt>
-            <dd>The Ampersand key: <code class="value charval">&amp;</code>.</dd>
+            <dd>The Ampersand key: <code class="value charrep">&amp;</code>.</dd>
 
-            <dt><a id="key-U-0027"><code class="value codepoint">'\u0027'</code></a></dt>
+            <dt><a id="key-U-0027"><code class="value charval">\u0027</code></a></dt>
             <dt><a id="key-Apostrophe"><code class="value keyname">'Apostrophe'</code></a></dt>
-            <dd>The Apostrophe (Apostrophe-Quote, APL Quote) key: <code class="value charval">'</code>.</dd>
+            <dd>The Apostrophe (Apostrophe-Quote, APL Quote) key: <code class="value charrep">'</code>.</dd>
 
-            <dt><a id="key-U-0028"><code class="value codepoint">'\u0028'</code></a></dt>
+            <dt><a id="key-U-0028"><code class="value charval">\u0028</code></a></dt>
             <dt><a id="key-LeftParen"><code class="value keyname">'LeftParen'</code></a></dt>
-            <dd>The Left Parenthesis (Opening Parenthesis) key: <code class="value charval">(</code>.</dd>
+            <dd>The Left Parenthesis (Opening Parenthesis) key: <code class="value charrep">(</code>.</dd>
 
-            <dt><a id="key-U-0029"><code class="value codepoint">'\u0029'</code></a></dt>
+            <dt><a id="key-U-0029"><code class="value charval">\u0029</code></a></dt>
             <dt><a id="key-RightParen"><code class="value keyname">'RightParen'</code></a></dt>
-            <dd>The Right Parenthesis (Closing Parenthesis) key: <code class="value charval">)</code>.</dd>
+            <dd>The Right Parenthesis (Closing Parenthesis) key: <code class="value charrep">)</code>.</dd>
 
-            <dt><a id="key-U-002A"><code class="value codepoint">'\u002A'</code></a></dt>
+            <dt><a id="key-U-002A"><code class="value charval">\u002A</code></a></dt>
             <dt><a id="key-Asterisk"><code class="value keyname">'Asterisk'</code></a></dt>
-            <dd>The Asterisk (Star) key: <code class="value charval">*</code>.</dd>
+            <dd>The Asterisk (Star) key: <code class="value charrep">*</code>.</dd>
 
-            <dt><a id="key-U-00D7"><code class="value codepoint">'\u00D7'</code></a></dt>
+            <dt><a id="key-U-00D7"><code class="value charval">\u00D7</code></a></dt>
             <dt><a id="key-Multiply"><code class="value keyname">'Multiply'</code></a></dt>
-            <dd>The Multiply key: <code class="value charval">&#xD7;</code>.</dd>
+            <dd>The Multiply key: <code class="value charrep">&#xD7;</code>.</dd>
 
-            <dt><a id="key-U-002B"><code class="value codepoint">'\u002B'</code></a></dt>
+            <dt><a id="key-U-002B"><code class="value charval">\u002B</code></a></dt>
             <dt><a id="key-Plus"><code class="value keyname">'Plus'</code></a></dt>
-            <dd>The Plus Sign (Plus) key: <code class="value charval">+</code>.</dd>
+            <dd>The Plus Sign (Plus) key: <code class="value charrep">+</code>.</dd>
 
-            <dt><a id="key-U-0025"><code class="value codepoint">'\u0025'</code></a></dt>
+            <dt><a id="key-U-0025"><code class="value charval">\u0025</code></a></dt>
             <dt><a id="key-Percent"><code class="value keyname">'Percent'</code></a></dt>
-            <dd>The Percent Sign (Percent) key: <code class="value charval">%</code>.</dd>
+            <dd>The Percent Sign (Percent) key: <code class="value charrep">%</code>.</dd>
 
-            <dt><a id="key-U-002C"><code class="value codepoint">'\u002C'</code></a></dt>
+            <dt><a id="key-U-002C"><code class="value charval">\u002C</code></a></dt>
             <dt><a id="key-Comma"><code class="value keyname">'Comma'</code></a></dt>
-            <dd>The Comma (decimal separator) sign key: <code class="value charval">,</code>.</dd>
+            <dd>The Comma (decimal separator) sign key: <code class="value charrep">,</code>.</dd>
 
-            <dt><a id="key-U-002D"><code class="value codepoint">'\u002D'</code></a></dt>
+            <dt><a id="key-U-002D"><code class="value charval">\u002D</code></a></dt>
             <dt><a id="key-HyphenMinus"><code class="value keyname">'HyphenMinus'</code></a></dt>
-            <dd>The Hyphen-minus (hyphen or minus sign) key: <code class="value charval">-</code>.</dd>
+            <dd>The Hyphen-minus (hyphen or minus sign) key: <code class="value charrep">-</code>.</dd>
 
-            <dt><a id="key-U-002E"><code class="value codepoint">'\u002E'</code></a></dt>
+            <dt><a id="key-U-002E"><code class="value charval">\u002E</code></a></dt>
             <dt><a id="key-Period"><code class="value keyname">'Period'</code></a></dt>
-            <dd>The Full Stop (period, dot, decimal point) key: <code class="value charval">.</code>.</dd>
+            <dd>The Full Stop (period, dot, decimal point) key: <code class="value charrep">.</code>.</dd>
 
-            <dt><a id="key-U-002F"><code class="value codepoint">'\u002F'</code></a></dt>
+            <dt><a id="key-U-002F"><code class="value charval">\u002F</code></a></dt>
             <dt><a id="key-Solidus"><code class="value keyname">'Solidus'</code></a></dt>
-            <dd>The Solidus (slash, virgule, shilling) key: <code class="value charval">/</code>.</dd>
+            <dd>The Solidus (slash, virgule, shilling) key: <code class="value charrep">/</code>.</dd>
 
-            <dt><a id="key-U-003A"><code class="value codepoint">'\u003A'</code></a></dt>
+            <dt><a id="key-U-003A"><code class="value charval">\u003A</code></a></dt>
             <dt><a id="key-Colon"><code class="value keyname">'Colon'</code></a></dt>
-            <dd>The Colon key: <code class="value charval">:</code>.</dd>
+            <dd>The Colon key: <code class="value charrep">:</code>.</dd>
 
-            <dt><a id="key-U-003B"><code class="value codepoint">'\u003B'</code></a></dt>
+            <dt><a id="key-U-003B"><code class="value charval">\u003B</code></a></dt>
             <dt><a id="key-Semicolon"><code class="value keyname">'Semicolon'</code></a></dt>
-            <dd>The Semicolon key: <code class="value charval">;</code>.</dd>
+            <dd>The Semicolon key: <code class="value charrep">;</code>.</dd>
 
-            <dt><a id="key-U-003C"><code class="value codepoint">'\u003C'</code></a></dt>
+            <dt><a id="key-U-003C"><code class="value charval">\u003C</code></a></dt>
             <dt><a id="key-LessThan"><code class="value keyname">'LessThan'</code></a></dt>
-            <dd>The Less-Than Sign key: <code class="value charval">&lt;</code>.</dd>
+            <dd>The Less-Than Sign key: <code class="value charrep">&lt;</code>.</dd>
 
-            <dt><a id="key-U-003D"><code class="value codepoint">'\u003D'</code></a></dt>
+            <dt><a id="key-U-003D"><code class="value charval">\u003D</code></a></dt>
             <dt><a id="key-Equals"><code class="value keyname">'Equals'</code></a></dt>
-            <dd>The Equals Sign key: <code class="value charval">=</code>.</dd>
+            <dd>The Equals Sign key: <code class="value charrep">=</code>.</dd>
 
-            <dt><a id="key-U-003E"><code class="value codepoint">'\u003E'</code></a></dt>
+            <dt><a id="key-U-003E"><code class="value charval">\u003E</code></a></dt>
             <dt><a id="key-"><code class="value keyname">'GreaterThan'</code></a></dt>
-            <dd>The Greater-Than Sign key: <code class="value charval">&gt;</code>.</dd>
+            <dd>The Greater-Than Sign key: <code class="value charrep">&gt;</code>.</dd>
 
-            <dt><a id="key-U-003F"><code class="value codepoint">'\u003F'</code></a></dt>
+            <dt><a id="key-U-003F"><code class="value charval">\u003F</code></a></dt>
             <dt><a id="key-QuestionMark"><code class="value keyname">'QuestionMark'</code></a></dt>
-            <dd>The Question Mark key: <code class="value charval">?</code>.</dd>
+            <dd>The Question Mark key: <code class="value charrep">?</code>.</dd>
 
-            <dt><a id="key-U-0030"><code class="value codepoint">'\u0030'</code></a></dt>
+            <dt><a id="key-U-0030"><code class="value charval">\u0030</code></a></dt>
             <dt><a id="key-0"><code class="value keyname">'0'</code></a></dt>
-            <dd>The Digit Zero key: <code class="value charval">0</code>.</dd>
+            <dd>The Digit Zero key: <code class="value charrep">0</code>.</dd>
 
-            <dt><a id="key-U-0031"><code class="value codepoint">'\u0031'</code></a></dt>
+            <dt><a id="key-U-0031"><code class="value charval">\u0031</code></a></dt>
             <dt><a id="key-1"><code class="value keyname">'1'</code></a></dt>
-            <dd>The Digit One key: <code class="value charval">1</code>.</dd>
+            <dd>The Digit One key: <code class="value charrep">1</code>.</dd>
 
-            <dt><a id="key-U-0032"><code class="value codepoint">'\u0032'</code></a></dt>
+            <dt><a id="key-U-0032"><code class="value charval">\u0032</code></a></dt>
             <dt><a id="key-2"><code class="value keyname">'2'</code></a></dt>
-            <dd>The Digit Two key: <code class="value charval">2</code>.</dd>
+            <dd>The Digit Two key: <code class="value charrep">2</code>.</dd>
 
-            <dt><a id="key-U-0033"><code class="value codepoint">'\u0033'</code></a></dt>
+            <dt><a id="key-U-0033"><code class="value charval">\u0033</code></a></dt>
             <dt><a id="key-3"><code class="value keyname">'3'</code></a></dt>
-            <dd>The Digit Three key: <code class="value charval">3</code>.</dd>
+            <dd>The Digit Three key: <code class="value charrep">3</code>.</dd>
 
-            <dt><a id="key-U-0034"><code class="value codepoint">'\u0034'</code></a></dt>
+            <dt><a id="key-U-0034"><code class="value charval">\u0034</code></a></dt>
             <dt><a id="key-4"><code class="value keyname">'4'</code></a></dt>
-            <dd>The Digit Four key: <code class="value charval">4</code>.</dd>
+            <dd>The Digit Four key: <code class="value charrep">4</code>.</dd>
 
-            <dt><a id="key-U-0035"><code class="value codepoint">'\u0035'</code></a></dt>
+            <dt><a id="key-U-0035"><code class="value charval">\u0035</code></a></dt>
             <dt><a id="key-5"><code class="value keyname">'5'</code></a></dt>
-            <dd>The Digit Five key: <code class="value charval">5</code>.</dd>
+            <dd>The Digit Five key: <code class="value charrep">5</code>.</dd>
 
-            <dt><a id="key-U-0036"><code class="value codepoint">'\u0036'</code></a></dt>
+            <dt><a id="key-U-0036"><code class="value charval">\u0036</code></a></dt>
             <dt><a id="key-6"><code class="value keyname">'6'</code></a></dt>
-            <dd>The Digit Six key: <code class="value charval">6</code>.</dd>
+            <dd>The Digit Six key: <code class="value charrep">6</code>.</dd>
 
-            <dt><a id="key-U-0037"><code class="value codepoint">'\u0037'</code></a></dt>
+            <dt><a id="key-U-0037"><code class="value charval">\u0037</code></a></dt>
             <dt><a id="key-7"><code class="value keyname">'7'</code></a></dt>
-            <dd>The Digit Seven key: <code class="value charval">7</code>.</dd>
+            <dd>The Digit Seven key: <code class="value charrep">7</code>.</dd>
 
-            <dt><a id="key-U-0038"><code class="value codepoint">'\u0038'</code></a></dt>
+            <dt><a id="key-U-0038"><code class="value charval">\u0038</code></a></dt>
             <dt><a id="key-8"><code class="value keyname">'8'</code></a></dt>
-            <dd>The Digit Eight key: <code class="value charval">8</code>.</dd>
+            <dd>The Digit Eight key: <code class="value charrep">8</code>.</dd>
 
-            <dt><a id="key-U-0039"><code class="value codepoint">'\u0039'</code></a></dt>
+            <dt><a id="key-U-0039"><code class="value charval">\u0039</code></a></dt>
             <dt><a id="key-9"><code class="value keyname">'9'</code></a></dt>
-            <dd>The Digit Nine key: <code class="value charval">9</code>.</dd>
+            <dd>The Digit Nine key: <code class="value charrep">9</code>.</dd>
 
-            <dt><a id="key-U-0040"><code class="value codepoint">'\u0040'</code></a></dt>
+            <dt><a id="key-U-0040"><code class="value charval">\u0040</code></a></dt>
             <dt><a id="key-At"><code class="value keyname">'At'</code></a></dt>
-            <dd>The Commercial At key: <code class="value charval">@</code>.</dd>
+            <dd>The Commercial At key: <code class="value charrep">@</code>.</dd>
 
-            <dt><a id="key-U-0041"><code class="value codepoint">'\u0041'</code></a></dt>
+            <dt><a id="key-U-0041"><code class="value charval">\u0041</code></a></dt>
             <dt><a id="key-A"><code class="value keyname">'A'</code></a></dt>
-            <dd>The Latin Capital Letter A key: <code class="value charval">A</code>.</dd>
+            <dd>The Latin Capital Letter A key: <code class="value charrep">A</code>.</dd>
 
-            <dt><a id="key-U-0042"><code class="value codepoint">'\u0042'</code></a></dt>
+            <dt><a id="key-U-0042"><code class="value charval">\u0042</code></a></dt>
             <dt><a id="key-B"><code class="value keyname">'B'</code></a></dt>
-            <dd>The Latin Capital Letter B key: <code class="value charval">B</code>.</dd>
+            <dd>The Latin Capital Letter B key: <code class="value charrep">B</code>.</dd>
 
-            <dt><a id="key-U-0043"><code class="value codepoint">'\u0043'</code></a></dt>
+            <dt><a id="key-U-0043"><code class="value charval">\u0043</code></a></dt>
             <dt><a id="key-C"><code class="value keyname">'C'</code></a></dt>
-            <dd>The Latin Capital Letter C key: <code class="value charval">C</code>.</dd>
+            <dd>The Latin Capital Letter C key: <code class="value charrep">C</code>.</dd>
 
-            <dt><a id="key-U-0044"><code class="value codepoint">'\u0044'</code></a></dt>
+            <dt><a id="key-U-0044"><code class="value charval">\u0044</code></a></dt>
             <dt><a id="key-D"><code class="value keyname">'D'</code></a></dt>
-            <dd>The Latin Capital Letter D key: <code class="value charval">D</code>.</dd>
+            <dd>The Latin Capital Letter D key: <code class="value charrep">D</code>.</dd>
 
-            <dt><a id="key-U-0045"><code class="value codepoint">'\u0045'</code></a></dt>
+            <dt><a id="key-U-0045"><code class="value charval">\u0045</code></a></dt>
             <dt><a id="key-E"><code class="value keyname">'E'</code></a></dt>
-            <dd>The Latin Capital Letter E key: <code class="value charval">E</code>.</dd>
+            <dd>The Latin Capital Letter E key: <code class="value charrep">E</code>.</dd>
 
-            <dt><a id="key-U-0046"><code class="value codepoint">'\u0046'</code></a></dt>
+            <dt><a id="key-U-0046"><code class="value charval">\u0046</code></a></dt>
             <dt><a id="key-F"><code class="value keyname">'F'</code></a></dt>
-            <dd>The Latin Capital Letter F key: <code class="value charval">F</code>.</dd>
+            <dd>The Latin Capital Letter F key: <code class="value charrep">F</code>.</dd>
 
-            <dt><a id="key-U-0047"><code class="value codepoint">'\u0047'</code></a></dt>
+            <dt><a id="key-U-0047"><code class="value charval">\u0047</code></a></dt>
             <dt><a id="key-G"><code class="value keyname">'G'</code></a></dt>
-            <dd>The Latin Capital Letter G key: <code class="value charval">G</code>.</dd>
+            <dd>The Latin Capital Letter G key: <code class="value charrep">G</code>.</dd>
 
-            <dt><a id="key-U-0048"><code class="value codepoint">'\u0048'</code></a></dt>
+            <dt><a id="key-U-0048"><code class="value charval">\u0048</code></a></dt>
             <dt><a id="key-H"><code class="value keyname">'H'</code></a></dt>
-            <dd>The Latin Capital Letter H key: <code class="value charval">H</code>.</dd>
+            <dd>The Latin Capital Letter H key: <code class="value charrep">H</code>.</dd>
 
-            <dt><a id="key-U-0049"><code class="value codepoint">'\u0049'</code></a></dt>
+            <dt><a id="key-U-0049"><code class="value charval">\u0049</code></a></dt>
             <dt><a id="key-I"><code class="value keyname">'I'</code></a></dt>
-            <dd>The Latin Capital Letter I key: <code class="value charval">I</code>.</dd>
+            <dd>The Latin Capital Letter I key: <code class="value charrep">I</code>.</dd>
 
-            <dt><a id="key-U-004A"><code class="value codepoint">'\u004A'</code></a></dt>
+            <dt><a id="key-U-004A"><code class="value charval">\u004A</code></a></dt>
             <dt><a id="key-J"><code class="value keyname">'J'</code></a></dt>
-            <dd>The Latin Capital Letter J key: <code class="value charval">J</code>.</dd>
+            <dd>The Latin Capital Letter J key: <code class="value charrep">J</code>.</dd>
 
-            <dt><a id="key-U-004B"><code class="value codepoint">'\u004B'</code></a></dt>
+            <dt><a id="key-U-004B"><code class="value charval">\u004B</code></a></dt>
             <dt><a id="key-K"><code class="value keyname">'K'</code></a></dt>
-            <dd>The Latin Capital Letter K key: <code class="value charval">K</code>.</dd>
+            <dd>The Latin Capital Letter K key: <code class="value charrep">K</code>.</dd>
 
-            <dt><a id="key-U-004C"><code class="value codepoint">'\u004C'</code></a></dt>
+            <dt><a id="key-U-004C"><code class="value charval">\u004C</code></a></dt>
             <dt><a id="key-L"><code class="value keyname">'L'</code></a></dt>
-            <dd>The Latin Capital Letter L key: <code class="value charval">L</code>.</dd>
+            <dd>The Latin Capital Letter L key: <code class="value charrep">L</code>.</dd>
 
-            <dt><a id="key-U-004D"><code class="value codepoint">'\u004D'</code></a></dt>
+            <dt><a id="key-U-004D"><code class="value charval">\u004D</code></a></dt>
             <dt><a id="key-M"><code class="value keyname">'M'</code></a></dt>
-            <dd>The Latin Capital Letter M key: <code class="value charval">M</code>.</dd>
+            <dd>The Latin Capital Letter M key: <code class="value charrep">M</code>.</dd>
 
-            <dt><a id="key-U-004E"><code class="value codepoint">'\u004E'</code></a></dt>
+            <dt><a id="key-U-004E"><code class="value charval">\u004E</code></a></dt>
             <dt><a id="key-N"><code class="value keyname">'N'</code></a></dt>
-            <dd>The Latin Capital Letter N key: <code class="value charval">N</code>.</dd>
+            <dd>The Latin Capital Letter N key: <code class="value charrep">N</code>.</dd>
 
-            <dt><a id="key-U-004F"><code class="value codepoint">'\u004F'</code></a></dt>
+            <dt><a id="key-U-004F"><code class="value charval">\u004F</code></a></dt>
             <dt><a id="key-O"><code class="value keyname">'O'</code></a></dt>
-            <dd>The Latin Capital Letter O key: <code class="value charval">O</code>.</dd>
+            <dd>The Latin Capital Letter O key: <code class="value charrep">O</code>.</dd>
 
-            <dt><a id="key-U-0050"><code class="value codepoint">'\u0050'</code></a></dt>
+            <dt><a id="key-U-0050"><code class="value charval">\u0050</code></a></dt>
             <dt><a id="key-P"><code class="value keyname">'P'</code></a></dt>
-            <dd>The Latin Capital Letter P key: <code class="value charval">P</code>.</dd>
+            <dd>The Latin Capital Letter P key: <code class="value charrep">P</code>.</dd>
 
-            <dt><a id="key-U-0051"><code class="value codepoint">'\u0051'</code></a></dt>
+            <dt><a id="key-U-0051"><code class="value charval">\u0051</code></a></dt>
             <dt><a id="key-Q"><code class="value keyname">'Q'</code></a></dt>
-            <dd>The Latin Capital Letter Q key: <code class="value charval">Q</code>.</dd>
+            <dd>The Latin Capital Letter Q key: <code class="value charrep">Q</code>.</dd>
 
-            <dt><a id="key-U-0052"><code class="value codepoint">'\u0052'</code></a></dt>
+            <dt><a id="key-U-0052"><code class="value charval">\u0052</code></a></dt>
             <dt><a id="key-R"><code class="value keyname">'R'</code></a></dt>
-            <dd>The Latin Capital Letter R key: <code class="value charval">R</code>.</dd>
+            <dd>The Latin Capital Letter R key: <code class="value charrep">R</code>.</dd>
 
-            <dt><a id="key-U-0053"><code class="value codepoint">'\u0053'</code></a></dt>
+            <dt><a id="key-U-0053"><code class="value charval">\u0053</code></a></dt>
             <dt><a id="key-S"><code class="value keyname">'S'</code></a></dt>
-            <dd>The Latin Capital Letter S key: <code class="value charval">S</code>.</dd>
+            <dd>The Latin Capital Letter S key: <code class="value charrep">S</code>.</dd>
 
-            <dt><a id="key-U-0054"><code class="value codepoint">'\u0054'</code></a></dt>
+            <dt><a id="key-U-0054"><code class="value charval">\u0054</code></a></dt>
             <dt><a id="key-T"><code class="value keyname">'T'</code></a></dt>
-            <dd>The Latin Capital Letter T key: <code class="value charval">T</code>.</dd>
+            <dd>The Latin Capital Letter T key: <code class="value charrep">T</code>.</dd>
 
-            <dt><a id="key-U-0055"><code class="value codepoint">'\u0055'</code></a></dt>
+            <dt><a id="key-U-0055"><code class="value charval">\u0055</code></a></dt>
             <dt><a id="key-U"><code class="value keyname">'U'</code></a></dt>
-            <dd>The Latin Capital Letter U key: <code class="value charval">U</code>.</dd>
+            <dd>The Latin Capital Letter U key: <code class="value charrep">U</code>.</dd>
 
-            <dt><a id="key-U-0056"><code class="value codepoint">'\u0056'</code></a></dt>
+            <dt><a id="key-U-0056"><code class="value charval">\u0056</code></a></dt>
             <dt><a id="key-V"><code class="value keyname">'V'</code></a></dt>
-            <dd>The Latin Capital Letter V key: <code class="value charval">V</code>.</dd>
+            <dd>The Latin Capital Letter V key: <code class="value charrep">V</code>.</dd>
 
-            <dt><a id="key-U-0057"><code class="value codepoint">'\u0057'</code></a></dt>
+            <dt><a id="key-U-0057"><code class="value charval">\u0057</code></a></dt>
             <dt><a id="key-W"><code class="value keyname">'W'</code></a></dt>
-            <dd>The Latin Capital Letter W key: <code class="value charval">W</code>.</dd>
+            <dd>The Latin Capital Letter W key: <code class="value charrep">W</code>.</dd>
 
-            <dt><a id="key-U-0058"><code class="value codepoint">'\u0058'</code></a></dt>
+            <dt><a id="key-U-0058"><code class="value charval">\u0058</code></a></dt>
             <dt><a id="key-X"><code class="value keyname">'X'</code></a></dt>
-            <dd>The Latin Capital Letter X key: <code class="value charval">X</code>.</dd>
+            <dd>The Latin Capital Letter X key: <code class="value charrep">X</code>.</dd>
 
-            <dt><a id="key-U-0059"><code class="value codepoint">'\u0059'</code></a></dt>
+            <dt><a id="key-U-0059"><code class="value charval">\u0059</code></a></dt>
             <dt><a id="key-Y"><code class="value keyname">'Y'</code></a></dt>
-            <dd>The Latin Capital Letter Y key: <code class="value charval">Y</code>.</dd>
+            <dd>The Latin Capital Letter Y key: <code class="value charrep">Y</code>.</dd>
 
-            <dt><a id="key-U-005A"><code class="value codepoint">'\u005A'</code></a></dt>
+            <dt><a id="key-U-005A"><code class="value charval">\u005A</code></a></dt>
             <dt><a id="key-Z"><code class="value keyname">'Z'</code></a></dt>
-            <dd>The Latin Capital Letter Z key: <code class="value charval">Z</code>.</dd>
+            <dd>The Latin Capital Letter Z key: <code class="value charrep">Z</code>.</dd>
 
-            <dt><a id="key-U-0061"><code class="value codepoint">'\u0061'</code></a></dt>
+            <dt><a id="key-U-0061"><code class="value charval">\u0061</code></a></dt>
             <dt><a id="key-a"><code class="value keyname">'a'</code></a></dt>
-            <dd>The Latin Small Letter A key: <code class="value charval">a</code>.</dd>
+            <dd>The Latin Small Letter A key: <code class="value charrep">a</code>.</dd>
 
-            <dt><a id="key-U-0062"><code class="value codepoint">'\u0062'</code></a></dt>
+            <dt><a id="key-U-0062"><code class="value charval">\u0062</code></a></dt>
             <dt><a id="key-b"><code class="value keyname">'b'</code></a></dt>
-            <dd>The Latin Small Letter B key: <code class="value charval">b</code>.</dd>
+            <dd>The Latin Small Letter B key: <code class="value charrep">b</code>.</dd>
 
-            <dt><a id="key-U-0063"><code class="value codepoint">'\u0063'</code></a></dt>
+            <dt><a id="key-U-0063"><code class="value charval">\u0063</code></a></dt>
             <dt><a id="key-c"><code class="value keyname">'c'</code></a></dt>
-            <dd>The Latin Small Letter C key: <code class="value charval">c</code>.</dd>
+            <dd>The Latin Small Letter C key: <code class="value charrep">c</code>.</dd>
 
-            <dt><a id="key-U-0064"><code class="value codepoint">'\u0064'</code></a></dt>
+            <dt><a id="key-U-0064"><code class="value charval">\u0064</code></a></dt>
             <dt><a id="key-d"><code class="value keyname">'d'</code></a></dt>
-            <dd>The Latin Small Letter D key: <code class="value charval">d</code>.</dd>
+            <dd>The Latin Small Letter D key: <code class="value charrep">d</code>.</dd>
 
-            <dt><a id="key-U-0065"><code class="value codepoint">'\u0065'</code></a></dt>
+            <dt><a id="key-U-0065"><code class="value charval">\u0065</code></a></dt>
             <dt><a id="key-e"><code class="value keyname">'e'</code></a></dt>
-            <dd>The Latin Small Letter E key: <code class="value charval">e</code>.</dd>
+            <dd>The Latin Small Letter E key: <code class="value charrep">e</code>.</dd>
 
-            <dt><a id="key-U-0066"><code class="value codepoint">'\u0066'</code></a></dt>
+            <dt><a id="key-U-0066"><code class="value charval">\u0066</code></a></dt>
             <dt><a id="key-f"><code class="value keyname">'f'</code></a></dt>
-            <dd>The Latin Small Letter F key: <code class="value charval">f</code>.</dd>
+            <dd>The Latin Small Letter F key: <code class="value charrep">f</code>.</dd>
 
-            <dt><a id="key-U-0067"><code class="value codepoint">'\u0067'</code></a></dt>
+            <dt><a id="key-U-0067"><code class="value charval">\u0067</code></a></dt>
             <dt><a id="key-g"><code class="value keyname">'g'</code></a></dt>
-            <dd>The Latin Small Letter G key: <code class="value charval">g</code>.</dd>
+            <dd>The Latin Small Letter G key: <code class="value charrep">g</code>.</dd>
 
-            <dt><a id="key-U-0068"><code class="value codepoint">'\u0068'</code></a></dt>
+            <dt><a id="key-U-0068"><code class="value charval">\u0068</code></a></dt>
             <dt><a id="key-h"><code class="value keyname">'h'</code></a></dt>
-            <dd>The Latin Small Letter H key: <code class="value charval">h</code>.</dd>
+            <dd>The Latin Small Letter H key: <code class="value charrep">h</code>.</dd>
 
-            <dt><a id="key-U-0069"><code class="value codepoint">'\u0069'</code></a></dt>
+            <dt><a id="key-U-0069"><code class="value charval">\u0069</code></a></dt>
             <dt><a id="key-i"><code class="value keyname">'i'</code></a></dt>
-            <dd>The Latin Small Letter I key: <code class="value charval">i</code>.</dd>
+            <dd>The Latin Small Letter I key: <code class="value charrep">i</code>.</dd>
 
-            <dt><a id="key-U-006A"><code class="value codepoint">'\u006A'</code></a></dt>
+            <dt><a id="key-U-006A"><code class="value charval">\u006A</code></a></dt>
             <dt><a id="key-j"><code class="value keyname">'j'</code></a></dt>
-            <dd>The Latin Small Letter J key: <code class="value charval">j</code>.</dd>
+            <dd>The Latin Small Letter J key: <code class="value charrep">j</code>.</dd>
 
-            <dt><a id="key-U-006B"><code class="value codepoint">'\u006B'</code></a></dt>
+            <dt><a id="key-U-006B"><code class="value charval">\u006B</code></a></dt>
             <dt><a id="key-k"><code class="value keyname">'k'</code></a></dt>
-            <dd>The Latin Small Letter K key: <code class="value charval">k</code>.</dd>
+            <dd>The Latin Small Letter K key: <code class="value charrep">k</code>.</dd>
 
-            <dt><a id="key-U-006C"><code class="value codepoint">'\u006C'</code></a></dt>
+            <dt><a id="key-U-006C"><code class="value charval">\u006C</code></a></dt>
             <dt><a id="key-l"><code class="value keyname">'l'</code></a></dt>
-            <dd>The Latin Small Letter L key: <code class="value charval">l</code>.</dd>
+            <dd>The Latin Small Letter L key: <code class="value charrep">l</code>.</dd>
 
-            <dt><a id="key-U-006D"><code class="value codepoint">'\u006D'</code></a></dt>
+            <dt><a id="key-U-006D"><code class="value charval">\u006D</code></a></dt>
             <dt><a id="key-m"><code class="value keyname">'m'</code></a></dt>
-            <dd>The Latin Small Letter M key: <code class="value charval">m</code>.</dd>
+            <dd>The Latin Small Letter M key: <code class="value charrep">m</code>.</dd>
 
-            <dt><a id="key-U-006E"><code class="value codepoint">'\u006E'</code></a></dt>
+            <dt><a id="key-U-006E"><code class="value charval">\u006E</code></a></dt>
             <dt><a id="key-n"><code class="value keyname">'n'</code></a></dt>
-            <dd>The Latin Small Letter N key: <code class="value charval">n</code>.</dd>
+            <dd>The Latin Small Letter N key: <code class="value charrep">n</code>.</dd>
 
-            <dt><a id="key-U-006F"><code class="value codepoint">'\u006F'</code></a></dt>
+            <dt><a id="key-U-006F"><code class="value charval">\u006F</code></a></dt>
             <dt><a id="key-o"><code class="value keyname">'o'</code></a></dt>
-            <dd>The Latin Small Letter O key: <code class="value charval">o</code>.</dd>
+            <dd>The Latin Small Letter O key: <code class="value charrep">o</code>.</dd>
 
-            <dt><a id="key-U-0070"><code class="value codepoint">'\u0070'</code></a></dt>
+            <dt><a id="key-U-0070"><code class="value charval">\u0070</code></a></dt>
             <dt><a id="key-p"><code class="value keyname">'p'</code></a></dt>
-            <dd>The Latin Small Letter P key: <code class="value charval">p</code>.</dd>
+            <dd>The Latin Small Letter P key: <code class="value charrep">p</code>.</dd>
 
-            <dt><a id="key-U-0071"><code class="value codepoint">'\u0071'</code></a></dt>
+            <dt><a id="key-U-0071"><code class="value charval">\u0071</code></a></dt>
             <dt><a id="key-q"><code class="value keyname">'q'</code></a></dt>
-            <dd>The Latin Small Letter Q key: <code class="value charval">q</code>.</dd>
+            <dd>The Latin Small Letter Q key: <code class="value charrep">q</code>.</dd>
 
-            <dt><a id="key-U-0072"><code class="value codepoint">'\u0072'</code></a></dt>
+            <dt><a id="key-U-0072"><code class="value charval">\u0072</code></a></dt>
             <dt><a id="key-r"><code class="value keyname">'r'</code></a></dt>
-            <dd>The Latin Small Letter R key: <code class="value charval">r</code>.</dd>
+            <dd>The Latin Small Letter R key: <code class="value charrep">r</code>.</dd>
 
-            <dt><a id="key-U-0073"><code class="value codepoint">'\u0073'</code></a></dt>
+            <dt><a id="key-U-0073"><code class="value charval">\u0073</code></a></dt>
             <dt><a id="key-s"><code class="value keyname">'s'</code></a></dt>
-            <dd>The Latin Small Letter S key: <code class="value charval">s</code>.</dd>
+            <dd>The Latin Small Letter S key: <code class="value charrep">s</code>.</dd>
 
-            <dt><a id="key-U-0074"><code class="value codepoint">'\u0074'</code></a></dt>
+            <dt><a id="key-U-0074"><code class="value charval">\u0074</code></a></dt>
             <dt><a id="key-t"><code class="value keyname">'t'</code></a></dt>
-            <dd>The Latin Small Letter T key: <code class="value charval">t</code>.</dd>
+            <dd>The Latin Small Letter T key: <code class="value charrep">t</code>.</dd>
 
-            <dt><a id="key-U-0075"><code class="value codepoint">'\u0075'</code></a></dt>
+            <dt><a id="key-U-0075"><code class="value charval">\u0075</code></a></dt>
             <dt><a id="key-u"><code class="value keyname">'u'</code></a></dt>
-            <dd>The Latin Small Letter U key: <code class="value charval">u</code>.</dd>
+            <dd>The Latin Small Letter U key: <code class="value charrep">u</code>.</dd>
 
-            <dt><a id="key-U-0076"><code class="value codepoint">'\u0076'</code></a></dt>
+            <dt><a id="key-U-0076"><code class="value charval">\u0076</code></a></dt>
             <dt><a id="key-v"><code class="value keyname">'v'</code></a></dt>
-            <dd>The Latin Small Letter V key: <code class="value charval">v</code>.</dd>
+            <dd>The Latin Small Letter V key: <code class="value charrep">v</code>.</dd>
 
-            <dt><a id="key-U-0077"><code class="value codepoint">'\u0077'</code></a></dt>
+            <dt><a id="key-U-0077"><code class="value charval">\u0077</code></a></dt>
             <dt><a id="key-w"><code class="value keyname">'w'</code></a></dt>
-            <dd>The Latin Small Letter W key: <code class="value charval">w</code>.</dd>
+            <dd>The Latin Small Letter W key: <code class="value charrep">w</code>.</dd>
 
-            <dt><a id="key-U-0078"><code class="value codepoint">'\u0078'</code></a></dt>
+            <dt><a id="key-U-0078"><code class="value charval">\u0078</code></a></dt>
             <dt><a id="key-x"><code class="value keyname">'x'</code></a></dt>
-            <dd>The Latin Small Letter X key: <code class="value charval">x</code>.</dd>
+            <dd>The Latin Small Letter X key: <code class="value charrep">x</code>.</dd>
 
-            <dt><a id="key-U-0079"><code class="value codepoint">'\u0079'</code></a></dt>
+            <dt><a id="key-U-0079"><code class="value charval">\u0079</code></a></dt>
             <dt><a id="key-y"><code class="value keyname">'y'</code></a></dt>
-            <dd>The Latin Small Letter Y key: <code class="value charval">y</code>.</dd>
+            <dd>The Latin Small Letter Y key: <code class="value charrep">y</code>.</dd>
 
-            <dt><a id="key-U-007A"><code class="value codepoint">'\u007A'</code></a></dt>
+            <dt><a id="key-U-007A"><code class="value charval">\u007A</code></a></dt>
             <dt><a id="key-z"><code class="value keyname">'z'</code></a></dt>
-            <dd>The Latin Small Letter Z key: <code class="value charval">z</code>.</dd>
+            <dd>The Latin Small Letter Z key: <code class="value charrep">z</code>.</dd>
 
-            <dt><a id="key-U-005B"><code class="value codepoint">'\u005B'</code></a></dt>
+            <dt><a id="key-U-005B"><code class="value charval">\u005B</code></a></dt>
             <dt><a id="key-LeftSquareBracket"><code class="value keyname">'LeftSquareBracket'</code></a></dt>
-            <dd>The Left Square Bracket (Opening Square Bracket) key: <code class="value charval">[</code>.</dd>
+            <dd>The Left Square Bracket (Opening Square Bracket) key: <code class="value charrep">[</code>.</dd>
 
-            <dt><a id="key-U-005C"><code class="value codepoint">'\u005C'</code></a></dt>
+            <dt><a id="key-U-005C"><code class="value charval">\u005C</code></a></dt>
             <dt><a id="key-Backslash"><code class="value keyname">'Backslash'</code></a></dt>
-            <dd>The Reverse Solidus (Backslash) key: <code class="value charval">\</code>.</dd>
+            <dd>The Reverse Solidus (Backslash) key: <code class="value charrep">\</code>.</dd>
 
-            <dt><a id="key-U-005D"><code class="value codepoint">'\u005D'</code></a></dt>
+            <dt><a id="key-U-005D"><code class="value charval">\u005D</code></a></dt>
             <dt><a id="key-RightSquareBracket"><code class="value keyname">'RightSquareBracket'</code></a></dt>
-            <dd>The Right Square Bracket (Closing Square Bracket) key: <code class="value charval">]</code>.</dd>
+            <dd>The Right Square Bracket (Closing Square Bracket) key: <code class="value charrep">]</code>.</dd>
 
-            <dt><a id="key-U-005E"><code class="value codepoint">'\u005E'</code></a></dt>
+            <dt><a id="key-U-005E"><code class="value charval">\u005E</code></a></dt>
             <dt><a id="key-Circumflex"><code class="value keyname">'Circumflex'</code></a></dt>
-            <dd>The Circumflex Accent key: <code class="value charval">^</code>.</dd>
+            <dd>The Circumflex Accent key: <code class="value charrep">^</code>.</dd>
 
-            <dt><a id="key-U-005F"><code class="value codepoint">'\u005F'</code></a></dt>
+            <dt><a id="key-U-005F"><code class="value charval">\u005F</code></a></dt>
             <dt><a id="key-Underscore"><code class="value keyname">'Underscore'</code></a></dt>
-            <dd>The Low Sign (Spacing Underscore, Underscore) key: <code class="value charval">_</code>.</dd>
+            <dd>The Low Sign (Spacing Underscore, Underscore) key: <code class="value charrep">_</code>.</dd>
 
-            <dt><a id="key-U-0060"><code class="value codepoint">'\u0060'</code></a></dt>
+            <dt><a id="key-U-0060"><code class="value charval">\u0060</code></a></dt>
             <dt><a id="key-Grave"><code class="value keyname">'Grave'</code></a></dt>
-            <dd>The Grave Accent (Back Quote) key: <code class="value charval">`</code>.</dd>
+            <dd>The Grave Accent (Back Quote) key: <code class="value charrep">`</code>.</dd>
 
-            <dt><a id="key-U-007B"><code class="value codepoint">'\u007B'</code></a></dt>
+            <dt><a id="key-U-007B"><code class="value charval">\u007B</code></a></dt>
             <dt><a id="key-LeftCurlyBracket"><code class="value keyname">'LeftCurlyBracket'</code></a></dt>
-            <dd>The Left Curly Bracket (Opening Curly Bracket, Opening Brace, Brace Left) key: <code class="value charval">{</code>.</dd>
+            <dd>The Left Curly Bracket (Opening Curly Bracket, Opening Brace, Brace Left) key: <code class="value charrep">{</code>.</dd>
 
-            <dt><a id="key-U-007C"><code class="value codepoint">'\u007C'</code></a></dt>
+            <dt><a id="key-U-007C"><code class="value charval">\u007C</code></a></dt>
             <dt><a id="key-Pipe"><code class="value keyname">'Pipe'</code></a></dt>
-            <dd>The Vertical Line (Vertical Bar, Pipe) key: <code class="value charval">|</code>.</dd>
+            <dd>The Vertical Line (Vertical Bar, Pipe) key: <code class="value charrep">|</code>.</dd>
 
-            <dt><a id="key-U-007D"><code class="value codepoint">'\u007D'</code></a></dt>
+            <dt><a id="key-U-007D"><code class="value charval">\u007D</code></a></dt>
             <dt><a id="key-RightCurlyBracket"><code class="value keyname">'RightCurlyBracket'</code></a></dt>
-            <dd>The Right Curly Bracket (Closing Curly Bracket, Closing Brace, Brace Right) key: <code class="value charval">}</code>.</dd>
+            <dd>The Right Curly Bracket (Closing Curly Bracket, Closing Brace, Brace Right) key: <code class="value charrep">}</code>.</dd>
 
-            <dt><a id="key-U-20AC"><code class="value codepoint">'\u20AC'</code></a></dt>
+            <dt><a id="key-U-20AC"><code class="value charval">\u20AC</code></a></dt>
             <dt><a id="key-Euro"><code class="value keyname">'Euro'</code></a></dt>
-            <dd>The Euro Currency Sign key: <code class="value charval">&#x20AC;</code>.</dd>
+            <dd>The Euro Currency Sign key: <code class="value charrep">&#x20AC;</code>.</dd>
 
-            <dt><a id="key-U-00A1"><code class="value codepoint">'\u00A1'</code></a></dt>
+            <dt><a id="key-U-00A1"><code class="value charval">\u00A1</code></a></dt>
             <dt><a id="key-InvertedExclamation"><code class="value keyname">'InvertedExclamation'</code></a></dt>
-            <dd>The Inverted Exclamation Mark key: <code class="value charval">&#xA1;</code>.</dd>
+            <dd>The Inverted Exclamation Mark key: <code class="value charrep">&#xA1;</code>.</dd>
 
-            <dt><a id="key-U-007F"><code class="value codepoint">'\u007F'</code></a></dt>
+            <dt><a id="key-U-007F"><code class="value charval">\u007F</code></a></dt>
             <dt><a id="key-Del"><code class="value keyname">'Del'</code></a></dt>
             <dd>The Delete (Del) Key.
              <span class="note" id="_63"><strong>Note:</strong> This key value shall be also used for the key labeled <code class="value">'delete'</code> MacOS keyboards when modified by the <code class="value">'Fn'</code> key.</span>
             </dd>
 
-            <dt><a id="key-U-0300"><code class="value codepoint">'\u0300'</code></a></dt>
+            <dt><a id="key-U-0300"><code class="value charval">\u0300</code></a></dt>
             <dt><a id="key-DeadGrave"><code class="value keyname">'DeadGrave'</code></a></dt>
             <dd>The Combining Grave Accent (Greek Varia, Dead Grave) key.</dd>
 
-            <dt><a id="key-U-0301"><code class="value codepoint">'\u0301'</code></a></dt>
+            <dt><a id="key-U-0301"><code class="value charval">\u0301</code></a></dt>
             <dt><a id="key-DeadEacute"><code class="value keyname">'DeadEacute'</code></a></dt>
             <dd>The Combining Acute Accent (Stress Mark, Greek Oxia, Tonos, Dead Eacute) key.</dd>
 
-            <dt><a id="key-U-0302"><code class="value codepoint">'\u0302'</code></a></dt>
+            <dt><a id="key-U-0302"><code class="value charval">\u0302</code></a></dt>
             <dt><a id="key-DeadCircumflex"><code class="value keyname">'DeadCircumflex'</code></a></dt>
             <dd>The Combining Circumflex Accent (Hat, Dead Circumflex) key.</dd>
 
-            <dt><a id="key-U-0303"><code class="value codepoint">'\u0303'</code></a></dt>
+            <dt><a id="key-U-0303"><code class="value charval">\u0303</code></a></dt>
             <dt><a id="key-DeadTilde"><code class="value keyname">'DeadTilde'</code></a></dt>
             <dd>The Combining Tilde (Dead Tilde) key.</dd>
 
-            <dt><a id="key-U-0304"><code class="value codepoint">'\u0304'</code></a></dt>
+            <dt><a id="key-U-0304"><code class="value charval">\u0304</code></a></dt>
             <dt><a id="key-DeadMacron"><code class="value keyname">'DeadMacron'</code></a></dt>
             <dd>The Combining Macron (Long, Dead Macron) key.</dd>
 
-            <dt><a id="key-U-0306"><code class="value codepoint">'\u0306'</code></a></dt>
+            <dt><a id="key-U-0306"><code class="value charval">\u0306</code></a></dt>
             <dt><a id="key-DeadBreve"><code class="value keyname">'DeadBreve'</code></a></dt>
             <dd>The Combining Breve (Short, Dead Breve) key.</dd>
 
-            <dt><a id="key-U-0307"><code class="value codepoint">'\u0307'</code></a></dt>
+            <dt><a id="key-U-0307"><code class="value charval">\u0307</code></a></dt>
             <dt><a id="key-DeadAboveDot"><code class="value keyname">'DeadAboveDot'</code></a></dt>
             <dd>The Combining Dot Above (Derivative, Dead Above Dot) key.</dd>
 
-            <dt><a id="key-U-0308"><code class="value codepoint">'\u0308'</code></a></dt>
+            <dt><a id="key-U-0308"><code class="value charval">\u0308</code></a></dt>
             <dt><a id="key-DeadUmlaut"><code class="value keyname">'DeadUmlaut'</code></a></dt>
             <dd>The Combining Diaeresis (Double Dot Abode, Umlaut, Greek Dialytika, Double Derivative, Dead Diaeresis) key.</dd>
 
-            <dt><a id="key-U-030A"><code class="value codepoint">'\u030A'</code></a></dt>
+            <dt><a id="key-U-030A"><code class="value charval">\u030A</code></a></dt>
             <dt><a id="key-DeadAboveRing"><code class="value keyname">'DeadAboveRing'</code></a></dt>
             <dd>The Combining Ring Above (Dead Above Ring) key.</dd>
 
-            <dt><a id="key-U-030B"><code class="value codepoint">'\u030B'</code></a></dt>
+            <dt><a id="key-U-030B"><code class="value charval">\u030B</code></a></dt>
             <dt><a id="key-DeadDoubleacute"><code class="value keyname">'DeadDoubleacute'</code></a></dt>
             <dd>The Combining Double Acute Accent (Dead Doubleacute) key.</dd>
 
-            <dt><a id="key-U-030C"><code class="value codepoint">'\u030C'</code></a></dt>
+            <dt><a id="key-U-030C"><code class="value charval">\u030C</code></a></dt>
             <dt><a id="key-DeadCaron"><code class="value keyname">'DeadCaron'</code></a></dt>
             <dd>The Combining Caron (Hacek, V Above, Dead Caron) key.</dd>
 
-            <dt><a id="key-U-0327"><code class="value codepoint">'\u0327'</code></a></dt>
+            <dt><a id="key-U-0327"><code class="value charval">\u0327</code></a></dt>
             <dt><a id="key-DeadCedilla"><code class="value keyname">'DeadCedilla'</code></a></dt>
             <dd>The Combining Cedilla (Dead Cedilla) key.</dd>
 
-            <dt><a id="key-U-0328"><code class="value codepoint">'\u0328'</code></a></dt>
+            <dt><a id="key-U-0328"><code class="value charval">\u0328</code></a></dt>
             <dt><a id="key-DeadOgonek"><code class="value keyname">'DeadOgonek'</code></a></dt>
             <dd>The Combining Ogonek (Nasal Hook, Dead Ogonek) key.</dd>
 
-            <dt><a id="key-U-0345"><code class="value codepoint">'\u0345'</code></a></dt>
+            <dt><a id="key-U-0345"><code class="value charval">\u0345</code></a></dt>
             <dt><a id="key-DeadIota"><code class="value keyname">'DeadIota'</code></a></dt>
             <dd>The Combining Greek Ypogegrammeni (Greek Non-Spacing Iota Below, Iota Subscript, Dead Iota) key.</dd>
 
-            <dt><a id="key-U-3099"><code class="value codepoint">'\u3099'</code></a></dt>
+            <dt><a id="key-U-3099"><code class="value charval">\u3099</code></a></dt>
             <dt><a id="key-DeadVoicedSound"><code class="value keyname">'DeadVoicedSound'</code></a></dt>
             <dd>The Combining Katakana-Hiragana Voiced Sound Mark (Dead Voiced Sound) key.</dd>
 
-            <dt><a id="key-U-309A"><code class="value codepoint">'\u309A'</code></a></dt>
+            <dt><a id="key-U-309A"><code class="value charval">\u309A</code></a></dt>
             <dt><a id="key-DeadSemivoicedSound"><code class="value keyname">'DeadSemivoicedSound'</code></a></dt>
             <dd>The Combining Katakana-Hiragana Semi-Voiced Sound Mark (Dead Semivoiced Sound) key.</dd>
 
@@ -6589,7 +6531,7 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
                 <code id="tbl-key-Asterisk" class="value">'Asterisk'</code>
               </td><td>
                 <code id="tbl-key-U-002A" class="value">'\u002A'</code>
-              </td><td>The Asterisk (Star) key: <code class="value charval">in number pad</code>.</td><td>106</td><td>-</td><td>42</td><td>-</td><td>106</td><td>-</td><td>106</td><td>-</td><td>0</td><td>42</td><td>106</td><td>-</td><td>106</td><td>-</td><td>42</td><td>42</td><td>106</td><td>-</td><td>42</td><td>-</td><td>42</td><td>-</td><td>42</td><td>-</td></tr>
+              </td><td>The Asterisk (Star) key: <code class="value charrep">in number pad</code>.</td><td>106</td><td>-</td><td>42</td><td>-</td><td>106</td><td>-</td><td>106</td><td>-</td><td>0</td><td>42</td><td>106</td><td>-</td><td>106</td><td>-</td><td>42</td><td>42</td><td>106</td><td>-</td><td>42</td><td>-</td><td>42</td><td>-</td><td>42</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-PlusChar" class="value">'+'</code>
               </td><td>
@@ -6702,7 +6644,7 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
                 <code id="tbl-key-LessThan" class="value">'LessThan'</code>
               </td><td>
                 <code id="tbl-key-U-003C" class="value">'\u003C'</code>
-              </td><td>The Less-Than Sign key: <code class="value charval">&lt;</code>.</td><td>188</td><td>-</td><td>60</td><td>-</td><td>188</td><td>-</td><td>188</td><td>-</td><td>0</td><td>60</td><td>188</td><td>-</td><td>188</td><td>-</td><td>60</td><td>60</td><td>188</td><td>-</td><td>188</td><td>-</td><td>60</td><td>-</td><td>188</td><td>-</td></tr>
+              </td><td>The Less-Than Sign key: <code class="value charrep">&lt;</code>.</td><td>188</td><td>-</td><td>60</td><td>-</td><td>188</td><td>-</td><td>188</td><td>-</td><td>0</td><td>60</td><td>188</td><td>-</td><td>188</td><td>-</td><td>60</td><td>60</td><td>188</td><td>-</td><td>188</td><td>-</td><td>60</td><td>-</td><td>188</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-EqualsChar" class="value">'='</code>
               </td><td>
@@ -6716,7 +6658,7 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
                 <code id="tbl-key-GreaterThan" class="value">'GreaterThan'</code>
               </td><td>
                 <code id="tbl-key-U-003E" class="value">'\u003E'</code>
-              </td><td>The Greater-Than Sign key: <code class="value charval">&gt;</code>.</td><td>226</td><td>-</td><td>62</td><td>-</td><td>226</td><td>-</td><td>226</td><td>-</td><td>0</td><td>62</td><td>226</td><td>-</td><td>226</td><td>-</td><td>62</td><td>62</td><td>226</td><td>-</td><td>188</td><td>-</td><td>62</td><td>-</td><td>188</td><td>-</td></tr>
+              </td><td>The Greater-Than Sign key: <code class="value charrep">&gt;</code>.</td><td>226</td><td>-</td><td>62</td><td>-</td><td>226</td><td>-</td><td>226</td><td>-</td><td>0</td><td>62</td><td>226</td><td>-</td><td>226</td><td>-</td><td>62</td><td>62</td><td>226</td><td>-</td><td>188</td><td>-</td><td>62</td><td>-</td><td>188</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-QuestionMarkChar" class="value">'?'</code>
               </td><td>
@@ -6865,132 +6807,132 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
                 <code id="tbl-key-a" class="value">'a'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-0061" class="value">'\u0061'</code>
-              </td><td>The Latin Small Letter A key: <code class="value charval">a</code>.</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>-</td><td>0</td><td>97</td><td>65</td><td>-</td><td>65</td><td>-</td><td>97</td><td>97</td><td>65</td><td>-</td><td>65</td><td>-</td><td>97</td><td>-</td><td>65</td><td>-</td></tr>
+              </td><td>The Latin Small Letter A key: <code class="value charrep">a</code>.</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>-</td><td>0</td><td>97</td><td>65</td><td>-</td><td>65</td><td>-</td><td>97</td><td>97</td><td>65</td><td>-</td><td>65</td><td>-</td><td>97</td><td>-</td><td>65</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-b" class="value">'b'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-0062" class="value">'\u0062'</code>
-              </td><td>The Latin Small Letter B key: <code class="value charval">b</code>.</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>-</td><td>0</td><td>98</td><td>66</td><td>-</td><td>66</td><td>-</td><td>98</td><td>98</td><td>66</td><td>-</td><td>66</td><td>-</td><td>98</td><td>-</td><td>66</td><td>-</td></tr>
+              </td><td>The Latin Small Letter B key: <code class="value charrep">b</code>.</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>-</td><td>0</td><td>98</td><td>66</td><td>-</td><td>66</td><td>-</td><td>98</td><td>98</td><td>66</td><td>-</td><td>66</td><td>-</td><td>98</td><td>-</td><td>66</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-c" class="value">'c'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-0063" class="value">'\u0063'</code>
-              </td><td>The Latin Small Letter C key: <code class="value charval">c</code>.</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>-</td><td>0</td><td>99</td><td>67</td><td>-</td><td>67</td><td>-</td><td>99</td><td>99</td><td>67</td><td>-</td><td>67</td><td>-</td><td>99</td><td>-</td><td>67</td><td>-</td></tr>
+              </td><td>The Latin Small Letter C key: <code class="value charrep">c</code>.</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>-</td><td>0</td><td>99</td><td>67</td><td>-</td><td>67</td><td>-</td><td>99</td><td>99</td><td>67</td><td>-</td><td>67</td><td>-</td><td>99</td><td>-</td><td>67</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-d" class="value">'d'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-0064" class="value">'\u0064'</code>
-              </td><td>The Latin Small Letter D key: <code class="value charval">d</code>.</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>-</td><td>0</td><td>100</td><td>68</td><td>-</td><td>68</td><td>-</td><td>100</td><td>100</td><td>68</td><td>-</td><td>68</td><td>-</td><td>100</td><td>-</td><td>68</td><td>-</td></tr>
+              </td><td>The Latin Small Letter D key: <code class="value charrep">d</code>.</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>-</td><td>0</td><td>100</td><td>68</td><td>-</td><td>68</td><td>-</td><td>100</td><td>100</td><td>68</td><td>-</td><td>68</td><td>-</td><td>100</td><td>-</td><td>68</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-e" class="value">'e'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-0065" class="value">'\u0065'</code>
-              </td><td>The Latin Small Letter E key: <code class="value charval">e</code>.</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>-</td><td>0</td><td>101</td><td>69</td><td>-</td><td>69</td><td>-</td><td>101</td><td>101</td><td>69</td><td>-</td><td>69</td><td>-</td><td>101</td><td>-</td><td>69</td><td>-</td></tr>
+              </td><td>The Latin Small Letter E key: <code class="value charrep">e</code>.</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>-</td><td>0</td><td>101</td><td>69</td><td>-</td><td>69</td><td>-</td><td>101</td><td>101</td><td>69</td><td>-</td><td>69</td><td>-</td><td>101</td><td>-</td><td>69</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-f" class="value">'f'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-0066" class="value">'\u0066'</code>
-              </td><td>The Latin Small Letter F key: <code class="value charval">f</code>.</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>-</td><td>0</td><td>102</td><td>70</td><td>-</td><td>70</td><td>-</td><td>102</td><td>102</td><td>70</td><td>-</td><td>70</td><td>-</td><td>102</td><td>-</td><td>70</td><td>-</td></tr>
+              </td><td>The Latin Small Letter F key: <code class="value charrep">f</code>.</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>-</td><td>0</td><td>102</td><td>70</td><td>-</td><td>70</td><td>-</td><td>102</td><td>102</td><td>70</td><td>-</td><td>70</td><td>-</td><td>102</td><td>-</td><td>70</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-g" class="value">'g'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-0067" class="value">'\u0067'</code>
-              </td><td>The Latin Small Letter G key: <code class="value charval">g</code>.</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>-</td><td>0</td><td>103</td><td>71</td><td>-</td><td>71</td><td>-</td><td>103</td><td>103</td><td>71</td><td>-</td><td>71</td><td>-</td><td>103</td><td>-</td><td>71</td><td>-</td></tr>
+              </td><td>The Latin Small Letter G key: <code class="value charrep">g</code>.</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>-</td><td>0</td><td>103</td><td>71</td><td>-</td><td>71</td><td>-</td><td>103</td><td>103</td><td>71</td><td>-</td><td>71</td><td>-</td><td>103</td><td>-</td><td>71</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-h" class="value">'h'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-0068" class="value">'\u0068'</code>
-              </td><td>The Latin Small Letter H key: <code class="value charval">h</code>.</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>-</td><td>0</td><td>104</td><td>72</td><td>-</td><td>72</td><td>-</td><td>104</td><td>104</td><td>72</td><td>-</td><td>72</td><td>-</td><td>104</td><td>-</td><td>72</td><td>-</td></tr>
+              </td><td>The Latin Small Letter H key: <code class="value charrep">h</code>.</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>-</td><td>0</td><td>104</td><td>72</td><td>-</td><td>72</td><td>-</td><td>104</td><td>104</td><td>72</td><td>-</td><td>72</td><td>-</td><td>104</td><td>-</td><td>72</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-i" class="value">'i'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-0069" class="value">'\u0069'</code>
-              </td><td>The Latin Small Letter I key: <code class="value charval">i</code>.</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>-</td><td>0</td><td>105</td><td>73</td><td>-</td><td>73</td><td>-</td><td>105</td><td>105</td><td>73</td><td>-</td><td>73</td><td>-</td><td>105</td><td>-</td><td>73</td><td>-</td></tr>
+              </td><td>The Latin Small Letter I key: <code class="value charrep">i</code>.</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>-</td><td>0</td><td>105</td><td>73</td><td>-</td><td>73</td><td>-</td><td>105</td><td>105</td><td>73</td><td>-</td><td>73</td><td>-</td><td>105</td><td>-</td><td>73</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-j" class="value">'j'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-006A" class="value">'\u006A'</code>
-              </td><td>The Latin Small Letter J key: <code class="value charval">j</code>.</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>-</td><td>0</td><td>106</td><td>74</td><td>-</td><td>74</td><td>-</td><td>106</td><td>106</td><td>74</td><td>-</td><td>74</td><td>-</td><td>106</td><td>-</td><td>74</td><td>-</td></tr>
+              </td><td>The Latin Small Letter J key: <code class="value charrep">j</code>.</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>-</td><td>0</td><td>106</td><td>74</td><td>-</td><td>74</td><td>-</td><td>106</td><td>106</td><td>74</td><td>-</td><td>74</td><td>-</td><td>106</td><td>-</td><td>74</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-k" class="value">'k'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-006B" class="value">'\u006B'</code>
-              </td><td>The Latin Small Letter K key: <code class="value charval">k</code>.</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>-</td><td>0</td><td>107</td><td>75</td><td>-</td><td>75</td><td>-</td><td>107</td><td>107</td><td>75</td><td>-</td><td>75</td><td>-</td><td>107</td><td>-</td><td>75</td><td>-</td></tr>
+              </td><td>The Latin Small Letter K key: <code class="value charrep">k</code>.</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>-</td><td>0</td><td>107</td><td>75</td><td>-</td><td>75</td><td>-</td><td>107</td><td>107</td><td>75</td><td>-</td><td>75</td><td>-</td><td>107</td><td>-</td><td>75</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-l" class="value">'l'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-006C" class="value">'\u006C'</code>
-              </td><td>The Latin Small Letter L key: <code class="value charval">l</code>.</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>-</td><td>0</td><td>108</td><td>76</td><td>-</td><td>76</td><td>-</td><td>108</td><td>108</td><td>76</td><td>-</td><td>76</td><td>-</td><td>108</td><td>-</td><td>76</td><td>-</td></tr>
+              </td><td>The Latin Small Letter L key: <code class="value charrep">l</code>.</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>-</td><td>0</td><td>108</td><td>76</td><td>-</td><td>76</td><td>-</td><td>108</td><td>108</td><td>76</td><td>-</td><td>76</td><td>-</td><td>108</td><td>-</td><td>76</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-m" class="value">'m'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-006D" class="value">'\u006D'</code>
-              </td><td>The Latin Small Letter M key: <code class="value charval">m</code>.</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>-</td><td>0</td><td>109</td><td>77</td><td>-</td><td>77</td><td>-</td><td>109</td><td>109</td><td>77</td><td>-</td><td>77</td><td>-</td><td>109</td><td>-</td><td>77</td><td>-</td></tr>
+              </td><td>The Latin Small Letter M key: <code class="value charrep">m</code>.</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>-</td><td>0</td><td>109</td><td>77</td><td>-</td><td>77</td><td>-</td><td>109</td><td>109</td><td>77</td><td>-</td><td>77</td><td>-</td><td>109</td><td>-</td><td>77</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-n" class="value">'n'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-006E" class="value">'\u006E'</code>
-              </td><td>The Latin Small Letter N key: <code class="value charval">n</code>.</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>-</td><td>0</td><td>110</td><td>78</td><td>-</td><td>78</td><td>-</td><td>110</td><td>110</td><td>78</td><td>-</td><td>78</td><td>-</td><td>110</td><td>-</td><td>78</td><td>-</td></tr>
+              </td><td>The Latin Small Letter N key: <code class="value charrep">n</code>.</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>-</td><td>0</td><td>110</td><td>78</td><td>-</td><td>78</td><td>-</td><td>110</td><td>110</td><td>78</td><td>-</td><td>78</td><td>-</td><td>110</td><td>-</td><td>78</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-o" class="value">'o'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-006F" class="value">'\u006F'</code>
-              </td><td>The Latin Small Letter O key: <code class="value charval">o</code>.</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>-</td><td>0</td><td>111</td><td>79</td><td>-</td><td>79</td><td>-</td><td>111</td><td>111</td><td>79</td><td>-</td><td>79</td><td>-</td><td>111</td><td>-</td><td>79</td><td>-</td></tr>
+              </td><td>The Latin Small Letter O key: <code class="value charrep">o</code>.</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>-</td><td>0</td><td>111</td><td>79</td><td>-</td><td>79</td><td>-</td><td>111</td><td>111</td><td>79</td><td>-</td><td>79</td><td>-</td><td>111</td><td>-</td><td>79</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-p" class="value">'p'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-0070" class="value">'\u0070'</code>
-              </td><td>The Latin Small Letter P key: <code class="value charval">p</code>.</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>-</td><td>0</td><td>112</td><td>80</td><td>-</td><td>80</td><td>-</td><td>112</td><td>112</td><td>80</td><td>-</td><td>80</td><td>-</td><td>112</td><td>-</td><td>80</td><td>-</td></tr>
+              </td><td>The Latin Small Letter P key: <code class="value charrep">p</code>.</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>-</td><td>0</td><td>112</td><td>80</td><td>-</td><td>80</td><td>-</td><td>112</td><td>112</td><td>80</td><td>-</td><td>80</td><td>-</td><td>112</td><td>-</td><td>80</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-q" class="value">'q'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-0071" class="value">'\u0071'</code>
-              </td><td>The Latin Small Letter Q key: <code class="value charval">q</code>.</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>-</td><td>0</td><td>113</td><td>81</td><td>-</td><td>81</td><td>-</td><td>113</td><td>113</td><td>81</td><td>-</td><td>81</td><td>-</td><td>113</td><td>-</td><td>81</td><td>-</td></tr>
+              </td><td>The Latin Small Letter Q key: <code class="value charrep">q</code>.</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>-</td><td>0</td><td>113</td><td>81</td><td>-</td><td>81</td><td>-</td><td>113</td><td>113</td><td>81</td><td>-</td><td>81</td><td>-</td><td>113</td><td>-</td><td>81</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-r" class="value">'r'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-0072" class="value">'\u0072'</code>
-              </td><td>The Latin Small Letter R key: <code class="value charval">r</code>.</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>-</td><td>0</td><td>114</td><td>82</td><td>-</td><td>82</td><td>-</td><td>114</td><td>114</td><td>82</td><td>-</td><td>82</td><td>-</td><td>114</td><td>-</td><td>82</td><td>-</td></tr>
+              </td><td>The Latin Small Letter R key: <code class="value charrep">r</code>.</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>-</td><td>0</td><td>114</td><td>82</td><td>-</td><td>82</td><td>-</td><td>114</td><td>114</td><td>82</td><td>-</td><td>82</td><td>-</td><td>114</td><td>-</td><td>82</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-s" class="value">'s'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-0073" class="value">'\u0073'</code>
-              </td><td>The Latin Small Letter S key: <code class="value charval">s</code>.</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>-</td><td>0</td><td>115</td><td>83</td><td>-</td><td>83</td><td>-</td><td>115</td><td>115</td><td>83</td><td>-</td><td>83</td><td>-</td><td>115</td><td>-</td><td>83</td><td>-</td></tr>
+              </td><td>The Latin Small Letter S key: <code class="value charrep">s</code>.</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>-</td><td>0</td><td>115</td><td>83</td><td>-</td><td>83</td><td>-</td><td>115</td><td>115</td><td>83</td><td>-</td><td>83</td><td>-</td><td>115</td><td>-</td><td>83</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-t" class="value">'t'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-0074" class="value">'\u0074'</code>
-              </td><td>The Latin Small Letter T key: <code class="value charval">t</code>.</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>-</td><td>0</td><td>116</td><td>84</td><td>-</td><td>84</td><td>-</td><td>116</td><td>116</td><td>84</td><td>-</td><td>84</td><td>-</td><td>116</td><td>-</td><td>84</td><td>-</td></tr>
+              </td><td>The Latin Small Letter T key: <code class="value charrep">t</code>.</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>-</td><td>0</td><td>116</td><td>84</td><td>-</td><td>84</td><td>-</td><td>116</td><td>116</td><td>84</td><td>-</td><td>84</td><td>-</td><td>116</td><td>-</td><td>84</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-u" class="value">'u'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-0075" class="value">'\u0075'</code>
-              </td><td>The Latin Small Letter U key: <code class="value charval">u</code>.</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>-</td><td>0</td><td>117</td><td>85</td><td>-</td><td>85</td><td>-</td><td>117</td><td>117</td><td>85</td><td>-</td><td>85</td><td>-</td><td>117</td><td>-</td><td>85</td><td>-</td></tr>
+              </td><td>The Latin Small Letter U key: <code class="value charrep">u</code>.</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>-</td><td>0</td><td>117</td><td>85</td><td>-</td><td>85</td><td>-</td><td>117</td><td>117</td><td>85</td><td>-</td><td>85</td><td>-</td><td>117</td><td>-</td><td>85</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-v" class="value">'v'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-0076" class="value">'\u0076'</code>
-              </td><td>The Latin Small Letter V key: <code class="value charval">v</code>.</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>-</td><td>0</td><td>118</td><td>86</td><td>-</td><td>86</td><td>-</td><td>118</td><td>118</td><td>86</td><td>-</td><td>86</td><td>-</td><td>118</td><td>-</td><td>86</td><td>-</td></tr>
+              </td><td>The Latin Small Letter V key: <code class="value charrep">v</code>.</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>-</td><td>0</td><td>118</td><td>86</td><td>-</td><td>86</td><td>-</td><td>118</td><td>118</td><td>86</td><td>-</td><td>86</td><td>-</td><td>118</td><td>-</td><td>86</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-w" class="value">'w'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-0077" class="value">'\u0077'</code>
-              </td><td>The Latin Small Letter W key: <code class="value charval">w</code>.</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>-</td><td>0</td><td>119</td><td>87</td><td>-</td><td>87</td><td>-</td><td>119</td><td>119</td><td>87</td><td>-</td><td>87</td><td>-</td><td>119</td><td>-</td><td>87</td><td>-</td></tr>
+              </td><td>The Latin Small Letter W key: <code class="value charrep">w</code>.</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>-</td><td>0</td><td>119</td><td>87</td><td>-</td><td>87</td><td>-</td><td>119</td><td>119</td><td>87</td><td>-</td><td>87</td><td>-</td><td>119</td><td>-</td><td>87</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-x" class="value">'x'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-0078" class="value">'\u0078'</code>
-              </td><td>The Latin Small Letter X key: <code class="value charval">x</code>.</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>-</td><td>0</td><td>120</td><td>88</td><td>-</td><td>88</td><td>-</td><td>120</td><td>120</td><td>88</td><td>-</td><td>88</td><td>-</td><td>120</td><td>-</td><td>88</td><td>-</td></tr>
+              </td><td>The Latin Small Letter X key: <code class="value charrep">x</code>.</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>-</td><td>0</td><td>120</td><td>88</td><td>-</td><td>88</td><td>-</td><td>120</td><td>120</td><td>88</td><td>-</td><td>88</td><td>-</td><td>120</td><td>-</td><td>88</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-y" class="value">'y'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-0079" class="value">'\u0079'</code>
-              </td><td>The Latin Small Letter Y key: <code class="value charval">y</code>.</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>-</td><td>0</td><td>121</td><td>89</td><td>-</td><td>89</td><td>-</td><td>121</td><td>121</td><td>89</td><td>-</td><td>89</td><td>-</td><td>121</td><td>-</td><td>89</td><td>-</td></tr>
+              </td><td>The Latin Small Letter Y key: <code class="value charrep">y</code>.</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>-</td><td>0</td><td>121</td><td>89</td><td>-</td><td>89</td><td>-</td><td>121</td><td>121</td><td>89</td><td>-</td><td>89</td><td>-</td><td>121</td><td>-</td><td>89</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-z" class="value">'z'</code>
               </td><td> </td><td>
                 <code id="tbl-key-U-007A" class="value">'\u007A'</code>
-              </td><td>The Latin Small Letter Z key: <code class="value charval">z</code>.</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>-</td><td>0</td><td>122</td><td>90</td><td>-</td><td>90</td><td>-</td><td>122</td><td>122</td><td>90</td><td>-</td><td>90</td><td>-</td><td>122</td><td>-</td><td>90</td><td>-</td></tr>
+              </td><td>The Latin Small Letter Z key: <code class="value charrep">z</code>.</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>-</td><td>0</td><td>122</td><td>90</td><td>-</td><td>90</td><td>-</td><td>122</td><td>122</td><td>90</td><td>-</td><td>90</td><td>-</td><td>122</td><td>-</td><td>90</td><td>-</td></tr>
             <tr><td>
                 <code id="tbl-key-LeftSquareBracketChar" class="value">'['</code>
               </td><td>
@@ -7142,7 +7084,7 @@ interface <a href="#events-Events-MutationNameEvent">MutationNameEvent</a> : <a 
                 <code id="tbl-key-Euro" class="value">'Euro'</code>
               </td><td>
                 <code id="tbl-key-U-20AC" class="value">'\u20AC'</code>
-              </td><td>The Euro Currency Sign key: <code class="value charval">&#x20AC;</code>.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+              </td><td>The Euro Currency Sign key: <code class="value charrep">&#x20AC;</code>.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
             <tr><td> </td><td>
                 <code id="tbl-key-DeadVoicedSound" class="value">'DeadVoicedSound'</code>
               </td><td>
