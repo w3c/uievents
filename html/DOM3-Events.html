@@ -23,13 +23,13 @@
       <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2010-04-14">14 April 2010</time></h2>
       <dl>
         <dt>This version:</dt>
-        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.126">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.126</a></dd>
+        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.127">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.127</a></dd>
 
         <dt>Latest stable version:</dt>
         <dd><a href="http://www.w3.org/TR/DOM-Level-3-Events">http://www.w3.org/TR/DOM-Level-3-Events</a></dd>
 
         <dt>Previous version:</dt>
-        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.125">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.125</a></dd>
+        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.126">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.126</a></dd>
 
         <dt>Editor's Draft:</dt>
         <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
@@ -1763,17 +1763,6 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
             <td>Yes</td>
             <td>Scroll (or zoom) the document</td>
           </tr>
-          <tr>
-            <td><a class="eventtype" href="#event-type-magnify">
-              <code>magnify</code>
-            </a></td>
-            <td>Async</td>
-            <td>No</td>
-            <td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>Element</code></td>
-            <td><a href="#events-Events-UIEvent"><code>UIEvent</code></a></td>
-            <td>No</td>
-            <td>none</td>
-          </tr>
         </table>
         <p>As an example of interpreting of this table, the event <a class="eventtype" href="#event-type-load"><code>load</code></a> must trigger event listeners attached on <code>Element</code> nodes for that event and on the capture and target phases. This event cannot be cancelled. If an event listener for the <a class="eventtype" href="#event-type-load"><code>load</code></a> event is attached to a node other than <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, or <code>Element</code> nodes, or if it is attached to the bubbling phase only, this event listener must not be triggered.</p>
         <p>The event objects associated with the event types described above may contain context information. Refer to the description of the DOM interfaces for further information.</p>
@@ -2137,7 +2126,7 @@ interface <a href="#events-Events-UIEvent">UIEvent</a> : <a href="#events-Events
               <p class="issue" id="issue-resize-repaint"><strong>Issue:</strong> Firing the event between reflow and repaint may be difficult in some UAs (see <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=227495#c30">Mozilla Bug #227495</a>), but it seems the behavior most authors would want.  Should we keep this, or change it to fire after repaint?</p>
 <!-- <p class="example" id="example-resize"><strong>Example:</strong> </p> -->
               <p>The <a class="def" href="#glossary-defaultView"><code>defaultView</code></a> object should always be resizable.  A <a class="def" href="#glossary-host-language">host language</a> should define which elements, if any, are resizable, and under what conditions (e.g. specific elements like <code class="element">iframe</code>, or elements with particular characteristics like width and height).</p>
-              <p class="note" id="note-resize-magnify"><strong>Note:</strong>  The <a class="eventtype" href="#event-type-resize"><code>resize</code></a> event is distinct from the <a class="eventtype" href="#event-type-magnify"><code>magnify</code></a> or SVG <code class="eventtype">zoom</code> event types, though both may occur at the same time, or as the consequence of the same user action.  In particular, browser "font zooming" or "page zooming" should not necessarily trigger a <a class="eventtype" href="#event-type-resize"><code>resize</code></a> event.</p>
+              <p class="note" id="note-resize-magnify"><strong>Note:</strong>  The <a class="eventtype" href="#event-type-resize"><code>resize</code></a> event is distinct from a <code>magnify</code> or SVG <code class="eventtype">zoom</code> event types, though both may occur at the same time, or as the consequence of the same user action.  In particular, browser "font zooming" or "page zooming" should not necessarily trigger a <a class="eventtype" href="#event-type-resize"><code>resize</code></a> event.</p>
               <p class="note" id="note-resize-bubbling"><strong>Note:</strong> In previous DOM Events specifications, the <a class="eventtype" href="#event-type-resize"><code>resize</code></a> event type was defined to have a <a class="def" href="#glossary-bubbling-phase">bubbling phase</a>, but for performance reasons, this was not implemented in most user agents, and this specification removes the <a class="def" href="#glossary-bubbling-phase">bubbling phase</a> for this event.</p>
             </dd>
           </dl>
@@ -2170,40 +2159,6 @@ interface <a href="#events-Events-UIEvent">UIEvent</a> : <a href="#events-Events
               </table>
 
               <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a document view or an element has been scrolled.  This event type is dispatched after the scroll has occurred.</p>
-            </dd>
-          </dl>
-        </div>
-
-<!-- magnify -->
-        <div class="event-definition assert must">
-          <dl>
-            <dt id="event-type-magnify"><dfn><a class="eventtype" href="#event-type-magnify"><code>magnify</code></a></dfn></dt>
-            <dd>
-              <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>magnify</code></strong></td></tr>
-                <tr class="assert must"><th>Interface</th><td><a href="#events-Events-UIEvent"><code>UIEvent</code></a></td></tr>
-                <tr class="assert must"><th>Sync / Async</th><td>Async</td></tr>
-                <tr class="assert must"><th>Bubbles</th><td>No</td></tr>
-                <tr class="assert must"><th>Target</th><td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>Element</code></td></tr>
-                <tr class="assert must"><th>Cancelable</th><td>No</td></tr>
-                <tr class="assert must"><th>Default action</th><td>none</td></tr>
-                <tr class="assert must"><th>Context info</th>
-                  <td>
-                    <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
-                      <li><a href="#events-Events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
-                      <li><a href="#events-Events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
-                    </ul>
-                   </td>
-                 </tr>
-                <!-- <tr class="assert must"><th>Context info</th><td><a href="#events-Events-UIEvent-view"><code>UIEvent.view</code></a> is in use.  The <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> attribute indicates the <a href="#events-current-scale-coefficient">current scale coefficient</a> of the <a class="def" href="#glossary-event-target">event target</a>.</td></tr> -->
-              </table>
-              
-              <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a document view or an element has been increased or decreased in rendered size, as associated with the browser "font zooming" or "page zooming" functionality.  This event type is dispatched after the size change has occurred.</p>
-              <p class="note" id="note-magnify-resize-zoom"><strong>Note:</strong>  The <a class="eventtype" href="#event-type-magnify"><code>magnify</code></a> event is distinct from the <a class="eventtype" href="#event-type-resize"><code>resize</code></a> or SVG <code class="eventtype">zoom</code> event types, though both may occur at the same time, or as the consequence of the same user action.</p>
- 
-              <!-- <p>A <a class="def" href="#glossary-host-language">host language</a> which can be zoomed should define a way for authors to access the manner</p> -->
-              <!-- <p>The value of <a href="#events-Events-UIEvent-detail"><code>UIEvent.detail</code></a> must reflect the <dfn id="events-current-scale-coefficient">current scale coefficient</dfn> (or "zoom level") of the document or element.  The initial value for the current scale coefficient must be 1.  Each doubling in size of the <a class="def" href="#glossary-event-target">event target</a> must multiply the current scale coefficient, and each halving</p> -->
             </dd>
           </dl>
         </div>
