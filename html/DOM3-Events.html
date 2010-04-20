@@ -7,8 +7,10 @@
     <link rel="help" href="http://www.w3.org/DOM/" />
     <link rel="alternate stylesheet" type="text/css" media="screen" title="geek" href="geek.css" />
     <link rel="stylesheet" type="text/css" href="./spec.css" />
-    <link rel="stylesheet" type="text/css" href="http://www.w3.org/StyleSheets/TR/w3c-tr.css" />
-    <link rel="stylesheet" type="text/css" href="http://www.w3.org/StyleSheets/TR/W3C-ED" />
+    <!-- <link rel="stylesheet" type="text/css" href="http://www.w3.org/StyleSheets/TR/w3c-tr.css" />
+    <link rel="stylesheet" type="text/css" href="http://www.w3.org/StyleSheets/TR/W3C-ED" /> -->
+    <link rel="stylesheet" type="text/css" href="w3c-tr.css" />
+    <link rel="stylesheet" type="text/css" href="W3C-ED" />
     <!-- <link rel="local stylesheet" type="text/css" href="W3C-WD.css" /> -->
   </head>
   <body>
@@ -20,7 +22,7 @@
       </p>
       <h1 id="Overview-title">Document Object Model (DOM) Level 3 Events Specification</h1>
 <!-- @@@ -->
-      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2010-04-15">15 April 2010</time></h2>
+      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2010-04-20">20 April 2010</time></h2>
       <dl>
         <dt>This version:</dt>
         <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.129">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.129</a></dd>
@@ -46,6 +48,7 @@
        <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a>
        and <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document
        use</a> rules apply.</p>
+              
     </div>
     <hr title="separator from header" />
     <h2><a id="Overview-abstract" href="#Overview-abstract">Abstract</a></h2>
@@ -493,6 +496,9 @@
           <dt id="glossary-host-language"><dfn>host language</dfn></dt>
           <dd>Any language which integrates the features of another language or API specification, while normatively referencing the origin specification rather than redefining those features, and extending those features only in ways defined by the origin specification.  An origin specification typically is only intended to be implemented in the context of one or more host languages, not as a standalone language.  For example, XHTML, HTML, and SVG are host languages for DOM 3 Events, and they integrate and extend the objects and models defined in this specification.</dd>
 
+          <dt id="glossary-hysteresis"><dfn>hysteresis</dfn></dt>
+          <dd>A feature of human interface design to accept input values within a certain range of location or time, in order to improve the user experience.  For example, allowing for small deviation in the time it takes for a user to double-click a mouse button is temporal hysteresis, and no immediately closing a nested menu if the user mouses out from the parent window when transitioning to the child menu is locative hysteresis.</dd>
+
           <dt id="glossary-ime"><dfn>IME</dfn></dt>
           <dt id="glossary-input-method-editor"><dfn>input method editor</dfn></dt>
           <dd>An <em>input method editor</em> (IME), also known as a <em>front end processor</em>, is an application that performs the conversion between keystrokes and ideographs or other characters, usually by user-guided dictionary lookup, often used in East Asian languages (e.g. Chinese, Japanese, Korean).  An <a class="def" href="#glossary-ime">IME</a> may also be used for dictionary-based word completion, such as on mobile devices.  See <a href="#keyset-IME">Input Method Editors</a> for treatment of IMEs in this specification.  See also <a class="def" href="#glossary-text-composition-system">text composition system</a>.</dd>
@@ -760,9 +766,7 @@ interface <a href="#events-Events-Event">Event</a> {
                                                in boolean cancelableArg);
   // Introduced in DOM Level 3:
   void                               <a href="#events-event-type-stopImmediatePropagation">stopImmediatePropagation</a>();
-  // Introduced in DOM Level 3:
   readonly attribute boolean         <a href="#events-event-type-defaultPrevented">defaultPrevented</a>;
-  // Introduced in DOM Level 3:
   readonly attribute boolean         <a href="#events-event-type-trusted">trusted</a>;
 };
                 </code></pre>
@@ -858,7 +862,6 @@ interface <a href="#events-Events-Event">Event</a> {
 
                       <div><strong>No Exceptions</strong></div>
                     </div>
-<!-- method -->
                   </dd>
 
                   <dt>
@@ -875,7 +878,6 @@ interface <a href="#events-Events-Event">Event</a> {
 
                       <div><strong>No Exceptions</strong></div>
                     </div>
-<!-- method -->
                   </dd>
 
                   <dt><code class="method-name"><a id="events-event-type-stopImmediatePropagation">stopImmediatePropagation</a></code> introduced in <strong class="since">DOM Level 3</strong></dt>
@@ -889,7 +891,6 @@ interface <a href="#events-Events-Event">Event</a> {
 
                       <div><strong>No Exceptions</strong></div>
                     </div>
-<!-- method -->
                   </dd>
 
                   <dt>
@@ -899,7 +900,7 @@ interface <a href="#events-Events-Event">Event</a> {
                   </dt>
                   <dd>
                     <div class="method">
-                      Prevents other event listeners from being triggered but its effect shall be deferred until all event listeners attached on the <a href="#events-event-type-currentTarget"><code>Event.currentTarget</code></a> have been triggered . Once it has been called, further calls to this method have no additional effect.
+                      Prevents other event listeners from being triggered but its effect shall be deferred until all event listeners attached on the <a href="#events-event-type-currentTarget"><code>Event.currentTarget</code></a> have been triggered. Once it has been called, further calls to this method have no additional effect.
                       <p class="note" id="note-stopPropagation-default"><strong>Note:</strong> This method does not prevent the <a class="def" href="#glossary-default-action">default action</a> from being invoked; use <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> for that effect.</p>
                       <div><strong>No Parameters</strong></div>
 
@@ -907,7 +908,6 @@ interface <a href="#events-Events-Event">Event</a> {
 
                       <div><strong>No Exceptions</strong></div>
                     </div>
-<!-- method -->
                   </dd>
                 </dl>
               </dd>
@@ -996,9 +996,14 @@ interface <a href="#events-Events-CustomEvent">CustomEvent</a> : <a href="#event
         <dl>
           <dt><strong>Interface <em><a id="events-Events-EventTarget">EventTarget</a></em></strong> (introduced in <strong class="since">DOM Level 2</strong>)</dt>
           <dd>
-            <p>The <code>EventTarget</code> interface shall be implemented by all the objects which could be <a class="def" href="#glossary-event-target">event targets</a> in an implementation which supports an event flow. The interface allows registration and removal of event listeners, and dispatch of events to an event target.</p>
+            <p>The <code>EventTarget</code> interface must be implemented by all the objects which could be <a class="def" href="#glossary-event-target">event targets</a> in an implementation which supports an event flow. The interface allows registration and removal of event listeners, and dispatch of events to an event target.</p>
+            
+            <p class="note" id="EventTarget-trusted"><strong>Note:</strong>  Though an event listener can be registered for any <a class="def" href="#glossary-event-target">event target</a> node, the user agent only dispatches UA-generated (trusted) events on node types that are defined as proximal event target types for that specific event type (see the <a href="#event-types-list">List of DOM3 Event Types</a>); for example, a <a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a> event type registered on a text node will never be fired by the user agent, though an author could dispatch an event of that type on the text node via script.</p>
+            
             <p>When used with the DOM event flow, this interface must be implemented by all <a class="def" href="#glossary-proximal-event-target">proximal event targets</a> and target ancestors, i.e. all DOM <code>Nodes</code> of the tree support this interface when the implementation conforms to DOM Level 3 Events and, therefore, this interface can be obtained by using binding-specific casting methods on an instance of the <code>Node</code> interface.</p>
             <p>Invoking <code>addEventListener</code> repeatedly on the same <code>EventTarget</code> with the same values for the parameters <code>type</code>, <code>listener</code>, and <code>useCapture</code> has no effect. Doing so does not cause the <a href="#events-Events-EventListener"><code>EventListener</code></a> to be called more than once and does not cause a change in the triggering order.</p>
+
+            <p class="note" id="EventTarget-onfoo"><strong>Note:</strong>  In addition to the <a href="#events-Events-EventTarget-addEventListener">EventTarget.addEventListener</a> method, some <a class="def" href="#glossary-host-language">host languages</a> may allow an author to register event listeners by the use of attributes, e.g. <em><code>onclick="handleClick()"</code></em>.  Because the details of this are often language-specific, this type of event listener registration is not defined in this specification, but in general, any event type may be used as an attribute in this way by adding the prefix <em><code>on-</code></em> to the event type name, and events so dispatched should behave consistently with the event registration and propagation defined in this specification, with the same interfaces, properties, and methods.</p>
             <dl>
               <dt>
                 <br />
@@ -1318,7 +1323,7 @@ interface <a href="#events-Events-DocumentEvent">DocumentEvent</a> {
             <th>Event Type</th>
             <th>Sync / Async</th>
             <th>Bubbling phase</th>
-            <th>Proximal event target types</th>
+            <th>Trusted proximal event target types</th>
             <th>DOM interface</th>
             <th>Cancelable</th>
             <th>Default Action</th>
@@ -2525,6 +2530,8 @@ interface <a href="#events-Events-MouseEvent">MouseEvent</a> : <a href="#events-
                                                 in <a href="#events-Events-EventTarget">EventTarget</a> relatedTargetArg);
   // Introduced in DOM Level 3:
   boolean                            <a href="#events-Events-MouseEvent-getModifierState">getModifierState</a>(in DOMString keyArg);
+  void                               <a href="#events-event-type-setCapture">setCapture</a>(in boolean containerCaptureArg);
+  void                               <a href="#events-event-type-releaseCapture">releaseCapture</a>();
 };
               </code></pre>
             </dd>
@@ -2607,7 +2614,45 @@ interface <a href="#events-Events-MouseEvent">MouseEvent</a> : <a href="#events-
                     <!-- return -->
                     <div><strong>No Exceptions</strong></div>
                   </div>
-<!-- method -->
+                </dd>
+
+
+                <dt><code class="method-name"><a id="events-event-type-setCapture">setCapture</a></code> introduced in <strong class="since">DOM Level 3</strong></dt>
+                <dd>
+                  <div class="method">
+                    <p>Used on an event target object to redirect all applicable events originating in the current document to that object as the <a class="def" href="#glossary-proximal-event-target">proximal event target</a>, with that event target object's <a class="def" href="#glossary-propagation-path">propagation path</a>, until the event ends, the current document loses focus, or the <code class="method-name"><a href="#events-event-type-releaseCapture">releaseCapture</a></code> method is called.</p>
+                    
+                    <p class="issue" id="issue-setCapture"><strong>Issue "setCapture":</strong> Should this be available on other event interfaces, such as the FocusEvent, TextEvent and KeyboardEvent interfaces, or just the MouseEvent interface?  Is this defined in HTML5, as well?</p>
+                    
+                    <!-- <p class="note" id="note-stopImmediatePropagation-default"><strong>Note:</strong> </p> -->
+                    <div>
+                      <strong>Parameters</strong>
+                      <div class="paramtable">
+                        <dl>
+                          <dt><code class="parameter-name">containerCaptureArg</code> of type <code>boolean</code></dt>
+                          <dd>
+                            <p>Indicates whether a container element captures all events of its descendant nodes, if <code>true</code> (the default), or whether the descendant nodes can fire their own events, if <code>false</code>.</p>
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+
+                    <div><strong>No Return Value</strong></div>
+
+                    <div><strong>No Exceptions</strong></div>
+                  </div>
+                </dd>
+
+                <dt><code class="method-name"><a id="events-event-type-releaseCapture">releaseCapture</a></code> introduced in <strong class="since">DOM Level 3</strong></dt>
+                <dd>
+                  <div class="method">
+                    <p>Used on an event target object or on the document object to end the capture of events started by the <code class="method-name"><a href="#events-event-type-setCapture">setCapture</a></code> method.</p>
+                    <div><strong>No Parameters</strong></div>
+
+                    <div><strong>No Return Value</strong></div>
+
+                    <div><strong>No Exceptions</strong></div>
+                  </div>
                 </dd>
 
                 <dt>
@@ -2674,7 +2719,6 @@ interface <a href="#events-Events-MouseEvent">MouseEvent</a> : <a href="#events-
 
                     <div><strong>No Exceptions</strong></div>
                   </div>
-<!-- method -->
                 </dd>
               </dl>
             </dd>
@@ -2776,7 +2820,7 @@ interface <a href="#events-Events-MouseEvent">MouseEvent</a> : <a href="#events-
             <p>The <a class="eventtype" href="#event-type-click"><code>click</code></a> event type must be dispatched on the <a class="def" href="#glossary-topmost-event-target">topmost event target</a> indicated by the pointer, when the user presses down and releases the pointer button, or otherwise activates the pointer in a manner that simulates such an action.  The actuation method of the mouse button must depend upon the pointer device and the environment configuration, e.g. it may depend on the screen location or the delay between the press and release of the pointing device button.</p>
             <p>The <a class="eventtype" href="#event-type-click"><code>click</code></a> event may be preceded by the <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> and <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> events on the same element, disregarding changes between other node types (e.g. text nodes).  Depending upon the environment configuration, the <a class="eventtype" href="#event-type-click"><code>click</code></a> event may be dispatched if one or more of the event types <a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a>, <a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a>, and <a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a> occur between the press and release of the pointing device button.  The <a class="eventtype" href="#event-type-click"><code>click</code></a> event may also be followed by the <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> event.</p>
             
-            <p id="example-mousemove-click" class="example"><strong>Example:</strong> If a user mouses down on a text node child of a &lt;p&gt; element which has been styled with a large line-height, shifts the mouse slightly such that it is no longer over an area containing text but is still within the containing block of that &lt;p&gt; element (i.e. the pointer is between lines of the same text block, but not over the text node per se), then subsequently mouses up, this should still trigger a <a class="eventtype" href="#event-type-click"><code>click</code></a> event (if it falls within the normal temporal hysteresis for a <a class="eventtype" href="#event-type-click"><code>click</code></a>), since the user has stayed within the scope of the same element; text nodes cannot be registered as event listeners.</p>
+            <p id="example-mousemove-click" class="example"><strong>Example:</strong> If a user mouses down on a text node child of a &lt;p&gt; element which has been styled with a large line-height, shifts the mouse slightly such that it is no longer over an area containing text but is still within the containing block of that &lt;p&gt; element (i.e. the pointer is between lines of the same text block, but not over the text node per se), then subsequently mouses up, this should still trigger a <a class="eventtype" href="#event-type-click"><code>click</code></a> event (if it falls within the normal temporal hysteresis for a <a class="eventtype" href="#event-type-click"><code>click</code></a>), since the user has stayed within the scope of the same element; user-agent-generated mouse events are not dispatched on text nodes.</p>
             
             <!-- text nodes cannot be registered as event listeners, serve as the target of events, only element and document nodes are event targets. -->
             
