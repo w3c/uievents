@@ -25,16 +25,16 @@
       </p>
       <h1 id="Overview-title">Document Object Model (DOM) Level 3 Events Specification</h1>
 <!-- @@@ -->
-      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2010-04-04">04 August 2010</time></h2>
+      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2010-04-18">18 August 2010</time></h2>
       <dl>
         <dt>This version:</dt>
-        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.135">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.135</a></dd>
+        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.136">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.136</a></dd>
 
         <dt>Latest stable version:</dt>
         <dd><a href="http://www.w3.org/TR/DOM-Level-3-Events">http://www.w3.org/TR/DOM-Level-3-Events</a></dd>
 
         <dt>Previous version:</dt>
-        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.134">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.134</a></dd>
+        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.135">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.135</a></dd>
 
         <dt>Editor's Draft:</dt>
         <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
@@ -3632,7 +3632,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
 
   readonly attribute DOMString       <a href="#events-KeyboardEvent-char">char</a>;
   readonly attribute DOMString       <a href="#events-KeyboardEvent-key">key</a>;
-  readonly attribute DOMString       <a href="#events-KeyboardEvent-keyCode">keyCode</a>;
+  readonly attribute unsigned long   <a href="#events-KeyboardEvent-keyCode">keyCode</a>;
   readonly attribute unsigned long   <a href="#events-KeyboardEvent-location">location</a>;
   readonly attribute boolean         <a href="#events-KeyboardEvent-ctrlKey">ctrlKey</a>;
   readonly attribute boolean         <a href="#events-KeyboardEvent-shiftKey">shiftKey</a>;
@@ -3704,7 +3704,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
                     <p class="note" id="note-key-keyCode"><strong>Note:</strong> the <code>key</code> attribute is not related to the legacy <a href="#events-KeyboardEvent-keyCode"><code>KeyboardEvent.keyCode</code></a> attribute and does not have the same set of values.</p>
                    </dd>
 
-                  <dt><code class="attribute-name"><a id="events-KeyboardEvent-keyCode">keyCode</a></code> of type <code>DOMString</code>, readonly</dt>
+                  <dt><code class="attribute-name"><a id="events-KeyboardEvent-keyCode">keyCode</a></code> of type <code>unsigned long</code>, readonly</dt>
                   <dd><p><code>keyCode</code> holds a system- and implementation-dependent numerical code signifying the unmodified identifier associated with the key pressed.  Unlike the <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> or <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a> attributes, the set of possible values are not defined in this specification; typically, these value of the <em>keyCode</em> should represent the decimal codepoint in ASCII [<a href="#ref-rfc20">RFC20</a>][<a href="#ref-US-ASCII">US-ASCII</a>] or Windows 1252 [<a href="#ref-WIN1252">WIN1252</a>], but may be drawn from a different appropriate character set.  Implementations that are unable to identify a key must use the key value <code class="value">0</code>.</p></dd>
 
                   <dt><code class="attribute-name"><a id="events-KeyboardEvent-location">location</a></code> of type <code>unsigned long</code>, readonly</dt>
@@ -5153,16 +5153,16 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
     			</ol>
           <p class="note" id="change-algo-examples"><strong>To Do:</strong> Update the algorithm example to match the change in the algorithm.</p>
             
-<!--           <div class="example" id="example-keyvalues">
+          <div class="example" id="example-keyvalues">
             <p><strong>Examples:</strong></p>
             <ul>
-              <li>On a PC/AT US keyboard with a right-handed single-hand Dvorak keyboard mapping, the key labeled <code class="value">'Q'</code> maps to the key values <code class="value">'5'</code> (unmodified) and <code class="value">'%'</code> (shifted).  The primary function of this key is to generate the character <code class="value">U+0035</code>.  Since this character is in general category <abbr title="Number, Decimal Digit">Nd</abbr>, the key value for the unmodified key shall be <code class="value">'5'</code>.</li>
+              <li>On a PC/AT US keyboard with a right-handed single-hand Dvorak keyboard mapping, the key labeled <code class="value">'Q'</code> maps to the key values <code class="value">'5'</code> (unmodified) and <code class="value">'%'</code> (shifted).  The primary function of this key is to generate the character <code class="value">'5'</code> (<code class="value">U+0035</code>).  Since this character is a character (in Unicode general category <abbr title="Number, Decimal Digit">Nd</abbr>), the <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> and <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a> attribute values for the unmodified key will be <code class="value">'5'</code>.</li>
               <li>On a French PC keyboard with a standard French mapping, the primary function of the <code class="value">'^'</code> key is as a <a class="def" href="#glossary-dead-key">dead key</a> for the circumflex diacritical mark.  This corresponds to the combining Unicode character <code class="value">U+0302</code>.  Since this character is in general category <abbr title="Mark, Nonspacing">Mn</abbr>, the key value shall be <code class="value">U+0302</code>.</li>
               <li>On a Korean PC keyboard with a standard Korean mapping, the primary function of the <code class="value">'Ha/En'</code> key is to switch between Hangul and English input.  The predefined key value list has an appropriate entry for this key, <code class="value">'HangulMode'</code>, so this shall be the key value.</li>
               <li>On some models of mobile devices, the primary function of the key with a picture of a calendar on it is to launch the calendaring program. Since there is no Unicode character that corresponds to this function, and there is no appropriate entry in the predefined key value list, a new value may be devised, such as <code class="value">'Calendar'</code>.</li>
             </ul>
           </div>
- -->
+
         </div>
         
         
