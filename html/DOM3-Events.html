@@ -25,16 +25,16 @@
       </p>
       <h1 id="Overview-title">Document Object Model (DOM) Level 3 Events Specification</h1>
 <!-- @@@ -->
-      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2010-04-24">24 August 2010</time></h2>
+      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2010-04-26">26 August 2010</time></h2>
       <dl>
         <dt>This version:</dt>
-        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.137">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.137</a></dd>
+        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.138">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.138</a></dd>
 
         <dt>Latest stable version:</dt>
         <dd><a href="http://www.w3.org/TR/DOM-Level-3-Events">http://www.w3.org/TR/DOM-Level-3-Events</a></dd>
 
         <dt>Previous version:</dt>
-        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.136">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.136</a></dd>
+        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.137">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.137</a></dd>
 
         <dt>Editor's Draft:</dt>
         <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
@@ -478,6 +478,9 @@
 
           <dt id="glossary-DOM-Level-0"><dfn>DOM Level 0</dfn></dt>
           <dd>The term “DOM Level 0” refers to a mix of HTML document functionalities, often not formally specified but traditionally supported as de facto standards, implemented originally by Netscape Navigator version 3.0 or Microsoft Internet Explorer version 3.0.  In many cases, attributes or methods have been included for reasons of backward compatibility with “DOM Level 0”.</dd>
+
+          <dt id="glossary-empty-string"><dfn>empty string</dfn></dt>
+          <dd>The empty string is a value of type <code>DOMString</code> of length <code>0</code>, i.e. a string which contains no characters (neither printing nor control characters).</dd>
 
           <dt id="glossary-event"><dfn>event</dfn></dt>
           <dd>An event is the representation of some occurrence (such as a mouse click on the presentation of an element, the removal of child node from an element, or any number of other possibilities) which is associated with its <a class="def" href="#glossary-proximal-event-target">proximal event target</a>.  Each event is an instantiation of one specific <a class="def" href="#glossary-event-type">event type</a>.</dd>
@@ -1101,7 +1104,7 @@ interface <a href="#events-EventTarget">EventTarget</a> {
                       <!-- parameters -->
                       <div class="return"><strong>Return Value</strong><div class="returntable"><table summary="Layout table: the first cell contains the type of the return value, the second contains a short description" border="0"><tr><td><p><code>boolean</code></p></td><td><p>Indicates whether any of the listeners which handled the event called <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a>. If <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> was called the returned value shall be <code>false</code>, else it shall be <code>true</code>.</p></td></tr></table></div></div>
                       <!-- return -->
-                      <div class="exceptions"><strong>Exceptions</strong><div class="exceptiontable"><table summary="Layout table: the first cell contains the type of the exception, the second contains the specific error code and a short description" border="0"><tr><td><p><a href="#events-EventException"><code>EventException</code></a></p></td><td><p>UNSPECIFIED_EVENT_TYPE_ERR: Raised if the <a href="#events-event-type-type"><code>Event.type</code></a> was not specified by initializing the event before <code>dispatchEvent</code> was called. Specification of the <a href="#events-event-type-type"><code>Event.type</code></a> as <code>null</code> or an empty string must also trigger this exception.</p><p>DISPATCH_REQUEST_ERR: Raised if the <a href="#events-Event"><code>Event</code></a> object is already being dispatched.</p></td></tr><tr><td><p><code>DOMException</code></p></td><td><p>NOT_SUPPORTED_ERR: Raised if the <a href="#events-Event"><code>Event</code></a> object has not been created using <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a>.</p><p>INVALID_CHARACTER_ERR: Raised if <a href="#events-event-type-type"><code>Event.type</code></a> is not a <code>DOMString</code> as conforming to the restrictions in <a href="#events-event-type-type"><code>Event.type</code></a>.</p></td></tr></table></div></div>
+                      <div class="exceptions"><strong>Exceptions</strong><div class="exceptiontable"><table summary="Layout table: the first cell contains the type of the exception, the second contains the specific error code and a short description" border="0"><tr><td><p><a href="#events-EventException"><code>EventException</code></a></p></td><td><p>UNSPECIFIED_EVENT_TYPE_ERR: Raised if the <a href="#events-event-type-type"><code>Event.type</code></a> was not specified by initializing the event before <code>dispatchEvent</code> was called. Specification of the <a href="#events-event-type-type"><code>Event.type</code></a> as <code>null</code> or an <a class="def" href="#glossary-empty-string">empty string</a> must also trigger this exception.</p><p>DISPATCH_REQUEST_ERR: Raised if the <a href="#events-Event"><code>Event</code></a> object is already being dispatched.</p></td></tr><tr><td><p><code>DOMException</code></p></td><td><p>NOT_SUPPORTED_ERR: Raised if the <a href="#events-Event"><code>Event</code></a> object has not been created using <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a>.</p><p>INVALID_CHARACTER_ERR: Raised if <a href="#events-event-type-type"><code>Event.type</code></a> is not a <code>DOMString</code> as conforming to the restrictions in <a href="#events-event-type-type"><code>Event.type</code></a>.</p></td></tr></table></div></div>
                       <!-- exceptions --></div>
 <!-- method -->
                   </dd>
@@ -1234,7 +1237,7 @@ const unsigned short      <a href="#events-DISPATCH_REQUEST_ERR">DISPATCH_REQUES
                       <dd>If the <a href="#events-Event"><code>Event</code></a> object is already dispatched in the tree.</dd>
 
                       <dt><a id="events-UNSPECIFIED_EVENT_TYPE_ERR"><code class="constant-name">UNSPECIFIED_EVENT_TYPE_ERR</code></a></dt>
-                      <dd>If the <a href="#events-event-type-type"><code>Event.type</code></a> was not specified by initializing the event before the method was called. Specification of the <a href="#events-event-type-type"><code>Event.type</code></a> as <code>null</code> or an empty string must also trigger this exception.</dd>
+                      <dd>If the <a href="#events-event-type-type"><code>Event.type</code></a> was not specified by initializing the event before the method was called. Specification of the <a href="#events-event-type-type"><code>Event.type</code></a> as <code>null</code> or an <a class="def" href="#glossary-empty-string">empty string</a> must also trigger this exception.</dd>
 
                     </dl>
                   </dd>
@@ -1731,7 +1734,7 @@ interface <a href="#events-DocumentEvent">DocumentEvent</a> {
             </a></td>
             <td>Sync</td>
             <td>No</td>
-            <td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>Element</code></td>
+            <td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code></td>
             <td><a href="#events-UIEvent"><code>UIEvent</code></a></td>
             <td>No</td>
             <td>none</td>
@@ -1908,9 +1911,9 @@ interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event<
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element being activated</li>
                       <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
-                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     </ul>
                    </td>
                  </tr>
@@ -1944,9 +1947,9 @@ interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event<
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: common object whose contained resources have loaded</li>
                       <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
-                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     </ul>
                    </td>
                  </tr>
@@ -1975,7 +1978,7 @@ interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event<
                     <ul>
                       <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
                       <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
-                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     </ul>
                    </td>
                  </tr>
@@ -2005,9 +2008,9 @@ interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event<
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: common object whose contained resources have been removed</li>
                       <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
-                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     </ul>
                    </td>
                  </tr>
@@ -2036,15 +2039,15 @@ interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event<
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element whose resources have been stopped from loading without error</li>
                       <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
-                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     </ul>
                    </td>
                  </tr>
               </table>
 
-              <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when the loading of a resource has been aborted.</p>
+              <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when the loading of a resource has been aborted, such as by a user canceling the load while it is still in progress.</p>
             </dd>
           </dl>
         </div>
@@ -2067,9 +2070,9 @@ interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event<
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element whose resources have been stopped from loading due to an error</li>
                       <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
-                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     </ul>
                    </td>
                  </tr>
@@ -2098,9 +2101,9 @@ interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event<
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element whose text content has been selected</li>
                       <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
-                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     </ul>
                    </td>
                  </tr>
@@ -2112,8 +2115,7 @@ interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event<
               
               <p class="note" id="note-get-select"><strong>Note:</strong>  In order to access to user-selected content, content authors should use native capabilities of the <a class="def" href="#glossary-host-language">host languages</a>, such as the <code>Document.getSelection()</code> method of HTML's <a href="http://dev.w3.org/html5/spec/editing.html#selection" title="7 User Interaction &#x2014; HTML 5">text selection APIs</a> [<cite><a class="informative" href="#references-HTML5">HTML5</a></cite>].</p>
               
-              <p class="note" id="note-select-na"><strong>Note:</strong> The <a class="eventtype" href="#event-type-select"><code>select</code></a> event may not be available for all elements in all languages.  For example, in [<cite><a class="informative" href="#references-HTML5">HTML5</a></cite>], <a class="eventtype" href="#event-type-select"><code>select</code></a> events may only be dispatched on only form <code>input</code> and <code>textarea</code> elements.  Implementations may dispatch <a class="eventtype" href="#event-type-select"><code>select</code></a> events in any context deemed appropriate, including text selections outside of form controls, or image or markup selections such as in SVG.</p>
-              
+              <p class="note" id="note-select-na"><strong>Note:</strong> The <a class="eventtype" href="#event-type-select"><code>select</code></a> event may not be available for all elements in all languages.  For example, in [<cite><a class="informative" href="#references-HTML5">HTML5</a></cite>], <a class="eventtype" href="#event-type-select"><code>select</code></a> events may only be dispatched on only form <code>input</code> and <code>textarea</code> elements.  Implementations may dispatch <a class="eventtype" href="#event-type-select"><code>select</code></a> events in any context deemed appropriate, including text selections outside of form controls, or image or markup selections such as in SVG.</p>              
               
             </dd>
           </dl>
@@ -2131,29 +2133,31 @@ interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event<
                 <tr class="assert must"><th>Interface</th><td><a href="#events-UIEvent"><code>UIEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th><td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th><td>No</td></tr>
-                <tr class="assert must"><th>Target</th><td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>Element</code></td></tr>
+                <tr class="assert must"><th>Target</th><td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code></td></tr>
                 <tr class="assert must"><th>Cancelable</th><td>No</td></tr>
                 <tr class="assert must"><th>Default action</th><td>none</td></tr>
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: object which has been resized</li>
                       <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
-                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     </ul>
                    </td>
                  </tr>
               </table>
 
-              <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a document view or an element has been resized. This event type is dispatched after all effects for that occurrence of resizing of that particular <a class="def" href="#glossary-event-target">event target</a> have been executed by the <a class="def" href="#glossary-user-agent">user agent</a>.</p>
-              <p>In the case of a user-initiated resizing, i.e when a user expands or shrinks a browser window or a resizable element such as <code class="element">object</code> or <code class="element">iframe</code> by dragging the edge of the frame, the frame undergoes several consecutive size changes, but these intermediate stages must not be dispatched as <a class="eventtype" href="#event-type-resize"><code>resize</code></a> events.</p>
+              <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a document view has been resized. This event type is dispatched after all effects for that occurrence of resizing of that particular <a class="def" href="#glossary-event-target">event target</a> have been executed by the <a class="def" href="#glossary-user-agent">user agent</a>.</p>
+              <p>In the case of a user-initiated resizing, i.e when a user expands or shrinks a browser window by dragging the edge of the frame, the frame undergoes several consecutive size changes, but these intermediate stages must not be dispatched as <a class="eventtype" href="#event-type-resize"><code>resize</code></a> events.</p>
               <p class="note" id="note-resize-multiple"><strong>Note:</strong>  Some <a class="def" href="#glossary-user-agent">user agents</a> may have an optional mode in which the document is reflowed dynamically while the window is resized; in this mode, <a class="eventtype" href="#event-type-resize"><code>resize</code></a> events may be dispatched continuously while the resizing operation is in progress.</p>
               <p>Once the user has finished resizing, in a system- and  implementation-determined manner such as the release of the pointer button or after a sufficiently long pause, or once any instant resizing (e.g. from a window maximize button or a script effect) has been executed, the <a class="def" href="#glossary-user-agent">user agent</a> must perform any relevant layout recalculations or other actions caused by the resizing, and must subsequently dispatch a single <a class="eventtype" href="#event-type-resize"><code>resize</code></a> event that reflects the final state of the <a class="def" href="#glossary-event-target">event target</a>.  In the case where multiple <a class="eventtype" href="#event-type-resize"><code>resize</code></a> events have been triggered as the result of the same action, even for different <a class="def" href="#glossary-event-target">event target</a>, the <a class="def" href="#glossary-user-agent">user agent</a> must dispatch each <a class="eventtype" href="#event-type-resize"><code>resize</code></a> event only after the previous <a class="eventtype" href="#event-type-resize"><code>resize</code></a> event has completed its <a class="def" href="#glossary-propagation-path">propagation path</a> or been canceled.</p>
               <p class="issue" id="issue-resize-queue"><strong>Issue:</strong>  There is no current interoperability here.  See <a href="http://www.w3.org/2008/webapps/track/issues/113" title="ISSUE-113 - Web Applications Working Group Tracker">ISSUE-113</a>.</p>
               <p>A <a class="def" href="#glossary-user-agent">user agent</a> should dispatch the <a class="eventtype" href="#event-type-resize"><code>resize</code></a> event before the document is re-rendered, to provide the content author an opportunity to adjust the content to suit the new size.</p>
               <p class="issue" id="issue-resize-repaint"><strong>Issue:</strong> Firing the event between reflow and repaint may be difficult in some UAs (see <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=227495#c30">Mozilla Bug #227495</a>), but it seems the behavior most content authors would want.  Should we keep this, or change it to fire after repaint?</p>
 <!-- <p class="example" id="example-resize"><strong>Example:</strong> </p> -->
-              <p>The <a class="def" href="#glossary-defaultView"><code>defaultView</code></a> object should always be resizable.  A <a class="def" href="#glossary-host-language">host language</a> should define which elements, if any, are resizable, and under what conditions (e.g. specific elements like <code class="element">iframe</code>, or elements with particular characteristics like width and height).</p>
+              <p>The <a class="def" href="#glossary-defaultView"><code>defaultView</code></a> object should always be resizable.  A <a class="def" href="#glossary-host-language">host language</a> may define certain elements to be resizable, and under what conditions (e.g. specific elements like <code class="element">iframe</code>, or elements with particular characteristics like width and height); however, this specification does not define the behavior for elements.</p>
+              <p class="note" id="note-resize-element"><strong>Note:</strong>  In some implementations, certain elements may be resizable, such as the <code class="element">object</code> or <code class="element">iframe</code> elements.</p>
+
               <p class="note" id="note-resize-zoom"><strong>Note:</strong>  The <a class="eventtype" href="#event-type-resize"><code>resize</code></a> event is distinct from the SVG <code class="eventtype">zoom</code> event types, though both may occur at the same time, or as the consequence of the same user action.  In particular, browser “font zooming” or “page zooming” should not necessarily trigger a <a class="eventtype" href="#event-type-resize"><code>resize</code></a> event.</p>
               <p class="note" id="note-resize-bubbling"><strong>Note:</strong> In previous DOM Events specifications, the <a class="eventtype" href="#event-type-resize"><code>resize</code></a> event type was defined to have a <a class="def" href="#glossary-bubbling-phase">bubbling phase</a>, but for performance reasons, this was not implemented in most user agents, and this specification removes the <a class="def" href="#glossary-bubbling-phase">bubbling phase</a> for this event.</p>
             </dd>
@@ -2178,9 +2182,9 @@ interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event<
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: object which has been scrolled</li>
                       <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
-                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     </ul>
                    </td>
                  </tr>
@@ -2331,7 +2335,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> losing focus</li>
                     <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
-                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <code>null</code></li>
                   </ul>
                  </td>
@@ -2362,7 +2366,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> receiving focus</li>
                     <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
-                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <code>null</code></li>
                   </ul>
                  </td>
@@ -2394,7 +2398,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> losing focus</li>
                     <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
-                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <code>null</code></li>
                   </ul>
                  </td>
@@ -2426,7 +2430,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> receiving focus</li>
                     <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
-                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <code>null</code></li>
                   </ul>
                  </td>
@@ -2457,7 +2461,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> receiving focus</li>
                     <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
-                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <a class="def" href="#glossary-event-target">event target</a> losing focus  (if any).</li>
                   </ul>
                  </td>
@@ -2489,7 +2493,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> losing focus</li>
                     <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
-                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <a class="def" href="#glossary-event-target">event target</a> receiving focus.</li>
                   </ul>
                  </td>
@@ -2962,7 +2966,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
                     <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
-                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
                     <li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
                     <li><a href="#events-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
@@ -3004,7 +3008,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
                     <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
-                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
                     <li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
                     <li><a href="#events-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
@@ -3046,7 +3050,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
                     <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
-                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
                     <li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
                     <li><a href="#events-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
@@ -3087,7 +3091,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
                     <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
-                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
                     <li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
                     <li><a href="#events-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
@@ -3130,7 +3134,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
                     <ul>
                       <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
                       <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
-                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                       <li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
                       <li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
                       <li><a href="#events-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
@@ -3382,7 +3386,7 @@ interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEv
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
                     <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
-                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                    <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: if the wheel is associated with a pointing device, the value based on the pointer position on the screen, otherwise <code>null</code></li>
                     <li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: if the wheel is associated with a pointing device, the value based on the pointer position on the screen, otherwise <code>null</code></li>
                     <li><a href="#events-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: if the wheel is associated with a pointing device, the value based on the pointer position within the viewport, otherwise <code>null</code></li>
@@ -3391,12 +3395,12 @@ interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEv
                     <li><a href="#events-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="value keyname">'Control'</code></a> key is depressed, otherwise <code>false</code></li>
                     <li><a href="#events-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="value keyname">'Shift'</code></a> key is depressed, otherwise <code>false</code></li>
                     <li><a href="#events-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="value keyname">'Meta'</code></a> key is depressed, otherwise <code>false</code></li>
-                    <li><a href="#events-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: <code>null</code> <i class="issue" id="issue-wheel-button"><strong>Issue:</strong> in use if the wheel is associated to a pointing device?</i></li>
-                    <li><a href="#events-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if no buttons pressed <i class="issue" id="issue-wheel-buttons"><strong>Issue:</strong> in use if the wheel is associated to a pointing device?</i></li>
+                    <li><a href="#events-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: if wheel is associated with a pointing device, value based on current button pressed, otherwise <code>0</code></li>
+                    <li><a href="#events-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: if wheel is associated with a pointing device, value based on all buttons current depressed, <code>0</code> if no buttons pressed</li>
                     <li><a href="#events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: indicates the <a class="def" href="#glossary-event-target">event target</a> the pointing device is pointing at, if any.</li>
-                    <li><a href="#events-WheelEvent-deltaX"><code class="attribute-name">WheelEvent.deltaX</code></a>: <code></code></li>
-                    <li><a href="#events-WheelEvent-deltaY"><code class="attribute-name">WheelEvent.deltaY</code></a>: <code></code></li>
-                    <li><a href="#events-WheelEvent-deltaZ"><code class="attribute-name">WheelEvent.deltaZ</code></a>: <code></code></li>
+                    <li><a href="#events-WheelEvent-deltaX"><code class="attribute-name">WheelEvent.deltaX</code></a>: distance the wheel has rotated around the x-axis</li>
+                    <li><a href="#events-WheelEvent-deltaY"><code class="attribute-name">WheelEvent.deltaY</code></a>: distance the wheel has rotated around the y-axis</li>
+                    <li><a href="#events-WheelEvent-deltaZ"><code class="attribute-name">WheelEvent.deltaZ</code></a>: distance the wheel has rotated around the z-axis</li>
                   </ul>
                 </td>
               </tr>
@@ -3534,7 +3538,7 @@ interface <a href="#events-TextEvent">TextEvent</a> : <a href="#events-UIEvent">
               <dd>
                 <dl>
                   <dt><code class="attribute-name"><a id="events-TextEvent-data">data</a></code> of type <code>DOMString</code>, readonly</dt>
-                  <dd><p><code>data</code> holds the value of the characters generated by the character device. This may be a single Unicode character or a non-empty sequence of Unicode characters [<cite><a class="normative" href="#references-Unicode">Unicode</a></cite>]. Characters should be normalized as defined by the Unicode normalization form <em>NFC</em>, defined in [<cite><a class="normative" href="#references-UnicodeNormalization">UAX #15</a></cite>]. This attribute cannot be null or contain the empty string.</p></dd>
+                  <dd><p><code>data</code> holds the value of the characters generated by the character device. This may be a single Unicode character or a non-empty sequence of Unicode characters [<cite><a class="normative" href="#references-Unicode">Unicode</a></cite>]. Characters should be normalized as defined by the Unicode normalization form <em>NFC</em>, defined in [<cite><a class="normative" href="#references-UnicodeNormalization">UAX #15</a></cite>]. This attribute cannot be null or contain the <a class="def" href="#glossary-empty-string">empty string</a>.</p></dd>
 
                   <dt><code class="attribute-name"><a id="events-TextEvent-inputMode">inputMode</a></code> of type <code>unsigned long</code>, readonly</dt>
                   <dd><p>The <code>inputMode</code> attribute contains an indication of the origin of the text input, as described in <a href="#events-ID-TextEvent-InputModeCode">InputModeCode</a>.</p></dd>
@@ -3609,11 +3613,11 @@ interface <a href="#events-TextEvent">TextEvent</a> : <a href="#events-UIEvent">
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element receiving the text input</li>
                       <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
-                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
-                      <li><a href="#events-TextEvent-data"><code class="attribute-name">TextEvent.data</code></a>: <code></code></li>
-                      <li><a href="#events-TextEvent-inputMode"><code class="attribute-name">TextEvent.inputMode</code></a>: <code></code></li>
+                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+                      <li><a href="#events-TextEvent-data"><code class="attribute-name">TextEvent.data</code></a>: the value of the text string being input</li>
+                      <li><a href="#events-TextEvent-inputMode"><code class="attribute-name">TextEvent.inputMode</code></a>: the numerical code corresponding to the most applicable <em><a href="#events-ID-TextEvent-InputModeCode">InputModeCode</a></em></li>
                     </ul>
                   </td>
                 </tr>
@@ -3885,7 +3889,11 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
           </li>
         </ol>
         <p class="note" id="key-default"><strong>Note:</strong>  Typically, any <a class="def" href="#glossary-default-action">default actions</a> associated with any particular key must be completed before the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event is dispatched, which may delay the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event slightly (though this is not likely to be a perceptible delay).</p>
+        
         <p class="warning" id="_28"><strong>Warning!</strong> Because of hardware limitations, on some keyboard devices, the order between the text event and keyboard events may differ.  For example, some mobile devices may dispatch the <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event after the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event.</p>
+        
+        <p>The <a class="def" href="#glossary-event-target">target</a> of a key event is the currently focused element which is processing the keyboard activity; this is often an HTML <code>input</code> element or a textual element which is editable, but may be an element defined by the <a class="def" href="#glossary-host-language">host language</a> to accept keyboard input for non-text purposes, such as the activation of a hotkey or trigger of some other behavior; if no suitable element is in focus, the event target will be the root element.</p>
+        <p class="note" id="key-focus"><strong>Note:</strong>  The <a class="def" href="#glossary-event-target">event target</a> may change between different key events; for example, a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event on the <a href="#key-Tab"><code class="value keyname">'Tab'</code></a> key will likely have a different <a class="def" href="#glossary-event-target">event target</a> than the  <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event on the same keystroke.</p>
 
 <!-- keydown -->
         <div class="event-definition assert must">
@@ -3905,16 +3913,16 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the key event, root element if no suitable input element focused</li>
                       <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
-                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                       <li><a href="#events-KeyboardEvent-key"><code class="attribute-name">KeyboardEvent.key</code></a>: <code></code></li>
                       <li><a href="#events-KeyboardEvent-location"><code class="attribute-name">KeyboardEvent.location</code></a>: <code></code></li>
                       <li><a href="#events-KeyboardEvent-altKey"><code class="attribute-name">KeyboardEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="value keyname">'Alt'</code></a> key is depressed, otherwise <code>false</code></li>
                       <li><a href="#events-KeyboardEvent-shiftKey"><code class="attribute-name">KeyboardEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="value keyname">'Shift'</code></a> key is depressed, otherwise <code>false</code></li>
                       <li><a href="#events-KeyboardEvent-ctrlKey"><code class="attribute-name">KeyboardEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="value keyname">'Control'</code></a> key is depressed, otherwise <code>false</code></li>
                       <li><a href="#events-KeyboardEvent-metaKey"><code class="attribute-name">KeyboardEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="value keyname">'Meta'</code></a> key is depressed, otherwise <code>false</code></li>
-                      <li><a href="#events-KeyboardEvent-repeat"><code class="attribute-name">KeyboardEvent.repeat</code></a>: <code></code></li>
+                      <li><a href="#events-KeyboardEvent-repeat"><code class="attribute-name">KeyboardEvent.repeat</code></a>:  <code>true</code> if a key has been depressed long enough to trigger key repetition, otherwise <code>false</code></li>
                     </ul>
                   </td>
                 </tr>
@@ -3956,16 +3964,16 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the key event, root element if no suitable input element focused</li>
                       <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
-                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                       <li><a href="#events-KeyboardEvent-key"><code class="attribute-name">KeyboardEvent.key</code></a>: <code></code></li>
                       <li><a href="#events-KeyboardEvent-location"><code class="attribute-name">KeyboardEvent.location</code></a>: <code></code></li>
                       <li><a href="#events-KeyboardEvent-altKey"><code class="attribute-name">KeyboardEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="value keyname">'Alt'</code></a> key is depressed, otherwise <code>false</code></li>
                       <li><a href="#events-KeyboardEvent-shiftKey"><code class="attribute-name">KeyboardEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="value keyname">'Shift'</code></a> key is depressed, otherwise <code>false</code></li>
                       <li><a href="#events-KeyboardEvent-ctrlKey"><code class="attribute-name">KeyboardEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="value keyname">'Control'</code></a> key is depressed, otherwise <code>false</code></li>
                       <li><a href="#events-KeyboardEvent-metaKey"><code class="attribute-name">KeyboardEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="value keyname">'Meta'</code></a> key is depressed, otherwise <code>false</code></li>
-                      <li><a href="#events-KeyboardEvent-repeat"><code class="attribute-name">KeyboardEvent.repeat</code></a>: <code></code></li>
+                      <li><a href="#events-KeyboardEvent-repeat"><code class="attribute-name">KeyboardEvent.repeat</code></a>:  <code>true</code> if a key has been depressed long enough to trigger key repetition, otherwise <code>false</code></li>
                     </ul>
                   </td>
                 </tr>
@@ -3995,15 +4003,16 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the key event, root element if no suitable input element focused</li>
                       <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
-                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
+                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                       <li><a href="#events-KeyboardEvent-key"><code class="attribute-name">KeyboardEvent.key</code></a>: <code></code></li>
                       <li><a href="#events-KeyboardEvent-location"><code class="attribute-name">KeyboardEvent.location</code></a>: <code></code></li>
                       <li><a href="#events-KeyboardEvent-altKey"><code class="attribute-name">KeyboardEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="value keyname">'Alt'</code></a> key is depressed, otherwise <code>false</code></li>
                       <li><a href="#events-KeyboardEvent-shiftKey"><code class="attribute-name">KeyboardEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="value keyname">'Shift'</code></a> key is depressed, otherwise <code>false</code></li>
                       <li><a href="#events-KeyboardEvent-ctrlKey"><code class="attribute-name">KeyboardEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="value keyname">'Control'</code></a> key is depressed, otherwise <code>false</code></li>
                       <li><a href="#events-KeyboardEvent-metaKey"><code class="attribute-name">KeyboardEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="value keyname">'Meta'</code></a> key is depressed, otherwise <code>false</code></li>
+                      <li><a href="#events-KeyboardEvent-repeat"><code class="attribute-name">KeyboardEvent.repeat</code></a>: <code>false</code></li>
                     </ul>
                   </td>
                 </tr>
@@ -4021,7 +4030,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
         <p>This module defines the feature CompositionEvents 3.0 and depends on the feature UIEvents 3.0.</p>
         <p>Composition Events provide a means for inputing text in a supplementary or alternate manner than by Keyboard Events, in order to allow the use of characters that may not be commonly available on keyboard. For example, Composition events may be used to add accents to characters despite their absence from standard US keyboards, to build up logograms of many Asian languages from their base components or categories, to select word choices from a combination of key presses on a mobile device keyboard, or to convert voice commands into text using a speech recognition processor.  Refer to <a href="#keys">Keyboard events and key values</a> for examples on how Composition Events are used in combination with keyboard events.</p>
         <p>Conceptually, a composition session consists of one <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> event, one or more <a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> events, and one <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event, with the value of the <a href="#events-CompositionEvent-data">data</a> attribute persisting between each “stage” of this event chain during each session.  While a composition session is active, keyboard events should not be dispatched to the DOM (i.e., the <a class="def" href="#glossary-text-composition-system">text composition system</a> “swallows” the keyboard events), and only <a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> events may be dispatched to indicate the composition process.</p>
-        <p>Not all <a class="def" href="#glossary-ime">IME</a> systems or devices expose the necessary data to the DOM, so the active composition string (the “Reading Window” or “candidate selection menu option”) may not be available through this interface, in which case the selection may be represented by the empty string.</p>
+        <p>Not all <a class="def" href="#glossary-ime">IME</a> systems or devices expose the necessary data to the DOM, so the active composition string (the “Reading Window” or “candidate selection menu option”) may not be available through this interface, in which case the selection may be represented by the <a class="def" href="#glossary-empty-string">empty string</a>.</p>
         <dl>
           <dt><strong>Interface <em><a id="events-CompositionEvent">CompositionEvent</a></em></strong> (introduced in <strong class="since">DOM Level 3</strong>)</dt>
           <dd>
@@ -4050,7 +4059,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
               <dd>
                 <dl>
                   <dt><code class="attribute-name"><a id="events-CompositionEvent-data">data</a></code> of type <code>DOMString</code>, readonly</dt>
-                  <dd><p><code>data</code> holds the value of the characters generated by an input method. This may be a single Unicode character or a non-empty sequence of Unicode characters [<cite><a class="normative" href="#references-Unicode">Unicode</a></cite>]. Characters should be normalized as defined by the Unicode normalization form <em>NFC</em>, defined in [<cite><a class="normative" href="#references-UnicodeNormalization">UAX #15</a></cite>]. This attribute may be null or contain the empty string.</p></dd>
+                  <dd><p><code>data</code> holds the value of the characters generated by an input method. This may be a single Unicode character or a non-empty sequence of Unicode characters [<cite><a class="normative" href="#references-Unicode">Unicode</a></cite>]. Characters should be normalized as defined by the Unicode normalization form <em>NFC</em>, defined in [<cite><a class="normative" href="#references-UnicodeNormalization">UAX #15</a></cite>]. This attribute may be null or contain the <a class="def" href="#glossary-empty-string">empty string</a>.</p></dd>
 
                 </dl>
               </dd>
@@ -4113,7 +4122,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
             <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>
           </li>
         </ol>
-        <p>Composition events which are not canceled and which do not have the empty string as a value produce a <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event as well.  The order of text events relative to composition events is as follows:</p>
+        <p>Composition events which are not canceled and which do not have the <a class="def" href="#glossary-empty-string">empty string</a> as a value produce a <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event as well.  The order of text events relative to composition events is as follows:</p>
         <ol>
           <li>
             <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>
@@ -4143,16 +4152,16 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the composition</li>
                       <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
-                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
-                      <li><a href="#events-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: <code></code></li>
+                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+                      <li><a href="#events-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: the original string being edited, otherwise the <a class="def" href="#glossary-empty-string">empty string</a></li>
                     </ul>
                   </td>
                 </tr>
               </table>
               
-              <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a <a class="def" href="#glossary-text-composition-system">text composition system</a> is invoked in preparation for composing a passage of text.  This event type is device-dependent, and may rely upon the capabilities of the text conversion system and how it is mapped into the operating system.  When a keyboard is used to feed an input method editor, this event type is generated after a <code>keydown</code> event, but speech or handwriting recognition systems may send this event type without keyboard events.  Some implemenations may populate the <a href="#events-CompositionEvent-data"><code>data</code></a> attribute of the <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> event with the text currently selected in the document (for editing and replacement); otherwise, the value of the <a href="#events-CompositionEvent-data"><code>data</code></a> attribute shall be <code>null</code>.</p>
+              <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a <a class="def" href="#glossary-text-composition-system">text composition system</a> is invoked in preparation for composing a passage of text.  This event type is device-dependent, and may rely upon the capabilities of the text conversion system and how it is mapped into the operating system.  When a keyboard is used to feed an input method editor, this event type is generated after a <code>keydown</code> event, but speech or handwriting recognition systems may send this event type without keyboard events.  Some implemenations may populate the <a href="#events-CompositionEvent-data"><code>data</code></a> attribute of the <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> event with the text currently selected in the document (for editing and replacement); otherwise, the value of the <a href="#events-CompositionEvent-data"><code>data</code></a> attribute shall be  the <a class="def" href="#glossary-empty-string">empty string</a>.</p>
               <p>This event is dispatched immediately before a <a class="def" href="#glossary-text-composition-system">text composition system</a> is launched.  The default action of this event is to launch the appropriate <a class="def" href="#glossary-text-composition-system">text composition system</a>.  If this event is canceled, the <a class="def" href="#glossary-text-composition-system">text composition system</a> must not be launched.  Note that canceling the <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> <em>event type</em> is distinct from canceling the <a class="def" href="#glossary-text-composition-system">text composition system</a> session (e.g. by hitting a cancel button or closing an <a class="def" href="#glossary-ime">IME</a> window).</p>
               <!-- <p>(<i class="issue" id="issue-composition_events"><strong>Issue:</strong> see <a href="http://lists.w3.org/Archives/Public/www-dom/2009JulSep/0143.html" title="Extra notes on composition events from Daniel Danilatos on 2009-08-07 (www-dom@w3.org from July to September 2009)">Extra notes on composition events</a> for more details.</i>)</p> -->
             </dd>
@@ -4177,10 +4186,10 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the composition, <code>null</code> if not accessible</li>
                       <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
-                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
-                      <li><a href="#events-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: <code></code></li>
+                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+                      <li><a href="#events-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: the string comprising the current results of the composition session, which may be the <a class="def" href="#glossary-empty-string">empty string</a> if the content has been deleted</li>
 
                     </ul>
                   </td>
@@ -4209,16 +4218,16 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the composition</li>
                       <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
-                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>null</code></li>
-                      <li><a href="#events-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: <code></code></li>
+                      <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+                      <li><a href="#events-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: the string comprising the final result of the composition session, which may be the <a class="def" href="#glossary-empty-string">empty string</a> if the content has been deleted or if the composition process has been canceled</li>
 
                     </ul>
                   </td>
                 </tr>
               </table>
-              <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a <a class="def" href="#glossary-text-composition-system">text composition system</a> completes the composition of its active text passage, or cancels the composition process.  If the result of the <a class="def" href="#glossary-text-composition-system">text composition system</a> is not null and does not contain the empty string, this event type will be followed by a <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event type with the appropriate <a href="#events-TextEvent-inputMode">inputMode</a> value, such as <a href="#events-DOM_INPUT_METHOD_IME">DOM_INPUT_METHOD_IME</a>, <a href="#events-DOM_INPUT_METHOD_HANDWRITING">DOM_INPUT_METHOD_HANDWRITING</a>, <a href="#events-DOM_INPUT_METHOD_VOICE">DOM_INPUT_METHOD_VOICE</a>, or <a href="#events-DOM_INPUT_METHOD_MULTIMODAL">DOM_INPUT_METHOD_MULTIMODAL</a>.</p>
+              <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a <a class="def" href="#glossary-text-composition-system">text composition system</a> completes the composition of its active text passage, or cancels the composition process.  If the result of the <a class="def" href="#glossary-text-composition-system">text composition system</a> is not null and does not contain the <a class="def" href="#glossary-empty-string">empty string</a>, this event type will be followed by a <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event type with the appropriate <a href="#events-TextEvent-inputMode">inputMode</a> value, such as <a href="#events-DOM_INPUT_METHOD_IME">DOM_INPUT_METHOD_IME</a>, <a href="#events-DOM_INPUT_METHOD_HANDWRITING">DOM_INPUT_METHOD_HANDWRITING</a>, <a href="#events-DOM_INPUT_METHOD_VOICE">DOM_INPUT_METHOD_VOICE</a>, or <a href="#events-DOM_INPUT_METHOD_MULTIMODAL">DOM_INPUT_METHOD_MULTIMODAL</a>.</p>
               <p>This event is dispatched immediately after the <a class="def" href="#glossary-text-composition-system">text composition system</a> is completed (e.g. the <a class="def" href="#glossary-ime">IME</a> closed, minimized, switched out of focus, or otherwise dismissed, with the focus switched back to the <a class="def" href="#glossary-user-agent">user agent</a>).  The default action of this event is to dispatch the <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event type as described above.</p>
             </dd>
           </dl>
@@ -4360,16 +4369,16 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
                             <dd><p>Specifies <a href="#events-MutationEvent-relatedNode"><code>MutationEvent.relatedNode</code></a>.</p></dd>
                             
                             <dt><code class="parameter-name">prevValueArg</code> of type <code>DOMString</code></dt>
-                            <dd><p>Specifies <a href="#events-MutationEvent-prevValue"><code>MutationEvent.prevValue</code></a>. This value may be null.</p></dd>
+                            <dd><p>Specifies <a href="#events-MutationEvent-prevValue"><code>MutationEvent.prevValue</code></a>. This value may be the <a class="def" href="#glossary-empty-string">empty string</a>.</p></dd>
                             
                             <dt><code class="parameter-name">newValueArg</code> of type <code>DOMString</code></dt>
-                            <dd><p>Specifies <a href="#events-MutationEvent-newValue"><code>MutationEvent.newValue</code></a>. This value may be null.</p></dd>
+                            <dd><p>Specifies <a href="#events-MutationEvent-newValue"><code>MutationEvent.newValue</code></a>. This value may be the <a class="def" href="#glossary-empty-string">empty string</a>.</p></dd>
                             
                             <dt><code class="parameter-name">attrNameArg</code> of type <code>DOMString</code></dt>
-                            <dd><p>Specifies <a href="#events-MutationEvent-attrName"><code>MutationEvent.attrName</code></a>. This value may be null.</p></dd>
+                            <dd><p>Specifies <a href="#events-MutationEvent-attrName"><code>MutationEvent.attrName</code></a>. This value may be the <a class="def" href="#glossary-empty-string">empty string</a>.</p></dd>
                             
                             <dt><code class="parameter-name">attrChangeArg</code> of type <code>unsigned short</code></dt>
-                            <dd><p>Specifies <a href="#events-MutationEvent-attrChange"><code>MutationEvent.attrChange</code></a>. This value may be null.</p></dd>
+                            <dd><p>Specifies <a href="#events-MutationEvent-attrChange"><code>MutationEvent.attrChange</code></a>. This value may be <code>0</code>.</p></dd>
                           </dl>
                         </div>
                       </div>
@@ -4406,12 +4415,12 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
-                      <li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: <code></code></li>
-                      <li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code></code></li>
-                      <li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: indicates the <code>Attr</code> node that has been modified, added, or removed.</li>
-                      <li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: if the <code>Attr</code> node has been added or modified</li>
-                      <li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: if the <code>Attr</code> node has been removed or modified</li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element whose attribute is being modified</li>
+                      <li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the name of the changed <code>Attr</code> node</li>
+                      <li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: the numerical code corresponding to the most applicable <a href="#events-MutationEvent-attrChangeType">attrChangeType</a></li>
+                      <li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>:  the <code>Attr</code> node that has been modified, added, or removed.</li>
+                      <li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: new value of the attribute, if the <code>Attr</code> node has been added or modified</li>
+                      <li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: previous value of the attribute, if the <code>Attr</code> node has been removed or modified</li>
                     </ul>
                   </td>
                 </tr>
@@ -4441,12 +4450,12 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
-                      <li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: <code>null</code></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: object whose content is being modified</li>
+                      <li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
+                      <li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
+                      <li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: parent node of the object whose content is being modified</li>
+                      <li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: new value of the object</li>
+                      <li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: previous value of the object</li>
                     </ul>
                   </td>
                 </tr>
@@ -4476,12 +4485,12 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
-                      <li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: the parent node of the node that has been inserted or, in case of <code>Attr</code> nodes, the <code>ownerElement</code> of the <code>Attr</code> node.</li>
-                      <li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: <code>null</code></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element which is being inserted</li>
+                      <li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
+                      <li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
+                      <li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>:  parent node of the node that has been inserted, or the <code>ownerElement</code> in the case of <code>Attr</code> nodes</li>
+                      <li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
+                      <li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
                     </ul>
                   </td>
                 </tr>
@@ -4512,12 +4521,12 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
-                      <li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: <code>null</code></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element which is being inserted</li>
+                      <li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
+                      <li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
+                      <li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>:  parent node of the node that has been inserted, or the <code>ownerElement</code> in the case of <code>Attr</code> nodes</li>
+                      <li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
+                      <li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
                     </ul>
                   </td>
                 </tr>
@@ -4548,12 +4557,12 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
-                      <li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: the parent node of the node being removed or, in case of <code>Attr</code> nodes, the <code>ownerElement</code> of the <code>Attr</code> node.</li>
-                      <li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: <code>null</code></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element which is being removed</li>
+                      <li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
+                      <li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
+                      <li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: the parent node of the node being removed, or the <code>ownerElement</code> in the case of <code>Attr</code> nodes</li>
+                      <li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
+                      <li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
                     </ul>
                   </td>
                 </tr>
@@ -4584,12 +4593,12 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
-                      <li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: <code>null</code></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element which is being removed</li>
+                      <li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
+                      <li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
+                      <li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: the parent node of the node being removed, or the <code>ownerElement</code> in the case of <code>Attr</code> nodes</li>
+                      <li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
+                      <li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
                     </ul>
                   </td>
                 </tr>
@@ -4621,18 +4630,18 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
-                      <li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>null</code></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: parent node of subtree being modified</li>
+                      <li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
+                      <li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
                       <li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: <code>null</code></li>
+                      <li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
+                      <li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
                     </ul>
                   </td>
                 </tr>
               </table>
 
-              <p>This is a general event for notification of all changes to the document. It can be used instead of the more specific mutation and mutation name events listed below. It may be dispatched after a single modification to the document or, at the implementation's discretion, after multiple changes have occurred. The latter use should generally be used to accommodate multiple changes which occur either simultaneously or in rapid succession. The target of this event shall be the lowest common parent of the changes which have taken place. This event must be dispatched after any other events caused by the mutation(s) have occurred.</p>
+              <p>This is a general event for notification of all changes to the document. It can be used instead of the more specific mutation and mutation name events. It may be dispatched after a single modification to the document or, at the implementation's discretion, after multiple changes have occurred. The latter case should generally be used to accommodate multiple changes which occur either simultaneously or in rapid succession. The target of this event shall be the lowest common parent of the changes which have taken place. This event must be dispatched after any other events caused by the mutation(s) have occurred.</p>
               <p class="warning" id="_35"><strong>Warning!</strong> the <a class="eventtype" href="#event-type-DOMSubtreeModified"><code>DOMSubtreeModified</code></a> event type is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type.</p>
             </dd>
           </dl>
@@ -4747,14 +4756,14 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
-                      <li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>null</code></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <code>Element</code>  being renamed</li>
+                      <li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
+                      <li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
                       <li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationNameEvent-prevNamespaceURI"><code class="attribute-name">MutationNameEvent.prevNamespaceURI</code></a>: <code></code></li>
-                      <li><a href="#events-MutationNameEvent-prevNodeName"><code class="attribute-name">MutationNameEvent.prevNodeName</code></a>: <code></code></li>
+                      <li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
+                      <li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
+                      <li><a href="#events-MutationNameEvent-prevNamespaceURI"><code class="attribute-name">MutationNameEvent.prevNamespaceURI</code></a>: the element's previous <a class="def" href="#glossary-namespaceURI">namespace URI</a></li>
+                      <li><a href="#events-MutationNameEvent-prevNodeName"><code class="attribute-name">MutationNameEvent.prevNodeName</code></a>:  the element's previous name</li>
                     </ul>
                   </td>
                 </tr>
@@ -4784,14 +4793,14 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
-                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
-                      <li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: the renamed <code>Attr</code> node.</li>
-                      <li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: <code>null</code></li>
-                      <li><a href="#events-MutationNameEvent-prevNamespaceURI"><code class="attribute-name">MutationNameEvent.prevNamespaceURI</code></a>: <code></code></li>
-                      <li><a href="#events-MutationNameEvent-prevNodeName"><code class="attribute-name">MutationNameEvent.prevNodeName</code></a>: <code></code></li>
+                      <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>:  <code>Element</code> whose <code>Attr</code> node has been renamed</li>
+                      <li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
+                      <li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
+                      <li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: the renamed <code>Attr</code> node</li>
+                      <li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
+                      <li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: the <a class="def" href="#glossary-empty-string">empty string</a></li>
+                      <li><a href="#events-MutationNameEvent-prevNamespaceURI"><code class="attribute-name">MutationNameEvent.prevNamespaceURI</code></a>: the <code>Attr</code> node's previous <a class="def" href="#glossary-namespaceURI">namespace URI</a></li>
+                      <li><a href="#events-MutationNameEvent-prevNodeName"><code class="attribute-name">MutationNameEvent.prevNodeName</code></a>: the <code>Attr</code> node's previous name</li>
                     </ul>
                   </td>
                 </tr>
@@ -5065,7 +5074,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Cancel'</code></li>
             </ol>
           </div>
-          <p>NOTE: Some <a class="def" href="#glossary-ime">input method editors</a> (such as on the MacOS operating system) may set an empty string to the composition data attribute before canceling a composition.</p>
+          <p>NOTE: Some <a class="def" href="#glossary-ime">input method editors</a> (such as on the MacOS operating system) may set an <a class="def" href="#glossary-empty-string">empty string</a> to the composition data attribute before canceling a composition.</p>
           <h5><a id="keys-IME_keys" href="#keys-IME_keys">6.2.4.1 Input Method Editor mode keys</a></h5>
 
           <p>Some keys on certain devices are intended to activate <a class="def" href="#glossary-ime">input method editor</a> functionality, or to change the mode of an active <a class="def" href="#glossary-ime">input method editor</a>.  Custom keys for this purpose may be defined for different devices or language modes; the keys defined in this specification for this purpose are: <code>Alphanumeric</code>, <code>CodeInput</code>, <code>FinalMode</code>, <code>HangulMode</code>, <code>HanjaMode</code>, <code>Hiragana</code>, <code>JapaneseHiragana</code>, <code>JapaneseKatakana</code>, <code>JapaneseRomaji</code>, <code>JunjaMode</code>, <code>KanaMode</code>, <code>KanjiMode</code>, <code>Katakana</code>, and <code>RomanCharacters</code>.  When one of these keys is pressed, and no <a class="def" href="#glossary-ime">IME</a> is currently active, the appropriate <a class="def" href="#glossary-ime">IME</a>, shall be activated in the mode indicated by the key (if available); if an <a class="def" href="#glossary-ime">IME</a> is already active when the key is pressed, the active <a class="def" href="#glossary-ime">IME</a> may change to the indicated mode, or a different <a class="def" href="#glossary-ime">IME</a> may be launched, or the key may be ignored, on a device- and application-specific basis.</p>
