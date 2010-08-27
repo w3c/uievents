@@ -28,13 +28,13 @@
       <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2010-04-27">27 August 2010</time></h2>
       <dl>
         <dt>This version:</dt>
-        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.140">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.140</a></dd>
+        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.141">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.141</a></dd>
 
         <dt>Latest stable version:</dt>
         <dd><a href="http://www.w3.org/TR/DOM-Level-3-Events">http://www.w3.org/TR/DOM-Level-3-Events</a></dd>
 
         <dt>Previous version:</dt>
-        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.139">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.139</a></dd>
+        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.140">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.140</a></dd>
 
         <dt>Editor's Draft:</dt>
         <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
@@ -245,6 +245,7 @@
                 <ul class="toc">
                   <li><a href="#keyboard-desktop">6.1.2.1 Desktop and Laptop Keyboards</a></li>
                   <li><a href="#keyboard-mobile">6.1.2.2 Mobile Keypads</a></li>
+                  <li><a href="#keyboard-chording-virtual">6.1.2.3 Virtual Keyboards and Chording Keyboards</a></li>
                 </ul>
               </li>
             </ul>
@@ -262,7 +263,7 @@
               <li><a href="#keys-cancelable_keys">6.2.5 Default actions and cancelable keyboard events</a></li>
               <li><a href="#keys-Guide">6.2.6 Guidelines for selecting and defining key values</a></li>
               <li><a href="#key-values">6.2.7 Key Values Set</a></li>
-              <li><a href="#keys-keyCode-charCode">6.2.8 Key values, keyCode, and charCode</a></li>
+              <li><a href="#keys-keyCode-charCode">6.2.8 Key values, keyCode, charCode, and which</a></li>
             </ul>
           </li>
         </ul>
@@ -4873,6 +4874,17 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
             <em>Figure 4: A graphical depiction of an ISO standard defining layouts of numeric keypads, with distribution of letters on the keys, ISO/IEC 9995-8:2006</em>
           </p>
         </div>
+
+        <div>
+          <h5><a id="keyboard-chording-virtual" href="#keyboard-chording-virtual">6.1.2.3 Virtual Keyboards and Chording Keyboards</a></h5>
+
+          <p>Virtual keyboards are software-based sets of keys, in a variety of different arrangements, commonly found on touch-screen devices; they are often modal, with the ability to switch between different dynamic sets of keys, such as alphabetic, numeric, or symbolic keys.  Because of the lack of physical constraints, these keyboards may present the widest range of characters, including emoticons and other symbols, and may have keys not represented by Unicode [<a href="#references-Unicode">Unicode</a>] or by the <a href="#key-values">key values set</a> defined in this specification.  Wherever possible, however, virtual keyboards should produce the normal range of keyboard events and values, for ease of authoring and compatibility with existing content.</p>
+        
+          <p>Chording keyboards, also know as chorded keysets or chord keyboards, are key input devices which produce values by pressing several keys in combination or sequence, normally to simulate a full range of characters or commands on a reduced set of keys, often for single-handed use.  A chording keyboard may have additional mode keys to switch between key values, and the number and type of keys pressed to produce a key value will vary, but the final key values produced by such keyboards should match the range of key values described in this specification.</p>
+          
+          <p>For these and other alternative modal keyboards, the key values <a id="key-Alphanumeric"><code class="value keyname">'Alphanumeric'</code></a>, <a href="#key-CapsLock"><code class="value keyname">'CapsLock'</code></a>, <a href="#key-NumLock"><code class="value keyname">'NumLock'</code></a>, and <a href="#key-SymbolLock"><code class="value keyname">'SymbolLock'</code></a> are recommended for the keys which switch between different modes.</p>
+        </div>
+
       </div>
 
       <div>
@@ -4988,9 +5000,8 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
         <div>
           <h4><a id="keys-DeadKeys" href="#keys-DeadKeys">6.2.3 Dead keys</a></h4>
 
-          <p>Some keyboard input uses <a class="def" href="#glossary-dead-key">dead keys</a> for the input of composed character sequences. Unlike the handwriting sequence, in which users enter the base character first, keyboard input requires to enter a special state when a <a class="def" href="#glossary-dead-key">dead key</a> is pressed and emit the character(s) only when one of a limited number of “legal” base character is entered.  (NOTE: the MacOS and Linux operating systems use input methods to process <a class="def" href="#glossary-dead-key">dead keys</a>.)
-                          </p>
-          <p>The <a class="def" href="#glossary-dead-key">dead keys</a> are represented in the key values set using combining diacritical marks. The sequence of keystrokes <code>'\u0302'</code> (Combining Circumflex Accent key) and <code>'\u0065'</code> (key marked with the Latin Small Letter E) will likely produce (on a PC/AT french keyboard using a french mapping and without any modifier activated) the Unicode character &#xEA; (Latin Small Letter E With Circumflex), as preferred by the Unicode Normalization Form <em>NFC</em>:</p>
+          <p>Some keyboard input uses <a class="def" href="#glossary-dead-key">dead keys</a> for the input of composed character sequences. Unlike the handwriting sequence, in which users enter the base character first, keyboard input requires to enter a special state when a <a class="def" href="#glossary-dead-key">dead key</a> is pressed and emit the character(s) only when one of a limited number of “legal” base character is entered.  (NOTE: the MacOS and Linux operating systems use input methods to process <a class="def" href="#glossary-dead-key">dead keys</a>.)</p>
+          <p>The <a class="def" href="#glossary-dead-key">dead keys</a> are represented in the key values set using combining diacritical marks.   While Unicode combining characters always follow the handwriting sequence, with the combining character trailing the corresponding letter, typical deadkey input may reverse the sequence, with the combining character before the corresponding letter; for example, the word <em>naïve</em>, using the combining diacritic <em>¨</em>, would be represented sequentially in Unicode as <em>nai¨ve</em>, but may be typed <em>na¨ive</em>.  The sequence of keystrokes <code>'\u0302'</code> (Combining Circumflex Accent key) and <code>'\u0065'</code> (key marked with the Latin Small Letter E) will likely produce (on a PC/AT french keyboard using a french mapping and without any modifier activated) the Unicode character &#xEA; (Latin Small Letter E With Circumflex), as preferred by the Unicode Normalization Form <em>NFC</em>:</p>
           <div class="example" id="example-deadkey">
             <p><strong>Example:</strong></p>
             <ol>
@@ -5593,6 +5604,9 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
             <dt><a id="key-Subtract"><code class="value keyname">'Subtract'</code></a></dt>
             <dd>The Subtract key.</dd>
 
+            <dt><a id="key-SymbolLock"><code class="value keyname">'SymbolLock'</code></a></dt>
+            <dd>The Symbol Lock key.</dd>
+
             <dt><a id="key-Up"><code class="value keyname">'Up'</code></a></dt>
             <dd>The Up Arrow key.</dd>
 
@@ -5724,17 +5738,18 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
 <!-- div2 KeySet-Set -->
 
         <div>
-          <h4><a id="keys-keyCode-charCode" href="#keys-keyCode-charCode">6.2.8 Key values, keyCode, and charCode</a></h4>
+          <h4><a id="keys-keyCode-charCode" href="#keys-keyCode-charCode">6.2.8 Key values, keyCode, charCode, and which</a></h4>
 
-          <p>Browser support for keyboards has traditionally relied on two ad-hoc attributes, <code class="attr-name">keyCode</code>, and <code class="attr-name">charCode</code>.  The values for these attributes, and the availability of the attribute, is inconsistent across platforms, keyboard languages and layouts, <a class="def" href="#glossary-user-agent">user agents</a>, versions, and even event types.  A significant amount of legacy content, including script libraries, relies upon detecting the <a class="def" href="#glossary-user-agent">user agent</a> and acting accordingly, and any changes to <code class="attr-name">keyCode</code>, or <code class="attr-name">charCode</code> risk breaking as much content as they fix or enable.  Additionally, these attributes are not suitable for international usage, or accessibility concerns.</p>
+          <p>Browser support for keyboards has traditionally relied on three ad-hoc attributes, <code class="attr-name">keyCode</code>, <code class="attr-name">charCode</code>, and <code class="attr-name">which</code>.  
+            All three of these attributes return a numerical code that represents some aspect of the key pressed: <code class="attr-name">keyCode</code> is an index of the key itself; <code class="attr-name">charCode</code> is the ASCII value of the character keys; <code class="attr-name">which</code> is the character value where available and otherwise the key index.  The values for these attributes, and the availability of the attribute, is inconsistent across platforms, keyboard languages and layouts, <a class="def" href="#glossary-user-agent">user agents</a>, versions, and even event types.  A significant amount of legacy content, including script libraries, relies upon detecting the <a class="def" href="#glossary-user-agent">user agent</a> and acting accordingly, and any changes to <code class="attr-name">keyCode</code>, <code class="attr-name">charCode</code>, or <code class="attr-name">which</code> risk breaking as much content as they fix or enable.  Additionally, these attributes are not suitable for international usage, or accessibility concerns.</p>
             
-          <p>Therefore, this specification does not normatively define the values for the <code class="attr-name">keyCode</code> or <code class="attr-name">charCode</code> attributes, relying instead only on the more robust key values, which can be used safely and consistently in any <a class="def" href="#glossary-user-agent">user agent</a> which conforms to this specification.</p>  
+          <p>Therefore, this specification does not normatively define the values for the <code class="attr-name">keyCode</code>, <code class="attr-name">charCode</code>, or <code class="attr-name">which</code> attributes, relying instead only on the more robust key values, which can be used safely and consistently in any <a class="def" href="#glossary-user-agent">user agent</a> which conforms to this specification.</p>  
           
           <p>However, for the purpose of documenting the current state of these attributes and their relation to equivalent key values, this specification refers to the Legacy Keyboard Event Properties [<cite><a class="informative" href="#references-KeyProps">KeyProps</a></cite>] WG Note, which contains an informative reference table that documents some common values for the <code class="attr-name">keyCode</code> and <code class="attr-name">charCode</code> properties in different implementations.</p>
 
           <p>Additionally, in order to provide raw access to any available environment-specific keys, absent the effect of modifier keys, the <a href="#events-KeyboardEvent">KeyboardEvent</a> interface does define the legacy <a href="#events-KeyboardEvent-keyCode">KeyboardEvent.keyCode</a> attribute, but the value of the attribute may vary between implementations and even between the same implementation on different operating systems.  Normally, for modified values, the <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attribute should be used instead of the <a href="#events-KeyboardEvent-keyCode">KeyboardEvent.keyCode</a> attribute.</p>
           
-          <p>This specification does not define the <code class="attr-name">charCode</code> attribute on the <a href="#events-KeyboardEvent">KeyboardEvent</a> interface, though it may be present in <a class="def" href="#glossary-user-agent">user agents</a> for compatibility with legacy content.  The <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a> attribute should be used instead of the <code class="attr-name">charCode</code> attribute.</p>
+          <p>This specification does not define the <code class="attr-name">charCode</code> or <code class="attr-name">which</code> attributes on the <a href="#events-KeyboardEvent">KeyboardEvent</a> interface, though they may be present in <a class="def" href="#glossary-user-agent">user agents</a> for compatibility with legacy content.  The <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a> attribute should be used instead of the <code class="attr-name">charCode</code> attribute.</p>
 
 
         </div>
@@ -5895,7 +5910,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
       <p>Glossary contributors: Arnaud Le Hors (W3C) and Robert S. Sutor (IBM Research).</p>
       <p>Test suite contributors: Fred Drake, Mary Brady (NIST), Carmelo Montanez (NIST), Rick Rivello (NIST), Robert Clary (Netscape), Neil Delima (IBM), with a special mention to Curt Arnold.</p>
       <p>In the WebApps Working Group, the following people made substantial material contributions in the process of refining and revising this specification:  Hironori Bono (Google), Daniel Danilatos (Google), Travis Leithead (Microsoft), Cameron McCormack (Invited Expert), Olli Pettay (Mozilla), Jacob Rossi (Microsoft), Hallvord R. M. Steen (Opera)</p>
-      <p>Thanks to all those who have helped to improve this specification by sending suggestions and corrections (Please, keep bugging us with your issues!), or writing informative books or Web sites:  Brad Pettit, Dylan Schiemann, David Flanagan, Steven Pemberton, Curt Arnold, Al Gilman, Misha Wolf, Sigurd Lerstad, Michael B. Allen, Alexander J. Vincent, Martin D&#xFC;rst, Ken Rehor, NAKANO Masayuki, Garrett Smith, Sergey Ilinsky, Martijn Wargers, Sean Hogan, Magnus Kristiansen, Alex Russell, Jorge Chamorro, Peter-Paul Koch, William Edney, Erik Arvidsson, Cameron McCormack, Kazuyuki Ashimura, Øistein E. Andersen, James Su, Tony Chang, Ojan Vafai, Richard Ishida, and Jan Goyvaerts (regular-expressions.info).</p>
+      <p>Thanks to all those who have helped to improve this specification by sending suggestions and corrections (Please, keep bugging us with your issues!), or writing informative books or Web sites:  Brad Pettit, Dylan Schiemann, David Flanagan, Steven Pemberton, Curt Arnold, Al Gilman, Misha Wolf, Sigurd Lerstad, Michael B. Allen, Alexander J. Vincent, Martin D&#xFC;rst, Ken Rehor, NAKANO Masayuki, Garrett Smith, Sergey Ilinsky, Martijn Wargers, Sean Hogan, Magnus Kristiansen, Alex Russell, Jorge Chamorro, Peter-Paul Koch, William Edney, Erik Arvidsson, Cameron McCormack, Kazuyuki Ashimura, Øistein E. Andersen, James Su, Tony Chang, Ojan Vafai, Richard Ishida, Paul Irish, and Jan Goyvaerts (regular-expressions.info).</p>
       <div>
         <h2><a id="acknowledgements-Productions" href="#acknowledgements-Productions">D.1 Production Systems</a></h2>
 
