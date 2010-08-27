@@ -25,16 +25,16 @@
       </p>
       <h1 id="Overview-title">Document Object Model (DOM) Level 3 Events Specification</h1>
 <!-- @@@ -->
-      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2010-04-26">26 August 2010</time></h2>
+      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2010-04-27">27 August 2010</time></h2>
       <dl>
         <dt>This version:</dt>
-        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.139">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.139</a></dd>
+        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.140">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.140</a></dd>
 
         <dt>Latest stable version:</dt>
         <dd><a href="http://www.w3.org/TR/DOM-Level-3-Events">http://www.w3.org/TR/DOM-Level-3-Events</a></dd>
 
         <dt>Previous version:</dt>
-        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.138">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.138</a></dd>
+        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.139">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.139</a></dd>
 
         <dt>Editor's Draft:</dt>
         <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
@@ -1418,7 +1418,7 @@ interface <a href="#events-DocumentEvent">DocumentEvent</a> {
             <td><code>Element</code></td>
             <td><a href="#events-CompositionEvent"><code>CompositionEvent</code></a></td>
             <td>No</td>
-            <td><a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event</td>
+            <td>none</td>
           </tr>
           <tr>
             <td><a class="eventtype" href="#event-type-dblclick">
@@ -4114,24 +4114,16 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
         </h4>
         <p>The composition events defined in this specification occur in a set order relative to one another:</p>
         <ol>
-          <li>
-            <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>
-          </li>
+          <li><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></li>
           <li><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> (multiple events)</li>
-          <li>
-            <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>
-          </li>
+          <li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></li>
         </ol>
         <p>Composition events which are not canceled and which do not have the <a class="def" href="#glossary-empty-string">empty string</a> as a value produce a <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event as well.  The order of text events relative to composition events is as follows:</p>
         <ol>
-          <li>
-            <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>
-          </li>
+          <li><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></li>
           <li><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> (multiple events)</li>
-          <li>
-            <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>
-          </li>
           <li>If a <a class="def" href="#glossary-character-value">character value</a> is produced, <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a></li>
+          <li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></li>
         </ol>
 
 <!-- compositionstart -->
@@ -4162,7 +4154,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
               </table>
               
               <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a <a class="def" href="#glossary-text-composition-system">text composition system</a> is invoked in preparation for composing a passage of text.  This event type is device-dependent, and may rely upon the capabilities of the text conversion system and how it is mapped into the operating system.  When a keyboard is used to feed an input method editor, this event type is generated after a <code>keydown</code> event, but speech or handwriting recognition systems may send this event type without keyboard events.  Some implemenations may populate the <a href="#events-CompositionEvent-data"><code>data</code></a> attribute of the <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> event with the text currently selected in the document (for editing and replacement); otherwise, the value of the <a href="#events-CompositionEvent-data"><code>data</code></a> attribute shall be  the <a class="def" href="#glossary-empty-string">empty string</a>.</p>
-              <p>This event is dispatched immediately before a <a class="def" href="#glossary-text-composition-system">text composition system</a> is launched.  The default action of this event is to launch the appropriate <a class="def" href="#glossary-text-composition-system">text composition system</a>.  If this event is canceled, the <a class="def" href="#glossary-text-composition-system">text composition system</a> must not be launched.  Note that canceling the <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> <em>event type</em> is distinct from canceling the <a class="def" href="#glossary-text-composition-system">text composition system</a> session (e.g. by hitting a cancel button or closing an <a class="def" href="#glossary-ime">IME</a> window).</p>
+              <p>This event must be dispatched immediately before a <a class="def" href="#glossary-text-composition-system">text composition system</a> is launched, and before the DOM is modified due to the composition process.  The default action of this event is to launch the appropriate <a class="def" href="#glossary-text-composition-system">text composition system</a>.  If this event is canceled, the <a class="def" href="#glossary-text-composition-system">text composition system</a> must not be launched.  Note that canceling the <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> <em>event type</em> is distinct from canceling the <a class="def" href="#glossary-text-composition-system">text composition system</a> session (e.g. by hitting a cancel button or closing an <a class="def" href="#glossary-ime">IME</a> window).</p>
               <!-- <p>(<i class="issue" id="issue-composition_events"><strong>Issue:</strong> see <a href="http://lists.w3.org/Archives/Public/www-dom/2009JulSep/0143.html" title="Extra notes on composition events from Daniel Danilatos on 2009-08-07 (www-dom@w3.org from July to September 2009)">Extra notes on composition events</a> for more details.</i>)</p> -->
             </dd>
           </dl>
@@ -4227,8 +4219,13 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
                   </td>
                 </tr>
               </table>
-              <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a <a class="def" href="#glossary-text-composition-system">text composition system</a> completes the composition of its active text passage, or cancels the composition process.  If the result of the <a class="def" href="#glossary-text-composition-system">text composition system</a> is not null and does not contain the <a class="def" href="#glossary-empty-string">empty string</a>, this event type will be followed by a <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event type with the appropriate <a href="#events-TextEvent-inputMethod">inputMethod</a> value, such as <a href="#events-DOM_INPUT_METHOD_IME">DOM_INPUT_METHOD_IME</a>, <a href="#events-DOM_INPUT_METHOD_HANDWRITING">DOM_INPUT_METHOD_HANDWRITING</a>, <a href="#events-DOM_INPUT_METHOD_VOICE">DOM_INPUT_METHOD_VOICE</a>, or <a href="#events-DOM_INPUT_METHOD_MULTIMODAL">DOM_INPUT_METHOD_MULTIMODAL</a>.</p>
-              <p>This event is dispatched immediately after the <a class="def" href="#glossary-text-composition-system">text composition system</a> is completed (e.g. the <a class="def" href="#glossary-ime">IME</a> closed, minimized, switched out of focus, or otherwise dismissed, with the focus switched back to the <a class="def" href="#glossary-user-agent">user agent</a>).  The default action of this event is to dispatch the <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event type as described above.</p>
+              <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a <a class="def" href="#glossary-text-composition-system">text composition system</a> completes the composition of its active text passage, or cancels the composition process.  If the result of the <a class="def" href="#glossary-text-composition-system">text composition system</a> is not null and does not contain the <a class="def" href="#glossary-empty-string">empty string</a>, this event type will be preceded by a <a class="eventtype" href="#event-type-textInput"><code>textInput</code></a> event type with the appropriate 
+                <a href="#events-TextEvent-inputMethod">inputMethod</a> value, such as 
+                <a href="#events-DOM_INPUT_METHOD_IME">DOM_INPUT_METHOD_IME</a>, 
+                <a href="#events-DOM_INPUT_METHOD_HANDWRITING">DOM_INPUT_METHOD_HANDWRITING</a>, 
+                <a href="#events-DOM_INPUT_METHOD_VOICE">DOM_INPUT_METHOD_VOICE</a>, or 
+                <a href="#events-DOM_INPUT_METHOD_MULTIMODAL">DOM_INPUT_METHOD_MULTIMODAL</a>.</p>
+              <p>This event is dispatched immediately after the <a class="def" href="#glossary-text-composition-system">text composition system</a> is completed (e.g. the <a class="def" href="#glossary-ime">IME</a> closed, minimized, switched out of focus, or otherwise dismissed, with the focus switched back to the <a class="def" href="#glossary-user-agent">user agent</a>).</p>
             </dd>
           </dl>
         </div>
@@ -4237,15 +4234,16 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
           <h4><a id="handwriting" href="#handwriting">5.2.7.2 Handwriting Recognition Systems</a></h4>
 
           <p>The following example describes a possible sequence of events when composing a text passage “text” with a handwriting recognition system, such as on a pen tablet, as modeled using Composition Events.</p>
-          <p class="issue"><strong>Issue:</strong> needs more investigation, particularly with regard to pen-tablet events.</p>
           <div class="example" id="example-composition-selection">
             <p><strong>Example:</strong></p>
             <ol>
               <li><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>: <code class="value">''</code></li>
-              <li><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>: <code class="value">'test'</code><i class="issue" id="issue-compositionupdate"><strong>Issue:</strong> what's going on here? is there a “reject” option that's being exemplified?</i></li>
-              <li><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>: <code class="value">'text'</code></li>
-              <li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>: <code class="value">'text'</code></li>
+              <li><em>[User writes word on tablet surface]</em>
+                <a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>: <code class="value">'test'</code></li>
+              <li><em>[User rejects first word-match suggestion, selects different match]</em>
+                <a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>: <code class="value">'text'</code></li>
               <li><a class="eventtype" href="#event-type-textInput"><code>textInput</code></a>: <code class="value">'text'</code> (<code>"inputMethod"</code>: <code class="value">'DOM_INPUT_METHOD_HANDWRITING'</code>)</li>
+              <li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>: <code class="value">'text'</code></li>
             </ol>
           </div>
         </div>
@@ -5897,7 +5895,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
       <p>Glossary contributors: Arnaud Le Hors (W3C) and Robert S. Sutor (IBM Research).</p>
       <p>Test suite contributors: Fred Drake, Mary Brady (NIST), Carmelo Montanez (NIST), Rick Rivello (NIST), Robert Clary (Netscape), Neil Delima (IBM), with a special mention to Curt Arnold.</p>
       <p>In the WebApps Working Group, the following people made substantial material contributions in the process of refining and revising this specification:  Hironori Bono (Google), Daniel Danilatos (Google), Travis Leithead (Microsoft), Cameron McCormack (Invited Expert), Olli Pettay (Mozilla), Jacob Rossi (Microsoft), Hallvord R. M. Steen (Opera)</p>
-      <p>Thanks to all those who have helped to improve this specification by sending suggestions and corrections (Please, keep bugging us with your issues!), or writing informative books or Web sites:  Brad Pettit, Dylan Schiemann, David Flanagan, Steven Pemberton, Curt Arnold, Al Gilman, Misha Wolf, Sigurd Lerstad, Michael B. Allen, Alexander J. Vincent, Martin D&#xFC;rst, Ken Rehor, NAKANO Masayuki, Garrett Smith, Sergey Ilinsky, Martijn Wargers, Sean Hogan, Magnus Kristiansen, Alex Russell, Jorge Chamorro, Peter-Paul Koch, William Edney, Erik Arvidsson, Cameron McCormack, Kazuyuki Ashimura, Øistein E. Andersen, and Jan Goyvaerts (regular-expressions.info).</p>
+      <p>Thanks to all those who have helped to improve this specification by sending suggestions and corrections (Please, keep bugging us with your issues!), or writing informative books or Web sites:  Brad Pettit, Dylan Schiemann, David Flanagan, Steven Pemberton, Curt Arnold, Al Gilman, Misha Wolf, Sigurd Lerstad, Michael B. Allen, Alexander J. Vincent, Martin D&#xFC;rst, Ken Rehor, NAKANO Masayuki, Garrett Smith, Sergey Ilinsky, Martijn Wargers, Sean Hogan, Magnus Kristiansen, Alex Russell, Jorge Chamorro, Peter-Paul Koch, William Edney, Erik Arvidsson, Cameron McCormack, Kazuyuki Ashimura, Øistein E. Andersen, James Su, Tony Chang, Ojan Vafai, Richard Ishida, and Jan Goyvaerts (regular-expressions.info).</p>
       <div>
         <h2><a id="acknowledgements-Productions" href="#acknowledgements-Productions">D.1 Production Systems</a></h2>
 
