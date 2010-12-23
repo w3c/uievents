@@ -28,13 +28,13 @@
       <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2010-12-23">23 December 2010</time></h2>
       <dl>
         <dt>This version:</dt>
-        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.150">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.150</a></dd>
+        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.151">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.151</a></dd>
 
         <dt>Latest stable version:</dt>
         <dd><a href="http://www.w3.org/TR/DOM-Level-3-Events">http://www.w3.org/TR/DOM-Level-3-Events</a></dd>
 
         <dt>Previous version:</dt>
-        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.149">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.149</a></dd>
+        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.150">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.150</a></dd>
 
         <dt>Editor's Draft:</dt>
         <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
@@ -1053,10 +1053,10 @@ interface <a href="#events-CustomEvent">CustomEvent</a> : <a href="#events-Event
 interface <a href="#events-EventTarget">EventTarget</a> {
   void               <a href="#events-EventTarget-addEventListener">addEventListener</a>(in DOMString type, 
                                       in <a href="#events-EventListener">EventListener</a> listener, 
-                                      in boolean useCapture);
+                                      in boolean useCapture <em>[optional]</em>);
   void               <a href="#events-EventTarget-removeEventListener">removeEventListener</a>(in DOMString type, 
                                          in <a href="#events-EventListener">EventListener</a> listener, 
-                                         in boolean useCapture);
+                                         in boolean useCapture <em>[optional]</em>);
   // Modified in DOM Level 3:
   boolean            <a href="#events-EventTarget-dispatchEvent">dispatchEvent</a>(in <a href="#events-Event">Event</a> evt)
                                    raises(<a href="#events-EventException">EventException</a>, 
@@ -1086,8 +1086,12 @@ interface <a href="#events-EventTarget">EventTarget</a> {
                             <dt><code class="parameter-name">listener</code> of type <a href="#events-EventListener"><code>EventListener</code></a></dt>
                             <dd><p>The <code>listener</code> parameter takes an object implemented by the user which implements the <a href="#events-EventListener"><code>EventListener</code></a> interface and contains the method to be called when the event occurs.</p></dd>
                             
-                            <dt><a id="addEventListener_useCapture"><code class="parameter-name">useCapture</code></a> of type <code>boolean</code></dt>
-                            <dd><p>If true, <code>useCapture</code> indicates that the user wishes to add the event listener for the <a class="def" href="#glossary-capture-phase">capture phase</a> and <a class="def" href="#glossary-target-phase">target</a> only, i.e., this event listener will not be triggered during the <a class="def" href="#glossary-bubbling-phase">bubbling</a> phase.  If <code>false</code>, the event listener must only be triggered during the <a class="def" href="#glossary-target-phase">target</a> and <a class="def" href="#glossary-bubbling-phase">bubbling</a> phases.</p></dd>
+                            <dt><a id="addEventListener_useCapture"><code class="parameter-name">useCapture</code></a> of type <code>boolean</code>, <em>[optional]</em></dt>
+                            <dd>
+                              <p>If true, <code>useCapture</code> indicates that the user wishes to add the event listener for the <a class="def" href="#glossary-capture-phase">capture phase</a> and <a class="def" href="#glossary-target-phase">target</a> only, i.e., this event listener will not be triggered during the <a class="def" href="#glossary-bubbling-phase">bubbling</a> phase.  If <code>false</code>, the event listener must only be triggered during the <a class="def" href="#glossary-target-phase">target</a> and <a class="def" href="#glossary-bubbling-phase">bubbling</a> phases.</p>
+                              <p>If not provided, the <a href="#events-EventTarget-addEventListener">EventTarget.addEventListener</a> method must behave as if <a id="addEventListener_useCapture"><code class="parameter-name">useCapture</code></a> were specified to be <code>false</code>.</p>
+                              <p class="note" id="addEventListener_useCapture-java"><strong>Note:</strong>  For programming languages which do not allow optional method parameters, such as Java, the implementation may provide two <a href="#events-EventTarget-addEventListener">EventTarget.addEventListener</a> methods, one with 2 parameters, and one with 3 parameters.</p>
+                            </dd>
                           </dl>
                         </div>
                       </div>
@@ -1096,28 +1100,6 @@ interface <a href="#events-EventTarget">EventTarget</a> {
 
                       <div><strong>No Exceptions</strong></div>
                     </div>
-<!-- method -->
-                  </dd>
-
-                  <dt><code class="method-name"><a id="events-EventTarget-dispatchEvent">dispatchEvent</a></code> modified in <strong class="version">DOM Level 3</strong></dt>
-                  <dd>
-                    <div class="method">Dispatches an event into the implementation's event model. The <a class="def" href="#glossary-event-target">event target</a> of the event shall be the <code>EventTarget</code> object on which <code>dispatchEvent</code> is called.
-                      <p class="warning" id="warning-dispatchEvent-untrusted"><strong>Warning!</strong>  For security reasons, events dispatched using <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> must have a <code class="attribute-name"><a href="#events-event-type-isTrusted">isTrusted</a></code> attribute value of <code>false</code>.  See <a href="#trusted-events">trusted events</a> for more details.</p>
-                      
-                      <div class="parameters">
-                        <strong>Parameters</strong>
-                        <div class="paramtable">
-                          <dl>
-                            <dt><code class="parameter-name">evt</code> of type <a href="#events-Event"><code>Event</code></a></dt>
-                            <dd><p>The event to be dispatched.</p></dd>
-                          </dl>
-                        </div>
-                      </div>
-                      <!-- parameters -->
-                      <div class="return"><strong>Return Value</strong><div class="returntable"><table summary="Layout table: the first cell contains the type of the return value, the second contains a short description" border="0"><tr><td><p><code>boolean</code></p></td><td><p>Indicates whether any of the listeners which handled the event called <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a>. If <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> was called the returned value shall be <code>false</code>, else it shall be <code>true</code>.</p></td></tr></table></div></div>
-                      <!-- return -->
-                      <div class="exceptions"><strong>Exceptions</strong><div class="exceptiontable"><table summary="Layout table: the first cell contains the type of the exception, the second contains the specific error code and a short description" border="0"><tr><td><p><a href="#events-EventException"><code>EventException</code></a></p></td><td><p>UNSPECIFIED_EVENT_TYPE_ERR: Raised if the <a href="#events-event-type-type"><code>Event.type</code></a> was not specified by initializing the event before <code>dispatchEvent</code> was called. Specification of the <a href="#events-event-type-type"><code>Event.type</code></a> as <code>null</code> or an <a class="def" href="#glossary-empty-string">empty string</a> must also trigger this exception.</p><p>DISPATCH_REQUEST_ERR: Raised if the <a href="#events-Event"><code>Event</code></a> object is already being dispatched.</p></td></tr><tr><td><p><code>DOMException</code></p></td><td><p>NOT_SUPPORTED_ERR: Raised if the <a href="#events-Event"><code>Event</code></a> object has not been created using <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a>.</p><p>INVALID_CHARACTER_ERR: Raised if <a href="#events-event-type-type"><code>Event.type</code></a> is not a <code>DOMString</code> as conforming to the restrictions in <a href="#events-event-type-type"><code>Event.type</code></a>.</p></td></tr></table></div></div>
-                      <!-- exceptions --></div>
 <!-- method -->
                   </dd>
 
@@ -1136,8 +1118,12 @@ interface <a href="#events-EventTarget">EventTarget</a> {
                             <dd><p>Specifies the <a href="#events-event-type-type"><code>Event.type</code></a> for which the user registered the event listener.</p></dd>
                             <dt><code class="parameter-name">listener</code> of type <a href="#events-EventListener"><code>EventListener</code></a></dt>
                             <dd><p>The <a href="#events-EventListener"><code>EventListener</code></a> to be removed.</p></dd>
-                            <dt><code class="parameter-name">useCapture</code> of type <code>boolean</code></dt>
-                            <dd><p>Specifies whether the <a href="#events-EventListener"><code>EventListener</code></a> being removed was registered for the capture phase or not. If a listener was registered twice, once for the capture and target phases and once for the target and bubbling phases, each must be removed separately. Removal of an event listener registered for the capture and target phases does not affect the same event listener registered for the target and bubbling phases, and vice versa.</p></dd>
+                            <dt><code class="parameter-name">useCapture</code> of type <code>boolean</code>, <em>[optional]</em></dt>
+                            <dd>
+                              <p>Specifies whether the <a href="#events-EventListener"><code>EventListener</code></a> being removed was registered for the capture phase or not. If a listener was registered twice, once for the capture and target phases and once for the target and bubbling phases, each must be removed separately. Removal of an event listener registered for the capture and target phases does not affect the same event listener registered for the target and bubbling phases, and vice versa.</p>
+                              <p>If not provided, the <a href="#events-EventTarget-removeEventListener">EventTarget.removeEventListener</a> method must behave as if <a id="removeEventListener_useCapture"><code class="parameter-name">useCapture</code></a> were specified to be <code>false</code>, including the removal of event listeners which had an <a href="#events-EventTarget-addEventListener">EventTarget.addEventListener</a> <a id="addEventListener_useCapture"><code class="parameter-name">useCapture</code></a> value of <code>false</code>.</p>
+                              <p class="note" id="removeEventListener_useCapture-java"><strong>Note:</strong>  For programming languages which do not allow optional method parameters, such as Java, the implementation may provide two <a href="#events-EventTarget-removeEventListener">EventTarget.removeEventListener</a> methods, one with 2 parameters, and one with 3 parameters.</p>
+                            </dd>
                           </dl>
                         </div>
                       </div>
@@ -1148,6 +1134,29 @@ interface <a href="#events-EventTarget">EventTarget</a> {
                     </div>
 <!-- method -->
                   </dd>
+
+                  <dt><code class="method-name"><a id="events-EventTarget-dispatchEvent">dispatchEvent</a></code> modified in <strong class="version">DOM Level 3</strong></dt>
+                  <dd>
+                    <div class="method">Dispatches an event into the implementation's event model. The <a class="def" href="#glossary-event-target">event target</a> of the event shall be the <code>EventTarget</code> object on which <code>dispatchEvent</code> is called.
+                      <p class="warning" id="warning-dispatchEvent-untrusted"><strong>Warning!</strong>  For security reasons, events dispatched using <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> must have a <code class="attribute-name"><a href="#events-event-type-isTrusted">isTrusted</a></code> attribute value of <code>false</code>.  See <a href="#trusted-events">trusted events</a> for more details.</p>
+
+                      <div class="parameters">
+                        <strong>Parameters</strong>
+                        <div class="paramtable">
+                          <dl>
+                            <dt><code class="parameter-name">evt</code> of type <a href="#events-Event"><code>Event</code></a></dt>
+                            <dd><p>The event to be dispatched.</p></dd>
+                          </dl>
+                        </div>
+                      </div>
+                      <!-- parameters -->
+                      <div class="return"><strong>Return Value</strong><div class="returntable"><table summary="Layout table: the first cell contains the type of the return value, the second contains a short description" border="0"><tr><td><p><code>boolean</code></p></td><td><p>Indicates whether any of the listeners which handled the event called <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a>. If <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> was called the returned value shall be <code>false</code>, else it shall be <code>true</code>.</p></td></tr></table></div></div>
+                      <!-- return -->
+                      <div class="exceptions"><strong>Exceptions</strong><div class="exceptiontable"><table summary="Layout table: the first cell contains the type of the exception, the second contains the specific error code and a short description" border="0"><tr><td><p><a href="#events-EventException"><code>EventException</code></a></p></td><td><p>UNSPECIFIED_EVENT_TYPE_ERR: Raised if the <a href="#events-event-type-type"><code>Event.type</code></a> was not specified by initializing the event before <code>dispatchEvent</code> was called. Specification of the <a href="#events-event-type-type"><code>Event.type</code></a> as <code>null</code> or an <a class="def" href="#glossary-empty-string">empty string</a> must also trigger this exception.</p><p>DISPATCH_REQUEST_ERR: Raised if the <a href="#events-Event"><code>Event</code></a> object is already being dispatched.</p></td></tr><tr><td><p><code>DOMException</code></p></td><td><p>NOT_SUPPORTED_ERR: Raised if the <a href="#events-Event"><code>Event</code></a> object has not been created using <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a>.</p><p>INVALID_CHARACTER_ERR: Raised if <a href="#events-event-type-type"><code>Event.type</code></a> is not a <code>DOMString</code> as conforming to the restrictions in <a href="#events-event-type-type"><code>Event.type</code></a>.</p></td></tr></table></div></div>
+                      <!-- exceptions --></div>
+<!-- method -->
+                  </dd>
+
                 </dl>
               </dd>
             </dl>
@@ -3589,6 +3598,9 @@ interface <a href="#events-TextEvent">TextEvent</a> : <a href="#events-UIEvent">
                             
                             <dt><code class="parameter-name">inputMethodArg</code> of type <code>unsigned long</code></dt>
                             <dd><p>Specifies <a href="#events-TextEvent-inputMethod"><code>TextEvent.inputMethod</code></a>.</p></dd>
+
+                            <dt><code class="parameter-name">localeArg</code> of type <code>DOMString</code></dt>
+                            <dd><p>Specifies <a href="#events-TextEvent-locale"><code>TextEvent.locale</code></a>.</p></dd>
                           </dl>
                         </div>
                       </div>
@@ -3629,6 +3641,7 @@ interface <a href="#events-TextEvent">TextEvent</a> : <a href="#events-UIEvent">
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                       <li><a href="#events-TextEvent-data"><code class="attribute-name">TextEvent.data</code></a>: the value of the text string being input</li>
                       <li><a href="#events-TextEvent-inputMethod"><code class="attribute-name">TextEvent.inputMethod</code></a>: the numerical code corresponding to the most applicable <em><a href="#events-ID-TextEvent-InputMethodCode">InputMethodCode</a></em></li>
+                      <li><a href="#events-TextEvent-locale"><code class="attribute-name">TextEvent.locale</code></a>: the language code for the text input, if available; otherwise, the <a class="def" href="#glossary-empty-string">empty string</a></li>
                     </ul>
                   </td>
                 </tr>
@@ -3839,6 +3852,9 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
                             <dt><code class="parameter-name">viewArg</code> of type <code>views::AbstractView</code></dt>
                             <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
                             
+                            <dt><code class="parameter-name">charArg</code> of type <code>DOMString</code></dt>
+                            <dd><p>Specifies <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a>.</p></dd>
+                            
                             <dt><code class="parameter-name">keyArg</code> of type <code>DOMString</code></dt>
                             <dd><p>Specifies <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>.</p></dd>
                             
@@ -3847,6 +3863,12 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
                             
                             <dt><code class="parameter-name">modifiersListArg</code> of type <code>DOMString</code></dt>
                             <dd><p>A <a class="normative" href="http://www.w3.org/TR/2004/REC-xml-20040204/#NT-S"><em>white space</em></a> separated list of modifier key values to be activated on this object. As an example, <code>"Control Alt"</code> must mark the control and alt modifiers as activated.</p></dd>
+                            
+                            <dt><code class="parameter-name">repeatArg</code> of type <code>boolean</code></dt>
+                            <dd><p>Specifies whether the key event is repeating; see <a href="#events-KeyboardEvent-repeat"><code>KeyboardEvent.repeat</code></a>.</p></dd>
+
+                            <dt><code class="parameter-name">localeArg</code> of type <code>DOMString</code></dt>
+                            <dd><p>Specifies <a href="#events-KeyboardEvent-locale"><code>KeyboardEvent.locale</code></a>.</p></dd>
                           </dl>
                         </div>
                       </div>
@@ -3946,6 +3968,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
                       <li><a href="#events-KeyboardEvent-ctrlKey"><code class="attribute-name">KeyboardEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="value keyname">'Control'</code></a> key is depressed, otherwise <code>false</code></li>
                       <li><a href="#events-KeyboardEvent-metaKey"><code class="attribute-name">KeyboardEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="value keyname">'Meta'</code></a> key is depressed, otherwise <code>false</code></li>
                       <li><a href="#events-KeyboardEvent-repeat"><code class="attribute-name">KeyboardEvent.repeat</code></a>:  <code>true</code> if a key has been depressed long enough to trigger key repetition, otherwise <code>false</code></li>
+                      <li><a href="#events-KeyboardEvent-locale"><code class="attribute-name">KeyboardEvent.locale</code></a>: the language code for the key event, if available; otherwise, the <a class="def" href="#glossary-empty-string">empty string</a></li>
                     </ul>
                   </td>
                 </tr>
@@ -3997,6 +4020,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
                       <li><a href="#events-KeyboardEvent-ctrlKey"><code class="attribute-name">KeyboardEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="value keyname">'Control'</code></a> key is depressed, otherwise <code>false</code></li>
                       <li><a href="#events-KeyboardEvent-metaKey"><code class="attribute-name">KeyboardEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="value keyname">'Meta'</code></a> key is depressed, otherwise <code>false</code></li>
                       <li><a href="#events-KeyboardEvent-repeat"><code class="attribute-name">KeyboardEvent.repeat</code></a>:  <code>true</code> if a key has been depressed long enough to trigger key repetition, otherwise <code>false</code></li>
+                      <li><a href="#events-KeyboardEvent-locale"><code class="attribute-name">KeyboardEvent.locale</code></a>: the language code for the key event, if available; otherwise, the <a class="def" href="#glossary-empty-string">empty string</a></li>
                     </ul>
                   </td>
                 </tr>
@@ -4036,6 +4060,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
                       <li><a href="#events-KeyboardEvent-ctrlKey"><code class="attribute-name">KeyboardEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="value keyname">'Control'</code></a> key is depressed, otherwise <code>false</code></li>
                       <li><a href="#events-KeyboardEvent-metaKey"><code class="attribute-name">KeyboardEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="value keyname">'Meta'</code></a> key is depressed, otherwise <code>false</code></li>
                       <li><a href="#events-KeyboardEvent-repeat"><code class="attribute-name">KeyboardEvent.repeat</code></a>: <code>false</code></li>
+                      <li><a href="#events-KeyboardEvent-locale"><code class="attribute-name">KeyboardEvent.locale</code></a>: the language code for the key event, if available; otherwise, the <a class="def" href="#glossary-empty-string">empty string</a></li>
                     </ul>
                   </td>
                 </tr>
@@ -4123,6 +4148,9 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
                             
                             <dt><code class="parameter-name">dataArg</code> of type <code>DOMString</code></dt>
                             <dd><p>Specifies <a href="#events-CompositionEvent-data"><code>CompositionEvent.data</code></a>.</p></dd>
+                            
+                            <dt><code class="parameter-name">localeArg</code> of type <code>DOMString</code></dt>
+                            <dd><p>Specifies <a href="#events-CompositionEvent-locale"><code>CompositionEvent.locale</code></a>.</p></dd>
                           </dl>
                         </div>
                       </div>
@@ -4179,6 +4207,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
                       <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                       <li><a href="#events-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: the original string being edited, otherwise the <a class="def" href="#glossary-empty-string">empty string</a></li>
+                      <li><a href="#events-CompositionEvent-locale"><code class="attribute-name">CompositionEvent.locale</code></a>: the language code for the composition event, if available; otherwise, the <a class="def" href="#glossary-empty-string">empty string</a></li>
                     </ul>
                   </td>
                 </tr>
@@ -4213,7 +4242,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
                       <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                       <li><a href="#events-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: the string comprising the current results of the composition session, which may be the <a class="def" href="#glossary-empty-string">empty string</a> if the content has been deleted</li>
-
+                      <li><a href="#events-CompositionEvent-locale"><code class="attribute-name">CompositionEvent.locale</code></a>: the language code for the composition event, if available; otherwise, the <a class="def" href="#glossary-empty-string">empty string</a></li>
                     </ul>
                   </td>
                 </tr>
@@ -4245,7 +4274,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
                       <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                       <li><a href="#events-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: the string comprising the final result of the composition session, which may be the <a class="def" href="#glossary-empty-string">empty string</a> if the content has been deleted or if the composition process has been canceled</li>
-
+                      <li><a href="#events-CompositionEvent-locale"><code class="attribute-name">CompositionEvent.locale</code></a>: the language code for the composition event, if available; otherwise, the <a class="def" href="#glossary-empty-string">empty string</a></li>
                     </ul>
                   </td>
                 </tr>
