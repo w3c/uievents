@@ -28,13 +28,13 @@
       <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2010-12-23">23 December 2010</time></h2>
       <dl>
         <dt>This version:</dt>
-        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.152">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.152</a></dd>
+        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.153">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.153</a></dd>
 
         <dt>Latest stable version:</dt>
         <dd><a href="http://www.w3.org/TR/DOM-Level-3-Events">http://www.w3.org/TR/DOM-Level-3-Events</a></dd>
 
         <dt>Previous version:</dt>
-        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.151">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.151</a></dd>
+        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.152">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.152</a></dd>
 
         <dt>Editor's Draft:</dt>
         <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
@@ -1051,13 +1051,13 @@ interface <a href="#events-CustomEvent">CustomEvent</a> : <a href="#events-Event
                 <pre class="idl" id="idl-interface-"><code>
 // Introduced in DOM Level 2:
 interface <a href="#events-EventTarget">EventTarget</a> {
+  // Modified in DOM Level 3:
   void               <a href="#events-EventTarget-addEventListener">addEventListener</a>(in DOMString type, 
                                       in <a href="#events-EventListener">EventListener</a> listener, 
                                       in boolean useCapture <em>[optional]</em>);
   void               <a href="#events-EventTarget-removeEventListener">removeEventListener</a>(in DOMString type, 
                                          in <a href="#events-EventListener">EventListener</a> listener, 
                                          in boolean useCapture <em>[optional]</em>);
-  // Modified in DOM Level 3:
   boolean            <a href="#events-EventTarget-dispatchEvent">dispatchEvent</a>(in <a href="#events-Event">Event</a> evt)
                                    raises(<a href="#events-EventException">EventException</a>, 
                                    DOMException);
@@ -1094,6 +1094,7 @@ interface <a href="#events-EventTarget">EventTarget</a> {
                               <p>If true, <code>useCapture</code> indicates that the user wishes to add the event listener for the <a class="def" href="#glossary-capture-phase">capture phase</a> and <a class="def" href="#glossary-target-phase">target</a> only, i.e., this event listener will not be triggered during the <a class="def" href="#glossary-bubbling-phase">bubbling</a> phase.  If <code>false</code>, the event listener must only be triggered during the <a class="def" href="#glossary-target-phase">target</a> and <a class="def" href="#glossary-bubbling-phase">bubbling</a> phases.</p>
                               <p>If not provided, the <a href="#events-EventTarget-addEventListener">EventTarget.addEventListener</a> method must behave as if <a id="addEventListener_useCapture"><code class="parameter-name">useCapture</code></a> were specified to be <code>false</code>.</p>
                               <p class="note" id="addEventListener_useCapture-java"><strong>Note:</strong>  For programming languages which do not allow optional method parameters, such as Java, the implementation may provide two <a href="#events-EventTarget-addEventListener">EventTarget.addEventListener</a> methods, one with 2 parameters, and one with 3 parameters.</p>
+                              <p class="note" id="addEventListener_useCapture-author"><strong>Authoring Note:</strong>  The <a id="addEventListener_useCapture"><code class="parameter-name">useCapture</code></a> parameter was required in DOM2 Events [<a href="#references-DOM2Events">DOM2 Events</a>], and omitting this parameter may cause an error in older implementations.</p>
                             </dd>
                           </dl>
                         </div>
@@ -1126,6 +1127,7 @@ interface <a href="#events-EventTarget">EventTarget</a> {
                               <p>Specifies whether the <a href="#events-EventListener"><code>EventListener</code></a> being removed was registered for the capture phase or not. If a listener was registered twice, once for the capture and target phases and once for the target and bubbling phases, each must be removed separately. Removal of an event listener registered for the capture and target phases does not affect the same event listener registered for the target and bubbling phases, and vice versa.</p>
                               <p>If not provided, the <a href="#events-EventTarget-removeEventListener">EventTarget.removeEventListener</a> method must behave as if <a id="removeEventListener_useCapture"><code class="parameter-name">useCapture</code></a> were specified to be <code>false</code>, including the removal of event listeners which had an <a href="#events-EventTarget-addEventListener">EventTarget.addEventListener</a> <a id="addEventListener_useCapture"><code class="parameter-name">useCapture</code></a> value of <code>false</code>.</p>
                               <p class="note" id="removeEventListener_useCapture-java"><strong>Note:</strong>  For programming languages which do not allow optional method parameters, such as Java, the implementation may provide two <a href="#events-EventTarget-removeEventListener">EventTarget.removeEventListener</a> methods, one with 2 parameters, and one with 3 parameters.</p>
+                              <p class="note" id="removeEventListener_useCapture-author"><strong>Authoring Note:</strong>  The <a id="removeEventListener_useCapture"><code class="parameter-name">useCapture</code></a> parameter was required in DOM2 Events [<a href="#references-DOM2Events">DOM2 Events</a>], and omitting this parameter may cause an error in older implementations.</p>
                             </dd>
                           </dl>
                         </div>
