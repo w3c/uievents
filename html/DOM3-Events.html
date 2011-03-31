@@ -1648,7 +1648,7 @@ interface <a href="#events-DocumentEvent">DocumentEvent</a> {
             <td><code>Element</code></td>
             <td><a href="#events-KeyboardEvent"><code>KeyboardEvent</code></a></td>
             <td>Yes</td>
-            <td>Varies: <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event; launch <a class="def" href="#glossary-text-composition-system">text composition system</a>; <a class="eventtype" href="#event-type-blur"><code>blur</code></a> and <a class="eventtype" href="#event-type-focus"><code>focus</code></a> events; <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event; other event</td>
+            <td>Varies: <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event; launch <a class="def" href="#glossary-text-composition-system">text composition system</a>; <a class="eventtype" href="#event-type-blur"><code>blur</code></a> and <a class="eventtype" href="#event-type-focus"><code>focus</code></a> events; <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event; other event</td>
           </tr>
           <tr>
             <td><a class="eventtype" href="#event-type-keypress">
@@ -3963,7 +3963,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
                 <tr class="assert must"><th>Bubbles</th><td>Yes</td></tr>
                 <tr class="assert must"><th>Target</th><td><code>Element</code></td></tr>
                 <tr class="assert must"><th>Cancelable</th><td>Yes</td></tr>
-                <tr class="assert must"><th>Default action</th><td>Varies: <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event; launch <a class="def" href="#glossary-text-composition-system">text composition system</a>; <a class="eventtype" href="#event-type-blur"><code>blur</code></a> and <a class="eventtype" href="#event-type-focus"><code>focus</code></a> events; <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event; other event</td></tr>
+                <tr class="assert must"><th>Default action</th><td>Varies: <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event; launch <a class="def" href="#glossary-text-composition-system">text composition system</a>; <a class="eventtype" href="#event-type-blur"><code>blur</code></a> and <a class="eventtype" href="#event-type-focus"><code>focus</code></a> events; <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event; other event</td></tr>
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
@@ -3983,13 +3983,13 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
                   </td>
                 </tr>
               </table>
-              <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a key is pressed down. The <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type must be generated after the <a class="def" href="#glossary-key-mapping">key mapping</a> but before the processing of an <a class="def" href="#glossary-ime">input method editor</a>, normally associated with the dispatching of a <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>, <a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>, or <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event. This event type must be dispatched before the <a class="eventtype" href="#event-type-compositionstart"><code>keypress</code></a> and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events event associated with the same key.  Whether or not a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> contributes to the generation of a text event is implementation dependent.</p>
+              <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a key is pressed down. The <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type must be generated after the <a class="def" href="#glossary-key-mapping">key mapping</a> but before the processing of an <a class="def" href="#glossary-ime">input method editor</a>, normally associated with the dispatching of a <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>, <a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>, or <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event. This event type must be dispatched before the <a class="eventtype" href="#event-type-compositionstart"><code>keypress</code></a> and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events event associated with the same key.</p>
               <p>The default action of the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event depends upon the key:</p>
               <ul>
-                <li>if the key is associated with a character, the default action must be to dispatch a <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event with the character as the value of the <a href="#events-TextEvent-data"><code>TextEvent.data</code></a> attribute
-                   <ul>
-                     <li>if the document's currently focused element can receive text (such as a form input or an editable text block), the default action must be to dispatch a <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event with the character as the value of the <a href="#events-TextEvent-data"><code>TextEvent.data</code></a> attribute, and the focused element as the value of the <a href="#events-event-type-target">Event.target</a> attribute, and for that character to be appended to the text content of that element</li>
-                   </ul>
+                <li>if the key is associated with a character, the default action must be to dispatch a <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event
+					<ul>
+						<li>if the user agent does not support the keypress event, then the default action must be to dispatch a <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event</li>
+					</ul>
                  </li>
                 <li>if the key is associated with a <a class="def" href="#glossary-text-composition-system">text composition system</a>, the default action must be to launch that system</li>
                 <li>if the key is the <code>tab</code> key, the default action must be to shift the document focus from the currently focused element (if any) to the new focused element, as described in <a href="#events-focusevent">Focus Event Types</a></li>
