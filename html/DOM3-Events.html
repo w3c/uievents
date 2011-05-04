@@ -25,7 +25,7 @@
       </p>
       <h1 id="Overview-title">Document Object Model (DOM) Level 3 Events Specification</h1>
 <!-- @@@ -->
-      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2011-05-01">1 May 2011</time></h2>
+      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2011-05-03">3 May 2011</time></h2>
       <dl>
         <dt>This version:</dt>
         <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.154">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.154</a></dd>
@@ -468,7 +468,7 @@
           <dd>The <code>defaultView</code> is the document's browsing context's Window Proxy object as defined in <a href="http://dev.w3.org/html5/spec/Overview.html#dom-document-defaultview" title="HTML5 defaultView IDL attribute">HTML5</a>.</dd>
 
           <dt id="glossary-delta"><dfn>delta</dfn></dt>
-          <dd>The distance an input device using the <a href="#events-wheelevents">WheelEvent</a> interface (such as a mouse wheel) has rotated around its axis.  The value of a <a class="def" href="#glossary-delta">delta</a> must be a integer indicating a distance, measured as the number of <a class="def" href="#glossary-roll">rolls</a> the wheel has been <a class="def" href="#events-WheelEvent-rotation">rotated</a>. A positive value must indicate that the wheel has been <a class="def" href="#events-WheelEvent-rotation">rotated</a> towards the user on vertically-aligned devices or in a right-hand manner on horizontally-aligned devices, and a negative value must indicate that the wheel has been <a class="def" href="#events-WheelEvent-rotation">rotated</a> away from the user on vertically-aligned devices or in a left-hand manner on horizontally aligned devices.  The default value of a delta attribute must be <code>0</code>.
+          <dd>The distance an input device using the <a href="#events-wheelevents">WheelEvent</a> interface (such as a mouse wheel) has rotated around its axis.  The value of a <a class="def" href="#glossary-delta">delta</a> must be a floating point number indicating the number of pixels, lines, or pages scrolled (as indicated by the <a href="#events-WheelEvent-deltaMode"><code>deltaMode</code></a> property. The relationship between the physical direction of rotation and whether the <a class="def" href="#glossary-delta">delta</a> is positive or negative is environment and device dependent. However, if a user agent scrolls as the <a class="def" href="#glossary-default-action">default action</a> then the sign of the <a class="def" href="#glossary-delta">delta</a> is given by a right-hand coordinate system where positive X,Y, and Z axes are directed towards the right-most edge, bottom-most edge, and farthest depth (away from the user) of the document, respectively.
           </dd>
 
           <dt id="glossary-deprecated"><dfn>deprecated</dfn></dt>
@@ -552,9 +552,6 @@
 
           <dt id="glossary-qwerty"><dfn>QWERTY</dfn></dt>
           <dd>QWERTY (pronounced "&#x2C8;kw&#x25C;rti") is a common keyboard layout, so named because the first five character keys on the top row of letter keys are Q, W, E, R, T, and Y.  There are many other popular keyboard layouts (including the Dvorak and Colemak layouts), most designed for localization or ergonomics.</dd>
-
-          <dt id="glossary-roll"><dfn>roll</dfn></dt>
-          <dd>A unit of <a class="def" href="#events-WheelEvent-rotation">rotation</a> for an input device using the <a href="#events-wheelevents">WheelEvent</a> interface. On some devices this may be a finite physical step. On devices with smooth <a class="def" href="#events-WheelEvent-rotation">rotation</a>, a <a class="def" href="#glossary-roll">roll</a> becomes the smallest reported amount of <a class="def" href="#events-WheelEvent-rotation">rotation</a>.</dd>
 
           <dt id="glossary-root-element"><dfn>root element</dfn></dt>
           <dd>The first element node of a document, of which all other elements are children; the document element.</dd>
@@ -3239,9 +3236,9 @@ interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEv
   const unsigned long                <a href="#events-DOM_DELTA_LINE">DOM_DELTA_LINE</a>        = 0x01;
   const unsigned long                <a href="#events-DOM_DELTA_PAGE">DOM_DELTA_PAGE</a>        = 0x02;
 
-  readonly attribute long            <a href="#events-WheelEvent-deltaX">deltaX</a>;
-  readonly attribute long            <a href="#events-WheelEvent-deltaY">deltaY</a>;
-  readonly attribute long            <a href="#events-WheelEvent-deltaZ">deltaZ</a>;
+  readonly attribute float            <a href="#events-WheelEvent-deltaX">deltaX</a>;
+  readonly attribute float            <a href="#events-WheelEvent-deltaY">deltaY</a>;
+  readonly attribute float            <a href="#events-WheelEvent-deltaZ">deltaZ</a>;
   readonly attribute unsigned long   <a href="#events-WheelEvent-deltaMode">deltaMode</a>;    
   void                               <a href="#events-event-type-initWheelEvent">initWheelEvent</a>(in DOMString typeArg, 
                                                     in boolean canBubbleArg, 
@@ -3255,9 +3252,9 @@ interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEv
                                                     in unsigned short buttonArg, 
                                                     in <a href="#events-EventTarget">EventTarget</a> relatedTargetArg, 
                                                     in DOMString modifiersListArg, 
-                                                    in long deltaXArg, 
-                                                    in long deltaYArg, 
-                                                    in long deltaZArg, 
+                                                    in float deltaXArg, 
+                                                    in float deltaYArg, 
+                                                    in float deltaZArg, 
                                                     in unsigned long deltaMode);
 };
               </code></pre>
@@ -3289,13 +3286,13 @@ interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEv
             <dt><strong>Attributes</strong></dt>
             <dd>
               <dl>
-                <dt><code class="attribute-name"><a id="events-WheelEvent-deltaX">deltaX</a></code> of type <code>long</code>, readonly</dt>
+                <dt><code class="attribute-name"><a id="events-WheelEvent-deltaX">deltaX</a></code> of type <code>float</code>, readonly</dt>
                 <dd><p>The distance the wheel has rotated around the x-axis.</p></dd>
 
-                <dt><code class="attribute-name"><a id="events-WheelEvent-deltaY">deltaY</a></code> of type <code>long</code>, readonly</dt>
+                <dt><code class="attribute-name"><a id="events-WheelEvent-deltaY">deltaY</a></code> of type <code>float</code>, readonly</dt>
                 <dd><p>The distance the wheel has rotated around the y-axis.</p></dd>
 
-                <dt><code class="attribute-name"><a id="events-WheelEvent-deltaZ">deltaZ</a></code> of type <code>long</code>, readonly</dt>
+                <dt><code class="attribute-name"><a id="events-WheelEvent-deltaZ">deltaZ</a></code> of type <code>float</code>, readonly</dt>
                 <dd><p>The distance the wheel has rotated around the z-axis.</p></dd>
 
                 <dt><code class="attribute-name"><a id="events-WheelEvent-deltaMode">deltaMode</a></code> of type <code>unsigned long</code>, readonly</dt>
@@ -3353,13 +3350,13 @@ interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEv
                           <dt><code class="parameter-name">modifiersListArg</code> of type <code>DOMString</code></dt>
                           <dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
                           
-                          <dt><code class="parameter-name">deltaXArg</code> of type <code>long</code></dt>
+                          <dt><code class="parameter-name">deltaXArg</code> of type <code>float</code></dt>
                           <dd><p>Specifies <a href="#events-WheelEvent-deltaX"><code>WheelEvent.deltaX</code></a>.</p></dd>
                           
-                          <dt><code class="parameter-name">deltaYArg</code> of type <code>long</code></dt>
+                          <dt><code class="parameter-name">deltaYArg</code> of type <code>float</code></dt>
                           <dd><p>Specifies <a href="#events-WheelEvent-deltaY"><code>WheelEvent.deltaY</code></a>.</p></dd>
                           
-                          <dt><code class="parameter-name">deltaZArg</code> of type <code>long</code></dt>
+                          <dt><code class="parameter-name">deltaZArg</code> of type <code>float</code></dt>
                           <dd><p>Specifies <a href="#events-WheelEvent-deltaZ"><code>WheelEvent.deltaZ</code></a>.</p></dd>
                           
                           <dt><code class="parameter-name">deltaModeArg</code> of type <code>unsigned long</code></dt>
@@ -3421,9 +3418,8 @@ interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEv
             </table>
             <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a mouse wheel has been rotated around any axis, or when an equivalent input device (such as a mouse-ball, certain tablets or touchpads, etc.) has emulated such an action. Depending on the platform and input device, diagonal wheel deltas may be delivered either as a single wheel event with multiple non-zero axes or as separate wheel events for each non-zero axis.</p>
             <p>The typical default action of the <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event type is to scroll (or in some cases, zoom) the document by the indicated amount.  If this event is canceled, the implementation must not scroll or zoom the document (or perform whatever other implementation-specific default action is associated with this event type).</p>
-            <p>Due to a lack of early standardization for a mouse-wheel event type, there are several related proprietary events which have been implemented by different <a class="def" href="#glossary-user-agent">user agents</a>, with different names and characteristics.  This specification does not attempt to specify these legacy events due to lack of interoperability, but supplies the following equivalency information which may help implementers and content authors.</p>  
             <p class="note" id="note-delta-speed"><strong>Note:</strong> In some <a class="def" href="#glossary-user-agent">user agents</a>, or with some input devices, the speed that the wheel has been turned may affect the <a href="#glossary-delta"><code>delta</code></a> values, with a faster speed producing a higher <a href="#glossary-delta"><code>delta</code></a> value.</p>
-            <p class="note" id="note-no-scroll-default"><strong>Note:</strong> Though events of event type <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> often result in scrolling, which results in a <a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> event, there is no direct connection between these event types, and the <a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> event is not a <a class="def" href="#glossary-default-action">default action</a> of the <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event.</p>
+            <p class="note" id="note-no-scroll-default"><strong>Note:</strong> The <a class="def" href="#glossary-default-action">default action</a> of a <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event may be to scroll or zoom.</p>
           </dd>
         </dl>
       </div>
