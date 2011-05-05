@@ -28,13 +28,13 @@
       <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2011-05-05">5 May 2011</time></h2>
       <dl>
         <dt>This version:</dt>
-        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.181">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.181</a></dd>
+        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.182">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.182</a></dd>
 
         <dt>Latest stable version:</dt>
         <dd><a href="http://www.w3.org/TR/DOM-Level-3-Events">http://www.w3.org/TR/DOM-Level-3-Events</a></dd>
 
         <dt>Previous version:</dt>
-        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.180">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.180</a></dd>
+        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.181">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.181</a></dd>
 
         <dt>Editor's Draft:</dt>
         <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
@@ -273,43 +273,55 @@
               <li><a href="#key-values">6.2.7 Key Values Set</a></li>
             </ul>
           </li>
-          <li><a href="#keys-keyCode-charCode-which">6.3 Legacy key attributes: keyCode, charCode, and which</a></li>
         </ul>
       </li>
-      <li><a href="#extending_events">Appendix A: Extending Events</a>
+      <li><a href="#legacy-key-attributes">Appendix A: Legacy key attributes: keyCode, charCode, and which</a>
         <ul class="toc">
-          <li><a href="#extending_events-intro">A.1 Introduction</a></li>
-          <li><a href="#extending_events-Custom_Events">A.2 Custom Events</a></li>
-          <li><a href="#extending_events-Impl_Extensions">A.3 Implementation-Specific Extensions</a>
+          <li><a href="#LegacyKeyboardEvent-interface">A.1 Custom Events</a></li>
+          <li><a href="#legacy-key-models">A.2 Legacy key models</a>
             <ul class="toc">
-              <li><a href="#extending_events-prefixes">A.3.1 Known Implementation-Specific Prefixes</a></li>
+              <li><a href="#determine-keydown-keyup-keyCode">A.2.1 How to determine keyCode for keydown and keyup events</a></li>
+              <li><a href="#determine-keypress-keyCode">A.2.2 How to determine keyCode for keypress events</a></li>
+              <li><a href="#fixed-virtual-key-codes">A.2.3 Fixed virtual key codes</a></li>
+              <li><a href="#optionally-fixed-virtual-key-codes">A.2.4 Optionally fixed virtual key codes</a></li>
             </ul>
           </li>
         </ul>
       </li>
-      <li><a href="#security-considerations-Security">Appendix B: Security Considerations</a></li>
-      <li><a href="#changes-Changes">Appendix C: Changes</a>
+      <li><a href="#extending_events">Appendix B: Extending Events</a>
         <ul class="toc">
-          <li><a href="#changes-DOMEvents2to3Changes">C.1 Changes between DOM Level 2 Events and DOM Level 3 Events</a>
+          <li><a href="#extending_events-intro">B.1 Introduction</a></li>
+          <li><a href="#extending_events-Custom_Events">B.2 Custom Events</a></li>
+          <li><a href="#extending_events-Impl_Extensions">B.3 Implementation-Specific Extensions</a>
             <ul class="toc">
-              <li><a href="#changes-DOMEvents2to3Changes-flow">C.1.1 Changes to DOM Level 2 event flow</a></li>
-              <li><a href="#changes-DOMEvents2to3Changes-event-types">C.1.2 Changes to DOM Level 2 event types</a></li>
-              <li><a href="#changes-DOMLevel2to3Changes">C.1.3 Changes to DOM Level 2 Events interfaces</a></li>
-              <li><a href="#changes-DOMLevel3Addons">C.1.4 New Interfaces</a></li>
+              <li><a href="#extending_events-prefixes">B.3.1 Known Implementation-Specific Prefixes</a></li>
             </ul>
           </li>
-          <li><a href="#changes-drafts">C.2 Changes between different drafts of DOM Level 3 Events</a></li>
         </ul>
       </li>
-      <li><a href="#acknowledgements-contributors">Appendix D: Acknowledgements</a>
+      <li><a href="#security-considerations-Security">Appendix C: Security Considerations</a></li>
+      <li><a href="#changes-Changes">Appendix D: Changes</a>
         <ul class="toc">
-          <li><a href="#acknowledgements-Productions">D.1 Production Systems</a></li>
+          <li><a href="#changes-DOMEvents2to3Changes">D.1 Changes between DOM Level 2 Events and DOM Level 3 Events</a>
+            <ul class="toc">
+              <li><a href="#changes-DOMEvents2to3Changes-flow">D.1.1 Changes to DOM Level 2 event flow</a></li>
+              <li><a href="#changes-DOMEvents2to3Changes-event-types">D.1.2 Changes to DOM Level 2 event types</a></li>
+              <li><a href="#changes-DOMLevel2to3Changes">D.1.3 Changes to DOM Level 2 Events interfaces</a></li>
+              <li><a href="#changes-DOMLevel3Addons">D.1.4 New Interfaces</a></li>
+            </ul>
+          </li>
+          <li><a href="#changes-drafts">D.2 Changes between different drafts of DOM Level 3 Events</a></li>
         </ul>
       </li>
-      <li><a href="#references-role-references" class="references">Appendix E: References</a>
+      <li><a href="#acknowledgements-contributors">Appendix E: Acknowledgements</a>
         <ul class="toc">
-          <li><a href="#references-References-Normative">E.1 Normative References</a></li>
-          <li><a href="#references-References-Informative">E.2 Informative References</a></li>
+          <li><a href="#acknowledgements-Productions">E.1 Production Systems</a></li>
+        </ul>
+      </li>
+      <li><a href="#references-role-references" class="references">Appendix F: References</a>
+        <ul class="toc">
+          <li><a href="#references-References-Normative">F.1 Normative References</a></li>
+          <li><a href="#references-References-Informative">F.2 Informative References</a></li>
         </ul>
       </li>
     </ul>
@@ -3852,7 +3864,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
             </dl>
           </dd>
         </dl>
-        <p class="warning" id="keycode-charcode"><strong>Warning!</strong>  Legacy keyboard event implementations may include three additional attributes, <code>keyCode</code>, <code>charCode</code>, and <code>which</code>.  The <code>keyCode</code> attribute indicates a numeric value associated with a particular key on a computer keyboard, while the <code>charCode</code> attribute indicates the <acronym title="American Standard Code for Information Interchange">ASCII</acronym> value of the character associated with that key (which may or may not be the same as the <code>keyCode</code> value) and is applicable only to keys that produce a <a class="def" href="#glossary-character-value">character value</a>.  In practice, <code>keyCode</code> and <code>charCode</code> are inconsistent across platforms and even the same implementation on different operating systems or using different localizations.  DOM Level 3 Events  does not define values for either <code>keyCode</code> or <code>charCode</code>, or behavior for <code>charCode</code>; content authors should use <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> or <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a> instead, in conforming DOM Level 3 Events implementations.  <em>For more information, see the informative section on a id="keys-keyCode-charCode-which" href="#keys-keyCode-charCode-which">Legacy key attributes: keyCode, charCode, and which</a>.</em></p>
+        <p class="warning" id="keycode-charcode"><strong>Warning!</strong>  Legacy keyboard event implementations may include three additional attributes, <code>keyCode</code>, <code>charCode</code>, and <code>which</code>.  The <code>keyCode</code> attribute indicates a numeric value associated with a particular key on a computer keyboard, while the <code>charCode</code> attribute indicates the <acronym title="American Standard Code for Information Interchange">ASCII</acronym> value of the character associated with that key (which may or may not be the same as the <code>keyCode</code> value) and is applicable only to keys that produce a <a class="def" href="#glossary-character-value">character value</a>.  In practice, <code>keyCode</code> and <code>charCode</code> are inconsistent across platforms and even the same implementation on different operating systems or using different localizations.  DOM Level 3 Events  does not define values for either <code>keyCode</code> or <code>charCode</code>, or behavior for <code>charCode</code>; content authors should use <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> or <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a> instead, in conforming DOM Level 3 Events implementations.  <em>For more information, see the informative appendix on <a href="#legacy-key-attributes">Legacy key attributes: keyCode, charCode, and which</a>.</em></p>
         <p class="note" id="note-virtual-keyboards"><strong>Note:</strong>  For compatibility with existing content, virtual keyboards, such as software keyboards on screen-based input devices, should produce the normal range of keyboard events, even though they do not possess physical keys.</p>
         <p>The keyboard event types are listed below.</p>
         <h4 class="needswork">
@@ -6271,29 +6283,46 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
 
         </div>
 <!-- div2 KeySet-Set -->
+      </div>
+    </div>
+<!-- div1 KeySet -->
 
-        <div>
-          <h3><a id="keys-keyCode-charCode-which" href="#keys-keyCode-charCode-which">6.3 Legacy key attributes: <code class="attr-name">keyCode</code>, <code class="attr-name">charCode</code>, and <code class="attr-name">which</code></a></h3>
-          <p><em>This section is informative</em></p>
+    <div>
+      <h2><a id="legacy-key-attributes" href="#legacy-key-attributes">Appendix A: Legacy key attributes: <code class="attr-name">keyCode</code>, <code class="attr-name">charCode</code>, and <code class="attr-name">which</code></a></h2>
 
-          <p>Browser support for keyboards has traditionally relied on three ad-hoc attributes, <code class="attr-name">keyCode</code>, <code class="attr-name">charCode</code>, and <code class="attr-name">which</code>.</p>  
-          <p>All three of these attributes return a numerical code that represents some aspect of the key pressed: <code class="attr-name">keyCode</code> is an index of the key itself; <code class="attr-name">charCode</code> is the ASCII value of the character keys; <code class="attr-name">which</code> is the character value where available and otherwise the key index.  The values for these attributes, and the availability of the attribute, is inconsistent across platforms, keyboard languages and layouts, <a class="def" href="#glossary-user-agent">user agents</a>, versions, and even event types.  A significant amount of legacy content, including script libraries, relies upon detecting the <a class="def" href="#glossary-user-agent">user agent</a> and acting accordingly, and any changes to <code class="attr-name">keyCode</code>, <code class="attr-name">charCode</code>, or <code class="attr-name">which</code> risk breaking as much content as they fix or enable.  Additionally, these attributes are not suitable for international usage, or accessibility concerns.</p>
-            
-          <p>Therefore, this specification does not normatively define the <code class="attr-name">charCode</code>, <code class="attr-name">keyCode</code>, or <code class="attr-name">which</code> attributes on the <a href="#events-KeyboardEvent">KeyboardEvent</a> interface, though they may be present in <a class="def" href="#glossary-user-agent">user agents</a> for compatibility with legacy content.  Authors should use the <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a> and <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attributes instead of the <code class="attr-name">charCode</code> and <code class="attr-name">keyCode</code> attributes, respectively.</p>
-          
-          <p>However, for the purpose of documenting the current state of these attributes and their relation to equivalent key values, this section describes an informative supplemental IDL for <a href="#events-KeyboardEvent">KeyboardEvent</a> containing these attributes, and informative definitions for determining their attribute values.</p>
+      <p><em>This section is informative</em></p>
 
-          <p>For implementations which do support these attributes, it is suggested to use this supplementary <a href="#events-KeyboardEvent">KeyboardEvent</a> IDL:</p>
+      <p>Browser support for keyboards has traditionally relied on three ad-hoc attributes, <code class="attr-name">keyCode</code>, <code class="attr-name">charCode</code>, and <code class="attr-name">which</code>.</p>  
+      <p>All three of these attributes return a numerical code that represents some aspect of the key pressed: <code class="attr-name">keyCode</code> is an index of the key itself; <code class="attr-name">charCode</code> is the ASCII value of the character keys; <code class="attr-name">which</code> is the character value where available and otherwise the key index.  The values for these attributes, and the availability of the attribute, is inconsistent across platforms, keyboard languages and layouts, <a class="def" href="#glossary-user-agent">user agents</a>, versions, and even event types.  A significant amount of legacy content, including script libraries, relies upon detecting the <a class="def" href="#glossary-user-agent">user agent</a> and acting accordingly, and any changes to <code class="attr-name">keyCode</code>, <code class="attr-name">charCode</code>, or <code class="attr-name">which</code> risk breaking as much content as they fix or enable.  Additionally, these attributes are not suitable for international usage, or accessibility concerns.</p>
+        
+      <p>Therefore, this specification does not normatively define the <code class="attr-name">charCode</code>, <code class="attr-name">keyCode</code>, or <code class="attr-name">which</code> attributes on the <a href="#events-KeyboardEvent">KeyboardEvent</a> interface, though they may be present in <a class="def" href="#glossary-user-agent">user agents</a> for compatibility with legacy content.  Authors should use the <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a> and <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attributes instead of the <code class="attr-name">charCode</code> and <code class="attr-name">keyCode</code> attributes, respectively.</p>
+      
+      <p>However, for the purpose of documenting the current state of these attributes and their relation to equivalent key values, this section describes an informative supplemental IDL for <a href="#events-KeyboardEvent">KeyboardEvent</a> containing these attributes, and informative definitions for determining their attribute values.</p>
+
+      <p>For implementations which do support these attributes, it is suggested to use the supplementary <a href="#events-LegacyKeyboardEvent">LegacyKeyboardEvent</a> IDL.</p>
+
+      <h3 id="LegacyKeyboardEvent-interface">A.1 LegacyKeyboardEvent interface</h3>
+      <dl>
+        <dt>
+          <strong>Interface <em><a id="events-LegacyKeyboardEvent" name="events-LegacyKeyboardEvent">LegacyKeyboardEvent</a></em></strong> (introduced in <strong class="since">DOM Level 3</strong>)
+        </dt>
+        <dd>
+          <p>
+            The <code>LegacyKeyboardEvent</code> interface is a non-normative extension of the <a href="#events-KeyboardEvent">KeyboardEvent</a> interface, which adds the <a href="#events-KeyboardEvent-charCode">charCode</a>, <a href="#events-KeyboardEvent-keyCode">keyCode</a>, and <a href="#events-KeyboardEvent-which">which</a> attributes.
+          </p>
+          <p>
+            To create an instance of the <code>LegacyKeyboardEvent</code> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("KeyboardEvent")</code></a> method call, though this does not take the values of the <a href="#events-KeyboardEvent-charCode">charCode</a>, <a href="#events-KeyboardEvent-keyCode">keyCode</a>, or <a href="#events-KeyboardEvent-which">which</a> attributes as parameters.
+          </p>
           <dl>
             <dt>
-              <br>
+              <br/>
               <strong>IDL Definition</strong>
             </dt>
             <dd>
-              <pre class="idl" id="idl-interface-KeyboardEvent-supplementary">
+              <pre class="idl" id="idl-interface-LegacyKeyboardEvent-supplementary">
           <code>
           // Legacy, introduced in DOM Level 3:
-          interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-UIEvent">UIEvent</a> {
+          interface <a href="#events-LegacyKeyboardEvent">LegacyKeyboardEvent</a> : <a href="#events-KeyboardEvent">KeyboardEvent</a> {
             readonly attribute unsigned long   <a href="#events-KeyboardEvent-charCode">charCode</a>;
             readonly attribute unsigned long   <a href="#events-KeyboardEvent-keyCode">keyCode</a>;
             readonly attribute unsigned long   <a href="#events-KeyboardEvent-which">which</a>;
@@ -6336,101 +6365,103 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
               </dl>
             </dd>
           </dl>
-
-          <h4 id="legacy-key-models">Legacy key models</h4>
-          <p><em>This section is informative</em></p>
-          <p>Implementations differ on which values are exposed on these attributes for different event types.  An implementation may choose to expose both virtual key codes and character codes in the <code class="attr-name">keyCode</code> property (<em>conflated model</em>), or report separate <code class="attr-name">keyCode</code> and <code class="attr-name">charCode</code> properties (<em>split model</em>).</p>
-
-          <h5 id="calc-keydown-keyup-keyCode">How to calculate <code class="attr-name">keyCode</code> for <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events</h5>
-          <p>The <code class="attr-name">keyCode</code> for <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> or <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events is calculated as follows:</p>
-          <ol>
-          <li>Read the virtual key code from the operating system's event information, if such information is available.</li>
-          <li>If an Input Method Editor is processing key input and the event is keydown, return 229.</li>
-          <li>If input key when pressed without modifiers would insert a numerical character (0-9), return the ASCII code of that numerical character.</li>
-          <li>If input key when pressed without modifiers would insert a a lower case character in the a-z alphabetical range, return the ASCII code of the upper case equivalent.</li>
-          <li>If the implementation supports a key code conversion table for the operating system and platform, look up the value. If the conversion table specifies an alternate virtual key value for the given input, return the specified value.</li>
-          <li>If the key's function, as determined in an implementation-specific way, corresponds to one of the keys in the <a href="#fixed-virtual-key-codes">table of fixed virtual key codes</a>, return the corresponding key code.</li>
-           <li>Return the virtual key code from the operating system.</li>
-          <li>If no key code was found, return 0.</li>
-          </ol>
-
-          <h5 id="calc-keypress-keyCode">How to calculate <code class="attr-name">keyCode</code> for <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> events</h5>
-          <p><em>This section is informative</em></p>
-          <p>The <code class="attr-name">keyCode</code> for <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> events is calculated as follows:</p>
-          <ol>
-          <li>If the implementation supports a <em>conflated model</em>, set <code class="attr-name">keyCode</code> to the Unicode code point of the character being entered.</li>
-          <li>If the implementation supports a <em>split model</em>, set <code class="attr-name">keyCode</code> to 0.</li>
-          </ol>
+        </dd>
+      </dl>
 
 
-          <h5 id="fixed-virtual-key-codes">Fixed virtual key codes</h5>
-          <p><em>This section is informative</em></p>
-          <p>The virtual key codes for the following keys do not usually change with keyboard layouts on desktop systems:</p>
-          <table border="1" cellpadding="2" cellspacing="0">
-            <tr><th>The key</th><th>virtual key code</th></tr>
-            <tr><th>Backspace</th> <td>8</td></tr>
-            <tr><th>Tab</th> <td>9</td></tr>
-            <tr><th>Enter</th> <td>13</td></tr>
-            <tr><th>Shift</th> <td>16</td></tr>
-            <tr><th>Control</th> <td>17</td></tr>
-            <tr><th>Alt</th> <td>18</td></tr>
-            <tr><th>Caps Lock</th> <td>20</td></tr>
-            <tr><th>Escape</th> <td>27</td></tr>
-            <tr><th>Space</th> <td>32</td></tr>
-            <tr><th>Page up</th> <td>33</td></tr>
-            <tr><th>Page down</th> <td>34</td></tr>
-            <tr><th>End</th> <td>35</td></tr>
-            <tr><th>Home</th> <td>36</td></tr>
-            <tr><th>Left</th> <td>37</td></tr>
-            <tr><th>Up</th> <td>38</td></tr>
-            <tr><th>Right</th> <td>39</td></tr>
-            <tr><th>Down</th> <td>40</td></tr>
-            <tr><th>Delete</th> <td>46</td></tr>
-          </table>
+      <h3 id="legacy-key-models">A.2 Legacy key models</h3>
+      <p><em>This section is informative</em></p>
+      <p>Implementations differ on which values are exposed on these attributes for different event types.  An implementation may choose to expose both virtual key codes and character codes in the <code class="attr-name">keyCode</code> property (<em>conflated model</em>), or report separate <code class="attr-name">keyCode</code> and <code class="attr-name">charCode</code> properties (<em>split model</em>).</p>
 
-          <h5>Optionally fixed virtual key codes</h5>
-          <p><em>This section is informative</em></p>
-          <p>The following punctuation characters may change virtual codes between keyboard layouts, but reporting these values will likely be more compatible with legacy content expecting US-English keyboard layout:</p>
-        	<table border="1" cellpadding="2" cellspacing="0">
-          	<tr><th>The key</th><th>virtual key code</th></tr>
-          	<tr><th>Semicolon (;)</th> <td>186</td></tr>
-          	<tr><th>Colon (:)</th> <td>186</td></tr>
-          	<tr><th>Plus (+)</th> <td>187</td></tr>
-          	<tr><th>Equals sign (=)</th> <td>187</td></tr>
-          	<tr><th>Comma (,)</th> <td>188</td></tr>
-          	<tr><th>Less than sign (<)</th> <td>188</td></tr>
-          	<tr><th>Minus (-)</th> <td>189</td></tr>
-          	<tr><th>Underscore (_)</th> <td>189</td></tr>
-          	<tr><th>Period (.)</th> <td>190</td></tr>
-          	<tr><th>Greater than sign (>)</th> <td>190</td></tr>
-          	<tr><th>Question mark (?)</th> <td>191</td></tr>
-          	<tr><th>Forward slash (/)</th> <td>191</td></tr>
-          	<tr><th>Backtick (`)</th> <td>192</td></tr>
-          	<tr><th>Tilde (~)</th> <td>192</td></tr>
-          	<tr><th>Opening square bracket ([)</th> <td>219</td></tr>
-          	<tr><th>Opening curly bracket ({)</th> <td>219</td></tr>
-          	<tr><th>Backslash (\)</th> <td>220</td></tr>
-          	<tr><th>Pipe (|)</th> <td>220</td></tr>
-          	<tr><th>Closing square bracket (])</th> <td>221</td></tr>
-          	<tr><th>Closing curly bracket (})</th> <td>221</td></tr>
-          	<tr><th>Single quote (')</th> <td>222</td></tr>
-          	<tr><th>Double quote (")</th> <td>222</td></tr>
-        	</table>
+      <h4 id="determine-keydown-keyup-keyCode">A.2.1 How to determine <code class="attr-name">keyCode</code> for <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events</h4>
+      <p>The <code class="attr-name">keyCode</code> for <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> or <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events is calculated as follows:</p>
+      <ol>
+        <li>Read the virtual key code from the operating system's event information, if such information is available.</li>
+        <li>If an Input Method Editor is processing key input and the event is keydown, return 229.</li>
+        <li>If input key when pressed without modifiers would insert a numerical character (0-9), return the ASCII code of that numerical character.</li>
+        <li>If input key when pressed without modifiers would insert a a lower case character in the a-z alphabetical range, return the ASCII code of the upper case equivalent.</li>
+        <li>If the implementation supports a key code conversion table for the operating system and platform, look up the value. If the conversion table specifies an alternate virtual key value for the given input, return the specified value.</li>
+        <li>If the key's function, as determined in an implementation-specific way, corresponds to one of the keys in the <a href="#fixed-virtual-key-codes">table of fixed virtual key codes</a>, return the corresponding key code.</li>
+         <li>Return the virtual key code from the operating system.</li>
+        <li>If no key code was found, return 0.</li>
+      </ol>
+
+      <h4 id="determine-keypress-keyCode">A.2.2 How to determine <code class="attr-name">keyCode</code> for <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> events</h4>
+      <p><em>This section is informative</em></p>
+      <p>The <code class="attr-name">keyCode</code> for <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> events is calculated as follows:</p>
+      <ol>
+        <li>If the implementation supports a <em>conflated model</em>, set <code class="attr-name">keyCode</code> to the Unicode code point of the character being entered.</li>
+        <li>If the implementation supports a <em>split model</em>, set <code class="attr-name">keyCode</code> to 0.</li>
+      </ol>
 
 
-        </div>
+      <h4 id="fixed-virtual-key-codes">A.2.3 Fixed virtual key codes</h4>
+      <p><em>This section is informative</em></p>
+      <p>The virtual key codes for the following keys do not usually change with keyboard layouts on desktop systems:</p>
+      <table border="1" cellpadding="2" cellspacing="0">
+        <tr><th>The key</th> <th>virtual key code</th></tr>
+        <tr><th>Backspace</th> <td>8</td></tr>
+        <tr><th>Tab</th> <td>9</td></tr>
+        <tr><th>Enter</th> <td>13</td></tr>
+        <tr><th>Shift</th> <td>16</td></tr>
+        <tr><th>Control</th> <td>17</td></tr>
+        <tr><th>Alt</th> <td>18</td></tr>
+        <tr><th>Caps Lock</th> <td>20</td></tr>
+        <tr><th>Escape</th> <td>27</td></tr>
+        <tr><th>Space</th> <td>32</td></tr>
+        <tr><th>Page up</th> <td>33</td></tr>
+        <tr><th>Page down</th> <td>34</td></tr>
+        <tr><th>End</th> <td>35</td></tr>
+        <tr><th>Home</th> <td>36</td></tr>
+        <tr><th>Left</th> <td>37</td></tr>
+        <tr><th>Up</th> <td>38</td></tr>
+        <tr><th>Right</th> <td>39</td></tr>
+        <tr><th>Down</th> <td>40</td></tr>
+        <tr><th>Delete</th> <td>46</td></tr>
+      </table>
 
-      </div>
+      <h4 id="optionally-fixed-virtual-key-codes">A.2.4 Optionally fixed virtual key codes</h4>
+      <p><em>This section is informative</em></p>
+      <p>The following punctuation characters may change virtual codes between keyboard layouts, but reporting these values will likely be more compatible with legacy content expecting US-English keyboard layout:</p>
+    	<table border="1" cellpadding="2" cellspacing="0">
+      	<tr><th>The key</th> <th>virtual key code</th></tr>
+      	<tr><th>Semicolon (;)</th> <td>186</td></tr>
+      	<tr><th>Colon (:)</th> <td>186</td></tr>
+      	<tr><th>Plus (+)</th> <td>187</td></tr>
+      	<tr><th>Equals sign (=)</th> <td>187</td></tr>
+      	<tr><th>Comma (,)</th> <td>188</td></tr>
+      	<tr><th>Less than sign (<)</th> <td>188</td></tr>
+      	<tr><th>Minus (-)</th> <td>189</td></tr>
+      	<tr><th>Underscore (_)</th> <td>189</td></tr>
+      	<tr><th>Period (.)</th> <td>190</td></tr>
+      	<tr><th>Greater than sign (>)</th> <td>190</td></tr>
+      	<tr><th>Question mark (?)</th> <td>191</td></tr>
+      	<tr><th>Forward slash (/)</th> <td>191</td></tr>
+      	<tr><th>Backtick (`)</th> <td>192</td></tr>
+      	<tr><th>Tilde (~)</th> <td>192</td></tr>
+      	<tr><th>Opening square bracket ([)</th> <td>219</td></tr>
+      	<tr><th>Opening curly bracket ({)</th> <td>219</td></tr>
+      	<tr><th>Backslash (\)</th> <td>220</td></tr>
+      	<tr><th>Pipe (|)</th> <td>220</td></tr>
+      	<tr><th>Closing square bracket (])</th> <td>221</td></tr>
+      	<tr><th>Closing curly bracket (})</th> <td>221</td></tr>
+      	<tr><th>Single quote (')</th> <td>222</td></tr>
+      	<tr><th>Double quote (")</th> <td>222</td></tr>
+    	</table>
+      	
     </div>
-<!-- div1 KeySet -->
+<!-- Appendix A: Legacy Key Events -->
+
+<!-- Appendix B: Extending Events -->
     <div>
-      <h1><a id="extending_events" href="#extending_events">Appendix A: Extending Events</a></h1>
+      <h2><a id="extending_events" href="#extending_events">Appendix B: Extending Events</a></h2>
 
       <p><em>This section is informative</em></p>
-      <h2><a id="extending_events-intro" href="#extending_events-intro">A.1 Introduction</a></h2>
+      <h3><a id="extending_events-intro" href="#extending_events-intro">B.1 Introduction</a></h3>
 
       <p class="1st">This specification defines several interfaces and many events; however, this is not an exhaustive set of events for all purposes.  To allow content authors and implementers to add desired functionality, this specification provides two mechanisms for extend this set of interfaces and events without creating conflicts: <a href="#extending_events-Custom_Events">custom events</a> and <a href="#extending_events-Impl_Extensions">implementation-specific extensions</a>.</p>
-      <h2><a id="extending_events-Custom_Events" href="#extending_events-Custom_Events">A.2 Custom Events</a></h2>
+      
+      <h3><a id="extending_events-Custom_Events" href="#extending_events-Custom_Events">B.2 Custom Events</a></h3>
 
       <p>A script author may wish to define an application in terms of functional components, with event types that are meaningful to the application architecture.  The content author can use the <a href="#events-CustomEvent"><code>CustomEvent</code></a> interface to create their own events appropriate to the level of abstraction they are using.</p>
       <div class="example" id="example-custom-events">
@@ -6442,7 +6473,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
   document.documentElement.dispatchEvent(evt);          
         </code></pre>
       </div>
-      <h2><a id="extending_events-Impl_Extensions" href="#extending_events-Impl_Extensions">A.3 Implementation-Specific Extensions</a></h2>
+      <h2><a id="extending_events-Impl_Extensions" href="#extending_events-Impl_Extensions">B.3 Implementation-Specific Extensions</a></h2>
 
       <p>While a new event is being designed and prototyped, or when an event is intended for implementation-specific functionality, it is desirable to distinguish it from standardized events.  Implementors should prefix event types specific to their implementations with a short string to distinguish it from the same event in other implementations and from standardized events.  This is similar to the <a href="http://www.w3.org/TR/CSS21/syndata.html#vendor-keywords" title="CSS 2.1: Syntax and basic data types">vendor-specific keyword prefixes</a> in CSS, though without the dashes ("-") used in CSS, since that can cause problems when used as an attribute name in Javascript.</p>
       <div class="example" id="example-impl-extensions">
@@ -6450,7 +6481,8 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
         <p>After some time, another vendor, "BarOrg", decides they also want the functionality, but implement it slightly differently, so they use their own vendor-specific prefix, <code class="value">bar</code> in their event type name, "<code>barJump</code>".  Content authors experimenting with this version of the "<code>jump</code>" event type register events with BarOrg's event type name.  Content authors who wish to write code that accounts for both browsers can either register each event type separately with specific handlers, or use the same handler and switch on the name of the event type; thus, early experiments in different codebases do not conflict, and the early adopter is able to write easily-maintained code for multiple implementations.</p>
         <p>Eventually, as the feature matures, the behavior of both browsers stabilize and might converge due to content author and user feedback or through formal standardization; as this stabilization occurs, and risk of conflicts decrease, content authors can remove the forked code, and use the "<code>jump</code>" event type name (even before it is formally standardized) using the same event handler and the more generic registration method <code>someElement.addEventListener( "jump", doJump, false )</code>.</p>
       </div>  
-      <h3><a id="extending_events-prefixes" href="#extending_events-prefixes">A.3.1 Known Implementation-Specific Prefixes</a></h3>
+      
+      <h4><a id="extending_events-prefixes" href="#extending_events-prefixes">B.3.1 Known Implementation-Specific Prefixes</a></h4>
 
       <p>At the time of writing, the following event-type name prefixes are known to exist:</p>
       <table border="1" cellpadding="2" cellspacing="0" summary="Known event-type name prefixes">
@@ -6482,8 +6514,10 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
       <br />
     </div>
 <!-- div1 Events -->
+
+
     <div>
-      <h1><a id="security-considerations-Security" href="#security-considerations-Security">Appendix B: Security Considerations</a></h1>
+      <h2><a id="security-considerations-Security" href="#security-considerations-Security">Appendix B: Security Considerations</a></h2>
 
       <p class="1st">This appendix discusses security considerations for DOM Level 3 Events implementations. The discussion is limited to security issues that arise directly from implementation of the event model, APIs and events defined in this specification. Implementations typically support other features like scripting languages, other APIs and additional events not defined in this document; these features constitute an unknown factor and are out of scope of this document. Implementers should consult the specifications of such features for their respective security considerations.</p>
       <p>Many of the event types defined in this specification are dispatched in response to user actions. This allows malicious event listeners to gain access to information users would typically consider confidential, e.g., typos they might have made when filling out a form, if they reconsider their answer to a multiple choice question shortly before submitting a form, their typing rate or primary input mechanism. In the worst case, malicious event listeners are able to capture all user interactions and submit them to a third party through means, while not defined in DOM Level 3 Events, generally available in DOM implementations, such as the XMLHttpRequest interface.</p>
@@ -6492,15 +6526,17 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
       <p>The <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-5CED94D7"><code>DOMImplementation.hasFeature()</code></a> method allows content authors to retrieve information about which event types the implementation supports, including event types not defined in this specification. Which event types a DOM Level 3 Events implementation supports can depend on configuration settings or on additional software modules available to the implementation.</p>
     </div>
 <!-- div1 Security -->
+
+    
     <div>
-      <h1><a id="changes-Changes" href="#changes-Changes">Appendix C: Changes</a></h1>
+      <h2><a id="changes-Changes" href="#changes-Changes">Appendix D: Changes</a></h2>
 
       <div>
-        <h2><a id="changes-DOMEvents2to3Changes" href="#changes-DOMEvents2to3Changes">C.1 Changes between DOM Level 2 Events and DOM Level 3 Events</a></h2>
+        <h3><a id="changes-DOMEvents2to3Changes" href="#changes-DOMEvents2to3Changes">D.1 Changes between DOM Level 2 Events and DOM Level 3 Events</a></h3>
 
         <p>Numerous clarifications to the interfaces and event types have been made. The <code>HTMLEvents</code> module is no longer defined in this document. The event types <code>focus</code> and <code>blur</code> have been added to the <a href="#events-UIEvent"><code>UIEvent</code></a> module, the event type <code>dblclick</code> has been added to the <a href="#events-MouseEvent"><code>MouseEvent</code></a> module. This new specification provides a better separation between the DOM event flow, the event types, and the DOM interfaces.</p>
         <div>
-          <h3><a id="changes-DOMEvents2to3Changes-flow" href="#changes-DOMEvents2to3Changes-flow">C.1.1 Changes to DOM Level 2 event flow</a></h3>
+          <h4><a id="changes-DOMEvents2to3Changes-flow" href="#changes-DOMEvents2to3Changes-flow">D.1.1 Changes to DOM Level 2 event flow</a></h4>
 
           <p>This new specification introduced the following new concepts in the event flow:</p>
           <ul>
@@ -6510,7 +6546,8 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
         </div>
 <!-- div3 DOMEvents2to3Changes-flow -->
         <div>
-          <h3><a id="changes-DOMEvents2to3Changes-event-types" href="#changes-DOMEvents2to3Changes-event-types">C.1.2 Changes to DOM Level 2 event types</a></h3>
+          
+        <h4><a id="changes-DOMEvents2to3Changes-event-types" href="#changes-DOMEvents2to3Changes-event-types">D.1.2 Changes to DOM Level 2 event types</a></h4>
 
           <p>Many clarifications have been made on the event types. The conformance is now explicitly defined against the event types, and not only in terms of interfaces required by the event types. Support for the features <code>"BasicEvents"</code>, <code>"TextEvents"</code>, <code>"KeyboardEvents"</code>, and <code>"MutationNameEvents"</code> have been introduced.</p>
           <p>In the most recent drafts of this specification, <code>"MutationEvents"</code> and <code>"MutationNameEvents"</code> have been deprecated. Support for namespaced events, present in early drafts of this specification, has been removed.</p>
@@ -6519,7 +6556,8 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
         </div>
 <!-- div3 DOMEvents2to3Changes-event-types -->
         <div>
-          <h3><a id="changes-DOMLevel2to3Changes" href="#changes-DOMLevel2to3Changes">C.1.3 Changes to DOM Level 2 Events interfaces</a></h3>
+          
+          <h4><a id="changes-DOMLevel2to3Changes" href="#changes-DOMLevel2to3Changes">D.1.3 Changes to DOM Level 2 Events interfaces</a></h4>
 
           <dl>
             <dt>Interface <a href="#events-Event"><code>Event</code></a></dt>
@@ -6546,7 +6584,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
         </div>
 <!-- div3 DOMLevel2to3Changes -->
         <div>
-          <h3><a id="changes-DOMLevel3Addons" href="#changes-DOMLevel3Addons">C.1.4 New Interfaces</a></h3>
+          <h3><a id="changes-DOMLevel3Addons" href="#changes-DOMLevel3Addons">D.1.4 New Interfaces</a></h3>
 
           <p>The interfaces <a href="#events-CustomEvent"><code>CustomEvent</code></a>, <a href="#events-FocusEvent"><code>FocusEvent</code></a>, <a href="#events-TextEvent"><code>TextEvent</code></a>, <a href="#events-KeyboardEvent"><code>KeyboardEvent</code></a>, <a href="#events-CompositionEvent"><code>CompositionEvent</code></a>, <a href="#events-MutationNameEvent"><code>MutationNameEvent</code></a>, and <a href="#events-WheelEvent"><code>WheelEvent</code></a> were added to the Events module.</p>
         </div>
@@ -6554,7 +6592,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
       </div>
 <!-- div2 DOMEvents2to3Changes -->
       <div>
-        <h2><a id="changes-drafts" href="#changes-drafts">C.2 Changes between different drafts of DOM Level 3 Events</a></h2>
+        <h2><a id="changes-drafts" href="#changes-drafts">D.2 Changes between different drafts of DOM Level 3 Events</a></h2>
 
         <p>The DOM Level 3 Events document was previously developed between 2000 and 2003, and and published as a W3C Note, pending further feedback and interest from implementers.  In 2006, it was picked up for revision and progress on the Recommendation Track, and is now being revised to reflect the current state of implementation and the needs of script authors.</p>
         <p>Despite its status only as a W3C Note, rather than an official Recommendation, DOM 3 Events saw some implementation, and reference by other specifications, so care is being taken to cause minimal disruption, while still adapting the specification to the current environment.</p>
@@ -6568,8 +6606,10 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
     </div>
 <!-- div1 Changes -->
 <!-- div1 ecma-binding -->
+
+
     <div>
-      <h1><a id="acknowledgements-contributors" href="#acknowledgements-contributors">Appendix D: Acknowledgements</a></h1>
+      <h2><a id="acknowledgements-contributors" href="#acknowledgements-contributors">Appendix E: Acknowledgements</a></h2>
 
       <p class="1st">Many people contributed to the DOM specifications (Level 1, 2 or 3), including participants of the DOM Working Group, the DOM Interest Group,the WebAPI Working Group, and the WebApps Working Group. We especially thank the following:</p>
       <p>Andrew Watson (Object Management Group), Andy Heninger (IBM), Angel Diaz (IBM), Arnaud Le Hors (W3C and IBM), Ashok Malhotra (IBM and Microsoft), Ben Chang (Oracle), Bill Smith (Sun), Bill Shea (Merrill Lynch), Bob Sutor (IBM), Chris Lovett (Microsoft), Chris Wilson (Microsoft), David Brownell (Sun), David Ezell (Hewlett-Packard Company), David Singer (IBM), Dimitris Dimitriadis (Improve AB and invited expert), Don Park (invited), Elena Litani (IBM), Eric Vasilik (Microsoft), Gavin Nicol (INSO), Ian Jacobs (W3C), James Clark (invited), James Davidson (Sun), Jared Sorensen (Novell), Jeroen van Rotterdam (X-Hive Corporation), Joe Kesselman (IBM), Joe Lapp (webMethods), Joe Marini (Macromedia), Johnny Stenback (Netscape/AOL), Jon Ferraiolo (Adobe), Jonathan Marsh (Microsoft), Jonathan Robie (Texcel Research and Software AG), Kim Adamson-Sharpe (SoftQuad Software Inc.), Lauren Wood (SoftQuad Software Inc., <em>former Chair</em>), Laurence Cable (Sun), Mark Davis (IBM), Mark Scardina (Oracle), Martin D&#xFC;rst (W3C), Mary Brady (NIST), Mick Goulish (Software AG), Mike Champion (Arbortext and Software AG), Miles Sabin (Cromwell Media), Patti Lutsky (Arbortext), Paul Grosso (Arbortext), Peter Sharpe (SoftQuad Software Inc.), Phil Karlton (Netscape), Philippe Le H&#xE9;garet (W3C, <em>W3C Team Contact and former Chair</em>), Ramesh Lekshmynarayanan (Merrill Lynch), Ray Whitmer (iMall, Excite@Home, and Netscape/AOL, <em>Chair</em>), Rezaur Rahman (Intel), Rich Rollman (Microsoft), Rick Gessner (Netscape), Rick Jelliffe (invited), Rob Relyea (Microsoft), Scott Isaacs (Microsoft), Sharon Adler (INSO), Steve Byrne (JavaSoft), Tim Bray (invited), Tim Yu (Oracle), Tom Pixley (Netscape/AOL), Vidur Apparao (Netscape), Vinod Anupam (Lucent), Anne van Kesteren (Opera Software), Arun Ranganathan (AOL), Bj&#xF6;rn H&#xF6;hrmann, Charles McCathieNevile (Opera Software, <em>Co-Chair</em>), Christophe Jolif (ILOG), Dean Jackson (W3C, <em>W3C Team Contact</em>), Doug Schepers (Vectoreal), Gorm Haug Eriksen (Opera Software), Ian Davis (Talis Information Limited), Ian Hickson (Google), John Robinson (AOL), Jonas Sicking (Mozilla Foundation), Luca Mascaro (HTML Writers Guild), Maciej Stachowiak (Apple Computer), Marc Hadley (Sun Microsystems), Michael Shenfield (Research In Motion), Robin Berjon, (Expway, <em>Co-Chair</em>) , Scott Hayman (Research In Motion), St&#xE9;phane Sire (IntuiLab), and T.V. Raman (Google).</p>
@@ -6582,8 +6622,9 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
       <p><strong>Test suite contributors:</strong> Fred Drake, Mary Brady (NIST), Carmelo Montanez (NIST), Rick Rivello (NIST), Robert Clary (Netscape), Neil Delima (IBM), with a special mention to Curt Arnold.</p>
       
       <p>Thanks to all those who have helped to improve this specification by sending suggestions and corrections (please, keep bugging us with your issues!), or writing informative books or Web sites:  Brad Pettit, Dylan Schiemann, David Flanagan, Steven Pemberton, Curt Arnold, Al Gilman, Misha Wolf, Sigurd Lerstad, Michael B. Allen, Alexander J. Vincent, Martin D&#xFC;rst, Ken Rehor, NAKANO Masayuki, Garrett Smith, Sergey Ilinsky, Martijn Wargers, Sean Hogan, Magnus Kristiansen, Alex Russell, Jorge Chamorro, Peter-Paul Koch, William Edney, Erik Arvidsson, Cameron McCormack, Kazuyuki Ashimura, Øistein E. Andersen, James Su, Tony Chang, Ojan Vafai, Richard Ishida, Paul Irish, Mike Taylor, Oliver Hunt, Alexey Proskuryakov, and Jan Goyvaerts (regular-expressions.info).</p>
+
       <div>
-        <h2><a id="acknowledgements-Productions" href="#acknowledgements-Productions">D.1 Production Systems</a></h2>
+        <h3><a id="acknowledgements-Productions" href="#acknowledgements-Productions">E.1 Production Systems</a></h3>
 
         <p>The current drafts of this specification are lovingly hand-crafted in HTML and SVG.</p>
         <p>Earlier versions of this specification were written in XML; the HTML, OMG IDL, Java and ECMAScript bindings were all produced automatically.  Thanks to Joe English, author of <a class="normative" href="http://www.flightlab.com/cost">cost</a>, which was used as the basis for producing DOM Level 1. Thanks also to Gavin Nicol, who wrote the scripts which run on top of cost. Arnaud Le Hors and Philippe Le H&#xE9;garet maintained the scripts.</p>
@@ -6592,13 +6633,15 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
       </div>
 <!-- div2 Productions -->
     </div>
+    
+    
     <div id="references-References">
-      <h1 class="references">
-        <a id="references-role-references" href="#references-role-references">Appendix E: References</a>
-      </h1>
+      <h2 class="references">
+        <a id="references-role-references" href="#references-role-references">Appendix F: References</a>
+      </h2>
       <p class="1st">For the latest version of any W3C specification please consult the list of <a class="normative" href="http://www.w3.org/TR">W3C Technical Reports</a> available at http://www.w3.org/TR.</p>
       <div>
-        <h2><a id="references-References-Normative" href="#references-References-Normative">E.1 Normative References</a></h2>
+        <h3><a id="references-References-Normative" href="#references-References-Normative">F.1 Normative References</a></h3>
 
         <dl>
           <dt id="ref-BCP-47"><strong>[<a id="BCP-47">BCP-47</a>]</strong> Best Current Practice 47: Tags for Identifying Languages
@@ -6653,9 +6696,10 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
 
         </dl>
       </div>
+      
 <!-- div2 References-Normative -->
       <div>
-        <h2><a id="references-References-Informative" href="#references-References-Informative">E.2 Informative References</a></h2>
+        <h3><a id="references-References-Informative" href="#references-References-Informative">F.2 Informative References</a></h3>
 
         <dl>
           <dt id="ref-ARIA">
