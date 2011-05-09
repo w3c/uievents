@@ -28,13 +28,13 @@
       <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2011-05-09">9 May 2011</time></h2>
       <dl>
         <dt>This version:</dt>
-        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.187">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.187</a></dd>
+        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.188">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.188</a></dd>
 
         <dt>Latest stable version:</dt>
         <dd><a href="http://www.w3.org/TR/DOM-Level-3-Events">http://www.w3.org/TR/DOM-Level-3-Events</a></dd>
 
         <dt>Previous version:</dt>
-        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.186">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.186</a></dd>
+        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.187">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.187</a></dd>
 
         <dt>Editor's Draft:</dt>
         <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
@@ -282,7 +282,7 @@
       </li>
       <li><a href="#legacy-key-attributes">Appendix A: Legacy key attributes: keyCode, charCode, and which</a>
         <ul class="toc">
-          <li><a href="#LegacyKeyboardEvent-interface">A.1 Custom Events</a></li>
+          <li><a href="#KeyboardEvent-supplemental-interface">A.1 Legacy KeyboardEvent supplemental interface</a></li>
           <li><a href="#legacy-key-models">A.2 Legacy key models</a>
             <ul class="toc">
               <li><a href="#determine-keydown-keyup-keyCode">A.2.1 How to determine keyCode for keydown and keyup events</a></li>
@@ -3709,7 +3709,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
 };
                 </code></pre>
               </dd>
-              <!-- readonly attribute unsigned long   <a href="#events-KeyboardEvent-keyCode">keyCode</a>; -->
+              <!-- readonly attribute unsigned long   <a href="#events-KeyboardEvent-supplemental-keyCode">keyCode</a>; -->
 
               <dt>
                 <strong>Definition group <em><a id="events-ID-KeyboardEvent-KeyLocationCode">KeyLocationCode</a></em></strong>
@@ -3760,10 +3760,10 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
                   <dt><code class="attribute-name"><a id="events-KeyboardEvent-key">key</a></code> of type <code>DOMString</code>, readonly</dt>
                   <dd><p><code>key</code> holds the key value of the key pressed.  If the value is has a printed representation, it must match the value of the <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a> attribute; if the value is a control key which has no printed representation, it must be one of the key values defined in the <a href="#keys-keyvalues">key values set</a>, as determined by the <a href="#key-algorithm">algorithm for determining the key value</a>. Implementations that are unable to identify a key must use the key value <code class="value">'Unidentified'</code>.</p>
                     <p class="note" id="note-key-keyCode"><strong>Note:</strong> the <code>key</code> attribute is not related to the legacy <code>charCode</code> attribute and does not have the same set of values.</p>
-                    <!-- <p class="note" id="note-key-keyCode"><strong>Note:</strong> the <code>key</code> attribute is not related to the legacy <a href="#events-KeyboardEvent-keyCode"><code>KeyboardEvent.keyCode</code></a> attribute and does not have the same set of values.</p> -->
+                    <!-- <p class="note" id="note-key-keyCode"><strong>Note:</strong> the <code>key</code> attribute is not related to the legacy <a href="#events-KeyboardEvent-supplemental-keyCode"><code>KeyboardEvent.keyCode</code></a> attribute and does not have the same set of values.</p> -->
                    </dd>
 
-                  <!-- <dt><code class="attribute-name"><a id="events-KeyboardEvent-keyCode">keyCode</a></code> of type <code>unsigned long</code>, readonly</dt>
+                  <!-- <dt><code class="attribute-name"><a id="events-KeyboardEvent-supplemental-keyCode">keyCode</a></code> of type <code>unsigned long</code>, readonly</dt>
                   <dd><p><code>keyCode</code> holds a system- and implementation-dependent numerical code signifying the unmodified identifier associated with the key pressed.  Unlike the <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> or <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a> attributes, the set of possible values are not defined in this specification; typically, these value of the <code class="attr-name">keyCode</code> should represent the decimal codepoint in ASCII [<a href="#ref-rfc20">RFC20</a>][<a href="#ref-US-ASCII">US-ASCII</a>] or Windows 1252 [<a href="#ref-WIN1252">WIN1252</a>], but may be drawn from a different appropriate character set.  Implementations that are unable to identify a key must use the key value <code class="value">0</code>.</p></dd> -->
 
                   <dt><code class="attribute-name"><a id="events-KeyboardEvent-location">location</a></code> of type <code>unsigned long</code>, readonly</dt>
@@ -5309,7 +5309,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
         
         <a href="#events-KeyboardEvent-char">char</a> attribute
         <a href="#events-KeyboardEvent-key">key</a> attribute
-        <a href="#events-KeyboardEvent-keycode">keycode</a> attribute
+        <a href="#events-KeyboardEvent-supplemental-keyCode">keycode</a> attribute
         
         
         
@@ -6322,35 +6322,36 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
         
       <p>Therefore, this specification does not normatively define the <code class="attr-name">charCode</code>, <code class="attr-name">keyCode</code>, or <code class="attr-name">which</code> attributes on the <a href="#events-KeyboardEvent">KeyboardEvent</a> interface, though they may be present in <a class="def" href="#glossary-user-agent">user agents</a> for compatibility with legacy content.  Authors should use the <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a> and <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attributes instead of the <code class="attr-name">charCode</code> and <code class="attr-name">keyCode</code> attributes, respectively.</p>
       
-      <p>However, for the purpose of documenting the current state of these attributes and their relation to equivalent key values, this section describes an informative supplemental IDL for <a href="#events-KeyboardEvent">KeyboardEvent</a> containing these attributes, and informative definitions for determining their attribute values.</p>
+      <p>However, for the purpose of documenting the current state of these attributes and their relation to equivalent key values, this section describes an informative supplemental Web IDL for <a href="#events-KeyboardEvent">KeyboardEvent</a> containing these attributes, and informative definitions for determining their attribute values.</p>
 
-      <p>For implementations which do support these attributes, it is suggested to use the supplementary <a href="#events-LegacyKeyboardEvent">LegacyKeyboardEvent</a> IDL.</p>
+      <p>For implementations which do support these attributes, it is suggested to use this supplemental <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a> Web IDL.</p>
 
-      <h3 id="LegacyKeyboardEvent-interface">A.1 LegacyKeyboardEvent interface</h3>
+      <h3 id="KeyboardEvent-supplemental-interface">A.1 Legacy KeyboardEvent supplemental interface</h3>
       <dl>
         <dt>
-          <strong>Interface <em><a id="events-LegacyKeyboardEvent" name="events-LegacyKeyboardEvent">LegacyKeyboardEvent</a></em></strong> (introduced in <strong class="since">DOM Level 3</strong>)
+          <strong>Interface <em><a id="events-KeyboardEvent-supplemental" name="events-KeyboardEvent-supplemental">KeyboardEvent (supplemental)</a></em></strong> (introduced in <strong class="since">DOM Level 3</strong>)
         </dt>
         <dd>
           <p>
-            The <code>LegacyKeyboardEvent</code> interface is a non-normative extension of the <a href="#events-KeyboardEvent">KeyboardEvent</a> interface, which adds the <a href="#events-KeyboardEvent-charCode">charCode</a>, <a href="#events-KeyboardEvent-keyCode">keyCode</a>, and <a href="#events-KeyboardEvent-which">which</a> attributes.
+            The supplemental <code>KeyboardEvent</code> interface is a non-normative extension of the <a href="#events-KeyboardEvent">KeyboardEvent</a> interface, which adds the <a href="#events-KeyboardEvent-supplemental-charCode">charCode</a>, <a href="#events-KeyboardEvent-supplemental-keyCode">keyCode</a>, and <a href="#events-KeyboardEvent-supplemental-which">which</a> attributes.
           </p>
           <p>
-            To create an instance of the <code>LegacyKeyboardEvent</code> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("KeyboardEvent")</code></a> method call, though this does not take the values of the <a href="#events-KeyboardEvent-charCode">charCode</a>, <a href="#events-KeyboardEvent-keyCode">keyCode</a>, or <a href="#events-KeyboardEvent-which">which</a> attributes as parameters.
+            To create an instance of the <code>KeyboardEvent (supplemental)</code> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("KeyboardEvent")</code></a> method call, though this does not take the values of the <a href="#events-KeyboardEvent-supplemental-charCode">charCode</a>, <a href="#events-KeyboardEvent-supplemental-keyCode">keyCode</a>, or <a href="#events-KeyboardEvent-supplemental-which">which</a> attributes as parameters.
           </p>
           <dl>
             <dt>
               <br/>
-              <strong>IDL Definition</strong>
+              <strong>Web IDL Definition</strong>
             </dt>
             <dd>
-              <pre class="idl" id="idl-interface-LegacyKeyboardEvent-supplementary">
+              <pre class="idl" id="idl-interface-KeyboardEvent-supplemental">
           <code>
           // Legacy, introduced in DOM Level 3:
-          interface <a href="#events-LegacyKeyboardEvent">LegacyKeyboardEvent</a> : <a href="#events-KeyboardEvent">KeyboardEvent</a> {
-            readonly attribute unsigned long   <a href="#events-KeyboardEvent-charCode">charCode</a>;
-            readonly attribute unsigned long   <a href="#events-KeyboardEvent-keyCode">keyCode</a>;
-            readonly attribute unsigned long   <a href="#events-KeyboardEvent-which">which</a>;
+          [Supplemental]
+          interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a> {
+            readonly attribute unsigned long   <a href="#events-KeyboardEvent-supplemental-charCode">charCode</a>;
+            readonly attribute unsigned long   <a href="#events-KeyboardEvent-supplemental-keyCode">keyCode</a>;
+            readonly attribute unsigned long   <a href="#events-KeyboardEvent-supplemental-which">which</a>;
           };
                           </code>
           </pre>
@@ -6361,7 +6362,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
             <dd>
               <dl>
                 <dt>
-                  <code class="attribute-name"><a id="events-KeyboardEvent-charCode" name="events-KeyboardEvent-charCode">charCode</a></code> of type <code>unsigned long</code>, readonly
+                  <code class="attribute-name"><a id="events-KeyboardEvent-supplemental-charCode" name="events-KeyboardEvent-supplemental-charCode">charCode</a></code> of type <code>unsigned long</code>, readonly
                 </dt>
                 <dd>
                   <p>
@@ -6370,7 +6371,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
                 </dd>
 
                 <dt>
-                  <code class="attribute-name"><a id="events-KeyboardEvent-keyCode">keyCode</a></code> of type <code>unsigned long</code>, readonly
+                  <code class="attribute-name"><a id="events-KeyboardEvent-supplemental-keyCode">keyCode</a></code> of type <code>unsigned long</code>, readonly
                 </dt>
                 <dd>
                   <p>
@@ -6380,11 +6381,11 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
                 </dd>
 
                 <dt>
-                  <code class="attribute-name"><a id="events-KeyboardEvent-which" name="events-KeyboardEvent-which">which</a></code> of type <code>unsigned long</code>, readonly
+                  <code class="attribute-name"><a id="events-KeyboardEvent-supplemental-which" name="events-KeyboardEvent-supplemental-which">which</a></code> of type <code>unsigned long</code>, readonly
                 </dt>
                 <dd>
                   <p>
-                    <code>which</code> holds a system- and implementation-dependent numerical code signifying the unmodified identifier associated with the key pressed.  In most cases, the value is identical to <code class="attribute-name"><a href="#events-KeyboardEvent-keyCode">keyCode</a></code>.
+                    <code>which</code> holds a system- and implementation-dependent numerical code signifying the unmodified identifier associated with the key pressed.  In most cases, the value is identical to <code class="attribute-name"><a href="#events-KeyboardEvent-supplemental-keyCode">keyCode</a></code>.
                   </p>
                 </dd>
               </dl>
