@@ -25,16 +25,16 @@
       </p>
       <h1 id="Overview-title">Document Object Model (DOM) Level 3 Events Specification</h1>
 <!-- @@@ -->
-      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2011-05-09">9 May 2011</time></h2>
+      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2011-05-11">11 May 2011</time></h2>
       <dl>
         <dt>This version:</dt>
-        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.188">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.188</a></dd>
+        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.189">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.189</a></dd>
 
         <dt>Latest stable version:</dt>
         <dd><a href="http://www.w3.org/TR/DOM-Level-3-Events">http://www.w3.org/TR/DOM-Level-3-Events</a></dd>
 
         <dt>Previous version:</dt>
-        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.187">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.187</a></dd>
+        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.188">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.188</a></dd>
 
         <dt>Editor's Draft:</dt>
         <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
@@ -1987,8 +1987,12 @@ interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event<
               <p class="warning" id="DOMActivate-deprecated"><strong>Warning!</strong> The <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type in favor of the related <a class="def" href="#glossary-event-type">event type</a> <a class="eventtype" href="#event-type-click"><code>click</code></a>.  Other specifications may define and maintain their own <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> for backwards compatibility.</p>
               <p class="note" id="DOMActivate-click"><strong>Note:</strong>   While <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> and <a class="eventtype" href="#event-type-click"><code>click</code></a> are not completely equivalent, implemented behavior for the <a class="eventtype" href="#event-type-click"><code>click</code></a> <a class="def" href="#glossary-event-type">event type</a> has developed to encompass the most critical accessibility aspects for which the <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a> was designed, and is more widely implemented.  Content authors are encouraged to use the <a class="eventtype" href="#event-type-click"><code>click</code></a> <a class="def" href="#glossary-event-type">event type</a> rather than the related <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> or <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> <a class="def" href="#glossary-event-type">event type</a> to ensure maximum accessibility.</p>
               
-              
-              The activate event occurs when an element is activated, for instance, thru a mouse click or a <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>. A numerical argument is provided to give an indication of the type of activation that occurs: 1 for a simple activation (e.g., a simple click or Enter), 2 for hyperactivation (for instance a double click or Shift Enter).
+<!--    
+From DOM2 Events, but not implemented:
+[[
+  The activate event occurs when an element is activated, for instance, thru a mouse click or a <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>. A numerical argument is provided to give an indication of the type of activation that occurs: 1 for a simple activation (e.g., a simple click or Enter), 2 for hyperactivation (for instance a double click or Shift Enter). 
+]]          
+-->
               
             </dd>
           </dl>
@@ -3891,7 +3895,12 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
         </dl>
         <p class="warning" id="keycode-charcode"><strong>Warning!</strong>  Legacy keyboard event implementations may include three additional attributes, <code>keyCode</code>, <code>charCode</code>, and <code>which</code>.  The <code>keyCode</code> attribute indicates a numeric value associated with a particular key on a computer keyboard, while the <code>charCode</code> attribute indicates the <acronym title="American Standard Code for Information Interchange">ASCII</acronym> value of the character associated with that key (which may or may not be the same as the <code>keyCode</code> value) and is applicable only to keys that produce a <a class="def" href="#glossary-character-value">character value</a>.  In practice, <code>keyCode</code> and <code>charCode</code> are inconsistent across platforms and even the same implementation on different operating systems or using different localizations.  DOM Level 3 Events  does not define values for either <code>keyCode</code> or <code>charCode</code>, or behavior for <code>charCode</code>; content authors should use <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> or <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a> instead, in conforming DOM Level 3 Events implementations.  <em>For more information, see the informative appendix on <a href="#legacy-key-attributes">Legacy key attributes: keyCode, charCode, and which</a>.</em></p>
         <p class="note" id="note-virtual-keyboards"><strong>Note:</strong>  For compatibility with existing content, virtual keyboards, such as software keyboards on screen-based input devices, should produce the normal range of keyboard events, even though they do not possess physical keys.</p>
+        
+        
+        <p class="note" id="key-IME-suppress"><strong>Note:</strong>  In some implementations or system configurations, some key events, or their values, might be suppressed by the <a class="def" href="#glossary-ime">IME</a> in use.</p>
+        
         <p>The keyboard event types are listed below.</p>
+        
         <h4 class="needswork">
           <a id="events-keyboard-event-order" href="#events-keyboard-event-order">5.2.6.1 Keyboard Event Order</a>
         </h4>
@@ -3941,6 +3950,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
         <p class="warning" id="_28"><strong>Warning!</strong> Because of hardware limitations, on some keyboard devices, the order between the text event and keyboard events may differ.  For example, some mobile devices might dispatch the <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event after the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event.</p>
         
         <p>The <a class="def" href="#glossary-event-target">target</a> of a key event is the currently focused element which is processing the keyboard activity; this is often an HTML <code>input</code> element or a textual element which is editable, but may be an element defined by the <a class="def" href="#glossary-host-language">host language</a> to accept keyboard input for non-text purposes, such as the activation of a hotkey or trigger of some other behavior; if no suitable element is in focus, the event target will be the root element.</p>
+        
         <p class="note" id="key-focus"><strong>Note:</strong>  The <a class="def" href="#glossary-event-target">event target</a> may change between different key events; for example, a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event on the <a href="#key-Tab"><code class="value keyname">'Tab'</code></a> key will likely have a different <a class="def" href="#glossary-event-target">event target</a> than the  <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event on the same keystroke.</p>
 
 <!-- keydown -->
