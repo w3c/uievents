@@ -28,13 +28,13 @@
       <h2 id="Overview-W3C-doctype">W3C Editor's Draft <time datetime="2011-05-11">11 May 2011</time></h2>
       <dl>
         <dt>This version:</dt>
-        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.190">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.190</a></dd>
+        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.191">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.191</a></dd>
 
         <dt>Latest stable version:</dt>
         <dd><a href="http://www.w3.org/TR/DOM-Level-3-Events">http://www.w3.org/TR/DOM-Level-3-Events</a></dd>
 
         <dt>Previous version:</dt>
-        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.189">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.189</a></dd>
+        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.190">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.190</a></dd>
 
         <dt>Editor's Draft:</dt>
         <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
@@ -401,7 +401,7 @@
 
             <dt id="conf-authors">Content authors and content</dt>
             <dd>
-              <p>A content author creates conforming DOM Level 3 Events content if that content uses the <a class="def" href="#glossary-event-type">event types</a> and <a href="#event-flow">Event dispatch and DOM event flow</a> model, consistent in a manner as defined in this specification.  A content author should not use features of this specification marked as <a class="def" href="#glossary-deprecated">deprecated</a><!--  or <a class="def" href="#glossary-obsolete">obsolete</a> -->, but should rely instead upon replacement mechanisms defined in this specification and elsewhere.  Conforming content must use the semantics of the interfaces and <a class="def" href="#glossary-event-type">event types</a> as described in this specification, and must follow best practices as described in accessibility and internationalization guideline specifications. <i class="issue" id="issue-guidelines"><strong>Issue:</strong> define specific guideline specifications.</i></p>
+              <p>A content author creates conforming DOM Level 3 Events content if that content uses the <a class="def" href="#glossary-event-type">event types</a> and <a href="#event-flow">Event dispatch and DOM event flow</a> model, consistent in a manner as defined in this specification.  A content author should not use features of this specification marked as <a class="def" href="#glossary-deprecated">deprecated</a><!--  or <a class="def" href="#glossary-obsolete">obsolete</a> -->, but should rely instead upon replacement mechanisms defined in this specification and elsewhere.  Conforming content must use the semantics of the interfaces and <a class="def" href="#glossary-event-type">event types</a> as described in this specification, and must follow best practices as described in accessibility and internationalization guideline specifications. <!-- <i class="issue" id="issue-guidelines"><strong>Issue:</strong> define specific guideline specifications.</i> --></p>
             </dd>
 
             <dt id="conf-specs">Specifications and host languages</dt>
@@ -682,9 +682,9 @@
 
         <p>Event objects may have one or more <a class="def" href="#glossary-default-action">default actions</a> associated with them.  These are actions the implementation must perform in combination with the dispatch of the event object.  An example is the [<cite><a class="informative" href="#references-HTML5">HTML5</a></cite>] form element. When the user submits the form (e.g., by pressing on a submit button), the HTML event <code class="eventtype">submit</code> will be dispatched to the element and the <a class="def" href="#glossary-default-action">default action</a> for this <a class="def" href="#glossary-event-type">event type</a> will be generally to send a request to a Web server with the parameters from the form.</p>
         <p><a class="def" href="#glossary-default-action">Default actions</a> should be performed after the event dispatch has been completed, but in exceptional cases also immediately before the event is dispatched.</p>
-        <span class="issue"><strong>Issue:</strong> insert example here: &lt;input type="checkbox"&gt;'s .checked handling comes to mind.
+        <!-- <span class="issue"><strong>Issue:</strong> insert example here: &lt;input type="checkbox"&gt;'s .checked handling comes to mind.
         .checked is changed just before 'click' event is dispatched, and if
-        default action is prevented, .checked is set to its original value.</span>
+        default action is prevented, .checked is set to its original value.</span> -->
         <p id="events-dt-cancelable-event">Some event objects are <em>cancelable</em>, meaning the <a class="def" href="#glossary-default-action">default action</a> can be prevented from occuring, or, if the <a class="def" href="#glossary-default-action">default action</a> is carried out before the dispatch, its effect may be reversed. Whether an event object is cancelable must be indicated by the <a href="#events-event-type-canCancel"><code>Event.cancelable</code></a> attribute. Event listeners can cancel <a class="def" href="#glossary-default-action">default actions</a> of cancelable event objects by invoking the <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> method, and determine whether an event has been canceled through the <a href="#events-event-type-defaultPrevented"><code>Event.defaultPrevented</code></a> attribute while the object is being dispatched, or from the return value of the <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method for event objects dispatched by the <a class="def" href="#glossary-DOM-application">DOM application</a> itself.</p>
         <p>This specification does not offer features to programatically query if an event object has any <a class="def" href="#glossary-default-action">default action</a> associated with it, or to associate new <a class="def" href="#glossary-default-action">default actions</a> with an event object. Other specifications may define what default actions, if any, are associated with certain event objects. Further, implementations may associate <a class="def" href="#glossary-default-action">default actions</a> with events as necessary and appropriate for that implementation. As an example, one implementation might scroll a document view by a certain amount as <a class="def" href="#glossary-default-action">default action</a> of a mouse wheel event, while another implementation might instead zoom the document as its <a class="def" href="#glossary-default-action">default action</a> for a mouse wheel event.</p>
       </div>
@@ -1387,10 +1387,10 @@ interface <a href="#events-DocumentEvent">DocumentEvent</a> {
 
           <p>In most cases, the events dispatched by the DOM Events implementation are also created by the implementation.  However, it is possible to simulate events, such as mouse events, by creating the <a href="#events-Event"><code>Event</code></a> objects and dispatch them using the DOM Events implementation.</p>
           <p>Creating <a href="#events-Event"><code>Event</code></a> objects that are known to the DOM Events implementation is done using <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a>. The content author must then initialize the <a href="#events-Event"><code>Event</code></a> object by directly setting the <a href="#events-Event"><code>Event</code></a>'s property values, by using the generic <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method, or by using any existing event initialization method for that interface, before invoking <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a>. The <a href="#events-Event"><code>Event</code></a> objects created must be known by the DOM Events implementation; otherwise an event exception must be thrown.</p>
-          <p class="example" id="example-create-event">
+          <!-- <p class="example" id="example-create-event">
             <strong>Example:</strong>
             <i class="note" id="_6"><strong>To Do:</strong> Create examples of creating and dispatching an event.</i>
-          </p>
+          </p> -->
         </div>
 <!-- div3 Events-document -->
       </div>
@@ -2301,12 +2301,12 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
                   <p>Used to identify a secondary <a href="#events-EventTarget"><code>EventTarget</code></a> related to a Focus event, depending on the type of event.</p>
                   <p>For security reasons with nested browsing contexts, when tabbing into or out of a nested context, the relevant EventTarget should be <code>null</code>.</p>
                   
-                  <p class="issue" id="issue-relatedTarget-null-document"><strong>Issue:</strong> Alternate approach:  
+                  <!-- <p class="issue" id="issue-relatedTarget-null-document"><strong>Issue:</strong> Alternate approach:  
                     <br/>
                     For security reasons with nested browsing contexts, when tabbing into or out of a nested context, the relevant EventTarget should be the element containing browsing context (e.g., the <code>iframe</code>), even if that element cannot normally receive focus.
                     <br/>
                     See [<a href="http://lists.w3.org/Archives/Public/www-dom/2010JanMar/0010.html">Comments from Olli Pettay</a>]
-                    </p>
+                    </p> -->
                 </dd>
 
               </dl>
@@ -2375,7 +2375,10 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
         <li><a class="eventtype" href="#event-type-focus"><code>focus</code></a> (after second target element receives focus)</li>
         <li><a class="eventtype" href="#event-type-DOMFocusIn"><code>DOMFocusIn</code></a> (if supported)</li>
       </ol>
-      <p class="issue"><strong>Issue:</strong> Behavior of focus events when interacting with focus()/blur() methods needs to be defined.  See [<a href="http://www.w3.org/2008/webapps/track/issues/102">ISSUE-102</a>]</p>
+      
+      <p class="note" id="note-focus-blur"><strong>Note:</strong>  This specification does not define the behavior of focus events when interacting with methods such as <code>focus()</code> or <code>blur()</code>; see the relevant specifications where those methods are defined for such behavior.</p>      
+      <!-- <p class="issue"><strong>Issue:</strong> Behavior of focus events when interacting with focus()/blur() methods needs to be defined.  See [<a href="http://www.w3.org/2008/webapps/track/issues/102">ISSUE-102</a>]</p> -->
+      
       <h4 class="needswork">
         <a id="events-focusevent-doc-focus" href="#events-focusevent-doc-focus">5.2.2.2 Document Focus and Focus Context</a>
       </h4>
@@ -2833,6 +2836,9 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
         </li>
       </ol>
       <p>Note that the lag time, degree, distance, and number of <a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a> events allowed between the <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> and <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> events while still firing a <a class="eventtype" href="#event-type-click"><code>click</code></a> or <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> event must be implementation-, device-, and platform-specific.  Each implementation should determine the appropriate hysteresis tolerance, but in general should fire <a class="eventtype" href="#event-type-click"><code>click</code></a> and <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> events when the event target of the associated <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> and <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> events is the same element with no <a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a> or <a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a> events intervening, and should not fire <a class="eventtype" href="#event-type-click"><code>click</code></a> and <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> events when the event target of the associated <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> and <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> events is different.</p>
+      
+      <p>If the <a class="def" href="#glossary-proximal-event-target">proximal event target</a> (e.g. the target element) is removed from the DOM during the mouse events sequence, the remaining events of the sequence must not be fired on that element.</p>  
+      <p class="example" id="element-remove-mouse"><strong>Example:</strong> if the target element is removed from the DOM as the result of a <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> event, no events for that element will be dispatched for <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a>, <a class="eventtype" href="#event-type-click"><code>click</code></a>, or <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a>, nor any default activation events; however, the <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> event will still be dispatched on the element that is exposed to the mouse after the removal of the initial target element. Similarly,  if the target element is removed from the DOM during the dispatch of a <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> event, the <a class="eventtype" href="#event-type-click"><code>click</code></a> and subsequent events will not be dispatched.</p>
 
 <!-- click -->
       <div class="event-definition assert must">
@@ -4998,12 +5004,12 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
 
         <p>A key value is a <code>DOMString</code> that can be used to indicate any given key on a keyboard, regardless of position or state, by the value it produces.  These key values may be used as return values for keyboard events generated by the implementation, or as input values by the content author to specify desired input (such as for keyboard shortcuts).  This specification defines a set of common key values (called the <a href="#key-values">Key Values Set</a>), and rules for production of new key values.</p>
         
-        <p class="issue" id="issue-keyvalues-textinput"><strong>Issue:</strong> Add mention of textinput and it's relationship to key values, per <a href="http://lists.w3.org/Archives/Public/www-dom/2010JanMar/0052.html">Ishida</a></p>
+        <!-- <p class="issue" id="issue-keyvalues-textinput"><strong>Issue:</strong> Add mention of textinput and it's relationship to key values, per <a href="http://lists.w3.org/Archives/Public/www-dom/2010JanMar/0052.html">Ishida</a></p> -->
         <!-- It is therefore highly recommended to rely on <a href="#events-TextEvent">Text event types</a> when dealing with character input. -->
         
         <p>Key values can be used to detect the value of a key which has been pressed, using the <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> or <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a> attributes.  Content authors can retrieve the <a class="def" href="#glossary-character-value">character value</a> of upper- or lower-case letters, number, symbols, or other character-producing keys, and also the <a class="def" href="#glossary-key-value">key value</a> of control keys, modifier keys, function keys, or other keys that do not generate characters; these values can be used for monitoring particular input strings, for detecting and acting on modifier key input in combination with other inputs (such as a mouse), for creating virtual keyboards, or for any number of other purposes.</p>
         <p>Key values can also be used by content authors in string comparisons, as values for markup attributes (such as the HTML <code>accesskey</code>) in conforming <a class="def" href="#glossary-host-language">host languages</a>, or for other related purposes.   A conforming <a class="def" href="#glossary-host-language">host language</a> should allow content authors to use either of the two equivalent string values for a key value: the <a class="def" href="#glossary-character-value">character value</a>, or the <a class="def" href="#glossary-key-value">key value</a>.</p>
-        <p class="issue"><strong>Issue:</strong> mention that content author should use case-insensitive matching to capture both "t" and "T" for hotkeys, etc.?</p>
+        <!-- <p class="issue"><strong>Issue:</strong> mention that content author should use case-insensitive matching to capture both "t" and "T" for hotkeys, etc.?</p> -->
         <p class="note" id="_53"><strong>Note:</strong> While implementations are recommended to use the most relevant value for a key independently of the platform or keyboard layout mappings, content authors should not make assumption on the ability of keyboard devices to generate them.  When using keyboard events and key values for shortcut-key combinations, content authors should <q>consider using numbers and function keys (F4, F5, and so on) instead of letters</q> ([<cite><a class="informative" href="#references-DWW95">DWW95</a></cite>]) given that most keyboard layouts will provide keys for those.</p>
 <!-- , and where the key used should default to the most appropriate key for the function, language, operating system, device, and other environmental factors (such as <code>ctrl+c</code> for copy operations) -->
         <p>It is important to note that a key value does not indicate a specific key on the physical keyboard, nor does it reflect the character printed on the key; a key value indicates the current value of the event with consideration to the current state of all active keys and key input modes (including shift modes and <a class="def" href="#glossary-dead-key">dead keys</a>), as reflected in the operating-system mapping of the keyboard and reported to the implementation.  In other words, the key value for the key marked <code>'O'</code> on a <a class="def" href="#glossary-qwerty">QWERTY</a> keyboard has the key value <code>'o'</code> in an unshifted state, <code>'O'</code> in a shifted state, <code>'&#xF6;'</code> in an unshifted state during a dead-key operation to add an umlaut diacritic, and <code>'&#xD6;'</code> in a shifted state during a dead-key operation to add an umlaut diacritic.  Because a user can map their keyboard to an arbitrary custom configuration, the content author is encouraged not to assume that a relationship exists between the shifted and unshifted states of a key and the majuscule form (uppercase or capital letters) and minuscule form (lowercase or small letters) of a character representation, but is encouraged instead to use the value of the <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> or <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a> attributes.  The keyboard depicted in <a href="#figure-keyboard">Figure 3</a> illustrates one possible set of <a class="def" href="#glossary-key-mapping">key mappings</a> on one possible keyboard layout; many others exist, both standard and idiosyncratic.</p>
@@ -5068,7 +5074,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
 
           <p>Keyboard input uses modifier keys to change the normal behavior of a key.  Like other keys, modifier keys generate <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events, as shown in the example below. Some modifiers are activated while the key is being pressed down or maintained pressed such as <code class="value">'Alt'</code>, <code class="value">'Control'</code>, <code class="value">'Shift'</code>, <code class="value">'AltGraph'</code>, or <code class="value">'Meta'</code>. Others modifiers are activated depending on their state such as <code class="value">'CapsLock'</code>, <code class="value">'NumLock'</code>, or <code class="value">'Scroll'</code>. Change in the state happens when the modifier key is being pressed down. The <a href="#events-KeyboardEvent"><code>KeyboardEvent</code></a> interface provides convenient attributes for some common modifiers keys: <a href="#events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, <a href="#events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a>. Some operating systems simulate the <code class="value">'AltGraph'</code> modifier key with the combination of the <code>"Alt</code> and <code class="value">'Control'</code> modifier keys. Implementations are encouraged to use the <code class="value">'AltGraph'</code> modifier key.</p>
           <p>The following example describes a possible sequence of events associated with the generation of the Unicode character Q (Latin Capital Letter Q, <a class="def" href="#glossary-unicode-code-point">Unicode code point</a> <code class="value">U+0051</code>) on a PC/AT US keyboard using a US mapping:</p>
-          <p class="issue" id="issue-keyset-Modifiers-example"><strong>Issue:</strong> Reformat example as table with "Event",		"Returned value", and "Keys involved", per <a href="http://lists.w3.org/Archives/Public/www-dom/2010JanMar/0052.html">Ishida</a>?</p>
+          <!-- <p class="issue" id="issue-keyset-Modifiers-example"><strong>Issue:</strong> Reformat example as table with "Event",   "Returned value", and "Keys involved", per <a href="http://lists.w3.org/Archives/Public/www-dom/2010JanMar/0052.html">Ishida</a>?</p> -->
           <div class="example" id="example-keyvalue_Q">
             <p><strong>Example:</strong></p>
             <ol>
@@ -5119,7 +5125,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
                 <br />
                 <i class="note" id="note-key-intercept"><strong>Note:</strong> the key value will not be <code class="value">'e'</code> (Latin Small Letter E key) under normal circumstances, because the value delivered to the user agent will already be modified by the dead key operation.</i>
                 <br />
-                <i class="issue" id="issue-key-intercept"><strong>Issue:</strong> is this correct for the case of composition events?</i>
+                <!-- <i class="issue" id="issue-key-intercept"><strong>Issue:</strong> is this correct for the case of composition events?</i> -->
               </li>
               <li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>: <code class="value">'ê'</code></li>
               <li><a class="eventtype" href="#event-type-textinput"><code>textinput</code></a>: <code class="value">'ê'</code> (<code>"inputMethod"</code>: <code class="value">'DOM_INPUT_METHOD_IME'</code>)</li>
@@ -5230,7 +5236,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Shift'</code></li>
             </ol>
           </div>
-          <p class="issue"><strong>Issue:</strong> does this make sense? shouldn't the shift modifier attribute be canceled? needs testing...</p>
+          <!-- <p class="issue"><strong>Issue:</strong> does this make sense? shouldn't the shift modifier attribute be canceled? needs testing...</p> -->
 <!-- <p>If the key is a modifier key, the keystroke must not be taken into account for the modifiers states. The following example describes a possible sequence of keys to generate the Unicode character Q (Latin Capital Letter Q) on a PC/AT US keyboard using a US mapping:</p>
           <ol>
             <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Shift'</code>, <code class="attribute-name"><a href="#events-MouseEvent-shiftKey">shiftKey</a></code></li>
@@ -5298,7 +5304,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
               </ol>
     				</li>
     			</ol>
-          <p class="note" id="change-algo-examples"><strong>To Do:</strong> Update the algorithm example to match the change in the algorithm.</p>
+          <!-- <p class="note" id="change-algo-examples"><strong>To Do:</strong> Update the algorithm example to match the change in the algorithm.</p> -->
             
           <div class="example" id="example-keyvalues">
             <p><strong>Examples:</strong></p>
