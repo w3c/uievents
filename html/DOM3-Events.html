@@ -139,6 +139,7 @@
               <li><a href="#events-activation-event-order">3.5.1 Activation Event Order</a></li>
             </ul>
           </li>
+          <li><a href="#event-exceptions">3.6 Event exceptions</a></li>
         </ul>
       </li>
       <li><a href="#event-interfaces">4. Basic Event Interfaces</a>
@@ -309,48 +310,30 @@
           </li>
         </ul>
       </li>
-	  <li><a href="#webidl-definitions">Appendix C: Web IDL Interface Definitions</a>
+	  
+      <li><a href="#security-considerations-Security">Appendix C: Security Considerations</a></li>
+      <li><a href="#changes-Changes">Appendix D: Changes</a>
         <ul class="toc">
-          <li><a href="#webidl-events-Event">Interface Event</a></li>
-          <li><a href="#webidl-events-CustomEvent">Interface CustomEvent</a></li>
-          <li><a href="#webidl-events-EventTarget">Interface EventTarget</a></li>
-          <li><a href="#webidl-events-EventListener">Interface EventListener</a></li>
-          <li><a href="#webidl-events-EventException">Exception EventException</a></li>
-          <li><a href="#webidl-events-DocumentEvent">Interface DocumentEvent</a></li>
-          <li><a href="#webidl-events-UIEvent">Interface UIEvent</a></li>
-          <li><a href="#webidl-events-FocusEvent">Interface FocusEvent</a></li>
-          <li><a href="#webidl-events-MouseEvent">Interface MouseEvent</a></li>
-          <li><a href="#webidl-events-WheelEvent">Interface WheelEvent</a></li>
-          <li><a href="#webidl-events-TextEvent">Interface TextEvent</a></li>
-          <li><a href="#webidl-events-KeyboardEvent">Interface KeyboardEvent</a></li>
-          <li><a href="#webidl-events-CompositionEvent">Interface CompositionEvent</a></li>
-          <li><a href="#webidl-events-MutationEvent">Interface MutationEvent</a></li>
-          <li><a href="#webidl-events-MutationNameEvent">Interface MutationNameEvent</a></li>
-        </ul>
-      </li>
-      <li><a href="#security-considerations-Security">Appendix D: Security Considerations</a></li>
-      <li><a href="#changes-Changes">Appendix E: Changes</a>
-        <ul class="toc">
-          <li><a href="#changes-DOMEvents2to3Changes">E.1 Changes between DOM Level 2 Events and DOM Level 3 Events</a>
+          <li><a href="#changes-DOMEvents2to3Changes">D.1 Changes between DOM Level 2 Events and DOM Level 3 Events</a>
             <ul class="toc">
-              <li><a href="#changes-DOMEvents2to3Changes-flow">E.1.1 Changes to DOM Level 2 event flow</a></li>
-              <li><a href="#changes-DOMEvents2to3Changes-event-types">E.1.2 Changes to DOM Level 2 event types</a></li>
-              <li><a href="#changes-DOMLevel2to3Changes">E.1.3 Changes to DOM Level 2 Events interfaces</a></li>
-              <li><a href="#changes-DOMLevel3Addons">E.1.4 New Interfaces</a></li>
+              <li><a href="#changes-DOMEvents2to3Changes-flow">D.1.1 Changes to DOM Level 2 event flow</a></li>
+              <li><a href="#changes-DOMEvents2to3Changes-event-types">D.1.2 Changes to DOM Level 2 event types</a></li>
+              <li><a href="#changes-DOMLevel2to3Changes">D.1.3 Changes to DOM Level 2 Events interfaces</a></li>
+              <li><a href="#changes-DOMLevel3Addons">D.1.4 New Interfaces</a></li>
             </ul>
           </li>
-          <li><a href="#changes-drafts">E.2 Changes between different drafts of DOM Level 3 Events</a></li>
+          <li><a href="#changes-drafts">D.2 Changes between different drafts of DOM Level 3 Events</a></li>
         </ul>
       </li>
-      <li><a href="#acknowledgements-contributors">Appendix F: Acknowledgements</a>
+      <li><a href="#acknowledgements-contributors">Appendix E: Acknowledgements</a>
         <ul class="toc">
-          <li><a href="#acknowledgements-Productions">F.1 Production Systems</a></li>
+          <li><a href="#acknowledgements-Productions">E.1 Production Systems</a></li>
         </ul>
       </li>
-      <li><a href="#references-role-references" class="references">Appendix G: References</a>
+      <li><a href="#references-role-references" class="references">Appendix F: References</a>
         <ul class="toc">
-          <li><a href="#references-References-Normative">G.1 Normative References</a></li>
-          <li><a href="#references-References-Informative">G.2 Informative References</a></li>
+          <li><a href="#references-References-Normative">F.1 Normative References</a></li>
+          <li><a href="#references-References-Informative">F.2 Informative References</a></li>
         </ul>
       </li>
     </ul>
@@ -395,8 +378,7 @@
               <p>In addition to meeting all other conformance criteria, a conforming browser may implement features of this specification marked as <a class="def" href="#glossary-deprecated">deprecated</a>, for backwards compatibility with existing content, but such implementation is discouraged.</p>
               <p>A conforming browser may also support features not found in this specification, but which use the <a href="#event-flow">Event dispatch and DOM event flow</a> mechanism, interfaces, events, or other features defined in DOM Level 3 Events, and may implement additional interfaces and <a class="def" href="#glossary-event-type">event types</a> appropriate to that implementation.  Such features may be later standardized in future specifications.</p>
               <p>A browser which does not conform to all required portions of this specification must not claim conformance to DOM Level 3 Events.  Such an implementation which does conform to portions of this specification may claim conformance to those specific portions.</p>
-<!-- //if we move to Web IDL, use something like the HTML5 wording:
-              <p>A conforming browser must also be conforming implementations of the IDL fragments in this specification, as described in the Web IDL specification. <a href="references.html#refsWEBIDL">[WEBIDL]</a></p> -->
+              <p>A conforming browser must also be a <i>conforming implementation</i> of the IDL fragments in this specification, as described in the Web IDL specification. <a href="#references-WebIDL">[WEBIDL]</a></p>
             </dd>
 
             <dt id="conf-author-tools">Authoring tools</dt>
@@ -790,8 +772,38 @@
        	</p>
        -->
       </div>
-<!-- div2 Events-flow-activation -->
-<!-- div2 Event-interfaces -->
+      <!-- div2 Events-flow-activation -->
+      <!-- div START event exceptions -->
+      <div>
+        <h3><a id="event-exceptions" href="#event-exceptions">3.6 Event exceptions</a></h3>
+        <p>Event operations may throw a <code>DOMException</code></a> as specified in their method descriptions.</p>
+        <p class="note" id="note-eventexcpetion-removed"><strong>Note:</strong> the exception <em>EventException</em> introduced in <strong class="version">DOM Level 2</strong> is
+            removed in this specification as part of this specification's normative support of <a href="#references-WebIDL">Web IDL</a>. <em>EventException</em> formerly defined
+            an exception code <code>UNSPECIFIED_EVENT_TYPE_ERR</code> which is replaced in this specification by the use of a <code>DOMException</code> of type 
+            <code>InvalidStateError</code>.
+        </p>
+        <p>The following <code>DOMException</code> types are used in this specification.</p>
+        <table class="exceptiontable" summary="Layout table: the first cell contains the name of the DOMException type, the second contains a short description">
+          <tr>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td><code><dfn>InvalidStateError</dfn></code></td>
+            <td>Thrown when the <a href="#events-event-type-type"><code>Event.type</code></a> was not specified by initializing the event before <code>dispatchEvent</code> was called. Also thrown when the <a href="#events-Event"><code>Event</code></a> object provided to <code>dispatchEvent</code> is already being dispatched.</td>
+          </tr>
+            <tr>
+            <td><code><dfn>NotSupportedError</dfn></code></td>
+            <td>Thrown when <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a> is passed an <a href="#events-Event"><code>Event</code></a> interface that the implementation does not support. Also thrown when the <code>dispatchEvent</code> is provided with an <a href="#events-Event"><code>Event</code></a> object that has not been created using <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a>.</td>
+          </tr>
+          <tr>
+            <td><code><dfn>InvalidCharacterError</dfn></code></td>
+            <td>Thrown when <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> is provided an <code>Event</code> whose <a href="#events-event-type-type"><code>Event.type</code></a> is not a <code>DOMString</code> as conforming to the restrictions in <a href="#events-event-type-type"><code>Event.type</code></a>.</td>
+          </tr>
+        </table>
+      </div>
+    <!-- div END event exceptions -->
+    <!-- div2 Event-interfaces -->
       <div>
         <h2><a id="event-interfaces" href="#event-interfaces">4. Basic Event Interfaces</a></h2>
 
@@ -817,34 +829,34 @@
             <dl>
               <dt>
                 <br />
-                <strong>IDL Definition</strong>
+                <strong>WebIDL Definition</strong>
               </dt>
               <dd>
                 <pre class="idl" id="idl-interface-Event"><code>
-// Introduced in DOM Level 2:
-interface <a href="#events-Event">Event</a> {
+<span class="comment">// Introduced in DOM Level 2:</span>
+interface <a href="#events-Event">Event</a>
+{
+  <span class="comment">// PhaseType</span>
+  const unsigned short              <a href="#events-CAPTURING_PHASE">CAPTURING_PHASE</a>      = 1;
+  const unsigned short              <a href="#events-AT_TARGET">AT_TARGET</a>            = 2;
+  const unsigned short              <a href="#events-BUBBLING_PHASE">BUBBLING_PHASE</a>       = 3;
 
-  // PhaseType
-  const unsigned short               <a href="#events-CAPTURING_PHASE">CAPTURING_PHASE</a>      = 1;
-  const unsigned short               <a href="#events-AT_TARGET">AT_TARGET</a>            = 2;
-  const unsigned short               <a href="#events-BUBBLING_PHASE">BUBBLING_PHASE</a>       = 3;
-
-  readonly attribute DOMString       <a href="#events-event-type-type">type</a>;
-  readonly attribute <a href="#events-EventTarget">EventTarget</a>     <a href="#events-event-type-target">target</a>;
-  readonly attribute <a href="#events-EventTarget">EventTarget</a>     <a href="#events-event-type-currentTarget">currentTarget</a>;
-  readonly attribute unsigned short  <a href="#events-event-type-eventPhase">eventPhase</a>;
-  readonly attribute boolean         <a href="#events-event-type-canBubble">bubbles</a>;
-  readonly attribute boolean         <a href="#events-event-type-canCancel">cancelable</a>;
-  readonly attribute DOMTimeStamp    <a href="#events-event-type-timeStamp">timeStamp</a>;
-  void                               <a href="#events-event-type-stopPropagation">stopPropagation</a>();
-  void                               <a href="#events-event-type-preventDefault">preventDefault</a>();
-  void                               <a href="#events-event-type-initEvent">initEvent</a>(in DOMString eventTypeArg, 
-                                               in boolean canBubbleArg, 
-                                               in boolean cancelableArg);
-  // Introduced in DOM Level 3:
-  void                               <a href="#events-event-type-stopImmediatePropagation">stopImmediatePropagation</a>();
-  readonly attribute boolean         <a href="#events-event-type-defaultPrevented">defaultPrevented</a>;
-  readonly attribute boolean         <a href="#events-event-type-isTrusted">isTrusted</a>;
+  readonly attribute DOMString      <a href="#events-event-type-type">type</a>;
+  readonly attribute <a href="#events-EventTarget">EventTarget</a>    <a href="#events-event-type-target">target</a>;
+  readonly attribute <a href="#events-EventTarget">EventTarget</a>    <a href="#events-event-type-currentTarget">currentTarget</a>;
+  readonly attribute unsigned short <a href="#events-event-type-eventPhase">eventPhase</a>;
+  readonly attribute boolean        <a href="#events-event-type-canBubble">bubbles</a>;
+  readonly attribute boolean        <a href="#events-event-type-canCancel">cancelable</a>;
+  readonly attribute DOMTimeStamp   <a href="#events-event-type-timeStamp">timeStamp</a>;
+  void                              <a href="#events-event-type-stopPropagation">stopPropagation</a>();
+  void                              <a href="#events-event-type-preventDefault">preventDefault</a>();
+  void                              <a href="#events-event-type-initEvent">initEvent</a>(DOMString eventTypeArg, 
+                                              boolean canBubbleArg, 
+                                              boolean cancelableArg);
+  <span class="comment">// Introduced in DOM Level 3:</span>
+  void                              <a href="#events-event-type-stopImmediatePropagation">stopImmediatePropagation</a>();
+  readonly attribute boolean        <a href="#events-event-type-defaultPrevented">defaultPrevented</a>;
+  readonly attribute boolean        <a href="#events-event-type-isTrusted">isTrusted</a>;
 };
                 </code></pre>
               </dd>
@@ -1001,18 +1013,19 @@ interface <a href="#events-Event">Event</a> {
             <dl>
               <dt>
                 <br />
-                <strong>IDL Definition</strong>
+                <strong>WebIDL Definition</strong>
               </dt>
               <dd>
                 
                 <pre class="idl" id="idl-interface-CustomEvent"><code>
-// Introduced in DOM Level 3:
-interface <a href="#events-CustomEvent">CustomEvent</a> : <a href="#events-Event">Event</a> {
-  readonly attribute any             <a href="#events-CustomEvent-detail">detail</a>;
-  void                               <a href="#events-event-type-initCustomEvent">initCustomEvent</a>(in DOMString typeArg, 
-                                                     in boolean   canBubbleArg, 
-                                                     in boolean   cancelableArg, 
-                                                     in any       detailArg);
+<span class="comment">// Introduced in DOM Level 3:</span>
+interface <a href="#events-CustomEvent">CustomEvent</a> : <a href="#events-Event">Event</a>
+{
+  readonly attribute any <a href="#events-CustomEvent-detail">detail</a>;
+  void                   <a href="#events-event-type-initCustomEvent">initCustomEvent</a>(DOMString typeArg, 
+                                         boolean canBubbleArg, 
+                                         boolean cancelableArg, 
+                                         any detailArg);
 };
                 </code></pre>
               </dd>
@@ -1084,23 +1097,21 @@ interface <a href="#events-CustomEvent">CustomEvent</a> : <a href="#events-Event
             <dl>
               <dt>
                 <br />
-                <strong>IDL Definition</strong>
+                <strong>WebIDL Definition</strong>
               </dt>
               <dd>
                 <pre class="idl" id="idl-interface-"><code>
-// Introduced in DOM Level 2:
-interface <a href="#events-EventTarget">EventTarget</a> {
-  // Modified in DOM Level 3:
-  void               <a href="#events-EventTarget-addEventListener">addEventListener</a>(in DOMString type, 
-                                      in <a href="#events-EventListener">EventListener</a> listener, 
-                                      in boolean useCapture);
-  void               <a href="#events-EventTarget-removeEventListener">removeEventListener</a>(in DOMString type, 
-                                         in <a href="#events-EventListener">EventListener</a> listener, 
-                                         in boolean useCapture);
-  boolean            <a href="#events-EventTarget-dispatchEvent">dispatchEvent</a>(in <a href="#events-Event">Event</a> evt)
-                                   raises(<a href="#events-EventException">EventException</a>, 
-                                   DOMException);
-                                   
+<span class="comment">// Introduced in DOM Level 2:</span>
+interface <a href="#events-EventTarget">EventTarget</a>
+{
+  <span class="comment">// Modified in DOM Level 3:</span>
+  void    <a href="#events-EventTarget-addEventListener">addEventListener</a>(DOMString type, 
+                           <a href="#events-EventListener">EventListener</a>? listener, 
+                           <em>optional</em> boolean useCapture);
+  void    <a href="#events-EventTarget-removeEventListener">removeEventListener</a>(DOMString type, 
+                              <a href="#events-EventListener">EventListener</a>? listener, 
+                              <em>optional</em> boolean useCapture);
+  boolean <a href="#events-EventTarget-dispatchEvent">dispatchEvent</a>(<a href="#events-Event">Event</a> event);        
 };
                 </code></pre>
               </dd>
@@ -1131,7 +1142,7 @@ interface <a href="#events-EventTarget">EventTarget</a> {
                             <dt><a id="addEventListener_useCapture"><code class="parameter-name">useCapture</code></a> of type <code>boolean</code></dt>
                             <dd>
                               <p>If true, <code>useCapture</code> indicates that the user wishes to add the event listener for the <a class="def" href="#glossary-capture-phase">capture</a> and <a class="def" href="#glossary-target-phase">target</a> phases only, i.e., this event listener will not be triggered during the <a class="def" href="#glossary-bubbling-phase">bubbling</a> phase.  If <code>false</code>, the event listener must only be triggered during the <a class="def" href="#glossary-target-phase">target</a> and <a class="def" href="#glossary-bubbling-phase">bubbling</a> phases.</p>
-                              <p>This parameter may be optional, on an implementation-specific basis.  If not provided, the <a href="#events-EventTarget-addEventListener">EventTarget.addEventListener</a> method must behave as if <a href="#addEventListener_useCapture"><code class="parameter-name">useCapture</code></a> were specified to be <code>false</code>.  See the non-normative <a href="#webidl-events-EventTarget">Interface EventTarget</a> WebIDL definition for a formal description.</p>
+                              <p>This parameter may be optional, on an implementation-specific basis.  If not provided, the <a href="#events-EventTarget-addEventListener">EventTarget.addEventListener</a> method must behave as if <a href="#addEventListener_useCapture"><code class="parameter-name">useCapture</code></a> were specified to be <code>false</code>.</p>
                               <p class="note" id="addEventListener_useCapture-java"><strong>Note:</strong>  For programming languages which do not allow optional method parameters, such as Java, the implementation may provide two <a href="#events-EventTarget-addEventListener">EventTarget.addEventListener</a> methods, one with 2 parameters, and one with 3 parameters.</p>
                               <p class="note" id="addEventListener_useCapture-author"><strong>Authoring Note:</strong>  The <a href="#events-EventTarget-addEventListener"><code class="parameter-name">useCapture</code></a> parameter was required in DOM2 Events [<a href="#references-DOM2Events">DOM2 Events</a>], and omitting this parameter may cause an error in older implementations.</p>
                             </dd>
@@ -1164,7 +1175,7 @@ interface <a href="#events-EventTarget">EventTarget</a> {
                             <dt><code id="removeEventListener_useCapture" class="parameter-name">useCapture</code> of type <code>boolean</code></dt>
                             <dd>
                               <p>Specifies whether the <a href="#events-EventListener"><code>EventListener</code></a> being removed was registered for the capture phase or not. If a listener was registered twice, once for the capture and target phases and once for the target and bubbling phases, each must be removed separately. Removal of an event listener registered for the capture and target phases does not affect the same event listener registered for the target and bubbling phases, and vice versa.</p>
-                              <p>This parameter may be optional, on an implementation-specific basis.  If not provided, the <a href="#events-EventTarget-removeEventListener">EventTarget.removeEventListener</a> method must behave as if <a href="#removeEventListener_useCapture"><code class="parameter-name">useCapture</code></a> were specified to be <code>false</code>, including the removal of event listeners which had an <a href="#events-EventTarget-addEventListener">EventTarget.addEventListener</a> <a href="#events-EventTarget-addEventListener"><code class="parameter-name">useCapture</code></a> value of <code>false</code>.  See the non-normative <a href="#webidl-events-EventTarget">Interface EventTarget</a> WebIDL definition for a formal description</p>
+                              <p>This parameter may be optional, on an implementation-specific basis.  If not provided, the <a href="#events-EventTarget-removeEventListener">EventTarget.removeEventListener</a> method must behave as if <a href="#removeEventListener_useCapture"><code class="parameter-name">useCapture</code></a> were specified to be <code>false</code>, including the removal of event listeners which had an <a href="#events-EventTarget-addEventListener">EventTarget.addEventListener</a> <a href="#events-EventTarget-addEventListener"><code class="parameter-name">useCapture</code></a> value of <code>false</code>.</p>
                               <p class="note" id="removeEventListener_useCapture-java"><strong>Note:</strong>  For programming languages which do not allow optional method parameters, such as Java, the implementation may provide two <a href="#events-EventTarget-removeEventListener">EventTarget.removeEventListener</a> methods, one with 2 parameters, and one with 3 parameters.</p>
                               <p class="note" id="removeEventListener_useCapture-author"><strong>Authoring Note:</strong>  The <a href="#removeEventListener_useCapture"><code class="parameter-name">useCapture</code></a> parameter was required in DOM2 Events [<a href="#references-DOM2Events">DOM2 Events</a>], and omitting this parameter may cause an error in older implementations.</p>
                             </dd>
@@ -1188,7 +1199,7 @@ interface <a href="#events-EventTarget">EventTarget</a> {
                         <strong>Parameters</strong>
                         <div class="paramtable">
                           <dl>
-                            <dt><code class="parameter-name">evt</code> of type <a href="#events-Event"><code>Event</code></a></dt>
+                            <dt><code class="parameter-name">event</code> of type <a href="#events-Event"><code>Event</code></a></dt>
                             <dd><p>The event to be dispatched.</p></dd>
                           </dl>
                         </div>
@@ -1196,9 +1207,17 @@ interface <a href="#events-EventTarget">EventTarget</a> {
                       <!-- parameters -->
                       <div class="return"><strong>Return Value</strong><div class="returntable"><table summary="Layout table: the first cell contains the type of the return value, the second contains a short description" border="0"><tr><td><p><code>boolean</code></p></td><td><p>Indicates whether any of the listeners which handled the event called <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a>. If <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> was called the returned value must be <code>false</code>, else it must be <code>true</code>.</p></td></tr></table></div></div>
                       <!-- return -->
-                      <div class="exceptions"><strong>Exceptions</strong><div class="exceptiontable"><table summary="Layout table: the first cell contains the type of the exception, the second contains the specific error code and a short description" border="0"><tr><td><p><a href="#events-EventException"><code>EventException</code></a></p></td><td><p>UNSPECIFIED_EVENT_TYPE_ERR: Raised if the <a href="#events-event-type-type"><code>Event.type</code></a> was not specified by initializing the event before <code>dispatchEvent</code> was called. </p><p>DISPATCH_REQUEST_ERR: Raised if the <a href="#events-Event"><code>Event</code></a> object is already being dispatched.</p></td></tr><tr><td><p><code>DOMException</code></p></td><td><p>NOT_SUPPORTED_ERR: Raised if the <a href="#events-Event"><code>Event</code></a> object has not been created using <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a>.</p><p>INVALID_CHARACTER_ERR: Raised if <a href="#events-event-type-type"><code>Event.type</code></a> is not a <code>DOMString</code> as conforming to the restrictions in <a href="#events-event-type-type"><code>Event.type</code></a>.</p></td></tr></table></div></div>
-                      <!-- exceptions --></div>
-<!-- method -->
+                      <div class="exceptions">
+                        <strong>Exceptions</strong>
+                        <ul class="exception">
+                          <li>If the <a href="#events-event-type-type"><code>Event.type</code></a> was not specified by initializing the event before <code>dispatchEvent</code> was called OR the <a href="#events-Event"><code>Event</code></a> object is already being dispatched, a <code>DOMException</code> of type <em><code>InvalidStateError</code></em> is thrown.</li>
+                          <li>If the <a href="#events-Event"><code>Event</code></a> object has not been created using <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a>, a <code>DOMException</code> of type <em><code>NotSupportedError</code></em> is thrown.</li>
+                          <li>If <a href="#events-event-type-type"><code>Event.type</code></a> is not a <code>DOMString</code> as conforming to the restrictions in <a href="#events-event-type-type"><code>Event.type</code></a>, a <code>DOMException</code> of type <em><code>InvalidCharacterError</code></em> is thrown.</li>
+                        </ul>
+                      </div>
+                      <!-- exceptions -->
+                    </div>
+                    <!-- method -->
                   </dd>
 
                 </dl>
@@ -1224,13 +1243,14 @@ interface <a href="#events-EventTarget">EventTarget</a> {
             <dl>
               <dt>
                 <br />
-                <strong>IDL Definition</strong>
+                <strong>WebIDL Definition</strong>
               </dt>
               <dd>
                 <pre class="idl" id="idl-interface-EventListener"><code>
-// Introduced in DOM Level 2:
-interface <a href="#events-EventListener">EventListener</a> {
-  void               <a href="#events-EventListener-handleEvent">handleEvent</a>(in <a href="#events-Event">Event</a> evt);
+<span class="comment">// Introduced in DOM Level 2:</span>
+callback interface <a href="#events-EventListener">EventListener</a>
+{
+  void <a href="#events-EventListener-handleEvent">handleEvent</a>(<a href="#events-Event">Event</a> event);
 };
                 </code></pre>
               </dd>
@@ -1250,7 +1270,7 @@ interface <a href="#events-EventListener">EventListener</a> {
                         <strong>Parameters</strong>
                         <div class="paramtable">
                           <dl>
-                            <dt><code class="parameter-name">evt</code> of type <a href="#events-Event"><code>Event</code></a></dt>
+                            <dt><code class="parameter-name">event</code> of type <a href="#events-Event"><code>Event</code></a></dt>
                             <dd><p>The <a href="#events-Event"><code>Event</code></a> contains contextual information about the <a class="def" href="#glossary-event">event</a>.</p></dd>
                           </dl>
                         </div>
@@ -1261,51 +1281,6 @@ interface <a href="#events-EventListener">EventListener</a> {
                       <div><strong>No Exceptions</strong></div>
                     </div>
 <!-- method -->
-                  </dd>
-                </dl>
-              </dd>
-            </dl>
-          </dd>
-
-          <dt><strong>Exception <em><a id="events-EventException">EventException</a></em></strong> introduced in <strong class="version">DOM Level 2</strong></dt>
-          <dd>
-            <p>Event operations may throw an <a href="#events-EventException"><code>EventException</code></a> as specified in their method descriptions.</p>
-            <dl>
-              <dt>
-                <br />
-                <strong>IDL Definition</strong>
-              </dt>
-              <dd>
-                <pre class="idl" id="idl-interface-EventException"><code>
-// Introduced in DOM Level 2:
-exception <a href="#events-EventException">EventException</a> {
-  // EventExceptionCode
-  const unsigned short      <a href="#events-UNSPECIFIED_EVENT_TYPE_ERR">UNSPECIFIED_EVENT_TYPE_ERR</a>     = 0;
-  // Introduced in DOM Level 3:
-  const unsigned short      <a href="#events-DISPATCH_REQUEST_ERR">DISPATCH_REQUEST_ERR</a>           = 1;
-
-  // Introduced in DOM Level 2:
-  unsigned short            code;
-};
-                </code></pre>
-              </dd>
-
-              <dt>
-                <strong>Definition group <em><a id="events-EventException-EventExceptionCode">EventExceptionCode</a></em></strong>
-              </dt>
-              <dd>
-                <p>An integer indicating the type of error generated.</p>
-                <dl>
-                  <dt><strong>Defined Constants</strong></dt>
-                  <dd>
-                    <dl>
-                      <dt><a id="events-DISPATCH_REQUEST_ERR"><code class="constant-name">DISPATCH_REQUEST_ERR</code></a>, introduced in <strong class="version">DOM Level 3</strong>.</dt>
-                      <dd>If the <a href="#events-Event"><code>Event</code></a> object is already dispatched in the tree.</dd>
-
-                      <dt><a id="events-UNSPECIFIED_EVENT_TYPE_ERR"><code class="constant-name">UNSPECIFIED_EVENT_TYPE_ERR</code></a></dt>
-                      <dd>If the <a href="#events-event-type-type"><code>Event.type</code></a> was not specified by initializing the event before the method was called.</dd>
-
-                    </dl>
                   </dd>
                 </dl>
               </dd>
@@ -1324,16 +1299,21 @@ exception <a href="#events-EventException">EventException</a> {
               <dl>
                 <dt>
                   <br />
-                  <strong>IDL Definition</strong>
+                  <strong>WebIDL Definition</strong>
+                    <!-- NOTE: This is preserved as a [NoInterfaceObject] definition 
+                        (rather than a partial interface Document { ..} because SVG also 
+                        needs to implement this interface on their SVGSVGElement interface -->
                 </dt>
                 <dd>
                   <pre class="idl" id="idl-interface-DocumentEvent"><code>
-// Introduced in DOM Level 2:
-interface <a href="#events-DocumentEvent">DocumentEvent</a> {
-  // Modified in DOM Level 3:
-  <a href="#events-Event">Event</a>                     <a href="#events-DocumentEvent-createEvent">createEvent</a>(in DOMString eventInterface)
-                                        raises(DOMException);
+<span class="comment">// Introduced in DOM Level 2:</span>
+[NoInterfaceObject]
+interface <a href="#events-DocumentEvent">DocumentEvent</a>
+{
+  <span class="comment">// Modified in DOM Level 3:</span>
+  <a href="#events-Event">Event</a> <a href="#events-DocumentEvent-createEvent">createEvent</a>(DOMString eventInterface);
 };
+Document implements <a href="#events-DocumentEvent">DocumentEvent</a>;
                   </code></pre>
                 </dd>
 
@@ -1371,9 +1351,9 @@ interface <a href="#events-DocumentEvent">DocumentEvent</a> {
                       <!-- return -->
                       <div class="exceptions">
                         <strong>Exceptions</strong>
-                        <div class="exceptiontable">
-                          <table summary="Layout table: the first cell contains the type of the exception, the second contains the specific error code and a short description" border="0"><tr><td><p><code>DOMException</code></p></td><td><p>NOT_SUPPORTED_ERR: Raised if the implementation does not support the <a href="#events-Event"><code>Event</code></a> interface requested.</p></td></tr></table>
-                        </div>
+                        <ul class="exception">
+                          <li>If the implementation does not support the <a href="#events-Event"><code>Event</code></a> interface requested, a <code>DOMException</code> of type <em><code>NotSupportedError</code></em> is thrown.</li>
+                        </ul>
                       </div>
                       <!-- exceptions -->
                     </div>
@@ -1884,19 +1864,20 @@ interface <a href="#events-DocumentEvent">DocumentEvent</a> {
             <dl>
               <dt>
                 <br />
-                <strong>IDL Definition</strong>
+                <strong>WebIDL Definition</strong>
               </dt>
               <dd>
                 <pre class="idl" id="idl-interface-UIEvent"><code>
-// Introduced in DOM Level 2:
-interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event</a> {
-  readonly attribute views::AbstractView <a href="#events-UIEvent-view">view</a>;
-  readonly attribute long            <a href="#events-UIEvent-detail">detail</a>;
-  void                               <a href="#events-event-type-initUIEvent">initUIEvent</a>(in DOMString typeArg, 
-                                                 in boolean canBubbleArg, 
-                                                 in boolean cancelableArg, 
-                                                 in views::AbstractView viewArg, 
-                                                 in long detailArg);
+<span class="comment">// Introduced in DOM Level 2:</span>
+interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event</a>
+{
+  readonly attribute AbstractView <a href="#events-UIEvent-view">view</a>;
+  readonly attribute long         <a href="#events-UIEvent-detail">detail</a>;
+  void                            <a href="#events-event-type-initUIEvent">initUIEvent</a>(DOMString typeArg, 
+                                              boolean canBubbleArg, 
+                                              boolean cancelableArg, 
+                                              AbstractView viewArg, 
+                                              long detailArg);
 };
                 </code></pre>
               </dd>
@@ -1967,7 +1948,7 @@ interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event<
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMActivate</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>DOMActivate</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-UIEvent"><code>UIEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -2007,7 +1988,7 @@ From DOM2 Events, but not implemented:
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>load</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>load</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Async</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>No</td></tr>
@@ -2038,7 +2019,7 @@ From DOM2 Events, but not implemented:
             <dt id="event-type-DOMContentLoaded"><dfn><a class="eventtype" href="#event-type-DOMContentLoaded"><code>DOMContentLoaded</code></a></dfn></dt>
             <dd>
             <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMContentLoaded</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>DOMContentLoaded</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>No</td></tr>
@@ -2070,7 +2051,7 @@ From DOM2 Events, but not implemented:
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>unload</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>unload</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>No</td></tr>
@@ -2101,7 +2082,7 @@ From DOM2 Events, but not implemented:
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>abort</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>abort</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>No</td></tr>
@@ -2132,7 +2113,7 @@ From DOM2 Events, but not implemented:
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>error</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>error</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Async</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>No</td></tr>
@@ -2163,7 +2144,7 @@ From DOM2 Events, but not implemented:
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>select</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>select</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -2201,7 +2182,7 @@ From DOM2 Events, but not implemented:
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>resize</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>resize</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-UIEvent"><code>UIEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>No</td></tr>
@@ -2236,7 +2217,7 @@ From DOM2 Events, but not implemented:
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>scroll</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>scroll</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-UIEvent"><code>UIEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Async</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>No / <a href="#scroll-document">Yes</a></td></tr>
@@ -2279,19 +2260,20 @@ From DOM2 Events, but not implemented:
           <dl>
             <dt>
               <br />
-              <strong>IDL Definition</strong>
+              <strong>WebIDL Definition</strong>
             </dt>
             <dd>
               <pre class="idl" id="idl-interface-FocusEvent"><code>
-// Introduced in DOM Level 3:
-interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent">UIEvent</a> {
-  readonly attribute <a href="#events-EventTarget">EventTarget</a>   <a href="#events-FocusEvent-relatedTarget">relatedTarget</a>;
-  void                             <a href="#events-event-type-initFocusEvent">initFocusEvent</a>(in DOMString typeArg, 
-                                                  in boolean canBubbleArg, 
-                                                  in boolean cancelableArg, 
-                                                  in views::AbstractView viewArg, 
-                                                  in long detailArg, 
-                                                  in <a href="#events-EventTarget">EventTarget</a> relatedTargetArg);
+<span class="comment">// Introduced in DOM Level 3:</span>
+interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent">UIEvent</a>
+{
+  readonly attribute <a href="#events-EventTarget">EventTarget</a> <a href="#events-FocusEvent-relatedTarget">relatedTarget</a>;
+  void                           <a href="#events-event-type-initFocusEvent">initFocusEvent</a>(DOMString typeArg, 
+                                                boolean canBubbleArg, 
+                                                boolean cancelableArg, 
+                                                AbstractView viewArg, 
+                                                long detailArg, 
+                                                <a href="#events-EventTarget">EventTarget</a> relatedTargetArg);
 };
               </code></pre>
             </dd>
@@ -2396,7 +2378,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
             </dfn></dt>
           <dd>
             <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-              <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>blur</code></strong></td></tr>
+              <tr class="assert must"><th>Type</th><td><strong><code>blur</code></strong></td></tr>
               <tr class="assert must"><th>Interface</th> <td><a href="#events-FocusEvent"><code>FocusEvent</code></a></td></tr>
               <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
               <tr class="assert must"><th>Bubbles</th> <td>No</td></tr>
@@ -2427,7 +2409,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
             </dfn></dt>
           <dd>
             <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-              <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMFocusIn</code></strong></td></tr>
+              <tr class="assert must"><th>Type</th><td><strong><code>DOMFocusIn</code></strong></td></tr>
               <tr class="assert must"><th>Interface</th> <td><a href="#events-FocusEvent"><code>FocusEvent</code></a></td></tr>
               <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
               <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -2459,7 +2441,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
             </dfn></dt>
           <dd>
             <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-              <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMFocusOut</code></strong></td></tr>
+              <tr class="assert must"><th>Type</th><td><strong><code>DOMFocusOut</code></strong></td></tr>
               <tr class="assert must"><th>Interface</th> <td><a href="#events-FocusEvent"><code>FocusEvent</code></a></td></tr>
               <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
               <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -2491,7 +2473,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
             </dfn></dt>
           <dd>
             <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-              <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>focus</code></strong></td></tr>
+              <tr class="assert must"><th>Type</th><td><strong><code>focus</code></strong></td></tr>
               <tr class="assert must"><th>Interface</th> <td><a href="#events-FocusEvent"><code>FocusEvent</code></a></td></tr>
               <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
               <tr class="assert must"><th>Bubbles</th> <td>No</td></tr>
@@ -2522,7 +2504,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
             </dfn></dt>
           <dd>
             <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-              <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>focusin</code></strong></td></tr>
+              <tr class="assert must"><th>Type</th><td><strong><code>focusin</code></strong></td></tr>
               <tr class="assert must"><th>Interface</th> <td><a href="#events-FocusEvent"><code>FocusEvent</code></a></td></tr>
               <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
               <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -2554,7 +2536,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
             </dfn></dt>
           <dd>
             <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-              <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>focusout</code></strong></td></tr>
+              <tr class="assert must"><th>Type</th><td><strong><code>focusout</code></strong></td></tr>
               <tr class="assert must"><th>Interface</th> <td><a href="#events-FocusEvent"><code>FocusEvent</code></a></td></tr>
               <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
               <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -2596,40 +2578,40 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
           <dl>
             <dt>
               <br />
-              <strong>IDL Definition</strong>
+              <strong>WebIDL Definition</strong>
             </dt>
             <dd>
               <pre class="idl" id="idl-interface-MouseEvent"><code>
-// Modified in DOM Level 3:
+<span class="comment">// Modified in DOM Level 3:</span>
 interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent">UIEvent</a> {
-  readonly attribute long            <a href="#events-MouseEvent-screenX">screenX</a>;
-  readonly attribute long            <a href="#events-MouseEvent-screenY">screenY</a>;
-  readonly attribute long            <a href="#events-MouseEvent-clientX">clientX</a>;
-  readonly attribute long            <a href="#events-MouseEvent-clientY">clientY</a>;
-  readonly attribute boolean         <a href="#events-MouseEvent-ctrlKey">ctrlKey</a>;
-  readonly attribute boolean         <a href="#events-MouseEvent-shiftKey">shiftKey</a>;
-  readonly attribute boolean         <a href="#events-MouseEvent-altKey">altKey</a>;
-  readonly attribute boolean         <a href="#events-MouseEvent-metaKey">metaKey</a>;
-  readonly attribute unsigned short  <a href="#events-MouseEvent-button">button</a>;  
-  readonly attribute unsigned short  <a href="#events-MouseEvent-buttons">buttons</a>;
-  readonly attribute                 <a href="#events-EventTarget">EventTarget</a>     <a href="#events-MouseEvent-relatedTarget">relatedTarget</a>;
-  void                               <a href="#events-event-type-initMouseEvent">initMouseEvent</a>(in DOMString typeArg, 
-                                                in boolean canBubbleArg, 
-                                                in boolean cancelableArg, 
-                                                in views::AbstractView viewArg, 
-                                                in long detailArg, 
-                                                in long screenXArg, 
-                                                in long screenYArg, 
-                                                in long clientXArg, 
-                                                in long clientYArg, 
-                                                in boolean ctrlKeyArg, 
-                                                in boolean altKeyArg, 
-                                                in boolean shiftKeyArg, 
-                                                in boolean metaKeyArg, 
-                                                in unsigned short buttonArg,										
-                                                in <a href="#events-EventTarget">EventTarget</a> relatedTargetArg);
-  // Introduced in DOM Level 3:
-  boolean                            <a href="#events-MouseEvent-getModifierState">getModifierState</a>(in DOMString keyArg);
+  readonly attribute long           <a href="#events-MouseEvent-screenX">screenX</a>;
+  readonly attribute long           <a href="#events-MouseEvent-screenY">screenY</a>;
+  readonly attribute long           <a href="#events-MouseEvent-clientX">clientX</a>;
+  readonly attribute long           <a href="#events-MouseEvent-clientY">clientY</a>;
+  readonly attribute boolean        <a href="#events-MouseEvent-ctrlKey">ctrlKey</a>;
+  readonly attribute boolean        <a href="#events-MouseEvent-shiftKey">shiftKey</a>;
+  readonly attribute boolean        <a href="#events-MouseEvent-altKey">altKey</a>;
+  readonly attribute boolean        <a href="#events-MouseEvent-metaKey">metaKey</a>;
+  readonly attribute unsigned short <a href="#events-MouseEvent-button">button</a>;  
+  readonly attribute unsigned short <a href="#events-MouseEvent-buttons">buttons</a>;
+  readonly attribute <a href="#events-EventTarget">EventTarget</a>    <a href="#events-MouseEvent-relatedTarget">relatedTarget</a>;
+  void                              <a href="#events-event-type-initMouseEvent">initMouseEvent</a>(DOMString typeArg, 
+                                                   boolean canBubbleArg, 
+                                                   boolean cancelableArg, 
+                                                   AbstractView viewArg, 
+                                                   long detailArg, 
+                                                   long screenXArg, 
+                                                   long screenYArg, 
+                                                   long clientXArg, 
+                                                   long clientYArg, 
+                                                   boolean ctrlKeyArg, 
+                                                   boolean altKeyArg, 
+                                                   boolean shiftKeyArg, 
+                                                   boolean metaKeyArg, 
+                                                   unsigned short buttonArg,										
+                                                   <a href="#events-EventTarget">EventTarget</a> relatedTargetArg);
+  <span class="comment">// Introduced in DOM Level 3:</span>
+  boolean                           <a href="#events-MouseEvent-getModifierState">getModifierState</a>(DOMString keyArg);
 };
               </code></pre>
             </dd>
@@ -2851,7 +2833,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
             </dfn></dt>
           <dd>
             <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-              <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>click</code></strong></td></tr>
+              <tr class="assert must"><th>Type</th><td><strong><code>click</code></strong></td></tr>
               <tr class="assert must"><th>Interface</th> <td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td></tr>
               <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
               <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -2923,7 +2905,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
             </dfn></dt>
           <dd>
             <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-              <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>dblclick</code></strong></td></tr>
+              <tr class="assert must"><th>Type</th><td><strong><code>dblclick</code></strong></td></tr>
               <tr class="assert must"><th>Interface</th> <td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td></tr>
               <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
               <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -2973,7 +2955,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
             </dfn></dt>
           <dd>
             <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-              <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>mousedown</code></strong></td></tr>
+              <tr class="assert must"><th>Type</th><td><strong><code>mousedown</code></strong></td></tr>
               <tr class="assert must"><th>Interface</th> <td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td></tr>
               <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
               <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -3015,7 +2997,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
             </dfn></dt>
           <dd>
             <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-              <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>mouseenter</code></strong></td></tr>
+              <tr class="assert must"><th>Type</th><td><strong><code>mouseenter</code></strong></td></tr>
               <tr class="assert must"><th>Interface</th> <td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td></tr>
               <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
               <tr class="assert must"><th>Bubbles</th> <td>No</td></tr>
@@ -3057,7 +3039,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
             </dfn></dt>
           <dd>
             <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-              <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>mouseleave</code></strong></td></tr>
+              <tr class="assert must"><th>Type</th><td><strong><code>mouseleave</code></strong></td></tr>
               <tr class="assert must"><th>Interface</th> <td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td></tr>
               <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
               <tr class="assert must"><th>Bubbles</th> <td>No</td></tr>
@@ -3099,7 +3081,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
             </dfn></dt>
           <dd>
             <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-              <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>mousemove</code></strong></td></tr>
+              <tr class="assert must"><th>Type</th><td><strong><code>mousemove</code></strong></td></tr>
               <tr class="assert must"><th>Interface</th> <td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td></tr>
               <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
               <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -3140,7 +3122,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
             </dfn></dt>
           <dd>
             <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-              <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>mouseout</code></strong></td></tr>
+              <tr class="assert must"><th>Type</th><td><strong><code>mouseout</code></strong></td></tr>
               <tr class="assert must"><th>Interface</th> <td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td></tr>
               <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
               <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -3183,7 +3165,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
           <dd>
             <table summary="This table contains information about the semantics of the given event type" border="0" cellpadding="2" cellspacing="0">
               <tbody>
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>mouseover</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>mouseover</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -3226,7 +3208,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
             </dfn></dt>
           <dd>
             <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-              <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>mouseup</code></strong></td></tr>
+              <tr class="assert must"><th>Type</th><td><strong><code>mouseup</code></strong></td></tr>
               <tr class="assert must"><th>Interface</th> <td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td></tr>
               <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
               <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -3274,38 +3256,38 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
           <dl>
             <dt>
               <br />
-              <strong>IDL Definition</strong>
+              <strong>WebIDL Definition</strong>
             </dt>
             <dd>
               <pre class="idl" id="idl-interface-WheelEvent"><code>
-// Introduced in DOM Level 3:
-interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEvent">MouseEvent</a> {
+<span class="comment">// Introduced in DOM Level 3:</span>
+interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEvent">MouseEvent</a>
+{
+  <span class="comment">// DeltaModeCode</span>
+  const unsigned long              <a href="#events-DOM_DELTA_PIXEL">DOM_DELTA_PIXEL</a> = 0x00;
+  const unsigned long              <a href="#events-DOM_DELTA_LINE">DOM_DELTA_LINE</a>  = 0x01;
+  const unsigned long              <a href="#events-DOM_DELTA_PAGE">DOM_DELTA_PAGE</a>  = 0x02;
 
-  // DeltaModeCode
-  const unsigned long                <a href="#events-DOM_DELTA_PIXEL">DOM_DELTA_PIXEL</a>       = 0x00;
-  const unsigned long                <a href="#events-DOM_DELTA_LINE">DOM_DELTA_LINE</a>        = 0x01;
-  const unsigned long                <a href="#events-DOM_DELTA_PAGE">DOM_DELTA_PAGE</a>        = 0x02;
-
-  readonly attribute float            <a href="#events-WheelEvent-deltaX">deltaX</a>;
-  readonly attribute float            <a href="#events-WheelEvent-deltaY">deltaY</a>;
-  readonly attribute float            <a href="#events-WheelEvent-deltaZ">deltaZ</a>;
-  readonly attribute unsigned long   <a href="#events-WheelEvent-deltaMode">deltaMode</a>;    
-  void                               <a href="#events-event-type-initWheelEvent">initWheelEvent</a>(in DOMString typeArg, 
-                                                    in boolean canBubbleArg, 
-                                                    in boolean cancelableArg, 
-                                                    in views::AbstractView viewArg, 
-                                                    in long detailArg, 
-                                                    in long screenXArg, 
-                                                    in long screenYArg, 
-                                                    in long clientXArg, 
-                                                    in long clientYArg, 
-                                                    in unsigned short buttonArg, 
-                                                    in <a href="#events-EventTarget">EventTarget</a> relatedTargetArg, 
-                                                    in DOMString modifiersListArg, 
-                                                    in float deltaXArg, 
-                                                    in float deltaYArg, 
-                                                    in float deltaZArg, 
-                                                    in unsigned long deltaMode);
+  readonly attribute float         <a href="#events-WheelEvent-deltaX">deltaX</a>;
+  readonly attribute float         <a href="#events-WheelEvent-deltaY">deltaY</a>;
+  readonly attribute float         <a href="#events-WheelEvent-deltaZ">deltaZ</a>;
+  readonly attribute unsigned long <a href="#events-WheelEvent-deltaMode">deltaMode</a>;    
+  void                             <a href="#events-event-type-initWheelEvent">initWheelEvent</a>(DOMString typeArg, 
+                                                  boolean canBubbleArg, 
+                                                  boolean cancelableArg, 
+                                                  AbstractView viewArg, 
+                                                  long detailArg, 
+                                                  long screenXArg, 
+                                                  long screenYArg, 
+                                                  long clientXArg, 
+                                                  long clientYArg, 
+                                                  unsigned short buttonArg, 
+                                                  <a href="#events-EventTarget">EventTarget</a> relatedTargetArg, 
+                                                  DOMString modifiersListArg, 
+                                                  float deltaXArg, 
+                                                  float deltaYArg, 
+                                                  float deltaZArg, 
+                                                  unsigned long deltaMode);
 };
               </code></pre>
             </dd>
@@ -3435,7 +3417,7 @@ interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEv
             </dfn></dt>
           <dd>
             <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-              <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>wheel</code></strong></td></tr>
+              <tr class="assert must"><th>Type</th><td><strong><code>wheel</code></strong></td></tr>
               <tr class="assert must"><th>Interface</th> <td><a href="#events-WheelEvent"><code>WheelEvent</code></a></td></tr>
               <tr class="assert must"><th>Sync / Async</th> <td>Async</td></tr>
               <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -3489,35 +3471,35 @@ interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEv
             <dl>
               <dt>
                 <br />
-                <strong>IDL Definition</strong>
+                <strong>WebIDL Definition</strong>
               </dt>
               <dd>
                 <pre class="idl" id="idl-interface-TextEvent"><code>
-// Introduced in DOM Level 3:
-interface <a href="#events-TextEvent">TextEvent</a> : <a href="#events-UIEvent">UIEvent</a> {
+<span class="comment">// Introduced in DOM Level 3:</span>
+interface <a href="#events-TextEvent">TextEvent</a> : <a href="#events-UIEvent">UIEvent</a>
+{
+  <span class="comment">// InputMethodCode</span>
+  const unsigned long              <a href="#events-DOM_INPUT_METHOD_UNKNOWN">DOM_INPUT_METHOD_UNKNOWN</a>     = 0x00;
+  const unsigned long              <a href="#events-DOM_INPUT_METHOD_KEYBOARD">DOM_INPUT_METHOD_KEYBOARD</a>    = 0x01;
+  const unsigned long              <a href="#events-DOM_INPUT_METHOD_PASTE">DOM_INPUT_METHOD_PASTE</a>       = 0x02;
+  const unsigned long              <a href="#events-DOM_INPUT_METHOD_DROP">DOM_INPUT_METHOD_DROP</a>        = 0x03;
+  const unsigned long              <a href="#events-DOM_INPUT_METHOD_IME">DOM_INPUT_METHOD_IME</a>         = 0x04;
+  const unsigned long              <a href="#events-DOM_INPUT_METHOD_OPTION">DOM_INPUT_METHOD_OPTION</a>      = 0x05;
+  const unsigned long              <a href="#events-DOM_INPUT_METHOD_HANDWRITING">DOM_INPUT_METHOD_HANDWRITING</a> = 0x06;
+  const unsigned long              <a href="#events-DOM_INPUT_METHOD_VOICE">DOM_INPUT_METHOD_VOICE</a>       = 0x07;
+  const unsigned long              <a href="#events-DOM_INPUT_METHOD_MULTIMODAL">DOM_INPUT_METHOD_MULTIMODAL</a>  = 0x08;
+  const unsigned long              <a href="#events-DOM_INPUT_METHOD_SCRIPT">DOM_INPUT_METHOD_SCRIPT</a>      = 0x09;
 
-  // InputMethodCode
-  const unsigned long                <a href="#events-DOM_INPUT_METHOD_UNKNOWN">DOM_INPUT_METHOD_UNKNOWN</a>       = 0x00;
-  const unsigned long                <a href="#events-DOM_INPUT_METHOD_KEYBOARD">DOM_INPUT_METHOD_KEYBOARD</a>      = 0x01;
-  const unsigned long                <a href="#events-DOM_INPUT_METHOD_PASTE">DOM_INPUT_METHOD_PASTE</a>         = 0x02;
-  const unsigned long                <a href="#events-DOM_INPUT_METHOD_DROP">DOM_INPUT_METHOD_DROP</a>          = 0x03;
-  const unsigned long                <a href="#events-DOM_INPUT_METHOD_IME">DOM_INPUT_METHOD_IME</a>           = 0x04;
-  const unsigned long                <a href="#events-DOM_INPUT_METHOD_OPTION">DOM_INPUT_METHOD_OPTION</a>        = 0x05;
-  const unsigned long                <a href="#events-DOM_INPUT_METHOD_HANDWRITING">DOM_INPUT_METHOD_HANDWRITING</a>   = 0x06;
-  const unsigned long                <a href="#events-DOM_INPUT_METHOD_VOICE">DOM_INPUT_METHOD_VOICE</a>         = 0x07;
-  const unsigned long                <a href="#events-DOM_INPUT_METHOD_MULTIMODAL">DOM_INPUT_METHOD_MULTIMODAL</a>    = 0x08;
-  const unsigned long                <a href="#events-DOM_INPUT_METHOD_SCRIPT">DOM_INPUT_METHOD_SCRIPT</a>        = 0x09;
-
-  readonly attribute DOMString       <a href="#events-TextEvent-data">data</a>;
-  readonly attribute unsigned long   <a href="#events-TextEvent-inputMethod">inputMethod</a>;  
-  readonly attribute DOMString       <a href="#events-TextEvent-locale">locale</a>;
-  void                               <a href="#events-event-type-initTextEvent">initTextEvent</a>(in DOMString typeArg, 
-                                                   in boolean canBubbleArg, 
-                                                   in boolean cancelableArg, 
-                                                   in views::AbstractView viewArg, 
-                                                   in DOMString dataArg, 
-                                                   in unsigned long inputMethod, 
-                                                   in DOMString localeArg);
+  readonly attribute DOMString     <a href="#events-TextEvent-data">data</a>;
+  readonly attribute unsigned long <a href="#events-TextEvent-inputMethod">inputMethod</a>;  
+  readonly attribute DOMString     <a href="#events-TextEvent-locale">locale</a>;
+  void                             <a href="#events-event-type-initTextEvent">initTextEvent</a>(DOMString typeArg, 
+                                                 boolean canBubbleArg, 
+                                                 boolean cancelableArg, 
+                                                 AbstractView viewArg, 
+                                                 DOMString dataArg, 
+                                                 unsigned long inputMethod, 
+                                                 DOMString localeArg);
 };
                 </code></pre>
               </dd>
@@ -3644,7 +3626,7 @@ interface <a href="#events-TextEvent">TextEvent</a> : <a href="#events-UIEvent">
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>textinput</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>textinput</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-TextEvent"><code>TextEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -3684,41 +3666,41 @@ interface <a href="#events-TextEvent">TextEvent</a> : <a href="#events-UIEvent">
             <dl>
               <dt>
                 <br />
-                <strong>IDL Definition</strong>
+                <strong>WebIDL Definition</strong>
               </dt>
               <dd>
                 <pre class="idl" id="idl-interface-KeyboardEvent"><code>
-// Introduced in DOM Level 3:
-interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-UIEvent">UIEvent</a> {
+<span class="comment">// Introduced in DOM Level 3:</span>
+interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-UIEvent">UIEvent</a>
+{
+  <span class="comment">// KeyLocationCode</span>
+  const unsigned long              <a href="#events-DOM_KEY_LOCATION_STANDARD">DOM_KEY_LOCATION_STANDARD</a> = 0x00;
+  const unsigned long              <a href="#events-DOM_KEY_LOCATION_LEFT">DOM_KEY_LOCATION_LEFT</a>     = 0x01;
+  const unsigned long              <a href="#events-DOM_KEY_LOCATION_RIGHT">DOM_KEY_LOCATION_RIGHT</a>    = 0x02;
+  const unsigned long              <a href="#events-DOM_KEY_LOCATION_NUMPAD">DOM_KEY_LOCATION_NUMPAD</a>   = 0x03;
+  const unsigned long              <a href="#events-DOM_KEY_LOCATION_MOBILE">DOM_KEY_LOCATION_MOBILE</a>   = 0x04;
+  const unsigned long              <a href="#events-DOM_KEY_LOCATION_JOYSTICK">DOM_KEY_LOCATION_JOYSTICK</a> = 0x05;
 
-  // KeyLocationCode
-  const unsigned long                <a href="#events-DOM_KEY_LOCATION_STANDARD">DOM_KEY_LOCATION_STANDARD</a>      = 0x00;
-  const unsigned long                <a href="#events-DOM_KEY_LOCATION_LEFT">DOM_KEY_LOCATION_LEFT</a>          = 0x01;
-  const unsigned long                <a href="#events-DOM_KEY_LOCATION_RIGHT">DOM_KEY_LOCATION_RIGHT</a>         = 0x02;
-  const unsigned long                <a href="#events-DOM_KEY_LOCATION_NUMPAD">DOM_KEY_LOCATION_NUMPAD</a>        = 0x03;
-  const unsigned long                <a href="#events-DOM_KEY_LOCATION_MOBILE">DOM_KEY_LOCATION_MOBILE</a>        = 0x04;
-  const unsigned long                <a href="#events-DOM_KEY_LOCATION_JOYSTICK">DOM_KEY_LOCATION_JOYSTICK</a>      = 0x05;
-
-  readonly attribute DOMString       <a href="#events-KeyboardEvent-char">char</a>;
-  readonly attribute DOMString       <a href="#events-KeyboardEvent-key">key</a>;
-  readonly attribute unsigned long   <a href="#events-KeyboardEvent-location">location</a>;
-  readonly attribute boolean         <a href="#events-KeyboardEvent-ctrlKey">ctrlKey</a>;
-  readonly attribute boolean         <a href="#events-KeyboardEvent-shiftKey">shiftKey</a>;
-  readonly attribute boolean         <a href="#events-KeyboardEvent-altKey">altKey</a>;
-  readonly attribute boolean         <a href="#events-KeyboardEvent-metaKey">metaKey</a>;
-  readonly attribute boolean         <a href="#events-KeyboardEvent-repeat">repeat</a>;
-  readonly attribute DOMString       <a href="#events-KeyboardEvent-locale">locale</a>;
-  boolean                            <a href="#events-KeyboardEvent-getModifierState">getModifierState</a>(in DOMString keyArg);
-  void                               <a href="#events-KeyboardEvent-initKeyboardEvent">initKeyboardEvent</a>(in DOMString typeArg, 
-                                                       in boolean canBubbleArg, 
-                                                       in boolean cancelableArg, 
-                                                       in views::AbstractView viewArg, 
-                                                       in DOMString charArg, 
-                                                       in DOMString keyArg, 
-                                                       in unsigned long locationArg, 
-                                                       in DOMString modifiersListArg,
-                                                       in boolean repeat,
-                                                       in DOMString localeArg); 
+  readonly attribute DOMString     <a href="#events-KeyboardEvent-char">char</a>;
+  readonly attribute DOMString     <a href="#events-KeyboardEvent-key">key</a>;
+  readonly attribute unsigned long <a href="#events-KeyboardEvent-location">location</a>;
+  readonly attribute boolean       <a href="#events-KeyboardEvent-ctrlKey">ctrlKey</a>;
+  readonly attribute boolean       <a href="#events-KeyboardEvent-shiftKey">shiftKey</a>;
+  readonly attribute boolean       <a href="#events-KeyboardEvent-altKey">altKey</a>;
+  readonly attribute boolean       <a href="#events-KeyboardEvent-metaKey">metaKey</a>;
+  readonly attribute boolean       <a href="#events-KeyboardEvent-repeat">repeat</a>;
+  readonly attribute DOMString     <a href="#events-KeyboardEvent-locale">locale</a>;
+  boolean                          <a href="#events-KeyboardEvent-getModifierState">getModifierState</a>(DOMString keyArg);
+  void                             <a href="#events-KeyboardEvent-initKeyboardEvent">initKeyboardEvent</a>(DOMString typeArg, 
+                                                     boolean canBubbleArg, 
+                                                     boolean cancelableArg, 
+                                                     AbstractView viewArg, 
+                                                     DOMString charArg, 
+                                                     DOMString keyArg, 
+                                                     unsigned long locationArg, 
+                                                     DOMString modifiersListArg,
+                                                     boolean repeat,
+                                                     DOMString localeArg); 
 };
                 </code></pre>
               </dd>
@@ -3970,7 +3952,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>keydown</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>keydown</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-KeyboardEvent"><code>KeyboardEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -4023,7 +4005,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>keypress</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>keypress</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-KeyboardEvent"><code>KeyboardEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -4065,7 +4047,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>keyup</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>keyup</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-KeyboardEvent"><code>KeyboardEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -4113,20 +4095,21 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
             <dl>
               <dt>
                 <br />
-                <strong>IDL Definition</strong>
+                <strong>WebIDL Definition</strong>
               </dt>
               <dd>
                 <pre class="idl" id="idl-interface-CompositionEvent"><code>
-// Introduced in DOM Level 3:
-interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#events-UIEvent">UIEvent</a> {
-  readonly attribute DOMString       <a href="#events-CompositionEvent-data">data</a>;
-  readonly attribute DOMString       <a href="#events-CompositionEvent-locale">locale</a>;
-  void                               <a href="#events-event-type-initCompositionEvent">initCompositionEvent</a>(in DOMString typeArg, 
-                                                          in boolean canBubbleArg, 
-                                                          in boolean cancelableArg, 
-                                                          in views::AbstractView viewArg, 
-                                                          in DOMString dataArg,
-                                                          in DOMString localeArg);
+<span class="comment">// Introduced in DOM Level 3:</span>
+interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#events-UIEvent">UIEvent</a>
+{
+  readonly attribute DOMString <a href="#events-CompositionEvent-data">data</a>;
+  readonly attribute DOMString <a href="#events-CompositionEvent-locale">locale</a>;
+  void                         <a href="#events-event-type-initCompositionEvent">initCompositionEvent</a>(DOMString typeArg, 
+                                                    boolean canBubbleArg, 
+                                                    boolean cancelableArg, 
+                                                    AbstractView viewArg, 
+                                                    DOMString dataArg,
+                                                    DOMString localeArg);
 };
                 </code></pre>
               </dd>
@@ -4219,7 +4202,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>compositionstart</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>compositionstart</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-CompositionEvent"><code>CompositionEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -4254,7 +4237,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>compositionupdate</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>compositionupdate</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-CompositionEvent"><code>CompositionEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -4286,7 +4269,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>compositionend</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>compositionend</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-CompositionEvent"><code>CompositionEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -4352,31 +4335,31 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
             <dl>
               <dt>
                 <br />
-                <strong>IDL Definition</strong>
+                <strong>WebIDL Definition</strong>
               </dt>
               <dd>
                 <pre class="idl" id="idl-interface-MutationEvent"><code>
-// Introduced in DOM Level 2:
-interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-Event">Event</a> {
+<span class="comment">// Introduced in DOM Level 2:</span>
+interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-Event">Event</a>
+{
+  <span class="comment">// attrChangeType</span>
+  const unsigned short              <a href="#events-MODIFICATION">MODIFICATION</a> = 1;
+  const unsigned short              <a href="#events-ADDITION">ADDITION</a>     = 2;
+  const unsigned short              <a href="#events-REMOVAL">REMOVAL</a>      = 3;
 
-  // attrChangeType
-  const unsigned short      <a href="#events-MODIFICATION">MODIFICATION</a>                   = 1;
-  const unsigned short      <a href="#events-ADDITION">ADDITION</a>                       = 2;
-  const unsigned short      <a href="#events-REMOVAL">REMOVAL</a>                        = 3;
-
-  readonly attribute Node            <a href="#events-MutationEvent-relatedNode">relatedNode</a>;
-  readonly attribute DOMString       <a href="#events-MutationEvent-prevValue">prevValue</a>;
-  readonly attribute DOMString       <a href="#events-MutationEvent-newValue">newValue</a>;
-  readonly attribute DOMString       <a href="#events-MutationEvent-attrName">attrName</a>;
-  readonly attribute unsigned short  <a href="#events-MutationEvent-attrChange">attrChange</a>;
-  void               <a href="#events-event-type-initMutationEvent">initMutationEvent</a>(in DOMString typeArg, 
-                                       in boolean canBubbleArg, 
-                                       in boolean cancelableArg, 
-                                       in Node relatedNodeArg, 
-                                       in DOMString prevValueArg, 
-                                       in DOMString newValueArg, 
-                                       in DOMString attrNameArg, 
-                                       in unsigned short attrChangeArg);
+  readonly attribute Node           <a href="#events-MutationEvent-relatedNode">relatedNode</a>;
+  readonly attribute DOMString      <a href="#events-MutationEvent-prevValue">prevValue</a>;
+  readonly attribute DOMString      <a href="#events-MutationEvent-newValue">newValue</a>;
+  readonly attribute DOMString      <a href="#events-MutationEvent-attrName">attrName</a>;
+  readonly attribute unsigned short <a href="#events-MutationEvent-attrChange">attrChange</a>;
+  void                              <a href="#events-event-type-initMutationEvent">initMutationEvent</a>(DOMString typeArg, 
+                                                      boolean canBubbleArg, 
+                                                      boolean cancelableArg, 
+                                                      Node relatedNodeArg, 
+                                                      DOMString prevValueArg, 
+                                                      DOMString newValueArg, 
+                                                      DOMString attrNameArg, 
+                                                      unsigned short attrChangeArg);
 };
                 </code></pre>
               </dd>
@@ -4489,7 +4472,7 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMAttrModified</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>DOMAttrModified</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -4524,7 +4507,7 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMCharacterDataModified</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>DOMCharacterDataModified</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -4559,7 +4542,7 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMNodeInserted</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>DOMNodeInserted</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -4595,7 +4578,7 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMNodeInsertedIntoDocument</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>DOMNodeInsertedIntoDocument</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>No</td></tr>
@@ -4631,7 +4614,7 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMNodeRemoved</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>DOMNodeRemoved</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -4667,7 +4650,7 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMNodeRemovedFromDocument</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>DOMNodeRemovedFromDocument</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>No</td></tr>
@@ -4704,7 +4687,7 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMSubtreeModified</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>DOMSubtreeModified</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -4746,21 +4729,23 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
             <dl>
               <dt>
                 <br />
-                <strong>IDL Definition</strong>
+                <strong>WebIDL Definition</strong>
               </dt>
               <dd>
                 <pre class="idl" id="idl-interface-MutationNameEvent"><code>
-// Introduced in DOM Level 3:
-interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#events-MutationEvent">MutationEvent</a> {
-  readonly attribute DOMString       <a href="#events-MutationNameEvent-prevNamespaceURI">prevNamespaceURI</a>;
-  readonly attribute DOMString       <a href="#events-MutationNameEvent-prevNodeName">prevNodeName</a>;
-  // Introduced in DOM Level 3:
-  void                               <a href="#events-event-type-initMutationNameEvent">initMutationNameEvent</a>(in DOMString typeArg, 
-                                                           in boolean canBubbleArg, 
-                                                           in boolean cancelableArg, 
-                                                           in Node relatedNodeArg, 
-                                                           in DOMString prevNamespaceURIArg, 
-                                                           in DOMString prevNodeNameArg);
+<span class="comment">// Introduced in DOM Level 3:</span>
+interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#events-MutationEvent">MutationEvent</a>
+{
+  readonly attribute DOMString <a href="#events-MutationNameEvent-prevNamespaceURI">prevNamespaceURI</a>;
+  readonly attribute DOMString <a href="#events-MutationNameEvent-prevNodeName">prevNodeName</a>;
+
+  <span class="comment">// Introduced in DOM Level 3:</span>
+  void                         <a href="#events-event-type-initMutationNameEvent">initMutationNameEvent</a>(DOMString typeArg, 
+                                                     boolean canBubbleArg, 
+                                                     boolean cancelableArg, 
+                                                     Node relatedNodeArg, 
+                                                     DOMString prevNamespaceURIArg, 
+                                                     DOMString prevNodeNameArg);
 };
                 </code></pre>
               </dd>
@@ -4830,7 +4815,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMElementNameChanged</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>DOMElementNameChanged</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-MutationNameEvent"><code>MutationNameEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -4867,7 +4852,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
               </dfn></dt>
             <dd>
               <table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-                <tr class="assert must"><th>Type</th><td class="eventname"><strong><code>DOMAttributeNameChanged</code></strong></td></tr>
+                <tr class="assert must"><th>Type</th><td><strong><code>DOMAttributeNameChanged</code></strong></td></tr>
                 <tr class="assert must"><th>Interface</th> <td><a href="#events-MutationNameEvent"><code>MutationNameEvent</code></a></td></tr>
                 <tr class="assert must"><th>Sync / Async</th> <td>Sync</td></tr>
                 <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
@@ -6756,19 +6741,19 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
           <dl>
             <dt>
               <br/>
-              <strong>Web IDL Definition</strong>
+              <strong>WebIDL Definition</strong>
             </dt>
             <dd>
-              <pre class="idl" id="idl-interface-KeyboardEvent-supplemental">
-          <code>
-          // Legacy, introduced in DOM Level 3:
-          [Supplemental]
-          interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a> {
-            readonly attribute unsigned long   <a href="#events-KeyboardEvent-supplemental-charCode">charCode</a>;
-            readonly attribute unsigned long   <a href="#events-KeyboardEvent-supplemental-keyCode">keyCode</a>;
-            readonly attribute unsigned long   <a href="#events-KeyboardEvent-supplemental-which">which</a>;
-          };
-                          </code>
+              <pre class="idl" id="idl-interface-KeyboardEvent-supplemental"><code>
+<span class="comment">// introduced in DOM Level 3:</span>
+partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
+{
+  <span class="comment">// The following support legacy user agents:</span>
+  readonly attribute unsigned long <a href="#events-KeyboardEvent-supplemental-charCode">charCode</a>;
+  readonly attribute unsigned long <a href="#events-KeyboardEvent-supplemental-keyCode">keyCode</a>;
+  readonly attribute unsigned long <a href="#events-KeyboardEvent-supplemental-which">which</a>;
+};
+            </code>
           </pre>
             </dd>
             <dt>
@@ -6954,442 +6939,9 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
       </table>
       <br />
     </div>
-	<!-- div1 WebIDL -->
+<!-- div END Extending -->
     <div>
-      <h2><a id="webidl-definitions" href="#webidl-definitions">Appendix C: WebIDL Interface Definitions</a></h2>
-	  <p><em>This section is informative</em></p>
-      <p>The following definitions are [<a href="#references-webIDL">WebIDL</a>] implementations of the interfaces defined in this specification.</p>
-      	   
-      	   <!-- interface Event webIDL -->
-      	        <h3><a id="webidl-events-Event" href="#webidl-events-Event">Interface Event</a></h3>
-      	        <dl>
-      	        	<dt><strong>WebIDL Definition for the <a href="#interface-Event">interface Event</a></strong></dt>
-      	        <dd>
-                <pre class="idl" id="WEBidl-interface-Event"><code>
-// Introduced in DOM Level 2:
-interface <a href="#events-Event">Event</a> 
-{
-  // PhaseType
-  const unsigned short               <a href="#events-CAPTURING_PHASE">CAPTURING_PHASE</a>      = 1;
-  const unsigned short               <a href="#events-AT_TARGET">AT_TARGET</a>            = 2;
-  const unsigned short               <a href="#events-BUBBLING_PHASE">BUBBLING_PHASE</a>       = 3;
-
-  readonly attribute DOMString       <a href="#events-event-type-type">type</a>;
-  readonly attribute <a href="#events-EventTarget">EventTarget</a>     <a href="#events-event-type-target">target</a>;
-  readonly attribute <a href="#events-EventTarget">EventTarget</a>     <a href="#events-event-type-currentTarget">currentTarget</a>;
-  readonly attribute unsigned short  <a href="#events-event-type-eventPhase">eventPhase</a>;
-  readonly attribute boolean         <a href="#events-event-type-canBubble">bubbles</a>;
-  readonly attribute boolean         <a href="#events-event-type-canCancel">cancelable</a>;
-  readonly attribute DOMTimeStamp    <a href="#events-event-type-timeStamp">timeStamp</a>;
-
-  void                               <a href="#events-event-type-stopPropagation">stopPropagation</a>();
-  void                               <a href="#events-event-type-preventDefault">preventDefault</a>();
-  void                               <a href="#events-event-type-initEvent">initEvent</a>(in DOMString eventTypeArg, 
-                                               in boolean canBubbleArg, 
-                                               in boolean cancelableArg);
-  // Introduced in DOM Level 3:
-  void                               <a href="#events-event-type-stopImmediatePropagation">stopImmediatePropagation</a>();
-
-  readonly attribute boolean         <a href="#events-event-type-defaultPrevented">defaultPrevented</a>;
-  readonly attribute boolean         <a href="#events-event-type-isTrusted">isTrusted</a>;
-};
-                </code></pre>
-              </dd>
-      	        </dl>
-
-      	   <!-- interface CustomEvent webIDL -->
-      	        <h3><a id="webidl-events-CustomEvent" href="#webidl-events-CustomEvent">Interface CustomEvent</a></h3>
-      	        <dl>
-      	        	<dt><strong>WebIDL Definition for the <a href="#interface-CustomEvent">interface CustomEvent</a></strong></dt>
-      	        <dd>
-                <pre class="idl" id="WEBidl-interface-CustomEvent"><code>
-// Introduced in DOM Level 3:
-interface <a href="#events-CustomEvent">CustomEvent</a> : <a href="#events-Event">Event</a> 
-{
-  readonly attribute any             <a href="#events-CustomEvent-detail">detail</a>;
-  void                               <a href="#events-event-type-initCustomEvent">initCustomEvent</a>(in DOMString typeArg, 
-                                                     in boolean   canBubbleArg, 
-                                                     in boolean   cancelableArg, 
-                                                     in any       detailArg);
-};
-                </code></pre>
-              </dd>
-      	        </dl>
-
-      	   <!-- interface EventTarget webIDL -->
-      	        <h3><a id="webidl-events-EventTarget" href="#webidl-events-EventTarget">Interface EventTarget</a></h3>
-      	        <dl>
-      	        	<dt><strong>WebIDL Definition for the <a href="#interface-EventTarget">interface EventTarget</a></strong></dt>
-      	        <dd>
-                <pre class="idl" id="WEBidl-interface-EventTarget"><code>
-// Introduced in DOM Level 2:
-[NoInterfaceObject]
-interface <a href="#events-EventTarget">EventTarget</a> 
-{
-  void               <a href="#events-EventTarget-addEventListener">addEventListener</a>(in DOMString type, 
-                                      in <a href="#events-EventListener">EventListener</a> listener, 
-                                      in <em>optional</em> boolean useCapture);
-  void               <a href="#events-EventTarget-removeEventListener">removeEventListener</a>(in DOMString type, 
-                                         in <a href="#events-EventListener">EventListener</a> listener, 
-                                         in <em>optional</em> boolean useCapture);
-  // Modified in DOM Level 3:
-  boolean            <a href="#events-EventTarget-dispatchEvent">dispatchEvent</a>(in <a href="#events-Event">Event</a> evt)
-                                   raises(<a href="#events-EventException">EventException</a>, 
-                                   DOMException);
-                                   
-};
-                </code></pre>
-              </dd>
-      	        </dl>
-
-      	   <!-- interface EventListener webIDL -->
-      	        <h3><a id="webidl-events-EventListener" href="#webidl-events-EventListener">Interface EventListener</a></h3>
-      	        <dl>
-      	        	<dt><strong>WebIDL Definition for the <a href="#interface-EventListener">interface EventListener</a></strong></dt>
-      	        <dd>
-                <pre class="idl" id="WEBidl-interface-EventListener"><code>
-// Introduced in DOM Level 2:
-[Callback]
-interface <a href="#events-EventListener">EventListener</a> 
-{
-  void               <a href="#events-EventListener-handleEvent">handleEvent</a>(in <a href="#events-Event">Event</a> evt);
-};
-                </code></pre>
-              </dd>
-      	        </dl>
-
-      	   <!-- Exception EventException webIDL -->
-      	        <h3><a id="webidl-events-EventException" href="#webidl-events-EventException">Exception EventException</a></h3>
-      	        <dl>
-      	        	<dt><strong>WebIDL Definition for the <a href="#events-EventException">exception EventException</a></strong></dt>
-      	        <dd>
-                <pre class="idl" id="WEBidl-interface-EventException"><code>
-// Introduced in DOM Level 2:
-exception <a href="#events-EventException">EventException</a> 
-{
-// EventExceptionCode
-                const unsigned short <a href="#events-UNSPECIFIED_EVENT_TYPE_ERR">UNSPECIFIED_EVENT_TYPE_ERR</a> = 0;
-// Introduced in DOM Level 3:
-                const unsigned short <a href="#events-DISPATCH_REQUEST_ERR">DISPATCH_REQUEST_ERR</a> = 1;
-
-                unsigned short code;
-};
-                </code></pre>
-              </dd>
-      	        </dl>
-
-      	   <!-- interface DocumentEvent webIDL -->
-      	        <h3><a id="webidl-events-DocumentEvent" href="#webidl-events-DocumentEvent">Interface DocumentEvent</a></h3>
-      	        <dl>
-      	        	<dt><strong>WebIDL Definition for the <a href="#interface-DocumentEvent">interface DocumentEvent</a></strong></dt>
-      	        <dd>
-                  <pre class="idl" id="WEBidl-interface-DocumentEvent"><code>
-// Introduced in DOM Level 2:
-[NoInterfaceObject]
-interface <a href="#events-DocumentEvent">DocumentEvent</a> 
-{
-  // Modified in DOM Level 3:
-  <a href="#events-Event">Event</a>                     <a href="#events-DocumentEvent-createEvent">createEvent</a>(in DOMString eventInterface)
-                                        raises(DOMException);
-};
-Document implements <a href="#events-DocumentEvent">DocumentEvent</a>;
-                  </code></pre>
-              </dd>
-      	        </dl>
-
-      	   <!-- interface UIEvent webIDL -->
-      	        <h3><a id="webidl-events-UIEvent" href="#webidl-events-UIEvent">Interface UIEvent</a></h3>
-      	        <dl>
-      	        	<dt><strong>WebIDL Definition for the <a href="#events-UIEvent">interface UIEvent</a></strong></dt>
-      	        <dd>
-                <pre class="idl" id="WEBidl-interface-UIEvent"><code>
-// Introduced in DOM Level 2:
-interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event</a> 
-{
-  readonly attribute AbstractView <a href="#events-UIEvent-view">view</a>;
-  readonly attribute long	<a href="#events-UIEvent-detail">detail</a>;
-
-  void                               <a href="#events-event-type-initUIEvent">initUIEvent</a>(in DOMString typeArg, 
-                                                 in boolean canBubbleArg, 
-                                                 in boolean cancelableArg, 
-                                                 in AbstractView viewArg, 
-                                                 in long detailArg);
-};
-                </code></pre>
-              </dd>
-      	        </dl>
-
-      	   <!-- interface FocusEvent webIDL -->
-      	        <h3><a id="webidl-events-FocusEvent" href="#webidl-events-FocusEvent">Interface FocusEvent</a></h3>
-      	        <dl>
-      	        	<dt><strong>WebIDL Definition for the <a href="#events-FocusEvent">interface FocusEvent</a></strong></dt>
-	      	        <dd>
-	                <pre class="idl" id="WEBidl-interface-FocusEvent"><code>
-// Introduced in DOM Level 3:
-interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent">UIEvent</a> 
-{
-  readonly attribute <a href="#events-EventTarget">EventTarget</a>   <a href="#events-FocusEvent-relatedTarget">relatedTarget</a>;
-
-  void                             <a href="#events-event-type-initFocusEvent">initFocusEvent</a>(in DOMString typeArg, 
-												  in boolean canBubbleArg, 
-												  in boolean cancelableArg, 
-												  in AbstractView viewArg, 
-												  in long detailArg, 
-												  in <a href="#events-EventTarget">EventTarget</a> relatedTargetArg);
-};
-	                </code></pre>
-	                </dd>
-	            </dl>
-
-
-      	   <!-- interface MouseEvent webIDL -->
-      	        <h2><a id="webidl-events-MouseEvent" href="#webidl-events-MouseEvent">Interface MouseEvent</a></h2>
-      	        <dl>
-      	        	<dt><strong>WebIDL Definition for the <a href="#events-MouseEvent">interface MouseEvent</a></strong></dt>
-      	        <dd>
-              <pre class="idl" id="WEBidl-interface-MouseEvent"><code>
-// Modified in DOM Level 3:
-interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent">UIEvent</a> 
-{
-  readonly attribute long            <a href="#events-MouseEvent-screenX">screenX</a>;
-  readonly attribute long            <a href="#events-MouseEvent-screenY">screenY</a>;
-  readonly attribute long            <a href="#events-MouseEvent-clientX">clientX</a>;
-  readonly attribute long            <a href="#events-MouseEvent-clientY">clientY</a>;
-  readonly attribute boolean         <a href="#events-MouseEvent-ctrlKey">ctrlKey</a>;
-  readonly attribute boolean         <a href="#events-MouseEvent-shiftKey">shiftKey</a>;
-  readonly attribute boolean         <a href="#events-MouseEvent-altKey">altKey</a>;
-  readonly attribute boolean         <a href="#events-MouseEvent-metaKey">metaKey</a>;
-  readonly attribute unsigned short  <a href="#events-MouseEvent-button">button</a>;  
-  readonly attribute unsigned short  <a href="#events-MouseEvent-buttons">buttons</a>;
-  readonly attribute                 <a href="#events-EventTarget">EventTarget</a>     <a href="#events-MouseEvent-relatedTarget">relatedTarget</a>;
-
-  void                               <a href="#events-event-type-initMouseEvent">initMouseEvent</a>(in DOMString typeArg, 
-                                                in boolean canBubbleArg, 
-                                                in boolean cancelableArg, 
-                                                in AbstractView viewArg, 
-                                                in long detailArg, 
-                                                in long screenXArg, 
-                                                in long screenYArg, 
-                                                in long clientXArg, 
-                                                in long clientYArg, 
-                                                in boolean ctrlKeyArg, 
-                                                in boolean altKeyArg, 
-                                                in boolean shiftKeyArg, 
-                                                in boolean metaKeyArg, 
-                                                in unsigned short buttonArg,
-                                                in <a href="#events-EventTarget">EventTarget</a> relatedTargetArg);
-
-  // Introduced in DOM Level 3:
-  boolean                            <a href="#events-MouseEvent-getModifierState">getModifierState</a>(in DOMString keyArg);
-};
-              </code></pre>
-              </dd>
-      	        </dl>
-
-      	   <!-- interface WheelEvent webIDL -->
-      	        <h3><a id="webidl-events-WheelEvent" href="#webidl-events-WheelEvent">Interface WheelEvent</a></h3>
-      	        <dl>
-      	        	<dt><strong>WebIDL Definition for the <a href="#events-WheelEvent">interface WheelEvent</a></strong></dt>
-      	        <dd>
-              <pre class="idl" id="WEBidl-interface-WheelEvent"><code>
-// Introduced in DOM Level 3:
-interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEvent">MouseEvent</a> 
-{
-  // DeltaModeCode
-  const unsigned long                <a href="#events-DOM_DELTA_PIXEL">DOM_DELTA_PIXEL</a>       = 0x00;
-  const unsigned long                <a href="#events-DOM_DELTA_LINE">DOM_DELTA_LINE</a>        = 0x01;
-  const unsigned long                <a href="#events-DOM_DELTA_PAGE">DOM_DELTA_PAGE</a>        = 0x02;
-
-  readonly attribute float            <a href="#events-WheelEvent-deltaX">deltaX</a>;
-  readonly attribute float            <a href="#events-WheelEvent-deltaY">deltaY</a>;
-  readonly attribute float            <a href="#events-WheelEvent-deltaZ">deltaZ</a>;
-  readonly attribute unsigned long   <a href="#events-WheelEvent-deltaMode">deltaMode</a>;
-
-  void                               <a href="#events-event-type-initWheelEvent">initWheelEvent</a>(in DOMString typeArg, 
-                                                    in boolean canBubbleArg, 
-                                                    in boolean cancelableArg, 
-                                                    in AbstractView viewArg, 
-                                                    in long detailArg, 
-                                                    in long screenXArg, 
-                                                    in long screenYArg, 
-                                                    in long clientXArg, 
-                                                    in long clientYArg, 
-                                                    in unsigned short buttonArg, 
-                                                    in <a href="#events-EventTarget">EventTarget</a> relatedTargetArg, 
-                                                    in DOMString modifiersListArg, 
-                                                    in float deltaXArg, 
-                                                    in float deltaYArg, 
-                                                    in float deltaZArg, 
-                                                    in unsigned long deltaMode);
-};
-              </code></pre>
-              </dd>
-      	        </dl>
-
-      	   <!-- interface TextEvent webIDL -->
-      	        <h3><a id="webidl-events-TextEvent" href="#webidl-events-TextEvent">Interface TextEvent</a></h3>
-      	        <dl>
-      	        	<dt><strong>WebIDL Definition for the <a href="#events-TextEvent">interface TextEvent</a></strong></dt>
-      	        <dd>
-                <pre class="idl" id="WEBidl-interface-TextEvent"><code>
-// Introduced in DOM Level 3:
-interface <a href="#events-TextEvent">TextEvent</a> : <a href="#events-UIEvent">UIEvent</a> 
-{
-  // InputMethodCode
-  const unsigned long                <a href="#events-DOM_INPUT_METHOD_UNKNOWN">DOM_INPUT_METHOD_UNKNOWN</a>       = 0x00;
-  const unsigned long                <a href="#events-DOM_INPUT_METHOD_KEYBOARD">DOM_INPUT_METHOD_KEYBOARD</a>      = 0x01;
-  const unsigned long                <a href="#events-DOM_INPUT_METHOD_PASTE">DOM_INPUT_METHOD_PASTE</a>         = 0x02;
-  const unsigned long                <a href="#events-DOM_INPUT_METHOD_DROP">DOM_INPUT_METHOD_DROP</a>          = 0x03;
-  const unsigned long                <a href="#events-DOM_INPUT_METHOD_IME">DOM_INPUT_METHOD_IME</a>           = 0x04;
-  const unsigned long                <a href="#events-DOM_INPUT_METHOD_OPTION">DOM_INPUT_METHOD_OPTION</a>        = 0x05;
-  const unsigned long                <a href="#events-DOM_INPUT_METHOD_HANDWRITING">DOM_INPUT_METHOD_HANDWRITING</a>   = 0x06;
-  const unsigned long                <a href="#events-DOM_INPUT_METHOD_VOICE">DOM_INPUT_METHOD_VOICE</a>         = 0x07;
-  const unsigned long                <a href="#events-DOM_INPUT_METHOD_MULTIMODAL">DOM_INPUT_METHOD_MULTIMODAL</a>    = 0x08;
-  const unsigned long                <a href="#events-DOM_INPUT_METHOD_SCRIPT">DOM_INPUT_METHOD_SCRIPT</a>        = 0x09;
-
-  readonly attribute DOMString       <a href="#events-TextEvent-data">data</a>;
-  readonly attribute unsigned long   <a href="#events-TextEvent-inputMethod">inputMethod</a>;  
-  readonly attribute DOMString       <a href="#events-TextEvent-locale">locale</a>;
-
-  void                               <a href="#events-event-type-initTextEvent">initTextEvent</a>(in DOMString typeArg, 
-                                                   in boolean canBubbleArg, 
-                                                   in boolean cancelableArg, 
-                                                   in AbstractView viewArg, 
-                                                   in DOMString dataArg, 
-                                                   in unsigned long inputMethod, 
-                                                   in DOMString localeArg);
-};
-                </code></pre>
-              </dd>
-      	        </dl>
-
-      	   <!-- interface KeyboardEvent webIDL -->
-      	        <h3><a id="webidl-events-KeyboardEvent" href="#webidl-events-KeyboardEvent">Interface KeyboardEvent</a></h3>
-      	        <dl>
-      	        	<dt><strong>WebIDL Definition for the <a href="#events-KeyboardEvent">interface KeyboardEvent</a></strong></dt>
-      	        <dd>
-                <pre class="idl" id="WEBidl-interface-KeyboardEvent"><code>
-// Introduced in DOM Level 3:
-interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-UIEvent">UIEvent</a> 
-{
-  // KeyLocationCode
-  const unsigned long                <a href="#events-DOM_KEY_LOCATION_STANDARD">DOM_KEY_LOCATION_STANDARD</a>      = 0x00;
-  const unsigned long                <a href="#events-DOM_KEY_LOCATION_LEFT">DOM_KEY_LOCATION_LEFT</a>          = 0x01;
-  const unsigned long                <a href="#events-DOM_KEY_LOCATION_RIGHT">DOM_KEY_LOCATION_RIGHT</a>         = 0x02;
-  const unsigned long                <a href="#events-DOM_KEY_LOCATION_NUMPAD">DOM_KEY_LOCATION_NUMPAD</a>        = 0x03;
-  const unsigned long                <a href="#events-DOM_KEY_LOCATION_MOBILE">DOM_KEY_LOCATION_MOBILE</a>        = 0x04;
-  const unsigned long                <a href="#events-DOM_KEY_LOCATION_JOYSTICK">DOM_KEY_LOCATION_JOYSTICK</a>      = 0x05;
-
-  readonly attribute DOMString       <a href="#events-KeyboardEvent-char">char</a>;
-  readonly attribute DOMString       <a href="#events-KeyboardEvent-key">key</a>;
-  readonly attribute unsigned long   <a href="#events-KeyboardEvent-location">location</a>;
-  readonly attribute boolean         <a href="#events-KeyboardEvent-ctrlKey">ctrlKey</a>;
-  readonly attribute boolean         <a href="#events-KeyboardEvent-shiftKey">shiftKey</a>;
-  readonly attribute boolean         <a href="#events-KeyboardEvent-altKey">altKey</a>;
-  readonly attribute boolean         <a href="#events-KeyboardEvent-metaKey">metaKey</a>;
-  readonly attribute boolean         <a href="#events-KeyboardEvent-repeat">repeat</a>;
-  readonly attribute DOMString       <a href="#events-KeyboardEvent-locale">locale</a>;
-
-  boolean                            <a href="#events-KeyboardEvent-getModifierState">getModifierState</a>(in DOMString keyArg);
-  void                               <a href="#events-KeyboardEvent-initKeyboardEvent">initKeyboardEvent</a>(in DOMString typeArg, 
-                                                       in boolean canBubbleArg, 
-                                                       in boolean cancelableArg, 
-                                                       in AbstractView viewArg, 
-                                                       in DOMString charArg, 
-                                                       in DOMString keyArg, 
-                                                       in unsigned long locationArg, 
-                                                       in DOMString modifiersListArg,
-                                                       in boolean repeat,
-                                                       in DOMString localeArg); 
-};
-                </code></pre>
-              </dd>
-      	        </dl>
-
-      	   <!-- interface CompositionEvent webIDL -->
-      	        <h3><a id="webidl-events-CompositionEvent" href="#webidl-events-CompositionEvent">Interface CompositionEvent</a></h3>
-      	        <dl>
-      	        	<dt><strong>WebIDL Definition for the <a href="#events-CompositionEvent">interface CompositionEvent</a></strong></dt>
-      	        <dd>
-                <pre class="idl" id="WEBidl-interface-CompositionEvent"><code>
-// Introduced in DOM Level 3:
-interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#events-UIEvent">UIEvent</a> 
-{
-  readonly attribute DOMString       <a href="#events-CompositionEvent-data">data</a>;
-  readonly attribute DOMString       <a href="#events-CompositionEvent-locale">locale</a>;
-
-  void                               <a href="#events-event-type-initCompositionEvent">initCompositionEvent</a>(in DOMString typeArg, 
-                                                          in boolean canBubbleArg, 
-                                                          in boolean cancelableArg, 
-                                                          in AbstractView viewArg, 
-                                                          in DOMString dataArg,
-                                                          in DOMString localeArg);
-};
-                </code></pre>
-              </dd>
-      	        </dl>
-
-      	   <!-- interface MutationEvent webIDL -->
-      	        <h3><a id="webidl-events-MutationEvent" href="#webidl-events-MutationEvent">Interface MutationEvent</a></h3>
-      	        <dl>
-      	        	<dt><strong>WebIDL Definition for the <a href="#events-MutationEvent">interface MutationEvent</a></strong></dt>
-      	        <dd>
-                <pre class="idl" id="WEBidl-interface-MutationEvent"><code>
-// Introduced in DOM Level 2:
-interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-Event">Event</a> 
-{
-  // attrChangeType
-  const unsigned short      <a href="#events-MODIFICATION">MODIFICATION</a>                   = 1;
-  const unsigned short      <a href="#events-ADDITION">ADDITION</a>                       = 2;
-  const unsigned short      <a href="#events-REMOVAL">REMOVAL</a>                        = 3;
-
-  readonly attribute Node            <a href="#events-MutationEvent-relatedNode">relatedNode</a>;
-  readonly attribute DOMString       <a href="#events-MutationEvent-prevValue">prevValue</a>;
-  readonly attribute DOMString       <a href="#events-MutationEvent-newValue">newValue</a>;
-  readonly attribute DOMString       <a href="#events-MutationEvent-attrName">attrName</a>;
-  readonly attribute unsigned short  <a href="#events-MutationEvent-attrChange">attrChange</a>;
-
-  void               <a href="#events-event-type-initMutationEvent">initMutationEvent</a>(in DOMString typeArg, 
-                                       in boolean canBubbleArg, 
-                                       in boolean cancelableArg, 
-                                       in Node relatedNodeArg, 
-                                       in DOMString prevValueArg, 
-                                       in DOMString newValueArg, 
-                                       in DOMString attrNameArg, 
-                                       in unsigned short attrChangeArg);
-};
-                </code></pre>
-              </dd>
-      	        </dl>
-
-
-      	   <!-- interface MutationNameEvent webIDL -->
-      	        <h3><a id="webidl-events-MutationNameEvent" href="#webidl-events-MutationNameEvent">Interface MutationNameEvent</a></h3>
-      	        <dl>
-      	        	<dt><strong>WebIDL Definition for the <a href="#events-MutationNameEvent">interface MutationNameEvent</a></strong></dt>
-      	        <dd>
-                <pre class="idl" id="WEBidl-interface-MutationNameEvent"><code>
-// Introduced in DOM Level 3:
-interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#events-MutationEvent">MutationEvent</a> 
-{
-  readonly attribute DOMString       <a href="#events-MutationNameEvent-prevNamespaceURI">prevNamespaceURI</a>;
-  readonly attribute DOMString       <a href="#events-MutationNameEvent-prevNodeName">prevNodeName</a>;
-
-  // Introduced in DOM Level 3:
-  void                               <a href="#events-event-type-initMutationNameEvent">initMutationNameEvent</a>(in DOMString typeArg, 
-                                                           in boolean canBubbleArg, 
-                                                           in boolean cancelableArg, 
-                                                           in Node relatedNodeArg, 
-                                                           in DOMString prevNamespaceURIArg, 
-                                                           in DOMString prevNodeNameArg);
-};
-                </code></pre>
-              </dd>
-	        </dl>
-      </div>
-<!-- div1 Events -->
-    <div>
-      <h2><a id="security-considerations-Security" href="#security-considerations-Security">Appendix D: Security Considerations</a></h2>
+      <h2><a id="security-considerations-Security" href="#security-considerations-Security">Appendix C: Security Considerations</a></h2>
 
       <p class="1st">This appendix discusses security considerations for DOM Level 3 Events implementations. The discussion is limited to security issues that arise directly from implementation of the event model, APIs and events defined in this specification. Implementations typically support other features like scripting languages, other APIs and additional events not defined in this document; these features constitute an unknown factor and are out of scope of this document. Implementers should consult the specifications of such features for their respective security considerations.</p>
       <p>Many of the event types defined in this specification are dispatched in response to user actions. This allows malicious event listeners to gain access to information users would typically consider confidential, e.g., typos they might have made when filling out a form, if they reconsider their answer to a multiple choice question shortly before submitting a form, their typing rate or primary input mechanism. In the worst case, malicious event listeners are able to capture all user interactions and submit them to a third party through means, while not defined in DOM Level 3 Events, generally available in DOM implementations, such as the XMLHttpRequest interface.</p>
@@ -7397,18 +6949,17 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
       <p>An implementation of DOM Level 3 Events alone is generally insufficient to perform attacks of this kind and the security considerations of the facilities that possibly support such attacks apply. For conformance with this specification, DOM implementations may take reasonable steps to ensure that <a class="def" href="#glossary-DOM-application">DOM applications</a> do not get access to confidential or sensitive information, for example, they might choose to dispatch no <code>load</code> events to nodes that attempt to embed resources on the local network.</p>
       <p>The <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-5CED94D7"><code>DOMImplementation.hasFeature()</code></a> method allows content authors to retrieve information about which event types the implementation supports, including event types not defined in this specification. Which event types a DOM Level 3 Events implementation supports can depend on configuration settings or on additional software modules available to the implementation.</p>
     </div>
-<!-- div1 Security -->
+<!-- div Security -->
 
-    
     <div>
-      <h2><a id="changes-Changes" href="#changes-Changes">Appendix E: Changes</a></h2>
+      <h2><a id="changes-Changes" href="#changes-Changes">Appendix D: Changes</a></h2>
 
       <div>
-        <h3><a id="changes-DOMEvents2to3Changes" href="#changes-DOMEvents2to3Changes">E.1 Changes between DOM Level 2 Events and DOM Level 3 Events</a></h3>
+        <h3><a id="changes-DOMEvents2to3Changes" href="#changes-DOMEvents2to3Changes">D.1 Changes between DOM Level 2 Events and DOM Level 3 Events</a></h3>
 
         <p>Numerous clarifications to the interfaces and event types have been made. The <code>HTMLEvents</code> module is no longer defined in this document. The event types <code>focus</code> and <code>blur</code> have been added to the <a href="#events-UIEvent"><code>UIEvent</code></a> module, the event type <code>dblclick</code> has been added to the <a href="#events-MouseEvent"><code>MouseEvent</code></a> module. This new specification provides a better separation between the DOM event flow, the event types, and the DOM interfaces.</p>
         <div>
-          <h4><a id="changes-DOMEvents2to3Changes-flow" href="#changes-DOMEvents2to3Changes-flow">E.1.1 Changes to DOM Level 2 event flow</a></h4>
+          <h4><a id="changes-DOMEvents2to3Changes-flow" href="#changes-DOMEvents2to3Changes-flow">D.1.1 Changes to DOM Level 2 event flow</a></h4>
 
           <p>This new specification introduced the following new concepts in the event flow:</p>
           <ul>
@@ -7419,7 +6970,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
 <!-- div3 DOMEvents2to3Changes-flow -->
         <div>
           
-        <h4><a id="changes-DOMEvents2to3Changes-event-types" href="#changes-DOMEvents2to3Changes-event-types">E.1.2 Changes to DOM Level 2 event types</a></h4>
+        <h4><a id="changes-DOMEvents2to3Changes-event-types" href="#changes-DOMEvents2to3Changes-event-types">D.1.2 Changes to DOM Level 2 event types</a></h4>
 
           <p>Many clarifications have been made on the event types. The conformance is now explicitly defined against the event types, and not only in terms of interfaces required by the event types. Support for the features <code>"BasicEvents"</code>, <code>"TextEvents"</code>, <code>"KeyboardEvents"</code>, and <code>"MutationNameEvents"</code> have been introduced.</p>
           <p>In the most recent drafts of this specification, <code>"MutationEvents"</code> and <code>"MutationNameEvents"</code> have been deprecated. Support for namespaced events, present in early drafts of this specification, has been removed.</p>
@@ -7429,7 +6980,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
 <!-- div3 DOMEvents2to3Changes-event-types -->
         <div>
           
-          <h4><a id="changes-DOMLevel2to3Changes" href="#changes-DOMLevel2to3Changes">E.1.3 Changes to DOM Level 2 Events interfaces</a></h4>
+          <h4><a id="changes-DOMLevel2to3Changes" href="#changes-DOMLevel2to3Changes">D.1.3 Changes to DOM Level 2 Events interfaces</a></h4>
 
           <dl>
             <dt>Interface <a href="#events-Event"><code>Event</code></a></dt>
@@ -7449,14 +7000,14 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
             <dt>Interface <a href="#events-MouseEvent"><code>MouseEvent</code></a></dt>
             <dd>The <a href="#events-MouseEvent"><code>MouseEvent</code></a> interface has one new method <a href="#events-MouseEvent-getModifierState"><code>MouseEvent.getModifierState()</code></a>.</dd>
 
-            <dt>Exception <a href="#events-EventException"><code>EventException</code></a></dt>
-            <dd>The <a href="#events-DISPATCH_REQUEST_ERR"><code>DISPATCH_REQUEST_ERR</code></a> constant has been added.</dd>
+            <dt>Exception <code>EventException</code></dt>
+            <dd>The exception <code>EventException</code> <a href="#note-eventexcpetion-removed">is removed in this specification</a>. The prior <code>DISPATCH_REQUEST_ERR</code> code is re-mapped to a <code>DOMException</code> of type <code>InvalidStateError</code>.</dd>
 
           </dl>
         </div>
 <!-- div3 DOMLevel2to3Changes -->
         <div>
-          <h3><a id="changes-DOMLevel3Addons" href="#changes-DOMLevel3Addons">E.1.4 New Interfaces</a></h3>
+          <h4><a id="changes-DOMLevel3Addons" href="#changes-DOMLevel3Addons">D.1.4 New Interfaces</a></h4>
 
           <p>The interfaces <a href="#events-CustomEvent"><code>CustomEvent</code></a>, <a href="#events-FocusEvent"><code>FocusEvent</code></a>, <a href="#events-TextEvent"><code>TextEvent</code></a>, <a href="#events-KeyboardEvent"><code>KeyboardEvent</code></a>, <a href="#events-CompositionEvent"><code>CompositionEvent</code></a>, <a href="#events-MutationNameEvent"><code>MutationNameEvent</code></a>, and <a href="#events-WheelEvent"><code>WheelEvent</code></a> were added to the Events module.</p>
         </div>
@@ -7464,7 +7015,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
       </div>
 <!-- div2 DOMEvents2to3Changes -->
       <div>
-        <h2><a id="changes-drafts" href="#changes-drafts">E.2 Changes between different drafts of DOM Level 3 Events</a></h2>
+        <h2><a id="changes-drafts" href="#changes-drafts">D.2 Changes between different drafts of DOM Level 3 Events</a></h2>
 
         <p>The DOM Level 3 Events document was previously developed between 2000 and 2003, and and published as a W3C Note, pending further feedback and interest from implementers.  In 2006, it was picked up for revision and progress on the Recommendation Track, and is now being revised to reflect the current state of implementation and the needs of script authors.</p>
         <p>Despite its status only as a W3C Note, rather than an official Recommendation, DOM 3 Events saw some implementation, and reference by other specifications, so care is being taken to cause minimal disruption, while still adapting the specification to the current environment.</p>
@@ -7473,15 +7024,15 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
           <li>The "key identifier" feature has been renamed "key value" to disambiguate them from unique identifiers for keys.</li>
           <li>The <code>change</code>, <code>submit</code>, and <code>reset</code> events were removed, since they were specific to HTML forms, and are specified in HTML5.</li>
           <li>Namespaced events have been removed.</li>
+          <li>Updated to use WebIDL.</li>
+          <li>EventException has been removed.</li>
         </ul>
       </div>
     </div>
 <!-- div1 Changes -->
-<!-- div1 ecma-binding -->
-
 
     <div>
-      <h2><a id="acknowledgements-contributors" href="#acknowledgements-contributors">Appendix F: Acknowledgements</a></h2>
+      <h2><a id="acknowledgements-contributors" href="#acknowledgements-contributors">Appendix E: Acknowledgements</a></h2>
 
       <p class="1st">Many people contributed to the DOM specifications (Level 1, 2 or 3), including participants of the DOM Working Group, the DOM Interest Group,the WebAPI Working Group, and the WebApps Working Group. We especially thank the following:</p>
       <p>Andrew Watson (Object Management Group), Andy Heninger (IBM), Angel Diaz (IBM), Arnaud Le Hors (W3C and IBM), Ashok Malhotra (IBM and Microsoft), Ben Chang (Oracle), Bill Smith (Sun), Bill Shea (Merrill Lynch), Bob Sutor (IBM), Chris Lovett (Microsoft), Chris Wilson (Microsoft), David Brownell (Sun), David Ezell (Hewlett-Packard Company), David Singer (IBM), Dimitris Dimitriadis (Improve AB and invited expert), Don Park (invited), Elena Litani (IBM), Eric Vasilik (Microsoft), Gavin Nicol (INSO), Ian Jacobs (W3C), James Clark (invited), James Davidson (Sun), Jared Sorensen (Novell), Jeroen van Rotterdam (X-Hive Corporation), Joe Kesselman (IBM), Joe Lapp (webMethods), Joe Marini (Macromedia), Johnny Stenback (Netscape/AOL), Jon Ferraiolo (Adobe), Jonathan Marsh (Microsoft), Jonathan Robie (Texcel Research and Software AG), Kim Adamson-Sharpe (SoftQuad Software Inc.), Lauren Wood (SoftQuad Software Inc., <em>former Chair</em>), Laurence Cable (Sun), Mark Davis (IBM), Mark Scardina (Oracle), Martin D&#xFC;rst (W3C), Mary Brady (NIST), Mick Goulish (Software AG), Mike Champion (Arbortext and Software AG), Miles Sabin (Cromwell Media), Patti Lutsky (Arbortext), Paul Grosso (Arbortext), Peter Sharpe (SoftQuad Software Inc.), Phil Karlton (Netscape), Philippe Le H&#xE9;garet (W3C, <em>W3C Team Contact and former Chair</em>), Ramesh Lekshmynarayanan (Merrill Lynch), Ray Whitmer (iMall, Excite@Home, and Netscape/AOL, <em>Chair</em>), Rezaur Rahman (Intel), Rich Rollman (Microsoft), Rick Gessner (Netscape), Rick Jelliffe (invited), Rob Relyea (Microsoft), Scott Isaacs (Microsoft), Sharon Adler (INSO), Steve Byrne (JavaSoft), Tim Bray (invited), Tim Yu (Oracle), Tom Pixley (Netscape/AOL), Vidur Apparao (Netscape), Vinod Anupam (Lucent), Anne van Kesteren (Opera Software), Arun Ranganathan (AOL), Bj&#xF6;rn H&#xF6;hrmann, Charles McCathieNevile (Opera Software, <em>Co-Chair</em>), Christophe Jolif (ILOG), Dean Jackson (W3C, <em>W3C Team Contact</em>), Doug Schepers (Vectoreal), Gorm Haug Eriksen (Opera Software), Ian Davis (Talis Information Limited), Ian Hickson (Google), John Robinson (AOL), Jonas Sicking (Mozilla Foundation), Luca Mascaro (HTML Writers Guild), Maciej Stachowiak (Apple Computer), Marc Hadley (Sun Microsystems), Michael Shenfield (Research In Motion), Robin Berjon, (Expway, <em>Co-Chair</em>) , Scott Hayman (Research In Motion), St&#xE9;phane Sire (IntuiLab), and T.V. Raman (Google).</p>
@@ -7496,7 +7047,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
       <p>Thanks to all those who have helped to improve this specification by sending suggestions and corrections (please, keep bugging us with your issues!), or writing informative books or Web sites:  Brad Pettit, Dylan Schiemann, David Flanagan, Steven Pemberton, Curt Arnold, Al Gilman, Misha Wolf, Sigurd Lerstad, Michael B. Allen, Alexander J. Vincent, Martin D&#xFC;rst, Ken Rehor, NAKANO Masayuki, Garrett Smith, Sergey Ilinsky, Martijn Wargers, Sean Hogan, Magnus Kristiansen, Alex Russell, Jorge Chamorro, Peter-Paul Koch, William Edney, Erik Arvidsson, Cameron McCormack, Kazuyuki Ashimura, Øistein E. Andersen, James Su, Tony Chang, Ojan Vafai, Richard Ishida, Paul Irish, Mike Taylor, Oliver Hunt, Alexey Proskuryakov, Giuseppe Pascale, and Jan Goyvaerts (regular-expressions.info).</p>
 
       <div>
-        <h3><a id="acknowledgements-Productions" href="#acknowledgements-Productions">F.1 Production Systems</a></h3>
+        <h3><a id="acknowledgements-Productions" href="#acknowledgements-Productions">E.1 Production Systems</a></h3>
 
         <p>The current drafts of this specification are lovingly hand-crafted in HTML and SVG.</p>
         <p>Earlier versions of this specification were written in XML; the HTML, OMG IDL, Java and ECMAScript bindings were all produced automatically.  Thanks to Joe English, author of <a class="normative" href="http://www.flightlab.com/cost">cost</a>, which was used as the basis for producing DOM Level 1. Thanks also to Gavin Nicol, who wrote the scripts which run on top of cost. Arnaud Le Hors and Philippe Le H&#xE9;garet maintained the scripts.</p>
@@ -7509,7 +7060,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
     
     <div id="references-References">
       <h2 class="references">
-        <a id="references-role-references" href="#references-role-references">Appendix G: References</a>
+        <a id="references-role-references" href="#references-role-references">Appendix F: References</a>
       </h2>
       <p class="1st">For the latest version of any W3C specification please consult the list of <a class="normative" href="http://www.w3.org/TR">W3C Technical Reports</a> available at http://www.w3.org/TR.</p>
       <div>
@@ -7545,25 +7096,25 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
           </dt>
           <dd><cite><a href="http://java.sun.com/docs/books/jls">The Java Language Specification</a></cite>, J. Gosling, B. Joy, and G. Steele, Authors. Addison-Wesley, September 1996. Available at http://java.sun.com/docs/books/jls</dd>
 
-          <dt>
+          <!-- Since we've switched over to WebIDL for normative referencing, this can go away.
+              <dt>
             <strong>[<a id="references-OMGIDL">OMG IDL</a>]</strong>
           </dt>
           <dd><cite>"OMG IDL Syntax and Semantics"</cite> defined in <cite><a href="http://www.omg.org/technology/documents/formal/corba_2.htm">The Common Object Request Broker: Architecture and Specification, version 2</a></cite>, Object Management Group. The latest version of CORBA version 2.0 is available at http://www.omg.org/technology/documents/formal/corba_2.htm.</dd>
-
+            -->
           <dt id="ref-rfc2119"><strong>[<a id="RFC2119">RFC2119</a>]</strong> Key words for use in RFCs to indicate Requirement Levels</dt>
           <dd>S Bradner, 1997. The specification for how to use English to specify normativity, as if it were a technical language. Available at <a href="http://rfc.net/rfc2119.html">http://rfc.net/rfc2119.html</a></dd>
 
-          <dt><strong>[<a id="references-Unicode">Unicode</a>]</strong></dt>
-          <dd><cite>The Unicode Standard, Version 5.0</cite>, ISBN 0-321-48091-0, as updated periodically by the publication of new versions. See also <a class="normative" href="http://www.unicode.org/unicode/standard/versions">Versions of the Unicode Standard</a>, available at http://www.unicode.org/unicode/standard/versions, for latest version and additional information on versions of the standard and of the Unicode Character Database.</dd>
-
-          <dt>
-            <strong>[<a id="references-UnicodeNormalization">UAX #15</a>]</strong>
-          </dt>
+          <dt><strong>[<a id="references-UnicodeNormalization">UAX #15</a>]</strong></dt>
           <dd><cite><a href="http://www.unicode.org/reports/tr15/">Unicode Normalization Forms</a></cite>, The Unicode Standard Annex #15. The Unicode Consortium, 2006. The latest version of this annex is available at http://www.unicode.org/reports/tr15/.</dd>
 
-          <dt>
-            <strong>[<a id="references-Namespaces10">XML Namespaces 1.0</a>]</strong>
-          </dt>
+          <dt><strong>[<a id="references-Unicode">Unicode</a>]</strong></dt>
+          <dd><cite>The Unicode Standard, Version 5.0</cite>, ISBN 0-321-48091-0, as updated periodically by the publication of new versions. See also <a class="normative" href="http://www.unicode.org/unicode/standard/versions">Versions of the Unicode Standard</a>, available at http://www.unicode.org/unicode/standard/versions, for latest version and additional information on versions of the standard and of the Unicode Character Database.</dd>
+          
+          <dt><strong>[<a id="references-WebIDL">WEB IDL</a>]</strong></dt>
+          <dd><cite><a href="http://www.w3.org/TR/WebIDL/">Web IDL</a></cite>, C. McCormack. 7 February 2012. W3C Working Draft (Work in progress). URL: http://www.w3.org/TR/WebIDL/. The <a href="http://dev.w3.org/2006/webapi/WebIDL/">latest version of Web IDL</a> is available at http://dev.w3.org/2006/webapi/WebIDL/. </dd>
+
+          <dt><strong>[<a id="references-Namespaces10">XML Namespaces 1.0</a>]</strong></dt>
           <dd><cite><a href="http://www.w3.org/TR/2006/REC-xml-names-20060816">Namespaces in XML 1.0</a></cite>, T. Bray, D. Hollander, A. Layman, and R. Tobin, Editors. World Wide Web Consortium, 16 August 2006. This version of the Namespaces in XML 1.0 Specification is http://www.w3.org/TR/2006/REC-xml-names-20060816. The <a class="normative" href="http://www.w3.org/TR/xml-names/">latest version of Namespaces in XML 1.0</a> is available at http://www.w3.org/TR/xml-names/.</dd>
 
         </dl>
@@ -7571,7 +7122,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
       
 <!-- div2 References-Informative -->
       <div>
-        <h3><a id="references-References-Informative" href="#references-References-Informative">G.2 Informative References</a></h3>
+        <h3><a id="references-References-Informative" href="#references-References-Informative">F.2 Informative References</a></h3>
 
         <dl>
           <dt id="ref-ARIA">
@@ -7689,16 +7240,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
             World Wide Web Consortium, <span class="wip">work in progress</span>, 8 March 2010.  
             This version of the UAAG 2.0 specfication is http://www.w3.org/WAI/UA/2010/ED-UAAG20-20100308/. The <a class="normative" href="http://www.w3.org/TR/UAAG20/">latest version of UAAG 2.0</a> is available at http://www.w3.org/TR/UAAG20/.
           </dd>
-          <dt id="references-WebIDL">
-            <strong class="WebIDL">[Web IDL]</strong>
-          </dt>
-          <dd><cite class="w3cwd"><a href="http://www.w3.org/TR/2010/WD-WebIDL-20101021/">Web IDL</a></cite>,
-            C. McCormack, editor.
-            World Wide Web Consortium, <span class="wip">work in progress</span>, 21 October 2010.
-            <br />This edition of Web IDL is http://www.w3.org/TR/2010/WD-WebIDL-20101021/.
-            <br />The <a href="http://www.w3.org/TR/WebIDL/">latest edition of Web IDL</a> is available at http://www.w3.org/TR/WebIDL/.
-          </dd>
-
+          
           <dt>
             <strong>[<a id="references-XML">XML 1.0</a>]</strong>
           </dt>
