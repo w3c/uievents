@@ -25,16 +25,16 @@
       </p>
       <h1 id="Overview-title">Document Object Model (DOM) Level 3 Events Specification</h1>
 <!-- @-->
-      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <span class="2012-03-02">02 March 2012</span></h2>
+      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <span class="2012-03-09">09 March 2012</span></h2>
       <dl>
         <dt>This version:</dt>
-        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.200">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.200</a></dd>
+        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.214">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.214</a></dd>
 
         <dt>Latest stable version:</dt>
         <dd><a href="http://www.w3.org/TR/DOM-Level-3-Events">http://www.w3.org/TR/DOM-Level-3-Events</a></dd>
 
         <dt>Previous version:</dt>
-        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.199">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.199</a></dd>
+        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.213">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.213</a></dd>
 
         <dt>Editor's Draft:</dt>
         <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
@@ -54,9 +54,9 @@
       <dl>
         <dt>Editors:</dt>
         <dd>Doug Schepers, <em>W3C</em></dd>
-		    <dd>Jacob Rossi, <em>Microsoft</em></dd>
-		    
-		    <dd><br/></dd>
+		<dd>Jacob Rossi, <em>Microsoft</em></dd>
+        <dd>Travis Leithead, <em>Microsoft</em></dd>
+	    <dd><br/></dd>
         <dd>Bj&#xF6;rn H&#xF6;hrmann, <em>Invited Expert (until December 2007)</em></dd>
         <dd>Philippe Le H&#xE9;garet, <em>W3C (until November 2003)</em></dd>
         <dd>Tom Pixley, <em>Netscape Communications Corporation (until July 2002)</em></dd>
@@ -850,9 +850,9 @@ interface <a href="#events-Event">Event</a>
   readonly attribute DOMTimeStamp   <a href="#events-event-type-timeStamp">timeStamp</a>;
   void                              <a href="#events-event-type-stopPropagation">stopPropagation</a>();
   void                              <a href="#events-event-type-preventDefault">preventDefault</a>();
-  void                              <a href="#events-event-type-initEvent">initEvent</a>(DOMString eventTypeArg, 
-                                              boolean canBubbleArg, 
-                                              boolean cancelableArg);
+  void                              <a href="#events-event-type-initEvent">initEvent</a>(DOMString <a href="#events-Event-initparam-eventTypeArg">eventTypeArg</a>, 
+                                              boolean <a href="#events-Event-initparam-canBubbleArg">canBubbleArg</a>, 
+                                              boolean <a href="#events-Event-initparam-cancelableArg">cancelableArg</a>);
   <span class="comment">// Introduced in DOM Level 3:</span>
   void                              <a href="#events-event-type-stopImmediatePropagation">stopImmediatePropagation</a>();
   readonly attribute boolean        <a href="#events-event-type-defaultPrevented">defaultPrevented</a>;
@@ -935,13 +935,13 @@ interface <a href="#events-Event">Event</a>
                         <strong>Parameters</strong>
                         <div class="paramtable">
                           <dl>
-                            <dt><code class="parameter-name">eventTypeArg</code> of type <code>DOMString</code></dt>
+                            <dt><a id="events-Event-initparam-eventTypeArg"><code class="parameter-name">eventTypeArg</code></a> of type <code>DOMString</code></dt>
                             <dd><p>Specifies <a href="#events-event-type-type"><code>Event.type</code></a>, the name of the event type.</p></dd>
                             
-                            <dt><code class="parameter-name">canBubbleArg</code> of type <code>boolean</code></dt>
+                            <dt><a id="events-Event-initparam-canBubbleArg"><code class="parameter-name">canBubbleArg</code></a> of type <code>boolean</code></dt>
                             <dd><p>Specifies <a href="#events-event-type-canBubble"><code>Event.bubbles</code></a>. This parameter overrides the intrinsic bubbling behavior of the event.</p></dd>
                             
-                            <dt><code class="parameter-name">cancelableArg</code> of type <code>boolean</code></dt>
+                            <dt><a id="events-Event-initparam-cancelableArg"><code class="parameter-name">cancelableArg</code></a> of type <code>boolean</code></dt>
                             <dd><p>Specifies <a href="#events-event-type-canCancel"><code>Event.cancelable</code></a>. This parameter overrides the intrinsic cancelable behavior of the event.</p></dd>
                           </dl>
                         </div>
@@ -1023,10 +1023,10 @@ interface <a href="#events-Event">Event</a>
 interface <a href="#events-CustomEvent">CustomEvent</a> : <a href="#events-Event">Event</a>
 {
   readonly attribute any? <a href="#events-CustomEvent-detail">detail</a>;
-  void                    <a href="#events-event-type-initCustomEvent">initCustomEvent</a>(DOMString typeArg, 
-                                          boolean canBubbleArg, 
-                                          boolean cancelableArg, 
-                                          any? detailArg);
+  void                    <a href="#events-event-type-initCustomEvent">initCustomEvent</a>(DOMString <a href="#events-CustomEvent-initparam-typeArg">typeArg</a>, 
+                                          boolean <a href="#events-CustomEvent-initparam-canBubbleArg">canBubbleArg</a>, 
+                                          boolean <a href="#events-CustomEvent-initparam-cancelableArg">cancelableArg</a>, 
+                                          any? <a href="#events-CustomEvent-initparam-detailArg">detailArg</a>);
 };
                 </code></pre>
               </dd>
@@ -1054,16 +1054,16 @@ interface <a href="#events-CustomEvent">CustomEvent</a> : <a href="#events-Event
                         <strong>Parameters</strong>
                         <div class="paramtable">
                           <dl>
-                            <dt><code class="parameter-name">typeArg</code> of type <code>DOMString</code></dt>
+                            <dt><a id="events-CustomEvent-initparam-typeArg"><code class="parameter-name">typeArg</code></a> of type <code>DOMString</code></dt>
                             <dd><p>Refer to the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p></dd>
                             
-                            <dt><code class="parameter-name">canBubbleArg</code> of type <code>boolean</code></dt>
+                            <dt><a id="events-CustomEvent-initparam-canBubbleArg"><code class="parameter-name">canBubbleArg</code></a> of type <code>boolean</code></dt>
                             <dd><p>Refer to the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p></dd>
                             
-                            <dt><code class="parameter-name">cancelableArg</code> of type <code>boolean</code></dt>
+                            <dt><a id="events-CustomEvent-initparam-cancelableArg"><code class="parameter-name">cancelableArg</code></a> of type <code>boolean</code></dt>
                             <dd><p>Refer to the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p></dd>
                             
-                            <dt><code class="parameter-name">detailArg</code> of type <code>any</code></dt>
+                            <dt><a id="events-CustomEvent-initparam-detailArg"><code class="parameter-name">detailArg</code></a> of type <code>any</code></dt>
                             <dd><p>Specifies <a href="#events-CustomEvent-detail"><code>CustomEvent.detail</code></a>. This value may be <code>null</code>.</p></dd>
                           </dl>
                         </div>
@@ -1111,13 +1111,13 @@ interface <a href="#events-CustomEvent">CustomEvent</a> : <a href="#events-Event
 interface <a href="#events-EventTarget">EventTarget</a>
 {
   <span class="comment">// Modified in DOM Level 3:</span>
-  void    <a href="#events-EventTarget-addEventListener">addEventListener</a>(DOMString type, 
-                           <a href="#events-EventListener">EventListener</a>? listener, 
-                           <em>optional</em> boolean useCapture = false);
-  void    <a href="#events-EventTarget-removeEventListener">removeEventListener</a>(DOMString type, 
-                              <a href="#events-EventListener">EventListener</a>? listener, 
-                              <em>optional</em> boolean useCapture = false);
-  boolean <a href="#events-EventTarget-dispatchEvent">dispatchEvent</a>(<a href="#events-Event">Event</a> event);        
+  void    <a href="#events-EventTarget-addEventListener">addEventListener</a>(DOMString <a href="#events-EventTarget-aelparam-type">type</a>, 
+                           <a href="#events-EventListener">EventListener</a>? <a href="#events-EventTarget-aelparam-listener">listener</a>, 
+                           <em>optional</em> boolean <a href="#addEventListener_useCapture">useCapture</a> = false);
+  void    <a href="#events-EventTarget-removeEventListener">removeEventListener</a>(DOMString <a href="#events-EventTarget-relparam-type">type</a>, 
+                              <a href="#events-EventListener">EventListener</a>? <a href="#events-EventTarget-relparam-listener">listener</a>, 
+                              <em>optional</em> boolean <a href="#removeEventListener_useCapture">useCapture</a> = false);
+  boolean <a href="#events-EventTarget-dispatchEvent">dispatchEvent</a>(<a href="#events-Event">Event</a> <a href="#events-EventTarget-dispatchparam-event">event</a>);
 };
                 </code></pre>
               </dd>
@@ -1136,10 +1136,10 @@ interface <a href="#events-EventTarget">EventTarget</a>
                         <strong>Parameters</strong>
                         <div class="paramtable">
                           <dl>
-                            <dt><code class="parameter-name">type</code> of type <code>DOMString</code></dt>
+                            <dt><a id="events-EventTarget-aelparam-type"><code class="parameter-name">type</code></a> of type <code>DOMString</code></dt>
                             <dd><p>Specifies the <a href="#events-event-type-type"><code>Event.type</code></a> associated with the event for which the user is registering.</p></dd>
                             
-                            <dt><code class="parameter-name">listener</code> of type <a href="#events-EventListener"><code>EventListener</code></a></dt>
+                            <dt><a id="events-EventTarget-aelparam-listener"><code class="parameter-name">listener</code></a> of type <a href="#events-EventListener"><code>EventListener</code></a></dt>
                             <dd>
                               <p>The <code>listener</code> parameter must be an object that implements the <a href="#events-EventListener"><code>EventListener</code></a> interface or a function.  If <code>listener</code> is a function then it must be used as the callback for the event; otherwise, if <code>listener</code> implements <a href="#events-EventListener"><code>EventListener</code></a>, then its <a href="#events-EventListener-handleEvent">handleEvent</a> method must be used as the callback. If <code>listener</code> is a function that also has a <a href="#events-EventListener-handleEvent">handleEvent</a> method, the function itself must be used as the callback and not its <a href="#events-EventListener-handleEvent">handleEvent</a> method.</p>
                               <p class="note" id="addEventListener_function"><strong>Note:</strong>  When a <code>listener</code> is a function, it can be either a function reference or an inline function object literal.</p>
@@ -1176,9 +1176,9 @@ interface <a href="#events-EventTarget">EventTarget</a>
                         <strong>Parameters</strong>
                         <div class="paramtable">
                           <dl>
-                            <dt><code class="parameter-name">type</code> of type <code>DOMString</code></dt>
+                            <dt><a id="events-EventTarget-relparam-type"><code class="parameter-name">type</code></a> of type <code>DOMString</code></dt>
                             <dd><p>Specifies the <a href="#events-event-type-type"><code>Event.type</code></a> for which the user registered the event listener.</p></dd>
-                            <dt><code class="parameter-name">listener</code> of type <a href="#events-EventListener"><code>EventListener</code></a></dt>
+                            <dt><a id="events-EventTarget-relparam-listener"><code class="parameter-name">listener</code></a> of type <a href="#events-EventListener"><code>EventListener</code></a></dt>
                             <dd><p>The <a href="#events-EventListener"><code>EventListener</code></a> to be removed.</p></dd>
                             <dt><code id="removeEventListener_useCapture" class="parameter-name">useCapture</code> of type <code>boolean</code></dt>
                             <dd>
@@ -1210,8 +1210,9 @@ interface <a href="#events-EventTarget">EventTarget</a>
                         <strong>Parameters</strong>
                         <div class="paramtable">
                           <dl>
-                            <dt><code class="parameter-name">event</code> of type <a href="#events-Event"><code>Event</code></a></dt>
+                            <dt><a id="events-EventTarget-dispatchparam-event"><code class="parameter-name">event</code></a> of type <a href="#events-Event"><code>Event</code></a></dt>
                             <dd><p>The event to be dispatched.</p></dd>
+                            <p class="note"><strong>Note: </strong>This parameter receives an <code>Event</code> object, or any object that inherits from <code>Event</code>, e.g., <code>MouseEvent</code>, <code>KeyboardEvent</code>, <code>MutationEvent</code>, etc.</p>
                           </dl>
                         </div>
                       </div>
@@ -3393,9 +3394,16 @@ interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEv
                           <dt><code class="parameter-name">relatedTargetArg</code> of type <a href="#events-EventTarget"><code>EventTarget</code></a></dt>
                           <dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
                           
-                          <dt><code class="parameter-name">modifiersListArg</code> of type <code>DOMString</code></dt>
                           <dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
-                          
+                          <dt><code class="parameter-name">modifiersListArg</code> of type <code>DOMString</code></dt>
+                          <dd><p>A <a class="normative" href="http://www.w3.org/TR/2004/REC-xml-20040204/#NT-S"><em>white space</em></a> 
+                              separated list of modifier key values to be activated on this object. As an example, 
+                              <code>"Control Shift"</code> marks the control and shift modifiers as activated (the 
+                              <a href="#events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a> and
+                              <a href="#events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a> inherited
+                              attributes will be <code>true</code> on the initialized <code>WheelEvent</code> object).</p>
+                          </dd>
+
                           <dt><code class="parameter-name">deltaXArg</code> of type <code>float</code></dt>
                           <dd><p>Specifies <a href="#events-WheelEvent-deltaX"><code>WheelEvent.deltaX</code></a>.</p></dd>
                           
@@ -4108,7 +4116,8 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
 
         <p>This module defines the feature CompositionEvents 3.0 and depends on the feature UIEvents 3.0.</p>
         <p>Composition Events provide a means for inputing text in a supplementary or alternate manner than by Keyboard Events, in order to allow the use of characters that might not be commonly available on keyboard. For example, Composition events might be used to add accents to characters despite their absence from standard US keyboards, to build up logograms of many Asian languages from their base components or categories, to select word choices from a combination of key presses on a mobile device keyboard, or to convert voice commands into text using a speech recognition processor.  Refer to <a href="#keys">Keyboard events and key values</a> for examples on how Composition Events are used in combination with keyboard events.</p>
-        <p>Conceptually, a composition session consists of one <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> event, one or more <a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> events, and one <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event, with the value of the <a href="#events-CompositionEvent-data">data</a> attribute persisting between each <q>stage</q> of this event chain during each session.  While a composition session is active, keyboard events should not be dispatched to the DOM (i.e., the <a class="def" href="#glossary-text-composition-system">text composition system</a> <q>swallows</q> the keyboard events), and only <a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> events are dispatched to indicate the composition process.</p>
+        <p>Conceptually, a composition session consists of one <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> event, one or more <a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> events, and one <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event, with the value of the <a href="#events-CompositionEvent-data">data</a> attribute persisting between each <q>stage</q> of this event chain during each session. </p>
+        <p class="note"><strong>Note:</strong> While a composition session is active, keyboard events can be dispatched to the DOM if the keyboard is the input device used with the composition session. See the <a href="#event-type-compositionstart"><code>compositionstart</code> event details</a> and <a href="#keys-IME">IME section</a> for relevent event ordering.</p>
         <p>Not all <a class="def" href="#glossary-ime">IME</a> systems or devices expose the necessary data to the DOM, so the active composition string (the <q>Reading Window</q> or <q>candidate selection menu option</q>) may not be available through this interface, in which case the selection may be represented by the <a class="def" href="#glossary-empty-string">empty string</a>.</p>
         <dl>
           <dt><strong>Interface <em><a id="events-CompositionEvent">CompositionEvent</a></em></strong> (introduced in <strong class="since">DOM Level 3</strong>)</dt>
