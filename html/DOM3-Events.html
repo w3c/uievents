@@ -445,7 +445,7 @@
             </p>
             <p class="note">This is a note.</p>
             <p class="warning">This is a warning.  It is used on security notes and to mark <a class="def" href="#glossary-deprecated">deprecated</a><!--  or <a class="def" href="#glossary-obsolete">obsolete</a> --> features.</p>
-            <p class="example">This is an example.</p>
+            <p class="example"><strong>Example:</strong> This is an example.</p>
             <p class="atrisk">This is a feature at risk, which is likely to be removed from the specification.</p>
             <p class="proposal">This is a proposed new feature.</p>
             <p class="issue"><strong>Issue:</strong> This is an open issue.</p>
@@ -667,13 +667,61 @@
       <div>
         <h3><a id="event-flow-default-cancel" href="#event-flow-default-cancel">3.2 Default actions and cancelable events</a></h3>
 
-        <p>Event objects may have one or more <a class="def" href="#glossary-default-action">default actions</a> associated with them.  These are actions the implementation must perform in combination with the dispatch of the event object.  An example is the [<cite><a class="informative" href="#references-HTML5">HTML5</a></cite>] form element. When the user submits the form (e.g., by pressing on a submit button), the HTML event <code class="eventtype">submit</code> will be dispatched to the element and the <a class="def" href="#glossary-default-action">default action</a> for this <a class="def" href="#glossary-event-type">event type</a> will be generally to send a request to a Web server with the parameters from the form.</p>
-        <p><a class="def" href="#glossary-default-action">Default actions</a> should be performed after the event dispatch has been completed, but in exceptional cases also immediately before the event is dispatched.</p>
-        <!-- <span class="issue"><strong>Issue:</strong> insert example here: &lt;input type="checkbox"&gt;'s .checked handling comes to mind.
-        .checked is changed just before 'click' event is dispatched, and if
-        default action is prevented, .checked is set to its original value.</span> -->
-        <p id="events-dt-cancelable-event">Some event objects are <em>cancelable</em>, meaning the <a class="def" href="#glossary-default-action">default action</a> can be prevented from occuring, or, if the <a class="def" href="#glossary-default-action">default action</a> is carried out before the dispatch, its effect may be reversed. Whether an event object is cancelable must be indicated by the <a href="#events-event-type-canCancel"><code>Event.cancelable</code></a> attribute. Event listeners can cancel <a class="def" href="#glossary-default-action">default actions</a> of cancelable event objects by invoking the <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> method, and determine whether an event has been canceled through the <a href="#events-event-type-defaultPrevented"><code>Event.defaultPrevented</code></a> attribute while the object is being dispatched, or from the return value of the <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method for event objects dispatched by the <a class="def" href="#glossary-DOM-application">DOM application</a> itself.</p>
-        <p>This specification does not offer features to programatically query if an event object has any <a class="def" href="#glossary-default-action">default action</a> associated with it, or to associate new <a class="def" href="#glossary-default-action">default actions</a> with an event object. Other specifications may define what default actions, if any, are associated with certain event objects. Further, implementations may associate <a class="def" href="#glossary-default-action">default actions</a> with events as necessary and appropriate for that implementation. As an example, one implementation might scroll a document view by a certain amount as <a class="def" href="#glossary-default-action">default action</a> of a mouse wheel event, while another implementation might instead zoom the document as its <a class="def" href="#glossary-default-action">default action</a> for a mouse wheel event.</p>
+        <p>Event objects may be associated with one or more <a class="def" href="#glossary-default-action">default actions</a>. 
+            These are conditional actions that the implementation performs based on the results of dispatching the related event 
+            object.
+        </p>
+        <p class="example"><strong>Example:</strong> A <a href="#event-type-mousedown"><code>mousedown</code></a> event is 
+           dispatched immediately after the user presses down a button on a pointing device (typically a mouse). A
+           possible <a class="def" href="#glossary-default-action">default action</a> associated with this event is to setup a 
+           state machine that allows the user to drag images or select text; the <a class="def" href="#glossary-default-action">
+           default action</a> depends on what happens next--for example, if the user's pointing device is over text, a text selection might 
+           begin. If the user's pointing device is over an image, then an image-drag action could begin. Preventing the 
+           <a class="def" href="#glossary-default-action">default action</a> of a <code>mousedown</code> event prevents
+           these actions from occuring.
+        </p>
+        <p class="note"><strong>Note:</strong> Implementations can choose what default actions to associate with an event, if any.</p>
+        <p><a class="def" href="#glossary-default-action">Default actions</a> should be performed after the event dispatch has been 
+           completed, but in exceptional cases may also be performed immediately before the event is dispatched.
+        </p>
+        <p class="example"><strong>Example:</strong>
+            The default action associated with the <code>click</code> event on &lt;input type="checkbox"&gt; elements toggles the 
+            <code>checked</code> IDL attribute value of that element. If the <code>click</code> event's default action is cancelled, 
+            then the value is restored to its former state.
+        </p>
+        <p id="events-dt-cancelable-event">Events associated with <a class="def" href="#glossary-default-action">default actions</a>
+            are considered <em>cancelable events</em>--meaning if the event is <em>canceled</em>, then the conditional 
+            <a class="def" href="#glossary-default-action">default actions</a> associated with the event must be skipped (or
+            as mentioned above, if the <a class="def" href="#glossary-default-action">default actions</a> are carried out before the 
+            dispatch, their effect must be undone). Whether an event object is cancelable must be indicated by the 
+            <a href="#events-event-type-canCancel"><code>Event.cancelable</code></a> attribute. Event listeners stop all related
+            <a class="def" href="#glossary-default-action">default actions</a> of an event object (i.e., <em>cancel it</em>) by 
+            invoking the <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a>
+            method, and determine whether an event has alredy been canceled (e.g., by a prior event listener) through the 
+            <a href="#events-event-type-defaultPrevented"><code>Event.defaultPrevented</code></a> attribute. If the 
+            <a class="def" href="#glossary-DOM-application">DOM application</a> itself initiated the dispatch, it may observe the 
+            return value of the <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a>
+            method to see whether the event object was cancelled.
+        </p>
+        <p class="note"><strong>Authoring Note: </strong>Many implementations additionally interpret an event listener's return value,
+            such as the value <code>false</code>, to mean that the <a class="def" href="#glossary-default-action">default action</a>
+            of cancellable events should be cancelled.
+        </p>
+        <p class="note"><strong>Authoring Note: </strong>Some cancellable events might not have any observable 
+            <a class="def" href="#glossary-default-action">default actions</a>.
+        </p>
+        <p>This specification does not offer features to programatically query if an event object has any 
+            <a class="def" href="#glossary-default-action">default action</a> associated with it, or to associate new 
+            <a class="def" href="#glossary-default-action">default actions</a> with an event object. Other specifications 
+            should define what default actions, if any, are associated with certain event objects. Further, implementations 
+            may associate <a class="def" href="#glossary-default-action">default actions</a> with events as necessary and 
+            appropriate for that implementation.
+        </p>
+        <p class="example"><strong>Example:</strong>
+            As an example, one implementation might scroll a document view by a certain amount as the
+            <a class="def" href="#glossary-default-action">default action</a> of a mouse wheel event, while another implementation 
+            might instead zoom the document as its <a class="def" href="#glossary-default-action">default action</a>.
+        </p>
       </div>
 <!-- div2 sync-async -->
       <div>
@@ -3262,7 +3310,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
       <h3><a id="events-wheelevents" href="#events-wheelevents">5.2.4 Wheel Event Types</a></h3>
 
       <p>This module defines the feature WheelEvents 3.0 and depends on the feature MouseEvents 3.0.</p>
-      <p>Wheels are devices that can be rotated in one or more spatial dimensions, and which can be associated with a pointer device. The coordinate system depends on the environment configuration. As an example, the environment might be configured to associate vertical scrolling with rotation along the y-axis, horizontal scrolling with rotation along the x-axis, and zooming with rotation along the z-axis.  The deltax, deltaY, and deltaX attributes of <a href="#events-WheelEvent"><code>WheelEvent</code></a> objects indicate the distance of the rotation, as specified in the <a class="def" href="#glossary-delta">delta</a> definition. <!--The delta attributes of <a href='#events-WheelEvent'><code>WheelEvent</code></a> objects indicate the distance of the rotation. The measurement unit depends on the environment configuration. The sign of the delta value should indicate the direction of the rotation.--></p>
+      <p>Wheels are devices that can be rotated in one or more spatial dimensions, and which can be associated with a pointer device. The coordinate system depends on the environment configuration. As an example, the environment might be configured to associate vertical scrolling with rotation along the y-axis, horizontal scrolling with rotation along the x-axis, and zooming with rotation along the z-axis.  The deltaX, deltaY, and deltaZ attributes of <a href="#events-WheelEvent"><code>WheelEvent</code></a> objects indicate the distance of the rotation, as specified in the <a class="def" href="#glossary-delta">delta</a> definition. <!--The delta attributes of <a href='#events-WheelEvent'><code>WheelEvent</code></a> objects indicate the distance of the rotation. The measurement unit depends on the environment configuration. The sign of the delta value should indicate the direction of the rotation.--></p>
       <dl>
         <dt><strong>Interface <em><a id="events-WheelEvent">WheelEvent</a></em></strong> (introduced in <strong class="since">DOM Level 3</strong>)</dt>
         <dd>
@@ -3744,7 +3792,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
                       <dd>The key activated originated from the left key location (there is more than one possible location for this key). <i class="example" id="_18"><strong>Example:</strong> the left <code class="value">'Control'</code> key on a PC 101 Key US keyboard.</i></dd>
 					  
 					  <dt><a id="events-DOM_KEY_LOCATION_RIGHT"><code class="constant-name">DOM_KEY_LOCATION_RIGHT</code></a></dt>
-                      <dd>The key activation originalted from the right key location (there is more than one possible location for this key). <i class="example" id="_21"><strong>Example:</strong> the right <code class="value">'Shift'</code> key on a PC 101 Key US keyboard.</i></dd>
+                      <dd>The key activation originated from the right key location (there is more than one possible location for this key). <i class="example" id="_21"><strong>Example:</strong> the right <code class="value">'Shift'</code> key on a PC 101 Key US keyboard.</i></dd>
 
                       <dt><a id="events-DOM_KEY_LOCATION_NUMPAD"><code class="constant-name">DOM_KEY_LOCATION_NUMPAD</code></a></dt>
                       <dd>The key activation originated on the numeric keypad or with a virtual key corresponding to the numeric keypad. <i class="example" id="_19"><strong>Example:</strong> the <code class="value">'1'</code> key on a PC 101 Key US keyboard located on the numeric pad.</i></dd>
@@ -5085,7 +5133,8 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
   } 
             </code></pre>
           </div>
-          <p>In addition, because Unicode categorizes each assigned <a class="def" href="#glossary-unicode-code-point">code point</a> into a group of code points used by a particular human writing system, even more advanced capabilities are possible.  For example, a content author can match characters from a particular human script (e.g., Tibetan) using a regular expression such as <code class="example inline">\p{Tibetan}</code>, to filter out other characters, or discover if a <a class="def" href="#glossary-unicode-code-point">code point</a> is in a certain code block (range of code points), using a regular expression like <code class="example inline">\p{InCyrillic}</code>.</p>
+          <p>In addition, because Unicode categorizes each assigned <a class="def" href="#glossary-unicode-code-point">code point</a> into a group of code points used by a particular human writing system, even more advanced capabilities are possible.</p>
+          <p class="example"><strong>Example:</strong> A content author can match characters from a particular human script (e.g., Tibetan) using a regular expression such as <code class="inline">\p{Tibetan}</code>, to filter out other characters, or discover if a <a class="def" href="#glossary-unicode-code-point">code point</a> is in a certain code block (range of code points), using a regular expression like <code class="inline">\p{InCyrillic}</code>.</p>
           <p>To facilitate this, implementations should support Unicode range detection using regular expressions, in a manner such as the Perl Compatible Regular Expressions (PCRE) [<a href="#references-pcre">PCRE</a>].</p>
         </div>
 
@@ -5138,7 +5187,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
             <p><strong>Example:</strong></p>
             <ol>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">\u0302</code> (Combining Circumflex Accent key)</li>
-              <li><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>: <code class="value">\u0302</code> (Combining Circumflex Accent key)</li>
+              <li><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>: <code class="value">''</code></li>
               <li><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>: <code class="value">\u0302</code> (Combining Circumflex Accent key)</li>
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">\u0302</code> (Combining Circumflex Accent key)</li>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'ê'</code> (<code class="value">U+00EA</code>, LATIN SMALL LETTER E WITH CIRCUMFLEX) 
@@ -5157,7 +5206,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
             <p><strong>Example:</strong></p>
             <ol>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">\u0302</code> (Combining Circumflex Accent key)</li>
-              <li><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>: <code class="value">\u0302</code> (Combining Circumflex Accent key)</li>
+              <li><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>: <code class="value">''</code></li>
               <li><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>: <code class="value">\u0302</code> (Combining Circumflex Accent key)</li>
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">\u0302</code> (Combining Circumflex Accent key)</li>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'q'</code> (<code class="value">U+0071</code>, The Latin Small Letter Q key)</li>
