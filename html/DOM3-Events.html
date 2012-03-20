@@ -25,16 +25,16 @@
       </p>
       <h1 id="Overview-title">Document Object Model (DOM) Level 3 Events Specification</h1>
 <!-- @-->
-      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <span class="2012-03-16">16 March 2012</span></h2>
+      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <span class="2012-03-19">19 March 2012</span></h2>
       <dl>
         <dt>This version:</dt>
-        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.216">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.216</a></dd>
+        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.217">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.217</a></dd>
 
         <dt>Latest stable version:</dt>
         <dd><a href="http://www.w3.org/TR/DOM-Level-3-Events">http://www.w3.org/TR/DOM-Level-3-Events</a></dd>
 
         <dt>Previous version:</dt>
-        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.214">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.214</a></dd>
+        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.216">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.216</a></dd>
 
         <dt>Editor's Draft:</dt>
         <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
@@ -207,11 +207,13 @@
                   <li><a class="eventtype" href="#event-type-wheel"><code>wheel</code> event</a></li>
                 </ul>
               </li>
+              <!-- Removing TextEvent per https://www.w3.org/Bugs/Public/show_bug.cgi?id=12958
               <li><a href="#events-textevents">5.2.5 Text Event Types</a>
                 <ul class="toc">
                   <li><a class="eventtype" href="#event-type-textinput"><code>textinput</code> event</a></li>
                 </ul>
               </li>
+                  -->
               <li><a href="#events-keyboardevents">5.2.6 Keyboard Event Types</a>
                 <ul class="toc">
                   <li><a href="#events-keyboard-event-order">5.2.6.1 Keyboard Event Order</a></li>
@@ -412,7 +414,7 @@
                 <li><span class="assert mustnot">If the version parameter is omitted, the <a class="def" href="#glossary-user-agent">user agent</a> must not differentiate between the <a href="#conform-arch">DOM Events Architecture</a> as described in DOM Level 3 Events and DOM Level 2 Events, in terms of reporting support for the features indicated by the base feature string.</span></li>
               </ul>
             </li>
-            <li id="extended-feature-string">The extended feature string for each event type defined in DOM Level 3 Events must be the base feature string "<code>Events</code>", followed by the period character ("."), followed by the name of that event type, with the optional version string "<code>3.0</code>", indicating that the <a class="def" href="#glossary-user-agent">user agent</a> supports that specific event type in the manner described in the appropriate <a href="#conform-module">conformance section</a>.  For example, the feature string for the <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event would be "<code>Events.textinput</code>", with the optional version string "<code>3.0</code>".
+            <li id="extended-feature-string">The extended feature string for each event type defined in DOM Level 3 Events must be the base feature string "<code>Events</code>", followed by the period character ("."), followed by the name of that event type, with the optional version string "<code>3.0</code>", indicating that the <a class="def" href="#glossary-user-agent">user agent</a> supports that specific event type in the manner described in the appropriate <a href="#conform-module">conformance section</a>.  For example, the feature string for the <code>mousemove</code> event would be "<code>Events.mousemove</code>", with the optional version string "<code>3.0</code>".
               <ul>
                 <li><span class="assert must">Because this specification does not retroactively define extended feature strings for DOM Level 2 Events, using the <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-5CED94D7"><code>DOMImplementation.hasFeature()</code></a> method with extended feature strings with a version string "<code>2.0</code>" must return false.</span><span class="warning" id="_42"><strong>Warning!</strong> Because this mechanism for discrete feature strings was not defined in earlier DOM Events specifications, older user agents which support those specifications but not this one may report false negatives in terms of supporting particular features.  For example, a browser which supports the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type as defined in DOM Level 2 Events, but does not support this specification, is likely to return <code>false</code> to the method call <code>document.implementation.hasFeature("Events.click", "")</code>.  The content author should not take this for definitive proof that the implementation does not support the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type, but rather that other means of testing are required in that instance.  This method is best used as a means to detect positive results, not negative ones.  However, it is expected that this will prove of sufficient utility in many cases to justify its use.</span></li>
                 <li><span class="assert must">A <a class="def" href="#glossary-user-agent">user agent</a> which supports an event type in a manner conforming to DOM Level 2 Events but not conforming to DOM Level 3 Events must not report a positive result to that extended feature string, regardless of the value of the version string.</span></li>
@@ -426,7 +428,7 @@
             </li>
             <li>For backwards compatibility, each interface defined in DOM Level 3 Events also has a feature string, which may act as a base feature string or as an extended feature string.  If used as a base feature string, it must follow the conventions of the <a href="#base-feature-string">primary base feature string</a> (e.g., "<code>KeyboardEvent</code>", with the optional version string "<code>3.0</code>"); if used as an extended feature string, it must follow the conventions of the <a href="#extended-feature-string">extended feature strings for event types</a> (e.g., "<code>Events.KeyboardEvent</code>", with the optional version string "<code>3.0</code>").  In either case, the <a class="def" href="#glossary-user-agent">user agent</a> must only report a positive result if it supports that specific interface and all associated event types in the manner described in the appropriate <a href="#conform-module">conformance section</a>.  <span class="warning" id="_2"><strong>Warning!</strong> because this is not as specific as testing for a specific event type and may thus be less likely to be accurate, content authors are encouraged to use the feature strings for event types rather than interfaces.</span></li>
           </ul>
-          <p class="warning" id="_3"><strong>Warning!</strong> This specification does not provide a means to guarantee that any given element of a <a class="def" href="#glossary-host-language">host language</a> is capable of generating or dispatching an event of any given <a class="def" href="#glossary-event-type">event type</a> (e.g., an HTML <code>'img'</code> element may not dispatch a <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event), or what the attributes of that event will be beyond those defined in this specification (e.g., the host language may add attributes to the event object).  A  <a class="def" href="#glossary-host-language">host language</a> may provide a different means to do so, including its own relevant feature strings.</p>
+          <p class="warning" id="_3"><strong>Warning!</strong> This specification does not provide a means to guarantee that any given element of a <a class="def" href="#glossary-host-language">host language</a> is capable of generating or dispatching an event of any given <a class="def" href="#glossary-event-type">event type</a> (e.g., an HTML <code>'img'</code> element may not dispatch a <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> event), or what the attributes of that event will be beyond those defined in this specification (e.g., the host language may add attributes to the event object).  A  <a class="def" href="#glossary-host-language">host language</a> may provide a different means to do so, including its own relevant feature strings.</p>
         </div>
 
 
@@ -844,10 +846,6 @@
             <td><code><dfn>NotSupportedError</dfn></code></td>
             <td>Thrown when <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a> is passed an <a href="#events-Event"><code>Event</code></a> interface that the implementation does not support. Also thrown when the <code>dispatchEvent</code> is provided with an <a href="#events-Event"><code>Event</code></a> object that has not been created using <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a>.</td>
           </tr>
-          <tr>
-            <td><code><dfn>InvalidCharacterError</dfn></code></td>
-            <td>Thrown when <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> is provided an <code>Event</code> whose <a href="#events-event-type-type"><code>Event.type</code></a> is not a <code>DOMString</code> as conforming to the restrictions in <a href="#events-event-type-type"><code>Event.type</code></a>.</td>
-          </tr>
         </table>
       </div>
     <!-- div END event exceptions -->
@@ -960,7 +958,12 @@ interface <a href="#events-Event">Event</a>
                   <dd><p>Used to specify the time at which the event was created in milliseconds relative to 1970-01-01T00:00:00Z.</p></dd>
 
                   <dt><code class="attribute-name"><a id="events-event-type-type">type</a></code> of type <code>DOMString</code>, readonly</dt>
-                  <dd><p>The name of the event type. The name must be a <code>DOMString</code>.  <a href="#conf-specs">Specifications that define events</a>, <a href="#conf-authors">content authors</a>, and <a href="#conf-author-tools">authoring tools</a> must use case-sensitive event type names.</p></dd>
+                  <dd><p>The name of the event type. <a href="#conf-specs">Specifications that define events</a>, <a href="#conf-authors">content authors</a>, and <a href="#conf-author-tools">authoring tools</a> must use case-sensitive event type names.</p>
+                      <p class="note"><strong>Authoring Note: </strong><a href="#events-event-type-initEvent"><code>Event.initEvent</code></a> and 
+                      <a href="#events-EventTarget-addEventListener"><code>EventTarget.addEventListener</code></a> APIs are used to set and register 
+                      for events of this <code>type</code>. In a JavaScript implementation, these APIs convert non-<code>DOMString</code> objects into a <code>DOMString</code> before registering.
+                      </p>
+                  </dd>
 
                 </dl>
               </dd>
@@ -1272,7 +1275,6 @@ interface <a href="#events-EventTarget">EventTarget</a>
                         <ul class="exception">
                           <li>If the <a href="#events-event-type-type"><code>Event.type</code></a> was not specified by initializing the event before <code>dispatchEvent</code> was called OR the <a href="#events-Event"><code>Event</code></a> object is already being dispatched, a <code>DOMException</code> of type <em><code>InvalidStateError</code></em> is thrown.</li>
                           <li>If the <a href="#events-Event"><code>Event</code></a> object has not been created using <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a>, a <code>DOMException</code> of type <em><code>NotSupportedError</code></em> is thrown.</li>
-                          <li>If <a href="#events-event-type-type"><code>Event.type</code></a> is not a <code>DOMString</code> as conforming to the restrictions in <a href="#events-event-type-type"><code>Event.type</code></a>, a <code>DOMException</code> of type <em><code>InvalidCharacterError</code></em> is thrown.</li>
                         </ul>
                       </div>
                       <!-- exceptions -->
@@ -1397,8 +1399,34 @@ Document implements <a href="#events-DocumentEvent">DocumentEvent</a>;
                             <dd>
                               <p>The <code>eventInterface</code> parameter specifies the name of the DOM Events interface to be supported by the created event object, e.g., <code>"Event"</code>, <code>"MouseEvent"</code>, <code>"MutationEvent"</code>, and so on. If the <a href="#events-Event"><code>Event</code></a> is to be dispatched via the <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method, the appropriate event initialization method must be called after creation in order to initialize the <a class="noxref" href="#events-Event"><code>Event</code></a>'s values.</p>
                               <p class="example" id="example-createEvent"><strong>Example:</strong>  A content author wishing to synthesize some kind of <a href="#events-UIEvent"><code>UIEvent</code></a> would invoke <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("UIEvent")</code></a>. The <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method could then be called on the newly created <a class="noxref" href="#events-UIEvent"><code>UIEvent</code></a> object to set the specific type of user interface event to be dispatched, <a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> for example, and set its context information, e.g., <a href="#events-UIEvent-detail"><code>UIEvent.detail</code></a>.</p>
-                              <p>For backward compatibility reason, <code>"UIEvents"</code>, <code>"MouseEvents"</code>, <code>"MutationEvents"</code>, and <code>"HTMLEvents"</code> feature names are valid values for the parameter <code>eventInterface</code> and represent respectively the interfaces <a href="#events-UIEvent"><code>UIEvent</code></a>, <a href="#events-MouseEvent"><code>MouseEvent</code></a>, <a href="#events-MutationEvent"><code>MutationEvent</code></a>, and <a href="#interface-Event"><code>Event</code></a>, and the characters <code>'a'..'z'</code> are considered equivalent to the characters <code>'A'..'Z'</code>.</p>
-                              <p>If the parameter does not match an event interface name supported by the implementation, the implementation must raise a <code>NOT_SUPPORTED_ERR</code>  <code>DOMException</code></p><p class="warning" id="warning-createEvent-untrusted"><strong>Warning!</strong>  For security reasons, events generated using <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("Event")</code></a> must have a <code class="attribute-name"><a href="#events-event-type-isTrusted">isTrusted</a></code> attribute value of <code>false</code>.  See <a href="#trusted-events">trusted events</a> for more details.</p>
+                              <p>For backward compatibility, the following case-insensitive feature names are valid values for the parameter <code>eventInterface</code>:</p>
+                              <table class="data-table" summary="The first column contains the feature name, the second contains the resulting event interface returned by createEvent">
+                                  <tr>
+                                      <th>Legacy feature name</th>
+                                      <th>Resulting event interface</th>
+                                  </tr>
+                                  <tr>
+                                      <td><code>"Events"</code></td>
+                                      <td><a href="#interface-Event"><code>Event</code></a></td>
+                                  </tr>
+                                  <tr>
+                                      <td><code>"HTMLEvents"</code></td>
+                                      <td><a href="#interface-Event"><code>Event</code></a></td>
+                                  </tr>
+                                  <tr>
+                                      <td><code>"UIEvents"</code></td>
+                                      <td><a href="#events-UIEvent"><code>UIEvent</code></a></td>
+                                  </tr>
+                                  <tr>
+                                      <td><code>"MouseEvents"</code></td>
+                                      <td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
+                                  </tr>
+                                  <tr>
+                                      <td><code>"MutationEvents"</code></td>
+                                      <td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td>
+                                  </tr>
+                              </table>
+                              <p class="warning" id="warning-createEvent-untrusted"><strong>Warning!</strong>  For security reasons, events generated using <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("Event")</code></a> must have a <code class="attribute-name"><a href="#events-event-type-isTrusted">isTrusted</a></code> attribute value of <code>false</code>.  See <a href="#trusted-events">trusted events</a> for more details.</p>
                             </dd>
                           </dl>
                         </div>
@@ -1449,7 +1477,12 @@ Document implements <a href="#events-DocumentEvent">DocumentEvent</a>;
       <div>
         <h4><a id="event-types-list" href="#event-types-list">5.1.1 List of DOM3 Event Types</a></h4>
 
-        <p>Depending on the level of DOM support, or the devices used for display (e.g., screen) or interaction (e.g., mouse, keyboard, touch screen, or voice), these event types can be generated by the implementation. When used with an [<cite><a class="informative" href="#references-XML">XML 1.0</a></cite>] or [<cite><a class="informative" href="#references-HTML5">HTML5</a></cite>] application, the specifications of those languages may restrict the semantics and scope (in particular the possible <a class="def" href="#glossary-proximal-event-target">proximal event targets</a>) associated with an event type. Refer to the specification defining the language used in order to find those restrictions or to find event types that are not defined in this document.</p>
+        <p>Depending on the level of DOM support, or the devices used for display (e.g., screen) or interaction (e.g., mouse, keyboard, touch screen, or voice), these event 
+            types can be generated by the implementation. When used with an [<cite><a class="informative" href="#references-XML">XML 1.0</a></cite>] or 
+            [<cite><a class="informative" href="#references-HTML5">HTML5</a></cite>] application, the specifications of those languages may restrict the 
+            semantics and scope (in particular the possible <a class="def" href="#glossary-proximal-event-target">proximal event targets</a>) associated 
+            with an event type. Refer to the specification defining the language used in order to find those restrictions or to find event types that are 
+            not defined in this document.</p>
         <p>The following table provides a non-normative summary of the event types defined in this specification.  All events must accomplish the capture and target phases, but not all of them must accomplish the bubbling phase (see also <a href="#event-flow">Event dispatch and DOM event flow</a>). Some events are not <a href="#events-dt-cancelable-event">cancelable</a> (see <a href="#event-flow-default-cancel">Default actions and cancelable events</a>). Some events must only be dispatched to a specific set of possible targets in the DOM event flow, specified using node types. Contextual information related to the event type must be accessible using DOM interfaces.</p>
         <table class="data-table" id="table-event-summary" summary="This table contains the complete list of event types defined by DOM Level 3 Events. The first column contains the local name of the event type. The second column indicates if the event accomplish the bubbling phase or not (all events accomplish the capture and target phases). The third column indicates if the default action associated with the event can be canceled. The fourth column indicates the nodes that can be target of the event. the fifth (and last) column indicates the DOM interface implemented by the event object.">
 <!-- border="1" cellpadding="2" cellspacing="0"  -->
@@ -1735,7 +1768,7 @@ Document implements <a href="#events-DocumentEvent">DocumentEvent</a>;
             <td><code>Document</code>, <code>Element</code></td>
             <td><a href="#events-KeyboardEvent"><code>KeyboardEvent</code></a></td>
             <td>Yes</td>
-            <td>Varies: <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event; launch <a class="def" href="#glossary-text-composition-system">text composition system</a>; <a class="eventtype" href="#event-type-blur"><code>blur</code></a> and <a class="eventtype" href="#event-type-focus"><code>focus</code></a> events; <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event; other event</td>
+            <td>Varies: launch <a class="def" href="#glossary-text-composition-system">text composition system</a>; <a class="eventtype" href="#event-type-blur"><code>blur</code></a> and <a class="eventtype" href="#event-type-focus"><code>focus</code></a> events; <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event; other event</td>
           </tr>
           <tr>
             <td><a class="eventtype" href="#event-type-keyup">
@@ -1869,6 +1902,7 @@ Document implements <a href="#events-DocumentEvent">DocumentEvent</a>;
             <td>No</td>
             <td>none</td>
           </tr>
+          <!-- Removing textinput per https://www.w3.org/Bugs/Public/show_bug.cgi?id=12958
           <tr>
             <td><a class="eventtype" href="#event-type-textinput">
               <code>textinput</code>
@@ -1880,6 +1914,7 @@ Document implements <a href="#events-DocumentEvent">DocumentEvent</a>;
             <td>Yes</td>
             <td>none</td>
           </tr>
+              -->
           <tr>
             <td><a class="eventtype" href="#event-type-unload">
               <code>unload</code>
@@ -1903,8 +1938,17 @@ Document implements <a href="#events-DocumentEvent">DocumentEvent</a>;
             <td>Scroll (or zoom) the document</td>
           </tr>
         </table>
-        <p>As an example of interpreting of this table, the event <a class="eventtype" href="#event-type-load"><code>load</code></a> is required to trigger event listeners attached on <code>Element</code> nodes for that event and on the capture and target phases. This event cannot be cancelled. If an event listener for the <a class="eventtype" href="#event-type-load"><code>load</code></a> event is attached to a node other than <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, or <code>Element</code> nodes, or if it is attached to the bubbling phase only, this event listener is required not be triggered.</p>
-        <p>The event objects associated with the event types described above may contain context information. Refer to the description of the DOM interfaces for further information.</p>
+        <p class="example"><strong>Example: </strong>The following is one way to interpret the above table: the <a class="eventtype" href="#event-type-load"><code>load</code></a> event will trigger 
+            event listeners attached on <code>Element</code> nodes for that event and on the capture and target phases. This event is not cancelable.
+            If an event listener for the <a class="eventtype" href="#event-type-load"><code>load</code></a> event is attached to a node other than 
+            <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, or <code>Element</code> nodes, or if it 
+            is attached to the bubbling phase only, this event listener would not be triggered.
+        </p>
+        <p class="note"><strong>Note: </strong> Don't interpret the above table as definitive for the listed event types. For example, the 
+            <code>load</code> event is used in other specifications, for example, in XMLHttpRequest. Similarly, <a href="#events-EventTarget-dispatchEvent"><code>dispatchEvent</code></a>
+            can be used to dispatch untrusted events to listeners on <strong>any</strong> object that also implements <a href="#interface-EventTarget"><code>EventTarget</code></a>.
+        </p>
+        <p class="note"><strong>Note: </strong>The event objects associated with the event types described above contain additional context information--refer to the description of the DOM interfaces for further information.</p>
       </div>
 <!-- div3 Events-EventTypes-complete -->
     </div>
@@ -3527,7 +3571,8 @@ interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEv
       </div>
       
     
-<!-- div3 Events-eventgroupings-textevents -->
+<!-- div3 Events-eventgroupings-textevents...
+    Note: textinput (and related interface is being removed per bug https://www.w3.org/Bugs/Public/show_bug.cgi?id=12958 
       <div>
         <h3><a id="events-textevents" href="#events-textevents">5.2.5 Text Event Types</a></h3>
 
@@ -3674,12 +3719,12 @@ interface <a href="#events-TextEvent">TextEvent</a> : <a href="#events-UIEvent">
                           </dl>
                         </div>
                       </div>
-                      <!-- parameters -->
+                      <!-- parameters
                       <div><strong>No Return Value</strong></div>
 
                       <div><strong>No Exceptions</strong></div>
                     </div>
-<!-- method -->
+<!-- method 
                   </dd>
                 </dl>
               </dd>
@@ -3688,7 +3733,7 @@ interface <a href="#events-TextEvent">TextEvent</a> : <a href="#events-UIEvent">
         </dl>
         <p>The text event type is listed below.</p>
 
-<!-- textinput -->
+<!-- textinput event type
         <div class="event-definition assert must">
           <dl>
             <dt id="event-type-textinput"><dfn>
@@ -3726,7 +3771,10 @@ interface <a href="#events-TextEvent">TextEvent</a> : <a href="#events-UIEvent">
         <h3><a id="events-keyboardevents" href="#events-keyboardevents">5.2.6 Keyboard Event Types</a></h3>
 
         <p>This module defines the feature KeyboardEvents 3.0 and depends on the feature UIEvents 3.0.</p>
-        <p>Keyboard events are device dependent, i.e., they rely on the capabilities of the input devices and how they are mapped in the operating systems. It is therefore highly recommended to rely on <a href="#events-TextEvent">Text event types</a> when dealing with character input.  Refer to <a href="#keys">Keyboard events and key values</a> for more details, including examples on how Keyboard Events are used in combination with Composition Events. Depending on the character generation device, keyboard events might not be generated.</p>
+        <p>Keyboard events are device dependent, i.e., they rely on the capabilities of the input devices and how they are mapped in the operating systems. Refer to <a href="#keys">Keyboard events and key values</a> for more details, including examples on how Keyboard Events are used in combination with Composition Events. Depending on the character generation device, keyboard events might not be generated.</p>
+        <p class="note"><strong>Authoring Note:</strong> Keyboard events are only one modality of providing textual input. For editing scenarios, consider also using the "input" event defined in 
+            [<cite><a class="informative" href="#references-HTML5">HTML5</a></cite>] as an alternate to (or in addition to) keyboard events.
+        </p>
         <dl>
           <dt><strong>Interface <em><a id="events-KeyboardEvent">KeyboardEvent</a></em></strong> (introduced in <strong class="since">DOM Level 3</strong>)</dt>
           <dd>
@@ -3843,7 +3891,15 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
                   <dd><p><code>true</code> if the shift (Shift) key modifier was active.</p></dd>
 
                   <dt><code class="attribute-name"><a id="events-KeyboardEvent-repeat">repeat</a></code> of type <code>boolean</code>, readonly</dt>
-                  <dd><code>true</code> if the key has been pressed in a sustained manner.  Holding down a key must result in the repeating the events <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>, <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> (when supported by the user agent), and <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> (when the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> results in text input) in this order, at a rate determined by the system configuration. For mobile devices which have <em>long-key-press</em> behavior, the first key event with a <a href="#events-KeyboardEvent-repeat">repeat</a> attribute value of <code>'true'</code> must serve as an indication of a <em>long-key-press</em>.  The length of time that the key must be pressed in order to begin repeating is configuration-dependent.</dd>
+                  <dd><code>true</code> if the key has been pressed in a sustained manner.  Holding down a key must result in the repeating the events 
+                      <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>, <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> 
+                      (when supported by the user agent) 
+                      <!-- , and <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> (when the <a class="eventtype" href="#event-type-keypress">
+                      <code>keypress</code></a> results in text input)--> 
+                      in this order, at a rate determined by the system configuration. For mobile devices which have <em>long-key-press</em> behavior, the first key event 
+                      with a <a href="#events-KeyboardEvent-repeat">repeat</a> attribute value of <code>'true'</code> must serve as an indication of a <em>long-key-press</em>.
+                      The length of time that the key must be pressed in order to begin repeating is configuration-dependent.
+                  </dd>
 
                   <dt><code class="attribute-name"><a id="events-KeyboardEvent-locale">locale</a></code> of type <code>DOMString</code>, readonly</dt>
                   <dd>
@@ -3994,14 +4050,15 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
             <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>
           </li>
         </ol>
-        <p>Keys associated with a <a class="def" href="#glossary-character-value">character value</a> must, under normal circumstances, produce a <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event as well.  The order of text events relative to keyboard events is as follows:</p>
+        <!-- Removing textinput per https://www.w3.org/Bugs/Public/show_bug.cgi?id=12958
+          <p>Keys associated with a <a class="def" href="#glossary-character-value">character value</a> must, under normal circumstances, produce a <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event as well.  The order of text events relative to keyboard events is as follows:</p>
         <ol>
           <li>
             <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>
           </li>
           <li><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> (only for keys which produce a <a class="def" href="#glossary-character-value">character value</a>)</li>
           <li>If a <a class="def" href="#glossary-character-value">character value</a> is produced, <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a></li>
-          <li>If the key is depressed for a sustained period,<!-- the key should seek counseling, and --> the following events may repeat at an environment-dependent rate:
+          <li>If the key is depressed for a sustained period, the following events may repeat at an environment-dependent rate:
             <ul>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> (with <a href="#events-KeyboardEvent-repeat">repeat</a> attribute set to <code class="value">true</code>)</li>
               <li><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> (with <a href="#events-KeyboardEvent-repeat">repeat</a> attribute set to <code class="value">true</code>; only for keys which produce a <a class="def" href="#glossary-character-value">character value</a>)</li>
@@ -4015,9 +4072,12 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
             <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>
           </li>
         </ol>
+        -->
         <p class="note" id="key-default"><strong>Note:</strong>  Typically, any <a class="def" href="#glossary-default-action">default actions</a> associated with any particular key are completed before the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event is dispatched; this might delay the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event slightly (though this is not likely to be a perceptible delay).</p>
         
-        <p class="warning" id="_28"><strong>Warning!</strong> Because of hardware limitations, on some keyboard devices, the order between the text event and keyboard events can differ.  For example, some mobile devices might dispatch the <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event after the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event.</p>
+        <!-- Removing textinput per https://www.w3.org/Bugs/Public/show_bug.cgi?id=12958
+          <p class="warning" id="_28"><strong>Warning!</strong> Because of hardware limitations, on some keyboard devices, the order between the text event and keyboard events can differ.  For example, some mobile devices might dispatch the <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event after the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event.</p>
+        -->
         
         <p>The <a class="def" href="#glossary-event-target">target</a> of a key event is the currently focused element which is processing the keyboard activity; this is often an HTML <code>input</code> element or a textual element which is editable, but may be an element defined by the <a class="def" href="#glossary-host-language">host language</a> to accept keyboard input for non-text purposes, such as the activation of a hotkey or trigger of some other behavior; if no suitable element is in focus, the event target will be the root element.</p>
         
@@ -4061,9 +4121,11 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
               <p>The default action of the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event depends upon the key:</p>
               <ul>
                 <li>if the key is associated with a character, the default action must be to dispatch a <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event; in the case where the key which is associated with multiple characters (such as with a macro or certain sequences of dead keys), the default action must be to dispatch one <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event for each character
-					<ul>
+					<!-- Removing textinput per https://www.w3.org/Bugs/Public/show_bug.cgi?id=12958
+                    <ul>
 						<li>if the user agent does not support the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event, then the default action must be to dispatch a <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event with the <a href="#events-TextEvent-data"><code class="attribute-name">data</code></a> attribute set to the value of the <a href="#events-KeyboardEvent-char"><code class="attribute-name">char</code></a> attribute of the <a class="eventtype" href="#event-type-keypress"><code>keydown</code></a> event; in the case where the key which is associated with multiple characters, the value of the <a href="#events-TextEvent-data"><code class="attribute-name">data</code></a> attribute of the <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event must be that string of characters</li>
 					</ul>
+                    -->
                  </li>
                 <li>if the key is associated with a <a class="def" href="#glossary-text-composition-system">text composition system</a>, the default action must be to launch that system</li>
                 <li>if the key is the <a href="#key-Tab"><code class="value keyname">'Tab'</code></a> key, the default action must be to shift the document focus from the currently focused element (if any) to the new focused element, as described in <a href="#events-focusevent">Focus Event Types</a></li>
@@ -4090,7 +4152,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
                 <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
                 <tr class="assert must"><th>Target</th> <td><code>Document</code>, <code>Element</code></td></tr>
                 <tr class="assert must"><th>Cancelable</th> <td>Yes</td></tr>
-                <tr class="assert must"><th>Default action</th> <td>Varies: <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event; launch <a class="def" href="#glossary-text-composition-system">text composition system</a>; <a class="eventtype" href="#event-type-blur"><code>blur</code></a> and <a class="eventtype" href="#event-type-focus"><code>focus</code></a> events; <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event; other event</td></tr>
+                <tr class="assert must"><th>Default action</th> <td>Varies: launch <a class="def" href="#glossary-text-composition-system">text composition system</a>; <a class="eventtype" href="#event-type-blur"><code>blur</code></a> and <a class="eventtype" href="#event-type-focus"><code>focus</code></a> events; <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event; other event</td></tr>
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
@@ -4111,9 +4173,11 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
                 </tr>
               </table>
               <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a key is pressed down, if and only if that key normally produces a <a class="def" href="#glossary-character-value">character value</a>. The <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type must be generated after the <a class="def" href="#glossary-key-mapping">key mapping</a>. It must not be fired when using an <a class="def" href="#glossary-ime">input method editor</a>.  This event type must be dispatched after the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event and before the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event associated with the same key.</p>
-			  <p>The default action of the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event must be to dispatch a <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event with the <a href="#events-TextEvent-data"><code class="attribute-name">data</code></a> attribute set to the value of the <a href="#events-KeyboardEvent-char"><code class="attribute-name">char</code></a> attribute of the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event.</p>
+			  <!-- Removing textinput per https://www.w3.org/Bugs/Public/show_bug.cgi?id=12958
+                <p>The default action of the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event must be to dispatch a <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event with the <a href="#events-TextEvent-data"><code class="attribute-name">data</code></a> attribute set to the value of the <a href="#events-KeyboardEvent-char"><code class="attribute-name">char</code></a> attribute of the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event.</p>
+                  -->
               <p class="note" id="_31"><strong>Note:</strong> the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event is traditionally associated with detecting a <a class="def" href="#glossary-character-value">character value</a> rather than a physical key, and might not be available on all keys in some configurations.</p>
-              <p class="warning" id="_32"><strong>Warning!</strong> the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event type is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type in favor of the <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event type.</p>
+              <p class="warning" id="_32"><strong>Warning!</strong> the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event type is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type. When in editing contexts, authors can subscribe to the "input" event defined in [<cite><a class="informative" href="#references-HTML5">HTML5</a></cite>] instead.</p>
             </dd>
           </dl>
         </div>
@@ -4266,14 +4330,15 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
           <li><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> (multiple events)</li>
           <li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></li>
         </ol>
-        <p>Composition events which are not canceled and which do not have the <a class="def" href="#glossary-empty-string">empty string</a> as a value produce a <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event as well.  The order of text events relative to composition events is as follows:</p>
+        <!-- removing textinput per https://www.w3.org/Bugs/Public/show_bug.cgi?id=12958
+          <p>Composition events which are not canceled and which do not have the <a class="def" href="#glossary-empty-string">empty string</a> as a value produce a <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event as well.  The order of text events relative to composition events is as follows:</p>
         <ol>
           <li><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></li>
           <li><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> (multiple events)</li>
           <li>If a <a class="def" href="#glossary-character-value">character value</a> is produced, <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a></li>
           <li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></li>
         </ol>
-
+       -->
 <!-- compositionstart -->
         <div class="event-definition assert must">
           <dl>
@@ -4288,7 +4353,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
                 <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
                 <tr class="assert must"><th>Target</th> <td><code>Element</code></td></tr>
                 <tr class="assert must"><th>Cancelable</th> <td>Yes</td></tr>
-                <tr class="assert must"><th>Default action</th> <td>Launch <a class="def" href="#glossary-text-composition-system">text composition system</a></td></tr>
+                <tr class="assert must"><th>Default action</th> <td>Start a new composition session when a <a class="def" href="#glossary-text-composition-system">text composition system</a> is enabled</td></tr>
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
@@ -4302,8 +4367,25 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
                 </tr>
               </table>
               
-              <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a <a class="def" href="#glossary-text-composition-system">text composition system</a> is invoked in preparation for composing a passage of text.  This event type is device-dependent, and may rely upon the capabilities of the text conversion system and how it is mapped into the operating system.  When a keyboard is used to feed an input method editor, this event type is generated after a <code>keydown</code> event, but speech or handwriting recognition systems may send this event type without keyboard events.  Some implemenations may populate the <a href="#events-CompositionEvent-data"><code>data</code></a> attribute of the <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> event with the text currently selected in the document (for editing and replacement); otherwise, the value of the <a href="#events-CompositionEvent-data"><code>data</code></a> attribute must be  the <a class="def" href="#glossary-empty-string">empty string</a>.</p>
-              <p>This event must be dispatched immediately before a <a class="def" href="#glossary-text-composition-system">text composition system</a> is launched, and before the DOM is modified due to the composition process.  The default action of this event is to launch the appropriate <a class="def" href="#glossary-text-composition-system">text composition system</a>.  If this event is canceled, the <a class="def" href="#glossary-text-composition-system">text composition system</a> must not be launched.  Note that canceling the <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> <em>event type</em> is distinct from canceling the <a class="def" href="#glossary-text-composition-system">text composition system</a> session (e.g., by hitting a cancel button or closing an <a class="def" href="#glossary-ime">IME</a> window).</p>
+              <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a <a class="def" href="#glossary-text-composition-system">text composition system</a> is 
+                  enabled and a new composition session is about to begin (or has begun, depending on the <a class="def" href="#glossary-text-composition-system">text composition system</a>) in 
+                  preparation for composing a passage of text. This event type is device-dependent, and may rely upon the capabilities of the text conversion system and how it is mapped into the 
+                  operating system. When a keyboard is used to feed an input method editor, this event type is generated after a <code>keydown</code> event, but speech or handwriting recognition 
+                  systems may send this event type without keyboard events.  Some implemenations may populate the <a href="#events-CompositionEvent-data"><code>data</code></a> attribute of the
+                  <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> event with the text currently selected in the document (for editing and replacement); 
+                  otherwise, the value of the <a href="#events-CompositionEvent-data"><code>data</code></a> attribute must be  the <a class="def" href="#glossary-empty-string">empty string</a>.
+              </p>
+              <p>This event must be dispatched immediately before a <a class="def" href="#glossary-text-composition-system">text composition system</a> begins a new composition session, and 
+                  before the DOM is modified due to the composition process. The default action of this event is for the <a class="def" href="#glossary-text-composition-system">text composition system</a>
+                  to start a new composition session. If this event is canceled, the <a class="def" href="#glossary-text-composition-system">text composition system</a> should discard the current
+                  composition session.
+              </p>
+              <p class="note"><strong>Note: </strong>Canceling the <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> <em>event type</em> is distinct from 
+                  canceling the <a class="def" href="#glossary-text-composition-system">text composition system</a> itself (e.g., by hitting a cancel button or closing an <a class="def" href="#glossary-ime">IME</a> window).
+              </p>
+              <p class="note"><strong>Note: </strong>Some IMEs do not support cancelling an in-progress composition session (e.g., such as GTK which doesn't presently have such an API). In these
+                  cases, calling <a href="#events-event-type-preventDefault"><code>preventDefault</code></a> will not stop this event's default action.
+              </p>
               <!-- <p>(<i class="issue" id="issue-composition_events"><strong>Issue:</strong> see <a href="http://lists.w3.org/Archives/Public/www-dom/2009JulSep/0143.html" title="Extra notes on composition events from Daniel Danilatos on 2009-08-07 (www-dom@w3.org from July to September 2009)">Extra notes on composition events</a> for more details.</i>)</p> -->
             </dd>
           </dl>
@@ -4336,7 +4418,11 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
                   </td>
                 </tr>
               </table>
-              <p>A <a class="def" href="#glossary-user-agent">user agent</a> should dispatch this event when a <a class="def" href="#glossary-text-composition-system">text composition system</a> updates its active text passage with a new character, which is added to the string in <a href="#events-CompositionEvent-data"><code>CompositionEvent.data</code></a>.  Note that some <a class="def" href="#glossary-text-composition-system">text composition systems</a> may not expose this information to the DOM, in which case this event will not fire during the composition process.  If the composition session is canceled, this event will be fired immediately before the <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event, and the <a href="#events-CompositionEvent-data"><code>CompositionEvent.data</code></a> attribute will be set to the <a class="def" href="#glossary-empty-string">empty string</a>.</p>
+              <p>A <a class="def" href="#glossary-user-agent">user agent</a> should dispatch this event during a composition session when a <a class="def" href="#glossary-text-composition-system">text composition system</a> 
+                  updates its active text passage with a new character, which is added to the string in <a href="#events-CompositionEvent-data"><code>CompositionEvent.data</code></a>. Note that some 
+                  <a class="def" href="#glossary-text-composition-system">text composition systems</a> may not expose this information to the DOM, in which case this event will not fire during the composition process. If 
+                  the composition session is canceled, this event will be fired immediately before the <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event, and the 
+                  <a href="#events-CompositionEvent-data"><code>CompositionEvent.data</code></a> attribute will be set to the <a class="def" href="#glossary-empty-string">empty string</a>.</p>
             </dd>
           </dl>
         </div>
@@ -4355,7 +4441,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
                 <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
                 <tr class="assert must"><th>Target</th> <td><code>Element</code></td></tr>
                 <tr class="assert must"><th>Cancelable</th> <td>No</td></tr>
-                <tr class="assert must"><th>Default action</th> <td><a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event</td></tr>
+                <tr class="assert must"><th>Default action</th> <td><!--<a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event</td>-->none</tr>
                 <tr class="assert must"><th>Context info</th>
                   <td>
                     <ul>
@@ -4368,13 +4454,20 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
                   </td>
                 </tr>
               </table>
-              <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a <a class="def" href="#glossary-text-composition-system">text composition system</a> completes the composition of its active text passage, or cancels the composition process.  If the result of the <a class="def" href="#glossary-text-composition-system">text composition system</a> is not null and does not contain the <a class="def" href="#glossary-empty-string">empty string</a>, this event type will be preceded by a <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event type with the appropriate 
+              <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a <a class="def" href="#glossary-text-composition-system">text composition system</a> completes or cancels the 
+                  current composition session. 
+                  <!-- Removing textinput per https://www.w3.org/Bugs/Public/show_bug.cgi?id=12958
+                  If the result of the composition session is not null and does not contain the <a class="def" href="#glossary-empty-string">empty string</a>, this event type will be preceded 
+                  by a <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event type with the appropriate 
                 <a href="#events-TextEvent-inputMethod">inputMethod</a> value, such as 
                 <a href="#events-DOM_INPUT_METHOD_IME">DOM_INPUT_METHOD_IME</a>, 
                 <a href="#events-DOM_INPUT_METHOD_HANDWRITING">DOM_INPUT_METHOD_HANDWRITING</a>, 
                 <a href="#events-DOM_INPUT_METHOD_VOICE">DOM_INPUT_METHOD_VOICE</a>, or 
                 <a href="#events-DOM_INPUT_METHOD_MULTIMODAL">DOM_INPUT_METHOD_MULTIMODAL</a>.</p>
-              <p>This event is dispatched immediately after the <a class="def" href="#glossary-text-composition-system">text composition system</a> is completed (e.g., the <a class="def" href="#glossary-ime">IME</a> closed, minimized, switched out of focus, or otherwise dismissed, with the focus switched back to the <a class="def" href="#glossary-user-agent">user agent</a>).</p>
+                -->
+              <p>This event is dispatched immediately after the <a class="def" href="#glossary-text-composition-system">text composition system</a> completes the composition session (e.g., the 
+                  <a class="def" href="#glossary-ime">IME</a> is closed, minimized, switched out of focus, or otherwise dismissed, and the focus switched back to the 
+                  <a class="def" href="#glossary-user-agent">user agent</a>).</p>
             </dd>
           </dl>
         </div>
@@ -4392,7 +4485,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
               <li><em>[User rejects first word-match suggestion, selects different match]</em>
                 <a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>: <code class="value">'text'</code></li>
               <li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>: <code class="value">'text'</code></li>
-			  <li><a class="eventtype" href="#event-type-textinput"><code>textinput</code></a>: <code class="value">'text'</code> (<code>"inputMethod"</code>: <code class="value">'DOM_INPUT_METHOD_HANDWRITING'</code>)</li>
+			  <!-- <li><a class="eventtype" href="#event-type-textinput"><code>textinput</code></a>: <code class="value">'text'</code> (<code>"inputMethod"</code>: <code class="value">'DOM_INPUT_METHOD_HANDWRITING'</code>)</li> -->
             </ol>
           </div>
         </div>
@@ -4971,7 +5064,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
       <ul>
         <li>Explanation of keyboard layout, mapping, and key values.</li>
         <li>Relations between keys, such as <a class="def" href="#glossary-dead-key">dead keys</a> or modifiers keys.</li>
-        <li>Relations between keyboard events, their default actions, and text events.</li>
+        <li>Relations between keyboard events and their default actions.</li>
         <li>The set of key values, and guidelines on how to extend this set.</li>
       </ul>
       <p class="note" id="_49"><strong>Note:</strong> This section uses Serbian and Kanji characters which could be misrepresented or unavailable in the PDF version or printed version of this specification.</p>
@@ -5149,18 +5242,18 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
             <ol>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Shift'</code>, <code class="attribute-name"><a href="#events-MouseEvent-shiftKey">shiftKey</a></code></li>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Q'</code> (<code class="value">U+0051</code>, Latin Capital Letter Q key), <code class="attribute-name"><a href="#events-MouseEvent-shiftKey">shiftKey</a></code></li>
-              <li><a class="eventtype" href="#event-type-textinput"><code>textinput</code></a>: <code class="value">'Q'</code></li>
+              <!-- Removing textinput per https://www.w3.org/Bugs/Public/show_bug.cgi?id=12958 <li><a class="eventtype" href="#event-type-textinput"><code>textinput</code></a>: <code class="value">'Q'</code></li> -->
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Q'</code> (<code class="value">U+0051</code>, Latin Capital Letter Q key), <code class="attribute-name"><a href="#events-MouseEvent-shiftKey">shiftKey</a></code></li>
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Shift'</code></li>
             </ol>
           </div>
-          <p>The following example describes an alternate sequence of keys to the example above, where the <code class="value">'Shift'</code> key is released before the <code class="value">'Q'</code> key.  The key value for the key labeled <code class="value">'Q'</code> will revert to its unshifted value for the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event, after the production of the <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event, thus:</p>
+          <p>The following example describes an alternate sequence of keys to the example above, where the <code class="value">'Shift'</code> key is released before the <code class="value">'Q'</code> key.  The key value for the key labeled <code class="value">'Q'</code> will revert to its unshifted value for the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event: <!--, after the production of the <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event, thus:--></p>
           <div class="example" id="example-keyvalue_Q_keyup">
             <p><strong>Example:</strong></p>
             <ol>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Shift'</code>, <code class="attribute-name"><a href="#events-MouseEvent-shiftKey">shiftKey</a></code></li>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Q'</code> (<code class="value">U+0051</code>, Latin Capital Letter Q key), <code class="attribute-name"><a href="#events-MouseEvent-shiftKey">shiftKey</a></code></li>
-              <li><a class="eventtype" href="#event-type-textinput"><code>textinput</code></a>: <code class="value">'Q'</code></li>
+              <!-- <li><a class="eventtype" href="#event-type-textinput"><code>textinput</code></a>: <code class="value">'Q'</code></li> -->
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Shift'</code></li>
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'q'</code> (<code class="value">U+0071</code>, Latin Small Letter Q key)</li>
             </ol>
@@ -5197,7 +5290,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
                 <!-- <i class="issue" id="issue-key-intercept"><strong>Issue:</strong> is this correct for the case of composition events?</i> -->
               </li>
               <li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>: <code class="value">'ê'</code></li>
-              <li><a class="eventtype" href="#event-type-textinput"><code>textinput</code></a>: <code class="value">'ê'</code> (<code>"inputMethod"</code>: <code class="value">'DOM_INPUT_METHOD_IME'</code>)</li>
+              <!-- <li><a class="eventtype" href="#event-type-textinput"><code>textinput</code></a>: <code class="value">'ê'</code> (<code>"inputMethod"</code>: <code class="value">'DOM_INPUT_METHOD_IME'</code>)</li> -->
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'e'</code> (<code class="value">U+0065</code>, Latin Small Letter E key)</li>
             </ol>
           </div>
@@ -5211,7 +5304,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">\u0302</code> (Combining Circumflex Accent key)</li>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'q'</code> (<code class="value">U+0071</code>, The Latin Small Letter Q key)</li>
               <li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>: <code class="value">''</code></li>
-              <li><a class="eventtype" href="#event-type-textinput"><code>textinput</code></a>: <code class="value">'q'</code> (<code>"inputMethod"</code>: <code class="value">'DOM_INPUT_METHOD_KEYBOARD'</code>)</li>
+              <!-- <li><a class="eventtype" href="#event-type-textinput"><code>textinput</code></a>: <code class="value">'q'</code> (<code>"inputMethod"</code>: <code class="value">'DOM_INPUT_METHOD_KEYBOARD'</code>)</li> -->
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'q'</code> (<code class="value">U+0071</code>, The Latin Small Letter Q key)</li>
             </ol>
           </div>
@@ -5239,7 +5332,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Convert'</code></li>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Accept'</code></li>
               <li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>: <code class="value">'&#x5E02;'</code></li>
-              <li><a class="eventtype" href="#event-type-textinput"><code>textinput</code></a>: <code class="value">'&#x5E02;'</code> (<code>"inputMethod"</code>: <code class="value">'DOM_INPUT_METHOD_IME'</code>)</li>
+              <!-- <li><a class="eventtype" href="#event-type-textinput"><code>textinput</code></a>: <code class="value">'&#x5E02;'</code> (<code>"inputMethod"</code>: <code class="value">'DOM_INPUT_METHOD_IME'</code>)</li> -->
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Accept'</code></li>
             </ol>
           </div>
@@ -5275,7 +5368,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
         <div>
           <h4><a id="keys-cancelable_keys" href="#keys-cancelable_keys">6.2.5 Default actions and cancelable keyboard events</a></h4>
 
-          <p>Canceling the <a class="def" href="#glossary-default-action">default action</a> of a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event must not affect its respective <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event, but it must prevent the respective <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event from being generated. The following example describes a possible sequence of keys to generate the Unicode character Q (Latin Capital Letter Q) on a PC/AT US keyboard using a US mapping:</p>
+          <p>Canceling the <a class="def" href="#glossary-default-action">default action</a> of a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event must not affect its respective <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event, but it must prevent the respective <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event (if supported) from being generated. The following example describes a possible sequence of keys to generate the Unicode character Q (Latin Capital Letter Q) on a PC/AT US keyboard using a US mapping:</p>
           <div class="example" id="example-cancel_keys">
             <p><strong>Example:</strong></p>
             <ol>
@@ -5285,7 +5378,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
                 <em>The <a class="def" href="#glossary-default-action">default action</a> of the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event is prevented, e.g., by invoking <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> during the dispatch of the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event object</em>
               </li>
               <li>
-                <em>No <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> event is generated</em>
+                <em>No <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event is generated</em>
               </li>
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Q'</code> (<code class="value">U+0051</code>, Latin Capital Letter Q key), <code class="attribute-name"><a href="#events-MouseEvent-shiftKey">shiftKey</a></code></li>
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Shift'</code></li>
@@ -5300,7 +5393,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
                 <em>The <a class="def" href="#glossary-default-action">default action</a> of the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event is prevented, e.g., by invoking <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> during the dispatch of the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event object</em>
               </li>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'Q'</code> (<code class="value">U+0051</code>, Latin Capital Letter Q key), <code class="attribute-name"><a href="#events-MouseEvent-shiftKey">shiftKey</a></code></li>
-              <li><a class="eventtype" href="#event-type-textinput"><code>textinput</code></a>: <code class="value">'Q'</code></li>
+              <li><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>: <code class="value">'Q'</code></li>
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Q'</code> (<code class="value">U+0051</code>, Latin Capital Letter Q key), <code class="attribute-name"><a href="#events-MouseEvent-shiftKey">shiftKey</a></code></li>
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Shift'</code></li>
             </ol>
@@ -5315,7 +5408,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
             <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'q'</code> (<code class="value">U+0071</code>, Latin Small Letter Q key), no <code class="attribute-name"><a href="#events-MouseEvent-shiftKey">shiftKey</a></code></li>
             <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'Shift'</code></li>
           </ol> -->
-          <p>If the key is part of a sequence of several keystrokes, whether it is a <a class="def" href="#glossary-dead-key">dead key</a> or it is contributing to an Input Method Editor sequence, the keystroke must be ignored (not taken into account) only if the <a class="def" href="#glossary-default-action">default action</a> is canceled on the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event. Canceling a <a class="def" href="#glossary-dead-key">dead key</a> on a <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event has no effect on <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> events. The following example uses the keystrokes <code class="value">U+0302</code> (Combining Circumflex Accent key) and the key marked <code class="value">'e'</code> (<code class="value">U+0065</code>, Latin Small Letter E key) (on a PC/AT french keyboard using a french mapping and without any modifier activated):</p>
+          <p>If the key is part of a sequence of several keystrokes, whether it is a <a class="def" href="#glossary-dead-key">dead key</a> or it is contributing to an Input Method Editor sequence, the keystroke must be ignored (not taken into account) only if the <a class="def" href="#glossary-default-action">default action</a> is canceled on the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event. Canceling a <a class="def" href="#glossary-dead-key">dead key</a> on a <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event has no effect on <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> events (if supported). The following example uses the keystrokes <code class="value">U+0302</code> (Combining Circumflex Accent key) and the key marked <code class="value">'e'</code> (<code class="value">U+0065</code>, Latin Small Letter E key) (on a PC/AT french keyboard using a french mapping and without any modifier activated):</p>
           LATIN SMALL LETTER E WITH ACUTE' (U+00E9)
           <div class="example" id="example-default_action_cancel">
             <p><strong>Example:</strong></p>
@@ -5326,7 +5419,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
               </li>
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">U+0302</code> (Combining Circumflex Accent key)</li>
               <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>: <code class="value">'é'</code> (<code class="value">U+00E9</code>, LATIN SMALL LETTER E WITH ACUTE)</li>
-              <li><a class="eventtype" href="#event-type-textinput"><code>textinput</code></a>: <code class="value">'é'</code></li>
+              <li><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>: <code class="value">'é'</code></li>
               <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="value">'é'</code></li>
             </ol>
           </div>
@@ -7053,7 +7146,7 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
           
         <h4><a id="changes-DOMEvents2to3Changes-event-types" href="#changes-DOMEvents2to3Changes-event-types">D.1.2 Changes to DOM Level 2 event types</a></h4>
 
-          <p>Many clarifications have been made on the event types. The conformance is now explicitly defined against the event types, and not only in terms of interfaces required by the event types. Support for the features <code>"BasicEvents"</code>, <code>"TextEvents"</code>, <code>"KeyboardEvents"</code>, and <code>"MutationNameEvents"</code> have been introduced.</p>
+          <p>Many clarifications have been made on the event types. The conformance is now explicitly defined against the event types, and not only in terms of interfaces required by the event types. Support for the features <code>"BasicEvents"</code>, <code>"KeyboardEvents"</code>, and <code>"MutationNameEvents"</code> have been introduced.</p>
           <p>In the most recent drafts of this specification, <code>"MutationEvents"</code> and <code>"MutationNameEvents"</code> have been deprecated. Support for namespaced events, present in early drafts of this specification, has been removed.</p>
           <p>For user agents which support the <a class="eventtype" href="#event-type-DOMNodeInserted"><code>DOMNodeInserted</code></a> and <a class="eventtype" href="#event-type-DOMNodeRemoved"><code>DOMNodeRemoved</code></a> event types, this specification no longer requires that the event type be fired for <code>Attr</code> nodes.</p>            
           <p>The <code>resize</code> event type no longer bubbles, reflecting existing implementations.</p>
@@ -7090,7 +7183,7 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
         <div>
           <h4><a id="changes-DOMLevel3Addons" href="#changes-DOMLevel3Addons">D.1.4 New Interfaces</a></h4>
 
-          <p>The interfaces <a href="#events-CustomEvent"><code>CustomEvent</code></a>, <a href="#events-FocusEvent"><code>FocusEvent</code></a>, <a href="#events-TextEvent"><code>TextEvent</code></a>, <a href="#events-KeyboardEvent"><code>KeyboardEvent</code></a>, <a href="#events-CompositionEvent"><code>CompositionEvent</code></a>, <a href="#events-MutationNameEvent"><code>MutationNameEvent</code></a>, and <a href="#events-WheelEvent"><code>WheelEvent</code></a> were added to the Events module.</p>
+          <p>The interfaces <a href="#events-CustomEvent"><code>CustomEvent</code></a>, <a href="#events-FocusEvent"><code>FocusEvent</code></a>, <a href="#events-KeyboardEvent"><code>KeyboardEvent</code></a>, <a href="#events-CompositionEvent"><code>CompositionEvent</code></a>, <a href="#events-MutationNameEvent"><code>MutationNameEvent</code></a>, and <a href="#events-WheelEvent"><code>WheelEvent</code></a> were added to the Events module.</p>
         </div>
 <!-- div3 DOMLevel3Addons -->
       </div>
@@ -7103,7 +7196,7 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
         <p>This specification has been reordered significantly from the earlier W3C Note form, and from the structure of DOM2 Events, in order to clarify the material.  New diagrams have been put in place to represent hierarchies and events flows more clearly.  Here are some of the more important changes between drafts:</p>
         <ul>
           <li>The <q>key identifier</q> feature has been renamed <q>key value</q> to disambiguate them from unique identifiers for keys.</li>
-          <li>The <code>change</code>, <code>submit</code>, and <code>reset</code> events were removed, since they were specific to HTML forms, and are specified in HTML5.</li>
+          <li>The <code>change</code>, <code>submit</code>, and <code>reset</code> events were removed, since they were specific to HTML forms, and are specified in [<cite><a class="informative" href="#references-HTML5">HTML5</a></cite>].</li>
           <li>Namespaced events have been removed.</li>
           <li>Updated to use WebIDL.</li>
           <li>EventException has been removed.</li>
