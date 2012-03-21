@@ -25,16 +25,16 @@
       </p>
       <h1 id="Overview-title">Document Object Model (DOM) Level 3 Events Specification</h1>
 <!-- @-->
-      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <span class="2012-03-19">19 March 2012</span></h2>
+      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <span class="2012-03-20">20 March 2012</span></h2>
       <dl>
         <dt>This version:</dt>
-        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.217">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.217</a></dd>
+        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.218">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.218</a></dd>
 
         <dt>Latest stable version:</dt>
         <dd><a href="http://www.w3.org/TR/DOM-Level-3-Events">http://www.w3.org/TR/DOM-Level-3-Events</a></dd>
 
         <dt>Previous version:</dt>
-        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.216">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.216</a></dd>
+        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.217">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.217</a></dd>
 
         <dt>Editor's Draft:</dt>
         <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
@@ -214,24 +214,24 @@
                 </ul>
               </li>
                   -->
-              <li><a href="#events-keyboardevents">5.2.6 Keyboard Event Types</a>
+              <li><a href="#events-keyboardevents">5.2.5 Keyboard Event Types</a>
                 <ul class="toc">
-                  <li><a href="#events-keyboard-event-order">5.2.6.1 Keyboard Event Order</a></li>
+                  <li><a href="#events-keyboard-event-order">5.2.5.1 Keyboard Event Order</a></li>
                   <li><a class="eventtype" href="#event-type-keydown"><code>keydown</code> event</a></li>
                   <li><a class="eventtype" href="#event-type-keypress"><code>keypress</code> event</a></li>
                   <li><a class="eventtype" href="#event-type-keyup"><code>keyup</code> event</a></li>
                 </ul>
               </li>
-              <li><a href="#events-compositionevents">5.2.7 Composition Event Types</a>
+              <li><a href="#events-compositionevents">5.2.6 Composition Event Types</a>
                 <ul class="toc">
-                  <li><a href="#events-composition-event-order">5.2.7.1 Composition Event Order</a></li>
+                  <li><a href="#events-composition-event-order">5.2.6.1 Composition Event Order</a></li>
                   <li><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code> event</a></li>
                   <li><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code> event</a></li>
                   <li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code> event</a></li>
-                  <li><a href="#handwriting">5.2.7.2 Handwriting Recognition Systems</a></li>
+                  <li><a href="#handwriting">5.2.6.2 Handwriting Recognition Systems</a></li>
                 </ul>
               </li>
-              <li><a href="#events-mutationevents">5.2.8 Mutation Events</a>
+              <li><a href="#events-mutationevents">5.2.7 Mutation Events</a>
                 <ul class="toc">
                   <li><a class="eventtype" href="#event-type-DOMAttrModified"><code>DOMAttrModified</code> event</a></li>
                   <li><a class="eventtype" href="#event-type-DOMCharacterDataModified"><code>DOMCharacterDataModified</code> event</a></li>
@@ -242,7 +242,7 @@
                   <li><a class="eventtype" href="#event-type-DOMSubtreeModified"><code>DOMSubtreeModified</code> event</a></li>
                 </ul>
               </li>
-              <li><a href="#events-mutationnameevents">5.2.9 Mutation Name Event Types</a>
+              <li><a href="#events-mutationnameevents">5.2.8 Mutation Name Event Types</a>
                 <ul class="toc">
                   <li><a class="eventtype" href="#event-type-DOMAttributeNameChanged"><code>DOMAttributeNameChanged</code> event</a></li>
                   <li><a class="eventtype" href="#event-type-DOMElementNameChanged"><code>DOMElementNameChanged</code> event</a></li>
@@ -668,14 +668,17 @@
 <!-- div2 Events-flow -->
       <div>
         <h3><a id="event-flow-default-cancel" href="#event-flow-default-cancel">3.2 Default actions and cancelable events</a></h3>
-
-        <p>Event objects may be associated with one or more <a class="def" href="#glossary-default-action">default actions</a>. 
-            These are conditional actions that the implementation performs based on the results of dispatching the related event 
-            object.
+        <p>Events are typically dispatched by the implementation as a result of a user action, in response to the completion
+            of a task, or to signal progress during asynchronous activity (such as a network request). Some events 
+            can be used to control the behavior that the implementation may take next (or undo an action that the implementation
+            already took). Events in this category are said to be <em>cancelable</em> and the behavior they cancel is called their
+            <a class="def" href="#glossary-default-action"><em>default action</em></a>. Cancelable event objects can be associated 
+            with one or more <a class="def" href="#glossary-default-action">default actions</a>. To cancel an event, call the
+            <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> method.
         </p>
         <p class="example"><strong>Example:</strong> A <a href="#event-type-mousedown"><code>mousedown</code></a> event is 
-           dispatched immediately after the user presses down a button on a pointing device (typically a mouse). A
-           possible <a class="def" href="#glossary-default-action">default action</a> associated with this event is to setup a 
+           dispatched immediately after the user presses down a button on a pointing device (typically a mouse). One
+           possible <a class="def" href="#glossary-default-action">default action</a> taken by the implementation is to setup a 
            state machine that allows the user to drag images or select text; the <a class="def" href="#glossary-default-action">
            default action</a> depends on what happens next--for example, if the user's pointing device is over text, a text selection might 
            begin. If the user's pointing device is over an image, then an image-drag action could begin. Preventing the 
@@ -683,7 +686,7 @@
            these actions from occuring.
         </p>
         <p class="note"><strong>Note:</strong> Implementations can choose what default actions to associate with an event, if any.</p>
-        <p><a class="def" href="#glossary-default-action">Default actions</a> should be performed after the event dispatch has been 
+        <p><a class="def" href="#glossary-default-action">Default actions</a> should typically be performed after the event dispatch has been 
            completed, but in exceptional cases may also be performed immediately before the event is dispatched.
         </p>
         <p class="example"><strong>Example:</strong>
@@ -691,25 +694,24 @@
             <code>checked</code> IDL attribute value of that element. If the <code>click</code> event's default action is cancelled, 
             then the value is restored to its former state.
         </p>
-        <p id="events-dt-cancelable-event">Events associated with <a class="def" href="#glossary-default-action">default actions</a>
-            are considered <em>cancelable events</em>--meaning if the event is <em>canceled</em>, then the conditional 
+        <p id="events-dt-cancelable-event">When an event is canceled, then the conditional 
             <a class="def" href="#glossary-default-action">default actions</a> associated with the event must be skipped (or
             as mentioned above, if the <a class="def" href="#glossary-default-action">default actions</a> are carried out before the 
             dispatch, their effect must be undone). Whether an event object is cancelable must be indicated by the 
-            <a href="#events-event-type-canCancel"><code>Event.cancelable</code></a> attribute. Event listeners stop all related
-            <a class="def" href="#glossary-default-action">default actions</a> of an event object (i.e., <em>cancel it</em>) by 
-            invoking the <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a>
-            method, and determine whether an event has alredy been canceled (e.g., by a prior event listener) through the 
-            <a href="#events-event-type-defaultPrevented"><code>Event.defaultPrevented</code></a> attribute. If the 
-            <a class="def" href="#glossary-DOM-application">DOM application</a> itself initiated the dispatch, it may observe the 
+            <a href="#events-event-type-canCancel"><code>Event.cancelable</code></a> attribute. 
+            <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> stops all related
+            <a class="def" href="#glossary-default-action">default actions</a> of an event object. The
+            <a href="#events-event-type-defaultPrevented"><code>Event.defaultPrevented</code></a> attribute indicates whether an 
+            event has already been canceled (e.g., by a prior event listener). If the 
+            <a class="def" href="#glossary-DOM-application">DOM application</a> itself initiated the dispatch, then the 
             return value of the <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a>
-            method to see whether the event object was cancelled.
+            method indicates whether the event object was cancelled.
         </p>
         <p class="note"><strong>Authoring Note: </strong>Many implementations additionally interpret an event listener's return value,
             such as the value <code>false</code>, to mean that the <a class="def" href="#glossary-default-action">default action</a>
-            of cancellable events should be cancelled.
+            of cancelable events should be cancelled.
         </p>
-        <p class="note"><strong>Authoring Note: </strong>Some cancellable events might not have any observable 
+        <p class="note"><strong>Authoring Note: </strong>Some cancelable events might not have any observable 
             <a class="def" href="#glossary-default-action">default actions</a>.
         </p>
         <p>This specification does not offer features to programatically query if an event object has any 
@@ -1801,7 +1803,7 @@ Document implements <a href="#events-DocumentEvent">DocumentEvent</a>;
             <td><code>Element</code></td>
             <td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
             <td>Yes</td>
-            <td>none</td>
+            <td>Varies: start a drag/drop operation; start a text selection; start a scroll/pan interaction (in combination with the middle mouse button, if supported)</td>
           </tr>
           <tr>
             <td><a class="eventtype" href="#event-type-mouseenter">
@@ -1867,7 +1869,7 @@ Document implements <a href="#events-DocumentEvent">DocumentEvent</a>;
             <td><code>Element</code></td>
             <td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
             <td>Yes</td>
-            <td>none</td>
+            <td>Invoke a context menu (in combination with the right mouse button, if supported)</td>
           </tr>
           <tr>
             <td><a class="eventtype" href="#event-type-resize">
@@ -2739,6 +2741,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
                     <li><code>2</code> must indicate the secondary button (in general, the right button, often used to display a context menu).</li>
                   </ul>
                   <p>Some pointing devices provide or simulate more buttons, and values higher than <code>2</code> may be used to represent such buttons.</p>
+                  <p class="note"><strong>Authoring Note: </strong> Some <a class="def" href="#glossary-default-action">default actions</a> related to events such as <code>mousedown</code> and <code>mouseup</code> depend on the specific mouse button in use.</p>
                 </dd>
 
                 <dt><code class="attribute-name"><a id="events-MouseEvent-buttons">buttons</a></code> of type <code>unsigned short</code>, readonly</dt>
@@ -2752,6 +2755,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
                 </ul>
                 <p>Some pointing devices provide or simulate more buttons.  To represent such buttons, the value must be doubled for each successive button (in the binary series <code>8</code>, <code>16</code>, <code>32</code>, ... ), and the buttons should alternate sides of the device, from left to right.  For example, with a 5-button mouse, the primary button (on the left) would have the value <code>1</code>, the secondary button (on the right) would have the value <code>2</code>, the auxiliary button (in the middle) would have the value <code>4</code>, the fourth button (on the left) would have the value <code>8</code>, and the fifth button (on the right) would have the value <code>16</code>.</p>              
                 <p class="note" id="buttons-mask"><strong>Note:</strong> Because the sum of any set of button values is a unique number, a content author can use a bitwise operation to determine how many buttons are currently being pressed and which buttons they are, for an arbitrary number of mouse buttons on a device, e.g., the value <code>3</code> indicates that the left and right button are currently both pressed, while the value <code>5</code> indicates that the left and middle button are currently both pressed.</p>
+                <p class="note"><strong>Authoring Note: </strong> Some <a class="def" href="#glossary-default-action">default actions</a> related to events such as <code>mousedown</code> and <code>mouseup</code> depend on the specific mouse button in use.</p>
                 </dd>
 
                 <dt><code class="attribute-name"><a id="events-MouseEvent-clientX">clientX</a></code> of type <code>long</code>, readonly</dt>
@@ -3068,7 +3072,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
               <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
               <tr class="assert must"><th>Target</th> <td><code>Element</code></td></tr>
               <tr class="assert must"><th>Cancelable</th> <td>Yes</td></tr>
-              <tr class="assert must"><th>Default action</th> <td>none</td></tr>
+              <tr class="assert must"><th>Default action</th> <td>Varies: Start a drag/drop operation; start a text selection; start a scroll/pan interaction (in combination with the middle mouse button, if supported)</td></tr>
               <tr class="assert must"><th>Context info</th>
                 <td>
                   <ul>
@@ -3092,6 +3096,11 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
             </table>
 
             <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a pointing device button is pressed over an element.</p>
+            <p class="note"><strong>Note: </strong>Many implementations use the <code>mousedown</code> event to begin a variety of contextually dependent 
+                <a class="def" href="#glossary-default-action">default actions</a>. These default actions can be prevented if this event is canceled. Some of these 
+                default actions could include: beginning a drag/drop interaction with an image or link; starting text selection; etc. Additionally, some 
+                implementations provide a mouse-driven panning feature that is activated when the middle mouse button is pressed at the time the <code>mousedown</code>
+                event is dispatched.</p>
           </dd>
         </dl>
       </div>
@@ -3217,6 +3226,9 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
               </tr>
             </table>
             <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a pointing device is moved while it is over an element.  The frequency rate of events while the pointing device is moved must be implementation-, device-, and platform-specific, but multiple consecutive <a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a> events should be fired for sustained pointer-device movement, rather than a single event for each instance of mouse movement.  Implementations are encouraged to determine the optimal frequency rate to balance responsiveness with performance.</p>
+            <p class="note"><strong>Authoring Note: </strong>In some implementation environments, such as a browser, <code>mousemove</code> events can continue 
+                to fire if the user began a drag operation (e.g., a mouse button is pressed) and the pointing device has left the boundary of the user agent.
+            </p>
           </dd>
         </dl>
       </div>
@@ -3321,7 +3333,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
               <tr class="assert must"><th>Bubbles</th> <td>Yes</td></tr>
               <tr class="assert must"><th>Target</th> <td><code>Element</code></td></tr>
               <tr class="assert must"><th>Cancelable</th> <td>Yes</td></tr>
-              <tr class="assert must"><th>Default action</th> <td>none</td></tr>
+              <tr class="assert must"><th>Default action</th> <td>Invoke a context menu (in combination with the right mouse button, if supported)</td></tr>
               <tr class="assert must"><th>Context info</th>
                 <td>
                   <ul>
@@ -3344,6 +3356,10 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
               </tr>
             </table>
             <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a pointing device button is released over an element.</p>
+            <p class="note"><strong>Note: </strong>Many implementations will invoke a context menu as the default action of this event if the right mouse button is being released.</p>
+            <p class="note"><strong>Authoring Note: </strong>In some implementation environments, such as a browser, a <code>mouseup</code> event can be dispatched
+                even if the pointing device has left the boundary of the user agent, e.g., if the user began a drag operation with a mouse button pressed).
+            </p>
           </dd>
         </dl>
       </div>
@@ -3768,7 +3784,7 @@ interface <a href="#events-TextEvent">TextEvent</a> : <a href="#events-UIEvent">
       </div>
 <!-- div3 Events-TextEvents-Interfaces -->
       <div>
-        <h3><a id="events-keyboardevents" href="#events-keyboardevents">5.2.6 Keyboard Event Types</a></h3>
+        <h3><a id="events-keyboardevents" href="#events-keyboardevents">5.2.5 Keyboard Event Types</a></h3>
 
         <p>This module defines the feature KeyboardEvents 3.0 and depends on the feature UIEvents 3.0.</p>
         <p>Keyboard events are device dependent, i.e., they rely on the capabilities of the input devices and how they are mapped in the operating systems. Refer to <a href="#keys">Keyboard events and key values</a> for more details, including examples on how Keyboard Events are used in combination with Composition Events. Depending on the character generation device, keyboard events might not be generated.</p>
@@ -4028,7 +4044,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
         <p>The keyboard event types are listed below.</p>
         
         <h4 class="needswork">
-          <a id="events-keyboard-event-order" href="#events-keyboard-event-order">5.2.6.1 Keyboard Event Order</a>
+          <a id="events-keyboard-event-order" href="#events-keyboard-event-order">5.2.5.1 Keyboard Event Order</a>
         </h4>
         <p>The keyboard events defined in this specification occur in a set order relative to one another, for any given key:</p>
         <ol>
@@ -4224,7 +4240,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
       </div>
 <!-- div3 Events-eventgroupings-compositionevents -->
       <div>
-        <h3><a id="events-compositionevents" href="#events-compositionevents">5.2.7 Composition Event Types</a></h3>
+        <h3><a id="events-compositionevents" href="#events-compositionevents">5.2.6 Composition Event Types</a></h3>
 
         <p>This module defines the feature CompositionEvents 3.0 and depends on the feature UIEvents 3.0.</p>
         <p>Composition Events provide a means for inputing text in a supplementary or alternate manner than by Keyboard Events, in order to allow the use of characters that might not be commonly available on keyboard. For example, Composition events might be used to add accents to characters despite their absence from standard US keyboards, to build up logograms of many Asian languages from their base components or categories, to select word choices from a combination of key presses on a mobile device keyboard, or to convert voice commands into text using a speech recognition processor.  Refer to <a href="#keys">Keyboard events and key values</a> for examples on how Composition Events are used in combination with keyboard events.</p>
@@ -4322,7 +4338,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
         </dl>
         <p>The composition event types are listed below.</p>
         <h4 class="needswork">
-          <a id="events-composition-event-order" href="#events-composition-event-order">5.2.7.1 Composition Event Order</a>
+          <a id="events-composition-event-order" href="#events-composition-event-order">5.2.6.1 Composition Event Order</a>
         </h4>
         <p>The composition events defined in this specification occur in a set order relative to one another:</p>
         <ol>
@@ -4473,7 +4489,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
         </div>
 
         <div>
-          <h4><a id="handwriting" href="#handwriting">5.2.7.2 Handwriting Recognition Systems</a></h4>
+          <h4><a id="handwriting" href="#handwriting">5.2.6.2 Handwriting Recognition Systems</a></h4>
 
           <p>The following example describes a possible sequence of events when composing a text passage <q>text</q> with a handwriting recognition system, such as on a pen tablet, as modeled using Composition Events.</p>
           <div class="example" id="example-composition-selection">
@@ -4492,7 +4508,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
       </div>
 
       <div>
-        <h3><a id="events-mutationevents" href="#events-mutationevents">5.2.8 Mutation Events</a></h3>
+        <h3><a id="events-mutationevents" href="#events-mutationevents">5.2.7 Mutation Events</a></h3>
 
         <p>This module defines the feature MutationEvents 3.0 and depends on the feature Events 3.0.</p>
         <p>The mutation and mutation name event modules are designed to allow notification of any changes to the structure of a document, including attribute, text, or name modifications. It may be noted that none of the event types associated with the modules are designated as cancelable. This stems from the fact that it is very difficult to make use of existing DOM interfaces which cause document modifications if any change to the document might or might not take place due to cancelation of the resulting event. Although this is still a desired capability, it was decided that it would be better left until the addition of transactions into the DOM.</p>
@@ -4890,7 +4906,7 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
       </div>
 <!-- div3 Events-eventgroupings-mutationevents -->
       <div>
-        <h3><a id="events-mutationnameevents" href="#events-mutationnameevents">5.2.9 Mutation Name Event Types</a></h3>
+        <h3><a id="events-mutationnameevents" href="#events-mutationnameevents">5.2.8 Mutation Name Event Types</a></h3>
 
         <p>This module defines the feature MutationNameEvents 3.0 and depends on the features MutationEvents 3.0 and Core 3.0.</p>
         <p class="warning" id="_46"><strong>Warning!</strong>  The <code>MutationNameEvent</code> interface, introduced in an earlier draft of this specification, derives from the <a href="#events-mutationevents"><code>MutationEvent</code></a> interface, which is deprecated in this specification.  Thus, this specification describes the mutation name event types for completeness, but <a class="def" href="#glossary-deprecated">deprecates</a> their use.</p>
