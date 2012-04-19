@@ -25,16 +25,16 @@
       </p>
       <h1 id="Overview-title">Document Object Model (DOM) Level 3 Events Specification</h1>
 <!-- @-->
-      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <span class="2012-04-06">06 April 2012</span></h2>
+      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <span class="2012-04-18">18 April 2012</span></h2>
       <dl>
         <dt>This version:</dt>
-        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.219">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.219</a></dd>
+        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.220">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.220</a></dd>
 
         <dt>Latest stable version:</dt>
         <dd><a href="http://www.w3.org/TR/DOM-Level-3-Events">http://www.w3.org/TR/DOM-Level-3-Events</a></dd>
 
         <dt>Previous version:</dt>
-        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.218">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.218</a></dd>
+        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.219">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.219</a></dd>
 
         <dt>Editor's Draft:</dt>
         <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
@@ -56,7 +56,7 @@
         <dd>Travis Leithead, <em>Microsoft</em></dd>
         <dd>Jacob Rossi, <em>Microsoft</em></dd>
 	    <dd><br/></dd>
-        <dd>Doug Schepers, <em>W3C (until 2011)</em></dd>
+        <dd>Doug Schepers, <em>W3C (until May 2011)</em></dd>
         <dd>Bj&#xF6;rn H&#xF6;hrmann, <em>Invited Expert (until December 2007)</em></dd>
         <dd>Philippe Le H&#xE9;garet, <em>W3C (until November 2003)</em></dd>
         <dd>Tom Pixley, <em>Netscape Communications Corporation (until July 2002)</em></dd>
@@ -119,8 +119,7 @@
         <ul class="toc">
           <li><a href="#dom-events-overview">1.1 Introduction</a></li>
           <li><a href="#dom-events-conformance">1.2 Conformance</a></li>
-          <li><a href="#feature-detection">1.3 Feature Detection</a></li>
-          <li><a href="#style-conventions">1.4 Stylistic Conventions</a></li>
+          <li><a href="#style-conventions">1.3 Stylistic Conventions</a></li>
         </ul>
       </li>
       <li><a href="#glossary" class="glossary">2. Glossary</a></li>
@@ -288,54 +287,59 @@
           </li>
         </ul>
       </li>
-      <li><a href="#legacy-key-attributes">Appendix A: Legacy key attributes: keyCode, charCode, and which</a>
+      <li><a href="#new-event-interface-initializers">Appendix A: Initializing New Event Interfaces</a>
+          <ul class="toc">
+              <li><a href="#event-initializers">A.1 Supplemental Initializer Interfaces</a></li>
+          </ul>
+      </li>
+      <li><a href="#legacy-key-attributes">Appendix B: Legacy key attributes: keyCode, charCode, and which</a>
         <ul class="toc">
-          <li><a href="#KeyboardEvent-supplemental-interface">A.1 Legacy KeyboardEvent supplemental interface</a></li>
-          <li><a href="#legacy-key-models">A.2 Legacy key models</a>
+          <li><a href="#KeyboardEvent-supplemental-interface">B.1 Legacy KeyboardEvent supplemental interface</a></li>
+          <li><a href="#legacy-key-models">B.2 Legacy key models</a>
             <ul class="toc">
-              <li><a href="#determine-keydown-keyup-keyCode">A.2.1 How to determine keyCode for keydown and keyup events</a></li>
-              <li><a href="#determine-keypress-keyCode">A.2.2 How to determine keyCode for keypress events</a></li>
-              <li><a href="#fixed-virtual-key-codes">A.2.3 Fixed virtual key codes</a></li>
-              <li><a href="#optionally-fixed-virtual-key-codes">A.2.4 Optionally fixed virtual key codes</a></li>
+              <li><a href="#determine-keydown-keyup-keyCode">B.2.1 How to determine keyCode for keydown and keyup events</a></li>
+              <li><a href="#determine-keypress-keyCode">B.2.2 How to determine keyCode for keypress events</a></li>
+              <li><a href="#fixed-virtual-key-codes">B.2.3 Fixed virtual key codes</a></li>
+              <li><a href="#optionally-fixed-virtual-key-codes">B.2.4 Optionally fixed virtual key codes</a></li>
             </ul>
           </li>
         </ul>
       </li>
-      <li><a href="#extending_events">Appendix B: Extending Events</a>
+      <li><a href="#extending_events">Appendix C: Extending Events</a>
         <ul class="toc">
-          <li><a href="#extending_events-intro">B.1 Introduction</a></li>
-          <li><a href="#extending_events-Custom_Events">B.2 Custom Events</a></li>
-          <li><a href="#extending_events-Impl_Extensions">B.3 Implementation-Specific Extensions</a>
+          <li><a href="#extending_events-intro">C.1 Introduction</a></li>
+          <li><a href="#extending_events-Custom_Events">C.2 Custom Events</a></li>
+          <li><a href="#extending_events-Impl_Extensions">C.3 Implementation-Specific Extensions</a>
             <ul class="toc">
-              <li><a href="#extending_events-prefixes">B.3.1 Known Implementation-Specific Prefixes</a></li>
+              <li><a href="#extending_events-prefixes">C.3.1 Known Implementation-Specific Prefixes</a></li>
             </ul>
           </li>
         </ul>
       </li>
 	  
-      <li><a href="#security-considerations-Security">Appendix C: Security Considerations</a></li>
-      <li><a href="#changes-Changes">Appendix D: Changes</a>
+      <li><a href="#security-considerations-Security">Appendix D: Security Considerations</a></li>
+      <li><a href="#changes-Changes">Appendix E: Changes</a>
         <ul class="toc">
-          <li><a href="#changes-DOMEvents2to3Changes">D.1 Changes between DOM Level 2 Events and DOM Level 3 Events</a>
+          <li><a href="#changes-DOMEvents2to3Changes">E.1 Changes between DOM Level 2 Events and DOM Level 3 Events</a>
             <ul class="toc">
-              <li><a href="#changes-DOMEvents2to3Changes-flow">D.1.1 Changes to DOM Level 2 event flow</a></li>
-              <li><a href="#changes-DOMEvents2to3Changes-event-types">D.1.2 Changes to DOM Level 2 event types</a></li>
-              <li><a href="#changes-DOMLevel2to3Changes">D.1.3 Changes to DOM Level 2 Events interfaces</a></li>
-              <li><a href="#changes-DOMLevel3Addons">D.1.4 New Interfaces</a></li>
+              <li><a href="#changes-DOMEvents2to3Changes-flow">E.1.1 Changes to DOM Level 2 event flow</a></li>
+              <li><a href="#changes-DOMEvents2to3Changes-event-types">E.1.2 Changes to DOM Level 2 event types</a></li>
+              <li><a href="#changes-DOMLevel2to3Changes">E.1.3 Changes to DOM Level 2 Events interfaces</a></li>
+              <li><a href="#changes-DOMLevel3Addons">E.1.4 New Interfaces</a></li>
             </ul>
           </li>
-          <li><a href="#changes-drafts">D.2 Changes between different drafts of DOM Level 3 Events</a></li>
+          <li><a href="#changes-drafts">E.2 Changes between different drafts of DOM Level 3 Events</a></li>
         </ul>
       </li>
-      <li><a href="#acknowledgements-contributors">Appendix E: Acknowledgements</a>
+      <li><a href="#acknowledgements-contributors">Appendix F: Acknowledgements</a>
         <ul class="toc">
-          <li><a href="#acknowledgements-Productions">E.1 Production Systems</a></li>
+          <li><a href="#acknowledgements-Productions">F.1 Production Systems</a></li>
         </ul>
       </li>
-      <li><a href="#references-role-references" class="references">Appendix F: References</a>
+      <li><a href="#references-role-references" class="references">Appendix G: References</a>
         <ul class="toc">
-          <li><a href="#references-References-Normative">F.1 Normative References</a></li>
-          <li><a href="#references-References-Informative">F.2 Informative References</a></li>
+          <li><a href="#references-References-Normative">G.1 Normative References</a></li>
+          <li><a href="#references-References-Informative">G.2 Informative References</a></li>
         </ul>
       </li>
     </ul>
@@ -441,39 +445,7 @@
         </div>
 
         <div>
-          <h3><a id="feature-detection" href="#feature-detection">1.3 Feature Detection</a></h3>
-
-          <p><em>This section is normative</em></p>
-          <p>A conforming DOM Level 3 Events <a class="def" href="#glossary-user-agent">user agent</a> must implement the <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-5CED94D7"><code>DOMImplementation.hasFeature()</code></a> method to allow content authors to detect for support of features defined in this specification.  Refer to <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#DOMFeatures"><em>DOM Features</em></a> in [<cite><a class="normative" href="#references-DOMCore">DOM3 Core</a></cite>] for additional information on feature strings.</p>
-          <p class="note" id="_0"><strong>Note:</strong> The <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-5CED94D7"><code>DOMImplementation.hasFeature()</code></a> method has been of limited utility to content authors in some instances, because of imprecision in conformance criteria in some specifications, and insufficient granularity of feature strings, leading to implementations misrepresenting the degree of support for a class of features.  This specification seeks to remedy that in the context of <a class="def" href="#glossary-user-agent">user agents</a> conforming to DOM Level 3 Events by providing discrete feature strings and clear guidelines for the circumstances under which a <a class="def" href="#glossary-user-agent">user agent</a> responds when queried for support of the feature which that feature string represents.</p>
-          <p>DOM Level 3 Events introduces compositional feature strings, which are base feature strings combined with extended feature strings, a new mechanism for testing support for each specific feature, rather than relying on modules-level feature strings.  A <a class="def" href="#glossary-user-agent">user agent</a> conforming to DOM Level 3 Events must also implement the following feature string convention for describing DOM3 Events feature support:</p>
-          <ul>
-            <li id="base-feature-string">The primary base feature string for DOM Level 3 Events must be "<code>Events</code>", with the optional version string "<code>3.0</code>", indicating that the <a class="def" href="#glossary-user-agent">user agent</a> supports the <a href="#conform-arch">DOM Level 3 Events Architecture</a> in the manner described in the appropriate conformance section.
-              <ul>
-                <li><span class="assert must">Since DOM Level 3 Events is built on top of DOM Level 2 Events [<cite><a class="normative" href="#references-DOM2Events">DOM2 Events</a></cite>], an implementation that returns <code>true</code> for <code>"Events"</code> and <code>"3.0"</code> must also return <code>true</code> for the parameters <code>"Events"</code> and <code>"2.0"</code>.</span></li>
-                <li><span class="assert mustnot">If the version parameter is omitted, the <a class="def" href="#glossary-user-agent">user agent</a> must not differentiate between the <a href="#conform-arch">DOM Events Architecture</a> as described in DOM Level 3 Events and DOM Level 2 Events, in terms of reporting support for the features indicated by the base feature string.</span></li>
-              </ul>
-            </li>
-            <li id="extended-feature-string">The extended feature string for each event type defined in DOM Level 3 Events must be the base feature string "<code>Events</code>", followed by the period character ("."), followed by the name of that event type, with the optional version string "<code>3.0</code>", indicating that the <a class="def" href="#glossary-user-agent">user agent</a> supports that specific event type in the manner described in the appropriate <a href="#conform-module">conformance section</a>.  For example, the feature string for the <code>mousemove</code> event would be "<code>Events.mousemove</code>", with the optional version string "<code>3.0</code>".
-              <ul>
-                <li><span class="assert must">Because this specification does not retroactively define extended feature strings for DOM Level 2 Events, using the <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-5CED94D7"><code>DOMImplementation.hasFeature()</code></a> method with extended feature strings with a version string "<code>2.0</code>" must return false.</span><span class="warning" id="_42"><strong>Warning!</strong> Because this mechanism for discrete feature strings was not defined in earlier DOM Events specifications, older user agents which support those specifications but not this one may report false negatives in terms of supporting particular features.  For example, a browser which supports the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type as defined in DOM Level 2 Events, but does not support this specification, is likely to return <code>false</code> to the method call <code>document.implementation.hasFeature("Events.click", "")</code>.  The content author should not take this for definitive proof that the implementation does not support the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type, but rather that other means of testing are required in that instance.  This method is best used as a means to detect positive results, not negative ones.  However, it is expected that this will prove of sufficient utility in many cases to justify its use.</span></li>
-                <li><span class="assert must">A <a class="def" href="#glossary-user-agent">user agent</a> which supports an event type in a manner conforming to DOM Level 2 Events but not conforming to DOM Level 3 Events must not report a positive result to that extended feature string, regardless of the value of the version string.</span></li>
-                <li><span class="assert must">A specification or <a class="def" href="#glossary-host-language">host language</a> which <a href="#conf-specs">conforms</a> to DOM Level 3 Events, and which extends this specification in a manner consistent with the <a href="#conf-extend">extension conformance criteria</a>, may define extended feature strings for event types defined in that specification.  These extended feature strings may be used with the feature string "<code>Events</code>".<!-- These extended feature strings may be used with the <a href="#base-feature-string">base feature string</a> of that specification, or with the feature string "<code>Events</code>"; for example, support for the SVG <code>zoom</code> event type might be tested using the method call <code>document.implementation.hasFeature("Events.zoom", "")</code> or the hypothetical <code>document.implementation.hasFeature("SVG.events.zoom", "")</code>. --></span>
-                    <p class="example" id="example-zoom"><strong>Example:</strong> Support for the SVG <code>zoom</code> event type might be tested using the method call <code>document.implementation.hasFeature("Events.zoom", "")</code></p>
-                  <!-- <ul>
-                    <li><span class="assert may">A specification or <a class="def" href="#glossary-host-language">host language</a> which extends event types defined in this specification, but which adds functionality to be detected independently.  </span></li>
-                  </ul> -->
-                </li>
-              </ul>
-            </li>
-            <li>For backwards compatibility, each interface defined in DOM Level 3 Events also has a feature string, which may act as a base feature string or as an extended feature string.  If used as a base feature string, it must follow the conventions of the <a href="#base-feature-string">primary base feature string</a> (e.g., "<code>KeyboardEvent</code>", with the optional version string "<code>3.0</code>"); if used as an extended feature string, it must follow the conventions of the <a href="#extended-feature-string">extended feature strings for event types</a> (e.g., "<code>Events.KeyboardEvent</code>", with the optional version string "<code>3.0</code>").  In either case, the <a class="def" href="#glossary-user-agent">user agent</a> must only report a positive result if it supports that specific interface and all associated event types in the manner described in the appropriate <a href="#conform-module">conformance section</a>.  <span class="warning" id="_2"><strong>Warning!</strong> because this is not as specific as testing for a specific event type and may thus be less likely to be accurate, content authors are encouraged to use the feature strings for event types rather than interfaces.</span></li>
-          </ul>
-          <p class="warning" id="_3"><strong>Warning!</strong> This specification does not provide a means to guarantee that any given element of a <a class="def" href="#glossary-host-language">host language</a> is capable of generating or dispatching an event of any given <a class="def" href="#glossary-event-type">event type</a> (e.g., an HTML <code>'img'</code> element may not dispatch a <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> event), or what the attributes of that event will be beyond those defined in this specification (e.g., the host language may add attributes to the event object).  A  <a class="def" href="#glossary-host-language">host language</a> may provide a different means to do so, including its own relevant feature strings.</p>
-        </div>
-
-
-        <div>
-          <h3><a id="style-conventions" href="#style-conventions">1.4 Stylistic Conventions</a></h3>
+          <h3><a id="style-conventions" href="#style-conventions">1.3 Stylistic Conventions</a></h3>
 
           <p>The following stylistic conventions are followed in this specification, per the <a href="http://www.w3.org/People/Schepers/spec-conventions.html">Proposed W3C Specification Conventions</a>:</p>
           
@@ -868,7 +840,7 @@
       <!-- div START event exceptions -->
       <div>
         <h3><a id="event-exceptions" href="#event-exceptions">3.6 Event exceptions</a></h3>
-        <p><em>This section is non-normative.</em>
+        <p><em>This section is informative.</em>
         <p>Event operations can throw a <code>DOMException</code></a> as specified in their method descriptions.</p>
         <p class="note" id="note-eventexcpetion-removed"><strong>Note:</strong> the exception <em>EventException</em> introduced in <strong class="version">DOM Level 2</strong> is
             removed in this specification as part of this specification's normative support of <a href="#references-WebIDL">Web IDL</a>. <em>EventException</em> formerly defined
@@ -895,9 +867,7 @@
     <!-- div2 Event-interfaces -->
       <div>
         <h2><a id="event-interfaces" href="#event-interfaces">4. Basic Event Interfaces</a></h2>
-
-
-        <p>The interfaces described in this section are fundamental to DOM Level 3 Events and must always be supported by the implementation. Together they define the feature Events 3.0.</p>
+        <p>The interfaces described in this section are fundamental to DOM Level 3 Events and must always be supported by the implementation.</p>
         <p>The event types defined in this specification derive from these basic interfaces, and must inherit all of the attributes, methods, and constants of the interfaces they derive from.  Event types defined in other specifications may similarly inherit from these basic interfaces or other interfaces defined in this specification, or may define their own interfaces.  The following chart describes the inheritance structure of interfaces defined in this specification.</p>
         <div class="figure" style="text-align: center">
           <object type="image/svg+xml" data="images/event-inheritance.svg" width="960" height="230">
@@ -1112,6 +1082,7 @@ interface <a href="#events-Event">Event</a>
             <p>The <a href="#events-CustomEvent"><code>CustomEvent</code></a> interface is the recommended interface for application-specific event types. Unlike the <a href="#events-Event"><code>Event</code></a> interface, it allows applications to provide contextual information about the event type.</p>
             <p class="note"><strong>Authoring Note:</strong> Use a prefix string on the event type name for application-specific event types to avoid clashes with future general-purpose event types.</p>
             <p>To create an instance of the <code>CustomEvent</code> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("CustomEvent")</code></a> method call.</p>
+            <p class="note"><strong>Authoring Note: </strong>See <a href="#new-event-interface-initializers">Appendix A</a> for information about programmatically initializing CustomEvent objects.</p>
             <dl>
               <dt>
                 <br />
@@ -1124,10 +1095,6 @@ interface <a href="#events-Event">Event</a>
 interface <a href="#events-CustomEvent">CustomEvent</a> : <a href="#events-Event">Event</a>
 {
   readonly attribute any? <a href="#events-CustomEvent-detail">detail</a>;
-  void                    <a href="#events-event-type-initCustomEvent">initCustomEvent</a>(DOMString <a href="#events-CustomEvent-initparam-typeArg">typeArg</a>, 
-                                          boolean <a href="#events-CustomEvent-initparam-canBubbleArg">canBubbleArg</a>, 
-                                          boolean <a href="#events-CustomEvent-initparam-cancelableArg">cancelableArg</a>, 
-                                          any? <a href="#events-CustomEvent-initparam-detailArg">detailArg</a>);
 };
                 </code></pre>
               </dd>
@@ -1138,44 +1105,6 @@ interface <a href="#events-CustomEvent">CustomEvent</a> : <a href="#events-Event
                   <dt><code class="attribute-name"><a id="events-CustomEvent-detail">detail</a></code> of type <code>any</code>, readonly</dt>
                   <dd><p>Specifies some detail information about the <a href="#events-Event"><code>Event</code></a>.</p></dd>
 
-                </dl>
-              </dd>
-
-              <dt><strong>Methods</strong></dt>
-              <dd>
-                <dl>
-                  <dt>
-                    <code class="method-name">
-                      <a id="events-event-type-initCustomEvent">initCustomEvent</a>
-                    </code>
-                  </dt>
-                  <dd>
-                    <div class="method">Initializes attributes of a <code>CustomEvent</code> object. This method has the same behavior as <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a>.
-                      <div class="parameters">
-                        <strong>Parameters</strong>
-                        <div class="paramtable">
-                          <dl>
-                            <dt><a id="events-CustomEvent-initparam-typeArg"><code class="parameter-name">typeArg</code></a> of type <code>DOMString</code></dt>
-                            <dd><p>Refer to the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p></dd>
-                            
-                            <dt><a id="events-CustomEvent-initparam-canBubbleArg"><code class="parameter-name">canBubbleArg</code></a> of type <code>boolean</code></dt>
-                            <dd><p>Refer to the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p></dd>
-                            
-                            <dt><a id="events-CustomEvent-initparam-cancelableArg"><code class="parameter-name">cancelableArg</code></a> of type <code>boolean</code></dt>
-                            <dd><p>Refer to the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p></dd>
-                            
-                            <dt><a id="events-CustomEvent-initparam-detailArg"><code class="parameter-name">detailArg</code></a> of type <code>any</code></dt>
-                            <dd><p>Specifies <a href="#events-CustomEvent-detail"><code>CustomEvent.detail</code></a>.</dd>
-                          </dl>
-                        </div>
-                      </div>
-                      <!-- parameters -->
-                      <div><strong>No Return Value</strong></div>
-
-                      <div><strong>No Exceptions</strong></div>
-                    </div>
-<!-- method -->
-                  </dd>
                 </dl>
               </dd>
             </dl>
@@ -1408,7 +1337,9 @@ callback interface <a href="#events-EventListener">EventListener</a>
           <dl>
             <dt><strong>Interface <em><a id="events-DocumentEvent">DocumentEvent</a></em></strong> (introduced in <strong class="since">DOM Level 2</strong>)</dt>
             <dd>
-              <p>The <code>DocumentEvent</code> interface provides a mechanism by which the user can create an <a href="#events-Event"><code>Event</code></a> object of a type supported by the implementation. If the feature string <code>"Events"</code> is supported by the <code>Document</code> object, the <code>DocumentEvent</code> interface must be implemented on the same object.   Language-specific type casting might be required.</p>
+              <p>The <code>DocumentEvent</code> interface provides a mechanism by which the user can create an <a href="#events-Event"><code>Event</code></a> object of a type supported 
+                  by the implementation. The <code>DocumentEvent</code> interface must be implemented on the same object that implements the <code>Document</code> interface.
+              </p>
               <dl>
                 <dt>
                   <br />
@@ -1538,7 +1469,7 @@ Document implements <a href="#events-DocumentEvent">DocumentEvent</a>;
             semantics and scope (in particular the possible <a class="def" href="#glossary-proximal-event-target">proximal event targets</a>) associated 
             with an event type. Refer to the specification defining the language used in order to find those restrictions or to find event types that are 
             not defined in this document.</p>
-        <p>The following table provides a non-normative summary of the event types defined in this specification.  All events must accomplish the capture and target phases, but not all of them must accomplish the bubbling phase (see also <a href="#event-flow">Event dispatch and DOM event flow</a>). Some events are not <a href="#events-dt-cancelable-event">cancelable</a> (see <a href="#event-flow-default-cancel">Default actions and cancelable events</a>). Some events must only be dispatched to a specific set of possible targets in the DOM event flow, specified using node types. Contextual information related to the event type must be accessible using DOM interfaces.</p>
+        <p>The following table provides an informative summary of the event types defined in this specification.  All events must accomplish the capture and target phases, but not all of them must accomplish the bubbling phase (see also <a href="#event-flow">Event dispatch and DOM event flow</a>). Some events are not <a href="#events-dt-cancelable-event">cancelable</a> (see <a href="#event-flow-default-cancel">Default actions and cancelable events</a>). Some events must only be dispatched to a specific set of possible targets in the DOM event flow, specified using node types. Contextual information related to the event type must be accessible using DOM interfaces.</p>
         <table class="data-table" id="table-event-summary" summary="This table contains the complete list of event types defined by DOM Level 3 Events. The first column contains the local name of the event type. The second column indicates if the event accomplish the bubbling phase or not (all events accomplish the capture and target phases). The third column indicates if the default action associated with the event can be canceled. The fourth column indicates the nodes that can be target of the event. the fifth (and last) column indicates the DOM interface implemented by the event object.">
 <!-- border="1" cellpadding="2" cellspacing="0"  -->
           <tr>
@@ -2014,8 +1945,6 @@ Document implements <a href="#events-DocumentEvent">DocumentEvent</a>;
       <p>The DOM Event Model allows a DOM implementation to support multiple modules of events. The model has been designed to allow addition of new event modules if required. This document does not attempt to define all possible events. For purposes of interoperability, the DOM defines a module of user interface events including lower level device dependent events and a module of document mutation events.</p>
       <div>
         <h3><a id="events-uievents" href="#events-uievents">5.2.1 User Interface Event Types</a></h3>
-
-        <p>This module defines the feature UIEvents 3.0 and depends on the features Events 3.0 and Views 2.0.</p>
         <p>The User Interface event module contains basic event types associated with user interfaces and document manipulation.</p>
         <dl>
           <dt><strong>Interface <em><a id="events-UIEvent">UIEvent</a></em></strong> (introduced in <strong class="since">DOM Level 2</strong>)</dt>
@@ -2067,9 +1996,8 @@ interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event<
                   <dd>
                     <div class="method">
                       <p>Initializes attributes of an <code>UIEvent</code> object. This method has the same behavior as <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a>.</p>
-                      <p class="warning"><strong>Warning!</strong> The <code>initUIEvent</code> method is deprecated. Implementations support this API for backwards-compatibility. An alternative form of 
-                          <code>UIEvent</code> initialization that does not require providing every parameter to an event initializer will be made available in a future spec.
-                      </p>
+                      <p class="warning"><strong>Warning!</strong> The <code>initUIEvent</code> method is deprecated, but supported for backwards-compatibility with widely-deployed 
+                        implementations. See <a href="#new-event-interface-initializers">Appendix A</a> for a suggested (informative-only) alternate initializer syntax.</p>
                       <div class="parameters">
                         <strong>Parameters</strong>
                         <div class="paramtable">
@@ -2412,16 +2340,13 @@ From DOM2 Events, but not implemented:
 <!-- interface events-focusevents -->
     <div>
       <h3><a id="events-focusevent" href="#events-focusevent">5.2.2 Focus Event Types</a></h3>
-
-      <p>This module defines the feature FocusEvents 3.0 and depends on the feature UIEvents 3.0.</p>
-      
       <p class="note" id="note-focus-uaag"><strong>Note:</strong> This interface and its associated event types and <a href="#events-focusevent-event-order">focus event order</a> were designed in accordance to the concepts and guidelines defined in <a href="http://www.w3.org/WAI/UA/2010/ED-UAAG20-20100308/">User Agent Accessibility Guidelines 2.0</a> [<a href="#references-UAAG2">UAAG 2.0</a>], with particular attention on the <a href="http://www.w3.org/WAI/UA/2010/ED-UAAG20-20100308/#gl-focus-mechanism">focus mechanism</a> and the terms defined in the <a href="http://www.w3.org/WAI/UA/2010/ED-UAAG20-20100308/#def-focus">glossary entry for focus</a>.</p>
-
       <dl>
         <dt><strong>Interface <em><a id="events-FocusEvent">FocusEvent</a></em></strong> (introduced in <strong class="since">DOM Level 2</strong>)</dt>
         <dd>
           <p>The <code>FocusEvent</code> interface provides specific contextual information associated with Focus events.</p>
           <p>To create an instance of the <code>FocusEvent</code> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("FocusEvent")</code></a> method call.</p>
+          <p class="note"><strong>Authoring Note: </strong>See <a href="#new-event-interface-initializers">Appendix A</a> for information about programmatically initializing FocusEvent objects.</p>
           <dl>
             <dt>
               <br />
@@ -2433,13 +2358,6 @@ From DOM2 Events, but not implemented:
 interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent">UIEvent</a>
 {
   readonly attribute <a href="#events-EventTarget">EventTarget</a>? <a href="#events-FocusEvent-relatedTarget">relatedTarget</a>;
-  <span class="comment">// Deprecated in DOM Level 3:</span>
-  void                            <a href="#events-event-type-initFocusEvent">initFocusEvent</a>(DOMString typeArg, 
-                                                 boolean canBubbleArg, 
-                                                 boolean cancelableArg, 
-                                                 AbstractView? viewArg, 
-                                                 long detailArg, 
-                                                 <a href="#events-EventTarget">EventTarget</a>? relatedTargetArg);
 };
               </code></pre>
             </dd>
@@ -2461,55 +2379,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
                 </dd>
 
               </dl>
-            </dd>
-
-            <dt><strong>Methods</strong></dt>
-            <dd>
-              <dl>
-                <dt>
-                  <code class="method-name">
-                    <a id="events-event-type-initFocusEvent">initFocusEvent</a>
-                  </code>
-                </dt>
-                <dd>
-                  <div class="method">Initializes attributes of a <code>FocusEvent</code> object. This method has the same behavior as <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.
-                     <p class="warning"><strong>Warning!</strong> The <code>initFocusEvent</code> method is deprecated. Implementations support this API for backwards-compatibility. An alternative form of 
-                          <code>FocusEvent</code> initialization that does not require providing every parameter to an event initializer will be made available in a future spec.
-                      </p>
-                    <div class="parameters">
-                      <strong>Parameters</strong>
-                      <div class="paramtable">
-                        <dl>
-                          <dt><code class="parameter-name">typeArg</code> of type <code>DOMString</code></dt>
-                          <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
-                          
-                          <dt><code class="parameter-name">canBubbleArg</code> of type <code>boolean</code></dt>
-                          <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
-                          
-                          <dt><code class="parameter-name">cancelableArg</code> of type <code>boolean</code></dt>
-                          <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
-                          
-                          <dt><code class="parameter-name">viewArg</code> of type <code>AbstractView</code></dt>
-                          <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
-                          
-                          <dt><code class="parameter-name">detailArg</code> of type <code>long</code></dt>
-                          <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
-                          
-                          <dt><code class="parameter-name">relatedTargetArg</code> of type <a href="#events-EventTarget"><code>EventTarget</code></a></dt>
-                          <dd><p>Specifies <a href="#events-FocusEvent-relatedTarget"><code>FocusEvent.relatedTarget</code></a>. This value may be <code>null</code>.</p>                            
-                          </dd>
-                        </dl>
-                      </div>
-                    </div>
-                    <!-- parameters -->
-                    <div><strong>No Return Value</strong></div>
-
-                    <div><strong>No Exceptions</strong></div>
-                  </div>
-<!-- method -->
-                </dd>
-              </dl>
-            </dd>
+            </dd>           
           </dl>
         </dd>
       </dl>
@@ -2734,8 +2604,6 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
 <!-- interface events-mouseevents -->
     <div>
       <h3><a id="events-mouseevents" href="#events-mouseevents">5.2.3 Mouse Event Types</a></h3>
-
-      <p>This module defines the feature MouseEvents 3.0 and depends on the feature UIEvents 3.0.</p>
       <p>The Mouse event module originates from the [<cite><a class="informative" href="#references-HTML40">HTML 4.01</a></cite>] <code>onclick</code>, <code>ondblclick</code>, <code>onmousedown</code>, <code>onmouseup</code>, <code>onmouseover</code>, <code>onmousemove</code>, and <code>onmouseout</code> attributes. This event module is specifically designed for use with pointing input devices, such as a mouse or a trackball.</p>
       <dl>
         <dt><strong>Interface <em><a id="events-MouseEvent">MouseEvent</a></em></strong> (introduced in <strong class="since">DOM Level 2</strong>)</dt>
@@ -2744,7 +2612,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
           <p>In the case of nested elements, mouse events are always targeted at the most deeply nested element.</p>
           <p class="note"><strong>Note:</strong> Ancestors of the targeted element can use event bubbling to obtain notifications of mouse events which occur within their descendent elements.</p>
           <p>To create an instance of the <code>MouseEvent</code> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("MouseEvent")</code></a> method call.</p>
-          <p class="note" id="_10"><strong>Note:</strong> When initializing <code>MouseEvent</code> objects using <code>initMouseEvent</code> or <code>initMouseEventNS</code>, implementations can use the client coordinates <code>clientX</code> and <code>clientY</code> for calculation of other coordinates (such as target coordinates exposed by <a class="def" href="#glossary-DOM-Level-0">DOM Level 0</a> implementations or other proprietary attributes, e.g., <code>pageX</code>).</p>
+          <p class="note" id="_10"><strong>Note:</strong> When initializing <code>MouseEvent</code> objects using <code>initMouseEvent</code>, implementations can use the client coordinates <code>clientX</code> and <code>clientY</code> for calculation of other coordinates (such as target coordinates exposed by <a class="def" href="#glossary-DOM-Level-0">DOM Level 0</a> implementations or other proprietary attributes, e.g., <code>pageX</code>).</p>
           <dl>
             <dt>
               <br />
@@ -2883,9 +2751,8 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
                 <dd>
                   <div class="method">
                     <p>Initializes attributes of a <code>MouseEvent</code> object. This method has the same behavior as <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.</p>
-                    <p class="warning"><strong>Warning!</strong> The <code>initMouseEvent</code> method is deprecated. Implementations support this API for backwards-compatibility. An alternative form of 
-                          <code>MouseEvent</code> initialization that does not require providing every parameter to an event initializer will be made available in a future spec.
-                    </p>
+                    <p class="warning"><strong>Warning!</strong> The <code>initMouseEvent</code> method is deprecated, but supported for backwards-compatibility with widely-deployed 
+                        implementations. See <a href="#new-event-interface-initializers">Appendix A</a> for a suggested (informative-only) alternate initializer syntax.</p>
                     <div class="parameters">
                       <strong>Parameters</strong>
                       <div class="paramtable">
@@ -3001,8 +2868,22 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
           <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a>
         </li>
       </ol>
-      <p>Note that the lag time, degree, distance, and number of <a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a> events allowed between the <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> and <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> events while still firing a <a class="eventtype" href="#event-type-click"><code>click</code></a> or <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> event must be implementation-, device-, and platform-specific.  Each implementation should determine the appropriate hysteresis tolerance, but in general should fire <a class="eventtype" href="#event-type-click"><code>click</code></a> and <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> events when the event target of the associated <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> and <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> events is the same element with no <a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a> or <a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a> events intervening, and should not fire <a class="eventtype" href="#event-type-click"><code>click</code></a> and <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> events when the event target of the associated <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> and <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> events is different.</p>
-      
+      <p class="note"><strong>Note: </strong>The lag time, degree, distance, and number of <a class="eventtype" href="#event-type-mousemove">
+          <code>mousemove</code></a> events allowed between the <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> and 
+          <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> events while still firing a 
+          <a class="eventtype" href="#event-type-click"><code>click</code></a> or <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a>
+          event will be implementation-, device-, and platform-specific.
+      </p>
+      <p>Each implementation will determine the appropriate hysteresis tolerance, but in general should fire 
+          <a class="eventtype" href="#event-type-click"><code>click</code></a> and <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a>
+          events when the event target of the associated <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> and 
+          <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> events is the same element with no 
+          <a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a> or <a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a> 
+          events intervening, and should not fire <a class="eventtype" href="#event-type-click"><code>click</code></a> and 
+          <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> events when the event target of the associated 
+          <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> and <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a>
+          events is different.
+      </p>
       <p>If the <a class="def" href="#glossary-proximal-event-target">proximal event target</a> (e.g. the target element) is removed from the DOM during the mouse events sequence, the remaining events of the sequence must not be fired on that element.</p>  
       <p class="example" id="element-remove-mouse"><strong>Example:</strong> if the target element is removed from the DOM as the result of a <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> event, no events for that element will be dispatched for <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a>, <a class="eventtype" href="#event-type-click"><code>click</code></a>, or <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a>, nor any default activation events; however, the <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> event will still be dispatched on the element that is exposed to the mouse after the removal of the initial target element. Similarly,  if the target element is removed from the DOM during the dispatch of a <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> event, the <a class="eventtype" href="#event-type-click"><code>click</code></a> and subsequent events will not be dispatched.</p>
 
@@ -3438,14 +3319,13 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
 <!-- div3 Events-eventgroupings-mouseevents -->
     <div>
       <h3><a id="events-wheelevents" href="#events-wheelevents">5.2.4 Wheel Event Types</a></h3>
-
-      <p>This module defines the feature WheelEvents 3.0 and depends on the feature MouseEvents 3.0.</p>
       <p>Wheels are devices that can be rotated in one or more spatial dimensions, and which can be associated with a pointer device. The coordinate system depends on the environment configuration. As an example, the environment might be configured to associate vertical scrolling with rotation along the y-axis, horizontal scrolling with rotation along the x-axis, and zooming with rotation along the z-axis.  The deltaX, deltaY, and deltaZ attributes of <a href="#events-WheelEvent"><code>WheelEvent</code></a> objects indicate the distance of the rotation, as specified in the <a class="def" href="#glossary-delta">delta</a> definition. <!--The delta attributes of <a href='#events-WheelEvent'><code>WheelEvent</code></a> objects indicate the distance of the rotation. The measurement unit depends on the environment configuration. The sign of the delta value should indicate the direction of the rotation.--></p>
       <dl>
         <dt><strong>Interface <em><a id="events-WheelEvent">WheelEvent</a></em></strong> (introduced in <strong class="since">DOM Level 3</strong>)</dt>
         <dd>
           <p>The <code>WheelEvent</code> interface provides specific contextual information associated with omnidirectional mouse wheel events.</p>
           <p>To create an instance of the <code>WheelEvent</code> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("WheelEvent")</code></a> method call.</p>
+          <p class="note"><strong>Authoring Note: </strong>See <a href="#new-event-interface-initializers">Appendix A</a> for information about programmatically initializing WheelEvent objects.</p>
           <dl>
             <dt>
               <br />
@@ -3465,23 +3345,6 @@ interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEv
   readonly attribute float         <a href="#events-WheelEvent-deltaY">deltaY</a>;
   readonly attribute float         <a href="#events-WheelEvent-deltaZ">deltaZ</a>;
   readonly attribute unsigned long <a href="#events-WheelEvent-deltaMode">deltaMode</a>;    
-  <span class="comment">// Deprecated in DOM Level 3:</span>
-  void                             <a href="#events-event-type-initWheelEvent">initWheelEvent</a>(DOMString typeArg, 
-                                                  boolean canBubbleArg, 
-                                                  boolean cancelableArg, 
-                                                  AbstractView? viewArg, 
-                                                  long detailArg, 
-                                                  long screenXArg, 
-                                                  long screenYArg, 
-                                                  long clientXArg, 
-                                                  long clientYArg, 
-                                                  unsigned short buttonArg, 
-                                                  <a href="#events-EventTarget">EventTarget</a>? relatedTargetArg, 
-                                                  DOMString modifiersListArg, 
-                                                  float deltaXArg, 
-                                                  float deltaYArg, 
-                                                  float deltaZArg, 
-                                                  unsigned long deltaMode);
 };
               </code></pre>
             </dd>
@@ -3529,90 +3392,11 @@ interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEv
               </dl>
             </dd>
 
-            <dt><strong>Methods</strong></dt>
-            <dd>
-              <dl>
-                <dt><code class="method-name"><a id="events-event-type-initWheelEvent">initWheelEvent</a></code> introduced in <strong class="since">DOM Level 3</strong></dt>
-                <dd>
-                  <div class="method">
-                    <p>Initializes attributes of a <code>WheelEvent</code> object. This method has the same behavior as <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a>.</p>
-                    <p class="warning"><strong>Warning!</strong> The <code>initWheelEvent</code> method is deprecated. Implementations support this API for backwards-compatibility. An alternative form of 
-                          <code>WheelEvent</code> initialization that does not require providing every parameter to an event initializer will be made available in a future spec.
-                      </p>
-                    <div class="parameters">
-                      <strong>Parameters</strong>
-                      <div class="paramtable">
-                        <dl>
-                          <dt><code class="parameter-name">typeArg</code> of type <code>DOMString</code></dt>
-                          <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
-                          
-                          <dt><code class="parameter-name">canBubbleArg</code> of type <code>boolean</code></dt>
-                          <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
-                          
-                          <dt><code class="parameter-name">cancelableArg</code> of type <code>boolean</code></dt>
-                          <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
-                          
-                          <dt><code class="parameter-name">viewArg</code> of type <code>AbstractView</code></dt>
-                          <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
-                          
-                          <dt><code class="parameter-name">detailArg</code> of type <code>long</code></dt>
-                          <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
-                          
-                          <dt><code class="parameter-name">screenXArg</code> of type <code>long</code></dt>
-                          <dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
-                          
-                          <dt><code class="parameter-name">screenYArg</code> of type <code>long</code></dt>
-                          <dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
-                          
-                          <dt><code class="parameter-name">clientXArg</code> of type <code>long</code></dt>
-                          <dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
-                          
-                          <dt><code class="parameter-name">clientYArg</code> of type <code>long</code></dt>
-                          <dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
-                          
-                          <dt><code class="parameter-name">buttonArg</code> of type <code>unsigned short</code></dt>
-                          <dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
-                          
-                          <dt><code class="parameter-name">relatedTargetArg</code> of type <a href="#events-EventTarget"><code>EventTarget</code></a></dt>
-                          <dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
-                          
-                          <dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
-                          <dt><code class="parameter-name">modifiersListArg</code> of type <code>DOMString</code></dt>
-                          <dd><p>A <a class="normative" href="http://www.w3.org/TR/2004/REC-xml-20040204/#NT-S"><em>white space</em></a> 
-                              separated list of modifier key values to be activated on this object. As an example, 
-                              <code>"Control Shift"</code> marks the control and shift modifiers as activated (the 
-                              <a href="#events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a> and
-                              <a href="#events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a> inherited
-                              attributes will be <code>true</code> on the initialized <code>WheelEvent</code> object).</p>
-                          </dd>
-
-                          <dt><code class="parameter-name">deltaXArg</code> of type <code>float</code></dt>
-                          <dd><p>Specifies <a href="#events-WheelEvent-deltaX"><code>WheelEvent.deltaX</code></a>.</p></dd>
-                          
-                          <dt><code class="parameter-name">deltaYArg</code> of type <code>float</code></dt>
-                          <dd><p>Specifies <a href="#events-WheelEvent-deltaY"><code>WheelEvent.deltaY</code></a>.</p></dd>
-                          
-                          <dt><code class="parameter-name">deltaZArg</code> of type <code>float</code></dt>
-                          <dd><p>Specifies <a href="#events-WheelEvent-deltaZ"><code>WheelEvent.deltaZ</code></a>.</p></dd>
-                          
-                          <dt><code class="parameter-name">deltaModeArg</code> of type <code>unsigned long</code></dt>
-                          <dd><p>Specifies <a href="#events-WheelEvent-deltaMode"><code>WheelEvent.deltaMode</code></a>.</p></dd>
-                        </dl>
-                      </div>
-                    </div>
-                    <!-- parameters -->
-                    <div><strong>No Return Value</strong></div>
-
-                    <div><strong>No Exceptions</strong></div>
-                  </div>
-<!-- method -->
-                </dd>
-              </dl>
-            </dd>
+      
           </dl>
         </dd>
       </dl>
-
+      <p>The Wheel event types are listed below.</p>
 <!-- wheel -->
       <div class="event-definition assert must">
         <dl>
@@ -3665,8 +3449,6 @@ interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEv
     Note: textinput (and related interface is being removed per bug https://www.w3.org/Bugs/Public/show_bug.cgi?id=12958 
       <div>
         <h3><a id="events-textevents" href="#events-textevents">5.2.5 Text Event Types</a></h3>
-
-        <p>This module defines the feature TextEvents 3.0 and depends on the feature UIEvents 3.0.</p>
         <p>The text event module originates from the [<cite><a class="informative" href="#references-HTML40">HTML 4.01</a></cite>] <code>onkeypress</code> attribute. Unlike this attribute, the event type <a class="eventtype" href="#event-type-textinput"><code>textinput</code></a> applies only to characters and is designed for use with any text input devices, not just keyboards. Refer to <a href="#keys">Keyboard events and key values</a> for examples on how text events are used in combination with keyboard events.</p>
         <dl>
           <dt><strong>Interface <em><a id="events-TextEvent">TextEvent</a></em></strong> (introduced in <strong class="since">DOM Level 3</strong>)</dt>
@@ -3859,8 +3641,6 @@ interface <a href="#events-TextEvent">TextEvent</a> : <a href="#events-UIEvent">
 <!-- div3 Events-TextEvents-Interfaces -->
       <div>
         <h3><a id="events-keyboardevents" href="#events-keyboardevents">5.2.5 Keyboard Event Types</a></h3>
-
-        <p>This module defines the feature KeyboardEvents 3.0 and depends on the feature UIEvents 3.0.</p>
         <p>Keyboard events are device dependent, i.e., they rely on the capabilities of the input devices and how they are mapped in the operating systems. Refer to <a href="#keys">Keyboard events and key values</a> for more details, including examples on how Keyboard Events are used in combination with Composition Events. Depending on the character generation device, keyboard events might not be generated.</p>
         <p class="note"><strong>Authoring Note:</strong> Keyboard events are only one modality of providing textual input. For editing scenarios, consider also using the "input" event defined in 
             [<cite><a class="informative" href="#references-HTML5">HTML5</a></cite>] as an alternate to (or in addition to) keyboard events.
@@ -3871,6 +3651,7 @@ interface <a href="#events-TextEvent">TextEvent</a> : <a href="#events-UIEvent">
             <p>The <code>KeyboardEvent</code> interface provides specific contextual information associated with keyboard devices. Each keyboard event references a key using a value. Keyboard events are commonly directed at the element that has the focus.</p>
             <p>The <code>KeyboardEvent</code> interface provides convenient attributes for some common modifiers keys: <a href="#events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>, <a href="#events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#events-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>, <a href="#events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a>. These attributes are equivalent to using the method <a href="#events-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState(keyArg)</code></a> with <code class="value">'Control'</code>, <code class="value">'Shift'</code>, <code class="value">'Alt'</code>, or <code class="value">'Meta'</code> respectively.</p>
             <p>To create an instance of the <code>KeyboardEvent</code> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("KeyboardEvent")</code></a> method call.</p>
+            <p class="note"><strong>Authoring Note: </strong>See <a href="#new-event-interface-initializers">Appendix A</a> for information about programmatically initializing KeyboardEvent objects.</p>
             <dl>
               <dt>
                 <br />
@@ -3899,17 +3680,6 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
   readonly attribute boolean       <a href="#events-KeyboardEvent-repeat">repeat</a>;
   readonly attribute DOMString     <a href="#events-KeyboardEvent-locale">locale</a>;
   boolean                          <a href="#events-KeyboardEvent-getModifierState">getModifierState</a>(DOMString keyArg);
-  <span class="comment">// Deprecated in DOM Level 3:</span>
-  void                             <a href="#events-KeyboardEvent-initKeyboardEvent">initKeyboardEvent</a>(DOMString typeArg, 
-                                                     boolean canBubbleArg, 
-                                                     boolean cancelableArg, 
-                                                     AbstractView? viewArg, 
-                                                     DOMString charArg, 
-                                                     DOMString keyArg, 
-                                                     unsigned long locationArg, 
-                                                     DOMString modifiersListArg,
-                                                     boolean repeat,
-                                                     DOMString localeArg); 
 };
                 </code></pre>
               </dd>
@@ -4044,63 +3814,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
 <!-- method -->
                   </dd>
 
-                  <dt>
-                    <code class="method-name">
-                      <a id="events-KeyboardEvent-initKeyboardEvent">initKeyboardEvent</a>
-                    </code>
-                  </dt>
-                  <dd>
-                    <div class="method">
-                      <p>Initializes attributes of a <code>KeyboardEvent</code> object. This method has the same behavior as <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.
-                          The value of <a href="#events-UIEvent-detail"><code>UIEvent.detail</code></a> remains undefined.
-                      </p>
-                      <p class="warning"><strong>Warning!</strong> The <code>initKeyboardEvent</code> method is deprecated. Implementations support this API for backwards-compatibility. An alternative form of 
-                          <code>KeyboardEvent</code> initialization that does not require providing every parameter to an event initializer will be made available in a future spec.
-                      </p>
-                      <div class="parameters">
-                        <strong>Parameters</strong>
-                        <div class="paramtable">
-                          <dl>
-                            <dt><code class="parameter-name">typeArg</code> of type <code>DOMString</code></dt>
-                            <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
-                            
-                            <dt><code class="parameter-name">canBubbleArg</code> of type <code>boolean</code></dt>
-                            <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
-                            
-                            <dt><code class="parameter-name">cancelableArg</code> of type <code>boolean</code></dt>
-                            <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
-                            
-                            <dt><code class="parameter-name">viewArg</code> of type <code>AbstractView</code></dt>
-                            <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
-                            
-                            <dt><code class="parameter-name">charArg</code> of type <code>DOMString</code></dt>
-                            <dd><p>Specifies <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a>.</p></dd>
-                            
-                            <dt><code class="parameter-name">keyArg</code> of type <code>DOMString</code></dt>
-                            <dd><p>Specifies <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>.</p></dd>
-                            
-                            <dt><code class="parameter-name">locationArg</code> of type <code>unsigned long</code></dt>
-                            <dd><p>Specifies <a href="#events-KeyboardEvent-location"><code>KeyboardEvent.location</code></a>.</p></dd>
-                            
-                            <dt><code class="parameter-name">modifiersListArg</code> of type <code>DOMString</code></dt>
-                            <dd><p>A <a class="normative" href="http://www.w3.org/TR/2004/REC-xml-20040204/#NT-S"><em>white space</em></a> separated list of modifier key values to be activated on this object. As an example, <code>"Control Alt"</code> marks the control and alt modifiers as activated.</p></dd>
-                            
-                            <dt><code class="parameter-name">repeatArg</code> of type <code>boolean</code></dt>
-                            <dd><p>Specifies whether the key event is repeating; see <a href="#events-KeyboardEvent-repeat"><code>KeyboardEvent.repeat</code></a>.</p></dd>
-
-                            <dt><code class="parameter-name">localeArg</code> of type <code>DOMString</code></dt>
-                            <dd><p>Specifies <a href="#events-KeyboardEvent-locale"><code>KeyboardEvent.locale</code></a>.</p></dd>
-                          </dl>
-                        </div>
-                      </div>
-                      
-                      <!-- parameters -->
-                      <div><strong>No Return Value</strong></div>
-
-                      <div><strong>No Exceptions</strong></div>
-                    </div>
-<!-- method -->
-                  </dd>
+                  
                 </dl>
               </dd>
             </dl>
@@ -4120,7 +3834,6 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
         
         
         <p class="note" id="key-IME-suppress"><strong>Note:</strong>  In some implementations or system configurations, some key events, or their values, might be suppressed by the <a class="def" href="#glossary-ime">IME</a> in use.</p>
-        
         <p>The keyboard event types are listed below.</p>
         
         <h4 class="needswork">
@@ -4321,8 +4034,6 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
 <!-- div3 Events-eventgroupings-compositionevents -->
       <div>
         <h3><a id="events-compositionevents" href="#events-compositionevents">5.2.6 Composition Event Types</a></h3>
-
-        <p>This module defines the feature CompositionEvents 3.0 and depends on the feature UIEvents 3.0.</p>
         <p>Composition Events provide a means for inputing text in a supplementary or alternate manner than by Keyboard Events, in order to allow the use of characters that might not be commonly available on keyboard. For example, Composition events might be used to add accents to characters despite their absence from standard US keyboards, to build up logograms of many Asian languages from their base components or categories, to select word choices from a combination of key presses on a mobile device keyboard, or to convert voice commands into text using a speech recognition processor.  Refer to <a href="#keys">Keyboard events and key values</a> for examples on how Composition Events are used in combination with keyboard events.</p>
         <p>Conceptually, a composition session consists of one <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> event, one or more <a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> events, and one <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event, with the value of the <a href="#events-CompositionEvent-data">data</a> attribute persisting between each <q>stage</q> of this event chain during each session. </p>
         <p class="note"><strong>Note:</strong> While a composition session is active, keyboard events can be dispatched to the DOM if the keyboard is the input device used with the composition session. See the <a href="#event-type-compositionstart"><code>compositionstart</code> event details</a> and <a href="#keys-IME">IME section</a> for relevent event ordering.</p>
@@ -4332,6 +4043,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
           <dd>
             <p>The <code>CompositionEvent</code> interface provides specific contextual information associated with Composition Events.</p>
             <p>To create an instance of the <code>CompositionEvent</code> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("CompositionEvent")</code></a> method call.</p>
+            <p class="note"><strong>Authoring Note: </strong>See <a href="#new-event-interface-initializers">Appendix A</a> for information about programmatically initializing CompositionEvent objects.</p>
             <dl>
               <dt>
                 <br />
@@ -4344,13 +4056,6 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
 {
   readonly attribute DOMString? <a href="#events-CompositionEvent-data">data</a>;
   readonly attribute DOMString  <a href="#events-CompositionEvent-locale">locale</a>;
-  <span class="comment">// Deprecated in DOM Level 3:</span>
-  void                          <a href="#events-event-type-initCompositionEvent">initCompositionEvent</a>(DOMString typeArg, 
-                                                     boolean canBubbleArg, 
-                                                     boolean cancelableArg, 
-                                                     AbstractView? viewArg, 
-                                                     DOMString? dataArg,
-                                                     DOMString localeArg);
 };
                 </code></pre>
               </dd>
@@ -4367,55 +4072,6 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
                     <p class="note" id="note_CompositionEvent-locale"><strong>Note:</strong> <code>locale</code> does not necessarily indicate the locale of the data or the context in which it is being entered.  For example, a French user often might not switch to an English keyboard setting when typing English, in which case the <code>locale</code> will still indicate French, even though the data is actually English.  Similarly, an IME application could fail to distinguish between the locale of Chinese and Kanji characters.</p>
                   </dd>
 
-                </dl>
-              </dd>
-
-              <dt><strong>Methods</strong></dt>
-              <dd>
-                <dl>
-                  <dt>
-                    <code class="method-name">
-                      <a id="events-event-type-initCompositionEvent">initCompositionEvent</a>
-                    </code>
-                  </dt>
-                  <dd>
-                    <div class="method">
-                      <p>Initializes attributes of a <code>CompositionEvent</code> object. This method has the same behavior as <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a>. The value of <a href="#events-UIEvent-detail"><code>UIEvent.detail</code></a> remains undefined.</p>
-                      <p class="warning"><strong>Warning!</strong> The <code>initCompositionEvent</code> method is deprecated. Implementations support this API for backwards-compatibility. An alternative form of 
-                          <code>CompositionEvent</code> initialization that does not require providing every parameter to an event initializer will be made available in a future spec.
-                      </p>
-                      <div class="parameters">
-                        <strong>Parameters</strong>
-                        <div class="paramtable">
-                          <dl>
-                            <dt><code class="parameter-name">typeArg</code> of type <code>DOMString</code></dt>
-                            <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
-                            
-                            <dt><code class="parameter-name">canBubbleArg</code> of type <code>boolean</code></dt>
-                            <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
-                            
-                            <dt><code class="parameter-name">cancelableArg</code> of type <code>boolean</code></dt>
-                            <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
-                            
-                            <dt><code class="parameter-name">viewArg</code> of type <code>AbstractView</code></dt>
-                            <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
-                            
-                            <dt><code class="parameter-name">dataArg</code> of type <code>DOMString</code></dt>
-                            <dd><p>Specifies <a href="#events-CompositionEvent-data"><code>CompositionEvent.data</code></a>.</p></dd>
-                            
-                            <dt><code class="parameter-name">localeArg</code> of type <code>DOMString</code></dt>
-                            <dd><p>Specifies <a href="#events-CompositionEvent-locale"><code>CompositionEvent.locale</code></a>.</p></dd>
-                          </dl>
-                        </div>
-                      </div>
-                      
-                      <!-- parameters -->
-                      <div><strong>No Return Value</strong></div>
-
-                      <div><strong>No Exceptions</strong></div>
-                    </div>
-<!-- method -->
-                  </dd>
                 </dl>
               </dd>
             </dl>
@@ -4594,8 +4250,6 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
 
       <div>
         <h3><a id="events-mutationevents" href="#events-mutationevents">5.2.7 Mutation Events</a></h3>
-
-        <p>This module defines the feature MutationEvents 3.0 and depends on the feature Events 3.0.</p>
         <p>The mutation and mutation name event modules are designed to allow notification of any changes to the structure of a document, including attribute, text, or name modifications. It may be noted that none of the event types associated with the modules are designated as cancelable. This stems from the fact that it is very difficult to make use of existing DOM interfaces which cause document modifications if any change to the document might or might not take place due to cancelation of the resulting event. Although this is still a desired capability, it was decided that it would be better left until the addition of transactions into the DOM.</p>
 <!-- <p class="issue">Note that nodes that are not in the document, such as elements freshly created, or elements removed from the DOM, must not fire mutation events when changed.  For example, if an element is created but not yet inserted into the document, then an existing element located in the document must be moved from its current location to be a child of the new element, there must be one mutation event, for removing the existing element from its previous location, but no event must fire for insertion of the element into the new element, regardless of any assigned mutation event listeners.</p>
           <p class="issue">?What happens to event listeners on an element when it is removed from the tree, or moved elsewhere in the tree?</p> -->
@@ -4992,8 +4646,6 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
 <!-- div3 Events-eventgroupings-mutationevents -->
       <div>
         <h3><a id="events-mutationnameevents" href="#events-mutationnameevents">5.2.8 Mutation Name Event Types</a></h3>
-
-        <p>This module defines the feature MutationNameEvents 3.0 and depends on the features MutationEvents 3.0 and Core 3.0.</p>
         <p class="warning" id="_46"><strong>Warning!</strong>  The <code>MutationNameEvent</code> interface, introduced in an earlier draft of this specification, derives from the <a href="#events-mutationevents"><code>MutationEvent</code></a> interface, which is deprecated in this specification.  Thus, this specification describes the mutation name event types for completeness, but <a class="def" href="#glossary-deprecated">deprecates</a> their use.</p>
         <dl>
           <dt><strong>Interface <em><a id="events-MutationNameEvent">MutationNameEvent</a></em></strong> (introduced in <strong class="since">DOM Level 3</strong>)</dt>
@@ -5619,7 +5271,7 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
           
           
           <h5 id="key-values-list">6.2.7.2 Key Values List</h5>
-          <p>The following list contains the normative list of case-sensitive key values, their character values (where applicable), a non-normative description of typical usage, and a non-normative categorization.  A conforming implementation of the <a href="#events-KeyboardEvent">KeyboardEvent</a> interface must support at least this set of values for use in the <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a> and <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attributes, though not all values may be available on all platforms or devices.</p>
+          <p>The following list contains the normative list of case-sensitive key values, their character values (where applicable), an informative description of typical usage, and an informative categorization.  A conforming implementation of the <a href="#events-KeyboardEvent">KeyboardEvent</a> interface must support at least this set of values for use in the <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a> and <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attributes, though not all values may be available on all platforms or devices.</p>
           <div>
             <table class="data-table" id="table-key-values" summary="">
               <tr>
@@ -6987,7 +6639,538 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
 <!-- div1 KeySet -->
 
     <div>
-      <h2><a id="legacy-key-attributes" href="#legacy-key-attributes">Appendix A: Legacy key attributes: <code class="attr-name">keyCode</code>, <code class="attr-name">charCode</code>, and <code class="attr-name">which</code></a></h2>
+        <h2><a id="new-event-interface-initializers" href="#new-event-interface-initializers">Appendix A: Initializing New Event Interfaces</a></h2>
+        <p><em>This section is informative</em></p>
+        <p>This specification defines several new event interfaces without a mechanism for content authors to initialize their respective events.</p>
+        <p>These new event interfaces are:</p>
+        <ul>
+            <li><a href="#events-CustomEvent"><code>CustomEvent</code></a></li>
+            <li><a href="#events-FocusEvent"><code>FocusEvent</code></a></li>
+            <li><a href="#events-WheelEvent"><code>WheelEvent</code></a></li>
+            <li><a href="#events-KeyboardEvent"><code>KeyboardEvent</code></a></li>
+            <li><a href="#events-CompositionEvent"><code>CompositionEvent</code></a></li>
+        </ul>
+        <p>In DOM Level 2 Events, the initialization of these event interfaces was possible through an init method on the interface (for example <code>initMouseEvent</code>). 
+            These init methods required a long list of parameters that, in most cases, did not fully initialize all attributes of the event object. In order to fully initialize
+            an event interface which was derived from the basic <code>Event</code> interface, it was necessary to call the initializer of each of the derived interfaces explicitly.
+        </p>
+        <p class="example"><strong>Example: </strong>Initializing all the attributes of a MutationNameEvent requires calls to three initializer methods: <code>initEvent</code>,
+            <code>initMutationEvent</code>, and <code>initMutationNameEvent</code>.
+        </p>
+        <p>Due in part to the length of time in the development of this standard, some implementations may have taken a dependency on a set of initializer methods that were formerly
+            defined in this specification. For completeness, these legacy event intializers are described in this Appendix.
+        </p>
+        <p>The initialization of new derived event objects becomes easier in DOM4 [<a href="#references-DOM4">DOM4</a>] with the introduction of event constructors.
+            Event constructors are a new mechanism for initializing the event object's attributes that allows authors to pick-and-choose which of all the possible event attributes 
+            should be initialized to a value. For the omitted values, a suitable default is applied.
+        </p>
+        <p>This specification does not require a conforming implementation to support event constructors. Likewise it does not require a conforming implementation to support the legacy 
+            event initializers. However, it would be prudent for a conforming implementation to support one or the other, so that authors have some mechanism to initilize the new event 
+            interfaces defined in this specification.
+        </p>
+        <p class="note"><strong>Note: </strong>Event constructors are a relatively new concept and are subject to change. For the latest syntax, please refer to the DOM4 specification 
+            [<a href="#references-DOM4">DOM4</a>].
+        </p>
+        
+        <h3 id="event-initializers">A.1 Supplemental Initializer Interfaces</h3>
+        <p><em>This section is informative</em></p>
+        <p>This section documents legacy initializer methods <b>and</b> suggested event constructors for the following event interfaces introduced in DOM Level 3 Events:</p>
+        <ul>
+            <li><a href="#idl-interface-CustomEvent-initializers"><code>CustomEvent</code></a></li>
+            <li><a href="#idl-interface-FocusEvent-initializers"><code>FocusEvent</code></a></li>
+            <li><a href="#idl-interface-WheelEvent-initializers"><code>WheelEvent</code></a></li>
+            <li><a href="#idl-interface-KeyboardEvent-initializers"><code>KeyboardEvent</code></a></li>
+            <li><a href="#idl-interface-CompositionEvent-initializers"><code>CompositionEvent</code></a></li>
+        </ul>
+        <p>For completeness, this section also documents suggested event constructors for the following event interfaces which were introduced in DOM Level 2 Events [<a id="#references-DOM2Events">DOM2 Events</a>] but not deprecated in this specification:</p>
+        <ul>
+            <li><a href="#idl-interface-Event-initializers"><code>Event</code></a></li>
+            <li><a href="#idl-interface-UIEvent-initializers"><code>UIEvent</code></a></li>
+            <li><a href="#idl-interface-MouseEvent-initializers"><code>MouseEvent</code></a></li>
+        </ul>
+        <dl>
+           <dt><strong>WebIDL Definitions</strong></dt>
+           <dd>
+             <pre class="idl" id="idl-interface-Event-initializers"><code>
+<span class="comment">// Event Constructor Syntax:</span>
+[Constructor(DOMString typeArg, optional EventInit eventInitDict)]
+partial interface <a href="#events-Event">Event</a>
+{
+};
+
+<span class="comment">// Suggested initEvent initializer:</span>
+dictionary EventInit {
+  boolean bubbles    = false;
+  boolean cancelable = false;
+};</code></pre>
+               </dd>
+               <dd>
+             <pre class="idl" id="idl-interface-CustomEvent-initializers"><code>
+<span class="comment">// Event Constructor Syntax:</span>
+[Constructor(DOMString typeArg, optional CustomEventInit customEventInitDict)]
+partial interface <a href="#events-CustomEvent">CustomEvent</a>
+{
+  <span class="comment">// Originally introduced (and deprecated) in DOM Level 3:</span>
+  void <a href="#events-event-type-initCustomEvent">initCustomEvent</a>(DOMString <a href="#events-CustomEvent-initparam-typeArg">typeArg</a>, 
+                       boolean <a href="#events-CustomEvent-initparam-canBubbleArg">canBubbleArg</a>, 
+                       boolean <a href="#events-CustomEvent-initparam-cancelableArg">cancelableArg</a>, 
+                       any? <a href="#events-CustomEvent-initparam-detailArg">detailArg</a>);
+};
+
+<span class="comment">// Suggested initCustomEvent replacement initializer:</span>
+dictionary CustomEventInit {
+  <span class="comment">// Attributes from Event:</span>
+  boolean bubbles    = false;
+  boolean cancelable = false;
+
+  <span class="comment">// Attributes for CustomEvent:</span>
+  any?    detail     = null;
+};</code></pre>
+           </dd><dd>
+               <pre class="idl" id="idl-interface-UIEvent-initializers"><code>
+<span class="comment">// Event Constructor Syntax:</span>
+[Constructor(DOMString typeArg, optional UIEventInit dictUIEventInit)]
+partial interface <a href="#events-UIEvent">UIEvent</a>
+{
+};
+
+<span class="comment">// Suggested initUIEvent replacement initializer:</span>
+dictionary UIEventInit {
+  <span class="comment">// Attributes from Event:</span>
+  boolean       bubbles    = false;
+  boolean       cancelable = false;
+
+  <span class="comment">// Attributes for UIEvent:</span>
+  AbstractView? view       = null;
+  long          detail     = 0;
+};</code></pre>
+               </dd>
+               <dd>
+             <pre class="idl" id="idl-interface-FocusEvent-initializers"><code>
+<span class="comment">// Event Constructor Syntax:</span>
+[Constructor(DOMString typeArg, optional FocusEventInit focusEventInitDict)]
+partial interface <a href="#events-FocusEvent">FocusEvent</a>
+{
+  <span class="comment">// Originally introduced (and deprecated) in DOM Level 3:</span>
+  void <a href="#events-event-type-initFocusEvent">initFocusEvent</a>(DOMString typeArg, 
+                      boolean canBubbleArg, 
+                      boolean cancelableArg, 
+                      AbstractView? viewArg, 
+                      long detailArg, 
+                      <a href="#events-EventTarget">EventTarget</a>? relatedTargetArg);
+};
+
+<span class="comment">// Suggested initFocusEvent replacement initializer:</span>
+dictionary FocusEventInit {
+  <span class="comment">// Attributes from Event:</span>
+  boolean       bubbles       = false;
+  boolean       cancelable    = false;
+
+  <span class="comment">// Attributes from UIEvent:</span>
+  AbstractView? view          = null;
+  long          detail        = 0;
+
+  <span class="comment">// Attributes for FocusEvent:</span>
+  <a href="#events-EventTarget">EventTarget</a>?  relatedTarget = null;
+};</code></pre>
+               </dd>
+               <dd>
+                   <pre class="idl" id="idl-interface-MouseEvent-initializers"><code>
+<span class="comment">// Event Constructor Syntax:</span>
+[Constructor(DOMString typeArg, optional MouseEventInit mouseEventInitDict)]
+partial interface <a href="#events-WheelEvent">MouseEvent</a>
+{
+};
+
+<span class="comment">// Suggested initMouseEvent replacement initializer:</span>
+dictionary MouseEventInit {
+  <span class="comment">// Attributes from Event:</span>
+  boolean        bubbles       = false;
+  boolean        cancelable    = false;
+
+  <span class="comment">// Attributes from UIEvent:</span>
+  AbstractView?  view          = null;
+  long           detail        = 0;
+
+  <span class="comment">// Attributes for MouseEvent:</span>
+  long           screenX       = 0;
+  long           screenY       = 0;
+  long           clientX       = 0;
+  long           clientY       = 0;
+  boolean        ctrlKey       = false;
+  boolean        shiftKey      = false;
+  boolean        altKey        = false;
+  boolean        metaKey       = false;
+  unsigned short button        = 0;
+  <span class="comment">// Note: "buttons" was not previously initializable through initMouseEvent!</span>
+  unsigned short buttons       = 0;
+  <a href="#events-EventTarget">EventTarget</a>?   relatedTarget = null;
+};</code></pre>
+               </dd>
+               <dd>
+                   <pre class="idl" id="idl-interface-WheelEvent-initializers"><code>
+<span class="comment">// Event Constructor Syntax:</span>
+[Constructor(DOMString typeArg, optional WheelEventInit wheelEventInitDict)]
+partial interface <a href="#events-WheelEvent">WheelEvent</a>
+{
+  <span class="comment">// Originally introduced (and deprecated) in DOM Level 3:</span>
+  void <a href="#events-event-type-initWheelEvent">initWheelEvent</a>(DOMString typeArg, 
+                      boolean canBubbleArg, 
+                      boolean cancelableArg, 
+                      AbstractView? viewArg, 
+                      long detailArg, 
+                      long screenXArg, 
+                      long screenYArg, 
+                      long clientXArg, 
+                      long clientYArg, 
+                      unsigned short buttonArg, 
+                      <a href="#events-EventTarget">EventTarget</a>? relatedTargetArg, 
+                      DOMString modifiersListArg, 
+                      float deltaXArg, 
+                      float deltaYArg, 
+                      float deltaZArg, 
+                      unsigned long deltaMode);
+};
+
+<span class="comment">// Suggested initWheelEvent replacement initializer:</span>
+dictionary WheelEventInit {
+  <span class="comment">// Attributes from Event:</span>
+  boolean        bubbles       = false;
+  boolean        cancelable    = false;
+
+  <span class="comment">// Attributes from UIEvent:</span>
+  AbstractView?  view          = null;
+  long           detail        = 0;
+
+  <span class="comment">// Attributes from MouseEvent:</span>
+  long           screenX       = 0;
+  long           screenY       = 0;
+  long           clientX       = 0;
+  long           clientY       = 0;
+  boolean        ctrlKey       = false;
+  boolean        shiftKey      = false;
+  boolean        altKey        = false;
+  boolean        metaKey       = false;
+  unsigned short button        = 0;
+  <span class="comment">// Note: "buttons" was not previously initializable through initMouseEvent!</span>
+  unsigned short buttons       = 0;
+  <a href="#events-EventTarget">EventTarget</a>?   relatedTarget = null;
+
+  <span class="comment">// Attributes for WheelEvent:</span>
+  float          deltaX        = 0.0;
+  float          deltaY        = 0.0;
+  float          deltaZ        = 0.0;
+  unsigned long  deltaMode     = 0;
+};</code></pre>
+               </dd>
+               <dd>
+                   <pre class="idl" id="idl-interface-KeyboardEvent-initializers"><code>
+<span class="comment">// Event Constructor Syntax:</span>
+[Constructor(DOMString typeArg, optional KeyboardEventInit keyboardEventInitDict)]
+partial interface <a href="#events-KeyboardEvent">KeyboardEvent</a>
+{
+  <span class="comment">// Originally introduced (and deprecated) in DOM Level 3:</span>
+  void <a href="#events-KeyboardEvent-initKeyboardEvent">initKeyboardEvent</a>(DOMString typeArg, 
+                         boolean canBubbleArg, 
+                         boolean cancelableArg, 
+                         AbstractView? viewArg, 
+                         DOMString charArg, 
+                         DOMString keyArg, 
+                         unsigned long locationArg, 
+                         DOMString modifiersListArg,
+                         boolean repeat,
+                         DOMString localeArg); 
+};
+
+<span class="comment">// Suggested initKeyboardEvent replacement initializer:</span>
+dictionary KeyboardEventInit {
+  <span class="comment">// Attributes from Event:</span>
+  boolean       bubbles    = false;
+  boolean       cancelable = false;
+
+  <span class="comment">// Attributes from UIEvent:</span>
+  AbstractView? view       = null;
+  long          detail     = 0;
+
+  <span class="comment">// Attributes for KeyboardEvent:</span>
+  DOMString     char       = "";
+  DOMString     key        = "";
+  unsigned long location   = 0;
+  boolean       ctrlKey    = false;
+  boolean       shiftKey   = false;
+  boolean       altKey     = false;
+  boolean       metaKey    = false;
+  boolean       repeat     = false;
+  DOMString     locale     = "";
+
+  <span class="comment">// (Legacy) key attributes for KeyboardEvent:</span>
+  unsigned long charCode   = 0;
+  unsigned long keyCode    = 0;
+  unsigned long which      = 0;
+};</code></pre>
+               </dd>
+               <dd>
+                   <pre class="idl" id="idl-interface-CompositionEvent-initializers"><code>
+<span class="comment">// Event Constructor Syntax:</span>
+[Constructor(DOMString typeArg, optional CompositionEventInit compositionEventInitDict)]
+partial interface <a href="#events-CompositionEvent">CompositionEvent</a>
+{
+  <span class="comment">// Originally introduced (and deprecated) in DOM Level 3:</span>
+  void <a href="#events-event-type-initCompositionEvent">initCompositionEvent</a>(DOMString typeArg, 
+                         boolean canBubbleArg, 
+                         boolean cancelableArg, 
+                         AbstractView? viewArg, 
+                         DOMString? dataArg,
+                         DOMString localeArg);
+};
+
+<span class="comment">// Suggested initCompositionEvent replacement initializer:</span>
+dictionary CompositionEventInit {
+  <span class="comment">// Attributes from Event:</span>
+  boolean       bubbles    = false;
+  boolean       cancelable = false;
+
+  <span class="comment">// Attributes from UIEvent:</span>
+  AbstractView? view       = null;
+  long          detail     = 0;
+
+  <span class="comment">// Attributes for CompositionEvent:</span>
+  DOMString?    data       = null;
+  DOMString     locale     = "";
+};</code></pre>
+            </dd>
+
+            <dt><strong>Methods</strong></dt>
+            <dd>
+              <dl>
+            <!-- START OF LIST -->
+                <dt><code class="method-name"><a id="events-event-type-initCustomEvent">initCustomEvent</a></code></dt>
+                  <dd>
+                    <div class="method">Initializes attributes of a <code>CustomEvent</code> object. This method has the same behavior as <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a>.
+                      <p class="warning"><strong>Warning!</strong> The <code>initCustomEvent</code> method is deprecated. Event constructor syntax, introduced in DOM4, is the expected future syntax for initializing a <code>CustomEvent</code>.</p>
+                      <div class="parameters">
+                        <strong>Parameters</strong>
+                        <div class="paramtable">
+                          <dl>
+                            <dt><a id="events-CustomEvent-initparam-typeArg"><code class="parameter-name">typeArg</code></a> of type <code>DOMString</code></dt>
+                            <dd><p>Refer to the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p></dd>
+                            
+                            <dt><a id="events-CustomEvent-initparam-canBubbleArg"><code class="parameter-name">canBubbleArg</code></a> of type <code>boolean</code></dt>
+                            <dd><p>Refer to the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p></dd>
+                            
+                            <dt><a id="events-CustomEvent-initparam-cancelableArg"><code class="parameter-name">cancelableArg</code></a> of type <code>boolean</code></dt>
+                            <dd><p>Refer to the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p></dd>
+                            
+                            <dt><a id="events-CustomEvent-initparam-detailArg"><code class="parameter-name">detailArg</code></a> of type <code>any</code></dt>
+                            <dd><p>Specifies <a href="#events-CustomEvent-detail"><code>CustomEvent.detail</code></a>.</dd>
+                          </dl>
+                        </div>
+                      </div>
+                      <!-- parameters -->
+                      <div><strong>No Return Value</strong></div>
+                      <div><strong>No Exceptions</strong></div>
+                    </div>
+                  </dd>
+
+                <dt><br /><code class="method-name"><a id="events-event-type-initFocusEvent">initFocusEvent</a></code></dt>
+                <dd>
+                  <div class="method">Initializes attributes of a <code>FocusEvent</code> object. This method has the same behavior as <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.
+                    <p class="warning"><strong>Warning!</strong> The <code>initFocusEvent</code> method is deprecated. Event constructor syntax, introduced in DOM4, is the expected future syntax for initializing a <code>FocusEvent</code>.</p>
+                    <div class="parameters">
+                      <strong>Parameters</strong>
+                      <div class="paramtable">
+                        <dl>
+                          <dt><code class="parameter-name">typeArg</code> of type <code>DOMString</code></dt>
+                          <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+                          
+                          <dt><code class="parameter-name">canBubbleArg</code> of type <code>boolean</code></dt>
+                          <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+                          
+                          <dt><code class="parameter-name">cancelableArg</code> of type <code>boolean</code></dt>
+                          <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+                          
+                          <dt><code class="parameter-name">viewArg</code> of type <code>AbstractView</code></dt>
+                          <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+                          
+                          <dt><code class="parameter-name">detailArg</code> of type <code>long</code></dt>
+                          <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+                          
+                          <dt><code class="parameter-name">relatedTargetArg</code> of type <a href="#events-EventTarget"><code>EventTarget</code></a></dt>
+                          <dd><p>Specifies <a href="#events-FocusEvent-relatedTarget"><code>FocusEvent.relatedTarget</code></a>. This value may be <code>null</code>.</p>                            
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <!-- parameters -->
+                    <div><strong>No Return Value</strong></div>
+                    <div><strong>No Exceptions</strong></div>
+                  </div>
+                </dd>
+                <dt><br /><code class="method-name"><a id="events-event-type-initWheelEvent">initWheelEvent</a></code></dt>
+                <dd>
+                <div class="method">
+                <p>Initializes attributes of a <code>WheelEvent</code> object. This method has the same behavior as <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a>.</p>
+                <p class="warning"><strong>Warning!</strong> The <code>initWheelEvent</code> method is deprecated. Event constructor syntax, introduced in DOM4, is the expected future syntax for initializing a <code>WheelEvent</code>.</p>
+                <div class="parameters">
+                    <strong>Parameters</strong>
+                    <div class="paramtable">
+                    <dl>
+                        <dt><code class="parameter-name">typeArg</code> of type <code>DOMString</code></dt>
+                        <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+                          
+                        <dt><code class="parameter-name">canBubbleArg</code> of type <code>boolean</code></dt>
+                        <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+                          
+                        <dt><code class="parameter-name">cancelableArg</code> of type <code>boolean</code></dt>
+                        <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+                          
+                        <dt><code class="parameter-name">viewArg</code> of type <code>AbstractView</code></dt>
+                        <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+                          
+                        <dt><code class="parameter-name">detailArg</code> of type <code>long</code></dt>
+                        <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+                          
+                        <dt><code class="parameter-name">screenXArg</code> of type <code>long</code></dt>
+                        <dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
+                          
+                        <dt><code class="parameter-name">screenYArg</code> of type <code>long</code></dt>
+                        <dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
+                          
+                        <dt><code class="parameter-name">clientXArg</code> of type <code>long</code></dt>
+                        <dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
+                          
+                        <dt><code class="parameter-name">clientYArg</code> of type <code>long</code></dt>
+                        <dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
+                          
+                        <dt><code class="parameter-name">buttonArg</code> of type <code>unsigned short</code></dt>
+                        <dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
+                          
+                        <dt><code class="parameter-name">relatedTargetArg</code> of type <a href="#events-EventTarget"><code>EventTarget</code></a></dt>
+                        <dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
+                          
+                        <dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
+                        <dt><code class="parameter-name">modifiersListArg</code> of type <code>DOMString</code></dt>
+                        <dd><p>A <a class="normative" href="http://www.w3.org/TR/2004/REC-xml-20040204/#NT-S"><em>white space</em></a> 
+                            separated list of modifier key values to be activated on this object. As an example, 
+                            <code>"Control Shift"</code> marks the control and shift modifiers as activated (the 
+                            <a href="#events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a> and
+                            <a href="#events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a> inherited
+                            attributes will be <code>true</code> on the initialized <code>WheelEvent</code> object).</p>
+                        </dd>
+
+                        <dt><code class="parameter-name">deltaXArg</code> of type <code>float</code></dt>
+                        <dd><p>Specifies <a href="#events-WheelEvent-deltaX"><code>WheelEvent.deltaX</code></a>.</p></dd>
+                          
+                        <dt><code class="parameter-name">deltaYArg</code> of type <code>float</code></dt>
+                        <dd><p>Specifies <a href="#events-WheelEvent-deltaY"><code>WheelEvent.deltaY</code></a>.</p></dd>
+                          
+                        <dt><code class="parameter-name">deltaZArg</code> of type <code>float</code></dt>
+                        <dd><p>Specifies <a href="#events-WheelEvent-deltaZ"><code>WheelEvent.deltaZ</code></a>.</p></dd>
+                          
+                        <dt><code class="parameter-name">deltaModeArg</code> of type <code>unsigned long</code></dt>
+                        <dd><p>Specifies <a href="#events-WheelEvent-deltaMode"><code>WheelEvent.deltaMode</code></a>.</p></dd>
+                    </dl>
+                    </div>
+                </div>
+                <!-- parameters -->
+                <div><strong>No Return Value</strong></div>
+
+                <div><strong>No Exceptions</strong></div>
+                </div>
+             </dd>
+
+             <dt><br /><code class="method-name"><a id="events-KeyboardEvent-initKeyboardEvent">initKeyboardEvent</a></code></dt>
+                <dd>
+                <div class="method">
+                    <p>Initializes attributes of a <code>KeyboardEvent</code> object. This method has the same behavior as <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.
+                        The value of <a href="#events-UIEvent-detail"><code>UIEvent.detail</code></a> remains undefined.
+                    </p>
+                    <p class="warning"><strong>Warning!</strong> The <code>initKeyboardEvent</code> method is deprecated. Event constructor syntax, introduced in DOM4, is the expected future syntax for initializing a <code>KeyboardEvent</code>.</p>
+                    <div class="parameters">
+                    <strong>Parameters</strong>
+                    <div class="paramtable">
+                        <dl>
+                        <dt><code class="parameter-name">typeArg</code> of type <code>DOMString</code></dt>
+                        <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+                            
+                        <dt><code class="parameter-name">canBubbleArg</code> of type <code>boolean</code></dt>
+                        <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+                            
+                        <dt><code class="parameter-name">cancelableArg</code> of type <code>boolean</code></dt>
+                        <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+                            
+                        <dt><code class="parameter-name">viewArg</code> of type <code>AbstractView</code></dt>
+                        <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+                            
+                        <dt><code class="parameter-name">charArg</code> of type <code>DOMString</code></dt>
+                        <dd><p>Specifies <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a>.</p></dd>
+                            
+                        <dt><code class="parameter-name">keyArg</code> of type <code>DOMString</code></dt>
+                        <dd><p>Specifies <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>.</p></dd>
+                            
+                        <dt><code class="parameter-name">locationArg</code> of type <code>unsigned long</code></dt>
+                        <dd><p>Specifies <a href="#events-KeyboardEvent-location"><code>KeyboardEvent.location</code></a>.</p></dd>
+                            
+                        <dt><code class="parameter-name">modifiersListArg</code> of type <code>DOMString</code></dt>
+                        <dd><p>A <a class="normative" href="http://www.w3.org/TR/2004/REC-xml-20040204/#NT-S"><em>white space</em></a> separated list of modifier key values to be activated on this object. As an example, <code>"Control Alt"</code> marks the control and alt modifiers as activated.</p></dd>
+                            
+                        <dt><code class="parameter-name">repeatArg</code> of type <code>boolean</code></dt>
+                        <dd><p>Specifies whether the key event is repeating; see <a href="#events-KeyboardEvent-repeat"><code>KeyboardEvent.repeat</code></a>.</p></dd>
+
+                        <dt><code class="parameter-name">localeArg</code> of type <code>DOMString</code></dt>
+                        <dd><p>Specifies <a href="#events-KeyboardEvent-locale"><code>KeyboardEvent.locale</code></a>.</p></dd>
+                        </dl>
+                    </div>
+                    </div>
+                    <!-- parameters -->
+                    <div><strong>No Return Value</strong></div>
+                    <div><strong>No Exceptions</strong></div>
+                </div>
+                </dd>
+                <dt><br /><code class="method-name"><a id="events-event-type-initCompositionEvent">initCompositionEvent</a></code></dt>
+                  <dd>
+                    <div class="method">
+                      <p>Initializes attributes of a <code>CompositionEvent</code> object. This method has the same behavior as <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a>. The value of <a href="#events-UIEvent-detail"><code>UIEvent.detail</code></a> remains undefined.</p>
+                      <p class="warning"><strong>Warning!</strong> The <code>initCompositionEvent</code> method is deprecated. Event constructor syntax, introduced in DOM4, is the expected future syntax for initializing a <code>CompositionEvent</code>.</p>
+                      <div class="parameters">
+                        <strong>Parameters</strong>
+                        <div class="paramtable">
+                          <dl>
+                            <dt><code class="parameter-name">typeArg</code> of type <code>DOMString</code></dt>
+                            <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+                            
+                            <dt><code class="parameter-name">canBubbleArg</code> of type <code>boolean</code></dt>
+                            <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+                            
+                            <dt><code class="parameter-name">cancelableArg</code> of type <code>boolean</code></dt>
+                            <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+                            
+                            <dt><code class="parameter-name">viewArg</code> of type <code>AbstractView</code></dt>
+                            <dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+                            
+                            <dt><code class="parameter-name">dataArg</code> of type <code>DOMString</code></dt>
+                            <dd><p>Specifies <a href="#events-CompositionEvent-data"><code>CompositionEvent.data</code></a>.</p></dd>
+                            
+                            <dt><code class="parameter-name">localeArg</code> of type <code>DOMString</code></dt>
+                            <dd><p>Specifies <a href="#events-CompositionEvent-locale"><code>CompositionEvent.locale</code></a>.</p></dd>
+                          </dl>
+                        </div>
+                      </div>
+                      
+                      <!-- parameters -->
+                      <div><strong>No Return Value</strong></div>
+
+                      <div><strong>No Exceptions</strong></div>
+                    </div>
+                  </dd>
+              <!-- END OF LIST -->
+              </dl>
+            </dd>
+          </dl>
+    </div>
+
+    <div>
+      <h2><a id="legacy-key-attributes" href="#legacy-key-attributes">Appendix B: Legacy key attributes: <code class="attr-name">keyCode</code>, <code class="attr-name">charCode</code>, and <code class="attr-name">which</code></a></h2>
 
       <p><em>This section is informative</em></p>
 
@@ -7000,14 +7183,14 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
 
       <p>For implementations which do support these attributes, it is suggested to use this partial <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a> interface.</p>
 
-      <h3 id="KeyboardEvent-supplemental-interface">A.1 Legacy KeyboardEvent supplemental interface</h3>
+      <h3 id="KeyboardEvent-supplemental-interface">B.1 Legacy KeyboardEvent supplemental interface</h3>
       <dl>
         <dt>
           <strong>Interface <em><a id="events-KeyboardEvent-supplemental" name="events-KeyboardEvent-supplemental">KeyboardEvent (supplemental)</a></em></strong> (introduced in <strong class="since">DOM Level 3</strong>)
         </dt>
         <dd>
           <p>
-            The partial <code>KeyboardEvent</code> interface is a non-normative extension of the <a href="#events-KeyboardEvent">KeyboardEvent</a> interface, which adds the <a href="#events-KeyboardEvent-supplemental-charCode">charCode</a>, <a href="#events-KeyboardEvent-supplemental-keyCode">keyCode</a>, and <a href="#events-KeyboardEvent-supplemental-which">which</a> attributes.
+            The partial <code>KeyboardEvent</code> interface is an informative extension of the <a href="#events-KeyboardEvent">KeyboardEvent</a> interface, which adds the <a href="#events-KeyboardEvent-supplemental-charCode">charCode</a>, <a href="#events-KeyboardEvent-supplemental-keyCode">keyCode</a>, and <a href="#events-KeyboardEvent-supplemental-which">which</a> attributes.
           </p>
           <p>
             The partial <code>KeyboardEvent</code> interface must be obtained by using the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("KeyboardEvent")</code></a> method call in implementations that support this extension.
@@ -7069,11 +7252,11 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
       </dl>
 
 
-      <h3 id="legacy-key-models">A.2 Legacy key models</h3>
+      <h3 id="legacy-key-models">B.2 Legacy key models</h3>
       <p><em>This section is informative</em></p>
       <p>Implementations differ on which values are exposed on these attributes for different event types.  An implementation may choose to expose both virtual key codes and character codes in the <code class="attr-name">keyCode</code> property (<em>conflated model</em>), or report separate <code class="attr-name">keyCode</code> and <code class="attr-name">charCode</code> properties (<em>split model</em>).</p>
 
-      <h4 id="determine-keydown-keyup-keyCode">A.2.1 How to determine <code class="attr-name">keyCode</code> for <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events</h4>
+      <h4 id="determine-keydown-keyup-keyCode">B.2.1 How to determine <code class="attr-name">keyCode</code> for <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events</h4>
       <p>The <code class="attr-name">keyCode</code> for <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> or <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events is calculated as follows:</p>
       <ol>
         <li>Read the virtual key code from the operating system's event information, if such information is available.</li>
@@ -7086,7 +7269,7 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
         <li>If no key code was found, return 0.</li>
       </ol>
 
-      <h4 id="determine-keypress-keyCode">A.2.2 How to determine <code class="attr-name">keyCode</code> for <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> events</h4>
+      <h4 id="determine-keypress-keyCode">B.2.2 How to determine <code class="attr-name">keyCode</code> for <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> events</h4>
       <p><em>This section is informative</em></p>
       <p>The <code class="attr-name">keyCode</code> for <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> events is calculated as follows:</p>
       <ol>
@@ -7095,7 +7278,7 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
       </ol>
 
 
-      <h4 id="fixed-virtual-key-codes">A.2.3 Fixed virtual key codes</h4>
+      <h4 id="fixed-virtual-key-codes">B.2.3 Fixed virtual key codes</h4>
       <p><em>This section is informative</em></p>
       <p>The virtual key codes for the following keys do not usually change with keyboard layouts on desktop systems:</p>
       <table class="data-table">
@@ -7120,7 +7303,7 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
         <tr><th>Delete</th> <td>46</td></tr>
       </table>
 
-      <h4 id="optionally-fixed-virtual-key-codes">A.2.4 Optionally fixed virtual key codes</h4>
+      <h4 id="optionally-fixed-virtual-key-codes">B.2.4 Optionally fixed virtual key codes</h4>
       <p><em>This section is informative</em></p>
       <p>The following punctuation characters may change virtual codes between keyboard layouts, but reporting these values will likely be more compatible with legacy content expecting US-English keyboard layout:</p>
     	<table class="data-table">
@@ -7150,18 +7333,18 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
     	</table>
       	
     </div>
-<!-- Appendix A: Legacy Key Events -->
+<!-- Appendix B: Legacy Key Events -->
 
-<!-- Appendix B: Extending Events -->
+<!-- Appendix C: Extending Events -->
     <div>
-      <h2><a id="extending_events" href="#extending_events">Appendix B: Extending Events</a></h2>
+      <h2><a id="extending_events" href="#extending_events">Appendix C: Extending Events</a></h2>
 
       <p><em>This section is informative</em></p>
-      <h3><a id="extending_events-intro" href="#extending_events-intro">B.1 Introduction</a></h3>
+      <h3><a id="extending_events-intro" href="#extending_events-intro">C.1 Introduction</a></h3>
 
       <p class="1st">This specification defines several interfaces and many events; however, this is not an exhaustive set of events for all purposes.  To allow content authors and implementers to add desired functionality, this specification provides two mechanisms for extend this set of interfaces and events without creating conflicts: <a href="#extending_events-Custom_Events">custom events</a> and <a href="#extending_events-Impl_Extensions">implementation-specific extensions</a>.</p>
       
-      <h3><a id="extending_events-Custom_Events" href="#extending_events-Custom_Events">B.2 Custom Events</a></h3>
+      <h3><a id="extending_events-Custom_Events" href="#extending_events-Custom_Events">C.2 Custom Events</a></h3>
 
       <p>A script author may wish to define an application in terms of functional components, with event types that are meaningful to the application architecture.  The content author can use the <a href="#events-CustomEvent"><code>CustomEvent</code></a> interface to create their own events appropriate to the level of abstraction they are using.</p>
       <div class="example" id="example-custom-events">
@@ -7173,7 +7356,7 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
   document.documentElement.dispatchEvent(evt);          
         </code></pre>
       </div>
-      <h2><a id="extending_events-Impl_Extensions" href="#extending_events-Impl_Extensions">B.3 Implementation-Specific Extensions</a></h2>
+      <h2><a id="extending_events-Impl_Extensions" href="#extending_events-Impl_Extensions">C.3 Implementation-Specific Extensions</a></h2>
 
       <p>While a new event is being designed and prototyped, or when an event is intended for implementation-specific functionality, it is desirable to distinguish it from standardized events.  Implementors should prefix event types specific to their implementations with a short string to distinguish it from the same event in other implementations and from standardized events.  This is similar to the <a href="http://www.w3.org/TR/CSS21/syndata.html#vendor-keywords" title="CSS 2.1: Syntax and basic data types">vendor-specific keyword prefixes</a> in CSS, though without the dashes (<code>"-"</code>) used in CSS, since that can cause problems when used as an attribute name in Javascript.</p>
       <div class="example" id="example-impl-extensions">
@@ -7182,7 +7365,7 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
         <p>Eventually, as the feature matures, the behavior of both browsers stabilize and might converge due to content author and user feedback or through formal standardization; as this stabilization occurs, and risk of conflicts decrease, content authors can remove the forked code, and use the <code>"jump"</code> event type name (even before it is formally standardized) using the same event handler and the more generic registration method <code>someElement.addEventListener( "jump", doJump, false )</code>.</p>
       </div>  
       
-      <h4><a id="extending_events-prefixes" href="#extending_events-prefixes">B.3.1 Known Implementation-Specific Prefixes</a></h4>
+      <h4><a id="extending_events-prefixes" href="#extending_events-prefixes">C.3.1 Known Implementation-Specific Prefixes</a></h4>
 
       <p>At the time of writing, the following event-type name prefixes are known to exist:</p>
       <table border="1" cellpadding="2" cellspacing="0" summary="Known event-type name prefixes">
@@ -7215,25 +7398,24 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
     </div>
 <!-- div END Extending -->
     <div>
-      <h2><a id="security-considerations-Security" href="#security-considerations-Security">Appendix C: Security Considerations</a></h2>
+      <h2><a id="security-considerations-Security" href="#security-considerations-Security">Appendix D: Security Considerations</a></h2>
 
       <p class="1st">This appendix discusses security considerations for DOM Level 3 Events implementations. The discussion is limited to security issues that arise directly from implementation of the event model, APIs and events defined in this specification. Implementations typically support other features like scripting languages, other APIs and additional events not defined in this document; these features constitute an unknown factor and are out of scope of this document. Implementers should consult the specifications of such features for their respective security considerations.</p>
       <p>Many of the event types defined in this specification are dispatched in response to user actions. This allows malicious event listeners to gain access to information users would typically consider confidential, e.g., typos they might have made when filling out a form, if they reconsider their answer to a multiple choice question shortly before submitting a form, their typing rate or primary input mechanism. In the worst case, malicious event listeners are able to capture all user interactions and submit them to a third party through means, while not defined in DOM Level 3 Events, generally available in DOM implementations, such as the XMLHttpRequest interface.</p>
       <p>In DOM implementations that support facilities to load external data, events like the <code>error</code> event can provide access to sensitive information about the environment of the computer system or network; an example would be a malicious HTML document that attempts to embed a resource on the local network or the localhost on different ports; an embedded <a class="def" href="#glossary-DOM-application">DOM application</a> could then listen for <code>error</code> and <code>load</code> events to determine which other computers in a network are accessible from the local system or which ports are open on the system to prepare further attacks.</p>
       <p>An implementation of DOM Level 3 Events alone is generally insufficient to perform attacks of this kind and the security considerations of the facilities that possibly support such attacks apply. For conformance with this specification, DOM implementations may take reasonable steps to ensure that <a class="def" href="#glossary-DOM-application">DOM applications</a> do not get access to confidential or sensitive information, for example, they might choose to dispatch no <code>load</code> events to nodes that attempt to embed resources on the local network.</p>
-      <p>The <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#ID-5CED94D7"><code>DOMImplementation.hasFeature()</code></a> method allows content authors to retrieve information about which event types the implementation supports, including event types not defined in this specification. Which event types a DOM Level 3 Events implementation supports can depend on configuration settings or on additional software modules available to the implementation.</p>
     </div>
 <!-- div Security -->
 
     <div>
-      <h2><a id="changes-Changes" href="#changes-Changes">Appendix D: Changes</a></h2>
+      <h2><a id="changes-Changes" href="#changes-Changes">Appendix E: Changes</a></h2>
 
       <div>
-        <h3><a id="changes-DOMEvents2to3Changes" href="#changes-DOMEvents2to3Changes">D.1 Changes between DOM Level 2 Events and DOM Level 3 Events</a></h3>
+        <h3><a id="changes-DOMEvents2to3Changes" href="#changes-DOMEvents2to3Changes">E.1 Changes between DOM Level 2 Events and DOM Level 3 Events</a></h3>
 
         <p>Numerous clarifications to the interfaces and event types have been made. The <code>HTMLEvents</code> module is no longer defined in this document. The event types <code>focus</code> and <code>blur</code> have been added to the <a href="#events-UIEvent"><code>UIEvent</code></a> module, the event type <code>dblclick</code> has been added to the <a href="#events-MouseEvent"><code>MouseEvent</code></a> module. This new specification provides a better separation between the DOM event flow, the event types, and the DOM interfaces.</p>
         <div>
-          <h4><a id="changes-DOMEvents2to3Changes-flow" href="#changes-DOMEvents2to3Changes-flow">D.1.1 Changes to DOM Level 2 event flow</a></h4>
+          <h4><a id="changes-DOMEvents2to3Changes-flow" href="#changes-DOMEvents2to3Changes-flow">E.1.1 Changes to DOM Level 2 event flow</a></h4>
 
           <p>This new specification introduced the following new concepts in the event flow:</p>
           <ul>
@@ -7244,9 +7426,9 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
 <!-- div3 DOMEvents2to3Changes-flow -->
         <div>
           
-        <h4><a id="changes-DOMEvents2to3Changes-event-types" href="#changes-DOMEvents2to3Changes-event-types">D.1.2 Changes to DOM Level 2 event types</a></h4>
+        <h4><a id="changes-DOMEvents2to3Changes-event-types" href="#changes-DOMEvents2to3Changes-event-types">E.1.2 Changes to DOM Level 2 event types</a></h4>
 
-          <p>Many clarifications have been made on the event types. The conformance is now explicitly defined against the event types, and not only in terms of interfaces required by the event types. Support for the features <code>"BasicEvents"</code>, <code>"KeyboardEvents"</code>, and <code>"MutationNameEvents"</code> have been introduced.</p>
+          <p>Many clarifications have been made on the event types. The conformance is now explicitly defined against the event types, and not only in terms of interfaces required by the event types.</p>
           <p>In the most recent drafts of this specification, <code>"MutationEvents"</code> and <code>"MutationNameEvents"</code> have been deprecated. Support for namespaced events, present in early drafts of this specification, has been removed.</p>
           <p>For user agents which support the <a class="eventtype" href="#event-type-DOMNodeInserted"><code>DOMNodeInserted</code></a> and <a class="eventtype" href="#event-type-DOMNodeRemoved"><code>DOMNodeRemoved</code></a> event types, this specification no longer requires that the event type be fired for <code>Attr</code> nodes.</p>            
           <p>The <code>resize</code> event type no longer bubbles, reflecting existing implementations.</p>
@@ -7254,7 +7436,7 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
 <!-- div3 DOMEvents2to3Changes-event-types -->
         <div>
           
-          <h4><a id="changes-DOMLevel2to3Changes" href="#changes-DOMLevel2to3Changes">D.1.3 Changes to DOM Level 2 Events interfaces</a></h4>
+          <h4><a id="changes-DOMLevel2to3Changes" href="#changes-DOMLevel2to3Changes">E.1.3 Changes to DOM Level 2 Events interfaces</a></h4>
 
           <dl>
             <dt>Interface <a href="#events-Event"><code>Event</code></a></dt>
@@ -7281,7 +7463,7 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
         </div>
 <!-- div3 DOMLevel2to3Changes -->
         <div>
-          <h4><a id="changes-DOMLevel3Addons" href="#changes-DOMLevel3Addons">D.1.4 New Interfaces</a></h4>
+          <h4><a id="changes-DOMLevel3Addons" href="#changes-DOMLevel3Addons">E.1.4 New Interfaces</a></h4>
 
           <p>The interfaces <a href="#events-CustomEvent"><code>CustomEvent</code></a>, <a href="#events-FocusEvent"><code>FocusEvent</code></a>, <a href="#events-KeyboardEvent"><code>KeyboardEvent</code></a>, <a href="#events-CompositionEvent"><code>CompositionEvent</code></a>, <a href="#events-MutationNameEvent"><code>MutationNameEvent</code></a>, and <a href="#events-WheelEvent"><code>WheelEvent</code></a> were added to the Events module.</p>
         </div>
@@ -7289,7 +7471,7 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
       </div>
 <!-- div2 DOMEvents2to3Changes -->
       <div>
-        <h2><a id="changes-drafts" href="#changes-drafts">D.2 Changes between different drafts of DOM Level 3 Events</a></h2>
+        <h2><a id="changes-drafts" href="#changes-drafts">E.2 Changes between different drafts of DOM Level 3 Events</a></h2>
 
         <p>The DOM Level 3 Events document was previously developed between 2000 and 2003, and and published as a W3C Note, pending further feedback and interest from implementers.  In 2006, it was picked up for revision and progress on the Recommendation Track, and is now being revised to reflect the current state of implementation and the needs of script authors.</p>
         <p>Despite its status only as a W3C Note, rather than an official Recommendation, DOM 3 Events saw some implementation, and reference by other specifications, so care is being taken to cause minimal disruption, while still adapting the specification to the current environment.</p>
@@ -7306,7 +7488,7 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
 <!-- div1 Changes -->
 
     <div>
-      <h2><a id="acknowledgements-contributors" href="#acknowledgements-contributors">Appendix E: Acknowledgements</a></h2>
+      <h2><a id="acknowledgements-contributors" href="#acknowledgements-contributors">Appendix F: Acknowledgements</a></h2>
 
       <p class="1st">Many people contributed to the DOM specifications (Level 1, 2 or 3), including participants of the DOM Working Group, the DOM Interest Group,the WebAPI Working Group, and the WebApps Working Group. We especially thank the following:</p>
       <p>Andrew Watson (Object Management Group), Andy Heninger (IBM), Angel Diaz (IBM), Arnaud Le Hors (W3C and IBM), Ashok Malhotra (IBM and Microsoft), Ben Chang (Oracle), Bill Smith (Sun), Bill Shea (Merrill Lynch), Bob Sutor (IBM), Chris Lovett (Microsoft), Chris Wilson (Microsoft), David Brownell (Sun), David Ezell (Hewlett-Packard Company), David Singer (IBM), Dimitris Dimitriadis (Improve AB and invited expert), Don Park (invited), Elena Litani (IBM), Eric Vasilik (Microsoft), Gavin Nicol (INSO), Ian Jacobs (W3C), James Clark (invited), James Davidson (Sun), Jared Sorensen (Novell), Jeroen van Rotterdam (X-Hive Corporation), Joe Kesselman (IBM), Joe Lapp (webMethods), Joe Marini (Macromedia), Johnny Stenback (Netscape/AOL), Jon Ferraiolo (Adobe), Jonathan Marsh (Microsoft), Jonathan Robie (Texcel Research and Software AG), Kim Adamson-Sharpe (SoftQuad Software Inc.), Lauren Wood (SoftQuad Software Inc., <em>former Chair</em>), Laurence Cable (Sun), Mark Davis (IBM), Mark Scardina (Oracle), Martin D&#xFC;rst (W3C), Mary Brady (NIST), Mick Goulish (Software AG), Mike Champion (Arbortext and Software AG), Miles Sabin (Cromwell Media), Patti Lutsky (Arbortext), Paul Grosso (Arbortext), Peter Sharpe (SoftQuad Software Inc.), Phil Karlton (Netscape), Philippe Le H&#xE9;garet (W3C, <em>W3C Team Contact and former Chair</em>), Ramesh Lekshmynarayanan (Merrill Lynch), Ray Whitmer (iMall, Excite@Home, and Netscape/AOL, <em>Chair</em>), Rezaur Rahman (Intel), Rich Rollman (Microsoft), Rick Gessner (Netscape), Rick Jelliffe (invited), Rob Relyea (Microsoft), Scott Isaacs (Microsoft), Sharon Adler (INSO), Steve Byrne (JavaSoft), Tim Bray (invited), Tim Yu (Oracle), Tom Pixley (Netscape/AOL), Vidur Apparao (Netscape), Vinod Anupam (Lucent), Anne van Kesteren (Opera Software), Arun Ranganathan (AOL), Bj&#xF6;rn H&#xF6;hrmann, Charles McCathieNevile (Opera Software, <em>Co-Chair</em>), Christophe Jolif (ILOG), Dean Jackson (W3C, <em>W3C Team Contact</em>), Doug Schepers (Vectoreal), Gorm Haug Eriksen (Opera Software), Ian Davis (Talis Information Limited), Ian Hickson (Google), John Robinson (AOL), Jonas Sicking (Mozilla Foundation), Luca Mascaro (HTML Writers Guild), Maciej Stachowiak (Apple Computer), Marc Hadley (Sun Microsystems), Michael Shenfield (Research In Motion), Robin Berjon, (Expway, <em>Co-Chair</em>) , Scott Hayman (Research In Motion), St&#xE9;phane Sire (IntuiLab), and T.V. Raman (Google).</p>
@@ -7321,7 +7503,7 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
       <p>Thanks to all those who have helped to improve this specification by sending suggestions and corrections (please, keep bugging us with your issues!), or writing informative books or Web sites:  Brad Pettit, Dylan Schiemann, David Flanagan, Steven Pemberton, Curt Arnold, Al Gilman, Misha Wolf, Sigurd Lerstad, Michael B. Allen, Alexander J. Vincent, Martin D&#xFC;rst, Ken Rehor, NAKANO Masayuki, Garrett Smith, Sergey Ilinsky, Martijn Wargers, Sean Hogan, Magnus Kristiansen, Alex Russell, Jorge Chamorro, Peter-Paul Koch, William Edney, Erik Arvidsson, Cameron McCormack, Kazuyuki Ashimura, Øistein E. Andersen, James Su, Tony Chang, Ojan Vafai, Richard Ishida, Paul Irish, Mike Taylor, Oliver Hunt, Alexey Proskuryakov, Giuseppe Pascale, and Jan Goyvaerts (regular-expressions.info).</p>
 
       <div>
-        <h3><a id="acknowledgements-Productions" href="#acknowledgements-Productions">E.1 Production Systems</a></h3>
+        <h3><a id="acknowledgements-Productions" href="#acknowledgements-Productions">F.1 Production Systems</a></h3>
 
         <p>The current drafts of this specification are lovingly hand-crafted in HTML and SVG.</p>
         <p>Earlier versions of this specification were written in XML; the HTML, OMG IDL, Java and ECMAScript bindings were all produced automatically.  Thanks to Joe English, author of <a class="normative" href="http://www.flightlab.com/cost">cost</a>, which was used as the basis for producing DOM Level 1. Thanks also to Gavin Nicol, who wrote the scripts which run on top of cost. Arnaud Le Hors and Philippe Le H&#xE9;garet maintained the scripts.</p>
@@ -7334,11 +7516,11 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
     
     <div id="references-References">
       <h2 class="references">
-        <a id="references-role-references" href="#references-role-references">Appendix F: References</a>
+        <a id="references-role-references" href="#references-role-references">Appendix G: References</a>
       </h2>
       <p class="1st">For the latest version of any W3C specification please consult the list of <a class="normative" href="http://www.w3.org/TR">W3C Technical Reports</a> available at http://www.w3.org/TR.</p>
       <div>
-        <h3><a id="references-References-Normative" href="#references-References-Normative">F.1 Normative References</a></h3>
+        <h3><a id="references-References-Normative" href="#references-References-Normative">G.1 Normative References</a></h3>
 
         <dl>
           <dt id="ref-BCP-47"><strong>[<a id="BCP-47">BCP-47</a>]</strong> Best Current Practice 47: Tags for Identifying Languages
@@ -7407,7 +7589,7 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
       
 <!-- div2 References-Informative -->
       <div>
-        <h3><a id="references-References-Informative" href="#references-References-Informative">F.2 Informative References</a></h3>
+        <h3><a id="references-References-Informative" href="#references-References-Informative">G.2 Informative References</a></h3>
 
         <dl>
           <dt id="ref-ARIA">
@@ -7447,13 +7629,13 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
           </dt>
           <dd><cite><a href="http://www.w3.org/TR/DOM-Level-2-Traversal-Range/">Document Object Model (DOM) Level 2 Traversal and Range Specification</a></cite>, J. Kesselman, J. Robie, M. Champion, P. Sharpe, V. Apparao, L. Wood, Editors. World Wide Web Consortium, November 2000.</dd>
 
-          <!--<dt>
+          <dt>
               <strong>[<a id="references-DOM4">DOM4</a>]</strong>
           </dt>
           <dd>
               <cite><a href="http://www.w3.org/TR/dom/">DOM4</a></cite>, A. van Kesteren, A. Gregor, Ms2ger, Editors. World Wide Web Consortium, <span class="wip">Working Draft</span>, 5 April 2012. 
           </dd>
-            -->
+          
           <dt>
             <strong>[<a id="references-DWW95">DWW95</a>]</strong>
           </dt>
