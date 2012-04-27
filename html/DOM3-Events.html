@@ -25,16 +25,16 @@
       </p>
       <h1 id="Overview-title">Document Object Model (DOM) Level 3 Events Specification</h1>
 <!-- @-->
-      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <span class="2012-04-19">19 April 2012</span></h2>
+      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <span class="2012-04-27">27 April 2012</span></h2>
       <dl>
         <dt>This version:</dt>
-        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.222">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.222</a></dd>
+        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.223">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.223</a></dd>
 
         <dt>Latest stable version:</dt>
         <dd><a href="http://www.w3.org/TR/DOM-Level-3-Events">http://www.w3.org/TR/DOM-Level-3-Events</a></dd>
 
         <dt>Previous version:</dt>
-        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.220">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.220</a></dd>
+        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.222">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.222</a></dd>
 
         <dt>Editor's Draft:</dt>
         <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
@@ -858,7 +858,7 @@
           </tr>
             <tr>
             <td><code><dfn>NotSupportedError</dfn></code></td>
-            <td>Thrown when <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a> is passed an <a href="#events-Event"><code>Event</code></a> interface that the implementation does not support. Also thrown when the <code>dispatchEvent</code> is provided with an <a href="#events-Event"><code>Event</code></a> object that has not been created using <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a>.</td>
+            <td>Thrown when <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a> is passed an <a href="#events-Event"><code>Event</code></a> interface that the implementation does not support.</td>
           </tr>
         </table>
       </div>
@@ -998,11 +998,21 @@ interface <a href="#events-Event">Event</a>
                   </dt>
                   <dd>
                     <div class="method">
-                      <p>Initializes attributes of an <code>Event</code> created through the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent</code></a> method. This method must be called before the <code>Event</code> has been dispatched via the <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method. If the method is called several times before invoking <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent</code></a>, only the final invocation takes precedence. If called from a subclass of the <code>Event</code> interface only the values specified in this method are modified, all other attributes are left unchanged.</p>
+                      <p>Initializes attributes of an <code>Event</code>. The <code>Event</code> could have been created through the 
+                          <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent</code></a> method or by the implementation in 
+                          response to a user action. For any <code>Event</code> created with the 
+                          <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent</code></a> method, this method must be called 
+                          before the <code>Event</code> is dispatched via the <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> 
+                          method. If the method is called several times before invoking 
+                          <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent</code></a>, only the final invocation takes precedence.
+                          If called from a subclass of the <code>Event</code> interface only the values specified in this method are modified, all 
+                          other attributes are left unchanged.
+                      </p>
                       <p><span>This method must also reset the event object's internal-propagation and default-action-prevention states.</span> This allows an event object to be "reset" before being dispatched multiple times.</p>
-                      <p class="example"><strong>Example: </strong>If an <code>EventListener</code> called <code>stopPropagation()</code> or <code>stopImmediatePropagation()</code> during the event's previous dispatch, then after calling this method, the event can be re-dispatched (via <code>dispatchEvent</code>) and will propagate through all candidate event listeners along its propagation path (as it did during the prior dispatch). Similarily, if an <code>EventListener</code> called <code>preventDefault()</code> during the event's previous dispatch, then after calling this method, the event's <code>defaultPrevented</code> property will be <code>false</code>.</p>
-                      <p class="warning" id="warning-initEvent-untrusted"><strong>Warning!</strong>  For security reasons, events modified using <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> must have a <code class="attribute-name"><a href="#events-event-type-isTrusted">isTrusted</a></code> attribute value of <code>false</code>.  See <a href="#trusted-events">trusted events</a> for more details.</p>
-
+                      <p class="example"><strong>Example:</strong> If an <code>EventListener</code> called <code>stopPropagation()</code> or <code>stopImmediatePropagation()</code> during the event's previous dispatch, then after calling this method, the event can be re-dispatched (via <code>dispatchEvent</code>) and will propagate through all candidate event listeners along its propagation path (as it did during the prior dispatch). Similarily, if an <code>EventListener</code> called <code>preventDefault()</code> during the event's previous dispatch, then after calling this method, the event's <code>defaultPrevented</code> property will be <code>false</code>.</p>
+                      <p class="warning" id="warning-initEvent-untrusted"><strong>Warning!</strong> For security reasons, events modified using <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> must have a <code class="attribute-name"><a href="#events-event-type-isTrusted">isTrusted</a></code> attribute value of <code>false</code>.  See <a href="#trusted-events">trusted events</a> for more details.</p>
+                      <p class="note"><strong>Authoring Note:</strong> <a class="def" href="#trusted-events">Trusted events</a> can have their <a class="def" href="#glossary-event-type">event type</a> and other attributes changed using this method. However, this method always converts the <code>Event</code> from a trusted event to an untrusted event (e.g., the <a href="#events-event-type-isTrusted"><code>Event.isTrusted</code></a> attribute will return <code>false</code>).</p>
+                      <p class="note"><strong>Authoring Note:</strong> <a class="def" href="#trusted-events">Trusted events</a> are pre-initialized by the implementation before being dispatched. As a result, it is not necessary to call <code>Event.initEvent()</code> prior to re-dispatching the trusted event--however calling <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> will convert the <code>Event</code> from a trusted event to an untrusted event (e.g., the <a href="#events-event-type-isTrusted"><code>Event.isTrusted</code></a> attribute will return <code>false</code>).</p>
                       <div class="parameters">
                         <strong>Parameters</strong>
                         <div class="paramtable">
@@ -1262,7 +1272,6 @@ interface <a href="#events-EventTarget">EventTarget</a>
                         <strong>Exceptions</strong>
                         <ul class="exception">
                           <li>If the <a href="#events-event-type-type"><code>Event.type</code></a> was not specified by initializing the event before <code>dispatchEvent</code> was called OR the <a href="#events-Event"><code>Event</code></a> object is already being dispatched, a <code>DOMException</code> of type <em><code>InvalidStateError</code></em> is thrown.</li>
-                          <li>If the <a href="#events-Event"><code>Event</code></a> object has not been created using <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a>, a <code>DOMException</code> of type <em><code>NotSupportedError</code></em> is thrown.</li>
                         </ul>
                       </div>
                       <!-- exceptions -->
