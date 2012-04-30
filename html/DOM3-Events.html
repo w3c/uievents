@@ -616,6 +616,11 @@
           <dt id="glossary-unicode-code-point"><dfn>Unicode code point</dfn></dt>
           <dd>A Unicode code point is a unique hexadecimal number signifying a character by its index in the Unicode codespace (or library of characters).  In the context of key values, a Unicode code point is expressed as a string in the format <code>\u</code> followed by a hexadecimal character index in the range <code>0000</code> to <code>10FFFF</code>, using at least four digits.  See also <a class="def charrep" href="#glossary-character-value">character value</a>.</dd>
 
+          <dt id="glossary-un-initialized-value"><dfn>un-initialized value</dfn></dt>
+          <dd>The value of any event attribute (such as <a href="#events-event-type-canBubble"><code>Event.bubbles</code></a> or 
+              <a href="#events-event-type-currentTarget"><code>Event.currentTarget</code></a>) before the event has been initialized with <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a>.
+              The un-initialized values of an <code>Event</code> apply immediately after a new event has been created using the method <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a>.
+          </dd>
           <dt id="glossary-user-agent"><dfn>user agent</dfn></dt>
           <dd>A program, such as a browser or content authoring tool, normally running on a client machine, which acts on a user's behalf in retrieving, interpreting, executing, presenting, or creating content.  Users may act on the content using different user agents at different times, for different purposes.  See the <a href="#conf-interactive-ua">Web browsers and other dynamic or interactive user agents</a> and <a href="#conf-author-tools">Authoring tools</a> for details on the requirements for a <em>conforming</em> user agent.</dd>
 
@@ -954,32 +959,49 @@ interface <a href="#events-Event">Event</a>
               <dd>
                 <dl>
                   <dt><code class="attribute-name"><a id="events-event-type-canBubble">bubbles</a></code> of type <code>boolean</code>, readonly</dt>
-                  <dd><p>Used to indicate whether or not an event is a bubbling event. If the event can bubble the value must be <code>true</code>, otherwise the value must be <code>false</code>.</p></dd>
+                  <dd><p>Used to indicate whether or not an event is a bubbling event. If the event can bubble the value must be <code>true</code>, otherwise the value must be <code>false</code>.</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>false</code>.</p>
+                  </dd>
 
                   <dt><code class="attribute-name"><a id="events-event-type-canCancel">cancelable</a></code> of type <code>boolean</code>, readonly</dt>
-                  <dd><p>Used to indicate whether or not an event can have its <a class="def" href="#glossary-default-action">default action</a> prevented (see also <a href="#event-flow-default-cancel">Default actions and cancelable events</a>). If the <a class="def" href="#glossary-default-action">default action</a> can be prevented the value must be <code>true</code>, otherwise the value must be <code>false</code>.</p></dd>
+                  <dd><p>Used to indicate whether or not an event can have its <a class="def" href="#glossary-default-action">default action</a> prevented (see also <a href="#event-flow-default-cancel">Default actions and cancelable events</a>). If the <a class="def" href="#glossary-default-action">default action</a> can be prevented the value must be <code>true</code>, otherwise the value must be <code>false</code>.</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>false</code>.</p>
+                      <p class="note"><strong>Note:</strong> Use <code>Event.defaultPrevented</code> to see whether a cancelable event has beened cancelled or not.</p>
+                  </dd>
 
                   <dt><code class="attribute-name"><a id="events-event-type-currentTarget">currentTarget</a></code> of type <a href="#events-EventTarget"><code>EventTarget</code></a>, readonly</dt>
-                  <dd><p>Used to indicate the <a href="#events-EventTarget"><code>EventTarget</code></a> whose <a href="#events-EventListener"><code>EventListeners</code></a> are currently being processed. This is particularly useful during the capture and bubbling phases. When used with the <a href="#event-flow">Event dispatch and DOM event flow</a>, this attribute contains the <a class="def" href="#glossary-proximal-event-target">proximal event target</a> or a target ancestor.</p></dd>
+                  <dd><p>Used to indicate the <a href="#events-EventTarget"><code>EventTarget</code></a> whose <a href="#events-EventListener"><code>EventListeners</code></a> are currently being processed. This is particularly useful during the capture and bubbling phases. When used with the <a href="#event-flow">Event dispatch and DOM event flow</a>, this attribute contains the <a class="def" href="#glossary-proximal-event-target">proximal event target</a> or a target ancestor.</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>null</code>.</p>
+                  </dd>
 
                   <dt><code class="attribute-name"><a id="events-event-type-defaultPrevented">defaultPrevented</a></code> of type <code>boolean</code>, readonly, introduced in <strong class="version">DOM Level 3</strong></dt>
-                  <dd><p>Used to indicate whether <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> has been called for this event.</p></dd>
+                  <dd><p>Used to indicate whether this event has been cancelled or not. <code>Event.defaultPrevented</code> must return true if both <a href="#events-event-type-canCancel"><code>Event.cancelable</code></a> is <code>true</code> and <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> has been called for this event. Otherwise this attribute must return <code>false</code>.</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>false</code>.</p>
+                          <p class="note"><strong>Note:</strong> Calling <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> after an event has been dispatched will reset the internal default-prevented state of the event.</p>
+                  </dd>
 
                   <dt><code class="attribute-name"><a id="events-event-type-isTrusted">isTrusted</a></code> of type <code>boolean</code>, readonly, introduced in <strong class="version">DOM Level 3</strong></dt>
-                  <dd><p>Used to indicate whether this event was generated by the <a class="def" href="#glossary-user-agent">user agent</a> (trusted) or by script (untrusted).  See <a href="#trusted-events">trusted events</a> for more details.</p></dd>
+                  <dd><p>Used to indicate whether this event was generated by the <a class="def" href="#glossary-user-agent">user agent</a> (trusted) or by script (untrusted).  See <a href="#trusted-events">trusted events</a> for more details.</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>false</code>.</p>
+                  </dd>
 
                   <dt><code class="attribute-name"><a id="events-event-type-eventPhase">eventPhase</a></code> of type <code>unsigned short</code>, readonly</dt>
-                  <dd><p>Used to indicate the <a href=#event-phase>phase</a> of the event's current propagation path (capture, target, or bubble).</p></dd>
+                  <dd><p>Used to indicate the <a href=#event-phase>phase</a> of the event's current propagation path (capture, target, or bubble).</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>0</code>.</p>
+                  </dd>
 
                   <dt><code class="attribute-name"><a id="events-event-type-target">target</a></code> of type <a href="#events-EventTarget"><code>EventTarget</code></a>, readonly</dt>
-                  <dd><p>Used to indicate the <a class="def" href="#glossary-event-target">event target</a>. This attribute contains the <a class="def" href="#glossary-proximal-event-target">proximal event target</a> when used with the <a href="#event-flow">Event dispatch and DOM event flow</a>.</p></dd>
+                  <dd><p>Used to indicate the <a class="def" href="#glossary-event-target">event target</a>. This attribute contains the <a class="def" href="#glossary-proximal-event-target">proximal event target</a> when used with the <a href="#event-flow">Event dispatch and DOM event flow</a>.</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>null</code>.</p>
+                  </dd>
 
                   <dt><code class="attribute-name"><a id="events-event-type-timeStamp">timeStamp</a></code> of type <code>DOMTimeStamp</code>, readonly</dt>
-                  <dd><p>Used to specify the time at which the event was created in milliseconds relative to 1970-01-01T00:00:00Z.</p></dd>
+                  <dd><p>Used to specify the time at which the event was created in milliseconds relative to 1970-01-01T00:00:00Z. This value is the <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute.</p></dd>
 
                   <dt><code class="attribute-name"><a id="events-event-type-type">type</a></code> of type <code>DOMString</code>, readonly</dt>
                   <dd><p>The name of the event type. <a href="#conf-specs">Specifications that define events</a>, <a href="#conf-authors">content authors</a>, and <a href="#conf-author-tools">authoring tools</a> must use case-sensitive event type names.</p>
-                      <p class="note"><strong>Authoring Note: </strong><a href="#events-event-type-initEvent"><code>Event.initEvent</code></a> and 
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>""</code> (the empty string).</p>
+                      <p class="note"><strong>Authoring Note: </strong><a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> and 
                       <a href="#events-EventTarget-addEventListener"><code>EventTarget.addEventListener</code></a> APIs are used to set and register 
                       for events of this <code>type</code>. In a JavaScript implementation, these APIs convert non-<code>DOMString</code> objects into a <code>DOMString</code> before registering.
                       </p>
