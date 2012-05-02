@@ -25,16 +25,16 @@
       </p>
       <h1 id="Overview-title">Document Object Model (DOM) Level 3 Events Specification</h1>
 <!-- @-->
-      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <span class="2012-04-30">30 April 2012</span></h2>
+      <h2 id="Overview-W3C-doctype">W3C Editor's Draft <span class="2012-05-02">02 May 2012</span></h2>
       <dl>
         <dt>This version:</dt>
-        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.225">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.225</a></dd>
+        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.226">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.226</a></dd>
 
         <dt>Latest stable version:</dt>
         <dd><a href="http://www.w3.org/TR/DOM-Level-3-Events">http://www.w3.org/TR/DOM-Level-3-Events</a></dd>
 
         <dt>Previous version:</dt>
-        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.223">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.223</a></dd>
+        <dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.225">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.225</a></dd>
 
         <dt>Editor's Draft:</dt>
         <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
@@ -541,7 +541,7 @@
           <dd>See <a class="def" href="#glossary-phase">phase</a>.</dd>
 
           <dt id="glossary-event-target"><dfn>event target</dfn></dt>
-          <dd>The object to which an <a class="def" href="#glossary-event">event</a> is targeted.</dd>
+          <dd>The object to which an <a class="def" href="#glossary-event">event</a> is targeted. The event target is the value of the <a href="#events-event-type-currentTarget"><code>Event.currentTarget</code></a>.</dd>
 
           <dt id="glossary-event-type"><dfn>event type</dfn></dt>
           <dd>An <em>event type</em> is an <a class="def" href="#glossary-event">event</a> object with a particular name and which defines particular trigger conditions, properties, and other characteristics which distinguish it from other event types.  For example, the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type has different characteristics than the <a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a> or <a class="eventtype" href="#event-type-load"><code>load</code></a> event types. The event type is exposed as the <a href="#events-event-type-type"><code class="interface-attribute">Event.type</code></a> attribute on the event object.  See <a href="#event-types">event types</a> for more details.  Also loosely referred to as <em>'event'</em>, such as the <em><a class="eventtype" href="#event-type-click"><code>click</code></a> event</em>.</dd>
@@ -587,7 +587,7 @@
           <dd>The ordered set of <a class="def" href="#glossary-event-target">event targets</a> though which an <a class="def" href="#glossary-event">event</a> object will pass sequentially on the way to and back from the <a class="def" href="#glossary-proximal-event-target">proximal event target</a>.  As the event propagates, each <a class="def" href="#glossary-event-target">event target</a> in the propagation path is in turn set as the <a href="#events-event-type-currentTarget"><code>Event.currentTarget</code></a>.  The propagation path is initially composed of one or more <a class="def" href="#glossary-event-phase">event phases</a> as defined by the <a class="def" href="#glossary-event-type">event type</a>, but may be interrupted.  Also known as an <em>event target chain</em>.</dd>
 
           <dt id="glossary-proximal-event-target"><dfn>proximal event target</dfn></dt>
-          <dd>The proximal event target is the object representing the <a class="def" href="#glossary-event-target">event target</a> to which an <a class="def" href="#glossary-event">event</a> is targeted using the DOM event flow.  The proximal event target is the value of the <a href="#events-event-type-target">Event.target</a> attribute.</dd>
+          <dd>The proximal event target is the object representing the <a class="def" href="#glossary-event-target">event target</a> to which an <a class="def" href="#glossary-event">event</a> is targeted using the DOM event flow.  The proximal event target is the value of the <a href="#events-event-type-target"><code>Event.target</code></a> attribute.</dd>
 
           <dt id="glossary-qwerty"><dfn>QWERTY</dfn></dt>
           <dd>QWERTY (pronounced <q>&#x2C8;kw&#x25C;rti</q>) is a common keyboard layout, so named because the first five character keys on the top row of letter keys are Q, W, E, R, T, and Y.  There are many other popular keyboard layouts (including the Dvorak and Colemak layouts), most designed for localization or ergonomics.</dd>
@@ -643,7 +643,7 @@
           </p>
         </div>
         <p>Event objects are always dispatched to the <a class="def" href="#glossary-proximal-event-target">proximal event target</a>.  <span class="assert must">At the beginning of the dispatch, implementations must first determine the event object's <a class="def" href="#glossary-propagation-path">propagation path</a>.</span></p> 
-          <p>The propagation path must be an ordered list of <a class="def" href="#glossary-event-target">event targets</a> through which the event object must pass. For tree-based DOM implementations, the propagation path must be reflect the hierarchical tree structure of the document.  <span class="assert must">The last item in the list must be the <a class="def" href="#glossary-proximal-event-target">proximal event target</a></span>; the preceding items in the list are referred to as the <em>target's ancestors</em>, and the immediately preceding item as the <em>target's parent</em>.  <span class="assert mustnot">Once determined, the propagation path must not be changed; for tree-based DOM implementations, this applies even if an element in the propagation path is moved within the DOM or removed from the DOM.</span> As an example, in the DOM event flow event listeners might change the position of the <a class="def" href="#glossary-proximal-event-target">proximal event target</a> in the document while the event object is being dispatched; such changes do not affect the propagation path. Additionally, exceptions inside event listeners do not stop the propagation of the event or affect the <a class="def" href="#glossary-propagation-path">propagation path</a>.</p>
+        <p>The propagation path must be an ordered list of <a class="def" href="#glossary-event-target">event targets</a> through which the event object must pass. For tree-based DOM implementations, the propagation path must reflect the hierarchical tree structure of the document.  <span class="assert must">The last item in the list must be the <a class="def" href="#glossary-proximal-event-target">proximal event target</a></span>; the preceding items in the list are referred to as the <em>target's ancestors</em>, and the immediately preceding item as the <em>target's parent</em>.  <span class="assert mustnot">Once determined, the propagation path must not be changed; for tree-based DOM implementations, this applies even if an element in the propagation path is moved within the DOM or removed from the DOM.</span> As an example, in the DOM event flow event listeners might change the position of the <a class="def" href="#glossary-proximal-event-target">proximal event target</a> in the document while the event object is being dispatched; such changes do not affect the propagation path. Additionally, exceptions inside event listeners do not stop the propagation of the event or affect the <a class="def" href="#glossary-propagation-path">propagation path</a>.</p>
         <p id="event-phase">As the next step, the event object must complete one or more <a class="def" href="#glossary-phase">event phases</a>. This specification defines three event phases: <a href="#capture-phase">capture phase</a>; <a href="#target-phase">target phase</a>; and <a href="#bubble-phase">bubble phase</a>.  Event objects complete these phases in the specified order using the partial propagation paths as defined below.  <span class="assert must">A phase must be skipped if it is not supported, or if the event object's propagation has been stopped.</span>  For example, if the <a href="#events-event-type-canBubble"><code>Event.bubbles</code></a> attribute is set to false, the bubble phase will be skipped, and if <a href="#events-event-type-stopPropagation"><code>Event.stopPropagation()</code></a> has been called prior to the dispatch, all phases must be skipped.</p>
         <ol>
           <li>The <strong id="capture-phase">capture phase</strong>: <span class="assert must">the event object must propagate through the target's ancestors from the <a class="def" href="#glossary-defaultView">defaultView</a> to the target's parent.</span> This phase is also known as the <em>capturing phase</em>. <span class="assert must">Event listeners registered for this phase must handle the event before it reaches its target.</span></li>
@@ -675,9 +675,10 @@
           </li>
         </ul>
         <p>
-          <span class="assert must">An implementation must trigger a listener by invoking the <a href="#events-EventListener-handleEvent"><code class="method-name">EventListener.handleEvent()</code></a> method or an equivalent binding-specific mechanism.</span>
+          <span class="assert must">An implementation must trigger a listener by invoking the <a href="#events-EventListener-handleEvent"><code>EventListener.handleEvent()</code></a> method or an equivalent binding-specific mechanism.</span>
         </p>
-        <p>In the production of the <a class="def" href="#glossary-propagation-path">propagation path</a>, if the <a class="def" href="#glossary-defaultView">defaultView</a> implements the <a href="#events-EventTarget">EventTarget</a> interface, the event propagates from <a class="def" href="#glossary-defaultView">defaultView</a> to the <code>document</code> object during the <a class="def" href="#glossary-capture-phase">capture phase</a>, and from the <code>document</code> object to the <a class="def" href="#glossary-defaultView">defaultView</a> during the <a class="def" href="#glossary-bubbling-phase">bubble phase</a>.</p>
+        <p>In the production of the <a class="def" href="#glossary-propagation-path">propagation path</a>, if the <a class="def" href="#glossary-defaultView">defaultView</a> implements the <a href="#events-EventTarget"><code>EventTarget</code></a> interface, the event propagates from <a class="def" href="#glossary-defaultView">defaultView</a> to the <code>document</code> object during the <a class="def" href="#glossary-capture-phase">capture phase</a>, and from the <code>document</code> object to the <a class="def" href="#glossary-defaultView">defaultView</a> during the <a class="def" href="#glossary-bubbling-phase">bubble phase</a>.</p>
+        <p>After an event completes all the phases of its <a class="def" href="#glossary-propagation-path">propagation path</a>, its <a href="#events-event-type-currentTarget"><code>Event.currentTarget</code></a> must be set to <code>null</code> and the <a href="#events-event-type-eventPhase"><code>Event.eventPhase</code></a> must be set to <code>0</code> (<a href="#events-UNINIT"><code>NONE</code></a>). All other attributes of the <code>Event</code> (or interface derived from <code>Event</code>) are unchanged (including the <a href="#events-event-type-target"><code>Event.target</code></a> attribute, which must continue to reference the <a class="def" href="#glossary-proximal-event-target">proximal event target</a>).</p>
         <p>The model defined above must be applied regardless of the specific event flow associated with an event target. Each event flow must define how the propagation path must be determined and which event phases are supported. The <em>DOM event flow</em> is an application of this model: the propagation path for a <code>Node</code> object must be determined by its <code>Node.parentNode</code> chain, and if applicable, the document's containing <a class="def" href="#glossary-defaultView">defaultView</a>; all events accomplish the capture and target phases; whether an event accomplishes the bubble phase must be defined individually for each <a class="def" href="#glossary-event-type">event type</a>. An alternate application of this model can be found in [<cite><a class="informative" href="#references-DOMLS">DOM3 Load and Save</a></cite>].</p>
         <p>Implementations of the DOM event model must be reentrant. Event listeners may perform actions that cause additional events to be dispatched. Such events are handled in a synchronous manner, the event propagation that causes the event listener to be triggered must resume only after the event dispatch of the new event is completed.</p>
       </div>
@@ -781,7 +782,7 @@
 
         <p>Certain <a class="def" href="#glossary-proximal-event-target">proximal event targets</a> (such as a link or button element) may have associated <a class="def" href="#glossary-activation-behavior">activation behavior</a> (such a following a link) that implementations perform in response to an <em><a class="def" href="#glossary-activation-trigger">activation trigger</a></em> (such as clicking a link).</p>
         <p>A <a class="def" href="#glossary-host-language">host language</a> should indicate which, if any, elements have activation behavior, describe appropriate <a class="def" href="#glossary-activation-trigger">activation triggers</a>, and define the result of that activation behavior.  An implementation which supports a <a class="def" href="#glossary-host-language">host language</a> should initiate these <a class="def" href="#glossary-activation-behavior">activation behavior</a> when the associated <a class="def" href="#glossary-activation-trigger">activation trigger</a> occurs.</p>
-        <p class="example" id="example-activation"><strong>Example:</strong> Both HTML and SVG have an <code class="element">a</code> element which indicates a link.  Relevant <a class="def" href="#glossary-activation-trigger">activation triggers</a> for an <code class="element">a</code> element are a <a class="eventtype" href="#event-type-click"><code>click</code></a> event on the text or image  content of the <code class="element">a</code> element, or a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event with a <a href="#events-KeyboardEvent-key">key</a> attribute value of <a href="#key-Enter"><code class="value keyname">'Enter'</code></a> key when the <code class="element">a</code> element has focus.  The activation behavior for an <code class="element">a</code> element is normally to change the content of the window to the content of the new document, in the case of external links, or to reposition the current document relative to the new anchor, in the case of internal links.</p>
+        <p class="example" id="example-activation"><strong>Example:</strong> Both HTML and SVG have an <code>&lt;a&gt;</code> element which indicates a link.  Relevant <a class="def" href="#glossary-activation-trigger">activation triggers</a> for an <code>&lt;a&gt;</code> element are a <a class="eventtype" href="#event-type-click"><code>click</code></a> event on the text or image  content of the <code>&lt;a&gt;</code> element, or a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event with a <a href="#events-KeyboardEvent-key">key</a> attribute value of <a href="#key-Enter"><code class="value keyname">'Enter'</code></a> key when the <code>&lt;a&gt;</code> element has focus.  The activation behavior for an <code>&lt;a&gt;</code> element is normally to change the content of the window to the content of the new document, in the case of external links, or to reposition the current document relative to the new anchor, in the case of internal links.</p>
         <p>An <a class="def" href="#glossary-activation-trigger">activation trigger</a> is a user action or an event which indicates to the implementation that an activation behavior should be initiated.  User-initiated <a class="def" href="#glossary-activation-trigger">activation triggers</a> include clicking a mouse button on an activatable element, pressing the <a href="#key-Enter"><code class="value keyname">'Enter'</code></a> key when an activatable element has focus, or pressing a key that is somehow linked to an activatable element (a <q>hotkey</q> or <q>access key</q>) even when that element does not have focus.  Event-based <a class="def" href="#glossary-activation-trigger">activation triggers</a> may include timer-based events that activate an element at a certain clock time or after a certain time period has elapsed, progress events after a certain action has been completed, or many other condition-based or state-based events.</p>
         <p>In some cases, a <a class="def" href="#glossary-host-language">host language</a> may define attributes or even attribute values which add to or change the native <a class="def" href="#glossary-activation-trigger">activation trigger</a> or <a class="def" href="#glossary-activation-behavior">activation behavior</a> of an element.  For example, ARIA [<cite><a class="informative" href="#ref-ARIA">ARIA</a></cite>] defines values for the <code class="attr">role</code> attribute that add semantics to the element to which it is applied, for purposes of enhanced accessibility.  In such cases, if the <a class="def" href="#glossary-host-language">host language</a> does not explicitly define the <a class="def" href="#glossary-activation-trigger">activation trigger</a> or <a class="def" href="#glossary-activation-behavior">activation behavior</a>, the content author must provide the mechanics of the <a class="def" href="#glossary-activation-trigger">activation trigger</a> (via an event listener) or <a class="def" href="#glossary-activation-behavior">activation behavior</a> (such as calling an ECMAScript function) for that element when applying that attribute or attribute value.</p>
         
@@ -908,9 +909,10 @@
 interface <a href="#events-Event">Event</a>
 {
   <span class="comment">// PhaseType</span>
-  const unsigned short              <a href="#events-CAPTURING_PHASE">CAPTURING_PHASE</a>      = 1;
-  const unsigned short              <a href="#events-AT_TARGET">AT_TARGET</a>            = 2;
-  const unsigned short              <a href="#events-BUBBLING_PHASE">BUBBLING_PHASE</a>       = 3;
+  const unsigned short              <a href="#events-UNINIT">NONE</a>            = 0;
+  const unsigned short              <a href="#events-CAPTURING_PHASE">CAPTURING_PHASE</a> = 1;
+  const unsigned short              <a href="#events-AT_TARGET">AT_TARGET</a>       = 2;
+  const unsigned short              <a href="#events-BUBBLING_PHASE">BUBBLING_PHASE</a>  = 3;
 
   readonly attribute DOMString      <a href="#events-event-type-type">type</a>;
   readonly attribute <a href="#events-EventTarget">EventTarget</a>?   <a href="#events-event-type-target">target</a>;
@@ -941,6 +943,11 @@ interface <a href="#events-Event">Event</a>
                   <dt><strong>Defined Constants</strong></dt>
                   <dd>
                     <dl>
+                      <dt><a id="events-UNINIT"><code class="constant-name">NONE</code></a></dt>
+                      <dd>The current event is not being dispatched, i.e., the <a href="#events-event-type-eventPhase">Event.eventPhase</a> is being observered prior to 
+                          calling <a href="#events-EventTarget-dispatchEvent">EventTarget.dispatchEvent()</a> or following the completion of the 
+                          <a class="def" href="#glossary-phase">event phases</a> of a given <code>Event</code>.
+                      </dd>
                       <dt><a id="events-AT_TARGET"><code class="constant-name">AT_TARGET</code></a></dt>
                       <dd>The current event is in the <a class="def" href="#glossary-target-phase">target phase</a>, i.e., it is being evaluated at the <a class="def" href="#glossary-proximal-event-target">proximal event target</a>.</dd>
 
@@ -1136,8 +1143,9 @@ interface <a href="#events-CustomEvent">CustomEvent</a> : <a href="#events-Event
               <dd>
                 <dl>
                   <dt><code class="attribute-name"><a id="events-CustomEvent-detail">detail</a></code> of type <code>any</code>, readonly</dt>
-                  <dd><p>Specifies some detail information about the <a href="#events-Event"><code>Event</code></a>.</p></dd>
-
+                  <dd><p>Specifies some detail information about the <a href="#events-Event"><code>Event</code></a>.</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>null</code>.</p>
+                  </dd>
                 </dl>
               </dd>
             </dl>
@@ -2018,10 +2026,14 @@ interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event<
               <dd>
                 <dl>
                   <dt><code class="attribute-name"><a id="events-UIEvent-detail">detail</a></code> of type <code>long</code>, readonly</dt>
-                  <dd><p>Specifies some detail information about the <a href="#events-Event"><code>Event</code></a>, depending on the type of event.</p></dd>
+                  <dd><p>Specifies some detail information about the <a href="#events-Event"><code>Event</code></a>, depending on the type of event.</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>0</code>.</p>
+                  </dd>
 
                   <dt><code class="attribute-name"><a id="events-UIEvent-view">view</a></code> of type <code>AbstractView</code>, readonly</dt>
-                  <dd><p>The <code>view</code> attribute identifies the <code>AbstractView</code> from which the event was generated.</p></dd>
+                  <dd><p>The <code>view</code> attribute identifies the <code>AbstractView</code> from which the event was generated.</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>null</code>.</p>
+                  </dd>
 
                 </dl>
               </dd>
@@ -2093,7 +2105,7 @@ interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event<
                   <td>
                     <ul>
                       <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element being activated</li>
-                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     </ul>
                    </td>
@@ -2133,7 +2145,7 @@ From DOM2 Events, but not implemented:
                   <td>
                     <ul>
                       <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: common object whose contained resources have loaded</li>
-                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
+                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     </ul>
                    </td>
@@ -2164,7 +2176,7 @@ From DOM2 Events, but not implemented:
                   <td>
                     <ul>
                       <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> <i class="issue"><strong>Issue:</strong> define event target</i></li>
-                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
+                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     </ul>
                    </td>
@@ -2196,7 +2208,7 @@ From DOM2 Events, but not implemented:
                   <td>
                     <ul>
                       <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: common object whose contained resources have been removed</li>
-                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
+                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     </ul>
                    </td>
@@ -2227,7 +2239,7 @@ From DOM2 Events, but not implemented:
                   <td>
                     <ul>
                       <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element whose resources have been stopped from loading without error</li>
-                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
+                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     </ul>
                    </td>
@@ -2258,7 +2270,7 @@ From DOM2 Events, but not implemented:
                   <td>
                     <ul>
                       <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element whose resources have been stopped from loading due to an error</li>
-                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
+                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     </ul>
                    </td>
@@ -2289,7 +2301,7 @@ From DOM2 Events, but not implemented:
                   <td>
                     <ul>
                       <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element whose text content has been selected</li>
-                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
+                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     </ul>
                    </td>
@@ -2327,7 +2339,7 @@ From DOM2 Events, but not implemented:
                   <td>
                     <ul>
                       <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: object which has been resized</li>
-                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     </ul>
                    </td>
@@ -2336,7 +2348,7 @@ From DOM2 Events, but not implemented:
 
               <p>A <a class="def" href="#glossary-user-agent">user agent</a> must dispatch this event when a document view has been resized. This event type is dispatched after all effects for that occurrence of resizing of that particular <a class="def" href="#glossary-event-target">event target</a> have been executed by the <a class="def" href="#glossary-user-agent">user agent</a>.</p>
               <p><a class="def" href="#glossary-user-agent">User agents</a> which support continuous reflow of the document's layout during user-initiated resizing must dispatch this event synchronously after each reflow of the document.</p>
-              <p>The <a class="def" href="#glossary-defaultView"><code>defaultView</code></a> object should always be resizable.  A <a class="def" href="#glossary-host-language">host language</a> may define certain elements to be resizable, and under what conditions (e.g., specific elements like <code class="element">iframe</code>, or elements with particular characteristics like width and height); however, this specification does not define the behavior for elements.</p>
+              <p>The <a class="def" href="#glossary-defaultView"><code>defaultView</code></a> object should always be resizable.  A <a class="def" href="#glossary-host-language">host language</a> may define certain elements to be resizable, and under what conditions (e.g., specific elements like <code>&lt;iframe&gt;</code>, or elements with particular characteristics like width and height); however, this specification does not define the behavior for elements.</p>
               <p class="note" id="note-resize-zoom"><strong>Note:</strong>  The <a class="eventtype" href="#event-type-resize"><code>resize</code></a> event is distinct from the SVG <code class="eventtype">zoom</code> event types, though both can occur at the same time, or as the consequence of the same user action.  In particular, browser <q>font zooming</q> or <q>page zooming</q> will not necessarily trigger a <a class="eventtype" href="#event-type-resize"><code>resize</code></a> event.</p>
               <p class="note" id="note-resize-bubbling"><strong>Note:</strong> In previous DOM Events specifications, the <a class="eventtype" href="#event-type-resize"><code>resize</code></a> event type was defined to have a <a class="def" href="#glossary-bubbling-phase">bubbling phase</a>, but for performance reasons, this was not implemented in most user agents, and this specification removes the <a class="def" href="#glossary-bubbling-phase">bubbling phase</a> for this event.</p>
             </dd>
@@ -2362,7 +2374,7 @@ From DOM2 Events, but not implemented:
                   <td>
                     <ul>
                       <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: object which has been scrolled</li>
-                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     </ul>
                    </td>
@@ -2410,7 +2422,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
                 <dd>
                   <p>Used to identify a secondary <a href="#events-EventTarget"><code>EventTarget</code></a> related to a Focus event, depending on the type of event.</p>
                   <p>For security reasons with nested browsing contexts, when tabbing into or out of a nested context, the relevant EventTarget should be <code>null</code>.</p>
-                  
+                  <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>null</code>.</p>
                   <!-- <p class="issue" id="issue-relatedTarget-null-document"><strong>Issue:</strong> Alternate approach:  
                     <br/>
                     For security reasons with nested browsing contexts, when tabbing into or out of a nested context, the relevant EventTarget should be the element containing browsing context (e.g., the <code>iframe</code>), even if that element cannot normally receive focus.
@@ -2469,7 +2481,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
                 <td>
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> losing focus</li>
-                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                     <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <code>null</code></li>
                   </ul>
@@ -2500,7 +2512,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
                 <td>
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> receiving focus</li>
-                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
+                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
                     <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <code>null</code></li>
                   </ul>
@@ -2532,7 +2544,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
                 <td>
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> losing focus</li>
-                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
+                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
                     <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <code>null</code></li>
                   </ul>
@@ -2564,7 +2576,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
                 <td>
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> receiving focus</li>
-                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
+                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
                     <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <code>null</code></li>
                   </ul>
@@ -2595,7 +2607,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
                 <td>
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> receiving focus</li>
-                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
+                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
                     <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <a class="def" href="#glossary-event-target">event target</a> losing focus  (if any).</li>
                   </ul>
@@ -2627,7 +2639,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
                 <td>
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> losing focus</li>
-                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a>, <code>null</code></li>
+                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
                     <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <a class="def" href="#glossary-event-target">event target</a> receiving focus.</li>
                   </ul>
@@ -2704,7 +2716,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
 
                 <dt><code class="attribute-name"><a id="events-MouseEvent-button">button</a></code> of type <code>unsigned short</code>, readonly</dt>
                 <dd>
-                  During mouse events caused by the depression or release of a mouse button, <code>button</code> must be used to indicate which pointer device button changed state. 
+                  During mouse events caused by the depression or release of a mouse button, <code>button</code> must be used to indicate which pointer device button changed state.
                   <p>The value of the <a href="#events-MouseEvent-button"><code>MouseEvent.button</code></a> attribute must be as follows:</p>
                   <ul>
                     <li><code>0</code> must indicate the primary button of the device (in general, the left button  or the only button on single-button devices, used to activate a user interface control or select text).</li>
@@ -2713,6 +2725,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
                   </ul>
                   <p>Some pointing devices provide or simulate more buttons, and values higher than <code>2</code> may be used to represent such buttons.</p>
                   <p class="note"><strong>Authoring Note: </strong> Some <a class="def" href="#glossary-default-action">default actions</a> related to events such as <code>mousedown</code> and <code>mouseup</code> depend on the specific mouse button in use.</p>
+                  <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>0</code>.</p>
                 </dd>
 
                 <dt><code class="attribute-name"><a id="events-MouseEvent-buttons">buttons</a></code> of type <code>unsigned short</code>, readonly</dt>
@@ -2732,28 +2745,43 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
                 <p>Some pointing devices provide or simulate more buttons.  To represent such buttons, the value must be doubled for each successive button (in the binary series <code>8</code>, <code>16</code>, <code>32</code>, ... ), and the buttons should alternate sides of the device, from left to right.  For example, with a 5-button mouse, the primary button (on the left) would have the value <code>1</code>, the secondary button (on the right) would have the value <code>2</code>, the auxiliary button (in the middle) would have the value <code>4</code>, the fourth button (on the left) would have the value <code>8</code>, and the fifth button (on the right) would have the value <code>16</code>.</p>              
                 <p class="note" id="buttons-mask"><strong>Note:</strong> Because the sum of any set of button values is a unique number, a content author can use a bitwise operation to determine how many buttons are currently being pressed and which buttons they are, for an arbitrary number of mouse buttons on a device, e.g., the value <code>3</code> indicates that the left and right button are currently both pressed, while the value <code>5</code> indicates that the left and middle button are currently both pressed.</p>
                 <p class="note"><strong>Authoring Note: </strong> Some <a class="def" href="#glossary-default-action">default actions</a> related to events such as <code>mousedown</code> and <code>mouseup</code> depend on the specific mouse button in use.</p>
+                <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>0</code>.</p>
                 </dd>
 
                 <dt><code class="attribute-name"><a id="events-MouseEvent-clientX">clientX</a></code> of type <code>long</code>, readonly</dt>
-                <dd><p>The horizontal coordinate at which the event occurred relative to the viewport associated with the event.</p></dd>
+                <dd><p>The horizontal coordinate at which the event occurred relative to the viewport associated with the event.</p>
+                    <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>0</code>.</p>
+                </dd>
 
                 <dt><code class="attribute-name"><a id="events-MouseEvent-clientY">clientY</a></code> of type <code>long</code>, readonly</dt>
-                <dd><p>The vertical coordinate at which the event occurred relative to the viewport associated with the event.</p></dd>
+                <dd><p>The vertical coordinate at which the event occurred relative to the viewport associated with the event.</p>
+                    <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>0</code>.</p>
+                </dd>
 
                 <dt><code class="attribute-name"><a id="events-MouseEvent-ctrlKey">ctrlKey</a></code> of type <code>boolean</code>, readonly</dt>
-                <dd><p>Refer to the <a href="#events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a> attribute.</p></dd>
+                <dd><p>Refer to the <a href="#events-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a> attribute.</p>
+                    <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>false</code>.</p>
+                </dd>
 
                 <dt><code class="attribute-name"><a id="events-MouseEvent-metaKey">metaKey</a></code> of type <code>boolean</code>, readonly</dt>
-                <dd><p>Refer to the <a href="#events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a> attribute.</p></dd>
+                <dd><p>Refer to the <a href="#events-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a> attribute.</p>
+                    <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>false</code>.</p>
+                </dd>
 
                 <dt><code class="attribute-name"><a id="events-MouseEvent-relatedTarget">relatedTarget</a></code> of type <a href="#events-EventTarget"><code>EventTarget</code></a>, readonly</dt>
-                <dd><p>Used to identify a secondary <a href="#events-EventTarget"><code>EventTarget</code></a> related to a UI event, depending on the type of event.</p></dd>
+                <dd><p>Used to identify a secondary <a href="#events-EventTarget"><code>EventTarget</code></a> related to a UI event, depending on the type of event.</p>
+                    <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>null</code>.</p>
+                </dd>
 
                 <dt><code class="attribute-name"><a id="events-MouseEvent-screenX">screenX</a></code> of type <code>long</code>, readonly</dt>
-                <dd><p>The horizontal coordinate at which the event occurred relative to the origin of the screen coordinate system.</p></dd>
+                <dd><p>The horizontal coordinate at which the event occurred relative to the origin of the screen coordinate system.</p>
+                    <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>0</code>.</p>
+                </dd>
 
                 <dt><code class="attribute-name"><a id="events-MouseEvent-screenY">screenY</a></code> of type <code>long</code>, readonly</dt>
-                <dd><p>The vertical coordinate at which the event occurred relative to the origin of the screen coordinate system.</p></dd>
+                <dd><p>The vertical coordinate at which the event occurred relative to the origin of the screen coordinate system.</p>
+                    <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>0</code>.</p>
+                </dd>
 
                 <dt><code class="attribute-name"><a id="events-MouseEvent-shiftKey">shiftKey</a></code> of type <code>boolean</code>, readonly</dt>
                 <dd><p>Refer to the <a href="#events-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a> attribute.</p></dd>
@@ -2947,7 +2975,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
                 <td>
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
-                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                     <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: indicates the <a href="#events-dt-current-click-count">current click count</a>; the attribute value must be <code>1</code> when the user begins this action and increments by <code>1</code> for each click.</li>
                     <li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
                     <li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
@@ -3019,7 +3047,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
                 <td>
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
-                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                     <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: indicates the <a href="#events-dt-current-click-count">current click count</a></li>
                     <li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
                     <li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
@@ -3069,7 +3097,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
                 <td>
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
-                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                     <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: indicates the <a href="#events-dt-current-click-count">current click count</a> incremented by one. For example, if no click happened before the mousedown, <a href="#events-UIEvent-detail"><code>UIEvent.detail</code></a> will contain the value <code>1</code></li>
                     <li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
                     <li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
@@ -3116,7 +3144,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
                 <td>
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
-                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                     <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
                     <li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
@@ -3158,7 +3186,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
                 <td>
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
-                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                     <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
                     <li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
@@ -3200,7 +3228,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
                 <td>
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
-                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                     <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
                     <li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
@@ -3244,7 +3272,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
                 <td>
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
-                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                     <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
                     <li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
@@ -3287,7 +3315,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
                   <td>
                     <ul>
                       <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
-                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                       <li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
                       <li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
@@ -3330,7 +3358,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
                 <td>
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
-                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                     <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: indicates the <a href="#events-dt-current-click-count">current click count</a> incremented by one.</li>
                     <li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
                     <li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
@@ -3417,17 +3445,24 @@ interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEv
             <dd>
               <dl>
                 <dt><code class="attribute-name"><a id="events-WheelEvent-deltaX">deltaX</a></code> of type <code>float</code>, readonly</dt>
-                <dd><p>The distance the wheel has rotated around the x-axis.</p></dd>
+                <dd><p>The distance the wheel has rotated around the x-axis.</p>
+                    <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>0</code>.</p>
+                </dd>
 
                 <dt><code class="attribute-name"><a id="events-WheelEvent-deltaY">deltaY</a></code> of type <code>float</code>, readonly</dt>
-                <dd><p>The distance the wheel has rotated around the y-axis.</p></dd>
+                <dd><p>The distance the wheel has rotated around the y-axis.</p>
+                    <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>0</code>.</p>
+                </dd>
 
                 <dt><code class="attribute-name"><a id="events-WheelEvent-deltaZ">deltaZ</a></code> of type <code>float</code>, readonly</dt>
-                <dd><p>The distance the wheel has rotated around the z-axis.</p></dd>
+                <dd><p>The distance the wheel has rotated around the z-axis.</p>
+                    <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>0</code>.</p>
+                </dd>
 
                 <dt><code class="attribute-name"><a id="events-WheelEvent-deltaMode">deltaMode</a></code> of type <code>unsigned long</code>, readonly</dt>
                 <dd>
-                  The <code>deltaMode</code> attribute contains an indication of to indicate the units of measurement for the <a href="#glossary-delta"><code>delta</code></a> values.  The default value is <a href="#events-DOM_DELTA_PIXEL"><code class="constant-name">DOM_DELTA_PIXEL</code></a> (pixels).  The value of <code>deltaMode</code> may be different for each of <code class="attribute-name"><a href="#events-WheelEvent-deltaX">deltaX</a></code>, <code class="attribute-name"><a href="#events-WheelEvent-deltaY">deltaY</a></code>, and <code class="attribute-name"><a href="#events-WheelEvent-deltaZ">deltaZ</a></code>, based on system configuration.<br />
+                  The <code>deltaMode</code> attribute contains an indication of to indicate the units of measurement for the <a href="#glossary-delta"><code>delta</code></a> values.  The default value is <a href="#events-DOM_DELTA_PIXEL"><code class="constant-name">DOM_DELTA_PIXEL</code></a> (pixels).  The value of <code>deltaMode</code> may be different for each of <code class="attribute-name"><a href="#events-WheelEvent-deltaX">deltaX</a></code>, <code class="attribute-name"><a href="#events-WheelEvent-deltaY">deltaY</a></code>, and <code class="attribute-name"><a href="#events-WheelEvent-deltaZ">deltaZ</a></code>, based on system configuration.
+                    <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>0</code>.</p>
                   <!-- <p class="issue"><strong>Issue:</strong> deltaMode is the proposed solution for <a href="http://www.w3.org/2008/webapps/track/issues/9" title="ISSUE-9 - Web Applications Working Group Tracker">ISSUE-9</a>.</p> -->
                 </dd>
               </dl>
@@ -3457,7 +3492,7 @@ interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEv
                 <td>
                   <ul>
                     <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
-                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                    <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                     <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                     <li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: if the wheel is associated with a pointing device, the value based on the pointer position on the screen, otherwise <code>0</code></li>
                     <li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: if the wheel is associated with a pointing device, the value based on the pointer position on the screen, otherwise <code>0</code></li>
@@ -3665,7 +3700,7 @@ interface <a href="#events-TextEvent">TextEvent</a> : <a href="#events-UIEvent">
                   <td>
                     <ul>
                       <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element receiving the text input</li>
-                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                       <li><a href="#events-TextEvent-data"><code class="attribute-name">TextEvent.data</code></a>: the value of the text string being input</li>
                       <li><a href="#events-TextEvent-inputMethod"><code class="attribute-name">TextEvent.inputMethod</code></a>: the numerical code corresponding to the most applicable <em><a href="#events-ID-TextEvent-InputMethodCode">InputMethodCode</a></em></li>
@@ -3762,35 +3797,46 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
               <dd>
                 <dl>
                   <dt><code class="attribute-name"><a id="events-KeyboardEvent-altKey">altKey</a></code> of type <code>boolean</code>, readonly</dt>
-                  <dd><code>true</code> if the <a href="#key-Alt"><code class="value keyname">'Alt'</code></a> (alternative) or <code class="value keyname">'Option'</code> key modifier was active.</dd>
-
+                  <dd><code>true</code> if the <a href="#key-Alt"><code class="value keyname">'Alt'</code></a> (alternative) or <code class="value keyname">'Option'</code> key modifier was active.
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>false</code>.</p>
+                  </dd>
+                    
                   <dt><code class="attribute-name"><a id="events-KeyboardEvent-ctrlKey">ctrlKey</a></code> of type <code>boolean</code>, readonly</dt>
-                  <dd><p><code>true</code> if the <a href="#key-Ctrl"><code class="value keyname">'Ctrl'</code></a> (control) key modifier was active.</p></dd>
+                  <dd><p><code>true</code> if the <a href="#key-Ctrl"><code class="value keyname">'Ctrl'</code></a> (control) key modifier was active.</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>false</code>.</p>
+                  </dd>
 
                   <dt><code class="attribute-name"><a id="events-KeyboardEvent-char">char</a></code> of type <code>DOMString</code>, readonly</dt>
                   <dd><p><code>char</code> holds the character value of the key pressed.  If the key press has a printed representation, then the value must be a non-empty Unicode character string, conforming to the <a href="#key-algorithm">algorithm for determining the key value</a> defined in this specification.  For a key associated with a macro to insert multiple characters, the value of the <code>char</code> attribute will hold the entire sequence of characters.  For a key which does not have a character representation, the value must be the <a class="def" href="#glossary-empty-string">empty string</a>.</p>
                     <p class="note" id="note-char-charCode"><strong>Note:</strong> the <code>char</code> attribute is not related to the legacy <code>charCode</code> attribute and does not have the same set of values.</p>
+                    <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>""</code> (the empty string).</p>
                   </dd>
 
                   <dt><code class="attribute-name"><a id="events-KeyboardEvent-key">key</a></code> of type <code>DOMString</code>, readonly</dt>
                   <dd><p><code>key</code> holds the key value of the key pressed.  If the value is has a printed representation, it must match the value of the <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a> attribute; if the value is a control key which has no printed representation, it must be one of the key values defined in the <a href="#keys-keyvalues">key values set</a>, as determined by the <a href="#key-algorithm">algorithm for determining the key value</a>. Implementations that are unable to identify a key must use the key value <a href="#key-Unidentified"><code class="value keyname">'Unidentified'</code></a>.</p>
                     <p class="note" id="note-key-keyCode"><strong>Note:</strong> the <code>key</code> attribute is not related to the legacy <code>keyCode</code> attribute and does not have the same set of values.</p>
-                    <!-- <p class="note" id="note-key-keyCode"><strong>Note:</strong> the <code>key</code> attribute is not related to the legacy <a href="#events-KeyboardEvent-supplemental-keyCode"><code>KeyboardEvent.keyCode</code></a> attribute and does not have the same set of values.</p> -->
+                    <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>""</code> (the empty string).</p>
+                      <!-- <p class="note" id="note-key-keyCode"><strong>Note:</strong> the <code>key</code> attribute is not related to the legacy <a href="#events-KeyboardEvent-supplemental-keyCode"><code>KeyboardEvent.keyCode</code></a> attribute and does not have the same set of values.</p> -->
                    </dd>
 
                   <!-- <dt><code class="attribute-name"><a id="events-KeyboardEvent-supplemental-keyCode">keyCode</a></code> of type <code>unsigned long</code>, readonly</dt>
                   <dd><p><code>keyCode</code> holds a system- and implementation-dependent numerical code signifying the unmodified identifier associated with the key pressed.  Unlike the <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> or <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a> attributes, the set of possible values are not defined in this specification; typically, these value of the <code class="attr-name">keyCode</code> should represent the decimal codepoint in ASCII [<a href="#ref-rfc20">RFC20</a>][<a href="#ref-US-ASCII">US-ASCII</a>] or Windows 1252 [<a href="#ref-WIN1252">WIN1252</a>], but may be drawn from a different appropriate character set.  Implementations that are unable to identify a key must use the key value <code class="value">0</code>.</p></dd> -->
 
                   <dt><code class="attribute-name"><a id="events-KeyboardEvent-location">location</a></code> of type <code>unsigned long</code>, readonly</dt>
-                  <dd><p>The <code>location</code> attribute contains an indication of the location of the key on the device, as described in <a href="#events-ID-KeyboardEvent-KeyLocationCode">Keyboard event types</a>.</p></dd>
+                  <dd><p>The <code>location</code> attribute contains an indication of the location of the key on the device, as described in <a href="#events-ID-KeyboardEvent-KeyLocationCode">Keyboard event types</a>.</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>0</code>.</p>
+                  </dd>
 
                   <dt><code class="attribute-name"><a id="events-KeyboardEvent-metaKey">metaKey</a></code> of type <code>boolean</code>, readonly</dt>
                   <dd><code>true</code> if the meta (Meta) key modifier was active.
                     <p class="note" id="_26"><strong>Note:</strong> The <code>'Command'</code> key modifier on Macintosh systems is represented using this key modifier.</p>
+                    <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>false</code>.</p>
                   </dd>
 
                   <dt><code class="attribute-name"><a id="events-KeyboardEvent-shiftKey">shiftKey</a></code> of type <code>boolean</code>, readonly</dt>
-                  <dd><p><code>true</code> if the shift (Shift) key modifier was active.</p></dd>
+                  <dd><p><code>true</code> if the shift (Shift) key modifier was active.</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>false</code>.</p>
+                  </dd>
 
                   <dt><code class="attribute-name"><a id="events-KeyboardEvent-repeat">repeat</a></code> of type <code>boolean</code>, readonly</dt>
                   <dd><code>true</code> if the key has been pressed in a sustained manner.  Holding down a key must result in the repeating the events 
@@ -3801,12 +3847,14 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
                       in this order, at a rate determined by the system configuration. For mobile devices which have <em>long-key-press</em> behavior, the first key event 
                       with a <a href="#events-KeyboardEvent-repeat">repeat</a> attribute value of <code>'true'</code> must serve as an indication of a <em>long-key-press</em>.
                       The length of time that the key must be pressed in order to begin repeating is configuration-dependent.
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>false</code>.</p>
                   </dd>
 
                   <dt><code class="attribute-name"><a id="events-KeyboardEvent-locale">locale</a></code> of type <code>DOMString</code>, readonly</dt>
                   <dd>
                     <p>The <code>locale</code> <code>DOMString</code> attribute contains a BCP-47 tag [<a href="#ref-BCP-47">BCP-47</a>] indicating the locale for which the keyboard originating the event is configured, e.g. <code>"en-US"</code>. The <code>locale</code> may be the <a class="def" href="#glossary-empty-string">empty string</a> when inapplicable or unknown, e.g. when this information is not exposed by the underlying platform.</p>
                     <p class="note" id="note_KeyboardEvent-locale"><strong>Note:</strong> <code>locale</code> does not necessarily indicate the locale of the data or the context in which it is being entered.  For example, a French user often might not switch to an English keyboard setting when typing English, in which case the <code>locale</code> will still indicate French.  Nor can it be used to definitively calculate the <q>physical</q> or <q>virtual</q> key associated with the event, or the character printed on that key.</p>
+                    <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>""</code> (the empty string).</p>
                   </dd>
 
                 </dl>
@@ -3952,7 +4000,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
                   <td>
                     <ul>
                       <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the key event, root element if no suitable input element focused</li>
-                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                       <li><a href="#events-KeyboardEvent-char"><code class="attribute-name">KeyboardEvent.char</code></a>: the character value of the key pressed.</li>
 					  <li><a href="#events-KeyboardEvent-key"><code class="attribute-name">KeyboardEvent.key</code></a>: the key value of the key pressed.</li>
@@ -4007,7 +4055,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
                   <td>
                     <ul>
                       <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the key event, root element if no suitable input element focused</li>
-                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                       <li><a href="#events-KeyboardEvent-char"><code class="attribute-name">KeyboardEvent.char</code></a>: the character value of the key pressed.</li>
 					  <li><a href="#events-KeyboardEvent-key"><code class="attribute-name">KeyboardEvent.key</code></a>: the key value of the key pressed.</li>
@@ -4051,7 +4099,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
                   <td>
                     <ul>
                       <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the key event, root element if no suitable input element focused</li>
-                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                       <li><a href="#events-KeyboardEvent-char"><code class="attribute-name">KeyboardEvent.char</code></a>: the character value of the key pressed.</li>
 					  <li><a href="#events-KeyboardEvent-key"><code class="attribute-name">KeyboardEvent.key</code></a>: the key value of the key pressed.</li>
@@ -4105,12 +4153,15 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
               <dd>
                 <dl>
                   <dt><code class="attribute-name"><a id="events-CompositionEvent-data">data</a></code> of type <code>DOMString</code>, readonly</dt>
-                  <dd><p><code>data</code> holds the value of the characters generated by an input method. This may be a single Unicode character or a non-empty sequence of Unicode characters [<cite><a class="normative" href="#references-Unicode">Unicode</a></cite>]. Characters should be normalized as defined by the Unicode normalization form <em>NFC</em>, defined in [<cite><a class="normative" href="#references-UnicodeNormalization">UAX #15</a></cite>]. This attribute may be null or contain the <a class="def" href="#glossary-empty-string">empty string</a>.</p></dd>
+                  <dd><p><code>data</code> holds the value of the characters generated by an input method. This may be a single Unicode character or a non-empty sequence of Unicode characters [<cite><a class="normative" href="#references-Unicode">Unicode</a></cite>]. Characters should be normalized as defined by the Unicode normalization form <em>NFC</em>, defined in [<cite><a class="normative" href="#references-UnicodeNormalization">UAX #15</a></cite>]. This attribute may be null or contain the <a class="def" href="#glossary-empty-string">empty string</a>.</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>""</code> (the empty string).</p>
+                  </dd>
 
                   <dt><code class="attribute-name"><a id="events-CompositionEvent-locale">locale</a></code> of type <code>DOMString</code>, readonly</dt>
                   <dd>
                     <p>The <code>locale</code> <code>DOMString</code> attribute contains a BCP-47 tag [<a href="#ref-BCP-47">BCP-47</a>] indicating the locale for which the IME originating the event is configured, e.g. <code>"ja"</code>, <code>"zh-Hans"</code>, <code>"ko"</code>. May be the <a class="def" href="#glossary-empty-string">empty string</a> when inapplicable or unknown, e.g. when this information is not exposed by the underlying platform or application.</p>
                     <p class="note" id="note_CompositionEvent-locale"><strong>Note:</strong> <code>locale</code> does not necessarily indicate the locale of the data or the context in which it is being entered.  For example, a French user often might not switch to an English keyboard setting when typing English, in which case the <code>locale</code> will still indicate French, even though the data is actually English.  Similarly, an IME application could fail to distinguish between the locale of Chinese and Kanji characters.</p>
+                    <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>""</code> (the empty string).</p>
                   </dd>
 
                 </dl>
@@ -4156,7 +4207,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
                   <td>
                     <ul>
                       <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the composition</li>
-                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                       <li><a href="#events-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: the original string being edited, otherwise the <a class="def" href="#glossary-empty-string">empty string</a></li>
                       <li><a href="#events-CompositionEvent-locale"><code class="attribute-name">CompositionEvent.locale</code></a>: the language code for the composition event, if available; otherwise, the <a class="def" href="#glossary-empty-string">empty string</a></li>
@@ -4208,7 +4259,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
                   <td>
                     <ul>
                       <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the composition, <code>null</code> if not accessible</li>
-                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                       <li><a href="#events-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: the string comprising the current results of the composition session, which may be the <a class="def" href="#glossary-empty-string">empty string</a> if the content has been deleted</li>
                       <li><a href="#events-CompositionEvent-locale"><code class="attribute-name">CompositionEvent.locale</code></a>: the language code for the composition event, if available; otherwise, the <a class="def" href="#glossary-empty-string">empty string</a></li>
@@ -4244,7 +4295,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
                   <td>
                     <ul>
                       <li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the composition</li>
-                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code class="attribute-value">defaultView</code></a></li>
+                      <li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
                       <li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
                       <li><a href="#events-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: the string comprising the final result of the composition session, which may be the <a class="def" href="#glossary-empty-string">empty string</a> if the content has been deleted or if the composition process has been canceled</li>
                       <li><a href="#events-CompositionEvent-locale"><code class="attribute-name">CompositionEvent.locale</code></a>: the language code for the composition event, if available; otherwise, the <a class="def" href="#glossary-empty-string">empty string</a></li>
@@ -4360,19 +4411,30 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
               <dd>
                 <dl>
                   <dt><code class="attribute-name"><a id="events-MutationEvent-attrChange">attrChange</a></code> of type <code>unsigned short</code>, readonly</dt>
-                  <dd><p><code>attrChange</code> indicates the type of change which triggered the <a class="eventtype" href="#event-type-DOMAttrModified"><code>DOMAttrModified</code></a> event. The values can be <code>MODIFICATION</code>, <code>ADDITION</code>, or <code>REMOVAL</code>.</p></dd>
+                  <dd><p><code>attrChange</code> indicates the type of change which triggered the <a class="eventtype" href="#event-type-DOMAttrModified"><code>DOMAttrModified</code></a> event. The values can be <code>MODIFICATION</code>, <code>ADDITION</code>, or <code>REMOVAL</code>.</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>0</code>.</p>
+                      <p class="warning"><strong>Warning:</strong> There is no defined constant for the attrChange value of 0 (the un-initialized value).</p>
+                  </dd>
 
                   <dt><code class="attribute-name"><a id="events-MutationEvent-attrName">attrName</a></code> of type <code>DOMString</code>, readonly</dt>
-                  <dd><p><code>attrName</code> indicates the name of the changed <code>Attr</code> node in a <a class="eventtype" href="#event-type-DOMAttrModified"><code>DOMAttrModified</code></a> event.</p></dd>
-
+                  <dd><p><code>attrName</code> indicates the name of the changed <code>Attr</code> node in a <a class="eventtype" href="#event-type-DOMAttrModified"><code>DOMAttrModified</code></a> event.</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>""</code> (the empty string).</p>
+                  </dd>
+                    
                   <dt><code class="attribute-name"><a id="events-MutationEvent-newValue">newValue</a></code> of type <code>DOMString</code>, readonly</dt>
-                  <dd><p><code>newValue</code> indicates the new value of the <code>Attr</code> node in <a class="eventtype" href="#event-type-DOMAttrModified"><code>DOMAttrModified</code></a> events, and of the <code>CharacterData</code> node in <a class="eventtype" href="#event-type-DOMCharacterDataModified"><code>DOMCharacterDataModified</code></a> events.</p></dd>
+                  <dd><p><code>newValue</code> indicates the new value of the <code>Attr</code> node in <a class="eventtype" href="#event-type-DOMAttrModified"><code>DOMAttrModified</code></a> events, and of the <code>CharacterData</code> node in <a class="eventtype" href="#event-type-DOMCharacterDataModified"><code>DOMCharacterDataModified</code></a> events.</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>""</code> (the empty string).</p>
+                  </dd>
 
                   <dt><code class="attribute-name"><a id="events-MutationEvent-prevValue">prevValue</a></code> of type <code>DOMString</code>, readonly</dt>
-                  <dd><p><code>prevValue</code> indicates the previous value of the <code>Attr</code> node in <a class="eventtype" href="#event-type-DOMAttrModified"><code>DOMAttrModified</code></a> events, and of the <code>CharacterData</code> node in <a class="eventtype" href="#event-type-DOMCharacterDataModified"><code>DOMCharacterDataModified</code></a> events.</p></dd>
+                  <dd><p><code>prevValue</code> indicates the previous value of the <code>Attr</code> node in <a class="eventtype" href="#event-type-DOMAttrModified"><code>DOMAttrModified</code></a> events, and of the <code>CharacterData</code> node in <a class="eventtype" href="#event-type-DOMCharacterDataModified"><code>DOMCharacterDataModified</code></a> events.</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>""</code> (the empty string).</p>
+                  </dd>
 
                   <dt><code class="attribute-name"><a id="events-MutationEvent-relatedNode">relatedNode</a></code> of type <code>Node</code>, readonly</dt>
-                  <dd><p><code>relatedNode</code> must be used to identify a secondary node related to a mutation event. For example, if a mutation event is dispatched to a node indicating that its parent has changed, the <code>relatedNode</code> will be the changed parent. If an event is instead dispatched to a subtree indicating a node was changed within it, the <code>relatedNode</code> must be the changed node. In the case of the <a class="eventtype" href="#event-type-DOMAttrModified"><code>DOMAttrModified</code></a> event it indicates the <code>Attr</code> node which was modified, added, or removed.</p></dd>
+                  <dd><p><code>relatedNode</code> must be used to identify a secondary node related to a mutation event. For example, if a mutation event is dispatched to a node indicating that its parent has changed, the <code>relatedNode</code> will be the changed parent. If an event is instead dispatched to a subtree indicating a node was changed within it, the <code>relatedNode</code> must be the changed node. In the case of the <a class="eventtype" href="#event-type-DOMAttrModified"><code>DOMAttrModified</code></a> event it indicates the <code>Attr</code> node which was modified, added, or removed.</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>null</code>.</p>
+                  </dd>
 
                 </dl>
               </dd>
@@ -4720,10 +4782,14 @@ interface <a href="#events-MutationNameEvent">MutationNameEvent</a> : <a href="#
               <dd>
                 <dl>
                   <dt><code class="attribute-name"><a id="events-MutationNameEvent-prevNamespaceURI">prevNamespaceURI</a></code> of type <code>DOMString</code>, readonly</dt>
-                  <dd><p>The previous value of the <code>relatedNode</code>'s <code>namespaceURI</code>.</p></dd>
+                  <dd><p>The previous value of the <code>relatedNode</code>'s <code>namespaceURI</code>.</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>""</code> (the empty string).</p>
+                  </dd>
 
                   <dt><code class="attribute-name"><a id="events-MutationNameEvent-prevNodeName">prevNodeName</a></code> of type <code>DOMString</code>, readonly</dt>
-                  <dd><p>The previous value of the <code>relatedNode</code>'s <code>nodeName</code>.</p></dd>
+                  <dd><p>The previous value of the <code>relatedNode</code>'s <code>nodeName</code>.</p>
+                      <p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute must be <code>""</code> (the empty string).</p>
+                  </dd>
 
                 </dl>
               </dd>
