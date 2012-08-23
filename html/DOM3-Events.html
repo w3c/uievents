@@ -20,13 +20,13 @@
 		<h2 id="Overview-W3C-doctype">W3C Editor's Draft <span class="2012-08-23">23 August 2012</span></h2>
 		<dl>
 			<dt>This version:</dt>
-			<dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.240">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.240</a></dd>
+			<dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.241">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.241</a></dd>
 
 			<dt>Latest stable version:</dt>
 			<dd><a href="http://www.w3.org/TR/DOM-Level-3-Events/">http://www.w3.org/TR/DOM-Level-3-Events/</a></dd>
 
 			<dt>Previous version:</dt>
-			<dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.239">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.239</a></dd>
+			<dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.240">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.240</a></dd>
 
 			<dt>Editor's Draft:</dt>
 			<dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
@@ -3737,6 +3737,34 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
 						<li><a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a> (element <em>A</em>)</li>
 					</ol>
 
+					<p>Sometimes elements can be visually overlapped using CSS. In the following example, three elements labeled A, B, and C all have the same dimensions and 
+						absolute position on a web page. Element C is a child of B, and B is a child of A in the DOM:</p>
+
+					<div class="figure" style="text-align: center">
+						<img src="images/stacked-event-mouse-dispatch.png" alt="graphical representation of three stacked elements all on top of each other. The bottom element is labeled A and the top element is C" title="graphical representation of elements stacked on top of each other" />
+						<p style="text-align: left"><em>Figure 3: graphical representation of three stacked elements all on top of each other, with the pointing device moving over the stack.</em></p>
+					</div>
+
+					<p>When the pointing device is moved from outside the element stack to the element labeled C and then moved out again, the following series of events occur:</p>
+
+					<ol>
+						<li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a></li>
+						(Pointing device is moved into element C; the topmost element in the stack)
+						<li><a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a> (element <em>C</em>)</li>
+						<li><a class="eventtype" href="#event-type-mouseenter"><code>mouseenter</code></a> (element <em>A</em>)</li>
+						<li><a class="eventtype" href="#event-type-mouseenter"><code>mouseenter</code></a> (element <em>B</em>)</li>
+						<li><a class="eventtype" href="#event-type-mouseenter"><code>mouseenter</code></a> (element <em>C</em>)</li>
+						<li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a> (multiple events in element <em>C</em>)</li>
+						(Pointing device is moved out of element C...)
+						<li><a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a> (element <em>C</em>)</li>
+						<li><a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a> (element <em>C</em>)</li>
+						<li><a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a> (element <em>B</em>)</li>
+						<li><a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a> (element <em>A</em>)</li>
+					</ol>
+
+					<p class="note"><strong>Note:</strong> that <code>mouseover</code>/<code>mouseout</code> are only fired once, while <code>mouseenter</code>/<code>mouseleave</code>
+						events are fired three times.</p>
+
 					<p>The following is the typical sequence of events when a button associated with a pointing device (e.g., a mouse button or trackpad) is pressed and released over
 						an element:</p>
 
@@ -6385,7 +6413,7 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
 						<object type="image/svg+xml" data="images/ISOIEC-9995-3-FCD-2009A.svg" width="900" height="300">
 							<img src="images/ISOIEC-9995-3-FCD-2009A.png" alt="A graphical depiction of an ISO standard defining layouts of computer keyboards, ISO/IEC 9995, parts 2 and 3" />
 						</object>
-						<p><em>Figure 3: A graphical depiction of an ISO standard defining layouts of computer keyboards, ISO 9995, parts 2 and 3</em></p>
+						<p><em>Figure 4: A graphical depiction of an ISO standard defining layouts of computer keyboards, ISO 9995, parts 2 and 3</em></p>
 					</div>
 				</div>
 
@@ -6405,7 +6433,7 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
 						<object type="image/svg+xml" data="images/ISOIEC-9995-8-2006.svg" width="180" height="240">
 							<img src="images/ISOIEC-9995-8-2006.png" alt="A graphical depiction of an ISO standard defining layouts of numeric keypads, with distribution of letters on the keys, ISO/IEC 9995-8:2006" />
 						</object>
-						<p><em>Figure 4: A graphical depiction of an ISO standard defining layouts of numeric keypads, with distribution of letters on the keys, ISO/IEC 9995-8:2006</em></p>
+						<p><em>Figure 5: A graphical depiction of an ISO standard defining layouts of numeric keypads, with distribution of letters on the keys, ISO/IEC 9995-8:2006</em></p>
 					</div>
 				</div>
 
@@ -6423,7 +6451,7 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
 						<object type="image/svg+xml" data="images/remote-control.svg" width="102" height="422">
 							<img src="images/remote-control.png" alt="A graphical depiction of a media remote control, with buttons mapped to specific keys values" />
 						</object>
-						<p><em>Figure 5: A graphical depiction of a media remote control, with buttons mapped to specific keys values</em></p>
+						<p><em>Figure 6: A graphical depiction of a media remote control, with buttons mapped to specific keys values</em></p>
 					</div>
 
 				</div>
@@ -6486,7 +6514,7 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
 				author is encouraged not to assume that a relationship exists between the shifted and unshifted states of a key and the majuscule form (uppercase or capital letters)
 				and minuscule form (lowercase or small letters) of a character representation, but is encouraged instead to use the value of the <a href="#events-KeyboardEvent-key">
 				<code>KeyboardEvent.key</code></a> or <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a> attributes.  The keyboard depicted in <a href="#figure-keyboard">
-				Figure 3</a> illustrates one possible set of <a class="def" href="#glossary-key-mapping">key mappings</a> on one possible keyboard layout; many others exist,
+				Figure 4</a> illustrates one possible set of <a class="def" href="#glossary-key-mapping">key mappings</a> on one possible keyboard layout; many others exist,
 				both standard and idiosyncratic.</p>
 
 			<p>It is also important to note that there is not a one-to-one relationship between key event states and key values.  A particular key value might be associated with
