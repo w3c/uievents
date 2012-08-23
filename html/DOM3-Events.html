@@ -20,7 +20,7 @@
 		<h2 id="Overview-W3C-doctype">W3C Editor's Draft <span class="2012-08-23">23 August 2012</span></h2>
 		<dl>
 			<dt>This version:</dt>
-			<dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.238">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.238</a></dd>
+			<dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.239">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.239</a></dd>
 
 			<dt>Latest stable version:</dt>
 			<dd><a href="http://www.w3.org/TR/DOM-Level-3-Events/">http://www.w3.org/TR/DOM-Level-3-Events/</a></dd>
@@ -1368,7 +1368,9 @@ interface <a href="#events-Event">Event</a>
 											<a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent</code></a> method, this method <span class="must">must</span> be called before the <code>Event</code>
 											is dispatched via the <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method. If the method is called several 
 											times before invoking <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent</code></a>, only the final invocation takes precedence.
-											If called from a subclass of the <code>Event</code> interface only the values specified in this method are modified, all other attributes are left unchanged.</p>
+											If this method is called during an invocation of <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent</code></a>, this method
+											<span class="must">must</span> do nothing and return immediately. If called from a subclass of the <code>Event</code> interface only the values specified in 
+											this method are modified, all other attributes are left unchanged.</p>
 
 										<p>This method <span class="must">must</span> also reset the event object's internal-propagation and default-action-prevention states. This allows an event object to be "reset"
 											before being dispatched multiple times.</p>
@@ -1663,10 +1665,14 @@ interface <a href="#events-EventTarget">EventTarget</a>
 									<div class="method">
 										<p>Dispatches an event into the implementation's event model. The <a class="def" href="#glossary-event-target">event target</a> of the event <span class="must">must</span> be the <code>EventTarget</code>
 											object on which <code>dispatchEvent</code> is called.</p>
-										
+
 										<p class="warning"><strong>Warning!</strong>  For security reasons, events dispatched using <a href="#events-EventTarget-dispatchEvent">
 											<code>EventTarget.dispatchEvent()</code></a> <span class="must">must</span> have a <code class="attribute-name"><a href="#events-event-type-isTrusted">isTrusted</a></code> attribute value
 											of <code>false</code>.  See <a href="#trusted-events">trusted events</a> for more details.</p>
+
+										<p class="note"><strong>Note:</strong> while a dispatch (triggered by <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a>) is in progress, calls to 
+											<a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> are ignored (the method returns immediately without side-effects) and calls to 
+											<a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> result in an exception.</p>
 
 										<div class="parameters">
 											<p><strong>Parameters</strong></p>
