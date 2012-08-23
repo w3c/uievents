@@ -20,13 +20,13 @@
 		<h2 id="Overview-W3C-doctype">W3C Editor's Draft <span class="2012-08-23">23 August 2012</span></h2>
 		<dl>
 			<dt>This version:</dt>
-			<dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.237">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.237</a></dd>
+			<dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.238">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.238</a></dd>
 
 			<dt>Latest stable version:</dt>
 			<dd><a href="http://www.w3.org/TR/DOM-Level-3-Events/">http://www.w3.org/TR/DOM-Level-3-Events/</a></dd>
 
 			<dt>Previous version:</dt>
-			<dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.236">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.236</a></dd>
+			<dd><a href="http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.237">http://dev.w3.org/cvsweb/~checkout~/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html?rev=1.237</a></dd>
 
 			<dt>Editor's Draft:</dt>
 			<dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
@@ -824,11 +824,27 @@
 				structure of the document. The last item in the list <span class="must">must</span> be the <a class="def" href="#glossary-event-target">event target</a>; the 
 				preceding items in the list are referred to as the <em>target's ancestors</em>, and the immediately preceding item as the <em>target's parent</em>. Once determined, the 
 				propagation path <span class="mustnot">must not</span> be changed; for DOM implementations, this applies even if an element in the propagation path is moved within the 
-				DOM.  or removed from the DOM. Additionally, exceptions inside event listeners <span class="mustnot">must not</span> stop the propagation of the event or affect the 
-				<a class="def" href="#glossary-propagation-path">propagation path</a>.</p>
+				DOM.  or removed from the DOM.</p>
 			
 			<p class="example"><strong>Example:</strong> In the DOM event flow, event listeners might change the position of the <a class="def" href="#glossary-event-target">
 				event target</a> in the document while the event object is being dispatched; such changes do not affect the propagation path.</p>
+
+			<p>Exceptions thrown inside event listeners <span class="mustnot">must not</span> stop the propagation of the event or affect the 
+				<a class="def" href="#glossary-propagation-path">propagation path</a>. The exception itself <span class="mustnot">must not</span> propogate outside the scope of the event
+				handler.</p>
+
+			<div class="example"><p><strong>Example:</strong> In the following code, the exception thrown from the call to <code>throw "Error"</code> does not propogate into the parent scope,
+				(which would prevent the <code>console.log</code> statement from executing):</p>
+				<pre>var e = document.createEvent("Event");
+e.initEvent("myevent", false, false);
+var target = document.createElement("div");
+target.addEventListener("myevent", function () {
+   throw "Error";
+});
+target.dispatchEvent(e); <span class="comment">// Causes the event listener to throw an exception...</span>
+<span class="comment">// The previously thrown exception doesn't affect the code that follows:</span>
+console.log("Exceptions? No problem");</pre>
+			</div>
 
 			<p id="event-phase">As the next step, the event object <span class="must">must</span> complete one or more <a class="def" href="#glossary-phase">event phases</a>. This specification defines
 				three event phases: <a href="#capture-phase">capture phase</a>; <a href="#target-phase">target phase</a>; and <a href="#bubble-phase">bubble phase</a>.  Event objects
