@@ -9,68 +9,74 @@
 	<link rel="stylesheet" type="text/css" href="spec-WD.css" />
 	<link rel="stylesheet" type="text/css" href="http://www.w3.org/StyleSheets/TR/w3c-tr.css" />
 	<link rel="stylesheet" type="text/css" href="http://www.w3.org/StyleSheets/TR/W3C-WD" />
+	<script src='https://www.w3.org/Tools/respec/respec-w3c-common' class='remove' async></script>
 </head>
+<script type="text/javascript">
+var respecConfig = {
+	specStatus: "WD",
+    shortName:  "DOM-Level-3-Events",
+    editors: [
+	    {
+			name: "Travis Leithead", 
+            company: "Microsoft Corp.",
+            url: "mailto:travis.leithead@microsoft.com?subject=%5Bkey-event%5D%20Spec%20Feedback",
+            companyURL: "http://www.microsoft.com"
+		},
+        {
+            name: "Gary Kacmarcik", 
+            company: "Google, Inc.",
+            url: "mailto:garykac@google.com?subject=%5Bkey-event%5D%20Spec%20Feedback",
+            companyURL: "http://www.google.com"
+        },
+	    {
+			name: "Jacob Rossi", 
+            company: "Microsoft Corp.",
+		},
+	    {
+			name: "Doug Schepers", 
+            company: "W3C",
+            note: "until May 2011",
+		},
+	    {
+			name: "Björn Höhrmann", 
+            company: "Invited Expert",
+            note: "until December 2007",
+		},
+	    {
+			name: "Philippe Le Hégaret", 
+            company: "W3C",
+            note: "until November 2003",
+		},
+	    {
+			name: "Tom Pixley", 
+            company: "Netscape Communications Corporation",
+            note: "until July 2002",
+		}
+	],
+    publishDate:  "2012-09-06",
+	edDraftURI: "http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html",
+	previousPublishDate: null,
+    prevVersion: "http://www.w3.org/TR/2012/WD-DOM-Level-3-Events-20120614",
+    noIDLIn:  true,
+    inlineCSS:  true,
+    //noRecTrack:  true,
+    wg:         ["Web Applications Working Group"],
+    wgURI:    ["http://www.w3.org/2008/webapps/"],
+    wgPublicList: "www-dom",
+    wgPatentURI: ["http://www.w3.org/2004/01/pp-impl/42538/status"],
+    maxTocLevel: 4
+};
+</script>
 <body>
-	<div id="Overview" class="head">
-		<p><a href="http://www.w3.org/"><img height="48" width="72" alt="W3C" src="http://www.w3.org/Icons/w3c_home" /></a></p>
-
-		<h1 id="Overview-title">Document Object Model (DOM) Level 3 Events Specification</h1>
-
-		<h2 id="Overview-W3C-doctype">W3C Working Draft <span class="2012-09-06">06 September 2012</span></h2>
-		<dl>
-			<dt>This version:</dt>
-			<dd><a href="http://www.w3.org/TR/2012/WD-DOM-Level-3-Events-20120906/">http://www.w3.org/TR/2012/WD-DOM-Level-3-Events-20120906/</a></dd>
-
-			<dt>Latest stable version:</dt>
-			<dd><a href="http://www.w3.org/TR/DOM-Level-3-Events/">http://www.w3.org/TR/DOM-Level-3-Events/</a></dd>
-
-			<dt>Previous version:</dt>
-			<dd><a href="http://www.w3.org/TR/2012/WD-DOM-Level-3-Events-20120614/">http://www.w3.org/TR/2012/WD-DOM-Level-3-Events-20120614/</a></dd>
-
-			<dt>Editor's Draft:</dt>
-			<dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html</a></dd>
-		</dl>
-		<dl>
-			<dt>Public Comments:</dt>
-			<dd><a href="mailto:www-dom@w3.org">www-dom@w3.org</a> (<a href="http://lists.w3.org/Archives/Public/www-dom/">archive</a>)</dd>
-
-			<dt>Working Group:</dt>
-			<dd><a href="http://www.w3.org/2008/webapps/">Web Applications WG</a></dd>
-		</dl>
-		<dl>
-			<dt>Editors:</dt>
-			<dd>Travis Leithead, <em>Microsoft</em></dd>
-			<dd>Jacob Rossi, <em>Microsoft</em></dd>
-			<dd>Doug Schepers, <em>W3C (until May 2011)</em></dd>
-			<dd>Bj&#xF6;rn H&#xF6;hrmann, <em>Invited Expert (until December 2007)</em></dd>
-			<dd>Philippe Le H&#xE9;garet, <em>W3C (until November 2003)</em></dd>
-			<dd>Tom Pixley, <em>Netscape Communications Corporation (until July 2002)</em></dd>
-		</dl>
-		<p class="copyright" id="copyright-copy-2010-w3creg-mit-ercim-kei"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> &#xA9; 2010 <a
-			href="http://www.w3.org/"><acronym title="World Wide Web Consortium">W3C</acronym></a><sup>&#xAE;</sup> (<a href="http://www.csail.mit.edu/"><acronym title="Massachusetts Institute of Technology">MIT</acronym></a>,
-			<a href="http://www.ercim.eu/"><acronym title="European Research Consortium for Informatics and Mathematics">ERCIM</acronym></a>, <a href="http://www.keio.ac.jp/">
-			Keio</a>), All Rights Reserved. W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">
-			trademark</a> and <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a> rules apply.</p>
-	</div>
-	<hr title="separator from header" />
-
 	<!-- Section: Abstract ========================================================-->
-
-	<h2>Abstract</h2>
-	<div class="abstract">
+	<section id="abstract">
 		<p>This specification defines the Document Object Model Events Level 3, a generic platform- and language-neutral event system which allows registration of event handlers,
 			describes event flow through a tree structure, and provides basic contextual information for each event. The Document Object Model Events Level 3 builds on the
 			Document Object Model Events Level 2 [<a href="#references-DOM2Events">DOM2 Events</a>].</p>
-	</div>
+	</section>
 
 	<!-- Section: SOTD ========================================================-->
-
-	<h2>Status of This Document</h2>
-	<div>
-		<p><em>This section describes the status of this document at the time of its publication. Other documents may supersede this document. A list of
-			current W3C publications and the latest revision of this technical report can be found in the <a href="http://www.w3.org/TR/">W3C technical reports index</a> at
-			http://www.w3.org/TR/. </em></p>
-
+	<section id="sotd">
 		<p>This document is a Last Call Working Draft of the Document Object Model Level 3 Events (DOM3 Events) specification. This document was previously
 			published as a W3C Note, pending further feedback from implementers, and is now being revised to reflect the current state of implementation.  It is expected that
 			this specification will progress to W3C Recommendation status after review and refinement.</p>
@@ -102,230 +108,13 @@
 		<p id="unstable"><strong class="redNote">Implementers <span class="should">should</span> be aware that this document is not stable.</strong> Implementers who are not
 			taking part in the discussions are likely to find the specification changing out from under them in incompatible ways. Vendors interested in implementing this document
 			before it eventually reaches the Candidate Recommendation stage <span class="should">should</span> join the aforementioned mailing lists and take part in the discussions.</p>
-	</div>
-
-	<!-- Section: TOC ========================================================-->
-
-	<h2 id="toc">Table of Contents</h2>
-	<ul class="toc">
-		<li><a href="#dom-events">1. Document Object Model Events</a>
-			<ul class="toc">
-				<li><a href="#dom-events-overview">1.1 Introduction</a></li>
-				<li><a href="#dom-events-conformance">1.2 Conformance</a></li>
-				<li><a href="#style-conventions">1.3 Stylistic Conventions</a></li>
-			</ul>
-		</li>
-		<li><a href="#glossary" class="glossary">2. Glossary</a></li>
-		<li><a href="#dom-event-architecture">3. DOM Event Architecture</a>
-			<ul class="toc">
-				<li><a href="#event-flow">3.1 Event dispatch and DOM event flow</a></li>
-				<li><a href="#event-flow-default-cancel">3.2 Default actions and cancelable events</a></li>
-				<li><a href="#sync-async">3.3 Synchronous and asynchronous events</a>
-					<ul class="toc">
-						<li><a href="#event-order-and-loops">3.3.1 Event order and event loops</a></li>
-					</ul>
-				</li>
-				<li><a href="#trusted-events">3.4 Trusted events</a></li>
-				<li><a href="#event-flow-activation">3.5 Activation triggers and behavior</a>
-					<ul class="toc">
-						<li><a href="#click-synthesis">3.5.1 Activation event synthesis</a></li>
-						<li><a href="#events-activation-event-order">3.5.2 Activation event order</a></li>
-					</ul>
-				</li>
-				<li><a href="#event-exceptions">3.6 Event exceptions</a></li>
-			</ul>
-		</li>
-		<li><a href="#event-interfaces">4. Basic Event Interfaces</a>
-			<ul class="toc">
-				<li><a href="#interface-Event">4.1 Interface Event</a></li>
-				<li><a href="#interface-CustomEvent">4.2 Interface CustomEvent</a></li>
-				<li><a href="#interface-EventTarget">4.3 Interface EventTarget</a></li>
-				<li><a href="#interface-EventListener">4.4 Interface EventListener</a></li>
-				<li><a href="#interface-DocumentEvent">4.5 Interface DocumentEvent</a></li>
-			</ul>
-		</li>
-		<li><a href="#events-module">5. Events Module</a>
-			<ul class="toc">
-				<li><a href="#event-types">5.1 Event Types</a>
-					<ul class="toc">
-						<li><a href="#event-types-list">5.1.1 List of DOM3 Event Types</a></li>
-					</ul>
-				</li>
-				<li><a href="#event-definitions">5.2 Event Module Definitions</a>
-					<ul class="toc">
-						<li><a href="#events-uievents">5.2.1 User Interface Event Types</a>
-							<ul class="toc">
-								<li><a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-load"><code>load</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-unload"><code>unload</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-abort"><code>abort</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-error"><code>error</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-select"><code>select</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-resize"><code>resize</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-scroll"><code>scroll</code> event</a></li>
-							</ul>
-						</li>
-						<li><a href="#events-focusevent">5.2.2 Focus Event Types</a>
-							<ul class="toc">
-								<li><a href="#events-focusevent-event-order">5.2.1.1 Focus Interface Event Order</a></li>
-								<li><a href="#events-focusevent-doc-focus">5.2.1.2 Document Focus and Focus Context</a></li>
-								<li><a class="eventtype" href="#event-type-blur"><code>blur</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-DOMFocusIn"><code>DOMFocusIn</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-DOMFocusOut"><code>DOMFocusOut</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-focus"><code>focus</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-focusIn"><code>focusin</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-focusout"><code>focusout</code> event</a></li>
-							</ul>
-						</li>
-						<li><a href="#events-mouseevents">5.2.3 Mouse Event Types</a>
-							<ul class="toc">
-								<li><a href="#events-mouseevent-event-order">5.2.3.2 Mouse Event Order</a></li>
-								<li><a class="eventtype" href="#event-type-click"><code>click</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-dblclick"><code>dblclick</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-mousedown"><code>mousedown</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-mouseenter"><code>mouseenter</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-mouseover"><code>mouseover</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-mouseout"><code>mouseout</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-mouseup"><code>mouseup</code> event</a></li>
-							</ul>
-						</li>
-						<li><a href="#events-wheelevents">5.2.4 Wheel Event Types</a>
-							<ul class="toc">
-								<li><a class="eventtype" href="#event-type-wheel"><code>wheel</code> event</a></li>
-							</ul>
-						</li>
-						<li><a href="#events-keyboardevents">5.2.5 Keyboard Event Types</a>
-							<ul class="toc">
-								<li><a href="#events-keyboard-event-order">5.2.5.1 Keyboard Event Order</a></li>
-								<li><a class="eventtype" href="#event-type-keydown"><code>keydown</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-keypress"><code>keypress</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-keyup"><code>keyup</code> event</a></li>
-							</ul>
-						</li>
-						<li><a href="#events-compositionevents">5.2.6 Composition Event Types</a>
-							<ul class="toc">
-								<li><a href="#events-composition-event-order">5.2.6.1 Composition Event Order</a></li>
-								<li><a href="#handwriting">5.2.6.2 Handwriting Recognition Systems</a></li>
-								<li><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code> event</a></li>
-							</ul>
-						</li>
-						<li><a href="#events-mutationevents">5.2.7 Mutation Events</a>
-							<ul class="toc">
-								<li><a class="eventtype" href="#event-type-DOMAttrModified"><code>DOMAttrModified</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-DOMCharacterDataModified"><code>DOMCharacterDataModified</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-DOMNodeInserted"><code>DOMNodeInserted</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-DOMNodeInsertedIntoDocument"><code>DOMNodeInsertedIntoDocument</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-DOMNodeRemoved"><code>DOMNodeRemoved</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-DOMNodeRemovedFromDocument"><code>DOMNodeRemovedFromDocument</code> event</a></li>
-								<li><a class="eventtype" href="#event-type-DOMSubtreeModified"><code>DOMSubtreeModified</code> event</a></li>
-							</ul>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</li>
-		<li><a href="#keys">6. Keyboard events and key values</a>
-			<ul class="toc">
-				<li><a href="#keyboard-input">6.1 Keyboard Input</a>
-					<ul class="toc">
-						<li><a href="#key-legends">6.1.1 Key Legends</a></li>
-						<li><a href="#keyboard-layout">6.1.2 Keyboard Layout</a>
-							<ul class="toc">
-								<li><a href="#keyboard-desktop">6.1.2.1 Desktop and Laptop Keyboards</a></li>
-								<li><a href="#keyboard-mobile">6.1.2.2 Mobile Keypads</a></li>
-								<li><a href="#keyboard-chording-virtual">6.1.2.4 Virtual Keyboards and Chording Keyboards</a></li>
-							</ul>
-						</li>
-					</ul>
-				</li>
-				<li><a href="#keys-keyvalues">6.2 Key Values</a>
-					<ul class="toc">
-						<li><a href="#keys-unicode">6.2.1 Key Values and Unicode</a></li>
-						<li><a href="#keys-Modifiers">6.2.2 Modifier keys</a></li>
-						<li><a href="#keys-DeadKeys">6.2.3 Dead keys</a></li>
-						<li><a href="#keys-IME">6.2.4 Input Method Editors</a>
-							<ul class="toc">
-								<li><a href="#keys-IME_keys">6.2.4.1 Input Method Editor mode keys</a></li>
-							</ul>
-						</li>
-						<li><a href="#keys-cancelable_keys">6.2.5 Default actions and cancelable keyboard events</a></li>
-						<li><a href="#keys-Guide">6.2.6 Guidelines for selecting and defining key values</a></li>
-						<li><a href="#key-values">6.2.7 Key Values Set</a>
-							<ul class="toc">
-								<li><a href="#key-values-list">6.2.7.1 Key Values List</a></li>
-							</ul>
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</li>
-		<li><a href="#new-event-interface-initializers">Appendix A: Initializing New Event Interfaces</a>
-			<ul class="toc">
-				<li><a href="#event-initializers">A.1 Supplemental Initializer Interfaces</a></li>
-			</ul>
-		</li>
-		<li><a href="#legacy-key-attributes">Appendix B: Legacy key attributes: keyCode, charCode, and which</a>
-			<ul class="toc">
-				<li><a href="#KeyboardEvent-supplemental-interface">B.1 Legacy KeyboardEvent supplemental interface</a></li>
-				<li><a href="#legacy-key-models">B.2 Legacy key models</a>
-					<ul class="toc">
-						<li><a href="#determine-keydown-keyup-keyCode">B.2.1 How to determine keyCode for keydown and keyup events</a></li>
-						<li><a href="#determine-keypress-keyCode">B.2.2 How to determine keyCode for keypress events</a></li>
-						<li><a href="#fixed-virtual-key-codes">B.2.3 Fixed virtual key codes</a></li>
-						<li><a href="#optionally-fixed-virtual-key-codes">B.2.4 Optionally fixed virtual key codes</a></li>
-					</ul>
-				</li>
-			</ul>
-		</li>
-		<li><a href="#extending_events">Appendix C: Extending Events</a>
-			<ul class="toc">
-				<li><a href="#extending_events-intro">C.1 Introduction</a></li>
-				<li><a href="#extending_events-Custom_Events">C.2 Custom Events</a></li>
-				<li><a href="#extending_events-Impl_Extensions">C.3 Implementation-Specific Extensions</a>
-					<ul class="toc">
-						<li><a href="#extending_events-prefixes">C.3.1 Known Implementation-Specific Prefixes</a></li>
-					</ul>
-				</li>
-			</ul>
-		</li>
-		<li><a href="#security-considerations-Security">Appendix D: Security Considerations</a></li>
-		<li><a href="#changes-Changes">Appendix E: Changes</a>
-			<ul class="toc">
-				<li><a href="#changes-DOMEvents2to3Changes">E.1 Changes between DOM Level 2 Events and DOM Level 3 Events</a>
-					<ul class="toc">
-						<li><a href="#changes-DOMEvents2to3Changes-flow">E.1.1 Changes to DOM Level 2 event flow</a></li>
-						<li><a href="#changes-DOMEvents2to3Changes-event-types">E.1.2 Changes to DOM Level 2 event types</a></li>
-						<li><a href="#changes-DOMLevel2to3Changes">E.1.3 Changes to DOM Level 2 Events interfaces</a></li>
-						<li><a href="#changes-DOMLevel3Addons">E.1.4 New Interfaces</a></li>
-					</ul>
-				</li>
-				<li><a href="#changes-drafts">E.2 Changes between different drafts of DOM Level 3 Events</a></li>
-			</ul>
-		</li>
-		<li><a href="#acknowledgements-contributors">Appendix F: Acknowledgements</a>
-			<ul class="toc">
-				<li><a href="#acknowledgements-Productions">F.1 Production Systems</a></li>
-			</ul>
-		</li>
-		<li><a href="#references-role-references" class="references">Appendix G: References</a>
-			<ul class="toc">
-				<li><a href="#references-References-Normative">G.1 Normative References</a></li>
-				<li><a href="#references-References-Informative">G.2 Informative References</a></li>
-			</ul>
-		</li>
-	</ul>
+	</section>
 
 	<!-- Section: DOM3 Events Overview  ========================================================-->
-
-	<h1><a id="dom-events" href="#dom-events">1. Document Object Model Events</a></h1>
-	<div>
-
-		<h2><a id="dom-events-overview" href="#dom-events-overview">1.1 Introduction</a></h2>
-		<div>
+	<section id="dom-events">
+		<h1>Document Object Model Events</h1>
+		<section id="dom-events-overview">
+			<h2>Introduction</h2>
 			<p>DOM Events is designed with two main goals. The first goal is the design of an <a class="def" href="#glossary-event">event</a> system which allows registration
 				of event listeners and describes event flow through a tree structure. Additionally, the specification will provide standard modules of events for user interface
 				control and document mutation notifications, including defined contextual information for each of these event modules.</p>
@@ -333,10 +122,10 @@
 			<p>The second goal of DOM Events is to provide a common subset of the current event systems used in existing browsers. This is intended to foster interoperability
 				of existing scripts and content. It is not expected that this goal will be met with full backwards compatibility. However, the specification attempts to achieve
 				this when possible.</p>
-		</div>
+		</section>  <!-- dom-events-overview -->
 
-		<h2><a id="dom-events-conformance" href="#dom-events-conformance">1.2 Conformance</a></h2>
-		<div>
+		<section id="dom-events-conformance">
+			<h2>Conformance</h2>
 			<p><strong>This section is normative.</strong></p>
 
 			<p>Within this specification, the key words <q><span class="must">MUST</span></q>, <q><span class="mustnot">MUST NOT</span></q>, <q><span class="required">REQUIRED</span></q>,
@@ -431,12 +220,10 @@
 						specification marked as <a class="def" href="#glossary-deprecated">deprecated</a>, but <span class="should">should</span> use or recommend the indicated replacement for that the feature (if available).</p>
 				</dd>
 			</dl>
-		</div>
+		</section>  <!-- dom-events-conformance -->
 
-		<h2><a id="style-conventions" href="#style-conventions">1.3 Stylistic Conventions</a></h2>
-		<div>
-
-
+		<section id="style-conventions">
+			<h2>Stylistic Conventions</h2>
 			<p>The following stylistic conventions are followed in this specification, per the <a href="http://www.w3.org/People/Schepers/spec-conventions.html">Proposed W3C Specification
 				Conventions</a>:</p>
 
@@ -477,13 +264,12 @@
 				or other <a class="def" href="#glossary-user-agent">user agent</a> that implements this specification, while a content author is a person who writes script or code
 				that takes advantage of the interfaces, methods, attributes, events, and other features described in this specification in order to make Web applications, and a
 				user is the person who uses those Web applications in an implementation.</p>
-		</div>
-	</div>
+		</section>  <!-- style-conventions -->
+	</section>  <!-- dom-events -->
 
 	<!-- Section: Glossary  ========================================================-->
-
-	<h1><a id="glossary" href="#glossary">2. Glossary</a></h1>
-	<div>
+	<section id="glossary">
+		<h1>Glossary</h1>
 
 		<p class="1st">Some of the following term definitions have been borrowed or modified from similar definitions in other W3C or standards documents. See the links within
 			the definitions for more information.</p>
@@ -791,15 +577,14 @@
 				Web browsers and other dynamic or interactive user agents</a> and <a href="#conf-author-tools">Authoring tools</a> for details on the requirements for a <em>conforming</em>
 				user agent.</dd>
 		</dl>
-	</div>
+	</section>
 
 	<!-- Section: Architecture ========================================================-->
+	<section id="dom-event-architecture">
+		<h1>DOM Event Architecture</h1>
 
-	<h1><a id="dom-event-architecture" href="#dom-event-architecture">3. DOM Event Architecture</a></h1>
-	<div>
-
-		<h2><a id="event-flow" href="#event-flow">3.1 Event dispatch and DOM event flow</a></h2>
-		<div>
+		<section id="event-flow">
+			<h2>Event dispatch and DOM event flow</h2>
 
 			<p>This section defines the event <a class="def" href="#glossary-dispatch">dispatch</a> mechanism of the event model defined in this specification.
 				Applications <span class="may">may</span> dispatch event objects using the <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method, and
@@ -909,10 +694,10 @@ console.log("Exceptions? No problem");</pre>
 
 			<p>Implementations of the DOM event model <span class="must">must</span> be reentrant. Event listeners <span class="may">may</span> perform actions that cause additional events to be dispatched. Such events are handled
 				in a synchronous manner, the event propagation that causes the event listener to be triggered <span class="must">must</span> resume only after the event dispatch of the new event is completed.</p>
-		</div>
+		</section>
 
-		<h2><a id="event-flow-default-cancel" href="#event-flow-default-cancel">3.2 Default actions and cancelable events</a></h2>
-		<div>
+		<section id="event-flow-default-cancel">
+			<h2>Default actions and cancelable events</h2>
 
 			<p>Events are typically dispatched by the implementation as a result of a user action, in response to the completion of a task, or to signal progress during asynchronous
 				activity (such as a network request). Some events can be used to control the behavior that the implementation <span class="may">may</span> take next (or undo an action that the implementation
@@ -957,10 +742,10 @@ console.log("Exceptions? No problem");</pre>
 			<p class="example"><strong>Example:</strong> As an example, one implementation might scroll a document view by a certain amount as the <a class="def" href="#glossary-default-action">
 				default action</a> of a <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event, while another implementation might instead zoom the document as its <a class="def"
 				href="#glossary-default-action">default action</a>.</p>
-		</div>
+		</section>
 
-		<h2><a id="sync-async" href="#sync-async">3.3 Synchronous and asynchronous events</a></h2>
-		<div>
+		<section id="sync-async">
+			<h2>Synchronous and asynchronous events</h2>
 
 			<p>Events <span class="may">may</span> be dispatched either synchronously or asynchronously.</p>
 
@@ -985,8 +770,8 @@ console.log("Exceptions? No problem");</pre>
 				<code>load</code></a> event is queued to be fired asynchronously at the script element. However, because it is an async event, its order with relation to other synchronous
 				events fired during document load (such as the <a class="eventtype"><code>DOMContentLoaded</code></a> event from <cite><a class="informative" href="#references-HTML5">HTML5</a></cite>) is not guaranteed.</p>
 
-			<h3><a id="event-order-and-loops" href="#event-order-and-loops">3.3.1 Event order and event loops</a></h3>
-			<div>
+			<section id="event-order-and-loops">
+				<h3>Event order and event loops</h3>
 
 				<p>Most events take place in a sequential context.  [<cite><a class="informative" href="#references-HTML5">HTML5</a></cite>] defines its event operations in terms
 					of an event loop mechanism, in which events of all types are fed into different <em>task queues</em>.  This specification does not define events in terms of this
@@ -1000,11 +785,11 @@ console.log("Exceptions? No problem");</pre>
 
 				<p class="note"><strong>Authoring Note:</strong> Certain events, such as <q>hotkeys</q> or control keys pressed in a certain sequence, can be
 					<q>swallowed</q> by the operating system or the application, interrupting the expected <a class="def" href="#glossary-event-order">event order</a>.</p>
-			</div>
-		</div>
+			</section>
+		</section>
 
-		<h2><a id="trusted-events" href="#trusted-events">3.4 Trusted events</a></h2>
-		<div>
+		<section id="trusted-events">
+			<h2>Trusted events</h2>
 
 			<p>Events that are generated by the user agent, either as a result of user interaction, or as a direct result of changes to the DOM, are trusted by the user agent
 				with privileges that are not afforded to events generated by script through the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("Event")</code></a>
@@ -1018,10 +803,10 @@ console.log("Exceptions? No problem");</pre>
 				untrusted events have an <a href="#events-event-type-isTrusted"><code>isTrusted</code></a> attribute value of <code>false</code>, but still initiate any
 				<a class="def" href="#glossary-default-action">default actions</a> for backwards compatibility. All other untrusted events <span class="must">must</span> behave
 				as if the <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> method had been called on that event.</p>
-		</div>
+		</section>
 
-		<h2><a id="event-flow-activation" href="#event-flow-activation">3.5 Activation triggers and behavior</a></h2>
-		<div>
+		<section id="event-flow-activation">
+			<h2>Activation triggers and behavior</h2>
 
 			<p>Certain <a class="def" href="#glossary-event-target">event targets</a> (such as a link or button element) <span class="may">may</span> have associated <a class="def" href="#glossary-activation-behavior">
 				activation behavior</a> (such a following a link) that implementations perform in response to an <em><a class="def" href="#glossary-activation-trigger">activation
@@ -1055,8 +840,8 @@ console.log("Exceptions? No problem");</pre>
 				or <a class="def" href="#glossary-activation-behavior">activation behavior</a> (such as calling an ECMAScript function) for that element when applying that attribute
 				or attribute value.</p>
 
-			<h3><a id="click-synthesis" href="#click-synthesis">3.5.1 Activation event synthesis</a></h3>
-			<div>
+			<section id="click-synthesis">
+				<h3>Activation event synthesis</h3>
 
 				<p>If the instance of the <a class="def" href="#glossary-activation-trigger">activation trigger</a> is not an event of <a class="def" href="#glossary-event-type">event
 					type</a> <a class="eventtype" href="#event-type-click"><code>click</code></a> (that is, when it does not result from a user's activation of a button or link
@@ -1110,10 +895,10 @@ console.log("Exceptions? No problem");</pre>
 
 				<p class="warning"><strong>Warning!</strong> The <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">
 					event type</a> is deprecated in this specification.</p>
-			</div>
+			</section>
 
-			<h3><a id="events-activation-event-order" href="#events-activation-event-order">3.5.2 Activation event order</a></h3>
-			<div>
+			<section id="events-activation-event-order">
+				<h3>Activation event order</h3>
 
 				<p>Activation triggers and behavior can be defined in part by the events which are dispatched in a set order relative to one another.  The following is the typical
 					sequence of events for an element activated by a pointing device (with only pertinent events listed):</p>
@@ -1143,11 +928,11 @@ console.log("Exceptions? No problem");</pre>
 					<li><em>All other <a class="def" href="#glossary-default-action">default actions</a>, including the <a class="def" href="#glossary-activation-behavior">activation behavior
 						</a></em></li>
 				</ol>
-			</div>
-		</div>
+			</section>
+		</section>
 
-		<h2><a id="event-exceptions" href="#event-exceptions">3.6 Event exceptions</a></h2>
-		<div>
+		<section id="event-exceptions">
+			<h2>Event exceptions</h2>
 
 			<p><em>This section is informative.</em></p>
 
@@ -1176,13 +961,12 @@ console.log("Exceptions? No problem");</pre>
 						interface that the implementation does not support.</td>
 				</tr>
 			</table>
-		</div>
-	</div>
+		</section>
+	</section>  <!-- dom-event-architecture -->
 
 	<!-- Section: Basic Event Interfaces ========================================================-->
-
-	<h1><a id="event-interfaces" href="#event-interfaces">4. Basic Event Interfaces</a></h1>
-	<div>
+	<section id="event-interfaces">
+		<h1>Basic Event Interfaces</h1>
 
 		<p>The interfaces described in this section are fundamental to DOM Level 3 Events and <span class="must">must</span> always be supported by the implementation.</p>
 
@@ -1197,8 +981,8 @@ console.log("Exceptions? No problem");</pre>
 			<p><em>Figure 2: graphical representation of the DOM3 Events interface inheritance</em></p>
 		</div>
 
-		<h2><a id="interface-Event" href="#interface-Event">4.1 Interface Event</a></h2>
-		<div>
+		<section id="interface-Event">
+			<h2>Interface Event</h2>
 			<dl>
 				<dt><strong>Interface <em><a id="events-Event">Event</a></em></strong> (introduced in <strong class="since">DOM Level 2</strong>)</dt>
 				<dd>
@@ -1213,7 +997,7 @@ console.log("Exceptions? No problem");</pre>
 						<dt><strong>WebIDL Definition</strong></dt>
 						<dd>
 
-							<pre class="idl" id="idl-interface-Event"><code>
+							<pre class="xxx-idl" id="idl-interface-Event"><code>
 <span class="comment">// Introduced in DOM Level 2:</span>
 interface <a href="#events-Event">Event</a>
 {
@@ -1474,11 +1258,10 @@ interface <a href="#events-Event">Event</a>
 					</dl>
 				</dd>
 			</dl>
+		</section>
 
-		</div>
-
-		<h2><a id="interface-CustomEvent" href="#interface-CustomEvent">4.2 Interface CustomEvent</a></h2>
-		<div>
+		<section id="interface-CustomEvent">
+			<h2>Interface CustomEvent</h2>
 			<dl>
 				<dt><strong>Interface <em><a id="events-CustomEvent">CustomEvent</a></em></strong> (introduced in <strong class="since">DOM Level 3</strong>)</dt>
 				<dd>
@@ -1497,7 +1280,7 @@ interface <a href="#events-Event">Event</a>
 					<dl>
 						<dt><strong>WebIDL Definition</strong></dt>
 						<dd>
-							<pre class="idl" id="idl-interface-CustomEvent"><code>
+							<pre class="xxx-idl" id="idl-interface-CustomEvent"><code>
 <span class="comment">// Introduced in DOM Level 3:</span>
 interface <a href="#events-CustomEvent">CustomEvent</a> : <a href="#events-Event">Event</a>
 {
@@ -1520,10 +1303,10 @@ interface <a href="#events-CustomEvent">CustomEvent</a> : <a href="#events-Event
 					</dl>
 				</dd>
 			</dl>
-		</div>
+		</section>
 
-		<h2><a id="interface-EventTarget" href="#interface-EventTarget">4.3 Interface EventTarget</a></h2>
-		<div>
+		<section id="interface-EventTarget">
+			<h2>Interface EventTarget</h2>
 			<dl>
 				<dt><strong>Interface <em><a id="events-EventTarget">EventTarget</a></em></strong> (introduced in <strong class="since">DOM Level 2</strong>)</dt>
 				<dd>
@@ -1553,7 +1336,7 @@ interface <a href="#events-CustomEvent">CustomEvent</a> : <a href="#events-Event
 						<dt><strong>WebIDL Definition</strong></dt>
 						<dd>
 
-							<pre class="idl" id="idl-interface-"><code>
+							<pre class="xxx-idl" id="idl-interface-"><code>
 <span class="comment">// Introduced in DOM Level 2:</span>
 interface <a href="#events-EventTarget">EventTarget</a>
 {
@@ -1718,10 +1501,10 @@ interface <a href="#events-EventTarget">EventTarget</a>
 					</dl>
 				</dd>
 			</dl>
-		</div>
+		</section>
 
-		<h2><a id="interface-EventListener" href="#interface-EventListener">4.4 Interface EventListener</a></h2>
-		<div>
+		<section id="interface-EventListener">
+			<h2>Interface EventListener</h2>
 			<dl>
 				<dt><strong>Interface <em><a id="events-EventListener">EventListener</a></em></strong> (introduced in <strong class="since">DOM Level 2</strong>)</dt>
 				<dd>
@@ -1745,7 +1528,7 @@ interface <a href="#events-EventTarget">EventTarget</a>
 					<dl>
 						<dt><strong>WebIDL Definition</strong></dt>
 						<dd>
-							<pre class="idl" id="idl-interface-EventListener"><code>
+							<pre class="xxx-idl" id="idl-interface-EventListener"><code>
 <span class="comment">// Introduced in DOM Level 2:</span>
 callback interface <a href="#events-EventListener">EventListener</a>
 {
@@ -1782,10 +1565,10 @@ callback interface <a href="#events-EventListener">EventListener</a>
 					</dl>
 				</dd>
 			</dl>
-		</div>
+		</section>
 
-		<h2><a id="interface-DocumentEvent" href="#interface-DocumentEvent">4.5 Interface DocumentEvent</a></h2>
-		<div>
+		<section id="interface-DocumentEvent">
+			<h2>Interface DocumentEvent</h2>
 			<dl>
 				<dt><strong>Interface <em><a id="events-DocumentEvent">DocumentEvent</a></em></strong> (introduced in <strong class="since">DOM Level 2</strong>)</dt>
 				<dd>
@@ -1796,7 +1579,7 @@ callback interface <a href="#events-EventListener">EventListener</a>
 						<dt><strong>WebIDL Definition</strong></dt>
 						<!-- NOTE: This is preserved as a [NoInterfaceObject] definition (rather than a partial interface Document { ..} because SVG also needs to implement this interface on their SVGSVGElement interface -->
 						<dd>
-							<pre class="idl" id="idl-interface-DocumentEvent"><code>
+							<pre class="xxx-idl" id="idl-interface-DocumentEvent"><code>
 <span class="comment">// Introduced in DOM Level 2:</span>
 [NoInterfaceObject]
 interface <a href="#events-DocumentEvent">DocumentEvent</a>
@@ -1901,21 +1684,21 @@ Document implements <a href="#events-DocumentEvent">DocumentEvent</a>;
 					</dl>
 				</dd>
 			</dl>
-		</div>
-	</div>
+		</section>
+
+	</section>  <!-- event-interfaces  -->
 
 	<!-- Section: The Events ========================================================-->
+	<section id="events-module">
+		<h1>Events Module</h1>
 
-	<h1><a id="events-module" href="#events-module">5. Events Module</a></h1>
-	<div>
-
-		<h2><a id="event-types" href="#event-types">5.1 Event Types</a></h2>
-		<div>
+		<section id="event-types">
+			<h2>Event Types</h2>
 			<p>Each event <span class="must">must</span> be associated with a type, called <em>event type</em> and available as the <a href="#events-event-type-type"><code class="interface-attribute">type</code></a>
 				attribute on the event object. The event type <span class="must">must</span> be of type <code>DOMString</code>.</p>
 
-			<h3><a id="event-types-list" href="#event-types-list">5.1.1 List of DOM3 Event Types</a></h3>
-			<div>
+			<section id="event-types-list">
+				<h3>List of DOM3 Event Types</h3>
 				<p>Depending on the level of DOM support, or the devices used for display (e.g., screen) or interaction (e.g., mouse, keyboard, touch screen, or voice), these event
 					types can be generated by the implementation. When used with an [<cite><a class="informative" href="#references-XML">XML 1.0</a></cite>] or
 					[<cite><a class="informative" href="#references-HTML5">HTML5</a></cite>] application, the specifications of those languages <span class="may">may</span> restrict the
@@ -2309,17 +2092,17 @@ Document implements <a href="#events-DocumentEvent">DocumentEvent</a>;
 
 				<p class="note"><strong>Note: </strong>The event objects associated with the event types described above contain additional context information--refer to the description of the DOM
 					interfaces for further information.</p>
-			</div>
-		</div>
+			</section>
+		</section>
 
-		<h2><a id="event-definitions" href="#event-definitions">5.2 Event Module Definitions</a></h2>
-		<div>
+		<section id="event-definitions">
+			<h2>Event Module Definitions</h2>
 			<p>The DOM Event Model allows a DOM implementation to support multiple modules of events. The model has been designed to allow addition of new event modules in the future.
 				This document does not attempt to define all possible events. For purposes of interoperability, the DOM defines a module of user interface events including lower
 				level device dependent events and a module of document mutation events.</p>
 
-			<h3><a id="events-uievents" href="#events-uievents">5.2.1 User Interface Event Types</a></h3>
-			<div>
+			<section id="events-uievents">
+				<h3>User Interface Event Types</h3>
 				<p>The User Interface event module contains basic event types associated with user interfaces and document manipulation.</p>
 
 				<dl>
@@ -2333,7 +2116,7 @@ Document implements <a href="#events-DocumentEvent">DocumentEvent</a>;
 						<dl>
 							<dt><strong>WebIDL Definition</strong></dt>
 							<dd>
-								<pre class="idl" id="idl-interface-UIEvent"><code>
+								<pre class="xxx-idl" id="idl-interface-UIEvent"><code>
 <span class="comment">// Introduced in DOM Level 2:</span>
 interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event</a>
 {
@@ -2904,11 +2687,10 @@ interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event<
 						</dd>
 					</dl>
 				</div>
+			</section>
 
-			</div>
-
-			<h3><a id="events-focusevent" href="#events-focusevent">5.2.2 Focus Event Types</a></h3>
-			<div>
+			<section id="events-focusevent">
+				<h3>Focus Event Types</h3>
 
 				<p class="note"><strong>Note:</strong> This interface and its associated event types and <a href="#events-focusevent-event-order">focus event
 					order</a> were designed in accordance to the concepts and guidelines defined in <a href="http://www.w3.org/WAI/UA/2010/ED-UAAG20-20100308/">User Agent Accessibility
@@ -2933,7 +2715,7 @@ interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event<
 						<dl>
 							<dt><strong>WebIDL Definition</strong></dt>
 							<dd>
-								<pre class="idl" id="idl-interface-FocusEvent"><code>
+								<pre class="xxx-idl" id="idl-interface-FocusEvent"><code>
 <span class="comment">// Introduced in DOM Level 3:</span>
 interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent">UIEvent</a>
 {
@@ -2960,8 +2742,8 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
 					</dd>
 				</dl>
 
-				<h4><a id="events-focusevent-event-order" href="#events-focusevent-event-order">5.2.2.1 Focus Event Order</a></h4>
-				<div>
+				<section id="events-focusevent-event-order">
+					<h4>Focus Event Order</h4>
 					<p>
 						The focus events defined in this specification occur in a set order relative to one another.  The following is the typical sequence of events when a focus is shifted
 						between elements (this order assumes that no element is initially focused):</p>
@@ -2980,10 +2762,10 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
 
 					<p class="note"><strong>Note:</strong>  This specification does not define the behavior of focus events when interacting with methods such as <code>focus()</code> or
 						<code>blur()</code>; see the relevant specifications where those methods are defined for such behavior.</p>
-				</div>
+				</section>
 
-				<h4><a id="events-focusevent-doc-focus" href="#events-focusevent-doc-focus">5.2.2.2 Document Focus and Focus Context</a></h4>
-				<div>
+				<section id="events-focusevent-doc-focus">
+					<h4>Document Focus and Focus Context</h4>
 					<p>This event module includes event types for notification of changes in document <a class="def" href="#glossary-event-focus">focus</a>.  Depending on the environment,
 						document focus <span class="may">may</span> be distinct from <a class="def" href="#glossary-user-agent">user agent</a> focus and operating system focus; this is referred to as focus context.
 						For example, in a typical desktop browser environment, the operating system context focus might be on one of many different applications, one of which is the browser;
@@ -3002,7 +2784,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
 						circumstances might require a mouse click; some elements might not be focusable at all, and some might be focusable only by special means (clicking on the element),
 						but not by tabbing to it.  Documents <span class="may">may</span> contain multiple focus rings.  Other specifications <span class="may">may</span> define a more complex focus model than is described in this specification,
 						including allowing multiple elements to have the current focus.</p>
-				</div>
+				</section>
 
 				<p>The Focus event types are listed below.</p>
 
@@ -3370,10 +3152,10 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
 						</dd>
 					</dl>
 				</div>
-			</div>
+			</section>
 
-			<h3><a id="events-mouseevents" href="#events-mouseevents">5.2.3 Mouse Event Types</a></h3>
-			<div>
+			<section id="events-mouseevents">
+				<h3>Mouse Event Types</h3>
 
 				<p>The mouse event module originates from the [<cite><a class="informative" href="#references-HTML40">HTML 4.01</a></cite>] <code>onclick</code>, <code>ondblclick</code>,
 					<code>onmousedown</code>, <code>onmouseup</code>, <code>onmouseover</code>, <code>onmousemove</code>, and <code>onmouseout</code> attributes. This event module
@@ -3399,7 +3181,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
 						<dl>
 							<dt><strong>WebIDL Definition</strong></dt>
 							<dd>
-								<pre class="idl" id="idl-interface-MouseEvent"><code>
+								<pre class="xxx-idl" id="idl-interface-MouseEvent"><code>
 <span class="comment">// Modified in DOM Level 3:</span>
 interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent">UIEvent</a> {
   readonly attribute long           <a href="#events-MouseEvent-screenX">screenX</a>;
@@ -3696,8 +3478,8 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
 					the number of consecutive clicks of a pointing device button within a specific time. The delay after which the count resets is specific to the
 					environment configuration.</p>
 
-				<h4><a id="events-mouseevent-event-order" href="#events-mouseevent-event-order">5.2.3.2 Mouse Event Order</a></h4>
-				<div>
+				<section id="events-mouseevent-event-order">
+					<h4>Mouse Event Order</h4>
 					<p>Certain mouse events defined in this specification occur in a set order relative to one another.  The following is the typical sequence of events when a pointing
 						device's cursor is moved over an element:</p>
 
@@ -3805,7 +3587,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
 						href="#event-type-mouseup"><code>mouseup</code></a> event, the <a class="eventtype" href="#event-type-click"><code>click</code></a> and subsequent events will
 						not be dispatched.</p>
 
-				</div>
+				</section>
 
 				<p>The Mouse event types are listed below. In the case of nested elements, mouse event types are always targeted at the most deeply nested element. Ancestors of the
 					targeted element <span class="may">may</span> use bubbling to obtain notification of mouse events which occur within its descendent elements.</p>
@@ -4547,10 +4329,10 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
 						</dd>
 					</dl>
 				</div>
-			</div>
+			</section>
 
-			<h3><a id="events-wheelevents" href="#events-wheelevents">5.2.4 Wheel Event Types</a></h3>
-			<div>
+			<section id="events-wheelevents">
+				<h3>Wheel Event Types</h3>
 				<p>Wheels are devices that can be rotated in one or more spatial dimensions, and which can be associated with a pointer device. The coordinate system depends on the
 					environment configuration.</p>
 
@@ -4590,7 +4372,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
 						<dl>
 							<dt><strong>WebIDL Definition</strong></dt>
 							<dd>
-								<pre class="idl" id="idl-interface-WheelEvent"><code>
+								<pre class="xxx-idl" id="idl-interface-WheelEvent"><code>
 <span class="comment">// Introduced in DOM Level 3:</span>
 interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEvent">MouseEvent</a>
 {
@@ -4765,10 +4547,10 @@ interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEv
 						</dd>
 					</dl>
 				</div>
-			</div>
+			</section>
 
-			<h3><a id="events-keyboardevents" href="#events-keyboardevents">5.2.5 Keyboard Event Types</a></h3>
-			<div>
+			<section id="events-keyboardevents">
+				<h3>Keyboard Event Types</h3>
 
 				<p>Keyboard events are device dependent, i.e., they rely on the capabilities of the input devices and how they are mapped in the operating systems. Refer to <a href="#keys">
 					Keyboard events and key values</a> for more details, including examples on how Keyboard Events are used in combination with Composition Events. Depending on the
@@ -4798,7 +4580,7 @@ interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEv
 						<dl>
 							<dt><strong>WebIDL Definition</strong></dt>
 							<dd>
-								<pre class="idl" id="idl-interface-KeyboardEvent"><code>
+								<pre class="xxx-idl" id="idl-interface-KeyboardEvent"><code>
 <span class="comment">// Introduced in DOM Level 3:</span>
 interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-UIEvent">UIEvent</a>
 {
@@ -5046,8 +4828,8 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
 
 				<p class="note"><strong>Note:</strong> In some implementations or system configurations, some key events, or their values, might be suppressed by the <a class="def" href="#glossary-ime">IME</a> in use.</p>
 
-				<h4><a id="events-keyboard-event-order" href="#events-keyboard-event-order">5.2.5.1 Keyboard Event Order</a></h4>
-				<div>
+				<section id="events-keyboard-event-order">
+					<h4>Keyboard Event Order</h4>
 					<p>The keyboard events defined in this specification occur in a set order relative to one another, for any given key:</p>
 
 					<ol>
@@ -5083,7 +4865,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
 						for example, a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event on the <a href="#key-Tab"><code class="key">'Tab'</code></a> key
 						will likely have a different <a class="def" href="#glossary-event-target">event target</a> than the  <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>
 						event on the same keystroke.</p>
-				</div>
+				</section>
 
 				<p>The keyboard event types are listed below.</p>
 
@@ -5339,10 +5121,10 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
 						</dd>
 					</dl>
 				</div>
-			</div>
+			</section>
 
-			<h3><a id="events-compositionevents" href="#events-compositionevents">5.2.6 Composition Event Types</a></h3>
-			<div>
+			<section id="events-compositionevents">
+				<h3>Composition Event Types</h3>
 
 				<p>Composition Events provide a means for inputing text in a supplementary or alternate manner than by Keyboard Events, in order to allow the use of characters that
 					might not be commonly available on keyboard. For example, Composition events might be used to add accents to characters despite their absence from standard US keyboards,
@@ -5377,7 +5159,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
 						<dl>
 							<dt><strong>WebIDL Definition</strong></dt>
 							<dd>
-								<pre class="idl" id="idl-interface-CompositionEvent"><code>
+								<pre class="xxx-idl" id="idl-interface-CompositionEvent"><code>
 <span class="comment">// Introduced in DOM Level 3:</span>
 interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#events-UIEvent">UIEvent</a>
 {
@@ -5419,8 +5201,8 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
 					</dd>
 				</dl>
 
-				<h4><a id="events-composition-event-order" href="#events-composition-event-order">5.2.6.1 Composition Event Order</a></h4>
-				<div>
+				<section id="events-composition-event-order">
+					<h4>Composition Event Order</h4>
 					<p>The composition events defined in this specification occur in a set order relative to one another:</p>
 
 					<ol>
@@ -5428,10 +5210,10 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
 						<li><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> (multiple events)</li>
 						<li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></li>
 					</ol>
-				</div>
+				</section>
 
-				<h4><a id="handwriting" href="#handwriting">5.2.6.2 Handwriting Recognition Systems</a></h4>
-				<div>
+				<section id="handwriting">
+					<h4>Handwriting Recognition Systems</h4>
 					<p>The following example describes a possible sequence of events when composing a text passage <q>text</q> with a handwriting recognition system, such as on a pen
 						tablet, as modeled using Composition Events.</p>
 
@@ -5443,7 +5225,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
 							<a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>: <code>'text'</code></li>
 						<li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>: <code>'text'</code></li>
 					</ol>
-				</div>
+				</section>
 
 				<p>The composition event types are listed below.</p>
 
@@ -5639,10 +5421,10 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
 						</dd>
 					</dl>
 				</div>
-			</div>
+			</section>
 
-			<h3><a id="events-mutationevents" href="#events-mutationevents">5.2.7 Mutation Events</a></h3>
-			<div>
+			<section id="events-mutationevents">
+				<h3>Mutation Events</h3>
 
 				<p>The mutation and mutation name event modules are designed to allow notification of any changes to the structure of a document, including attribute, text, or name
 					modifications.</p>
@@ -5672,7 +5454,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
 						<dl>
 							<dt><strong>WebIDL Definition</strong></dt>
 							<dd>
-								<pre class="idl" id="idl-interface-MutationEvent"><code>
+								<pre class="xxx-idl" id="idl-interface-MutationEvent"><code>
 <span class="comment">// Deprecated in DOM Level 3:</span>
 interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-Event">Event</a>
 {
@@ -6308,15 +6090,14 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
 					</dl>
 				</div>
 
-			</div>
-		</div>
+			</section>
+		</section>
 
-	</div>
+	</section>  <!-- events-module -->
 
 	<!-- Section: Keyboard and key values ========================================================-->
-
-	<h1><a id="keys" href="#keys">6. Keyboard events and key values</a></h1>
-	<div>
+	<section id="keys">
+		<h1>Keyboard events and key values</h1>
 
 		<p>This section contains necessary information regarding keyboard events:</p>
 
@@ -6330,8 +6111,8 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
 		<p class="note"><strong>Note:</strong> This section uses Serbian and Kanji characters which could be misrepresented or unavailable in the PDF version or printed
 			version of this specification.</p>
 
-		<h2><a id="keyboard-input" href="#keyboard-input">6.1 Keyboard Input</a></h2>
-		<div>
+		<section id="keyboard-input">
+			<h2>Keyboard Input</h2>
 
 			<p><em>This section is informative</em></p>
 
@@ -6347,8 +6128,8 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
 			<p>This specification only defines the functional mapping, in terms of <a href="#keys-keyvalues">key values</a>, but briefly describes <a href="#key-legends">key legends</a>
 				and <a href="#keyboard-layout">keyboard layout</a> for background.</p>
 
-			<h3><a id="key-legends" href="#key-legends">6.1.1 Key Legends</a></h3>
-			<div>
+			<section id="key-legends">
+				<h3>Key Legends</h3>
 
 				<p><em>This section is informative</em></p>
 
@@ -6367,10 +6148,10 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
 					class="key">'Shift'</code> key might bear the symbol <code class="glyph">&#x21E7;</code>, which has the <a class="def" href="#glossary-unicode-code-point">Unicode code point</a> <code class="char">
 					'\u21E7'</code>, but pressing the <code class="key">'Shift'</code> key will not produce this character value, and there is no <a class="def" href="#glossary-unicode-code-point">
 					Unicode code point</a> for <code class="key">'Shift'</code>.</p>
-			</div>
+			</section>
 
-			<h3><a id="keyboard-layout" href="#keyboard-layout">6.1.2 Keyboard Layout</a></h3>
-			<div>
+			<section id="keyboard-layout">
+				<h3>Keyboard Layout</h3>
 
 				<p><em>This section is informative</em></p>
 
@@ -6396,8 +6177,8 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
 					by the keyboard driver software. <em>Scan codes</em> are mapped at the operating system to a <acronym title="Virtual Key">VK</acronym> (<q>virtual key</q>), which
 					in turn might be mapped to the user-defined key configuration.  Key values are a high-level abstraction of that final mapping.</p>
 
-				<h4><a id="keyboard-desktop" href="#keyboard-desktop">6.1.2.1 Desktop and Laptop Keyboards</a></h4>
-				<div>
+				<section id="keyboard-desktop">
+					<h4>Desktop and Laptop Keyboards</h4>
 
 					<p>In the case where a content author wishes to rely on the mechanical layout of a desktop or laptop keyboard, this specification suggests the keyboard configuration
 						specified in ISO/IEC 9995, parts 2 and 3 [<cite><a class="informative" href="#references-ISO-9995-2-3">ISO-9995-2/3</a></cite>], which defines a common layout for
@@ -6414,10 +6195,10 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
 						</object>
 						<p><em>Figure 4: A graphical depiction of an ISO standard defining layouts of computer keyboards, ISO 9995, parts 2 and 3</em></p>
 					</div>
-				</div>
+				</section>
 
-				<h4><a id="keyboard-mobile" href="#keyboard-mobile">6.1.2.2 Mobile Keypads</a></h4>
-				<div>
+				<section id="keyboard-mobile">
+					<h4>Mobile Keypads</h4>
 
 					<p>In the case where a content author wishes to rely on the mechanical layout of a mobile keypad, this specification suggests the keyboard configuration specified
 						in ISO/IEC 9995-8:2006 [<cite><a class="informative" href="#references-ISO-9995-8">ISO-9995-8</a></cite>], which defines a numeric keypad layout and secondary assignment
@@ -6434,10 +6215,10 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
 						</object>
 						<p><em>Figure 5: A graphical depiction of an ISO standard defining layouts of numeric keypads, with distribution of letters on the keys, ISO/IEC 9995-8:2006</em></p>
 					</div>
-				</div>
+				</section>
 
-				<h4><a id="remote-control" href="#remote-control">6.1.2.3 Media Remote Controls</a></h4>
-				<div>
+				<section id="remote-control">
+					<h4>Media Remote Controls</h4>
 
 					<p>Many keyboards contain special keys to control media functions.  Increasingly, many media devices, especially televisions, are Web-enabled.  Hybrid keyboard/remote-control
 						devices are becoming more common.  To meet the needs of these hybrid Web/media devices, this specification defines keys that are common as remote control buttons,
@@ -6453,10 +6234,10 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
 						<p><em>Figure 6: A graphical depiction of a media remote control, with buttons mapped to specific keys values</em></p>
 					</div>
 
-				</div>
+				</section>
 
-				<h4><a id="keyboard-chording-virtual" href="#keyboard-chording-virtual">6.1.2.4 Virtual Keyboards and Chording Keyboards</a></h4>
-				<div>
+				<section id="keyboard-chording-virtual">
+					<h4>Virtual Keyboards and Chording Keyboards</h4>
 
 					<p>Virtual keyboards are software-based sets of keys, in a variety of different arrangements, commonly found on touch-screen devices; they are often modal, with the
 						ability to switch between different dynamic sets of keys, such as alphabetic, numeric, or symbolic keys.  Because of the lack of physical constraints, these keyboards
@@ -6473,14 +6254,14 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
 						<code class="key">'CapsLock'</code></a>, <a href="#key-NumLock"><code class="key">'NumLock'</code></a>, and <a href="#key-SymbolLock"><code class="key">
 						'SymbolLock'</code></a> are <span class="recommended">recommended</span> for the keys which switch between different modes.</p>
 
-				</div>
+				</section>
 
-			</div>
+			</section>
 
-		</div>
+		</section>
 
-		<h2><a id="keys-keyvalues" href="#keys-keyvalues">6.2 Key Values</a></h2>
-		<div>
+		<section id="keys-keyvalues">
+			<h2>Key Values</h2>
 
 			<p>A key value is a <code>DOMString</code> that can be used to indicate any given key on a keyboard, regardless of position or state, by the value it produces.  These
 				key values <span class="may">may</span> be used as return values for keyboard events generated by the implementation, or as input values by the content author to specify desired input (such
@@ -6541,8 +6322,8 @@ interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-E
 				and the superficial resemblance of the glyphs <code class="glyph">'&#xD7;'</code> and <code class="glyph">'x'</code>).  Thus, the semantic meaning or function of
 				character representations is outside the scope of this specification.</p>
 
-			<h3><a id="keys-unicode" href="#keys-unicode">6.2.1 Key Values and Unicode</a></h3>
-			<div>
+			<section id="keys-unicode">
+				<h3>Key Values and Unicode</h3>
 
 				<p>The <a class="def" href="#glossary-character-value">character values</a> described in this specification are Unicode [<a href="#references-Unicode">Unicode</a>]
 					codepoints, and as such, have certain advantages.</p>
@@ -6607,10 +6388,10 @@ else {
 
 				<p>To facilitate this, implementations <span class="should">should</span> support Unicode range detection using regular expressions, in a manner such as the Perl Compatible Regular Expressions
 					(PCRE) [<a href="#references-pcre">PCRE</a>].</p>
-			</div>
+			</section>
 
-			<h3><a id="keys-Modifiers" href="#keys-Modifiers">6.2.2 Modifier keys</a></h3>
-			<div>
+			<section id="keys-Modifiers">
+				<h3>Modifier keys</h3>
 
 				<p>Keyboard input uses modifier keys to change the normal behavior of a key.  Like other keys, modifier keys generate <a class="eventtype" href="#event-type-keydown">
 					<code>keydown</code></a> and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events, as shown in the example below. Some modifiers are activated
@@ -6677,10 +6458,10 @@ else {
 					key, acts as the <code class="key">'Del'</code> key, and the value of the key value will match the most appropriate function of the key in its current modified
 					state.</p>
 
-			</div>
+			</section>
 
-			<h3><a id="keys-DeadKeys" href="#keys-DeadKeys">6.2.3 Dead keys</a></h3>
-			<div>
+			<section id="keys-DeadKeys">
+				<h3>Dead keys</h3>
 
 				<p>Some keyboard input uses <a class="def" href="#glossary-dead-key">dead keys</a> for the input of composed character sequences. Unlike the handwriting sequence,
 					in which users enter the base character first, keyboard input requires to enter a special state when a <a class="def" href="#glossary-dead-key">dead key</a> is
@@ -6731,10 +6512,10 @@ else {
 							Q key)</li>
 					</ol>
 				</div>
-			</div>
+			</section>
 
-			<h3><a id="keys-IME" href="#keys-IME">6.2.4 Input Method Editors</a></h3>
-			<div>
+			<section id="keys-IME">
+				<h3>Input Method Editors</h3>
 
 				<p>This specification includes a model for <a class="def" href="#glossary-ime">input method editors (IMEs)</a>, through the <a href="#events-compositionevents">CompositionEvent</a>
 					interface and events.  However, composition events and keyboard events do not necessarily map as a one-to-one relationship.  As an example, receiving a <a class="eventtype"
@@ -6837,10 +6618,10 @@ else {
 					<p class="note"><strong>Note:</strong> keys with <a class="def" href="#glossary-ime">input method editor</a> functions are not restricted to that purpose, and can have other device- or implementation-specific
 						purposes, as well.</p>
 				</div>
-			</div>
+			</section>
 
-			<h3><a id="keys-cancelable_keys" href="#keys-cancelable_keys">6.2.5 Default actions and cancelable keyboard events</a></h3>
-			<div>
+			<section id="keys-cancelable_keys">
+				<h3>Default actions and cancelable keyboard events</h3>
 
 				<p>Canceling the <a class="def" href="#glossary-default-action">default action</a> of a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event
 					<span class="mustnot">must not</span> affect its respective <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event, but it <span class="must">must</span> prevent the respective <a class="eventtype"
@@ -6909,10 +6690,10 @@ else {
 						<li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>: <code class="key">'é'</code></li>
 					</ol>
 				</div>
-			</div>
+			</section>
 
-			<h3><a id="keys-Guide" href="#keys-Guide">6.2.6 Guidelines for selecting and defining key values</a></h3>
-			<div>
+			<section id="keys-Guide">
+				<h3>Guidelines for selecting and defining key values</h3>
 
 				<p><strong>This section is normative.</strong></p>
 
@@ -6978,10 +6759,10 @@ else {
 							'Calendar'</code>.</li>
 					</ul>
 				</div>
-			</div>
+			</section>
 
-			<h3><a id="key-values" href="#key-values">6.2.7 Key Values Set</a></h3>
-			<div>
+			<section id="key-values">
+				<h3>Key Values Set</h3>
 
 				<p>This section defines a list of key values which implementations <span class="must">must</span> support, at a minimum, in addition to support for the full range of Unicode [<a href="#references-Unicode">Unicode</a>]
 					codepoints.  Implementations <span class="may">may</span> support additional key values, in a manner conforming to the <a href="#keys-Guide">guidelines for selecting and defining key values</a>.
@@ -7034,8 +6815,8 @@ else {
 					</ul>
 				</div>
 
-				<h4><a id="key-values-list" href="#key-values-list">6.2.7.1 Key Values List</a></h4>
-				<div>
+				<section id="key-values-list">
+					<h4>Key Values List</h4>
 					<p>The following list contains the normative list of case-sensitive key values, their character values (where applicable), an informative description of typical usage,
 						and an informative categorization.  A conforming implementation of the <a href="#events-KeyboardEvent">KeyboardEvent</a> interface <span class="must">must</span> support at least this set
 						of values for use in the <a href="#events-KeyboardEvent-char"><code>KeyboardEvent.char</code></a> and <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>
@@ -8399,15 +8180,14 @@ else {
 							<td class="category">Special</td>
 						</tr>
 					</table>
-				</div>
-			</div>
-		</div>
-	</div>
+				</section>
+			</section>
+		</section>
+	</section>
 
 	<!-- Appendix: Initializing events ========================================================-->
-
-	<h1><a id="new-event-interface-initializers" href="#new-event-interface-initializers">Appendix A: Initializing New Event Interfaces</a></h1>
-	<div>
+	<section id="new-event-interface-initializers" class="appendix">
+		<h1>Initializing New Event Interfaces</h1>
 
 		<p><em>This section is informative</em></p>
 
@@ -8444,8 +8224,8 @@ else {
 		<p class="note"><strong>Note: </strong>Event constructors are a relatively new concept and are subject to change. For the latest syntax, please refer to the DOM4 specification
 			[<a href="#references-DOM4">DOM4</a>].</p>
 
-		<h2 id="event-initializers">A.1 Supplemental Initializer Interfaces</h2>
-		<div>
+		<section id="event-initializers">
+			<h2>Supplemental Initializer Interfaces</h2>
 			<p><em>This section is informative</em></p>
 			<p>
 				This section documents legacy initializer methods <b>and</b> suggested event constructors for the following event interfaces introduced in DOM Level 3 Events:
@@ -8469,7 +8249,7 @@ else {
 			<dl>
 				<dt><strong>WebIDL Definitions</strong></dt>
 				<dd>
-					<pre class="idl" id="idl-interface-Event-initializers"><code>
+					<pre class="xxx-idl" id="idl-interface-Event-initializers"><code>
 <span class="comment">// Event Constructor Syntax:</span>
 [Constructor(DOMString typeArg, optional EventInit eventInitDict)]
 partial interface <a href="#events-Event">Event</a>
@@ -8483,7 +8263,7 @@ dictionary EventInit {
 };</code></pre>
 				</dd>
 				<dd>
-					<pre class="idl" id="idl-interface-CustomEvent-initializers"><code>
+					<pre class="xxx-idl" id="idl-interface-CustomEvent-initializers"><code>
 <span class="comment">// Event Constructor Syntax:</span>
 [Constructor(DOMString typeArg, optional CustomEventInit customEventInitDict)]
 partial interface <a href="#events-CustomEvent">CustomEvent</a>
@@ -8506,7 +8286,7 @@ dictionary CustomEventInit {
 };</code></pre>
 				</dd>
 				<dd>
-					<pre class="idl" id="idl-interface-UIEvent-initializers"><code>
+					<pre class="xxx-idl" id="idl-interface-UIEvent-initializers"><code>
 <span class="comment">// Event Constructor Syntax:</span>
 [Constructor(DOMString typeArg, optional UIEventInit dictUIEventInit)]
 partial interface <a href="#events-UIEvent">UIEvent</a>
@@ -8525,7 +8305,7 @@ dictionary UIEventInit {
 };</code></pre>
 				</dd>
 				<dd>
-					<pre class="idl" id="idl-interface-FocusEvent-initializers"><code>
+					<pre class="xxx-idl" id="idl-interface-FocusEvent-initializers"><code>
 <span class="comment">// Event Constructor Syntax:</span>
 [Constructor(DOMString typeArg, optional FocusEventInit focusEventInitDict)]
 partial interface <a href="#events-FocusEvent">FocusEvent</a>
@@ -8554,7 +8334,7 @@ dictionary FocusEventInit {
 };</code></pre>
 				</dd>
 				<dd>
-					<pre class="idl" id="idl-interface-MouseEvent-initializers"><code>
+					<pre class="xxx-idl" id="idl-interface-MouseEvent-initializers"><code>
 <span class="comment">// Event Constructor Syntax:</span>
 [Constructor(DOMString typeArg, optional MouseEventInit mouseEventInitDict)]
 partial interface <a href="#events-WheelEvent">MouseEvent</a>
@@ -8587,7 +8367,7 @@ dictionary MouseEventInit {
 };</code></pre>
 				</dd>
 				<dd>
-					<pre class="idl" id="idl-interface-WheelEvent-initializers"><code>
+					<pre class="xxx-idl" id="idl-interface-WheelEvent-initializers"><code>
 <span class="comment">// Event Constructor Syntax:</span>
 [Constructor(DOMString typeArg, optional WheelEventInit wheelEventInitDict)]
 partial interface <a href="#events-WheelEvent">WheelEvent</a>
@@ -8643,7 +8423,7 @@ dictionary WheelEventInit {
 };</code></pre>
 				</dd>
 				<dd>
-					<pre class="idl" id="idl-interface-KeyboardEvent-initializers"><code>
+					<pre class="xxx-idl" id="idl-interface-KeyboardEvent-initializers"><code>
 <span class="comment">// Event Constructor Syntax:</span>
 [Constructor(DOMString typeArg, optional KeyboardEventInit keyboardEventInitDict)]
 partial interface <a href="#events-KeyboardEvent">KeyboardEvent</a>
@@ -8689,7 +8469,7 @@ dictionary KeyboardEventInit {
 };</code></pre>
 				</dd>
 				<dd>
-					<pre class="idl" id="idl-interface-CompositionEvent-initializers"><code>
+					<pre class="xxx-idl" id="idl-interface-CompositionEvent-initializers"><code>
 <span class="comment">// Event Constructor Syntax:</span>
 [Constructor(DOMString typeArg, optional CompositionEventInit compositionEventInitDict)]
 partial interface <a href="#events-CompositionEvent">CompositionEvent</a>
@@ -8969,13 +8749,12 @@ dictionary CompositionEventInit {
 					</dl>
 				</dd>
 			</dl>
-		</div>
-	</div>
+		</section>
+	</section>
 
 	<!-- Appendix: Legacy key attributes ========================================================-->
-
-	<h1><a id="legacy-key-attributes" href="#legacy-key-attributes">Appendix B: Legacy key attributes: <code class="attribute-name">keyCode</code>, <code class="attribute-name">charCode</code>, and <code class="attribute-name">which</code></a></h1>
-	<div>
+	<section id="legacy-key-attributes">
+		<h1>Legacy key attributes: <code class="attribute-name">keyCode</code>, <code class="attribute-name">charCode</code>, and <code class="attribute-name">which</code></h1>
 
 		<p><em>This section is informative</em></p>
 
@@ -9002,8 +8781,8 @@ dictionary CompositionEventInit {
 
 		<p>For implementations which do support these attributes, it is suggested to use this partial <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a> interface.</p>
 
-		<h2><a id="KeyboardEvent-supplemental-interface" href="#KeyboardEvent-supplemental-interface">B.1 Legacy KeyboardEvent supplemental interface</a></h2>
-		<div>
+		<section id="KeyboardEvent-supplemental-interface">
+			<h2>Legacy KeyboardEvent supplemental interface</h2>
 			<dl>
 				<dt><strong>Interface <em><a id="events-KeyboardEvent-supplemental">KeyboardEvent (supplemental)</a></em></strong> (introduced
 					in <strong class="since">DOM Level 3</strong>)</dt>
@@ -9018,7 +8797,7 @@ dictionary CompositionEventInit {
 					<dl>
 						<dt><strong>WebIDL Definition</strong></dt>
 						<dd>
-							<pre class="idl"><code>
+							<pre class="xxx-idl"><code>
 <span class="comment">// introduced in DOM Level 3:</span>
 partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
 {
@@ -9063,19 +8842,19 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
 					</dl>
 				</dd>
 			</dl>
-		</div>
+		</section>
 
-		<h2><a id="legacy-key-models" href="#legacy-key-models">B.2 Legacy key models</a></h2>
-		<div>
+		<section id="legacy-key-models">
+			<h2>Legacy key models</h2>
 			<p><em>This section is informative</em></p>
 
 			<p>Implementations differ on which values are exposed on these attributes for different event types.  An implementation <span class="may">may</span> choose to expose both virtual key codes
 				and character codes in the <code class="attribute-name">keyCode</code> property (<em>conflated model</em>), or report separate <code class="attribute-name">keyCode</code>
 				and <code class="attribute-name">charCode</code> properties (<em>split model</em>).</p>
 
-			<h3><a id="determine-keydown-keyup-keyCode" href="#determine-keydown-keyup-keyCode">B.2.1 How to determine <code class="attribute-name">keyCode</code> for <code>keydown</code>
-				and <code>keyup</code> events</a></h3>
-			<div>
+			<section id="determine-keydown-keyup-keyCode">
+				<h3>How to determine <code class="attribute-name">keyCode</code> for <code>keydown</code>
+				and <code>keyup</code> events</h3>
 
 				<p>The <code class="attribute-name">keyCode</code> for <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> or <a class="eventtype" href="#event-type-keyup">
 					<code>keyup</code></a> events is calculated as follows:</p>
@@ -9092,10 +8871,10 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
 					<li>Return the virtual key code from the operating system.</li>
 					<li>If no key code was found, return 0.</li>
 				</ol>
-			</div>
+			</section>
 
-			<h3><a id="determine-keypress-keyCode" href="#determine-keypress-keyCode">B.2.2 How to determine <code class="attribute-name">keyCode</code> for <code>keypress</code>events</a></h3>
-			<div>
+			<section id="determine-keypress-keyCode">
+				<h3>How to determine <code class="attribute-name">keyCode</code> for <code>keypress</code>events</h3>
 
 				<p><em>This section is informative</em></p>
 
@@ -9106,10 +8885,10 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
 					</li>
 					<li>If the implementation supports a <em>split model</em>, set <code class="attribute-name">keyCode</code> to 0.</li>
 				</ol>
-			</div>
+			</section>
 
-			<h3><a id="fixed-virtual-key-codes" href="#fixed-virtual-key-codes">B.2.3 Fixed virtual key codes</a></h3>
-			<div>
+			<section id="fixed-virtual-key-codes">
+				<h3>Fixed virtual key codes</h3>
 				<p><em>This section is informative</em></p>
 
 				<p>The virtual key codes for the following keys do not usually change with keyboard layouts on desktop systems:</p>
@@ -9192,10 +8971,10 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
 						<td>46</td>
 					</tr>
 				</table>
-			</div>
+			</section>
 
-			<h3><a id="optionally-fixed-virtual-key-codes" href="#optionally-fixed-virtual-key-codes">B.2.4 Optionally fixed virtual key codes</a></h3>
-			<div>
+			<section id="optionally-fixed-virtual-key-codes">
+				<h3>Optionally fixed virtual key codes</h3>
 				<p><em>This section is informative</em></p>
 
 				<p>The following punctuation characters <span class="may">may</span> change virtual codes between keyboard layouts, but reporting these values will likely be more compatible with legacy content
@@ -9295,25 +9074,24 @@ partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
 						<td>222</td>
 					</tr>
 				</table>
-			</div>
-		</div>
-	</div>
+			</section>
+		</section>
+	</section>
 
 	<!-- Appendix: Extending events ========================================================-->
-
-	<h1><a id="extending_events" href="#extending_events">Appendix C: Extending Events</a></h1>
-	<div>
+	<section id="extending_events">
+		<h1>Extending Events</h1>
 		<p><em>This section is informative</em></p>
 
-		<h2><a id="extending_events-intro" href="#extending_events-intro">C.1 Introduction</a></h2>
-		<div>
+		<section id="extending_events-intro">
+			<h2>Introduction</h2>
 			<p>This specification defines several interfaces and many events; however, this is not an exhaustive set of events for all purposes.  To allow content
 				authors and implementers to add desired functionality, this specification provides two mechanisms for extend this set of interfaces and events without creating
 				conflicts: <a href="#extending_events-Custom_Events">custom events</a> and <a href="#extending_events-Impl_Extensions">implementation-specific extensions</a>.</p>
-		</div>
+		</section>
 
-		<h2><a id="extending_events-Custom_Events" href="#extending_events-Custom_Events">C.2 Custom Events</a></h2>
-		<div>
+		<section id="extending_events-Custom_Events">
+			<h2>Custom Events</h2>
 			<p>A script author <span class="may">may</span> wish to define an application in terms of functional components, with event types that are meaningful to the application architecture.  The
 				content author can use the <a href="#events-CustomEvent"><code>CustomEvent</code></a> interface to create their own events appropriate to the level of abstraction
 				they are using.</p>
@@ -9331,10 +9109,10 @@ evt.initCustomEvent( "updateChart", true, false, { data: chartData });
 document.documentElement.dispatchEvent(evt);
 </code></pre>
 			</div>
-		</div>
+		</section>
 
-		<h2><a id="extending_events-Impl_Extensions" href="#extending_events-Impl_Extensions">C.3 Implementation-Specific Extensions</a></h2>
-		<div>
+		<section id="extending_events-Impl_Extensions">
+			<h2>Implementation-Specific Extensions</h2>
 			<p>While a new event is being designed and prototyped, or when an event is intended for implementation-specific functionality, it is desirable to distinguish it from
 				standardized events.  Implementors <span class="should">should</span> prefix event types specific to their implementations with a short string to distinguish it from the same event in other
 				implementations and from standardized events.  This is similar to the <a href="http://www.w3.org/TR/CSS21/syndata.html#vendor-keywords" title="CSS 2.1: Syntax and basic data types">
@@ -9358,8 +9136,8 @@ document.documentElement.dispatchEvent(evt);
 					before it is formally standardized) using the same event handler and the more generic registration method <code>someElement.addEventListener( "jump", doJump, false)</code>.</p>
 			</div>
 
-			<h3><a id="extending_events-prefixes" href="#extending_events-prefixes">C.3.1 Known Implementation-Specific Prefixes</a></h3>
-			<div>
+			<section id="extending_events-prefixes">
+				<h3>Known Implementation-Specific Prefixes</h3>
 				<p>At the time of writing, the following event-type name prefixes are known to exist:</p>
 				<table border="1" cellpadding="2" cellspacing="0" summary="Known event-type name prefixes">
 					<thead>
@@ -9387,14 +9165,13 @@ document.documentElement.dispatchEvent(evt);
 						</tr>
 					</tbody>
 				</table>
-			</div>
-		</div>
-	</div>
+			</section>
+		</section>
+	</section>
 
 	<!-- Appendix: Security considerations ========================================================-->
-
-	<h1><a id="security-considerations-Security" href="#security-considerations-Security">Appendix D: Security Considerations</a></h1>
-	<div>
+	<section id="security-considerations-Security">
+		<h1>Security Considerations</h1>
 
 		<p>This appendix discusses security considerations for DOM Level 3 Events implementations. The discussion is limited to security issues that arise directly
 			from implementation of the event model, APIs and events defined in this specification. Implementations typically support other features like scripting languages,
@@ -9417,23 +9194,22 @@ document.documentElement.dispatchEvent(evt);
 			support such attacks apply. For conformance with this specification, DOM implementations <span class="may">may</span> take reasonable steps to ensure that <a class="def" href="#glossary-DOM-application">
 			DOM applications</a> do not get access to confidential or sensitive information, for example, they might choose to dispatch no <a class="eventtype"><code>load</code></a>
 			events to nodes that attempt to embed resources on the local network.</p>
-	</div>
+	</section>
 
 	<!-- Appendix: Changes ========================================================-->
+	<section id="changes-Changes">
+		<h1>Changes</h1>
 
-	<h1><a id="changes-Changes" href="#changes-Changes">Appendix E: Changes</a></h1>
-	<div>
-
-		<h2><a id="changes-DOMEvents2to3Changes" href="#changes-DOMEvents2to3Changes">E.1 Changes between DOM Level 2 Events and DOM Level 3 Events</a></h2>
-		<div>
+		<section id="changes-DOMEvents2to3Changes">
+			<h2>Changes between DOM Level 2 Events and DOM Level 3 Events</h2>
 
 			<p>Numerous clarifications to the interfaces and event types have been made. The <code>HTMLEvents</code> module is no longer defined in this document. The event types
 				<a class="eventtype"><code>focus</code></a> and <a class="eventtype"><code>blur</code></a> have been added to the <a href="#events-UIEvent"><code>UIEvent</code></a>
 				module, the event type <a class="eventtype"><code>dblclick</code></a> has been added to the <a href="#events-MouseEvent"><code>MouseEvent</code></a> module. This new
 				specification provides a better separation between the DOM event flow, the event types, and the DOM interfaces.</p>
 
-			<h3><a id="changes-DOMEvents2to3Changes-flow" href="#changes-DOMEvents2to3Changes-flow">E.1.1 Changes to DOM Level 2 event flow</a></h3>
-			<div>
+			<section id="changes-DOMEvents2to3Changes-flow">
+				<h3>Changes to DOM Level 2 event flow</h3>
 
 				<p>This new specification introduced the following new concepts in the event flow:</p>
 
@@ -9441,10 +9217,10 @@ document.documentElement.dispatchEvent(evt);
 					<li>ordering of event listeners: event listeners are now ordered while ordering was unspecified in DOM Level 2 Events.</li>
 					<li>the event flow now includes the <a class="def" href="#glossary-defaultView">defaultView</a> (or <code>window</code>), to reflect existing implementations.</li>
 				</ul>
-			</div>
+			</section>
 
-			<h3><a id="changes-DOMEvents2to3Changes-event-types" href="#changes-DOMEvents2to3Changes-event-types">E.1.2 Changes to DOM Level 2 event types</a></h3>
-			<div>
+			<section id="changes-DOMEvents2to3Changes-event-types">
+				<h3>Changes to DOM Level 2 event types</h3>
 
 				<p>Many clarifications have been made on the event types. The conformance is now explicitly defined against the event types, and not only in terms of interfaces used
 					by the event types.</p>
@@ -9455,10 +9231,10 @@ document.documentElement.dispatchEvent(evt);
 					<code>DOMNodeRemoved</code></a> event types, this specification no longer requires that the event type be fired for <code>Attr</code> nodes.</p>
 
 				<p>The <a class="eventtype"><code>resize</code></a> event type no longer bubbles, reflecting existing implementations.</p>
-			</div>
+			</section>
 
-			<h3><a id="changes-DOMLevel2to3Changes" href="#changes-DOMLevel2to3Changes">E.1.3 Changes to DOM Level 2 Events interfaces</a></h3>
-			<div>
+			<section id="changes-DOMLevel2to3Changes">
+				<h3>Changes to DOM Level 2 Events interfaces</h3>
 
 				<dl>
 					<dt>Interface <a href="#events-Event"><code>Event</code></a></dt>
@@ -9479,19 +9255,19 @@ document.documentElement.dispatchEvent(evt);
 					<dd>The exception <code>EventException</code> <a href="#note-eventexcpetion-removed">is removed in this specification</a>. The prior <code>DISPATCH_REQUEST_ERR</code>
 						code is re-mapped to a <code>DOMException</code> of type <code>InvalidStateError</code>.</dd>
 				</dl>
-			</div>
+			</section>
 
-			<h3><a id="changes-DOMLevel3Addons" href="#changes-DOMLevel3Addons">E.1.4 New Interfaces</a></h3>
-			<div>
+			<section id="changes-DOMLevel3Addons">
+				<h3>New Interfaces</h3>
 
 				<p>The interfaces <a href="#events-CustomEvent"><code>CustomEvent</code></a>, <a href="#events-FocusEvent"><code>FocusEvent</code></a>, <a href="#events-KeyboardEvent">
 					<code>KeyboardEvent</code></a>, <a href="#events-CompositionEvent"><code>CompositionEvent</code></a>, and <a href="#events-WheelEvent"><code>WheelEvent</code></a>
 					were added to the Events module.</p>
-			</div>
-		</div>
+			</section>
+		</section>
 
-		<h2><a id="changes-drafts" href="#changes-drafts">E.2 Changes between different drafts of DOM Level 3 Events</a></h2>
-		<div>
+		<section id="changes-drafts">
+			<h2>Changes between different drafts of DOM Level 3 Events</h2>
 
 			<p>The DOM Level 3 Events document was previously developed between 2000 and 2003, and and published as a W3C Note, pending further feedback and interest from implementers.
 				In 2006, it was picked up for revision and progress on the Recommendation Track, and is now being revised to reflect the current state of implementation and the
@@ -9511,13 +9287,12 @@ document.documentElement.dispatchEvent(evt);
 				<li>Updated to use <a href="#references-WebIDL">Web IDL</a>.</li>
 				<li>EventException has been removed.</li>
 			</ul>
-		</div>
-	</div>
+		</section>
+	</section>
 
 	<!-- Appendix: Acknowledgements ========================================================-->
-
-	<h1><a id="acknowledgements-contributors" href="#acknowledgements-contributors">Appendix F: Acknowledgements</a></h1>
-	<div>
+	<section id="acknowledgements-contributors">
+		<h1>Acknowledgements</h1>
 
 		<p class="1st">Many people contributed to the DOM specifications (Level 1, 2 or 3), including participants of the DOM Working Group, the DOM Interest Group,the WebAPI
 			Working Group, and the WebApps Working Group. We especially thank the following:</p>
@@ -9553,8 +9328,8 @@ document.documentElement.dispatchEvent(evt);
 			Russell, Jorge Chamorro, Peter-Paul Koch, William Edney, Erik Arvidsson, Cameron McCormack, Kazuyuki Ashimura, Øistein E. Andersen, James Su, Tony Chang, Ojan Vafai,
 			Richard Ishida, Paul Irish, Mike Taylor, Oliver Hunt, Alexey Proskuryakov, Giuseppe Pascale, and Jan Goyvaerts (regular-expressions.info).</p>
 
-		<h2><a id="acknowledgements-Productions" href="#acknowledgements-Productions">F.1 Production Systems</a></h2>
-		<div>
+		<section id="acknowledgements-Productions">
+			<h2>Production Systems</h2>
 
 			<p>The current drafts of this specification are lovingly hand-crafted in HTML and SVG.</p>
 
@@ -9568,19 +9343,18 @@ document.documentElement.dispatchEvent(evt);
 
 			<p>Thanks also to Jan K&#xE4;rrman, author of <a class="normative" href="http://user.it.uu.se/~jan/html2ps.html">html2ps</a>, which we use in creating the PostScript
 				version of the specification.</p>
-		</div>
-	</div>
+		</section>
+	</section>
 
 	<!-- Appendix: References ========================================================-->
-
-	<h1><a id="references-role-references" href="#references-role-references">Appendix G: References</a></h1>
-	<div>
+	<section id="references-role-references">
+		<h1>References</h1>
 
 		<p>For the latest version of any W3C specification please consult the list of <a class="normative" href="http://www.w3.org/TR/">W3C Technical Reports</a>
 			available at http://www.w3.org/TR/. </p>
 
-		<h2><a id="references-References-Normative" href="#references-References-Normative">G.1 Normative References</a></h2>
-		<div>
+		<section id="references-References-Normative">
+			<h2>Normative References</h2>
 
 			<dl>
 				<dt><strong>[<a id="ref-BCP-47">BCP-47</a>]</strong> Best Current Practice 47: Tags for Identifying Languages</dt>
@@ -9640,10 +9414,10 @@ document.documentElement.dispatchEvent(evt);
 					Wide Web Consortium, 16 August 2006. This version of the Namespaces in XML 1.0 Specification is http://www.w3.org/TR/2006/REC-xml-names-20060816. The <a class="normative"
 					href="http://www.w3.org/TR/xml-names/">latest version of Namespaces in XML 1.0</a> is available at http://www.w3.org/TR/xml-names/.</dd>
 			</dl>
-		</div>
+		</section>
 
-		<h2><a id="references-References-Informative" href="#references-References-Informative">G.2 Informative References</a></h2>
-		<div>
+		<section id="references-References-Informative">
+			<h2>Informative References</h2>
 			<dl>
 				<dt><strong>[<a id="ref-ARIA">ARIA</a>]</strong></dt>
 				<dd><cite class="w3cwd"><a href="http://www.w3.org/TR/2009/WD-wai-aria-20091215/">Accessible Rich Internet Applications (WAI-ARIA) Version 1.0</a></cite>, J. Craig, M. Cooper,
@@ -9744,7 +9518,8 @@ document.documentElement.dispatchEvent(evt);
 					and the Internet (Web4CE)</a></cite>. Consumer Electronics Association, January 2011. Available at <a href="http://www.ce.org/Standards/Standard-Listings/R7-Home-Network-Committee/CEA-2014-B-(ANSI).aspx">
 						http://www.ce.org/Standards/Standard-Listings/R7-Home-Network-Committee/CEA-2014-B-(ANSI%29.aspx </a>.</dd>
 			</dl>
-		</div>
-	</div>
+		</section>
+	</section>
+
   </body>
 </html>
