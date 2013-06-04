@@ -10,63 +10,65 @@
 	<link rel="stylesheet" type="text/css" href="http://www.w3.org/StyleSheets/TR/w3c-tr.css" />
 	<link rel="stylesheet" type="text/css" href="http://www.w3.org/StyleSheets/TR/W3C-WD" />
 	<script src='https://www.w3.org/Tools/respec/respec-w3c-common' class='remove' async></script>
+
+	<script type="text/javascript">
+	var respecConfig = {
+		specStatus: "WD",
+		shortName:  "DOM-Level-3-Events",
+		editors: [
+			{
+				name: "Travis Leithead", 
+				company: "Microsoft Corp.",
+				url: "mailto:travis.leithead@microsoft.com?subject=%5Bkey-event%5D%20Spec%20Feedback",
+				companyURL: "http://www.microsoft.com"
+			},
+			{
+				name: "Gary Kacmarcik", 
+				company: "Google, Inc.",
+				url: "mailto:garykac@google.com?subject=%5Bkey-event%5D%20Spec%20Feedback",
+				companyURL: "http://www.google.com"
+			},
+			{
+				name: "Jacob Rossi", 
+				company: "Microsoft Corp.",
+			},
+			{
+				name: "Doug Schepers", 
+				company: "W3C",
+				note: "until May 2011",
+			},
+			{
+				name: "Björn Höhrmann", 
+				company: "Invited Expert",
+				note: "until December 2007",
+			},
+			{
+				name: "Philippe Le Hégaret", 
+				company: "W3C",
+				note: "until November 2003",
+			},
+			{
+				name: "Tom Pixley", 
+				company: "Netscape Communications Corporation",
+				note: "until July 2002",
+			}
+		],
+		publishDate:  "2012-09-06",
+		edDraftURI: "http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html",
+		previousPublishDate: "2012-06-14",
+		previousMaturity: "WD",
+		prevVersion: "http://www.w3.org/TR/2012/WD-DOM-Level-3-Events-20120614",
+		noIDLIn:  true,
+		inlineCSS:  true,
+		//noRecTrack:  true,
+		wg:         ["Web Applications Working Group"],
+		wgURI:    ["http://www.w3.org/2008/webapps/"],
+		wgPublicList: "www-dom",
+		wgPatentURI: ["http://www.w3.org/2004/01/pp-impl/42538/status"],
+		maxTocLevel: 4
+	};
+	</script>
 </head>
-<script type="text/javascript">
-var respecConfig = {
-	specStatus: "WD",
-    shortName:  "DOM-Level-3-Events",
-    editors: [
-	    {
-			name: "Travis Leithead", 
-            company: "Microsoft Corp.",
-            url: "mailto:travis.leithead@microsoft.com?subject=%5Bkey-event%5D%20Spec%20Feedback",
-            companyURL: "http://www.microsoft.com"
-		},
-        {
-            name: "Gary Kacmarcik", 
-            company: "Google, Inc.",
-            url: "mailto:garykac@google.com?subject=%5Bkey-event%5D%20Spec%20Feedback",
-            companyURL: "http://www.google.com"
-        },
-	    {
-			name: "Jacob Rossi", 
-            company: "Microsoft Corp.",
-		},
-	    {
-			name: "Doug Schepers", 
-            company: "W3C",
-            note: "until May 2011",
-		},
-	    {
-			name: "Björn Höhrmann", 
-            company: "Invited Expert",
-            note: "until December 2007",
-		},
-	    {
-			name: "Philippe Le Hégaret", 
-            company: "W3C",
-            note: "until November 2003",
-		},
-	    {
-			name: "Tom Pixley", 
-            company: "Netscape Communications Corporation",
-            note: "until July 2002",
-		}
-	],
-    publishDate:  "2012-09-06",
-	edDraftURI: "http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html",
-	previousPublishDate: null,
-    prevVersion: "http://www.w3.org/TR/2012/WD-DOM-Level-3-Events-20120614",
-    noIDLIn:  true,
-    inlineCSS:  true,
-    //noRecTrack:  true,
-    wg:         ["Web Applications Working Group"],
-    wgURI:    ["http://www.w3.org/2008/webapps/"],
-    wgPublicList: "www-dom",
-    wgPatentURI: ["http://www.w3.org/2004/01/pp-impl/42538/status"],
-    maxTocLevel: 4
-};
-</script>
 <body>
 	<!-- Section: Abstract ========================================================-->
 	<section id="abstract">
@@ -95,15 +97,6 @@ var respecConfig = {
 
 		<p id="latest-editors-draft"><strong>You can find the latest <a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/DOM3-Events.html">Editor's Draft</a> of
 			this document in the <a href="http://dev.w3.org/">W3C's CVS repository</a>, which is updated on a regular basis.</strong></p>
-
-		<p>Publication as a Working Draft does not imply endorsement by the W3C Membership. This is a draft document and <span class="may">may</span> be updated, replaced or
-			obsoleted by other documents at any time. It is inappropriate to cite this document as other than work in progress.</p>
-
-		<p id="this-document-was-produced-by-a-group-op">This document was produced by a group operating under the <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/">
-			5 February 2004 W3C Patent Policy</a>. W3C maintains a <a href="http://www.w3.org/2004/01/pp-impl/42538/status" rel="disclosure">public list of any patent disclosures</a>
-			made in connection with the deliverables of the group; that page also includes instructions for disclosing a patent. An individual who has actual knowledge of a
-			patent which the individual believes contains <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential Claim(s)</a> <span class="must">must</span> disclose
-			the information in accordance with <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section 6 of the W3C Patent Policy</a>.</p>
 
 		<p id="unstable"><strong class="redNote">Implementers <span class="should">should</span> be aware that this document is not stable.</strong> Implementers who are not
 			taking part in the discussions are likely to find the specification changing out from under them in incompatible ways. Vendors interested in implementing this document
@@ -997,7 +990,7 @@ console.log("Exceptions? No problem");</pre>
 						<dt><strong>WebIDL Definition</strong></dt>
 						<dd>
 
-							<pre class="xxx-idl" id="idl-interface-Event"><code>
+							<pre class="d3-idl" id="idl-interface-Event"><code>
 <span class="comment">// Introduced in DOM Level 2:</span>
 interface <a href="#events-Event">Event</a>
 {
@@ -1280,7 +1273,7 @@ interface <a href="#events-Event">Event</a>
 					<dl>
 						<dt><strong>WebIDL Definition</strong></dt>
 						<dd>
-							<pre class="xxx-idl" id="idl-interface-CustomEvent"><code>
+							<pre class="d3-idl" id="idl-interface-CustomEvent"><code>
 <span class="comment">// Introduced in DOM Level 3:</span>
 interface <a href="#events-CustomEvent">CustomEvent</a> : <a href="#events-Event">Event</a>
 {
@@ -1336,7 +1329,7 @@ interface <a href="#events-CustomEvent">CustomEvent</a> : <a href="#events-Event
 						<dt><strong>WebIDL Definition</strong></dt>
 						<dd>
 
-							<pre class="xxx-idl" id="idl-interface-"><code>
+							<pre class="d3-idl" id="idl-interface-"><code>
 <span class="comment">// Introduced in DOM Level 2:</span>
 interface <a href="#events-EventTarget">EventTarget</a>
 {
@@ -1528,7 +1521,7 @@ interface <a href="#events-EventTarget">EventTarget</a>
 					<dl>
 						<dt><strong>WebIDL Definition</strong></dt>
 						<dd>
-							<pre class="xxx-idl" id="idl-interface-EventListener"><code>
+							<pre class="d3-idl" id="idl-interface-EventListener"><code>
 <span class="comment">// Introduced in DOM Level 2:</span>
 callback interface <a href="#events-EventListener">EventListener</a>
 {
@@ -1579,7 +1572,7 @@ callback interface <a href="#events-EventListener">EventListener</a>
 						<dt><strong>WebIDL Definition</strong></dt>
 						<!-- NOTE: This is preserved as a [NoInterfaceObject] definition (rather than a partial interface Document { ..} because SVG also needs to implement this interface on their SVGSVGElement interface -->
 						<dd>
-							<pre class="xxx-idl" id="idl-interface-DocumentEvent"><code>
+							<pre class="d3-idl" id="idl-interface-DocumentEvent"><code>
 <span class="comment">// Introduced in DOM Level 2:</span>
 [NoInterfaceObject]
 interface <a href="#events-DocumentEvent">DocumentEvent</a>
@@ -2116,7 +2109,7 @@ Document implements <a href="#events-DocumentEvent">DocumentEvent</a>;
 						<dl>
 							<dt><strong>WebIDL Definition</strong></dt>
 							<dd>
-								<pre class="xxx-idl" id="idl-interface-UIEvent"><code>
+								<pre class="d3-idl" id="idl-interface-UIEvent"><code>
 <span class="comment">// Introduced in DOM Level 2:</span>
 interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event</a>
 {
@@ -2715,7 +2708,7 @@ interface <a href="#events-UIEvent">UIEvent</a> : <a href="#events-Event">Event<
 						<dl>
 							<dt><strong>WebIDL Definition</strong></dt>
 							<dd>
-								<pre class="xxx-idl" id="idl-interface-FocusEvent"><code>
+								<pre class="d3-idl" id="idl-interface-FocusEvent"><code>
 <span class="comment">// Introduced in DOM Level 3:</span>
 interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent">UIEvent</a>
 {
@@ -3181,7 +3174,7 @@ interface <a href="#events-FocusEvent">FocusEvent</a> : <a href="#events-UIEvent
 						<dl>
 							<dt><strong>WebIDL Definition</strong></dt>
 							<dd>
-								<pre class="xxx-idl" id="idl-interface-MouseEvent"><code>
+								<pre class="d3-idl" id="idl-interface-MouseEvent"><code>
 <span class="comment">// Modified in DOM Level 3:</span>
 interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent">UIEvent</a> {
   readonly attribute long           <a href="#events-MouseEvent-screenX">screenX</a>;
@@ -4372,7 +4365,7 @@ interface <a href="#events-MouseEvent">MouseEvent</a> : <a href="#events-UIEvent
 						<dl>
 							<dt><strong>WebIDL Definition</strong></dt>
 							<dd>
-								<pre class="xxx-idl" id="idl-interface-WheelEvent"><code>
+								<pre class="d3-idl" id="idl-interface-WheelEvent"><code>
 <span class="comment">// Introduced in DOM Level 3:</span>
 interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEvent">MouseEvent</a>
 {
@@ -4580,7 +4573,7 @@ interface <a href="#events-WheelEvent">WheelEvent</a> : <a href="#events-MouseEv
 						<dl>
 							<dt><strong>WebIDL Definition</strong></dt>
 							<dd>
-								<pre class="xxx-idl" id="idl-interface-KeyboardEvent"><code>
+								<pre class="d3-idl" id="idl-interface-KeyboardEvent"><code>
 <span class="comment">// Introduced in DOM Level 3:</span>
 interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-UIEvent">UIEvent</a>
 {
@@ -5159,7 +5152,7 @@ interface <a href="#events-KeyboardEvent">KeyboardEvent</a> : <a href="#events-U
 						<dl>
 							<dt><strong>WebIDL Definition</strong></dt>
 							<dd>
-								<pre class="xxx-idl" id="idl-interface-CompositionEvent"><code>
+								<pre class="d3-idl" id="idl-interface-CompositionEvent"><code>
 <span class="comment">// Introduced in DOM Level 3:</span>
 interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#events-UIEvent">UIEvent</a>
 {
@@ -5454,7 +5447,7 @@ interface <a href="#events-CompositionEvent">CompositionEvent</a> : <a href="#ev
 						<dl>
 							<dt><strong>WebIDL Definition</strong></dt>
 							<dd>
-								<pre class="xxx-idl" id="idl-interface-MutationEvent"><code>
+								<pre class="d3-idl" id="idl-interface-MutationEvent"><code>
 <span class="comment">// Deprecated in DOM Level 3:</span>
 interface <a href="#events-MutationEvent">MutationEvent</a> : <a href="#events-Event">Event</a>
 {
@@ -8249,7 +8242,7 @@ else {
 			<dl>
 				<dt><strong>WebIDL Definitions</strong></dt>
 				<dd>
-					<pre class="xxx-idl" id="idl-interface-Event-initializers"><code>
+					<pre class="d3-idl" id="idl-interface-Event-initializers"><code>
 <span class="comment">// Event Constructor Syntax:</span>
 [Constructor(DOMString typeArg, optional EventInit eventInitDict)]
 partial interface <a href="#events-Event">Event</a>
@@ -8263,7 +8256,7 @@ dictionary EventInit {
 };</code></pre>
 				</dd>
 				<dd>
-					<pre class="xxx-idl" id="idl-interface-CustomEvent-initializers"><code>
+					<pre class="d3-idl" id="idl-interface-CustomEvent-initializers"><code>
 <span class="comment">// Event Constructor Syntax:</span>
 [Constructor(DOMString typeArg, optional CustomEventInit customEventInitDict)]
 partial interface <a href="#events-CustomEvent">CustomEvent</a>
@@ -8286,7 +8279,7 @@ dictionary CustomEventInit {
 };</code></pre>
 				</dd>
 				<dd>
-					<pre class="xxx-idl" id="idl-interface-UIEvent-initializers"><code>
+					<pre class="d3-idl" id="idl-interface-UIEvent-initializers"><code>
 <span class="comment">// Event Constructor Syntax:</span>
 [Constructor(DOMString typeArg, optional UIEventInit dictUIEventInit)]
 partial interface <a href="#events-UIEvent">UIEvent</a>
@@ -8305,7 +8298,7 @@ dictionary UIEventInit {
 };</code></pre>
 				</dd>
 				<dd>
-					<pre class="xxx-idl" id="idl-interface-FocusEvent-initializers"><code>
+					<pre class="d3-idl" id="idl-interface-FocusEvent-initializers"><code>
 <span class="comment">// Event Constructor Syntax:</span>
 [Constructor(DOMString typeArg, optional FocusEventInit focusEventInitDict)]
 partial interface <a href="#events-FocusEvent">FocusEvent</a>
@@ -8334,7 +8327,7 @@ dictionary FocusEventInit {
 };</code></pre>
 				</dd>
 				<dd>
-					<pre class="xxx-idl" id="idl-interface-MouseEvent-initializers"><code>
+					<pre class="d3-idl" id="idl-interface-MouseEvent-initializers"><code>
 <span class="comment">// Event Constructor Syntax:</span>
 [Constructor(DOMString typeArg, optional MouseEventInit mouseEventInitDict)]
 partial interface <a href="#events-WheelEvent">MouseEvent</a>
@@ -8367,7 +8360,7 @@ dictionary MouseEventInit {
 };</code></pre>
 				</dd>
 				<dd>
-					<pre class="xxx-idl" id="idl-interface-WheelEvent-initializers"><code>
+					<pre class="d3-idl" id="idl-interface-WheelEvent-initializers"><code>
 <span class="comment">// Event Constructor Syntax:</span>
 [Constructor(DOMString typeArg, optional WheelEventInit wheelEventInitDict)]
 partial interface <a href="#events-WheelEvent">WheelEvent</a>
@@ -8423,7 +8416,7 @@ dictionary WheelEventInit {
 };</code></pre>
 				</dd>
 				<dd>
-					<pre class="xxx-idl" id="idl-interface-KeyboardEvent-initializers"><code>
+					<pre class="d3-idl" id="idl-interface-KeyboardEvent-initializers"><code>
 <span class="comment">// Event Constructor Syntax:</span>
 [Constructor(DOMString typeArg, optional KeyboardEventInit keyboardEventInitDict)]
 partial interface <a href="#events-KeyboardEvent">KeyboardEvent</a>
@@ -8469,7 +8462,7 @@ dictionary KeyboardEventInit {
 };</code></pre>
 				</dd>
 				<dd>
-					<pre class="xxx-idl" id="idl-interface-CompositionEvent-initializers"><code>
+					<pre class="d3-idl" id="idl-interface-CompositionEvent-initializers"><code>
 <span class="comment">// Event Constructor Syntax:</span>
 [Constructor(DOMString typeArg, optional CompositionEventInit compositionEventInitDict)]
 partial interface <a href="#events-CompositionEvent">CompositionEvent</a>
@@ -8797,7 +8790,7 @@ dictionary CompositionEventInit {
 					<dl>
 						<dt><strong>WebIDL Definition</strong></dt>
 						<dd>
-							<pre class="xxx-idl"><code>
+							<pre class="d3-idl"><code>
 <span class="comment">// introduced in DOM Level 3:</span>
 partial interface <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a>
 {
