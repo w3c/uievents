@@ -21,6 +21,7 @@ function create_key_tables() {
 function create_key_table(tablediv) {
 	var table = document.createElement('table');
 	table.setAttribute('class', 'data-table');
+	table.setAttribute('width', '100%');
 
 	var row = table.insertRow(-1);
 	var cell;
