@@ -1,11 +1,24 @@
 /* Convert <key> tags into a proper <table> of key info.
+ * The document must be structured as follows:
+ *   <div class="key-table">
+ *     <key name="name" cat="cat" char="0000">Key description.</key>
+ *     ...
+ *   </div>
+ * where:
+ *   name: The name of the 'key' attribute.
+ *   cat: The category (e.g.: 'General' or 'Math') of the key.
+ *   char: (optional) The 4-digit hexadecimal Unicode value.
+ *
+ * Multiple key-tables can be present in a single document.
  */
-function create_key_table() {
-	var tablediv = document.getElementById('keytable');
-	if (!tablediv) {
-		return;
+function create_key_tables() {
+	keytables = document.getElementsByClassName("key-table");
+	for (var i = 0; i < keytables.length; i++) {
+		create_key_table(keytables[i]);
 	}
+}
 
+function create_key_table(tablediv) {
 	var table = document.createElement('table');
 	table.setAttribute('class', 'data-table');
 
@@ -25,10 +38,13 @@ function create_key_table() {
 	cell = document.createElement('th');
 	cell.appendChild(document.createTextNode('Category (Informative)'));
 	row.appendChild(cell);
-		
-	var keys = document.getElementsByTagName('key');
-	for (var i = 0; i < keys.length; i++) {
-		var key = keys[i];
+
+	while (tablediv.hasChildNodes()) {
+		var key = tablediv.removeChild(tablediv.firstChild);
+		if (key.nodeType != 1) {
+			continue;
+		}
+		console.log(key);
 		var keyname = key.getAttribute('name');
 		var keychar = key.getAttribute('char') || '';
 		var keycat = key.getAttribute('cat');
@@ -64,14 +80,9 @@ function create_key_table() {
 		cell.appendChild(document.createTextNode(keycat));
 	}
 
-	// Remove all <key> tags from the 'keytable'.
-	while (tablediv.hasChildNodes()) {
-		tablediv.removeChild(tablediv.lastChild);
-	}
-	
 	tablediv.appendChild(table);
 }
 
 if (window.addEventListener) {
-	window.addEventListener('load', create_key_table, false);
+	window.addEventListener('load', create_key_tables, false);
 }
