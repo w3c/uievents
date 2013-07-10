@@ -31,10 +31,8 @@ function create_key_table(tablediv) {
 	cell.appendChild(document.createTextNode('Key'));
 	row.appendChild(cell);
 	cell = document.createElement('th');
+	cell.setAttribute('width', '80%');
 	cell.appendChild(document.createTextNode('Typical Usage (Informative)'));
-	row.appendChild(cell);
-	cell = document.createElement('th');
-	cell.appendChild(document.createTextNode('Category (Informative)'));
 	row.appendChild(cell);
 
 	while (tablediv.hasChildNodes()) {
@@ -42,15 +40,13 @@ function create_key_table(tablediv) {
 		if (key.nodeType != 1) {
 			continue;
 		}
-		console.log(key);
 		var keyname = key.getAttribute('name');
-		var keychar = key.getAttribute('char') || '';
-		var keycat = key.getAttribute('cat');
 		
 		row = table.insertRow(-1);
 		var code;
 		
 		cell = row.insertCell(-1);
+		cell.setAttribute('class', 'key-table-key');
 		code = document.createElement('code');
 		code.id = 'key-' + keyname;
 		code.setAttribute('class', 'key');
@@ -62,10 +58,6 @@ function create_key_table(tablediv) {
 			var child = key.removeChild(key.firstChild);
 			cell.appendChild(child);
 		}
-
-		cell = row.insertCell(-1);
-		cell.setAttribute('class', 'category');
-		cell.appendChild(document.createTextNode(keycat));
 	}
 
 	tablediv.appendChild(table);
