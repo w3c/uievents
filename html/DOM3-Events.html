@@ -411,7 +411,7 @@
 				event from the mouse would not result in a <a class="eventtype" href="#event-type-click"><code>click</code></a> event.
 
 				<p class="note"><strong>Note:</strong> There can be interactions between different event orders; for example, a <a class="eventtype" href="#event-type-click"><code>click</code></a> event might
-				be modified by a concurrent <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event (<code class="key">'Shift'</code><code>+click</code>); however, the event orders
+				be modified by a concurrent <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event (<code class="key">'Shift'</code><code>+click</code>); however, the event orders
 				of these different event sources would be distinct.</p>
 
 				The event order of some interfaces are device-independent; for example, a user might change focus using the <a href="#key-Tab"><code class="key">'Tab'</code></a>
@@ -1643,20 +1643,13 @@ console.log("Exceptions? No problem");</pre>
 						<td><code>Document</code>, <code>Element</code></td>
 						<td><a href="#events-KeyboardEvent"><code>KeyboardEvent</code></a></td>
 						<td>Yes</td>
-						<td>Varies: <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event; launch <a class="def" href="#glossary-text-composition-system">text composition
-							system</a>; <a class="eventtype" href="#event-type-blur"><code>blur</code></a> and <a class="eventtype" href="#event-type-focus"><code>focus</code></a> events;
-							<a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event; other event</td>
-					</tr>
-					<tr>
-						<td><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a></td>
-						<td>Sync</td>
-						<td>Yes</td>
-						<td><code>Document</code>, <code>Element</code></td>
-						<td><a href="#events-KeyboardEvent"><code>KeyboardEvent</code></a></td>
-						<td>Yes</td>
-						<td>Varies: launch <a class="def" href="#glossary-text-composition-system">text composition system</a>; <a class="eventtype" href="#event-type-blur"><code>blur</code></a>
-							and <a class="eventtype" href="#event-type-focus"><code>focus</code></a> events; <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a>
-							event; other event</td>
+						<td>Varies:
+							<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a> and <a class="eventtype" href="#event-type-input"><code>input</code></a> events;
+							launch <a class="def" href="#glossary-text-composition-system">text composition system</a>;
+							<a class="eventtype" href="#event-type-blur"><code>blur</code></a> and <a class="eventtype" href="#event-type-focus"><code>focus</code></a> events;
+							<a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event;
+							<a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event;
+							other event</td>
 					</tr>
 					<tr>
 						<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
@@ -1893,6 +1886,19 @@ console.log("Exceptions? No problem");</pre>
 						<td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
+					</tr>
+					<tr>
+						<td><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a></td>
+						<td>Sync</td>
+						<td>Yes</td>
+						<td><code>Document</code>, <code>Element</code></td>
+						<td><a href="#events-KeyboardEvent"><code>KeyboardEvent</code></a></td>
+						<td>Yes</td>
+						<td>Varies:
+							launch <a class="def" href="#glossary-text-composition-system">text composition system</a>;
+							<a class="eventtype" href="#event-type-blur"><code>blur</code></a> and <a class="eventtype" href="#event-type-focus"><code>focus</code></a> events;
+							<a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event;
+							other event</td>
 					</tr>
 				</table>
 
@@ -4394,8 +4400,10 @@ console.log("Exceptions? No problem");</pre>
 						<dt>readonly attribute boolean repeat</dt>
 						<dd>
 							<p><code>true</code> if the key has been pressed in a sustained manner.  Holding down a key MUST result in the repeating the events
-								<a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>, <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>
-								(when supported by the user agent) in this order, at a rate determined by the system configuration. For mobile devices which have <em>long-key-press</em>
+								<a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>,
+								<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a>,
+								<a class="eventtype" href="#event-type-input"><code>input</code></a>
+								in this order, at a rate determined by the system configuration. For mobile devices which have <em>long-key-press</em>
 								behavior, the first key event with a <a href="#events-KeyboardEvent-repeat">repeat</a> attribute value of <code>'true'</code> MUST serve as an
 								indication of a <em>long-key-press</em>. The length of time that the key MUST be pressed in order to begin repeating is configuration-dependent.</p>
 
@@ -4468,25 +4476,62 @@ console.log("Exceptions? No problem");</pre>
 					<h4>Keyboard Event Order</h4>
 					<p>The keyboard events defined in this specification occur in a set order relative to one another, for any given key:</p>
 
-					<ol>
-						<li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></li>
-
-						<li><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> (only for keys which produce a <a class="def" href="#glossary-character-value">character
-							value</a>)</li>
-
-						<li>If the key is depressed for a sustained period, the following events MAY repeat at an environment-dependent rate: <!-- and the key should seek counseling -->
-							<ul>
-								<li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> (with <a href="#events-KeyboardEvent-repeat">repeat</a> attribute set to <code>
-									true</code>)</li>
-
-								<li><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> (with <a href="#events-KeyboardEvent-repeat">repeat</a> attribute set to <code>
-									true</code>; only for keys which produce a <a class="def" href="#glossary-character-value">character value</a>)</li>
-							</ul>
-						</li>
-						<li><em>Any <a class="def" href="#glossary-default-action">default actions</a> related to this key</em></li>
-
-						<li><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></li>
-					</ol>
+					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-right">1.</td>
+							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-right">2.</td>
+							<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
+							<td><em>(only for keys which produce a <a class="def" href="#glossary-character-value">character value</a>)</em></td>
+						</tr>
+						<tr>
+							<td class="cell-right"></td>
+							<td colspan="2"><em>Any <a class="def" href="#glossary-default-action">default actions</a> related to this key, such as inserting a
+								character in to the DOM.</em></td>
+						</tr>
+						<tr>
+							<td class="cell-right">3.</td>
+							<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
+							<td><em>(only for keys which have updated the DOM)</em></td>
+						</tr>
+						<tr>
+							<td class="cell-right"></td>
+							<td colspan="2"><em>Any events as a result of the key being held for a sustained period (see below).</em></td>
+						</tr>
+						<tr>
+							<td class="cell-right">4.</td>
+							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
+							<td></td>
+						</tr>
+					</table>
+					
+					<p>If the key is depressed for a sustained period, the following events MAY repeat at an environment-dependent rate: <!-- and the key should seek counseling -->
+						<table class="event-sequence-table">
+							<tr>
+								<td class="cell-right">1.</td>
+								<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
+								<td><em>(with <a href="#events-KeyboardEvent-repeat">repeat</a> attribute set to <code> true</code>)</em></td>
+							</tr>
+							<tr>
+								<td class="cell-right">2.</td>
+								<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
+								<td><em>(only for keys which produce a <a class="def" href="#glossary-character-value">character value</a>)</em></td>
+							</tr>
+							<tr>
+								<td class="cell-right"></td>
+								<td colspan="2"><em>Any <a class="def" href="#glossary-default-action">default actions</a> related to this key, such as inserting a
+									character in to the DOM.</em></td>
+							</tr>
+							<tr>
+								<td class="cell-right">3.</td>
+								<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
+								<td><em>(only for keys which have updated the DOM)</em></td>
+							</tr>
+						</table>
+					</p>
 
 					<p class="note"><strong>Note:</strong> Typically, any <a class="def" href="#glossary-default-action">default actions</a> associated with any particular
 						key are completed before the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event is dispatched. This might delay the <a class="eventtype"
@@ -4537,9 +4582,13 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Default action</th>
-									<td>Varies: <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event; launch <a class="def" href="#glossary-text-composition-system">text composition
-										system</a>; <a class="eventtype" href="#event-type-blur"><code>blur</code></a> and <a class="eventtype" href="#event-type-focus"><code>focus</code></a> events;
-										<a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event; other event</td>
+									<td>Varies:
+										<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a> and <a class="eventtype" href="#event-type-input"><code>input</code></a> events;
+										launch <a class="def" href="#glossary-text-composition-system">text composition system</a>;
+										<a class="eventtype" href="#event-type-blur"><code>blur</code></a> and <a class="eventtype" href="#event-type-focus"><code>focus</code></a> events;
+										<a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event;
+										<a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event;
+										other event</td>
 								</tr>
 								<tr>
 									<th>Context info</th>
@@ -4570,16 +4619,25 @@ console.log("Exceptions? No problem");</pre>
 
 							<p>A <a class="def" href="#glossary-user-agent">user agent</a> MUST dispatch this event when a key is pressed down. The <a class="eventtype" href="#event-type-keydown">
 								<code>keydown</code></a> event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This
-								event type MUST be generated after the <a class="def" href="#glossary-key-mapping">key mapping</a>. This event type MUST be dispatched before the <a class="eventtype"
-								href="#event-type-keypress"><code>keypress</code></a> and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events event associated with the
-								same key.</p>
+								event type MUST be generated after the <a class="def" href="#glossary-key-mapping">key mapping</a>.
+								This event type MUST be dispatched before the
+									<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a>,
+									<a class="eventtype" href="#event-type-input"><code>input</code></a>,
+									and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>
+								events associated with the same key.</p>
 
 							<p>The default action of the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event depends upon the key:</p>
 
 							<ul>
-								<li>If the key is associated with a character, the default action MUST be to dispatch a <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>
-									event; in the case where the key which is associated with multiple characters (such as with a macro or certain sequences of dead keys), the default action MUST
-									be to dispatch one <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event for each character</li>
+								<li>If the key is associated with a character, the default action MUST be to dispatch
+										a <a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a> event
+										followed by an <a class="eventtype" href="#event-type-input"><code>input</code></a>
+									event.
+									In the case where the key which is associated with multiple characters (such as with a macro or certain sequences of dead keys), the default action MUST
+									be to dispatch one set of
+										<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a> /
+										<a class="eventtype" href="#event-type-input"><code>input</code></a>
+									events for each character</li>
 
 								<li>If the key is associated with a <a class="def" href="#glossary-text-composition-system">text composition system</a>, the default action MUST be to launch that
 									system</li>
@@ -4662,11 +4720,15 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 							</table>
 
-							<p>A <a class="def" href="#glossary-user-agent">user agent</a> MUST dispatch this event when a key is released.  The <a class="eventtype" href="#event-type-keyup">
-								<code>keyup</code></a> event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system.  This
-								event type MUST be generated after the <a class="def" href="#glossary-key-mapping">key mapping</a>. This event type MUST be dispatched after the <a class="eventtype"
-								href="#event-type-keydown"><code>keydown</code></a> and <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> events event associated with
-								the same key.</p>
+							<p>A <a class="def" href="#glossary-user-agent">user agent</a> MUST dispatch this event when a key is released.
+								The <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event type is device dependent and relies on the
+								capabilities of the input devices and how they are mapped in the operating system.
+								This event type MUST be generated after the <a class="def" href="#glossary-key-mapping">key mapping</a>.
+								This event type MUST be dispatched after the
+									<a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>,
+									<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a>,
+									and <a class="eventtype" href="#event-type-input"><code>input</code></a>
+								events associated with the same key.</p>
 
 							<p class="note"><strong>Note:</strong> the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> and <a class="eventtype" href="#event-type-keyup">
 								<code>keyup</code></a> events are traditionally associated with detecting any key, not just those which produce a <a class="def" href="#glossary-character-value">character
@@ -6473,7 +6535,6 @@ else {
 					MUST NOT affect its respective <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event, but it MUST prevent the respective
 					<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a> and
 					<a class="eventtype" href="#event-type-input"><code>input</code></a> events
-					(and <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>, if supported)
 					from being generated. The following example describes a possible sequence of keys
 					to generate the Unicode character Q (Latin Capital Letter Q) on a PC/AT US keyboard using a US mapping:</p>
 
@@ -7490,7 +7551,11 @@ else {
 			though they MAY be present in <a class="def" href="#glossary-user-agent">user agents</a> for compatibility with legacy content.
 			Authors SHOULD use the <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attribute instead of the <code class="attribute-name">charCode</code>
 			and <code class="attribute-name">keyCode</code> attributes.
-			Authors SHOULD also make use of the <code>beforeinput</code> event instead of the <code>keypress</code> event.</p>
+			Authors SHOULD also make use of the
+				<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a>
+			event instead of the
+				<a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>
+			event.</p>
 
 		<p>However, for the purpose of documenting the current state of these features and their relation to normative events and attributes, this section provides an
 			informative description.
@@ -7555,14 +7620,16 @@ else {
 		</section>
 
 		<section id="legacy-keypress-event">
-			<h2>Legacy <code>keypress</code> event</h2>
+			<h2>Legacy <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event</h2>
 			<p><em>This section is informative</em></p>
 
 			<p>The <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event is the traditional method for capturing key events and
-				processing them before the DOM is updated with the effects of the key press. Code that makes use of the keypress event typically relies on the legacy
-				<a href="#events-KeyboardEvent-supplemental-charCode">charCode</a>,
-				<a href="#events-KeyboardEvent-supplemental-keyCode">keyCode</a>,
-				and <a href="#events-KeyboardEvent-supplemental-which">which</a>
+				processing them before the DOM is updated with the effects of the key press. Code that makes use of the
+					<a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>
+				event typically relies on the legacy
+					<a href="#events-KeyboardEvent-supplemental-charCode">charCode</a>,
+					<a href="#events-KeyboardEvent-supplemental-keyCode">keyCode</a>,
+					and <a href="#events-KeyboardEvent-supplemental-which">which</a>
 				attributes.</p>
 
 			<p>Note that the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event is specific to key events, and has been replaced
@@ -7640,7 +7707,11 @@ else {
 						<p>If supported by a <a class="def" href="#glossary-user-agent">user agent</a>, this event MUST be dispatched when a key is pressed down, if and only if that key normally produces a <a
 							class="def" href="#glossary-character-value">character value</a>. The <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event type is device
 							dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This event type MUST be generated after the <a class="def"
-							href="#glossary-key-mapping">key mapping</a>. It MUST NOT be fired when using an <a class="def" href="#glossary-ime">input method editor</a>.</p>
+							href="#glossary-key-mapping">key mapping</a>. It MUST NOT be fired when using an <a class="def" href="#glossary-ime">input method editor</a>.
+							If this event is canceled, it should prevent the
+								<a class="eventtype" href="#event-type-input"><code>input</code></a>
+							event from firing, in addition to canceling the
+							<a class="def" href="#glossary-default-action">default action</a>.</p>
 
 						<p class="note"><strong>Note:</strong> The <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event is traditionally associated with detecting a
 							<a class="def" href="#glossary-character-value">character value</a> rather than a physical key, and might not be available on all keys in some configurations.</p>
@@ -7654,7 +7725,7 @@ else {
 			</div>
 
 			<section id="keypress-event-order">
-				<h2><code>keypress</code> event order</h2>
+				<h2><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event order</h2>
 
 				<p>The <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event type MUST be dispatched after the
 					<a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event and before the
@@ -7693,6 +7764,11 @@ else {
 							<td><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a></td>
 							<td class="cell-center"><code class="key">'a'</code></td>
 							<td class="cell-center"></td>
+						</tr>
+						<tr>
+							<td class="cell-right"></td>
+							<td colapsan="3"><em>Any <a class="def" href="#glossary-default-action">default actions</a> related to this key, such as inserting a
+								character in to the DOM.</em></td>
 						</tr>
 						<tr>
 							<td class="cell-right">4.</td>
@@ -7742,7 +7818,7 @@ else {
 			</section>
 
 			<section id="determine-keypress-keyCode">
-				<h3>How to determine <code class="attribute-name">keyCode</code> for <code>keypress</code>events</h3>
+				<h3>How to determine <code class="attribute-name">keyCode</code> for <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> events</h3>
 
 				<p>The <code class="attribute-name">keyCode</code> for <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> events is calculated as follows:</p>
 
@@ -8152,8 +8228,9 @@ document.documentElement.dispatchEvent(evt);
 					and <code>location</code> attributes. These attributes were not widely implemented.</li>
 				<li>The <code>change</code>, <code>submit</code>, and <code>reset</code> events were removed, since they were specific to HTML forms, and are specified in [<cite><a
 					class="informative" href="#references-HTML5">HTML5</a></cite>].</li>
-				<li>The <code>textInput</code> event, originally proposed as a replacement for <code>keypress</code>, was removed in favor of the current <code>beforeinput</code>
-					and <code>input</code> events.</li>
+				<li>The <code>textInput</code> event, originally proposed as a replacement for <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>, was
+					removed in favor of the current <a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a>
+					and <a class="eventtype" href="#event-type-input"><code>input</code></a> events.</li>
 				<li>Namespaced events have been removed.</li>
 				<li>Updated to use <a href="#references-WebIDL">Web IDL</a>.</li>
 				<li>EventException has been removed.</li>
