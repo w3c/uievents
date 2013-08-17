@@ -4457,7 +4457,7 @@ console.log("Exceptions? No problem");</pre>
 					and even the same implementation on different operating systems or using different localizations.  DOM Level 3 Events  does not define values for either
 					<code>keyCode</code> or <code>charCode</code>, or behavior for <code>charCode</code>; content authors can use <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>
 					instead, in conforming DOM Level 3 Events implementations. <em>For more information, see
-					the informative appendix on <a href="#legacy-key-attributes">Legacy key attributes: keyCode, charCode, and which</a>.</em></p>
+					the informative appendix on <a href="#legacy-key-attributes-events">Legacy key attributes and events</a>.</em></p>
 
 				<p class="note"><strong>Note:</strong> For compatibility with existing content, virtual keyboards, such as software keyboards on screen-based
 					input devices, are expected to produce the normal range of keyboard events, even though they do not possess physical keys.</p>
@@ -7555,36 +7555,39 @@ else {
 	</section>
 
 	<!-- Appendix B: Legacy key attributes ========================================================-->
-	<section id="legacy-key-attributes">
-		<h1>Legacy key attributes: <code class="attribute-name">keyCode</code>, <code class="attribute-name">charCode</code>, and <code class="attribute-name">which</code></h1>
-
+	<section id="legacy-key-attributes-events">
+		<h1>Legacy key attributes and events</h1>
 		<p><em>This section is informative</em></p>
 
-		<p>Browser support for keyboards has traditionally relied on three ad-hoc attributes, <code class="attribute-name">keyCode</code>, <code class="attribute-name">charCode</code>,
-			and <code class="attribute-name">which</code>.</p>
+		<p>This section provides a non-normative description of the attributes and events that are currently employed for handling keyboard events.</p>
 
-		<p>All three of these attributes return a numerical code that represents some aspect of the key pressed: <code class="attribute-name">keyCode</code> is an index of
-			the key itself; <code class="attribute-name">charCode</code> is the ASCII value of the character keys; <code class="attribute-name">which</code> is the character
-			value where available and otherwise the key index.  The values for these attributes, and the availability of the attribute, is inconsistent across platforms, keyboard
-			languages and layouts, <a class="def" href="#glossary-user-agent">user agents</a>, versions, and even event types.  A significant amount of legacy content, including
-			script libraries, relies upon detecting the <a class="def" href="#glossary-user-agent">user agent</a> and acting accordingly, and any changes to <code class="attribute-name">
-			keyCode</code>, <code class="attribute-name">charCode</code>, or <code class="attribute-name">which</code> risk breaking as much content as they fix or enable.
-			Additionally, these attributes are not suitable for international usage, or accessibility concerns.</p>
+		<p>These features were never formally specified and the current browser implementations vary in significant ways.
+			The large amount of legacy content, including script libraries, that relies upon detecting the <a class="def" href="#glossary-user-agent">user agent</a>
+			and acting accordingly means that any attempt to formalize these legacy attributes and events would risk breaking as much content as it would fix or enable.
+			Additionally, these attributes are not suitable for international usage, nor do they address accessibility concerns.</p>
 
-		<p>Therefore, this specification does not normatively define the <code class="attribute-name">charCode</code>, <code class="attribute-name">keyCode</code>, or <code
-			class="attribute-name">which</code> attributes on the <a href="#events-KeyboardEvent">KeyboardEvent</a> interface, though they MAY be present in <a class="def" href="#glossary-user-agent">
-			user agents</a> for compatibility with legacy content.  Authors SHOULD use the <a href="#events-KeyboardEvent-key">
-			<code>KeyboardEvent.key</code></a> attribute instead of the <code class="attribute-name">charCode</code> and <code class="attribute-name">keyCode</code>
-			attributes, respectively.</p>
+		<p>Therefore, this specification does not normatively define the events and attributes commonly employed for handling keyboard input,
+			though they MAY be present in <a class="def" href="#glossary-user-agent">user agents</a> for compatibility with legacy content.
+			Authors SHOULD use the <a href="#events-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attribute instead of the <code class="attribute-name">charCode</code>
+			and <code class="attribute-name">keyCode</code> attributes.
+			Authors SHOULD also make use of the <code>beforeinput</code> event instead of the <code>keypress</code> event.</p>
 
-		<p>However, for the purpose of documenting the current state of these attributes and their relation to equivalent key values, this section describes an informative
-			Web IDL partial interface for <a href="#events-KeyboardEvent">KeyboardEvent</a> containing these attributes, and informative definitions for determining their attribute
-			values.</p>
-
-		<p>For implementations which do support these attributes, it is suggested to use this partial <a href="#events-KeyboardEvent-supplemental">KeyboardEvent</a> interface.</p>
+		<p>However, for the purpose of documenting the current state of these features and their relation to normative events and attributes, this section provides an
+			informative description.
+			For implementations which do support these attributes and events, it is suggested that the definitions provided in this section be used.</p>
 
 		<section id="KeyboardEvent-supplemental-interface">
 			<h2>Legacy KeyboardEvent supplemental interface</h2>
+			<p><em>This section is informative</em></p>
+			
+			<p>Browser support for keyboards has traditionally relied on three ad-hoc attributes, <code class="attribute-name">keyCode</code>, <code class="attribute-name">charCode</code>,
+				and <code class="attribute-name">which</code>.</p>
+
+			<p>All three of these attributes return a numerical code that represents some aspect of the key pressed: <code class="attribute-name">keyCode</code> is an index of
+				the key itself; <code class="attribute-name">charCode</code> is the ASCII value of the character keys; <code class="attribute-name">which</code> is the character
+				value where available and otherwise the key index.  The values for these attributes, and the availability of the attribute, is inconsistent across platforms, keyboard
+				languages and layouts, <a class="def" href="#glossary-user-agent">user agents</a>, versions, and even event types.</p>
+
 			<dl>
 				<dt><strong>Interface <em><a id="events-KeyboardEvent-supplemental">KeyboardEvent (supplemental)</a></em></strong></dt>
 				<dd>
@@ -7631,6 +7634,61 @@ else {
 			</dl>
 		</section>
 
+		<section id="legacy-keypress-event">
+			<h2>Legacy <code>keypress</code> event</h2>
+			<p><em>This section is informative</em></p>
+
+			<div class="event-definition">
+				<dl>
+					<dt id="event-type-keypress"><dfn><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a></dfn></dt>
+					<dd>
+						<table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
+							<tr>
+								<th>Type</th>
+								<td><strong><code>keypress</code></strong></td>
+							</tr>
+							<tr>
+								<th>Interface</th>
+								<td><a href="#events-KeyboardEvent"><code>KeyboardEvent</code></a></td>
+							</tr>
+							<tr>
+								<th>Sync / Async</th>
+								<td>Sync</td>
+							</tr>
+							<tr>
+								<th>Bubbles</th>
+								<td>Yes</td>
+							</tr>
+							<tr>
+								<th>Target</th>
+								<td><code>Element</code></td>
+							</tr>
+							<tr>
+								<th>Cancelable</th>
+								<td>Yes</td>
+							</tr>
+							<tr>
+								<th>Default action</th>
+								<td>Insert the character into current editable field.</td>
+							</tr>
+							<tr>
+								<th>Context info</th>
+								<td>
+									<ul>
+										<li><a href="#events-KeyboardEvent-charCode"><code class="attribute-name">KeyboardEvent.charCode</code></a>: character value for this event</li>
+										<li><a href="#events-KeyboardEvent-keyCode"><code class="attribute-name">KeyboardEvent.keyCode</code></a>: numerical code for this key</li>
+										<li><a href="#events-KeyboardEvent-which"><code class="attribute-name">KeyboardEvent.which</code></a>: numerical code for this key</li>
+									</ul>
+								</td>
+							</tr>
+						</table>
+
+						<p>Implementations that support this event MUST dispatch it after the <code>beforeinput</code> event, but before the <code>input</code> event.</p>
+					</dd>
+				</dl>
+			</div>
+		</section>
+
 		<section id="legacy-key-models">
 			<h2>Legacy key models</h2>
 			<p><em>This section is informative</em></p>
@@ -7663,8 +7721,6 @@ else {
 			<section id="determine-keypress-keyCode">
 				<h3>How to determine <code class="attribute-name">keyCode</code> for <code>keypress</code>events</h3>
 
-				<p><em>This section is informative</em></p>
-
 				<p>The <code class="attribute-name">keyCode</code> for <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> events is calculated as follows:</p>
 
 				<ol>
@@ -7676,7 +7732,6 @@ else {
 
 			<section id="fixed-virtual-key-codes">
 				<h3>Fixed virtual key codes</h3>
-				<p><em>This section is informative</em></p>
 
 				<p>The virtual key codes for the following keys do not usually change with keyboard layouts on desktop systems:</p>
 
@@ -7762,7 +7817,6 @@ else {
 
 			<section id="optionally-fixed-virtual-key-codes">
 				<h3>Optionally fixed virtual key codes</h3>
-				<p><em>This section is informative</em></p>
 
 				<p>The following punctuation characters MAY change virtual codes between keyboard layouts, but reporting these values will likely be more compatible with legacy content
 					expecting US-English keyboard layout:</p>
