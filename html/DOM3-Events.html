@@ -12,6 +12,7 @@
 	<link rel="stylesheet" type="text/css" href="override.css" />
 	<script type="text/javascript" src='https://www.w3.org/Tools/respec/respec-w3c-common' class='remove' async></script>
 	<script type="text/javascript" src='key-table-builder.js'></script>
+	<script type="text/javascript" src='fixup.js'></script>
 	<script type="text/javascript">
 	var respecConfig = {
 		specStatus: "ED",
@@ -348,8 +349,8 @@
 			<dt id="glossary-delta"><dfn>delta</dfn></dt>
 			<dd>The estimated scroll amount (in pixels, lines, or pages) that the user agent will scroll or zoom the page in response to the physical movement of an input device that
 				supports the <code>WheelEvent</code> interface (such as a mouse wheel or touch pad). The value of a <a class="def" href="#glossary-delta">delta</a> (e.g., the <a
-				href="#events-WheelEvent-deltaX">deltaX</a>, <a href="#events-WheelEvent-deltaY">deltaY</a>, or <a href="#events-WheelEvent-deltaZ">deltaZ</a> attributes) is to be
-				interpreted in the context of the current <a href="#events-WheelEvent-deltaMode"><code>deltaMode</code></a> property. The relationship between the physical movement of
+				href="#widl-WheelEvent-deltaX">deltaX</a>, <a href="#widl-WheelEvent-deltaY">deltaY</a>, or <a href="#widl-WheelEvent-deltaZ">deltaZ</a> attributes) is to be
+				interpreted in the context of the current <a href="#widl-WheelEvent-deltaMode"><code>deltaMode</code></a> property. The relationship between the physical movement of
 				a wheel (or other device) and whether the <a class="def" href="#glossary-delta">delta</a> is positive or negative is environment and device dependent. However, if a user
 				agent scrolls as the <a class="def" href="#glossary-default-action">default action</a> then the sign of the <a class="def" href="#glossary-delta">delta</a> is given by a
 				right-hand coordinate system where positive X,Y, and Z axes are directed towards the right-most edge, bottom-most edge, and farthest depth (away from the user) of the
@@ -515,8 +516,8 @@
 			<dt id="glossary-root-element"><dfn>root element</dfn></dt>
 			<dd>The first element node of a document, of which all other elements are children; the document element.</dd>
 
-			<dt id="events-WheelEvent-rotation"><dfn>rotation</dfn></dt>
-			<dd>An indication of incremental change on an input device using the <a href="#events-wheelevents">WheelEvent</a> interface. On some devices this MAY be a literal
+			<dt id="glossary-rotation"><dfn>rotation</dfn></dt>
+			<dd>An indication of incremental change on an input device using the <a href="#interface-WheelEvent">WheelEvent</a> interface. On some devices this MAY be a literal
 				rotation of a wheel, while on others, it MAY be movement along a flat surface, or pressure on a particular button.</dd>
 
 			<dt id="glossary-text-composition-system"><dfn>text composition system</dfn></dt>
@@ -880,10 +881,10 @@ console.log("Exceptions? No problem");</pre>
 					class="eventtype" href="#event-type-click"><code>click</code></a> as one of the <a class="def" href="#glossary-default-action">default actions</a> of that <a class="def"
 					href="#glossary-activation-trigger">activation trigger</a>. The value of the <code class="attribute-name"><a href="#events-event-type-target">Event.target</a></code>
 					MUST be set to the <a class="def" href="#glossary-event-target">event target</a> (normally, the currently focused element), and the event MUST simulate a <em>left
-					click</em> (i.e., the <a href="#events-MouseEvent-button"><code>MouseEvent.button</code></a> attribute value MUST be <code>0</code>, and the <a href="#events-MouseEvent-buttons">
+					click</em> (i.e., the <a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a> attribute value MUST be <code>0</code>, and the <a href="#widl-MouseEvent-buttons">
 					<code>MouseEvent.buttons</code></a> attribute value MUST be <code>1</code>).  Other context information of such a simulated <a class="eventtype" href="#event-type-click">
 					<code>click</code></a> event is implementation dependent, but for historical purposes, the interface for the <a class="eventtype" href="#event-type-click"><code>click</code></a>
-					event MUST be the <a href="#events-MouseEvent"><code>MouseEvent interface</code></a>, regardless of the actual device used to activate the element.  Preventing
+					event MUST be the <a href="#interface-MouseEvent"><code>MouseEvent interface</code></a>, regardless of the actual device used to activate the element.  Preventing
 					the <a class="def" href="#glossary-default-action">default action</a> of the <a class="def" href="#glossary-activation-trigger">activation trigger</a>, such as
 					with the <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a>, MUST stop the initiation of the <a class="def" href="#glossary-activation-behavior">
 					activation behavior</a>.</p>
@@ -1023,7 +1024,7 @@ console.log("Exceptions? No problem");</pre>
 			<p class="intro-dom">Introduced in DOM Level 2</p>
 
 			<p>The <code>Event</code> interface provides basic contextual information about an event to all registered <a class="def" href="#glossary-event-handler">event handlers</a>.
-				Specific events can also implement other derived interfaces, for example the <a href="#events-UIEvent"><code>UIEvent</code></a> and <a href="#events-MouseEvent">
+				Specific events can also implement other derived interfaces, for example the <a href="#interface-UIEvent"><code>UIEvent</code></a> and <a href="#interface-MouseEvent">
 				<code>MouseEvent</code></a> interfaces.</p>
 
 			<p>To create an instance of the <code>Event</code> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("Event")</code></a>
@@ -1381,8 +1382,9 @@ console.log("Exceptions? No problem");</pre>
 						<dt>Event event</dt>
 						<dd>
 							<p>The event to be dispatched.</p>
-							<p class="note"><strong>Note: </strong>This parameter receives an <code>Event</code> object, or any object that inherits from <code>Event</code>, e.g., <code>MouseEvent</code>,
-								<a href="#widl-KeyboardEvent"><code>KeyboardEvent</code></a>,
+							<p class="note"><strong>Note: </strong>This parameter receives an <code>Event</code> object, or any object that inherits from <code>Event</code>, e.g.,
+								<a href="#interface-MouseEvent"><code>MouseEvent</code></a>,
+								<a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a>,
 								<code>MutationEvent</code>, etc.</p>
 						</dd>
 					</dl>
@@ -1468,11 +1470,11 @@ console.log("Exceptions? No problem");</pre>
 
 							<div class="example">
 								<div class="example-title">Example</div>
-								<p>A content author wishing to synthesize some kind of <a href="#events-UIEvent"><code>UIEvent</code></a>
+								<p>A content author wishing to synthesize some kind of <a href="#interface-UIEvent"><code>UIEvent</code></a>
 								would invoke <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("UIEvent")</code></a>. The <a href="#events-event-type-initUIEvent"><code>
-								UIEvent.initUIEvent()</code></a> method could then be called on the newly created <a class="noxref" href="#events-UIEvent"><code>UIEvent</code></a> object to
+								UIEvent.initUIEvent()</code></a> method could then be called on the newly created <a class="noxref" href="#interface-UIEvent"><code>UIEvent</code></a> object to
 								set the specific type of user interface event to be dispatched, <a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> for example, and set its
-								context information, e.g., <a href="#events-UIEvent-detail"><code>UIEvent.detail</code></a>.</p>
+								context information, e.g., <a href="#widl-UIEvent-detail"><code>UIEvent.detail</code></a>.</p>
 							</div>
 
 							<p>For backward compatibility, the following case-insensitive feature names are valid values for the parameter <code>eventInterface</code>:</p>
@@ -1492,15 +1494,15 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<td><code>"UIEvents"</code></td>
-									<td><a href="#events-UIEvent"><code>UIEvent</code></a></td>
+									<td><a href="#interface-UIEvent"><code>UIEvent</code></a></td>
 								</tr>
 								<tr>
 									<td><code>"MouseEvents"</code></td>
-									<td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
+									<td><a href="#interface-MouseEvent"><code>MouseEvent</code></a></td>
 								</tr>
 								<tr>
 									<td><code>"MutationEvents"</code></td>
-									<td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td>
+									<td><a href="#interface-MutationEvent"><code>MutationEvent</code></a></td>
 								</tr>
 							</table>
 
@@ -1569,7 +1571,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
+						<td><a href="#interface-MouseEvent"><code>MouseEvent</code></a></td>
 						<td>Yes</td>
 						<td><a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event</td>
 					</tr>
@@ -1605,7 +1607,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
+						<td><a href="#interface-MouseEvent"><code>MouseEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1650,7 +1652,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Document</code>, <code>Element</code></td>
-						<td><a href="#widl-KeyboardEvent"><code>KeyboardEvent</code></a></td>
+						<td><a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a></td>
 						<td>Yes</td>
 						<td>Varies:
 							<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a> and <a class="eventtype" href="#event-type-input"><code>input</code></a> events;
@@ -1665,7 +1667,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Document</code>, <code>Element</code></td>
-						<td><a href="#widl-KeyboardEvent"><code>KeyboardEvent</code></a></td>
+						<td><a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a></td>
 						<td>Yes</td>
 						<td>none</td>
 					</tr>
@@ -1683,7 +1685,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
+						<td><a href="#interface-MouseEvent"><code>MouseEvent</code></a></td>
 						<td>Yes</td>
 						<td>Varies: start a drag/drop operation; start a text selection; start a scroll/pan interaction (in combination with the middle mouse button, if supported)</td>
 					</tr>
@@ -1692,7 +1694,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>No</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
+						<td><a href="#interface-MouseEvent"><code>MouseEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1701,7 +1703,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>No</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
+						<td><a href="#interface-MouseEvent"><code>MouseEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1710,7 +1712,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
+						<td><a href="#interface-MouseEvent"><code>MouseEvent</code></a></td>
 						<td>Yes</td>
 						<td>none</td>
 					</tr>
@@ -1719,7 +1721,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
+						<td><a href="#interface-MouseEvent"><code>MouseEvent</code></a></td>
 						<td>Yes</td>
 						<td>none</td>
 					</tr>
@@ -1728,7 +1730,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
+						<td><a href="#interface-MouseEvent"><code>MouseEvent</code></a></td>
 						<td>Yes</td>
 						<td>none</td>
 					</tr>
@@ -1737,7 +1739,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
+						<td><a href="#interface-MouseEvent"><code>MouseEvent</code></a></td>
 						<td>Yes</td>
 						<td>Invoke a context menu (in combination with the right mouse button, if supported)</td>
 					</tr>
@@ -1746,7 +1748,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>No</td>
 						<td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code></td>
-						<td><a href="#events-UIEvent"><code>UIEvent</code></a></td>
+						<td><a href="#interface-UIEvent"><code>UIEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1755,7 +1757,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Async</td>
 						<td>No / <a href="#scroll-document">Yes</a></td>
 						<td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>Element</code></td>
-						<td><a href="#events-UIEvent"><code>UIEvent</code></a></td>
+						<td><a href="#interface-UIEvent"><code>UIEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1782,7 +1784,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Async</td>
 						<td>Yes</td>
 						<td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>Element</code></td>
-						<td><a href="#events-WheelEvent"><code>WheelEvent</code></a></td>
+						<td><a href="#interface-WheelEvent"><code>WheelEvent</code></a></td>
 						<td>Yes</td>
 						<td>Scroll (or zoom) the document</td>
 					</tr>
@@ -1806,7 +1808,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-UIEvent"><code>UIEvent</code></a></td>
+						<td><a href="#interface-UIEvent"><code>UIEvent</code></a></td>
 						<td>Yes</td>
 						<td>none</td>
 					</tr>
@@ -1815,7 +1817,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td>
+						<td><a href="#interface-MutationEvent"><code>MutationEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1824,7 +1826,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Text</code>, <code>Comment</code>, <code>CDATASection</code>, <code>ProcessingInstruction</code></td>
-						<td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td>
+						<td><a href="#interface-MutationEvent"><code>MutationEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1852,7 +1854,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Yes</td>
 						<td><code>Element</code>, <code>Attr</code>, <code>Text</code>, <code>Comment</code>, <code>CDATASection</code>, <code>DocumentType</code>, <code>EntityReference</code>,
 							<code>ProcessingInstruction</code></td>
-						<td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td>
+						<td><a href="#interface-MutationEvent"><code>MutationEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1862,7 +1864,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>No</td>
 						<td><code>Element</code>, <code>Attr</code>, <code>Text</code>, <code>Comment</code>, <code>CDATASection</code>, <code>DocumentType</code>, <code>EntityReference</code>,
 							<code>ProcessingInstruction</code></td>
-						<td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td>
+						<td><a href="#interface-MutationEvent"><code>MutationEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1872,7 +1874,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Yes</td>
 						<td><code>Element</code>, <code>Attr</code>, <code>Text</code>, <code>Comment</code>, <code>CDATASection</code>, <code>DocumentType</code>, <code>EntityReference</code>,
 							<code>ProcessingInstruction</code></td>
-						<td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td>
+						<td><a href="#interface-MutationEvent"><code>MutationEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1882,7 +1884,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>No</td>
 						<td><code>Element</code>, <code>Attr</code>, <code>Text</code>, <code>Comment</code>, <code>CDATASection</code>, <code>DocumentType</code>, <code>EntityReference</code>,
 							<code>ProcessingInstruction</code></td>
-						<td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td>
+						<td><a href="#interface-MutationEvent"><code>MutationEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1892,7 +1894,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Yes</td>
 						<td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>DocumentFragment</code>, <code>Element</code>, <code>Attr</code>
 						</td>
-						<td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td>
+						<td><a href="#interface-MutationEvent"><code>MutationEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1901,7 +1903,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Document</code>, <code>Element</code></td>
-						<td><a href="#widl-KeyboardEvent"><code>KeyboardEvent</code></a></td>
+						<td><a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a></td>
 						<td>Yes</td>
 						<td>Varies:
 							launch <a class="def" href="#glossary-text-composition-system">text composition system</a>;
@@ -1990,19 +1992,19 @@ console.log("Exceptions? No problem");</pre>
 
 								<dt>AbstractView? viewArg</dt>
 								<dd>
-									<p>Specifies <a href="#events-UIEvent-view"><code>UIEvent.view</code></a>. This value MAY be <code>null</code>.</p>
+									<p>Specifies <a href="#widl-UIEvent-view"><code>UIEvent.view</code></a>. This value MAY be <code>null</code>.</p>
 								</dd>
 
 								<dt>long detailArg</dt>
 								<dd>
-									<p>Specifies <a href="#events-UIEvent-detail"><code>UIEvent.detail</code></a>.</p>
+									<p>Specifies <a href="#widl-UIEvent-detail"><code>UIEvent.detail</code></a>.</p>
 								</dd>
 							</dl>
 						</dd>
 					</dl>
 				</section>
 
-				<p>The User Interface event types are listed below.  Some of these events use the <a href="#events-UIEvent"><code>UIEvent</code></a> interface if generated from a
+				<p>The User Interface event types are listed below.  Some of these events use the <a href="#interface-UIEvent"><code>UIEvent</code></a> interface if generated from a
 					user interface, but the <a href="#events-Event"><code>Event</code></a> interface otherwise, as detailed in each event.</p>
 
 				<!-- DOMActivate -->
@@ -2017,7 +2019,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-UIEvent"><code>UIEvent</code></a></td>
+									<td><a href="#interface-UIEvent"><code>UIEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -2045,9 +2047,9 @@ console.log("Exceptions? No problem");</pre>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element being activated</li>
 
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 										</ul>
 									</td>
 								</tr>
@@ -2084,7 +2086,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td>
+									<td><a href="#interface-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -2112,10 +2114,10 @@ console.log("Exceptions? No problem");</pre>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: common object whose contained resources have loaded</li>
 
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
 												<code>null</code></li>
 
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 										</ul>
 									</td>
 								</tr>
@@ -2145,7 +2147,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td>
+									<td><a href="#interface-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -2173,10 +2175,10 @@ console.log("Exceptions? No problem");</pre>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: common object whose contained resources have been removed</li>
 
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
 												<code>null</code></li>
 
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 										</ul>
 									</td>
 								</tr>
@@ -2201,7 +2203,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td>
+									<td><a href="#interface-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -2229,10 +2231,10 @@ console.log("Exceptions? No problem");</pre>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element whose resources have been stopped from loading without error</li>
 
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
 												<code>null</code></li>
 
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 										</ul>
 									</td>
 								</tr>
@@ -2256,7 +2258,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td>
+									<td><a href="#interface-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -2284,10 +2286,10 @@ console.log("Exceptions? No problem");</pre>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element whose resources have been stopped from loading due to an error</li>
 
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
 												<code>null</code></li>
 
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 										</ul>
 									</td>
 								</tr>
@@ -2311,7 +2313,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td>
+									<td><a href="#interface-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -2339,10 +2341,10 @@ console.log("Exceptions? No problem");</pre>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element whose text content has been selected</li>
 
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
 												<code>null</code></li>
 
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 										</ul>
 									</td>
 								</tr>
@@ -2380,7 +2382,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-UIEvent"><code>UIEvent</code></a></td>
+									<td><a href="#interface-UIEvent"><code>UIEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -2408,9 +2410,9 @@ console.log("Exceptions? No problem");</pre>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: object which has been resized</li>
 
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 										</ul>
 									</td>
 								</tr>
@@ -2450,7 +2452,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-UIEvent"><code>UIEvent</code></a></td>
+									<td><a href="#interface-UIEvent"><code>UIEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -2478,9 +2480,9 @@ console.log("Exceptions? No problem");</pre>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: object which has been scrolled</li>
 
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 										</ul>
 									</td>
 								</tr>
@@ -2621,9 +2623,9 @@ console.log("Exceptions? No problem");</pre>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> losing
 												focus</li>
 
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 
 											<li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <code>null</code></li>
 										</ul>
@@ -2679,10 +2681,10 @@ console.log("Exceptions? No problem");</pre>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> receiving
 												focus</li>
 
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
 												<code>null</code></li>
 
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 
 											<li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <code>null</code></li>
 										</ul>
@@ -2740,9 +2742,9 @@ console.log("Exceptions? No problem");</pre>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> losing
 												focus</li>
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
 												<code>null</code></li>
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 											<li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <code>null</code></li>
 										</ul>
 									</td>
@@ -2800,10 +2802,10 @@ console.log("Exceptions? No problem");</pre>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> receiving
 												focus</li>
 
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
 												<code>null</code></li>
 
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 
 											<li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <code>null</code></li>
 										</ul>
@@ -2859,10 +2861,10 @@ console.log("Exceptions? No problem");</pre>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> receiving
 												focus</li>
 
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
 												<code>null</code></li>
 
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 
 											<li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <a class="def" href="#glossary-event-target">event
 												target</a> losing focus  (if any).</li>
@@ -2926,10 +2928,10 @@ console.log("Exceptions? No problem");</pre>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> losing
 												focus</li>
 
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
 												<code>null</code></li>
 
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 
 											<li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <a class="def" href="#glossary-event-target">event
 												target</a> receiving focus.</li>
@@ -3028,7 +3030,7 @@ console.log("Exceptions? No problem");</pre>
 						<dt>readonly attribute unsigned short button</dt>
 						<dd>
 							<p>During mouse events caused by the depression or release of a mouse button, <code>button</code> MUST be used to indicate which pointer device button changed state.</p>
-							<p>The value of the <a href="#events-MouseEvent-button"><code>MouseEvent.button</code></a> attribute MUST be as follows:</p>
+							<p>The value of the <a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a> attribute MUST be as follows:</p>
 
 							<ul>
 								<li><code>0</code> MUST indicate the primary button of the device (in general, the left button  or the only button on single-button devices, used to activate a user
@@ -3054,12 +3056,12 @@ console.log("Exceptions? No problem");</pre>
 							<p>During any mouse events, <code>buttons</code> MUST be used to indicate which combination of mouse buttons are
 								currently being pressed, expressed as a bitmask.</p>
 
-							<p class="note"><strong>Note:</strong> Though similarly named, the values for the <code>buttons</code> attribute and the <a href="#events-MouseEvent-button"><code>button</code></a>
+							<p class="note"><strong>Note:</strong> Though similarly named, the values for the <code>buttons</code> attribute and the <a href="#widl-MouseEvent-button"><code>button</code></a>
 								attribute are very different. The value of <code>button</code> is assumed to be valid during <a class="eventtype"><code>mousedown</code></a>/
 								<a class="eventtype"><code>mouseup</code></a> event handlers, whereas the <code>buttons</code> attribute reflects the state of the mouse's buttons for any
 								trusted <code>MouseEvent</code> object (while it is being dispatched), because it can represent the "no button currently active" state (0).</p>
 
-							<p>The value of the <a href="#events-MouseEvent-buttons"><code>MouseEvent.buttons</code></a> attribute MUST be as follows:</p>
+							<p>The value of the <a href="#widl-MouseEvent-buttons"><code>MouseEvent.buttons</code></a> attribute MUST be as follows:</p>
 
 							<ul>
 								<li><code>0</code> MUST indicate no button is currently active.</li>
@@ -3127,52 +3129,52 @@ console.log("Exceptions? No problem");</pre>
 
 								<dt>long screenXArg</dt>
 								<dd>
-									<p>Specifies <a href="#events-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>.</p>
+									<p>Specifies <a href="#widl-MouseEvent-screenX"><code>MouseEvent.screenX</code></a>.</p>
 								</dd>
 
 								<dt>long screenYArg</dt>
 								<dd>
-									<p>Specifies <a href="#events-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>.</p>
+									<p>Specifies <a href="#widl-MouseEvent-screenY"><code>MouseEvent.screenY</code></a>.</p>
 								</dd>
 
 								<dt>long clientXArg</dt>
 								<dd>
-									<p>Specifies <a href="#events-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>.</p>
+									<p>Specifies <a href="#widl-MouseEvent-clientX"><code>MouseEvent.clientX</code></a>.</p>
 								</dd>
 
 								<dt>long clientYArg</dt>
 								<dd>
-									<p>Specifies <a href="#events-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>.</p>
+									<p>Specifies <a href="#widl-MouseEvent-clientY"><code>MouseEvent.clientY</code></a>.</p>
 								</dd>
 
 								<dt>boolean ctrlKeyArg</dt>
 								<dd>
-									<p>Specifies <a href="#events-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>.</p>
+									<p>Specifies <a href="#widl-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a>.</p>
 								</dd>
 
 								<dt>boolean altKeyArg</dt>
 								<dd>
-									<p>Specifies <a href="#events-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>.</p>
+									<p>Specifies <a href="#widl-MouseEvent-altKey"><code>MouseEvent.altKey</code></a>.</p>
 								</dd>
 
 								<dt>boolean shiftKeyArg</dt>
 								<dd>
-									<p>Specifies <a href="#events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>.</p>
+									<p>Specifies <a href="#widl-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a>.</p>
 								</dd>
 
 								<dt>boolean metaKeyArg</dt>
 								<dd>
-									<p>Specifies <a href="#events-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>.</p>
+									<p>Specifies <a href="#widl-MouseEvent-metaKey"><code>MouseEvent.metaKey</code></a>.</p>
 								</dd>
 
 								<dt>unsigned short buttonArg</dt>
 								<dd>
-									<p>Specifies <a href="#events-MouseEvent-button"><code>MouseEvent.button</code></a>.</p>
+									<p>Specifies <a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a>.</p>
 								</dd>
 
 								<dt>EventTarget? relatedTargetArg</dt>
 								<dd>
-									<p>Specifies <a href="#events-MouseEvent-relatedTarget"><code>MouseEvent.relatedTarget</code></a>. This value MAY be <code>null</code>.</p>
+									<p>Specifies <a href="#widl-MouseEvent-relatedTarget"><code>MouseEvent.relatedTarget</code></a>. This value MAY be <code>null</code>.</p>
 								</dd>
 							</dl>
 						</dd>
@@ -3330,7 +3332,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
+									<td><a href="#interface-MouseEvent"><code>MouseEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -3357,25 +3359,25 @@ console.log("Exceptions? No problem");</pre>
 									<td>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: indicates the <a href="#current-click-count">current click count</a>;
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: indicates the <a href="#current-click-count">current click count</a>;
 												the attribute value MUST be <code>1</code> when the user begins this action and increments by <code>1</code> for each click.</li>
-											<li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
-											<li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
-											<li><a href="#events-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
-											<li><a href="#events-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>: value based on the pointer position within the viewport</li>
-											<li><a href="#events-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
+											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
+											<li><a href="#widl-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
+											<li><a href="#widl-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
+											<li><a href="#widl-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>: value based on the pointer position within the viewport</li>
+											<li><a href="#widl-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
 												modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="key">
+											<li><a href="#widl-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="key">
 												'Control'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="key">
+											<li><a href="#widl-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="key">
 												'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="key">
+											<li><a href="#widl-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="key">
 												'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: value based on current button pressed</li>
-											<li><a href="#events-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if
+											<li><a href="#widl-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: value based on current button pressed</li>
+											<li><a href="#widl-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if
 												no buttons pressed</li>
-											<li><a href="#events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: <code>null</code></li>
+											<li><a href="#widl-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: <code>null</code></li>
 										</ul>
 									</td>
 								</tr>
@@ -3414,12 +3416,12 @@ console.log("Exceptions? No problem");</pre>
 								enhancements have extended it beyond that association, and it can be considered a device-independent event type for element activation.</p>
 
 							<p>The <a class="def" href="#glossary-default-action">default action</a> of the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type varies
-								based on the <a class="def" href="#glossary-event-target">event target</a> of the event and the value of the <a href="#events-MouseEvent-button"><code>MouseEvent.button</code></a>
-								or <a href="#events-MouseEvent-buttons"><code>MouseEvent.buttons</code></a> attributes.  Typical <a class="def" href="#glossary-default-action">default actions</a>
+								based on the <a class="def" href="#glossary-event-target">event target</a> of the event and the value of the <a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a>
+								or <a href="#widl-MouseEvent-buttons"><code>MouseEvent.buttons</code></a> attributes.  Typical <a class="def" href="#glossary-default-action">default actions</a>
 								of the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type are as follows:</p>
 
 							<ul>
-								<li><em>Left click</em> (<a href="#events-MouseEvent-button"><code>MouseEvent.button</code></a> value is <code>0</code>, <a href="#events-MouseEvent-buttons"><code>
+								<li><em>Left click</em> (<a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a> value is <code>0</code>, <a href="#widl-MouseEvent-buttons"><code>
 									MouseEvent.buttons</code></a> value is <code>1</code>):
 									<ul>
 										<li>If the <a class="def" href="#glossary-event-target">event target</a> has associated activation behavior, the <a class="def" href="#glossary-default-action">default
@@ -3429,14 +3431,14 @@ console.log("Exceptions? No problem");</pre>
 											to give that element document focus.</li>
 									</ul>
 								</li>
-								<li><em>Right click</em> (<a href="#events-MouseEvent-button"><code>MouseEvent.button</code></a> value is <code>1</code>, <a href="#events-MouseEvent-buttons"><code>
+								<li><em>Right click</em> (<a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a> value is <code>1</code>, <a href="#widl-MouseEvent-buttons"><code>
 									MouseEvent.buttons</code></a> value is <code>2</code>):
 									<ul>
 										<li>The <a class="def" href="#glossary-default-action">default action</a> MUST be to provide a context menu of options related to that <a class="def" href="#glossary-event-target">
 											event target</a>.</li>
 									</ul>
 								</li>
-								<li><em>Middle click</em> (<a href="#events-MouseEvent-button"><code>MouseEvent.button</code></a> value is <code>2</code>, <a href="#events-MouseEvent-buttons"><code>
+								<li><em>Middle click</em> (<a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a> value is <code>2</code>, <a href="#widl-MouseEvent-buttons"><code>
 									MouseEvent.buttons</code></a> value is <code>4</code>):
 									<ul>
 										<li>If the <a class="def" href="#glossary-event-target">event target</a> has associated activation behavior, the <a class="def" href="#glossary-default-action">default
@@ -3463,7 +3465,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
+									<td><a href="#interface-MouseEvent"><code>MouseEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -3490,24 +3492,24 @@ console.log("Exceptions? No problem");</pre>
 									<td>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: indicates the <a href="#current-click-count">current click count</a></li>
-											<li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
-											<li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
-											<li><a href="#events-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
-											<li><a href="#events-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>: value based on the pointer position within the viewport</li>
-											<li><a href="#events-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: indicates the <a href="#current-click-count">current click count</a></li>
+											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
+											<li><a href="#widl-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
+											<li><a href="#widl-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
+											<li><a href="#widl-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>: value based on the pointer position within the viewport</li>
+											<li><a href="#widl-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
 												modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="key">
+											<li><a href="#widl-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="key">
 												'Control'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="key">
+											<li><a href="#widl-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="key">
 												'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="key">
+											<li><a href="#widl-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="key">
 												'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: value based on current button pressed</li>
-											<li><a href="#events-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if
+											<li><a href="#widl-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: value based on current button pressed</li>
+											<li><a href="#widl-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if
 												no buttons pressed</li>
-											<li><a href="#events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: <code>null</code></li>
+											<li><a href="#widl-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: <code>null</code></li>
 										</ul>
 									</td>
 								</tr>
@@ -3524,13 +3526,13 @@ console.log("Exceptions? No problem");</pre>
 
 							<p>As with the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type, the <a class="def" href="#glossary-default-action">default action</a>
 								of the <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> event type varies based on the <a class="def" href="#glossary-event-target">event
-								target</a> of the event and the value of the <a href="#events-MouseEvent-button"><code>MouseEvent.button</code></a> or <a href="#events-MouseEvent-buttons"><code>MouseEvent.buttons</code></a>
+								target</a> of the event and the value of the <a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a> or <a href="#widl-MouseEvent-buttons"><code>MouseEvent.buttons</code></a>
 								attributes.  Normally, the typical <a class="def" href="#glossary-default-action">default actions</a> of the <a class="eventtype" href="#event-type-dblclick"><code>
 								dblclick</code></a> event type match those of the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type, with the following additional
 								behavior:</p>
 
 							<ul>
-								<li><em>Left click</em> (<a href="#events-MouseEvent-button"><code>MouseEvent.button</code></a> value is <code>0</code>, <a href="#events-MouseEvent-buttons"><code>
+								<li><em>Left click</em> (<a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a> value is <code>0</code>, <a href="#widl-MouseEvent-buttons"><code>
 									MouseEvent.buttons</code></a> value is <code>1</code>):
 									<ul>
 										<li>If the <a class="def" href="#glossary-event-target">event target</a> is selectable, the <a class="def" href="#glossary-default-action">default action</a> MUST
@@ -3554,7 +3556,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
+									<td><a href="#interface-MouseEvent"><code>MouseEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -3581,26 +3583,26 @@ console.log("Exceptions? No problem");</pre>
 									<td>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: indicates the <a href="#current-click-count">current click count</a> incremented
-												by one. For example, if no click happened before the <a class="eventtype"><code>mousedown</code></a>, <a href="#events-UIEvent-detail"><code>UIEvent.detail</code></a> will
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: indicates the <a href="#current-click-count">current click count</a> incremented
+												by one. For example, if no click happened before the <a class="eventtype"><code>mousedown</code></a>, <a href="#widl-UIEvent-detail"><code>UIEvent.detail</code></a> will
 												contain the value <code>1</code></li>
-											<li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
-											<li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
-											<li><a href="#events-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
-											<li><a href="#events-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>: value based on the pointer position within the viewport</li>
-											<li><a href="#events-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
+											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
+											<li><a href="#widl-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
+											<li><a href="#widl-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
+											<li><a href="#widl-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>: value based on the pointer position within the viewport</li>
+											<li><a href="#widl-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
 												modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="key">
+											<li><a href="#widl-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="key">
 												'Control'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="key">
+											<li><a href="#widl-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="key">
 												'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="key">
+											<li><a href="#widl-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="key">
 												'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: value based on current button pressed</li>
-											<li><a href="#events-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if
+											<li><a href="#widl-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: value based on current button pressed</li>
+											<li><a href="#widl-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if
 												no buttons pressed</li>
-											<li><a href="#events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: <code>null</code></li>
+											<li><a href="#widl-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: <code>null</code></li>
 										</ul>
 									</td>
 								</tr>
@@ -3629,7 +3631,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
+									<td><a href="#interface-MouseEvent"><code>MouseEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -3656,24 +3658,24 @@ console.log("Exceptions? No problem");</pre>
 									<td>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
-											<li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
-											<li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
-											<li><a href="#events-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
-											<li><a href="#events-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>: value based on the pointer position within the viewport</li>
-											<li><a href="#events-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
+											<li><a href="#widl-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
+											<li><a href="#widl-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
+											<li><a href="#widl-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>: value based on the pointer position within the viewport</li>
+											<li><a href="#widl-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
 												modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="key">
+											<li><a href="#widl-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="key">
 												'Control'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="key">
+											<li><a href="#widl-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="key">
 												'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="key">
+											<li><a href="#widl-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="key">
 												'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: <code>0</code></li>
-											<li><a href="#events-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if
+											<li><a href="#widl-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: <code>0</code></li>
+											<li><a href="#widl-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if
 												no buttons pressed</li>
-											<li><a href="#events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: indicates the <a class="def" href="#glossary-event-target">
+											<li><a href="#widl-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: indicates the <a class="def" href="#glossary-event-target">
 												event target</a> a pointing device is exiting, if any.</li>
 										</ul>
 									</td>
@@ -3704,7 +3706,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
+									<td><a href="#interface-MouseEvent"><code>MouseEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -3731,24 +3733,24 @@ console.log("Exceptions? No problem");</pre>
 									<td>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
-											<li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
-											<li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
-											<li><a href="#events-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
-											<li><a href="#events-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>: value based on the pointer position within the viewport</li>
-											<li><a href="#events-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
+											<li><a href="#widl-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
+											<li><a href="#widl-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
+											<li><a href="#widl-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>: value based on the pointer position within the viewport</li>
+											<li><a href="#widl-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
 												modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="key">
+											<li><a href="#widl-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="key">
 												'Control'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="key">
+											<li><a href="#widl-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="key">
 												'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="key">
+											<li><a href="#widl-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="key">
 												'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: <code>0</code></li>
-											<li><a href="#events-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if
+											<li><a href="#widl-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: <code>0</code></li>
+											<li><a href="#widl-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if
 												no buttons pressed</li>
-											<li><a href="#events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: indicates the <a class="def" href="#glossary-event-target">
+											<li><a href="#widl-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: indicates the <a class="def" href="#glossary-event-target">
 												event target</a> a pointing device is entering, if any.</li>
 										</ul>
 									</td>
@@ -3777,7 +3779,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
+									<td><a href="#interface-MouseEvent"><code>MouseEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -3804,24 +3806,24 @@ console.log("Exceptions? No problem");</pre>
 									<td>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
-											<li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
-											<li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
-											<li><a href="#events-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
-											<li><a href="#events-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>: value based on the pointer position within the viewport</li>
-											<li><a href="#events-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
+											<li><a href="#widl-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
+											<li><a href="#widl-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
+											<li><a href="#widl-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>: value based on the pointer position within the viewport</li>
+											<li><a href="#widl-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
 												modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="key">
+											<li><a href="#widl-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="key">
 												'Control'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="key">
+											<li><a href="#widl-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="key">
 												'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="key">
+											<li><a href="#widl-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="key">
 												'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: <code>0</code></li>
-											<li><a href="#events-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if
+											<li><a href="#widl-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: <code>0</code></li>
+											<li><a href="#widl-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if
 												no buttons pressed</li>
-											<li><a href="#events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: <code>null</code></li>
+											<li><a href="#widl-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: <code>null</code></li>
 										</ul>
 									</td>
 								</tr>
@@ -3851,7 +3853,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
+									<td><a href="#interface-MouseEvent"><code>MouseEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -3878,24 +3880,24 @@ console.log("Exceptions? No problem");</pre>
 									<td>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
-											<li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
-											<li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
-											<li><a href="#events-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
-											<li><a href="#events-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>: value based on the pointer position within the viewport</li>
-											<li><a href="#events-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
+											<li><a href="#widl-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
+											<li><a href="#widl-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
+											<li><a href="#widl-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>: value based on the pointer position within the viewport</li>
+											<li><a href="#widl-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
 												modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="key">
+											<li><a href="#widl-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="key">
 												'Control'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="key">
+											<li><a href="#widl-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="key">
 												'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="key">
+											<li><a href="#widl-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="key">
 												'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: <code>0</code></li>
-											<li><a href="#events-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if
+											<li><a href="#widl-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: <code>0</code></li>
+											<li><a href="#widl-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if
 												no buttons pressed</li>
-											<li><a href="#events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>:  indicates the <a class="def" href="#glossary-event-target">
+											<li><a href="#widl-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>:  indicates the <a class="def" href="#glossary-event-target">
 												event target</a> a pointing device is entering, if any.</li>
 										</ul>
 									</td>
@@ -3924,7 +3926,7 @@ console.log("Exceptions? No problem");</pre>
 									</tr>
 									<tr>
 										<th>Interface</th>
-										<td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
+										<td><a href="#interface-MouseEvent"><code>MouseEvent</code></a></td>
 									</tr>
 									<tr>
 										<th>Sync / Async</th>
@@ -3951,24 +3953,24 @@ console.log("Exceptions? No problem");</pre>
 										<td>
 											<ul>
 												<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
-												<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
-												<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
-												<li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
-												<li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
-												<li><a href="#events-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
-												<li><a href="#events-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>: value based on the pointer position within the viewport</li>
-												<li><a href="#events-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
+												<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+												<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+												<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
+												<li><a href="#widl-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
+												<li><a href="#widl-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
+												<li><a href="#widl-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>: value based on the pointer position within the viewport</li>
+												<li><a href="#widl-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
 													modifier was active, otherwise <code>false</code></li>
-												<li><a href="#events-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="key">
+												<li><a href="#widl-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="key">
 													'Control'</code></a> modifier was active, otherwise <code>false</code></li>
-												<li><a href="#events-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="key">
+												<li><a href="#widl-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="key">
 													'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
-												<li><a href="#events-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="key">
+												<li><a href="#widl-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="key">
 													'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
-												<li><a href="#events-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: <code>0</code></li>
-												<li><a href="#events-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if
+												<li><a href="#widl-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: <code>0</code></li>
+												<li><a href="#widl-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if
 													no buttons pressed</li>
-												<li><a href="#events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>:  indicates the <a class="def" href="#glossary-event-target">
+												<li><a href="#widl-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>:  indicates the <a class="def" href="#glossary-event-target">
 													event target</a> a pointing device is exiting, if any.</li>
 											</ul>
 										</td>
@@ -3998,7 +4000,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-MouseEvent"><code>MouseEvent</code></a></td>
+									<td><a href="#interface-MouseEvent"><code>MouseEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -4025,25 +4027,25 @@ console.log("Exceptions? No problem");</pre>
 									<td>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: indicates the <a href="#current-click-count">current click count</a> incremented
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: indicates the <a href="#current-click-count">current click count</a> incremented
 												by one.</li>
-											<li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
-											<li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
-											<li><a href="#events-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
-											<li><a href="#events-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>: value based on the pointer position within the viewport</li>
-											<li><a href="#events-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
+											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
+											<li><a href="#widl-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: value based on the pointer position on the screen</li>
+											<li><a href="#widl-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: value based on the pointer position within the viewport</li>
+											<li><a href="#widl-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>: value based on the pointer position within the viewport</li>
+											<li><a href="#widl-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
 												modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="key">
+											<li><a href="#widl-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="key">
 												'Control'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="key">
+											<li><a href="#widl-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="key">
 												'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="key">
+											<li><a href="#widl-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="key">
 												'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: value based on current button pressed</li>
-											<li><a href="#events-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if
+											<li><a href="#widl-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: value based on current button pressed</li>
+											<li><a href="#widl-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: value based on all buttons current depressed, <code>0</code> if
 												no buttons pressed</li>
-											<li><a href="#events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: <code>null</code></li>
+											<li><a href="#widl-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: <code>null</code></li>
 										</ul>
 									</td>
 								</tr>
@@ -4071,7 +4073,7 @@ console.log("Exceptions? No problem");</pre>
 					scrolling with rotation along the x-axis, and zooming with rotation along the z-axis.</p>
 				</div>
 
-				<p>The deltaX, deltaY, and deltaZ attributes of <a href="#events-WheelEvent"><code>WheelEvent</code></a> objects indicate a measurement along their respective axes
+				<p>The deltaX, deltaY, and deltaZ attributes of <a href="#interface-WheelEvent"><code>WheelEvent</code></a> objects indicate a measurement along their respective axes
 					in units of pixels, lines, or pages. The reported measurements are provided after an environment-specific algorithm translates the actual rotation/movement of
 					the wheel device into the appropriate values and units.</p>
 
@@ -4177,7 +4179,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-WheelEvent"><code>WheelEvent</code></a></td>
+									<td><a href="#interface-WheelEvent"><code>WheelEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -4204,37 +4206,37 @@ console.log("Exceptions? No problem");</pre>
 									<td>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
-											<li><a href="#events-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: if the wheel is associated with a pointing device, the value based
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: if the wheel is associated with a pointing device, the value based
 												on the pointer position on the screen, otherwise <code>0</code></li>
-											<li><a href="#events-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: if the wheel is associated with a pointing device, the value based
+											<li><a href="#widl-MouseEvent-screenY"><code class="attribute-name">MouseEvent.screenY</code></a>: if the wheel is associated with a pointing device, the value based
 												on the pointer position on the screen, otherwise <code>0</code></li>
-											<li><a href="#events-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: if the wheel is associated with a pointing device, the value based
+											<li><a href="#widl-MouseEvent-clientX"><code class="attribute-name">MouseEvent.clientX</code></a>: if the wheel is associated with a pointing device, the value based
 												on the pointer position within the viewport, otherwise <code>0</code></li>
-											<li><a href="#events-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>: if the wheel is associated with a pointing device, the value
+											<li><a href="#widl-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>: if the wheel is associated with a pointing device, the value
 												based on the pointer position within the viewport, otherwise <code>0</code></li>
-											<li><a href="#events-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
+											<li><a href="#widl-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
 												modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="key">
+											<li><a href="#widl-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:  <code>true</code> if <a href="#key-Control"><code class="key">
 												'Control'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="key">
+											<li><a href="#widl-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:  <code>true</code> if <a href="#key-Shift"><code class="key">
 												'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="key">
+											<li><a href="#widl-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:  <code>true</code> if <a href="#key-Meta"><code class="key">
 												'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
-											<li><a href="#events-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: if wheel is associated with a pointing device, value based on current
+											<li><a href="#widl-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>: if wheel is associated with a pointing device, value based on current
 												button pressed, otherwise <code>0</code></li>
-											<li><a href="#events-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: if wheel is associated with a pointing device, value based on
+											<li><a href="#widl-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>: if wheel is associated with a pointing device, value based on
 												all buttons current depressed, <code>0</code> if no buttons pressed</li>
-											<li><a href="#events-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: indicates the <a class="def" href="#glossary-event-target">
+											<li><a href="#widl-MouseEvent-relatedTarget"><code class="attribute-name">MouseEvent.relatedTarget</code></a>: indicates the <a class="def" href="#glossary-event-target">
 												event target</a> the pointing device is pointing at, if any.</li>
-											<li><a href="#events-WheelEvent-deltaX"><code class="attribute-name">WheelEvent.deltaX</code></a>: expected amount that the page will scroll along the x-axis according
+											<li><a href="#widl-WheelEvent-deltaX"><code class="attribute-name">WheelEvent.deltaX</code></a>: expected amount that the page will scroll along the x-axis according
 												to the deltaMode units; or an implemenation-specific value of movement of a wheel around the x-axis</li>
-											<li><a href="#events-WheelEvent-deltaY"><code class="attribute-name">WheelEvent.deltaY</code></a>: expected amount that the page will scroll along the y-axis according
+											<li><a href="#widl-WheelEvent-deltaY"><code class="attribute-name">WheelEvent.deltaY</code></a>: expected amount that the page will scroll along the y-axis according
 												to the deltaMode units; or an implemenation-specific value of movement of a wheel around the y-axis</li>
-											<li><a href="#events-WheelEvent-deltaZ"><code class="attribute-name">WheelEvent.deltaZ</code></a>: expected amount that the page will scroll along the z-axis according
+											<li><a href="#widl-WheelEvent-deltaZ"><code class="attribute-name">WheelEvent.deltaZ</code></a>: expected amount that the page will scroll along the z-axis according
 												to the deltaMode units; or an implemenation-specific value of movement of a wheel around the z-axis</li>
-											<li><a href="#events-WheelEvent-deltaMode"><code class="attribute-name">WheelEvent.deltaMode</code></a>: unit indicator (pixels, lines, or pages) for the deltaX, deltaY,
+											<li><a href="#widl-WheelEvent-deltaMode"><code class="attribute-name">WheelEvent.deltaMode</code></a>: unit indicator (pixels, lines, or pages) for the deltaX, deltaY,
 												and deltaZ attributes</li>
 										</ul>
 									</td>
@@ -4272,20 +4274,20 @@ console.log("Exceptions? No problem");</pre>
 
 					<p class="intro-dom">Introduced in DOM Level 3</p>
 
-					<p>The <a href="#widl-KeyboardEvent"><code>KeyboardEvent</code></a> interface provides specific contextual information associated with keyboard devices. Each keyboard event references a key using a
+					<p>The <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> interface provides specific contextual information associated with keyboard devices. Each keyboard event references a key using a
 						value. Keyboard events are commonly directed at the element that has the focus.</p>
 
-					<p>The <a href="#widl-KeyboardEvent"><code>KeyboardEvent</code></a> interface provides convenient attributes for some common modifiers keys: <a href="#widl-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>,
+					<p>The <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> interface provides convenient attributes for some common modifiers keys: <a href="#widl-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>,
 						<a href="#widl-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#widl-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>,
 						<a href="#widl-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a>. These attributes are equivalent to using the method <a href="#widl-KeyboardEvent-getModifierState">
 						<code>KeyboardEvent.getModifierState(keyArg)</code></a> with <code class="key">'Control'</code>, <code class="key">'Shift'</code>, <code class="key">'Alt'</code>,
 						or <code class="key">'Meta'</code> respectively.</p>
 
-					<p>To create an instance of the <a href="#widl-KeyboardEvent"><code>KeyboardEvent</code></a> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("KeyboardEvent")</code></a>
+					<p>To create an instance of the <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("KeyboardEvent")</code></a>
 						method call.</p>
 
 					<p class="note"><strong>Authoring Note: </strong>See [<a href="#references-UIEvents">UI Events</a>] for information about programmatically initializing
-						<a href="#widl-KeyboardEvent"><code>KeyboardEvent</code></a> objects.</p>
+						<a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> objects.</p>
 
 					<dl class="idl" title="interface KeyboardEvent : UIEvent">
 						<dt>// KeyLocationCode</dt>
@@ -4571,7 +4573,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#widl-KeyboardEvent"><code>KeyboardEvent</code></a></td>
+									<td><a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -4605,8 +4607,8 @@ console.log("Exceptions? No problem");</pre>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the key event, root element if no suitable
 												input element focused</li>
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 											<li><a href="#widl-KeyboardEvent-key"><code class="attribute-name">KeyboardEvent.key</code></a>: the key value of the key pressed.</li>
 											<li><a href="#widl-KeyboardEvent-location"><code class="attribute-name">KeyboardEvent.location</code></a>: the location of the key on the device.</li>
 											<li><a href="#widl-KeyboardEvent-altKey"><code class="attribute-name">KeyboardEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">
@@ -4681,7 +4683,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#widl-KeyboardEvent"><code>KeyboardEvent</code></a></td>
+									<td><a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -4709,8 +4711,8 @@ console.log("Exceptions? No problem");</pre>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the key event, root element if no suitable
 												input element focused</li>
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 											<li><a href="#widl-KeyboardEvent-key"><code class="attribute-name">KeyboardEvent.key</code></a>: the key value of the key pressed.</li>
 											<li><a href="#widl-KeyboardEvent-location"><code class="attribute-name">KeyboardEvent.location</code></a>: the location of the key on the device.</li>
 											<li><a href="#widl-KeyboardEvent-altKey"><code class="attribute-name">KeyboardEvent.altKey</code></a>: <code>true</code> if <a href="#key-Alt"><code class="key">
@@ -4877,8 +4879,8 @@ console.log("Exceptions? No problem");</pre>
 									<td>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the composition</li>
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 											<li><a href="#events-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: the original string being edited, otherwise the <a class="def"
 												href="#glossary-empty-string">empty string</a></li>
 											<li><a href="#events-CompositionEvent-locale"><code class="attribute-name">CompositionEvent.locale</code></a>: the language code for the composition event, if available;
@@ -4952,8 +4954,8 @@ console.log("Exceptions? No problem");</pre>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the composition, <code>null</code> if not
 												accessible</li>
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 											<li><a href="#events-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: the string comprising the current results of the composition
 												session, which MAY be the <a class="def" href="#glossary-empty-string">empty string</a> if the content has been deleted</li>
 											<li><a href="#events-CompositionEvent-locale"><code class="attribute-name">CompositionEvent.locale</code></a>: the language code for the composition event, if available;
@@ -5011,8 +5013,8 @@ console.log("Exceptions? No problem");</pre>
 									<td>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the composition</li>
-											<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
-											<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 											<li><a href="#events-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: the string comprising the final result of the composition
 												session, which MAY be the <a class="def" href="#glossary-empty-string">empty string</a> if the content has been deleted or if the composition process has been canceled</li>
 											<li><a href="#events-CompositionEvent-locale"><code class="attribute-name">CompositionEvent.locale</code></a>: the language code for the composition event, if available;
@@ -5046,11 +5048,11 @@ console.log("Exceptions? No problem");</pre>
 				<p>Many single modifications of the tree can cause multiple mutation events to be dispatched. Rather than attempt to specify the ordering of mutation events due to
 					every possible modification of the tree, the ordering of these events is left to the implementation.</p>
 
-				<p class="warning"><strong>Warning!</strong>  The <a href="#events-MutationEvent">MutationEvent interface</a> was introduced in DOM Level 2 Events, but has not yet been
+				<p class="warning"><strong>Warning!</strong>  The <a href="#interface-MutationEvent">MutationEvent interface</a> was introduced in DOM Level 2 Events, but has not yet been
 					completely and interoperably implemented across <a class="def" href="#glossary-user-agent">user agents</a>. In addition, there have been critiques that the interface, as designed,
 					introduces a performance and implementation challenge. DOM4 [<a href="#references-DOM4">DOM4</a>] provides a new mechanism using a <code>MutationObserver</code> interface which
 					addresses the use cases that mutation events solve, but in a more performant manner. Thus, this specification describes mutation events for reference and completeness of legacy
-					behavior, but <a class="def" href="#glossary-deprecated">deprecates</a> the use of the <a href="#events-MutationEvent"><code>MutationEvent</code></a> interface.</p>
+					behavior, but <a class="def" href="#glossary-deprecated">deprecates</a> the use of the <a href="#interface-MutationEvent"><code>MutationEvent</code></a> interface.</p>
 
 				<section id="interface-MutationEvent">
 					<h4>Interface MutationEvent</h4>
@@ -5147,30 +5149,30 @@ console.log("Exceptions? No problem");</pre>
 
 								<dt>Node? relatedNodeArg</dt>
 								<dd>
-									<p>Specifies <a href="#events-MutationEvent-relatedNode"><code>MutationEvent.relatedNode</code></a>.</p>
+									<p>Specifies <a href="#widl-MutationEvent-relatedNode"><code>MutationEvent.relatedNode</code></a>.</p>
 								</dd>
 
 								<dt>DOMString prevValueArg</dt>
 								<dd>
-									<p>Specifies <a href="#events-MutationEvent-prevValue"><code>MutationEvent.prevValue</code></a>. This value MAY be the <a class="def" href="#glossary-empty-string">
+									<p>Specifies <a href="#widl-MutationEvent-prevValue"><code>MutationEvent.prevValue</code></a>. This value MAY be the <a class="def" href="#glossary-empty-string">
 										empty string</a>.</p>
 								</dd>
 
 								<dt>DOMString newValueArg</dt>
 								<dd>
-									<p>Specifies <a href="#events-MutationEvent-newValue"><code>MutationEvent.newValue</code></a>. This value MAY be the <a class="def" href="#glossary-empty-string">empty
+									<p>Specifies <a href="#widl-MutationEvent-newValue"><code>MutationEvent.newValue</code></a>. This value MAY be the <a class="def" href="#glossary-empty-string">empty
 										string</a>.</p>
 								</dd>
 
 								<dt>DOMString attrNameArg</dt>
 								<dd>
-									<p>Specifies <a href="#events-MutationEvent-attrName"><code>MutationEvent.attrName</code></a>. This value MAY be the <a class="def" href="#glossary-empty-string">empty
+									<p>Specifies <a href="#widl-MutationEvent-attrName"><code>MutationEvent.attrName</code></a>. This value MAY be the <a class="def" href="#glossary-empty-string">empty
 										string</a>.</p>
 								</dd>
 
 								<dt>unsigned short attrChangeArg</dt>
 								<dd>
-									<p>Specifies <a href="#events-MutationEvent-attrChange"><code>MutationEvent.attrChange</code></a>. This value MAY be <code>0</code>.</p>
+									<p>Specifies <a href="#widl-MutationEvent-attrChange"><code>MutationEvent.attrChange</code></a>. This value MAY be <code>0</code>.</p>
 								</dd>
 
 							</dl>
@@ -5193,7 +5195,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td>
+									<td><a href="#interface-MutationEvent"><code>MutationEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -5220,14 +5222,14 @@ console.log("Exceptions? No problem");</pre>
 									<td>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element whose attribute is being modified</li>
-											<li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the name of the changed <code>Attr</code> node</li>
-											<li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: the numerical code corresponding to the most applicable
-												<a href="#events-MutationEvent-attrChangeType">attrChangeType</a></li>
-											<li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>:  the <code>Attr</code> node that has been modified,
+											<li><a href="#widl-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the name of the changed <code>Attr</code> node</li>
+											<li><a href="#widl-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: the numerical code corresponding to the most applicable
+												<a href="#widl-MutationEvent-attrChangeType">attrChangeType</a></li>
+											<li><a href="#widl-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>:  the <code>Attr</code> node that has been modified,
 												added, or removed.</li>
-											<li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: new value of the attribute, if the <code>Attr</code> node
+											<li><a href="#widl-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: new value of the attribute, if the <code>Attr</code> node
 												has been added or modified</li>
-											<li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: previous value of the attribute, if the <code>Attr</code>
+											<li><a href="#widl-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: previous value of the attribute, if the <code>Attr</code>
 												node has been removed or modified</li>
 										</ul>
 									</td>
@@ -5257,7 +5259,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td>
+									<td><a href="#interface-MutationEvent"><code>MutationEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -5284,13 +5286,13 @@ console.log("Exceptions? No problem");</pre>
 									<td>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: object whose content is being modified</li>
-											<li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty
+											<li><a href="#widl-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
-											<li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
-											<li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: parent node of the object whose content is being
+											<li><a href="#widl-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
+											<li><a href="#widl-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: parent node of the object whose content is being
 												modified</li>
-											<li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: new value of the object</li>
-											<li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: previous value of the object</li>
+											<li><a href="#widl-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: new value of the object</li>
+											<li><a href="#widl-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: previous value of the object</li>
 										</ul>
 									</td>
 								</tr>
@@ -5319,7 +5321,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td>
+									<td><a href="#interface-MutationEvent"><code>MutationEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -5347,14 +5349,14 @@ console.log("Exceptions? No problem");</pre>
 									<td>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element which is being inserted</li>
-											<li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty
+											<li><a href="#widl-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
-											<li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
-											<li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>:  parent node of the node that has been inserted,
+											<li><a href="#widl-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
+											<li><a href="#widl-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>:  parent node of the node that has been inserted,
 												or the <code>ownerElement</code> in the case of <code>Attr</code> nodes</li>
-											<li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: the <a class="def" href="#glossary-empty-string">empty
+											<li><a href="#widl-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
-											<li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: the <a class="def" href="#glossary-empty-string">empty
+											<li><a href="#widl-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
 										</ul>
 									</td>
@@ -5387,7 +5389,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td>
+									<td><a href="#interface-MutationEvent"><code>MutationEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -5415,14 +5417,14 @@ console.log("Exceptions? No problem");</pre>
 									<td>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element which is being inserted</li>
-											<li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty
+											<li><a href="#widl-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
-											<li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
-											<li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>:  parent node of the node that has been inserted,
+											<li><a href="#widl-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
+											<li><a href="#widl-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>:  parent node of the node that has been inserted,
 												or the <code>ownerElement</code> in the case of <code>Attr</code> nodes</li>
-											<li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: the <a class="def" href="#glossary-empty-string">empty
+											<li><a href="#widl-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
-											<li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: the <a class="def" href="#glossary-empty-string">empty
+											<li><a href="#widl-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
 										</ul>
 									</td>
@@ -5454,7 +5456,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td>
+									<td><a href="#interface-MutationEvent"><code>MutationEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -5482,14 +5484,14 @@ console.log("Exceptions? No problem");</pre>
 									<td>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element which is being removed</li>
-											<li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty
+											<li><a href="#widl-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
-											<li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
-											<li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: the parent node of the node being removed, or the
+											<li><a href="#widl-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
+											<li><a href="#widl-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: the parent node of the node being removed, or the
 												<code>ownerElement</code> in the case of <code>Attr</code> nodes</li>
-											<li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: the <a class="def" href="#glossary-empty-string">empty
+											<li><a href="#widl-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
-											<li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: the <a class="def" href="#glossary-empty-string">empty
+											<li><a href="#widl-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
 										</ul>
 									</td>
@@ -5523,7 +5525,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td>
+									<td><a href="#interface-MutationEvent"><code>MutationEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -5551,14 +5553,14 @@ console.log("Exceptions? No problem");</pre>
 									<td>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element which is being removed</li>
-											<li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty
+											<li><a href="#widl-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
-											<li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
-											<li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: the parent node of the node being removed, or the
+											<li><a href="#widl-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
+											<li><a href="#widl-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: the parent node of the node being removed, or the
 												<code>ownerElement</code> in the case of <code>Attr</code> nodes</li>
-											<li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: the <a class="def" href="#glossary-empty-string">empty
+											<li><a href="#widl-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
-											<li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: the <a class="def" href="#glossary-empty-string">empty
+											<li><a href="#widl-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
 										</ul>
 									</td>
@@ -5593,7 +5595,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-MutationEvent"><code>MutationEvent</code></a></td>
+									<td><a href="#interface-MutationEvent"><code>MutationEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -5621,13 +5623,13 @@ console.log("Exceptions? No problem");</pre>
 									<td>
 										<ul>
 											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: parent node of subtree being modified</li>
-											<li><a href="#events-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty
+											<li><a href="#widl-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
-											<li><a href="#events-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
-											<li><a href="#events-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: <code>null</code></li>
-											<li><a href="#events-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: the <a class="def" href="#glossary-empty-string">empty
+											<li><a href="#widl-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
+											<li><a href="#widl-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>: <code>null</code></li>
+											<li><a href="#widl-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
-											<li><a href="#events-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: the <a class="def" href="#glossary-empty-string">empty
+											<li><a href="#widl-MutationEvent-prevValue"><code class="attribute-name">MutationEvent.prevValue</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
 										</ul>
 									</td>
@@ -5939,7 +5941,7 @@ else {
 					<code>keydown</code></a> and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events, as shown in the example below. Some modifiers are activated
 					while the key is being pressed down or maintained pressed such as <code class="key">'Alt'</code>, <code class="key">'Control'</code>, <code class="key">'Shift'</code>,
 					<code class="key">'AltGraph'</code>, or <code class="key">'Meta'</code>. Others modifiers are activated depending on their state such as <code class="key">'CapsLock'</code>,
-					<code class="key">'NumLock'</code>, or <code class="key">'ScrollLock'</code>. Change in the state happens when the modifier key is being pressed down. The <a href="#widl-KeyboardEvent">
+					<code class="key">'NumLock'</code>, or <code class="key">'ScrollLock'</code>. Change in the state happens when the modifier key is being pressed down. The <a href="#interface-KeyboardEvent">
 					<code>KeyboardEvent</code></a> interface provides convenient attributes for some common modifiers keys: <a href="#widl-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>,
 					<a href="#widl-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#widl-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>,
 					<a href="#widl-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a>. Some operating systems simulate the <code class="key">'AltGraph'</code> modifier
@@ -6591,7 +6593,7 @@ else {
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Shift'</code></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="attribute-name"><a href="#events-MouseEvent-shiftKey">shiftKey</a></code></td>
+							<td class="cell-center"><code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -6599,7 +6601,7 @@ else {
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Q'</code></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="attribute-name"><a href="#events-MouseEvent-shiftKey">shiftKey</a></code></td>
+							<td class="cell-center"><code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
 							<td>The <a class="def" href="#glossary-default-action">default action</a> is
 								prevented, e.g., by invoking <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a>.
 								</td>
@@ -6616,7 +6618,7 @@ else {
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Q'</code></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="attribute-name"><a href="#events-MouseEvent-shiftKey">shiftKey</a></code></td>
+							<td class="cell-center"><code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -6649,7 +6651,7 @@ else {
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Shift'</code></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="attribute-name"><a href="#events-MouseEvent-shiftKey">shiftKey</a></code></td>
+							<td class="cell-center"><code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
 							<td>The <a class="def" href="#glossary-default-action">default action</a> is
 								prevented, e.g., by invoking <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a>.
 								</td>
@@ -6659,7 +6661,7 @@ else {
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Q'</code></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="attribute-name"><a href="#events-MouseEvent-shiftKey">shiftKey</a></code></td>
+							<td class="cell-center"><code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -6683,7 +6685,7 @@ else {
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Q'</code></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="attribute-name"><a href="#events-MouseEvent-shiftKey">shiftKey</a></code></td>
+							<td class="cell-center"><code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -6871,7 +6873,7 @@ else {
 				<section id="key-values-list">
 					<h4>Key Values List</h4>
 					<p>The following list contains the normative list of case-sensitive key values, their character values (where applicable), an informative description of typical usage,
-						and an informative categorization.  A conforming implementation of the <a href="#widl-KeyboardEvent">KeyboardEvent</a> interface MUST support at least this set
+						and an informative categorization.  A conforming implementation of the <a href="#interface-KeyboardEvent">KeyboardEvent</a> interface MUST support at least this set
 						of values for use in the <a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>
 						attributes, though not all values MAY be available on all platforms or devices.</p>
 
@@ -7171,8 +7173,8 @@ else {
 		<ul>
 			<li><a href="#events-CustomEvent"><code>CustomEvent</code></a></li>
 			<li><a href="#events-FocusEvent"><code>FocusEvent</code></a></li>
-			<li><a href="#events-WheelEvent"><code>WheelEvent</code></a></li>
-			<li><a href="#widl-KeyboardEvent"><code>KeyboardEvent</code></a></li>
+			<li><a href="#interface-WheelEvent"><code>WheelEvent</code></a></li>
+			<li><a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a></li>
 			<li><a href="#events-CompositionEvent"><code>CompositionEvent</code></a></li>
 		</ul>
 
@@ -7430,22 +7432,22 @@ else {
 							<dt>DOMString modifiersListArg</dt>
 							<dd>
 								<p>A <a class="normative" href="http://www.w3.org/TR/2004/REC-xml-20040204/#NT-S"><em>white space</em></a> separated list of modifier key values to be activated
-									on this object. As an example, <code>"Control Shift"</code> marks the control and shift modifiers as activated (the <a href="#events-MouseEvent-ctrlKey">
-									<code>MouseEvent.ctrlKey</code></a> and <a href="#events-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a> inherited attributes will be <code>true</code>
+									on this object. As an example, <code>"Control Shift"</code> marks the control and shift modifiers as activated (the <a href="#widl-MouseEvent-ctrlKey">
+									<code>MouseEvent.ctrlKey</code></a> and <a href="#widl-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a> inherited attributes will be <code>true</code>
 									on the initialized <code>WheelEvent</code> object).</p>
 							</dd>
 
 							<dt>double deltaXArg</dt>
-							<dd><p>Specifies <a href="#events-WheelEvent-deltaX"><code>WheelEvent.deltaX</code></a>.</p></dd>
+							<dd><p>Specifies <a href="#widl-WheelEvent-deltaX"><code>WheelEvent.deltaX</code></a>.</p></dd>
 
 							<dt>double deltaYArg</dt>
-							<dd><p>Specifies <a href="#events-WheelEvent-deltaY"><code>WheelEvent.deltaY</code></a>.</p></dd>
+							<dd><p>Specifies <a href="#widl-WheelEvent-deltaY"><code>WheelEvent.deltaY</code></a>.</p></dd>
 
 							<dt>double deltaZArg</dt>
-							<dd><p>Specifies <a href="#events-WheelEvent-deltaZ"><code>WheelEvent.deltaZ</code></a>.</p></dd>
+							<dd><p>Specifies <a href="#widl-WheelEvent-deltaZ"><code>WheelEvent.deltaZ</code></a>.</p></dd>
 
 							<dt>unsigned long deltaMode</dt>
-							<dd><p>Specifies <a href="#events-WheelEvent-deltaMode"><code>WheelEvent.deltaMode</code></a>.</p></dd>
+							<dd><p>Specifies <a href="#widl-WheelEvent-deltaMode"><code>WheelEvent.deltaMode</code></a>.</p></dd>
 						</dl>
 					</dd>
 				</dl>
@@ -7479,11 +7481,11 @@ else {
 					<dd></dd>
 					<dt>void initKeyboardEvent()</dt>
 					<dd>
-						<p>Initializes attributes of a <a href="#widl-KeyboardEvent"><code>KeyboardEvent</code></a> object. This method has the same behavior as <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.
-							The value of <a href="#events-UIEvent-detail"><code>UIEvent.detail</code></a> remains undefined.</p>
+						<p>Initializes attributes of a <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> object. This method has the same behavior as <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.
+							The value of <a href="#widl-UIEvent-detail"><code>UIEvent.detail</code></a> remains undefined.</p>
 
 						<p class="warning"><strong>Warning!</strong> The <code>initKeyboardEvent</code> method is deprecated. Event constructor syntax, introduced in [<a href="#references-UIEvents">UI Events</a>], is the expected
-							future syntax for initializing a <a href="#widl-KeyboardEvent"><code>KeyboardEvent</code></a>.</p>
+							future syntax for initializing a <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a>.</p>
 
 						<dl class="parameters">
 							<dt>DOMString typeArg</dt>
@@ -7541,7 +7543,7 @@ else {
 					<dt>void initCompositionEvent()</dt>
 					<dd>
 						<p>Initializes attributes of a <code>CompositionEvent</code> object. This method has the same behavior as <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.
-							The value of <a href="#events-UIEvent-detail"><code>UIEvent.detail</code></a> remains undefined.</p>
+							The value of <a href="#widl-UIEvent-detail"><code>UIEvent.detail</code></a> remains undefined.</p>
 
 						<p class="warning"><strong>Warning!</strong> The <code>initCompositionEvent</code> method is deprecated. Event constructor syntax, introduced in [<a href="#references-UIEvents">UI Events</a>], is the expected
 							future syntax for initializing a <code>CompositionEvent</code>.</p>
@@ -7599,7 +7601,7 @@ else {
 			For implementations which do support these attributes and events, it is suggested that the definitions provided in this section be used.</p>
 
 		<section id="KeyboardEvent-supplemental-interface">
-			<h2>Legacy <a href="#widl-KeyboardEvent"><code>KeyboardEvent</code></a> supplemental interface</h2>
+			<h2>Legacy <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> supplemental interface</h2>
 			<p><em>This section is informative</em></p>
 			
 			<p>Browser support for keyboards has traditionally relied on three ad-hoc attributes, <code class="attribute-name">keyCode</code>, <code class="attribute-name">charCode</code>,
@@ -7616,17 +7618,17 @@ else {
 					<p class="intro-dom">Introduced in DOM Level 3</p>
 					
 					<p>The partial
-							<a href="#widl-KeyboardEvent"><code>KeyboardEvent</code></a>
+							<a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a>
 						interface is an informative extension of the
-							<a href="#widl-KeyboardEvent">KeyboardEvent</a>
+							<a href="#interface-KeyboardEvent">KeyboardEvent</a>
 						interface, which adds the
-							<a href="#widl-KeyboardEvent-supplemental-charCode">charCode</a>,
-							<a href="#widl-KeyboardEvent-supplemental-keyCode">keyCode</a>,
-							and <a href="#widl-KeyboardEvent-supplemental-which">which</a>
+							<a href="#widl-KeyboardEvent-charCode">charCode</a>,
+							<a href="#widl-KeyboardEvent-keyCode">keyCode</a>,
+							and <a href="#widl-KeyboardEvent-which">which</a>
 						attributes.</p>
 
 					<p>The partial
-							<a href="#widl-KeyboardEvent"><code>KeyboardEvent</code></a>
+							<a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a>
 						interface can be obtained by using the
 							<a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("KeyboardEvent")</code></a>
 						method call in implementations that support this extension.</p>
@@ -7657,7 +7659,7 @@ else {
 						<dt>readonly attribute unsigned long which</dt>
 						<dd>
 							<p><code>which</code> holds a system- and implementation-dependent numerical code signifying the unmodified identifier associated with the key pressed.  In most cases,
-								the value is identical to <code class="attribute-name"><a href="#widl-KeyboardEvent-supplemental-keyCode">keyCode</a></code>.</p>
+								the value is identical to <code class="attribute-name"><a href="#widl-KeyboardEvent-keyCode">keyCode</a></code>.</p>
 						</dd>
 					</dl>
 
@@ -7673,9 +7675,9 @@ else {
 				processing them before the DOM is updated with the effects of the key press. Code that makes use of the
 					<a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>
 				event typically relies on the legacy
-					<a href="#widl-KeyboardEvent-supplemental-charCode">charCode</a>,
-					<a href="#widl-KeyboardEvent-supplemental-keyCode">keyCode</a>,
-					and <a href="#widl-KeyboardEvent-supplemental-which">which</a>
+					<a href="#widl-KeyboardEvent-charCode">charCode</a>,
+					<a href="#widl-KeyboardEvent-keyCode">keyCode</a>,
+					and <a href="#widl-KeyboardEvent-which">which</a>
 				attributes.</p>
 
 			<p>Note that the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event is specific to key events, and has been replaced
@@ -7696,7 +7698,7 @@ else {
 							</tr>
 							<tr>
 								<th>Interface</th>
-								<td><a href="#widl-KeyboardEvent"><code>KeyboardEvent</code></a></td>
+								<td><a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a></td>
 							</tr>
 							<tr>
 								<th>Sync / Async</th>
@@ -7726,8 +7728,8 @@ else {
 									<ul>
 										<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the key event, root element if no suitable
 											input element focused</li>
-										<li><a href="#events-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
-										<li><a href="#events-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
+										<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+										<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 										<li><a href="#widl-KeyboardEvent-charCode"><code class="attribute-name">KeyboardEvent.charCode</code></a>: legacy character value for this event</li>
 										<li><a href="#widl-KeyboardEvent-keyCode"><code class="attribute-name">KeyboardEvent.keyCode</code></a>: legacy numerical code for this key</li>
 										<li><a href="#widl-KeyboardEvent-which"><code class="attribute-name">KeyboardEvent.which</code></a>: legacy numerical code for this key</li>
@@ -8192,8 +8194,8 @@ document.documentElement.dispatchEvent(evt);
 			<h2>Changes between DOM Level 2 Events and DOM Level 3 Events</h2>
 
 			<p>Numerous clarifications to the interfaces and event types have been made. The <code>HTMLEvents</code> module is no longer defined in this document. The event types
-				<a class="eventtype"><code>focus</code></a> and <a class="eventtype"><code>blur</code></a> have been added to the <a href="#events-UIEvent"><code>UIEvent</code></a>
-				module, the event type <a class="eventtype"><code>dblclick</code></a> has been added to the <a href="#events-MouseEvent"><code>MouseEvent</code></a> module. This new
+				<a class="eventtype"><code>focus</code></a> and <a class="eventtype"><code>blur</code></a> have been added to the <a href="#interface-UIEvent"><code>UIEvent</code></a>
+				module, the event type <a class="eventtype"><code>dblclick</code></a> has been added to the <a href="#interface-MouseEvent"><code>MouseEvent</code></a> module. This new
 				specification provides a better separation between the DOM event flow, the event types, and the DOM interfaces.</p>
 
 			<section id="changes-DOMEvents2to3Changes-flow">
@@ -8236,8 +8238,8 @@ document.documentElement.dispatchEvent(evt);
 					<dt>Interface <a href="#events-EventTarget"><code>EventTarget</code></a></dt>
 					<dd>The method <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> was modified.</dd>
 
-					<dt>Interface <a href="#events-MouseEvent"><code>MouseEvent</code></a></dt>
-					<dd>The <a href="#events-MouseEvent"><code>MouseEvent</code></a> interface has one new method <a href="#events-MouseEvent-getModifierState"><code>MouseEvent.getModifierState()</code></a>.</dd>
+					<dt>Interface <a href="#interface-MouseEvent"><code>MouseEvent</code></a></dt>
+					<dd>The <a href="#interface-MouseEvent"><code>MouseEvent</code></a> interface has one new method <a href="#widl-MouseEvent-getModifierState"><code>MouseEvent.getModifierState()</code></a>.</dd>
 
 					<dt>Exception <code>EventException</code></dt>
 					<dd>The exception <code>EventException</code> <a href="#note-eventexcpetion-removed">is removed in this specification</a>. The prior <code>DISPATCH_REQUEST_ERR</code>
@@ -8251,9 +8253,9 @@ document.documentElement.dispatchEvent(evt);
 				<p>The interfaces
 						<a href="#events-CustomEvent"><code>CustomEvent</code></a>,
 						<a href="#events-FocusEvent"><code>FocusEvent</code></a>,
-						<a href="#widl-KeyboardEvent"><code>KeyboardEvent</code></a>,
+						<a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a>,
 						<a href="#events-CompositionEvent"><code>CompositionEvent</code></a>,
-						and <a href="#events-WheelEvent"><code>WheelEvent</code></a>
+						and <a href="#interface-WheelEvent"><code>WheelEvent</code></a>
 					were added to the Events module.</p>
 			</section>
 		</section>
@@ -8274,13 +8276,13 @@ document.documentElement.dispatchEvent(evt);
 			<ul>
 				<li>The <q>key identifier</q> feature has been renamed <q>key value</q> to disambiguate them from unique identifiers for keys.</li>
 				<li>The
-						<a href="#widl-KeyboardEvent"><code>KeyboardEvent</code></a>
+						<a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a>
 					was briefly (from 2003-2010) defined to have <code>keyIdentifier</code> and <code>keyLocation</code> attributes, but these
 					were removed in favor of the current
 						<a href="#widl-KeyboardEvent-key"><code>key</code></a>
 						and <a href="#widl-KeyboardEvent-location"><code>location</code></a>
 					attributes. These attributes were not widely implemented.</li>
-				<li>The <a href="#widl-KeyboardEvent"><code>KeyboardEvent</code></a> also had a <code>char</code> attribute that was only used by the
+				<li>The <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> also had a <code>char</code> attribute that was only used by the
 						<a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>
 					event. Since the keypress event has been deprecated, this attribute was no longer useful and was removed.</li>
 				<li>The <code>change</code>, <code>submit</code>, and <code>reset</code> events were removed, since they were specific to HTML forms, and are specified in [<cite><a
