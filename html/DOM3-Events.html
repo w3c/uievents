@@ -906,36 +906,6 @@ console.log("Exceptions? No problem");</pre>
 
 				<p class="note"><strong>Note:</strong> The activation of an event target is device dependent, but is also application dependent, e.g., a link in a document can be activated
 					using a mouse click or a mouse double click.</p>
-
-				<p>Implementations which support the <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event
-					type</a> SHOULD also dispatch a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event as a <a class="def" href="#glossary-default-action">
-					default action</a> of a <a class="eventtype" href="#event-type-click"><code>click</code></a> event which is associated with an <a class="def" href="#glossary-activation-trigger">
-					activation trigger</a>.  However, such implementations SHOULD only initiate the associated <a class="def" href="#glossary-activation-behavior">activation behavior</a>
-					once for any given occurrence of an <a class="def" href="#glossary-activation-trigger">activation trigger</a>.</p>
-
-				<div class="example">
-					<div class="example-title">Example</div>
-					<p>The <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a>
-					<a class="def" href="#glossary-event-type">event type</a> is REQUIRED to be supported for XForms [<cite><a class="informative" href="#ref-xforms">XFORMS</a></cite>],
-					which is intended for implementation within a <a class="def" href="#glossary-host-language">host language</a>.  In a scenario where a plugin or script-based implementation
-					of XForms is intended for installation in a native implementation of this specification which does not support the <a class="eventtype" href="#event-type-DOMActivate">
-					<code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a>, the XForms <a class="def" href="#glossary-user-agent">user agent</a>
-					has to synthesize and dispatch its own <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> events based on the appropriate <a class="def"
-					href="#glossary-activation-trigger">activation triggers</a>.  Thus, when a <a class="eventtype" href="#event-type-click"><code>click</code></a> event is dispatched
-					by the DOM Level 3 Events <a class="def" href="#glossary-user-agent">user agent</a>, the XForms <a class="def" href="#glossary-user-agent">user agent</a> has to
-					determine whether to synthesize a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event with the same relevant properties as a
-					<a class="def" href="#glossary-default-action">default action</a> of that <a class="eventtype" href="#event-type-click"><code>click</code></a> event; appropriate
-					cues might be whether the <a class="eventtype" href="#event-type-click"><code>click</code></a> event is <a href="#trusted-events">trusted</a>, or whether its <a
-					class="def" href="#glossary-event-target">event target</a> has a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event listener
-					registered.</p>
-				</div>
-
-				<p class="note"><strong>Authoring Note:</strong>  Don't rely upon the interoperable support of <a class="eventtype" href="#event-type-DOMActivate">
-					<code>DOMActivate</code></a> in many <a class="def" href="#glossary-user-agent">user agents</a>. Use the <a class="eventtype" href="#event-type-click"><code>click</code></a>
-					<a class="def" href="#glossary-event-type">event type</a> for more accessible behavior instead, due to wider implementation.</p>
-
-				<p class="warning"><strong>Warning!</strong> The <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">
-					event type</a> is deprecated in this specification.</p>
 			</section>
 
 			<section id="events-activation-event-order">
@@ -944,31 +914,44 @@ console.log("Exceptions? No problem");</pre>
 				<p>Activation triggers and behavior can be defined in part by the events which are dispatched in a set order relative to one another.  The following is the typical
 					sequence of events for an element activated by a pointing device (with only pertinent events listed):</p>
 
-				<ol>
-					<li><a class="eventtype" href="#event-type-click"><code>click</code></a></li>
-
-					<li><a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> (<a class="def" href="#glossary-default-action">default action</a>, if supported
-						by the <a class="def" href="#glossary-user-agent">user agent</a>; synthesized; <code>trusted="false"</code>)</li>
-
-					<li><em>All other <a class="def" href="#glossary-default-action">default actions</a>, including the <a class="def" href="#glossary-activation-behavior">activation behavior
-						</a></em></li>
-				</ol>
+				<table class="event-sequence-table">
+					<tr>
+						<td class="cell-number">1.</td>
+						<td><a class="eventtype" href="#event-type-click"><code>click</code></a></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="cell-number">2.</td>
+						<td colspan="2">
+							<em>All <a class="def" href="#glossary-default-action">default actions</a>,
+							including the <a class="def" href="#glossary-activation-behavior">activation behavior</a></em>
+						</td>
+					</tr>
+				</table>
 
 				<p>The following is the typical sequence of events when a focused element is activated by a key event (with only pertinent events listed):</p>
 
-				<ol>
-					<li><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> (MUST be a key which can activate the element, such as the <a href="#key-Enter"><code
-						class="key">'Enter'</code></a> or <a href="#key-Spacebar"><code class="key">'Spacebar'</code></a> key, or the element is not activated)</li>
-
-					<li><a class="eventtype" href="#event-type-click"><code>click</code></a> (<a class="def" href="#glossary-default-action">default action</a>; synthesized; <code>trusted="false"
-						</code>)</li>
-
-					<li><a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> (<a class="def" href="#glossary-default-action">default action</a>, if supported
-						by the <a class="def" href="#glossary-user-agent">user agent</a>; synthesized; <code>trusted="false"</code>)</li>
-
-					<li><em>All other <a class="def" href="#glossary-default-action">default actions</a>, including the <a class="def" href="#glossary-activation-behavior">activation behavior
-						</a></em></li>
-				</ol>
+				<table class="event-sequence-table">
+					<tr>
+						<td class="cell-number">1.</td>
+						<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
+						<td>MUST be a key which can activate the element, such as the
+							<a href="#key-Enter"><code class="key">'Enter'</code></a> or <a href="#key-Spacebar"><code class="key">'Spacebar'</code></a> key,
+							or the element is not activated</td>
+					</tr>
+					<tr>
+						<td class="cell-number">2.</td>
+						<td><a class="eventtype" href="#event-type-click"><code>click</code></a></td>
+						<td><a class="def" href="#glossary-default-action">default action</a>; synthesized; <code>trusted="false"</code></td>
+					</tr>
+					<tr>
+						<td class="cell-number">3.</td>
+						<td colspan="2">
+							<em>All <a class="def" href="#glossary-default-action">default actions</a>,
+							including the <a class="def" href="#glossary-activation-behavior">activation behavior</a></em>
+						</td>
+					</tr>
+				</table>
 			</section>
 		</section>
 
@@ -2322,17 +2305,46 @@ console.log("Exceptions? No problem");</pre>
 						The focus events defined in this specification occur in a set order relative to one another.  The following is the typical sequence of events when a focus is shifted
 						between elements (this order assumes that no element is initially focused):</p>
 
-					<ol>
-						<li><em>[user shifts focus]</em> <a class="eventtype" href="#event-type-focusIn"><code>focusin</code></a> (before first target element receives focus)</li>
-						<li><a class="eventtype" href="#event-type-focus"><code>focus</code></a> (after first target element receives focus)</li>
-						<li><a class="eventtype" href="#event-type-DOMFocusIn"><code>DOMFocusIn</code></a> (if supported)</li>
-						<li><em>[user shifts focus]</em> <a class="eventtype" href="#event-type-focusout"><code>focusout</code></a> (before first target element loses focus)</li>
-						<li><a class="eventtype" href="#event-type-focusIn"><code>focusin</code></a> (before second target element receives focus)</li>
-						<li><a class="eventtype" href="#event-type-blur"><code>blur</code></a> (after first target element loses focus)</li>
-						<li><a class="eventtype" href="#event-type-DOMFocusOut"><code>DOMFocusOut</code></a> (if supported)</li>
-						<li><a class="eventtype" href="#event-type-focus"><code>focus</code></a> (after second target element receives focus)</li>
-						<li><a class="eventtype" href="#event-type-DOMFocusIn"><code>DOMFocusIn</code></a> (if supported)</li>
-					</ol>
+					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-number"></td>
+							<td colspan="2"><em>User shifts focus</em></td>
+						</tr>
+						<tr>
+							<td class="cell-number">1.</td>
+							<td><a class="eventtype" href="#event-type-focusin"><code>focusin</code></a></td>
+							<td>Sent before first target element receives focus</td>
+						</tr>
+						<tr>
+							<td class="cell-number">2.</td>
+							<td><a class="eventtype" href="#event-type-focus"><code>focus</code></a></td>
+							<td>Sent after first target element receives focus</td>
+						</tr>
+						<tr>
+							<td class="cell-number"></td>
+							<td colspan="2"><em>User shifts focus</em></td>
+						</tr>
+						<tr>
+							<td class="cell-number">3.</td>
+							<td><a class="eventtype" href="#event-type-focusout"><code>focusout</code></a></td>
+							<td>Sent before first target element loses focus</td>
+						</tr>
+						<tr>
+							<td class="cell-number">4.</td>
+							<td><a class="eventtype" href="#event-type-focusin"><code>focusin</code></a></td>
+							<td>Sent before second target element receives focus</td>
+						</tr>
+						<tr>
+							<td class="cell-number">5.</td>
+							<td><a class="eventtype" href="#event-type-blur"><code>blur</code></a></td>
+							<td>Sent after first target element loses focus</td>
+						</tr>
+						<tr>
+							<td class="cell-number">6.</td>
+							<td><a class="eventtype" href="#event-type-focus"><code>focus</code></a></td>
+							<td>Sent after second target element receives focus</td>
+						</tr>
+					</table>
 
 					<p class="note"><strong>Note:</strong>  This specification does not define the behavior of focus events when interacting with methods such as <code>focus()</code> or
 						<code>blur()</code>. See the relevant specifications where those methods are defined for such behavior.</p>
@@ -2781,64 +2793,256 @@ console.log("Exceptions? No problem");</pre>
 					<p>Certain mouse events defined in this specification occur in a set order relative to one another.  The following is the typical sequence of events when a pointing
 						device's cursor is moved over an element:</p>
 
-					<ol>
-						<li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a><br/>
-						(Pointing device is moved into an element...)</li>
-						<li><a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a></li>
-						<li><a class="eventtype" href="#event-type-mouseenter"><code>mouseenter</code></a></li>
-						<li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a> (multiple events)<br/>
-						(Pointing device is moved out of the element...)</li>
-						<li><a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a></li>
-						<li><a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a></li>
-					</ol>
+					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-number"></td>
+							<th>Event Name</th>
+							<th class="cell-center">Element</th>
+							<th>Notes</th>
+						</tr>
+						<tr>
+							<td class="cell-number">1.</td>
+							<td><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a></td>
+							<td class="cell-center"></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number"></td>
+							<td colspan="3"><em>Pointing device is moved into an element...</em></td>
+						</tr>
+						<tr>
+							<td class="cell-number">2.</td>
+							<td><a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a></td>
+							<td class="cell-center">A</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">3.</td>
+							<td><a class="eventtype" href="#event-type-mouseenter"><code>mouseenter</code></a></td>
+							<td class="cell-center">A</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">4.</td>
+							<td><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a></td>
+							<td class="cell-center">A</td>
+							<td>Multiple events</td>
+						</tr>
+						<tr>
+							<td class="cell-number"></td>
+							<td colspan="3"><em>Pointing device is moved out of the element...</em></td>
+						</tr>
+						<tr>
+							<td class="cell-number">5.</td>
+							<td><a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a></td>
+							<td class="cell-center">A</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">6.</td>
+							<td><a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a></td>
+							<td class="cell-center">A</td>
+							<td></td>
+						</tr>
+					</table>
 
 					<p>When a pointing device is moved into an element <em>A</em>, and then into a nested element <em>B</em> and then back out again, the following is the typical
 						sequence of events:</p>
 
-					<ol>
-						<li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a><br/>
-						(Pointing device is moved into element A...)</li>
-						<li><a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a> (element <em>A</em>)</li>
-						<li><a class="eventtype" href="#event-type-mouseenter"><code>mouseenter</code></a> (element <em>A</em>)</li>
-						<li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a> (multiple events in element <em>A</em>)<br/>
-						(Pointing device is moved into nested element B...)</li>
-						<li><a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a> (element <em>A</em>)</li>
-						<li><a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a> (element <em>B</em>)</li>
-						<li><a class="eventtype" href="#event-type-mouseenter"><code>mouseenter</code></a> (element <em>B</em>)</li>
-						<li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a> (multiple events in element <em>B</em>)<br/>
-						(Pointing device is moved from element B into A...)</li>
-						<li><a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a> (element <em>B</em>)</li>
-						<li><a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a> (element <em>B</em>)</li>
-						<li><a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a> (element <em>A</em>)</li>
-						<li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a> (multiple events in element <em>A</em>)<br/>
-						(Pointing device is moved out of element A...)</li>
-						<li><a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a> (element <em>A</em>)</li>
-						<li><a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a> (element <em>A</em>)</li>
-					</ol>
+					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-number"></td>
+							<th>Event Name</th>
+							<th class="cell-center">Element</th>
+							<th>Notes</th>
+						</tr>
+						<tr>
+							<td class="cell-number">1.</td>
+							<td><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a></td>
+							<td class="cell-center"></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number"></td>
+							<td colspan="3"><em>Pointing device is moved into element A...</em></td>
+						</tr>
+						<tr>
+							<td class="cell-number">2.</td>
+							<td><a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a></td>
+							<td class="cell-center">A</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">3.</td>
+							<td><a class="eventtype" href="#event-type-mouseenter"><code>mouseenter</code></a></td>
+							<td class="cell-center">A</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">4.</td>
+							<td><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a></td>
+							<td class="cell-center">A</td>
+							<td>Multiple events</td>
+						</tr>
+						<tr>
+							<td class="cell-number"></td>
+							<td colspan="3"><em>Pointing device is moved into nested element B...</em></td>
+						</tr>
+						<tr>
+							<td class="cell-number">5.</td>
+							<td><a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a></td>
+							<td class="cell-center">A</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">6.</td>
+							<td><a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a></td>
+							<td class="cell-center">B</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">7.</td>
+							<td><a class="eventtype" href="#event-type-mouseenter"><code>mouseenter</code></a></td>
+							<td class="cell-center">B</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">8.</td>
+							<td><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a></td>
+							<td class="cell-center">B</td>
+							<td>Multiple events</td>
+						</tr>
+						<tr>
+							<td class="cell-number"></td>
+							<td colspan="3"><em>Pointing device is moved from element B into A...</em></td>
+						</tr>
+						<tr>
+							<td class="cell-number">9.</td>
+							<td><a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a></td>
+							<td class="cell-center">B</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">10.</td>
+							<td><a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a></td>
+							<td class="cell-center">B</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">11.</td>
+							<td><a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a></td>
+							<td class="cell-center">A</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">12.</td>
+							<td><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a></td>
+							<td class="cell-center">A</td>
+							<td>Multiple events</td>
+						</tr>
+						<tr>
+							<td class="cell-number"></td>
+							<td colspan="3"><em>Pointing device is moved out of element A...</em></td>
+						</tr>
+						<tr>
+							<td class="cell-number">13.</td>
+							<td><a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a></td>
+							<td class="cell-center">A</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">14.</td>
+							<td><a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a></td>
+							<td class="cell-center">A</td>
+							<td></td>
+						</tr>
+					</table>
 
 					<p>Sometimes elements can be visually overlapped using CSS. In the following example, three elements labeled A, B, and C all have the same dimensions and
 						absolute position on a web page. Element C is a child of B, and B is a child of A in the DOM:</p>
 
 					<div class="figure" style="text-align: center">
-						<img src="images/stacked-event-mouse-dispatch.png" alt="Graphical representation of three stacked elements all on top of each other. The bottom element is labeled A and the top element is C" title="graphical representation of three stacked elements all on top of each other, with the pointing device moving over the stack." />
+						<img src="images/stacked-event-mouse-dispatch.png" alt="Graphical representation of three stacked elements all on top of each other. The bottom element is labeled A and the top element is C" title="Graphical representation of three stacked elements all on top of each other, with the pointing device moving over the stack." />
 					</div>
 
 					<p>When the pointing device is moved from outside the element stack to the element labeled C and then moved out again, the following series of events occur:</p>
 
-					<ol>
-						<li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a><br/>
-						(Pointing device is moved into element C; the topmost element in the stack)</li>
-						<li><a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a> (element <em>C</em>)</li>
-						<li><a class="eventtype" href="#event-type-mouseenter"><code>mouseenter</code></a> (element <em>A</em>)</li>
-						<li><a class="eventtype" href="#event-type-mouseenter"><code>mouseenter</code></a> (element <em>B</em>)</li>
-						<li><a class="eventtype" href="#event-type-mouseenter"><code>mouseenter</code></a> (element <em>C</em>)</li>
-						<li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a> (multiple events in element <em>C</em>)<br/>
-						(Pointing device is moved out of element C...)</li>
-						<li><a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a> (element <em>C</em>)</li>
-						<li><a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a> (element <em>C</em>)</li>
-						<li><a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a> (element <em>B</em>)</li>
-						<li><a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a> (element <em>A</em>)</li>
-					</ol>
+					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-number"></td>
+							<th>Event Name</th>
+							<th class="cell-center">Element</th>
+							<th>Notes</th>
+						</tr>
+						<tr>
+							<td class="cell-number">1.</td>
+							<td><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a></td>
+							<td class="cell-center"></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number"></td>
+							<td colspan="3"><em>Pointing device is moved into element C; the topmost element in the stack</em></td>
+						</tr>
+						<tr>
+							<td class="cell-number">2.</td>
+							<td><a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a></td>
+							<td class="cell-center">C</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">3.</td>
+							<td><a class="eventtype" href="#event-type-mouseenter"><code>mouseenter</code></a></td>
+							<td class="cell-center">A</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">4.</td>
+							<td><a class="eventtype" href="#event-type-mouseenter"><code>mouseenter</code></a></td>
+							<td class="cell-center">B</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">5.</td>
+							<td><a class="eventtype" href="#event-type-mouseenter"><code>mouseenter</code></a></td>
+							<td class="cell-center">C</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">6.</td>
+							<td><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a></td>
+							<td class="cell-center">C</td>
+							<td>Multiple events</td>
+						</tr>
+						<tr>
+							<td class="cell-number"></td>
+							<td colspan="3"><em>Pointing device is moved out of element C...</em></td>
+						</tr>
+						<tr>
+							<td class="cell-number">7.</td>
+							<td><a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a></td>
+							<td class="cell-center">C</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">8.</td>
+							<td><a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a></td>
+							<td class="cell-center">C</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">9.</td>
+							<td><a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a></td>
+							<td class="cell-center">B</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">10.</td>
+							<td><a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a></td>
+							<td class="cell-center">A</td>
+							<td></td>
+						</tr>
+					</table>
 
 					<p class="note"><strong>Note:</strong> The <code>mouseover</code>/<code>mouseout</code> events are only fired once, while <code>mouseenter</code>/<code>mouseleave</code>
 						events are fired three times.</p>
@@ -2846,18 +3050,63 @@ console.log("Exceptions? No problem");</pre>
 					<p>The following is the typical sequence of events when a button associated with a pointing device (e.g., a mouse button or trackpad) is pressed and released over
 						an element:</p>
 
-					<ol>
-						<li><a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a></li>
-						<li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a> (OPTIONAL, multiple events, some limits)</li>
-						<li><a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a></li>
-						<li><a class="eventtype" href="#event-type-click"><code>click</code></a></li>
-						<li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a> (OPTIONAL, multiple events, some limits)</li>
-						<li><a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a></li>
-						<li><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a> (OPTIONAL, multiple events, some limits)</li>
-						<li><a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a></li>
-						<li><a class="eventtype" href="#event-type-click"><code>click</code></a></li>
-						<li><a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a></li>
-					</ol>
+					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-number"></td>
+							<th>Event Name</th>
+							<th>Notes</th>
+						</tr>
+						<tr>
+							<td class="cell-number">1.</td>
+							<td><a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">2.</td>
+							<td><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a></td>
+							<td>OPTIONAL, multiple events, some limits</td>
+						</tr>
+						<tr>
+							<td class="cell-number">3.</td>
+							<td><a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">4.</td>
+							<td><a class="eventtype" href="#event-type-click"><code>click</code></a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">5.</td>
+							<td><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a></td>
+							<td>OPTIONAL, multiple events, some limits</td>
+						</tr>
+						<tr>
+							<td class="cell-number">6.</td>
+							<td><a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">7.</td>
+							<td><a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a></td>
+							<td>OPTIONAL, multiple events, some limits</td>
+						</tr>
+						<tr>
+							<td class="cell-number">8.</td>
+							<td><a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">9.</td>
+							<td><a class="eventtype" href="#event-type-click"><code>click</code></a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">10.</td>
+							<td><a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a></td>
+							<td></td>
+						</tr>
+					</table>
 
 					<p class="note"><strong>Note: </strong>The lag time, degree, distance, and number of <a class="eventtype" href="#event-type-mousemove"><code>mousemove</code></a>
 						events allowed between the <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> and <a class="eventtype" href="#event-type-mouseup">
@@ -4060,31 +4309,31 @@ console.log("Exceptions? No problem");</pre>
 
 					<table class="event-sequence-table">
 						<tr>
-							<td class="cell-right">1.</td>
+							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">2.</td>
+							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
 							<td><em>(only for keys which produce a <a class="def" href="#glossary-character-value">character value</a>)</em></td>
 						</tr>
 						<tr>
-							<td class="cell-right"></td>
+							<td class="cell-number"></td>
 							<td colspan="2"><em>Any <a class="def" href="#glossary-default-action">default actions</a> related to this key, such as inserting a
 								character in to the DOM.</em></td>
 						</tr>
 						<tr>
-							<td class="cell-right">3.</td>
+							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
 							<td><em>(only for keys which have updated the DOM)</em></td>
 						</tr>
 						<tr>
-							<td class="cell-right"></td>
+							<td class="cell-number"></td>
 							<td colspan="2"><em>Any events as a result of the key being held for a sustained period (see below).</em></td>
 						</tr>
 						<tr>
-							<td class="cell-right">4.</td>
+							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td></td>
 						</tr>
@@ -4093,22 +4342,22 @@ console.log("Exceptions? No problem");</pre>
 					<p>If the key is depressed for a sustained period, the following events MAY repeat at an environment-dependent rate: <!-- and the key should seek counseling -->
 						<table class="event-sequence-table">
 							<tr>
-								<td class="cell-right">1.</td>
+								<td class="cell-number">1.</td>
 								<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 								<td><em>(with <a href="#widl-KeyboardEvent-repeat">repeat</a> attribute set to <code> true</code>)</em></td>
 							</tr>
 							<tr>
-								<td class="cell-right">2.</td>
+								<td class="cell-number">2.</td>
 								<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
 								<td><em>(only for keys which produce a <a class="def" href="#glossary-character-value">character value</a>)</em></td>
 							</tr>
 							<tr>
-								<td class="cell-right"></td>
+								<td class="cell-number"></td>
 								<td colspan="2"><em>Any <a class="def" href="#glossary-default-action">default actions</a> related to this key, such as inserting a
 									character in to the DOM.</em></td>
 							</tr>
 							<tr>
-								<td class="cell-right">3.</td>
+								<td class="cell-number">3.</td>
 								<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
 								<td><em>(only for keys which have updated the DOM)</em></td>
 							</tr>
@@ -4387,11 +4636,23 @@ console.log("Exceptions? No problem");</pre>
 					<h4>Composition Event Order</h4>
 					<p>The composition events defined in this specification occur in a set order relative to one another:</p>
 
-					<ol>
-						<li><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></li>
-						<li><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> (multiple events)</li>
-						<li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></li>
-					</ol>
+					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-number">1.</td>
+							<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">2.</td>
+							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
+							<td>Multiple events</td>
+						</tr>
+						<tr>
+							<td class="cell-number">3.</td>
+							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
+							<td></td>
+						</tr>
+					</table>
 				</section>
 
 				<section id="handwriting">
@@ -4399,14 +4660,36 @@ console.log("Exceptions? No problem");</pre>
 					<p>The following example describes a possible sequence of events when composing a text passage <q>text</q> with a handwriting recognition system, such as on a pen
 						tablet, as modeled using Composition Events.</p>
 
-					<ol>
-						<li><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>: <code>''</code></li>
-						<li><em>[User writes word on tablet surface]</em>
-							<a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>: <code>'test'</code></li>
-						<li><em>[User rejects first word-match suggestion, selects different match]</em>
-							<a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>: <code>'text'</code></li>
-						<li><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>: <code>'text'</code></li>
-					</ol>
+					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-number">1.</td>
+							<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number"></td>
+							<td colspan="2"><em>User writes word on tablet surface</em></td>
+						</tr>
+						<tr>
+							<td class="cell-number">2.</td>
+							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
+							<td><code>'test'</code></td>
+						</tr>
+						<tr>
+							<td class="cell-number"></td>
+							<td colspan="2"><em>User rejects first word-match suggestion, selects different match</em></td>
+						</tr>
+						<tr>
+							<td class="cell-number">3.</td>
+							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
+							<td><code>'text'</code></td>
+						</tr>
+						<tr>
+							<td class="cell-number">3.</td>
+							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
+							<td><code>'text'</code></td>
+						</tr>
+					</table>
 				</section>
 
 				<p>The composition event types are listed below.</p>
@@ -4912,42 +5195,42 @@ else {
 					<div class="example-title">Example</div>
 					<table class="event-sequence-table">
 						<tr>
-							<td class="cell-right">1.</td>
+							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Shift'</code></td>
 							<td><code class="attribute-name">shiftKey</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">2.</td>
+							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Q'</code></td>
 							<td><code class="attribute-name">shiftKey</code></td>
 							<td>Latin Capital Letter Q</td>
 						</tr>
 						<tr>
-							<td class="cell-right">3.</td>
+							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
 							<td class="cell-center"><code class="key">'Q'</code></td>
 							<td></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">4.</td>
+							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
 							<td class="cell-center"></td>
 							<td></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">5.</td>
+							<td class="cell-number">5.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Q'</code></td>
 							<td><code class="attribute-name">shiftKey</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">6.</td>
+							<td class="cell-number">6.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Shift'</code></td>
 							<td></td>
@@ -4964,42 +5247,42 @@ else {
 					<div class="example-title">Example</div>
 					<table class="event-sequence-table">
 						<tr>
-							<td class="cell-right">1.</td>
+							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Shift'</code></td>
 							<td><code class="attribute-name">shiftKey</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">2.</td>
+							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Q'</code></td>
 							<td><code class="attribute-name">shiftKey</code></td>
 							<td>Latin Capital Letter Q</td>
 						</tr>
 						<tr>
-							<td class="cell-right">3.</td>
+							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
 							<td class="cell-center"><code class="key">'Q'</code></td>
 							<td></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">4.</td>
+							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
 							<td class="cell-center"></td>
 							<td></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">5.</td>
+							<td class="cell-number">5.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Shift'</code></td>
 							<td></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">6.</td>
+							<td class="cell-number">6.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'q'</code></td>
 							<td></td>
@@ -5014,28 +5297,28 @@ else {
 					<div class="example-title">Example</div>
 					<table class="event-sequence-table">
 						<tr>
-							<td class="cell-right">1.</td>
+							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Control'</code></td>
 							<td><code class="attribute-name">ctrlKey</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">2.</td>
+							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'v'</code></td>
 							<td><code class="attribute-name">ctrlKey</code></td>
 							<td>Latin Small Letter V</td>
 						</tr>
 						<tr>
-							<td class="cell-right">3.</td>
+							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'v'</code></td>
 							<td><code class="attribute-name">ctrlKey</code></td>
 							<td>Latin Small Letter V</td>
 						</tr>
 						<tr>
-							<td class="cell-right">4.</td>
+							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Control'</code></td>
 							<td></td>
@@ -5071,63 +5354,63 @@ else {
 					<div class="example-title">Example</div>
 					<table class="event-sequence-table">
 						<tr>
-							<td class="cell-right"></td>
+							<td class="cell-number"></td>
 							<th>Event Name</th>
 							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
 							<th class="cell-center"><a href="#widl-CompositionEvent-data"><code>CompositionEvent<br/>data</code></a></th>
 							<th>Notes</th>
 						</tr>
 						<tr>
-							<td class="cell-right">1.</td>
+							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'DeadCircumflex'</code></td>
 							<td class="cell-center"></td>
 							<td>Combining Circumflex Accent</td>
 						</tr>
 						<tr>
-							<td class="cell-right">2.</td>
+							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">''</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">3.</td>
+							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="char">'\u0302'</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">4.</td>
+							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'DeadCircumflex'</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">5.</td>
+							<td class="cell-number">5.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'ê'</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">6.</td>
+							<td class="cell-number">6.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'ê'</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">7.</td>
+							<td class="cell-number">7.</td>
 							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'ê'</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">8.</td>
+							<td class="cell-number">8.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'e'</code></td>
 							<td class="cell-center"></td>
@@ -5146,63 +5429,63 @@ else {
 					<div class="example-title">Example</div>
 					<table class="event-sequence-table">
 						<tr>
-							<td class="cell-right"></td>
+							<td class="cell-number"></td>
 							<th>Event Name</th>
 							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
 							<th class="cell-center"><a href="#widl-CompositionEvent-data"><code>CompositionEvent<br/>data</code></a></th>
 							<th>Notes</th>
 						</tr>
 						<tr>
-							<td class="cell-right">1.</td>
+							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'DeadCircumflex'</code></td>
 							<td class="cell-center"></td>
 							<td>Combining Circumflex Accent</td>
 						</tr>
 						<tr>
-							<td class="cell-right">2.</td>
+							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">''</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">3.</td>
+							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="char">'\u0302'</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">4.</td>
+							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'DeadCircumflex'</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">5.</td>
+							<td class="cell-number">5.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'q'</code></td>
 							<td class="cell-center"></td>
 							<td>Latin Small Letter Q</td>
 						</tr>
 						<tr>
-							<td class="cell-right">6.</td>
+							<td class="cell-number">6.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">''</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">7.</td>
+							<td class="cell-number">7.</td>
 							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">''</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">8.</td>
+							<td class="cell-number">8.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'q'</code></td>
 							<td class="cell-center"></td>
@@ -5241,119 +5524,119 @@ else {
 					<div class="example-title">Example</div>
 					<table class="event-sequence-table">
 						<tr>
-							<td class="cell-right"></td>
+							<td class="cell-number"></td>
 							<th>Event Name</th>
 							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
 							<th class="cell-center"><a href="#widl-CompositionEvent-data"><code>CompositionEvent<br/>data</code></a></th>
 							<th>Notes</th>
 						</tr>
 						<tr>
-							<td class="cell-right">1.</td>
+							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'s'</code></td>
 							<td class="cell-center"></td>
 							<td>Latin Small Letter S</td>
 						</tr>
 						<tr>
-							<td class="cell-right">2.</td>
+							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">''</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">3.</td>
+							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'s'</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">4.</td>
+							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'s'</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">5.</td>
+							<td class="cell-number">5.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'i'</code></td>
 							<td class="cell-center"></td>
 							<td>Latin Small Letter I</td>
 						</tr>
 						<tr>
-							<td class="cell-right">6.</td>
+							<td class="cell-number">6.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'し'</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">7.</td>
+							<td class="cell-number">7.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'i'</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">8.</td>
+							<td class="cell-number">8.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Convert'</code></td>
 							<td class="cell-center"></td>
 							<td>Convert</td>
 						</tr>
 						<tr>
-							<td class="cell-right">9.</td>
+							<td class="cell-number">9.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'&#x8A69;'</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">10.</td>
+							<td class="cell-number">10.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Convert'</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">11.</td>
+							<td class="cell-number">11.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Convert'</code></td>
 							<td class="cell-center"></td>
 							<td>Convert</td>
 						</tr>
 						<tr>
-							<td class="cell-right">12.</td>
+							<td class="cell-number">12.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'&#x5E02;'</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">13.</td>
+							<td class="cell-number">13.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Convert'</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">14.</td>
+							<td class="cell-number">14.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Accept'</code></td>
 							<td class="cell-center"></td>
 							<td>Accept</td>
 						</tr>
 						<tr>
-							<td class="cell-right">15.</td>
+							<td class="cell-number">15.</td>
 							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'&#x5E02;'</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">16.</td>
+							<td class="cell-number">16.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Accept'</code></td>
 							<td class="cell-center"></td>
@@ -5370,126 +5653,126 @@ else {
 					<div class="example-title">Example</div>
 					<table class="event-sequence-table">
 						<tr>
-							<td class="cell-right"></td>
+							<td class="cell-number"></td>
 							<th>Event Name</th>
 							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
 							<th class="cell-center"><a href="#widl-CompositionEvent-data"><code>CompositionEvent<br/>data</code></a></th>
 							<th>Notes</th>
 						</tr>
 						<tr>
-							<td class="cell-right">1.</td>
+							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'s'</code></td>
 							<td class="cell-center"></td>
 							<td>Latin Small Letter S</td>
 						</tr>
 						<tr>
-							<td class="cell-right">2.</td>
+							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">''</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">3.</td>
+							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'s'</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">4.</td>
+							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'s'</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">5.</td>
+							<td class="cell-number">5.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'i'</code></td>
 							<td class="cell-center"></td>
 							<td>Latin Small Letter I</td>
 						</tr>
 						<tr>
-							<td class="cell-right">6.</td>
+							<td class="cell-number">6.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'し'</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">7.</td>
+							<td class="cell-number">7.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'i'</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">8.</td>
+							<td class="cell-number">8.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Convert'</code></td>
 							<td class="cell-center"></td>
 							<td>Convert</td>
 						</tr>
 						<tr>
-							<td class="cell-right">9.</td>
+							<td class="cell-number">9.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'&#x8A69;'</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">10.</td>
+							<td class="cell-number">10.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Convert'</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">11.</td>
+							<td class="cell-number">11.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Convert'</code></td>
 							<td class="cell-center"></td>
 							<td>Convert</td>
 						</tr>
 						<tr>
-							<td class="cell-right">12.</td>
+							<td class="cell-number">12.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'&#x5E02;'</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">13.</td>
+							<td class="cell-number">13.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Convert'</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">14.</td>
+							<td class="cell-number">14.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Cancel'</code></td>
 							<td class="cell-center"></td>
 							<td>Cancel</td>
 						</tr>
 						<tr>
-							<td class="cell-right">15.</td>
+							<td class="cell-number">15.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">''</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">16.</td>
+							<td class="cell-number">16.</td>
 							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">''</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">17.</td>
+							<td class="cell-number">17.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Cancel'</code></td>
 							<td class="cell-center"></td>
@@ -5538,7 +5821,7 @@ else {
 					<div class="example-title">Example</div>
 					<table class="event-sequence-table">
 						<tr>
-							<td class="cell-right"></td>
+							<td class="cell-number"></td>
 							<th>Event Name</th>
 							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
 							<th class="cell-center">Event<br/><code>data</code></th>
@@ -5546,7 +5829,7 @@ else {
 							<th>Notes</th>
 						</tr>
 						<tr>
-							<td class="cell-right">1.</td>
+							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Shift'</code></td>
 							<td class="cell-center"></td>
@@ -5554,7 +5837,7 @@ else {
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">2.</td>
+							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Q'</code></td>
 							<td class="cell-center"></td>
@@ -5564,14 +5847,14 @@ else {
 								</td>
 						</tr>
 						<tr>
-							<td class="cell-right"></td>
+							<td class="cell-number"></td>
 							<td colspan="5">
 								<em>No <a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a> or
 								<a class="eventtype" href="#event-type-input"><code>input</code></a> events are generated</em>
 								</td>
 						</tr>
 						<tr>
-							<td class="cell-right">3.</td>
+							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Q'</code></td>
 							<td class="cell-center"></td>
@@ -5579,7 +5862,7 @@ else {
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">4.</td>
+							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Shift'</code></td>
 							<td class="cell-center"></td>
@@ -5596,7 +5879,7 @@ else {
 					<div class="example-title">Example</div>
 					<table class="event-sequence-table">
 						<tr>
-							<td class="cell-right"></td>
+							<td class="cell-number"></td>
 							<th>Event Name</th>
 							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
 							<th class="cell-center">Event<br/><code>data</code></th>
@@ -5604,7 +5887,7 @@ else {
 							<th>Notes</th>
 						</tr>
 						<tr>
-							<td class="cell-right">1.</td>
+							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Shift'</code></td>
 							<td class="cell-center"></td>
@@ -5614,7 +5897,7 @@ else {
 								</td>
 						</tr>
 						<tr>
-							<td class="cell-right">2.</td>
+							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Q'</code></td>
 							<td class="cell-center"></td>
@@ -5622,7 +5905,7 @@ else {
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">3.</td>
+							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'Q'</code></td>
@@ -5630,7 +5913,7 @@ else {
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">4.</td>
+							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
@@ -5638,7 +5921,7 @@ else {
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">5.</td>
+							<td class="cell-number">5.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Q'</code></td>
 							<td class="cell-center"></td>
@@ -5646,7 +5929,7 @@ else {
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">6.</td>
+							<td class="cell-number">6.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Shift'</code></td>
 							<td class="cell-center"></td>
@@ -5670,14 +5953,14 @@ else {
 					<div class="example-title">Example</div>
 					<table class="event-sequence-table">
 						<tr>
-							<td class="cell-right"></td>
+							<td class="cell-number"></td>
 							<th>Event Name</th>
 							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
 							<th class="cell-center">Event<br/><code>data</code></th>
 							<th>Notes</th>
 						</tr>
 						<tr>
-							<td class="cell-right">1.</td>
+							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'DeadCircumflex'</code></td>
 							<td class="cell-center"></td>
@@ -5686,35 +5969,35 @@ else {
 								</td>
 						</tr>
 						<tr>
-							<td class="cell-right">2.</td>
+							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'DeadCircumflex'</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">3.</td>
+							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'e'</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">4.</td>
+							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'e'</code></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">5.</td>
+							<td class="cell-number">5.</td>
 							<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
 						<tr>
-							<td class="cell-right">6.</td>
+							<td class="cell-number">6.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'e'</code></td>
 							<td class="cell-center"></td>
@@ -6842,7 +7125,7 @@ else {
 					<tr><td>Minus</td>					<td class="cell-center"><code class="glyph">'-'</code></td>		<td class="cell-center">189</td>	</tr>
 					<tr><td>Underscore</td>				<td class="cell-center"><code class="glyph">'_'</code></td>		<td class="cell-center">189</td>	</tr>
 					<tr><td>Period</td>					<td class="cell-center"><code class="glyph">'.'</code></td>		<td class="cell-center">190</td>	</tr>
-					<tr><td>Greater than sign</td>		<td class="cell-center"><code class="glyph">'>'</code></td>		<td class="cell-center">190</td>	</tr>
+					<tr><td>Greater than sign</td>		<td class="cell-center"><code class="glyph">'&gt;'</code></td>		<td class="cell-center">190</td>	</tr>
 					<tr><td>Forward slash</td>			<td class="cell-center"><code class="glyph">'/'</code></td>		<td class="cell-center">191</td>	</tr>
 					<tr><td>Question mark</td>			<td class="cell-center"><code class="glyph">'?'</code></td>		<td class="cell-center">191</td>	</tr>
 					<tr><td>Backtick</td>				<td class="cell-center"><code class="glyph">'`'</code></td>		<td class="cell-center">192</td>	</tr>
@@ -7060,7 +7343,95 @@ else {
 							href="#glossary-event-type">event type</a> to ensure maximum accessibility.</p>
 					</dd>
 				</dl>
-			</div>		
+			</div>
+
+			<p>Implementations which support the <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event
+				type</a> SHOULD also dispatch a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event as a <a class="def" href="#glossary-default-action">
+				default action</a> of a <a class="eventtype" href="#event-type-click"><code>click</code></a> event which is associated with an <a class="def" href="#glossary-activation-trigger">
+				activation trigger</a>.  However, such implementations SHOULD only initiate the associated <a class="def" href="#glossary-activation-behavior">activation behavior</a>
+				once for any given occurrence of an <a class="def" href="#glossary-activation-trigger">activation trigger</a>.</p>
+
+			<div class="example">
+				<div class="example-title">Example</div>
+				<p>The <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a>
+				<a class="def" href="#glossary-event-type">event type</a> is REQUIRED to be supported for XForms [<cite><a class="informative" href="#ref-xforms">XFORMS</a></cite>],
+				which is intended for implementation within a <a class="def" href="#glossary-host-language">host language</a>.  In a scenario where a plugin or script-based implementation
+				of XForms is intended for installation in a native implementation of this specification which does not support the <a class="eventtype" href="#event-type-DOMActivate">
+				<code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">event type</a>, the XForms <a class="def" href="#glossary-user-agent">user agent</a>
+				has to synthesize and dispatch its own <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> events based on the appropriate <a class="def"
+				href="#glossary-activation-trigger">activation triggers</a>.  Thus, when a <a class="eventtype" href="#event-type-click"><code>click</code></a> event is dispatched
+				by the DOM Level 3 Events <a class="def" href="#glossary-user-agent">user agent</a>, the XForms <a class="def" href="#glossary-user-agent">user agent</a> has to
+				determine whether to synthesize a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event with the same relevant properties as a
+				<a class="def" href="#glossary-default-action">default action</a> of that <a class="eventtype" href="#event-type-click"><code>click</code></a> event; appropriate
+				cues might be whether the <a class="eventtype" href="#event-type-click"><code>click</code></a> event is <a href="#trusted-events">trusted</a>, or whether its <a
+				class="def" href="#glossary-event-target">event target</a> has a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event listener
+				registered.</p>
+			</div>
+
+			<p class="note"><strong>Authoring Note:</strong>  Don't rely upon the interoperable support of <a class="eventtype" href="#event-type-DOMActivate">
+				<code>DOMActivate</code></a> in many <a class="def" href="#glossary-user-agent">user agents</a>. Use the <a class="eventtype" href="#event-type-click"><code>click</code></a>
+				<a class="def" href="#glossary-event-type">event type</a> for more accessible behavior instead, due to wider implementation.</p>
+
+			<p class="warning"><strong>Warning!</strong> The <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> <a class="def" href="#glossary-event-type">
+				event type</a> is deprecated in this specification.</p>
+
+			<section id="legacy-uievent-event-order">
+				<h3>Activation event order</h3>
+
+				<p>If the <code>DOMActivate</code> event is supported by the <a class="def" href="#glossary-user-agent">user agent</a>, then the
+					events MUST be dispatched in a set order relative to each other: (with only pertinent events listed):</p>
+
+				<table class="event-sequence-table">
+					<tr>
+						<td class="cell-number">1.</td>
+						<td><a class="eventtype" href="#event-type-click"><code>click</code></a></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="cell-number">2.</td>
+						<td><a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a></td>
+						<td><a class="def" href="#glossary-default-action">default action</a>, if supported
+							by the <a class="def" href="#glossary-user-agent">user agent</a>; synthesized; <code>trusted="false"</code></td>
+					</tr>
+					<tr>
+						<td class="cell-number">3.</td>
+						<td colspan="2">
+							<em>All other <a class="def" href="#glossary-default-action">default actions</a>,
+							including the <a class="def" href="#glossary-activation-behavior">activation behavior</a></em>
+						</td>
+					</tr>
+				</table>
+
+				<p>If the focused element is activated by a key event, then the following shows the typical sequence of events (with only pertinent events listed):</p>
+
+				<table class="event-sequence-table">
+					<tr>
+						<td class="cell-number">1.</td>
+						<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
+						<td>MUST be a key which can activate the element, such as the
+							<a href="#key-Enter"><code class="key">'Enter'</code></a> or <a href="#key-Spacebar"><code class="key">'Spacebar'</code></a> key,
+							or the element is not activated</td>
+					</tr>
+					<tr>
+						<td class="cell-number">2.</td>
+						<td><a class="eventtype" href="#event-type-click"><code>click</code></a></td>
+						<td><a class="def" href="#glossary-default-action">default action</a>; synthesized; <code>trusted="false"</code></td>
+					</tr>
+					<tr>
+						<td class="cell-number">3.</td>
+						<td><a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a></td>
+						<td><a class="def" href="#glossary-default-action">default action</a>, if supported
+							by the <a class="def" href="#glossary-user-agent">user agent</a>; synthesized; <code>trusted="false"</code></td>
+					</tr>
+					<tr>
+						<td class="cell-number">4.</td>
+						<td colspan="2">
+							<em>All other <a class="def" href="#glossary-default-action">default actions</a>,
+							including the <a class="def" href="#glossary-activation-behavior">activation behavior</a></em>
+						</td>
+					</tr>
+				</table>
+			</section>
 		</section>
 		
 		<section id="legacy-focusevent-events">
@@ -7186,6 +7557,71 @@ else {
 					</dd>
 				</dl>
 			</div>
+
+			<section id="legacy-focusevent-event-order">
+				<h4>Legacy FocusEvent event order</h4>
+				<p>
+					The following is the typical sequence of events when a focus is shifted between elements, including the deprecated
+						<a class="eventtype" href="#event-type-DOMFocusIn"><code>DOMFocusIn</code></a>
+						and <a class="eventtype" href="#event-type-DOMFocusOut"><code>DOMFocusOut</code></a>
+					events. The order shown assumes that no element is initially focused.</p>
+
+				<table class="event-sequence-table">
+					<tr>
+						<td class="cell-number"></td>
+						<td colspan="2"><em>User shifts focus</em></td>
+					</tr>
+					<tr>
+						<td class="cell-number">1.</td>
+						<td><a class="eventtype" href="#event-type-focusin"><code>focusin</code></a></td>
+						<td>Sent before first target element receives focus</td>
+					</tr>
+					<tr>
+						<td class="cell-number">2.</td>
+						<td><a class="eventtype" href="#event-type-focus"><code>focus</code></a></td>
+						<td>Sent after first target element receives focus</td>
+					</tr>
+					<tr>
+						<td class="cell-number">3.</td>
+						<td><a class="eventtype" href="#event-type-DOMFocusIn"><code>DOMFocusIn</code></a></td>
+						<td>If supported</td>
+					</tr>
+					<tr>
+						<td class="cell-number"></td>
+						<td colspan="2"><em>User shifts focus</em></td>
+					</tr>
+					<tr>
+						<td class="cell-number">4.</td>
+						<td><a class="eventtype" href="#event-type-focusout"><code>focusout</code></a></td>
+						<td>Sent before first target element loses focus</td>
+					</tr>
+					<tr>
+						<td class="cell-number">5.</td>
+						<td><a class="eventtype" href="#event-type-focusin"><code>focusin</code></a></td>
+						<td>Sent before second target element receives focus</td>
+					</tr>
+					<tr>
+						<td class="cell-number">6.</td>
+						<td><a class="eventtype" href="#event-type-blur"><code>blur</code></a></td>
+						<td>Sent after first target element loses focus</td>
+					</tr>
+					<tr>
+						<td class="cell-number">7.</td>
+						<td><a class="eventtype" href="#event-type-DOMFocusOut"><code>DOMFocusOut</code></a></td>
+						<td>If supported</td>
+					</tr>
+					<tr>
+						<td class="cell-number">8.</td>
+						<td><a class="eventtype" href="#event-type-focus"><code>focus</code></a></td>
+						<td>Sent after second target element receives focus</td>
+					</tr>
+					<tr>
+						<td class="cell-number">9.</td>
+						<td><a class="eventtype" href="#event-type-DOMFocusIn"><code>DOMFocusIn</code></a></td>
+						<td>If supported</td>
+					</tr>
+				</table>
+			</section>
 
 		</section>
 		
@@ -7317,42 +7753,42 @@ else {
 					<div class="example-title">Example</div>
 					<table class="event-sequence-table">
 						<tr>
-							<td class="cell-right"></td>
+							<td class="cell-number"></td>
 							<th>Event Name</th>
 							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
 							<th class="cell-center"><a href="#widl-CompositionEvent-data"><code>CompositionEvent<br/>data</code></a></th>
 						</tr>
 						<tr>
-							<td class="cell-right">1.</td>
+							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'a'</code></td>
 							<td class="cell-center"></td>
 						</tr>
 						<tr>
-							<td class="cell-right">2.</td>
+							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'a'</code></td>
 						</tr>
 						<tr>
-							<td class="cell-right">3.</td>
+							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a></td>
 							<td class="cell-center"><code class="key">'a'</code></td>
 							<td class="cell-center"></td>
 						</tr>
 						<tr>
-							<td class="cell-right"></td>
+							<td class="cell-number"></td>
 							<td colapsan="3"><em>Any <a class="def" href="#glossary-default-action">default actions</a> related to this key, such as inserting a
 								character in to the DOM.</em></td>
 						</tr>
 						<tr>
-							<td class="cell-right">4.</td>
+							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
 						</tr>
 						<tr>
-							<td class="cell-right">5.</td>
+							<td class="cell-number">5.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'a'</code></td>
 							<td class="cell-center"></td>
