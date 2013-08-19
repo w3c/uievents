@@ -7,7 +7,7 @@
  */
 
 bad_ids = [
-	["widl-Event-initEvent", "-void-DOMString-eventTypeArg-boolean-canBubbleArg-boolean-cancelableArg"],
+	["widl-Event-initEvent", "-void-DOMString-eventTypeArg-boolean-bubblesArg-boolean-cancelableArg"],
 	["widl-Event-preventDefault", "-void"],
 	["widl-Event-stopImmediatePropagation", "-void"],
 	["widl-Event-stopPropagation", "-void"],
@@ -16,16 +16,16 @@ bad_ids = [
 	["widl-EventTarget-removeEventListener", "-void-DOMString-type-EventListener-listener-boolean-useCapture"],
 	["widl-EventListener-handleEvent", "-void-Event-event"],
 	["widl-DocumentEvent-createEvent", "-Event-DOMString-eventInterface"],
-	["widl-UIEvent-initUIEvent", "-void-DOMString-typeArg-boolean-canBubbleArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg"],
+	["widl-UIEvent-initUIEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg"],
 	["widl-MouseEvent-getModifierState", "-boolean-DOMString-keyArg"],
-	["widl-MouseEvent-initMouseEvent", "-void-DOMString-typeArg-boolean-canBubbleArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg-long-screenXArg-long-screenYArg-long-clientXArg-long-clientYArg-boolean-ctrlKeyArg-boolean-altKeyArg-boolean-shiftKeyArg-boolean-metaKeyArg-unsigned-short-buttonArg-EventTarget-relatedTargetArg"],
+	["widl-MouseEvent-initMouseEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg-long-screenXArg-long-screenYArg-long-clientXArg-long-clientYArg-boolean-ctrlKeyArg-boolean-altKeyArg-boolean-shiftKeyArg-boolean-metaKeyArg-unsigned-short-buttonArg-EventTarget-relatedTargetArg"],
 	["widl-KeyboardEvent-getModifierState", "-boolean-DOMString-keyArg"],
-	["widl-MutationEvent-initMutationEvent", "-void-DOMString-typeArg-boolean-canBubbleArg-boolean-cancelableArg-Node-relatedNodeArg-DOMString-prevValueArg-DOMString-newValueArg-DOMString-attrNameArg-unsigned-short-attrChangeArg"],
-	["widl-CustomEvent-initCustomEvent", "-void-DOMString-typeArg-boolean-canBubbleArg-boolean-cancelableArg-any-detailArg"],
-	["widl-FocusEvent-initFocusEvent", "-void-DOMString-typeArg-boolean-canBubbleArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg-EventTarget-relatedTargetArg"],
-	["widl-WheelEvent-initWheelEvent", "-void-DOMString-typeArg-boolean-canBubbleArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg-long-screenXArg-long-screenYArg-long-clientXArg-long-clientYArg-unsigned-short-buttonArg-EventTarget-relatedTargetArg-DOMString-modifiersListArg-double-deltaXArg-double-deltaYArg-double-deltaZArg-unsigned-long-deltaMode"],
-	["widl-KeyboardEvent-initKeyboardEvent", "-void-DOMString-typeArg-boolean-canBubbleArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg-DOMString-keyArg-unsigned-long-locationArg-DOMString-modifiersListArg-boolean-repeat-DOMString-localeArg"],
-	["widl-CompositionEvent-initCompositionEvent", "-void-DOMString-typeArg-boolean-canBubbleArg-boolean-cancelableArg-AbstractView-viewArg-DOMString-dataArg-DOMString-localeArg"],
+	["widl-MutationEvent-initMutationEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-Node-relatedNodeArg-DOMString-prevValueArg-DOMString-newValueArg-DOMString-attrNameArg-unsigned-short-attrChangeArg"],
+	["widl-CustomEvent-initCustomEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-any-detailArg"],
+	["widl-FocusEvent-initFocusEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg-EventTarget-relatedTargetArg"],
+	["widl-WheelEvent-initWheelEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg-long-screenXArg-long-screenYArg-long-clientXArg-long-clientYArg-unsigned-short-buttonArg-EventTarget-relatedTargetArg-DOMString-modifiersListArg-double-deltaXArg-double-deltaYArg-double-deltaZArg-unsigned-long-deltaMode"],
+	["widl-KeyboardEvent-initKeyboardEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg-DOMString-keyArg-unsigned-long-locationArg-DOMString-modifiersListArg-boolean-repeat-DOMString-localeArg"],
+	["widl-CompositionEvent-initCompositionEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-AbstractView-viewArg-DOMString-dataArg-DOMString-localeArg"],
 ];
  
 function fixup_ids() {
@@ -38,15 +38,15 @@ function fixup_ids() {
 	for (var i = 0; i < bad_ids.length; i++) {
 		fixup(bad_ids[i][0], bad_ids[i][1]);
 	}
+	console.log("Finished fixing up bad ids");
 }
 
-function fixup(name, extra_crap) {
-	console.log('changing ' + name + extra_crap + ' to ' + name);
-	var el = document.getElementById(name + extra_crap);
+function fixup(name, signature) {
+	var el = document.getElementById(name + signature);
 	if (el) {
 		el.id = name;
-	} else {		
-		console.log('not found');
+	} else {
+		console.log('ERROR - unable to fixup: ' + name + signature);
 	}
 }
 

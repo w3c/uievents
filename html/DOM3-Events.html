@@ -151,7 +151,7 @@
 						MAY implement the deprecated interfaces, events, or APIs for backwards compatibility, but is not required to do so in order to be conforming), and the complete
 						set of <a class="def" href="#glossary-character-value">character values</a> and <a class="def" href="#glossary-key-value">key values</a> in the <a href="#key-values">
 						Key Values Set</a> (subject to platform availability), as well as all other normative requirements defined in this specification.  A conforming browser MUST
-						<a class="def" href="#glossary-dispatch">dispatch</a> events appropriate to the given <a href="#events-EventTarget">EventTarget</a> when the conditions defined
+						<a class="def" href="#glossary-dispatch">dispatch</a> events appropriate to the given <a href="#widl-EventTarget">EventTarget</a> when the conditions defined
 						for that <a class="def" href="#glossary-event-type">event type</a> have been met.</p>
 
 					<p><span id="conform-arch">A browser conforms specifically to the DOM Level 3 Events Architecture if it implements the <a href="#dom-event-architecture">DOM Event
@@ -327,7 +327,7 @@
 			<dd>In an event flow, the current event target is the object associated with the <a class="def" href="#glossary-event-handler">event handler</a> that is currently being
 				dispatched. This object MAY be the <a href="#glossary-event-target">event target</a> itself or one of its ancestors. The current event target changes as the
 				<a class="def" href="#glossary-event">event</a> propagates from object to object through the various <a class="def" href="#glossary-phase">phases</a> of the event flow.
-				The current event target is the value of the <a href="#events-event-type-currentTarget"><code>Event.currentTarget</code></a> attribute.</dd>
+				The current event target is the value of the <a href="#widl-Event-currentTarget"><code>Event.currentTarget</code></a> attribute.</dd>
 
 			<dt id="glossary-dead-key"><dfn>dead key</dfn></dt>
 			<dd>A dead key is a key or combination of keys which produces no character by itself, but which in combination or sequence with another key produces a modified character,
@@ -339,7 +339,7 @@
 				<a class="def" href="#glossary-default-action">default action</a> for that event type, if it has one.  An instance of an event MAY have more than
 				one <a class="def" href="#glossary-default-action">default action</a> under some circumstances, such as when associated with an
 				<a class="def" href="#glossary-activation-trigger">activation trigger</a>.  A <a class="def" href="#glossary-default-action"> default action</a> MAY
-				be cancelled through the invocation of the <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> method. For more details, see
+				be cancelled through the invocation of the <a href="#widl-Event-preventDefault"><code>Event.preventDefault()</code></a> method. For more details, see
 				<a href="#event-flow-default-cancel">Default actions and cancelable events</a>.</dd>
 
 			<dt id="glossary-defaultView"><dfn>defaultView</dfn></dt>
@@ -396,7 +396,7 @@
 
 			<dt id="glossary-event-handler"><dfn>event handler</dfn></dt>
 			<dt><dfn>event listener</dfn></dt>
-			<dd>An object that implements the <a href="#interface-EventListener"><code>EventListener</code></a> interface and provides an <a href="#events-EventListener-handleEvent">
+			<dd>An object that implements the <a href="#interface-EventListener"><code>EventListener</code></a> interface and provides an <a href="#widl-EventListener-handleEvent">
 				<code>EventListener.handleEvent()</code></a> callback method. Event handlers are language-specific. Event handlers are invoked in the context of a particular object
 				(the <a class="def" href="#glossary-current-event-target">current event target</a>) and are provided with the event object itself.
 
@@ -424,13 +424,13 @@
 
 			<dt id="glossary-event-target"><dfn>event target</dfn></dt>
 			<dd>The object to which an <a class="def" href="#glossary-event">event</a> is targeted using the <a href="#event-flow">DOM event flow</a>. The event target is the
-				value of the <a href="#events-event-type-target"><code>Event.target</code></a> attribute.</dd>
+				value of the <a href="#widl-Event-target"><code>Event.target</code></a> attribute.</dd>
 
 			<dt id="glossary-event-type"><dfn>event type</dfn></dt>
 			<dd>An <em>event type</em> is an <a class="def" href="#glossary-event">event</a> object with a particular name and which defines particular trigger conditions, properties,
 				and other characteristics which distinguish it from other event types.  For example, the <a class="eventtype" href="#event-type-click"><code>click</code></a> event
 				type has different characteristics than the <a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a> or <a class="eventtype" href="#event-type-load">
-				<code>load</code></a> event types. The event type is exposed as the <a href="#events-event-type-type"><code class="interface-attribute">Event.type</code></a>
+				<code>load</code></a> event types. The event type is exposed as the <a href="#widl-Event-type"><code class="interface-attribute">Event.type</code></a>
 				attribute on the event object.  See <a href="#event-types">event types</a> for more details.  Also loosely referred to as <em>'event'</em>, such as the <em><a class="eventtype"
 				href="#event-type-click"><code>click</code></a> event</em>.</dd>
 
@@ -505,7 +505,7 @@
 			<dt id="glossary-propagation-path"><dfn>propagation path</dfn></dt>
 			<dd>The ordered set of <a class="def" href="#glossary-current-event-target">current event targets</a> though which an <a class="def" href="#glossary-event">event</a> object will pass
 				sequentially on the way to and back from the <a class="def" href="#glossary-event-target">event target</a>.  As the event propagates, each <a class="def"
-				href="#glossary-current-event-target">current event target</a> in the propagation path is in turn set as the <a href="#events-event-type-currentTarget"><code>Event.currentTarget</code></a>.
+				href="#glossary-current-event-target">current event target</a> in the propagation path is in turn set as the <a href="#widl-Event-currentTarget"><code>Event.currentTarget</code></a>.
 				The propagation path is initially composed of one or more <a class="def" href="#glossary-event-phase">event phases</a> as defined by the <a class="def" href="#glossary-event-type">
 				event type</a>, but MAY be interrupted.  Also known as an <em>event target chain</em>.</dd>
 
@@ -568,9 +568,9 @@
 				to <code>10FFFF</code>, using at least four digits. See also <a class="def" href="#glossary-character-value">character value</a>.</dd>
 
 			<dt id="glossary-un-initialized-value"><dfn>un-initialized value</dfn></dt>
-			<dd>The value of any event attribute (such as <a href="#events-event-type-canBubble"><code>Event.bubbles</code></a> or <a href="#events-event-type-currentTarget"><code>
-				Event.currentTarget</code></a>) before the event has been initialized with <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a>. The un-initialized
-				values of an <code>Event</code> apply immediately after a new event has been created using the method <a href="#events-DocumentEvent-createEvent"><code>
+			<dd>The value of any event attribute (such as <a href="#widl-Event-bubbles"><code>Event.bubbles</code></a> or <a href="#widl-Event-currentTarget"><code>
+				Event.currentTarget</code></a>) before the event has been initialized with <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a>. The un-initialized
+				values of an <code>Event</code> apply immediately after a new event has been created using the method <a href="#widl-DocumentEvent-createEvent"><code>
 				DocumentEvent.createEvent()</code></a>.</dd>
 
 			<dt id="glossary-user-agent"><dfn>user agent</dfn></dt>
@@ -589,7 +589,7 @@
 			<h2>Event dispatch and DOM event flow</h2>
 
 			<p>This section defines the event <a class="def" href="#glossary-dispatch">dispatch</a> mechanism of the event model defined in this specification.
-				Applications MAY dispatch event objects using the <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method, and
+				Applications MAY dispatch event objects using the <a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method, and
 				implementations MUST dispatch event objects as if through this method. The behavior of this method depends on the <em>event flow</em>
 				associated with the underlying object. An event flow describes how event objects <em>propagate</em> through a data structure. As an example, when an event object
 				is dispatched to an element in an XML document, the object propagates through parts of the document, as determined by the DOM event flow which is defined at the
@@ -639,8 +639,8 @@ console.log("Exceptions? No problem");</pre>
 			<p id="event-phase">As the next step, the event object MUST complete one or more <a class="def" href="#glossary-phase">event phases</a>. This specification defines
 				three event phases: <a href="#capture-phase">capture phase</a>, <a href="#target-phase">target phase</a> and <a href="#bubble-phase">bubble phase</a>.  Event objects
 				complete these phases in the specified order using the partial propagation paths as defined below. A phase MUST be skipped if it is not
-				supported, or if the event object's propagation has been stopped. For example, if the <a href="#events-event-type-canBubble"><code>Event.bubbles</code></a>
-				attribute is set to false, the bubble phase will be skipped, and if <a href="#events-event-type-stopPropagation"><code>Event.stopPropagation()</code></a> has been
+				supported, or if the event object's propagation has been stopped. For example, if the <a href="#widl-Event-bubbles"><code>Event.bubbles</code></a>
+				attribute is set to false, the bubble phase will be skipped, and if <a href="#widl-Event-stopPropagation"><code>Event.stopPropagation()</code></a> has been
 				called prior to the dispatch, all phases MUST be skipped.</p>
 
 			<ol>
@@ -659,7 +659,7 @@ console.log("Exceptions? No problem");</pre>
 			</ol>
 
 			<p>Implementations MUST let event objects accomplish an event phase by applying the following steps while there are pending event targets in
-				the partial propagation path for this phase and the event object's propagation has not been stopped through <a href="#events-event-type-stopPropagation"><code>
+				the partial propagation path for this phase and the event object's propagation has not been stopped through <a href="#widl-Event-stopPropagation"><code>
 				Event.stopPropagation()</code></a>.</p>
 
 			<p>First, the implementation MUST determine the <em>current target</em>. This MUST be the next pending event target in the partial propagation
@@ -682,14 +682,14 @@ console.log("Exceptions? No problem");</pre>
 			</ul>
 
 			<p>In the production of the <a class="def" href="#glossary-propagation-path">propagation path</a>, if the <a class="def" href="#glossary-defaultView">defaultView</a>
-				implements the <a href="#events-EventTarget"><code>EventTarget</code></a> interface, the event propagates from <a class="def" href="#glossary-defaultView">defaultView</a>
+				implements the <a href="#widl-EventTarget"><code>EventTarget</code></a> interface, the event propagates from <a class="def" href="#glossary-defaultView">defaultView</a>
 				to the <code>document</code> object during the <a class="def" href="#glossary-capture-phase">capture phase</a>, and from the <code>document</code> object to the
 				<a class="def" href="#glossary-defaultView">defaultView</a> during the <a class="def" href="#glossary-bubbling-phase">bubble phase</a>.</p>
 
-			<p>After an event completes all the phases of its <a class="def" href="#glossary-propagation-path">propagation path</a>, its <a href="#events-event-type-currentTarget">
-				<code>Event.currentTarget</code></a> MUST be set to <code>null</code> and the <a href="#events-event-type-eventPhase"><code>Event.eventPhase</code></a> MUST be
-				set to <code>0</code> (<a href="#events-UNINIT"><code>NONE</code></a>). All other attributes of the <code>Event</code> (or interface derived from <code>Event</code>)
-				are unchanged (including the <a href="#events-event-type-target"><code>Event.target</code></a> attribute, which MUST continue to reference the <a class="def" href="#glossary-event-target">
+			<p>After an event completes all the phases of its <a class="def" href="#glossary-propagation-path">propagation path</a>, its <a href="#widl-Event-currentTarget">
+				<code>Event.currentTarget</code></a> MUST be set to <code>null</code> and the <a href="#widl-Event-eventPhase"><code>Event.eventPhase</code></a> MUST be
+				set to <code>0</code> (<a href="#widl-Event-NONE"><code>NONE</code></a>). All other attributes of the <code>Event</code> (or interface derived from <code>Event</code>)
+				are unchanged (including the <a href="#widl-Event-target"><code>Event.target</code></a> attribute, which MUST continue to reference the <a class="def" href="#glossary-event-target">
 				event target</a>).</p>
 
 			<p>The model defined above MUST be applied regardless of the specific event flow associated with an event target. Each event flow MUST define how the propagation path
@@ -709,7 +709,7 @@ console.log("Exceptions? No problem");</pre>
 				activity (such as a network request). Some events can be used to control the behavior that the implementation MAY take next (or undo an action that the implementation
 				already took). Events in this category are said to be <em>cancelable</em> and the behavior they cancel is called their <a class="def" href="#glossary-default-action">
 				<em>default action</em></a>. Cancelable event objects can be associated with one or more <a class="def" href="#glossary-default-action">default actions</a>.
-				To cancel an event, call the <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> method.</p>
+				To cancel an event, call the <a href="#widl-Event-preventDefault"><code>Event.preventDefault()</code></a> method.</p>
 
 			<div class="example">
 				<div class="example-title">Example</div>
@@ -733,10 +733,10 @@ console.log("Exceptions? No problem");</pre>
 
 			<p id="events-dt-cancelable-event">When an event is canceled, then the conditional <a class="def" href="#glossary-default-action">default actions</a> associated with the event MUST be skipped (or
 				as mentioned above, if the <a class="def" href="#glossary-default-action">default actions</a> are carried out before the dispatch, their effect MUST be undone).
-				Whether an event object is cancelable MUST be indicated by the <a href="#events-event-type-canCancel"><code>Event.cancelable</code></a> attribute. <a href="#events-event-type-preventDefault">
-				<code>Event.preventDefault()</code></a> stops all related <a class="def" href="#glossary-default-action">default actions</a> of an event object. The <a href="#events-event-type-defaultPrevented">
+				Whether an event object is cancelable MUST be indicated by the <a href="#widl-Event-cancelable"><code>Event.cancelable</code></a> attribute. <a href="#widl-Event-preventDefault">
+				<code>Event.preventDefault()</code></a> stops all related <a class="def" href="#glossary-default-action">default actions</a> of an event object. The <a href="#widl-Event-defaultPrevented">
 				<code>Event.defaultPrevented</code></a> attribute indicates whether an event has already been canceled (e.g., by a prior event listener). If the <a class="def" href="#glossary-DOM-application">
-				DOM application</a> itself initiated the dispatch, then the return value of the <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a>
+				DOM application</a> itself initiated the dispatch, then the return value of the <a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a>
 				method indicates whether the event object was cancelled.</p>
 
 			<p class="note"><strong>Authoring Note: </strong>Many implementations additionally interpret an event listener's return value, such as the value <code>false</code>, to mean
@@ -783,7 +783,7 @@ console.log("Exceptions? No problem");</pre>
 					<a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a>,
 					<a class="eventtype" href="#event-type-select"><code>select</code></a>,
 					<a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>,
-					<a class="eventtype" href="#event-type-before"><code>beforeinput</code></a>,
+					<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a>,
 					<a class="eventtype" href="#event-type-input"><code>input</code></a>,
 					<a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>.
 				Each of these events are fired in the sequence initiated by the user's actions.</p>
@@ -821,17 +821,17 @@ console.log("Exceptions? No problem");</pre>
 			<h2>Trusted events</h2>
 
 			<p>Events that are generated by the user agent, either as a result of user interaction, or as a direct result of changes to the DOM, are trusted by the user agent
-				with privileges that are not afforded to events generated by script through the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("Event")</code></a>
-				method, modified using the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method, or dispatched via the <a href="#events-EventTarget-dispatchEvent">
-				<code>EventTarget.dispatchEvent()</code></a> method.  The <a href="#events-event-type-isTrusted"><code>isTrusted</code></a> attribute of trusted events has a
-				value of <code>true</code>, while untrusted events have a <a href="#events-event-type-isTrusted"><code>isTrusted</code></a> attribute value of <code>false</code>.</p>
+				with privileges that are not afforded to events generated by script through the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("Event")</code></a>
+				method, modified using the <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a> method, or dispatched via the <a href="#widl-EventTarget-dispatchEvent">
+				<code>EventTarget.dispatchEvent()</code></a> method.  The <a href="#widl-Event-isTrusted"><code>isTrusted</code></a> attribute of trusted events has a
+				value of <code>true</code>, while untrusted events have a <a href="#widl-Event-isTrusted"><code>isTrusted</code></a> attribute value of <code>false</code>.</p>
 
 			<p>Most untrusted events SHOULD NOT trigger <a class="def" href="#glossary-default-action">default actions</a>, with the exception of <a class="eventtype" href="#event-type-click">
 				<code>click</code></a> or <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> events. These events trigger the <a class="def" href="#glossary-default-action">
 				default action</a> of an <a class="def" href="#glossary-activation-trigger">activation trigger</a> (see <a href="#event-flow-activation">Activation triggers and behaviors</a> for more details); these
-				untrusted events have an <a href="#events-event-type-isTrusted"><code>isTrusted</code></a> attribute value of <code>false</code>, but still initiate any
+				untrusted events have an <a href="#widl-Event-isTrusted"><code>isTrusted</code></a> attribute value of <code>false</code>, but still initiate any
 				<a class="def" href="#glossary-default-action">default actions</a> for backwards compatibility. All other untrusted events MUST behave
-				as if the <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> method had been called on that event.</p>
+				as if the <a href="#widl-Event-preventDefault"><code>Event.preventDefault()</code></a> method had been called on that event.</p>
 		</section>
 
 		<section id="event-flow-activation">
@@ -879,14 +879,14 @@ console.log("Exceptions? No problem");</pre>
 					type</a> <a class="eventtype" href="#event-type-click"><code>click</code></a> (that is, when it does not result from a user's activation of a button or link
 					using a mouse or equivalent pointing device), the implementation MUST synthesize and dispatch an event of <a class="def" href="#glossary-event-type">event type</a> <a
 					class="eventtype" href="#event-type-click"><code>click</code></a> as one of the <a class="def" href="#glossary-default-action">default actions</a> of that <a class="def"
-					href="#glossary-activation-trigger">activation trigger</a>. The value of the <code class="attribute-name"><a href="#events-event-type-target">Event.target</a></code>
+					href="#glossary-activation-trigger">activation trigger</a>. The value of the <code class="attribute-name"><a href="#widl-Event-target">Event.target</a></code>
 					MUST be set to the <a class="def" href="#glossary-event-target">event target</a> (normally, the currently focused element), and the event MUST simulate a <em>left
 					click</em> (i.e., the <a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a> attribute value MUST be <code>0</code>, and the <a href="#widl-MouseEvent-buttons">
 					<code>MouseEvent.buttons</code></a> attribute value MUST be <code>1</code>).  Other context information of such a simulated <a class="eventtype" href="#event-type-click">
 					<code>click</code></a> event is implementation dependent, but for historical purposes, the interface for the <a class="eventtype" href="#event-type-click"><code>click</code></a>
 					event MUST be the <a href="#interface-MouseEvent"><code>MouseEvent interface</code></a>, regardless of the actual device used to activate the element.  Preventing
 					the <a class="def" href="#glossary-default-action">default action</a> of the <a class="def" href="#glossary-activation-trigger">activation trigger</a>, such as
-					with the <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a>, MUST stop the initiation of the <a class="def" href="#glossary-activation-behavior">
+					with the <a href="#widl-Event-preventDefault"><code>Event.preventDefault()</code></a>, MUST stop the initiation of the <a class="def" href="#glossary-activation-behavior">
 					activation behavior</a>.</p>
 
 				<div class="example">
@@ -990,12 +990,12 @@ console.log("Exceptions? No problem");</pre>
 				</tr>
 				<tr>
 					<td><code><dfn>InvalidStateError</dfn></code></td>
-					<td>Thrown when the <a href="#events-event-type-type"><code>Event.type</code></a> was not specified by initializing the event before <code>dispatchEvent</code> was
-						called. Also thrown when the <a href="#events-Event"><code>Event</code></a> object provided to <code>dispatchEvent</code> is already being dispatched.</td>
+					<td>Thrown when the <a href="#widl-Event-type"><code>Event.type</code></a> was not specified by initializing the event before <code>dispatchEvent</code> was
+						called. Also thrown when the <a href="#interface-Event"><code>Event</code></a> object provided to <code>dispatchEvent</code> is already being dispatched.</td>
 				</tr>
 				<tr>
 					<td><code><dfn>NotSupportedError</dfn></code></td>
-					<td>Thrown when <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a> is passed an <a href="#events-Event"><code>Event</code></a>
+					<td>Thrown when <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent()</code></a> is passed an <a href="#interface-Event"><code>Event</code></a>
 						interface that the implementation does not support.</td>
 				</tr>
 			</table>
@@ -1027,7 +1027,7 @@ console.log("Exceptions? No problem");</pre>
 				Specific events can also implement other derived interfaces, for example the <a href="#interface-UIEvent"><code>UIEvent</code></a> and <a href="#interface-MouseEvent">
 				<code>MouseEvent</code></a> interfaces.</p>
 
-			<p>To create an instance of the <code>Event</code> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("Event")</code></a>
+			<p>To create an instance of the <code>Event</code> interface, use the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("Event")</code></a>
 				method call.</p>
 
 			<dl class="idl" title="interface Event">
@@ -1035,8 +1035,8 @@ console.log("Exceptions? No problem");</pre>
 
 				<dt>const unsigned short NONE = 0</dt>
 				<dd>
-					<p>The current event is not being dispatched, i.e., the <a href="#events-event-type-eventPhase">Event.eventPhase</a> is being observered prior to
-						calling <a href="#events-EventTarget-dispatchEvent">EventTarget.dispatchEvent()</a> or following the completion of the
+					<p>The current event is not being dispatched, i.e., the <a href="#widl-Event-eventPhase">Event.eventPhase</a> is being observered prior to
+						calling <a href="#widl-EventTarget-dispatchEvent">EventTarget.dispatchEvent()</a> or following the completion of the
 						<a class="def" href="#glossary-phase">event phases</a> of a given <code>Event</code>.</p>
 				</dd>
 
@@ -1074,7 +1074,7 @@ console.log("Exceptions? No problem");</pre>
 
 				<dt>readonly attribute EventTarget? currentTarget</dt>
 				<dd>
-					<p>Used to retrieve the <a class="def" href="#glossary-current-event-target">current event target</a> whose <a href="#events-EventListener"><code>EventListeners</code></a>
+					<p>Used to retrieve the <a class="def" href="#glossary-current-event-target">current event target</a> whose <a href="#interface-EventListener"><code>EventListeners</code></a>
 						are currently being processed. This is particularly useful during the capture and bubbling phases.</p>
 
 					<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>null</code>.</p>
@@ -1119,7 +1119,7 @@ console.log("Exceptions? No problem");</pre>
 						href="#glossary-candidate-event-handlers">candidate event listeners</a>. Once it has been called, further calls to this method have no additional effect.</p>
 
 					<p class="note" id="note-stopPropagation-default"><strong>Note:</strong> This method does not prevent the <a class="def" href="#glossary-default-action">default action</a>
-						from being invoked; use <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> for that effect.</p>
+						from being invoked; use <a href="#widl-Event-preventDefault"><code>Event.preventDefault()</code></a> for that effect.</p>
 				</dd>
 
 				<dt>void preventDefault()</dt>
@@ -1130,18 +1130,18 @@ console.log("Exceptions? No problem");</pre>
 						event MUST have no effect.  If an event has more than one <a class="def" href="#glossary-default-action">default action</a>, each cancelable <a class="def" href="#glossary-default-action">
 						default action</a> MUST be canceled.</p>
 
-					<p class="note"><strong>Note:</strong> This method does not stop the event propagation; use <a href="#events-event-type-stopPropagation">
-						<code>Event.stopPropagation()</code></a> or <a href="#events-event-type-stopImmediatePropagation"><code>Event.stopImmediatePropagation()</code></a> for that effect.</p>
+					<p class="note"><strong>Note:</strong> This method does not stop the event propagation; use <a href="#widl-Event-stopPropagation">
+						<code>Event.stopPropagation()</code></a> or <a href="#widl-Event-stopImmediatePropagation"><code>Event.stopImmediatePropagation()</code></a> for that effect.</p>
 				</dd>
 
 				<dt>void initEvent()</dt>
 				<dd>
-					<p>Initializes attributes of an <code>Event</code>. The <code>Event</code> could have been created through the <a href="#events-DocumentEvent-createEvent">
+					<p>Initializes attributes of an <code>Event</code>. The <code>Event</code> could have been created through the <a href="#widl-DocumentEvent-createEvent">
 						<code>DocumentEvent.createEvent</code></a> method or by the implementation in response to a user action. For any <code>Event</code> created with the
-						<a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent</code></a> method, this method MUST be called before the <code>Event</code>
-						is dispatched via the <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method. If the method is called several
-						times before invoking <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent</code></a>, only the final invocation takes precedence.
-						If this method is called during an invocation of <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent</code></a>, this method
+						<a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent</code></a> method, this method MUST be called before the <code>Event</code>
+						is dispatched via the <a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method. If the method is called several
+						times before invoking <a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent</code></a>, only the final invocation takes precedence.
+						If this method is called during an invocation of <a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent</code></a>, this method
 						MUST do nothing and return immediately. If called from a subclass of the <code>Event</code> interface only the values specified in
 						this method are modified, all other attributes are left unchanged.</p>
 
@@ -1156,33 +1156,33 @@ console.log("Exceptions? No problem");</pre>
 						during the event's previous dispatch, then after calling this method, the event's <code>defaultPrevented</code> property will be <code>false</code>.</p>
 					</div>
 
-					<p class="warning" id="warning-initEvent-untrusted"><strong>Warning!</strong> For security reasons, events modified using <a href="#events-event-type-initEvent"><code>
-						Event.initEvent()</code></a> MUST have a <code class="attribute-name"><a href="#events-event-type-isTrusted">isTrusted</a></code> attribute value of <code>false</code>.
+					<p class="warning" id="warning-initEvent-untrusted"><strong>Warning!</strong> For security reasons, events modified using <a href="#widl-Event-initEvent"><code>
+						Event.initEvent()</code></a> MUST have a <code class="attribute-name"><a href="#widl-Event-isTrusted">isTrusted</a></code> attribute value of <code>false</code>.
 						See <a href="#trusted-events">trusted events</a> for more details.</p>
 
 					<p class="note"><strong>Authoring Note:</strong> <a class="def" href="#trusted-events">Trusted events</a> can have their <a class="def" href="#glossary-event-type">
 						event type</a> and other attributes changed using this method. However, this method always converts the <code>Event</code> from a trusted event to an untrusted
-						event (e.g., the <a href="#events-event-type-isTrusted"><code>Event.isTrusted</code></a> attribute will return <code>false</code>).</p>
+						event (e.g., the <a href="#widl-Event-isTrusted"><code>Event.isTrusted</code></a> attribute will return <code>false</code>).</p>
 
 					<p class="note"><strong>Authoring Note:</strong> <a class="def" href="#trusted-events">Trusted events</a> are pre-initialized by the implementation before being dispatched.
-						As a result, it is not necessary to call <code>Event.initEvent()</code> prior to re-dispatching the trusted event--however calling <a href="#events-EventTarget-dispatchEvent">
-						<code>EventTarget.dispatchEvent()</code></a> will convert the <code>Event</code> from a trusted event to an untrusted event (e.g., the <a href="#events-event-type-isTrusted">
+						As a result, it is not necessary to call <code>Event.initEvent()</code> prior to re-dispatching the trusted event--however calling <a href="#widl-EventTarget-dispatchEvent">
+						<code>EventTarget.dispatchEvent()</code></a> will convert the <code>Event</code> from a trusted event to an untrusted event (e.g., the <a href="#widl-Event-isTrusted">
 						<code>Event.isTrusted</code></a> attribute will return <code>false</code>).</p>
 
 					<dl class="parameters">
 						<dt>DOMString eventTypeArg</dt>
 						<dd>
-							<p>Specifies <a href="#events-event-type-type"><code>Event.type</code></a>, the name of the event type.</p>
+							<p>Specifies <a href="#widl-Event-type"><code>Event.type</code></a>, the name of the event type.</p>
 						</dd>
 						
-						<dt>boolean canBubbleArg</dt>
+						<dt>boolean bubblesArg</dt>
 						<dd>
-							<p>Specifies <a href="#events-event-type-canBubble"><code>Event.bubbles</code></a>. This parameter overrides the intrinsic bubbling behavior of the event.</p>
+							<p>Specifies <a href="#widl-Event-bubbles"><code>Event.bubbles</code></a>. This parameter overrides the intrinsic bubbling behavior of the event.</p>
 						</dd>
 
 						<dt>boolean cancelableArg</dt>
 						<dd>
-							<p>Specifies <a href="#events-event-type-canCancel"><code>Event.cancelable</code></a>. This parameter overrides the intrinsic cancelable behavior of the event.</p>
+							<p>Specifies <a href="#widl-Event-cancelable"><code>Event.cancelable</code></a>. This parameter overrides the intrinsic cancelable behavior of the event.</p>
 						</dd>
 					</dl>
 				</dd>
@@ -1198,20 +1198,20 @@ console.log("Exceptions? No problem");</pre>
 						effect.</p>
 
 					<p class="note"><strong>Note:</strong> This method does not prevent the <a class="def" href="#glossary-default-action">default action</a> from being invoked;
-						use <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> for that effect.</p>
+						use <a href="#widl-Event-preventDefault"><code>Event.preventDefault()</code></a> for that effect.</p>
 				</dd>
 
 				<dt>readonly attribute boolean defaultPrevented</dt>
 				<dd>
 					<p class="intro-dom">Introduced in DOM Level 3</p>
 					
-					<p>Used to indicate whether this event has been cancelled or not. <code>Event.defaultPrevented</code> MUST return true if both <a href="#events-event-type-canCancel">
-						<code>Event.cancelable</code></a> is <code>true</code> and <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a> has been called for
+					<p>Used to indicate whether this event has been cancelled or not. <code>Event.defaultPrevented</code> MUST return true if both <a href="#widl-Event-cancelable">
+						<code>Event.cancelable</code></a> is <code>true</code> and <a href="#widl-Event-preventDefault"><code>Event.preventDefault()</code></a> has been called for
 						this event. Otherwise this attribute MUST return <code>false</code>.</p>
 
 					<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>false</code>.</p>
 
-					<p class="note"><strong>Note:</strong> Calling <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> after an event has been dispatched will reset
+					<p class="note"><strong>Note:</strong> Calling <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a> after an event has been dispatched will reset
 						the internal default-prevented state of the event.</p>
 				</dd>
 
@@ -1232,13 +1232,13 @@ console.log("Exceptions? No problem");</pre>
 
 			<p class="intro-dom">Introduced in DOM Level 2</p>
 
-			<p>The <a href="#events-CustomEvent"><code>CustomEvent</code></a> interface is the RECOMMENDED interface for application-specific event types. Unlike the <a href="#events-Event">
+			<p>The <a href="#interface-CustomEvent"><code>CustomEvent</code></a> interface is the RECOMMENDED interface for application-specific event types. Unlike the <a href="#interface-Event">
 				<code>Event</code></a> interface, it allows applications to provide contextual information about the event type.</p>
 
 			<p class="note"><strong>Authoring Note:</strong> Use a prefix string on the event type name for application-specific event types to avoid clashes with future general-purpose
 				event types.</p>
 
-			<p>To create an instance of the <code>CustomEvent</code> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("CustomEvent")</code></a>
+			<p>To create an instance of the <code>CustomEvent</code> interface, use the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("CustomEvent")</code></a>
 				method call.</p>
 
 			<p class="note"><strong>Authoring Note: </strong>See [<a href="#references-UIEvents">UI Events</a>] for information about programmatically initializing
@@ -1247,7 +1247,7 @@ console.log("Exceptions? No problem");</pre>
 			<dl class="idl" title="interface CustomEvent">
 				<dt>readonly attribute any detail</dt>
 				<dd>
-					<p>Specifies some detail information about the <a href="#events-Event"><code>Event</code></a>.</p>
+					<p>Specifies some detail information about the <a href="#interface-Event"><code>Event</code></a>.</p>
 
 					<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>null</code>.</p>
 				</dd>
@@ -1274,7 +1274,7 @@ console.log("Exceptions? No problem");</pre>
 				<code>type</code>, <code>listener</code>, and <code>useCapture</code> has no effect. Doing so does not cause the event listener to be registered more than once and
 				does not cause a change in the triggering order.</p>
 
-			<p class="note"><strong>Note:</strong>  In addition to the <a href="#events-EventTarget-addEventListener">EventTarget.addEventListener</a> method, some
+			<p class="note"><strong>Note:</strong>  In addition to the <a href="#widl-EventTarget-addEventListener">EventTarget.addEventListener</a> method, some
 				<a class="def" href="#glossary-host-language">host languages</a> allow a content author to register event listeners by the use of attributes, e.g.,
 				<code>onclick="handleClick()"</code> (see [<cite><a class="informative" href="#references-HTML5">HTML5</a></cite>] for further examples). Due to the
 				language-specific details, this type of event listener registration is not defined in this specification. In general, many event types can be used as an attribute
@@ -1296,14 +1296,14 @@ console.log("Exceptions? No problem");</pre>
 					<dl class="parameters">
 						<dt>DOMString type</dt>
 						<dd>
-							<p>Specifies the <a href="#events-event-type-type"><code>Event.type</code></a> associated with the event for which the user is registering.</p>
+							<p>Specifies the <a href="#widl-Event-type"><code>Event.type</code></a> associated with the event for which the user is registering.</p>
 						</dd>
 						
 						<dt>EventListener? listener</dt>
 						<dd>
-							<p>The <code>listener</code> parameter MUST be an object that implements the <a href="#events-EventListener"><code>EventListener</code></a> interface or a function.
-								If <code>listener</code> is a function then it MUST be used as the callback for the event; otherwise, if <code>listener</code> implements <a href="#events-EventListener">
-								<code>EventListener</code></a>, then its <a href="#events-EventListener-handleEvent">handleEvent</a> method MUST be used as the callback.</p>
+							<p>The <code>listener</code> parameter MUST be an object that implements the <a href="#interface-EventListener"><code>EventListener</code></a> interface or a function.
+								If <code>listener</code> is a function then it MUST be used as the callback for the event; otherwise, if <code>listener</code> implements <a href="#interface-EventListener">
+								<code>EventListener</code></a>, then its <a href="#widl-EventListener-handleEvent">handleEvent</a> method MUST be used as the callback.</p>
 						</dd>
 
 						<dt>optional boolean useCapture = false</dt>
@@ -1313,12 +1313,11 @@ console.log("Exceptions? No problem");</pre>
 								href="#glossary-bubbling-phase"> bubbling</a> phase. If <code>false</code>, the event listener MUST only be triggered during the <a class="def"
 								href="#glossary-target-phase">target</a> and <a class="def" href="#glossary-bubbling-phase">bubbling</a> phases.</p>
 
-							<p>This parameter MUST be optional. If not provided, the <a href="#events-EventTarget-addEventListener">EventTarget.addEventListener</a> method MUST behave as if <a
-								href="#addEventListener_useCapture"><code class="parameter-name">useCapture</code></a> were specified to be <code>false</code>.</p>
+							<p>This parameter MUST be optional. If not provided, the <a href="#widl-EventTarget-addEventListener">EventTarget.addEventListener</a> method MUST behave as if
+								<code class="parameter-name">useCapture</code> was specified to be <code>false</code>.</p>
 
-							<p class="note" id="addEventListener_useCapture-author"><strong>Authoring Note:</strong>  The <a href="#events-EventTarget-addEventListener"><code class="parameter-name">
-								useCapture</code></a> parameter was mandatory in DOM2 Events [<a href="#references-DOM2Events">DOM2 Events</a>], and omitting this parameter could cause an error
-								in older implementations.</p>
+							<p class="note"><strong>Authoring Note:</strong>  The <code class="parameter-name">useCapture</code> parameter was mandatory in
+								DOM2 Events [<a href="#references-DOM2Events">DOM2 Events</a>], and omitting this parameter could cause an error in older implementations.</p>
 						</dd>
 					</dl>
 				</dd>
@@ -1327,23 +1326,23 @@ console.log("Exceptions? No problem");</pre>
 				<dd>
 					<p><em>Modified in DOM Level 3</em></p>
 
-					<p>Removes an event listener. Calling <code>removeEventListener</code> with arguments that do not identify any currently registered <a href="#events-EventListener"><code>
+					<p>Removes an event listener. Calling <code>removeEventListener</code> with arguments that do not identify any currently registered <a href="#interface-EventListener"><code>
 						EventListener</code></a> on the <code>EventTarget</code> has no effect. </p>
 
 					<dl class="parameters">
 						<dt>DOMString type</dt>
 						<dd>
-							<p>Specifies the <a href="#events-event-type-type"><code>Event.type</code></a> for which the user registered the event listener.</p>
+							<p>Specifies the <a href="#widl-Event-type"><code>Event.type</code></a> for which the user registered the event listener.</p>
 						</dd>
 						
 						<dt>EventListener? listener</dt>
 						<dd>
-							<p>The <a href="#events-EventListener"><code>EventListener</code></a> to be removed.</p>
+							<p>The <a href="#interface-EventListener"><code>EventListener</code></a> to be removed.</p>
 						</dd>
 
 						<dt>optional boolean useCapture = false</dt>
 						<dd>
-							<p>Specifies whether the <a href="#events-EventListener"><code>EventListener</code></a> being removed was registered for the capture phase or not. Implementations
+							<p>Specifies whether the <a href="#interface-EventListener"><code>EventListener</code></a> being removed was registered for the capture phase or not. Implementations
 								MUST treat the same listener that was registered twice with both <code>useCapture</code> true and <code>useCapture</code> false as independent registrations, and
 								remove them independently.</p>
 
@@ -1351,11 +1350,11 @@ console.log("Exceptions? No problem");</pre>
 								this represents two unique registrations. Removal of an event listener registered for the capture and target phases does not affect the same event listener registered
 								for the target and bubbling phases, and vice versa.</p>
 
-							<p>This parameter MUST be optional. If not provided, the <a href="#events-EventTarget-removeEventListener">EventTarget.removeEventListener</a> method MUST behave as if <a
-								href="#removeEventListener_useCapture"><code class="parameter-name">useCapture</code></a> were specified to be <code>false</code>.</p>
+							<p>This parameter MUST be optional. If not provided, the <a href="#widl-EventTarget-removeEventListener">EventTarget.removeEventListener</a> method MUST behave as if
+								<code class="parameter-name">useCapture</code> were specified to be <code>false</code>.</p>
 
-							<p class="note"><strong>Authoring Note:</strong>  The <a href="#removeEventListener_useCapture"><code class="parameter-name">useCapture</code></a> parameter was mandatory in DOM2
-								Events [<a href="#references-DOM2Events">DOM2 Events</a>], and omitting this parameter could cause an error in older implementations.</p>
+							<p class="note"><strong>Authoring Note:</strong>  The <code class="parameter-name">useCapture</code> parameter was mandatory in
+								DOM2 Events [<a href="#references-DOM2Events">DOM2 Events</a>], and omitting this parameter could cause an error in older implementations.</p>
 						</dd>
 					</dl>
 				</dd>
@@ -1367,16 +1366,16 @@ console.log("Exceptions? No problem");</pre>
 					<p>Dispatches an event into the implementation's event model. The <a class="def" href="#glossary-event-target">event target</a> of the event MUST be the <code>EventTarget</code>
 						object on which <code>dispatchEvent</code> is called.</p>
 
-					<p>If after the event object finishes propagating through the DOM event flow its <a href="#events-event-type-defaultPrevented"><code>Event.defaultPrevented</code></a>
+					<p>If after the event object finishes propagating through the DOM event flow its <a href="#widl-Event-defaultPrevented"><code>Event.defaultPrevented</code></a>
 						attribute is <code>false</code>, then this method returns <code>true</code>. Otherwise this method returns <code>false</code>.</p>
 
-					<p class="warning"><strong>Warning!</strong>  For security reasons, events dispatched using <a href="#events-EventTarget-dispatchEvent">
-						<code>EventTarget.dispatchEvent()</code></a> MUST have a <code class="attribute-name"><a href="#events-event-type-isTrusted">isTrusted</a></code> attribute value
+					<p class="warning"><strong>Warning!</strong>  For security reasons, events dispatched using <a href="#widl-EventTarget-dispatchEvent">
+						<code>EventTarget.dispatchEvent()</code></a> MUST have a <code class="attribute-name"><a href="#widl-Event-isTrusted">isTrusted</a></code> attribute value
 						of <code>false</code>.  See <a href="#trusted-events">trusted events</a> for more details.</p>
 
-					<p class="note"><strong>Note:</strong> While a dispatch (triggered by <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a>) is in progress, calls to
-						<a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> are ignored (the method returns immediately without side-effects) and calls to
-						<a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> result in an exception.</p>
+					<p class="note"><strong>Note:</strong> While a dispatch (triggered by <a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a>) is in progress, calls to
+						<a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a> are ignored (the method returns immediately without side-effects) and calls to
+						<a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> result in an exception.</p>
 
 					<dl class="parameters">
 						<dt>Event event</dt>
@@ -1390,8 +1389,8 @@ console.log("Exceptions? No problem");</pre>
 					</dl>
 
 					<p><strong>Exceptions:</strong>
-						If the <a href="#events-event-type-type"><code>Event.type</code></a> was not specified by initializing the event before <code>dispatchEvent</code> was called OR
-						the <a href="#events-Event"><code>Event</code></a> object is already being dispatched, a <code>DOMException</code> of type <em><code>InvalidStateError</code></em>
+						If the <a href="#widl-Event-type"><code>Event.type</code></a> was not specified by initializing the event before <code>dispatchEvent</code> was called OR
+						the <a href="#interface-Event"><code>Event</code></a> object is already being dispatched, a <code>DOMException</code> of type <em><code>InvalidStateError</code></em>
 						is thrown.</p>
 				</dd>
 			</dl>
@@ -1403,13 +1402,13 @@ console.log("Exceptions? No problem");</pre>
 			<p class="intro-dom">Introduced in DOM Level 2</p>
 
 			<p>The <code>EventListener</code> interface is the primary way to handle events. <code>EventListener</code> represents the callback object that the user agent will
-				invoke when dispatching an <code>Event</code> to an <a href="#events-EventTarget"><code>EventTarget</code></a>.</p>
+				invoke when dispatching an <code>Event</code> to an <a href="#widl-EventTarget"><code>EventTarget</code></a>.</p>
 
 			<p class="note"><strong>Note:</strong> Authors define an object which implements the <code>EventListener</code> interface and register their event listener using <a
-				href="#events-EventTarget-addEventListener">EventTarget.addEventListener</a>. In JavaScript, an <code>EventListener</code> can be either a function or an object
+				href="#widl-EventTarget-addEventListener">EventTarget.addEventListener</a>. In JavaScript, an <code>EventListener</code> can be either a function or an object
 				with a <code>handleEvent</code> member function.</p>
 
-			<p class="note"><strong>Note:</strong> It is a best practice for authors to remove their <code>EventListener</code> from its <a href="#events-EventTarget"><code>EventTarget</code></a>
+			<p class="note"><strong>Note:</strong> It is a best practice for authors to remove their <code>EventListener</code> from its <a href="#widl-EventTarget"><code>EventTarget</code></a>
 				after they have completed using the listener.</p>
 
 			<p>Copying a <code>Node</code>, with methods such as <code>Node.cloneNode</code> or <code>Range.cloneContents</code> [<cite><a class="informative"
@@ -1427,7 +1426,7 @@ console.log("Exceptions? No problem");</pre>
 					<dl class="parameters">
 						<dt>Event event</dt>
 						<dd>
-							<p>The <a href="#events-Event"><code>Event</code></a> contains contextual information about the <a class="def" href="#glossary-event">event</a>.</p>
+							<p>The <a href="#interface-Event"><code>Event</code></a> contains contextual information about the <a class="def" href="#glossary-event">event</a>.</p>
 						</dd>
 					</dl>
 				</dd>
@@ -1439,7 +1438,7 @@ console.log("Exceptions? No problem");</pre>
 
 			<p class="intro-dom">Introduced in DOM Level 2</p>
 
-			<p>The <code>DocumentEvent</code> interface provides a mechanism by which the user can create an <a href="#events-Event"><code>Event</code></a> object of a type supported
+			<p>The <code>DocumentEvent</code> interface provides a mechanism by which the user can create an <a href="#interface-Event"><code>Event</code></a> object of a type supported
 				by the implementation. The <code>DocumentEvent</code> interface MUST be implemented on the same object that implements the <code>Document</code> interface.</p>
 
 			<dl class="idl" title="Document implements DocumentEvent">
@@ -1454,7 +1453,7 @@ console.log("Exceptions? No problem");</pre>
 					<p>Creates an event object of the type specified. Returns the newly created object.</p>
 
 					<p><strong>Exceptions:</strong>
-						If the implementation does not support the <a href="#events-Event"><code>Event</code></a> interface requested, a <code>DOMException</code> of type <em><code>NotSupportedError</code></em>
+						If the implementation does not support the <a href="#interface-Event"><code>Event</code></a> interface requested, a <code>DOMException</code> of type <em><code>NotSupportedError</code></em>
 						is thrown.</p>
 
 					<dl class="parameters">
@@ -1464,14 +1463,14 @@ console.log("Exceptions? No problem");</pre>
 								object, e.g., <code>"Event"</code>, <code>"MouseEvent"</code>, <code>"MutationEvent"</code>, and so on.</p>
 
 							<p class="note"><strong>Note: </strong>After calling <code>createEvent</code>, and prior to dispatching the event with the
-								<a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method, the
-								<a href="#events-Event"><code>Event</code></a> will need to be initialized with the appropriate event initialization
+								<a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method, the
+								<a href="#interface-Event"><code>Event</code></a> will need to be initialized with the appropriate event initialization
 								method (e.g., <code>initEvent</code>, <code>initMouseEvent</code>, etc.) in order to associate it with an event type and related values.</p>
 
 							<div class="example">
 								<div class="example-title">Example</div>
 								<p>A content author wishing to synthesize some kind of <a href="#interface-UIEvent"><code>UIEvent</code></a>
-								would invoke <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("UIEvent")</code></a>. The <a href="#events-event-type-initUIEvent"><code>
+								would invoke <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("UIEvent")</code></a>. The <a href="#widl-UIEvent-initUIEvent"><code>
 								UIEvent.initUIEvent()</code></a> method could then be called on the newly created <a class="noxref" href="#interface-UIEvent"><code>UIEvent</code></a> object to
 								set the specific type of user interface event to be dispatched, <a class="eventtype" href="#event-type-scroll"><code>scroll</code></a> for example, and set its
 								context information, e.g., <a href="#widl-UIEvent-detail"><code>UIEvent.detail</code></a>.</p>
@@ -1506,8 +1505,8 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 							</table>
 
-							<p class="warning"><strong>Warning!</strong>  For security reasons, events generated using <a href="#events-DocumentEvent-createEvent">
-								<code>DocumentEvent.createEvent("Event")</code></a> MUST have a <code class="attribute-name"><a href="#events-event-type-isTrusted">isTrusted</a></code> attribute
+							<p class="warning"><strong>Warning!</strong>  For security reasons, events generated using <a href="#widl-DocumentEvent-createEvent">
+								<code>DocumentEvent.createEvent("Event")</code></a> MUST have a <code class="attribute-name"><a href="#widl-Event-isTrusted">isTrusted</a></code> attribute
 								value of <code>false</code>.  See <a href="#trusted-events">trusted events</a> for more details.</p>
 						</dd>
 					</dl>
@@ -1523,7 +1522,7 @@ console.log("Exceptions? No problem");</pre>
 
 		<section id="event-types">
 			<h2>Event Types</h2>
-			<p>Each event MUST be associated with a type, called <em>event type</em> and available as the <a href="#events-event-type-type"><code class="interface-attribute">type</code></a>
+			<p>Each event MUST be associated with a type, called <em>event type</em> and available as the <a href="#widl-Event-type"><code class="interface-attribute">type</code></a>
 				attribute on the event object. The event type MUST be of type <code>DOMString</code>.</p>
 
 			<section id="event-types-list">
@@ -1553,7 +1552,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>No</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-Event"><code>Event</code></a></td>
+						<td><a href="#interface-Event"><code>Event</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1562,7 +1561,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>No</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-FocusEvent"><code>FocusEvent</code></a></td>
+						<td><a href="#interface-FocusEvent"><code>FocusEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1580,7 +1579,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-CompositionEvent"><code>CompositionEvent</code></a></td>
+						<td><a href="#interface-CompositionEvent"><code>CompositionEvent</code></a></td>
 						<td>Yes</td>
 						<td>Show a <a class="def" href="#glossary-text-composition-system">text composition system</a> candidate window</td>
 					</tr>
@@ -1589,7 +1588,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-CompositionEvent"><code>CompositionEvent</code></a></td>
+						<td><a href="#interface-CompositionEvent"><code>CompositionEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1598,7 +1597,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-CompositionEvent"><code>CompositionEvent</code></a></td>
+						<td><a href="#interface-CompositionEvent"><code>CompositionEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1616,7 +1615,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Async</td>
 						<td>No</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-Event"><code>Event</code></a></td>
+						<td><a href="#interface-Event"><code>Event</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1625,7 +1624,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>No</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-FocusEvent"><code>FocusEvent</code></a></td>
+						<td><a href="#interface-FocusEvent"><code>FocusEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1634,7 +1633,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-FocusEvent"><code>FocusEvent</code></a></td>
+						<td><a href="#interface-FocusEvent"><code>FocusEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1643,7 +1642,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-FocusEvent"><code>FocusEvent</code></a></td>
+						<td><a href="#interface-FocusEvent"><code>FocusEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1676,7 +1675,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Async</td>
 						<td>No</td>
 						<td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>Element</code></td>
-						<td><a href="#events-Event"><code>Event</code></a></td>
+						<td><a href="#interface-Event"><code>Event</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1766,7 +1765,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-Event"><code>Event</code></a></td>
+						<td><a href="#interface-Event"><code>Event</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1775,7 +1774,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>No</td>
 						<td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>Element</code></td>
-						<td><a href="#events-Event"><code>Event</code></a></td>
+						<td><a href="#interface-Event"><code>Event</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1835,7 +1834,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-FocusEvent"><code>FocusEvent</code></a></td>
+						<td><a href="#interface-FocusEvent"><code>FocusEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1844,7 +1843,7 @@ console.log("Exceptions? No problem");</pre>
 						<td>Sync</td>
 						<td>Yes</td>
 						<td><code>Element</code></td>
-						<td><a href="#events-FocusEvent"><code>FocusEvent</code></a></td>
+						<td><a href="#interface-FocusEvent"><code>FocusEvent</code></a></td>
 						<td>No</td>
 						<td>none</td>
 					</tr>
@@ -1922,7 +1921,7 @@ console.log("Exceptions? No problem");</pre>
 				</div>
 
 				<p class="note"><strong>Note: </strong>Don't interpret the above tables as definitive for the listed event types. For example, the <a class="eventtype"><code>load</code></a> event is used in other
-					specifications, for example, in XMLHttpRequest. Similarly, <a href="#events-EventTarget-dispatchEvent"><code>dispatchEvent</code></a> can be used to dispatch untrusted events to
+					specifications, for example, in XMLHttpRequest. Similarly, <a href="#widl-EventTarget-dispatchEvent"><code>dispatchEvent</code></a> can be used to dispatch untrusted events to
 					listeners on <strong>any</strong> object that also implements <a href="#interface-EventTarget"><code>EventTarget</code></a>.</p>
 
 				<p class="note"><strong>Note: </strong>The event objects associated with the event types described above contain additional context information--refer to the description of the DOM
@@ -1947,7 +1946,7 @@ console.log("Exceptions? No problem");</pre>
 
 					<p>The <code>UIEvent</code> interface provides specific contextual information associated with User Interface events.</p>
 
-					<p>To create an instance of the <code>UIEvent</code> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("UIEvent")</code></a>
+					<p>To create an instance of the <code>UIEvent</code> interface, use the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("UIEvent")</code></a>
 						method call.</p>
 
 					<dl class="idl" title="interface UIEvent : Event">
@@ -1960,7 +1959,7 @@ console.log("Exceptions? No problem");</pre>
 
 						<dt>readonly attribute long detail</dt>
 						<dd>
-							<p>Specifies some detail information about the <a href="#events-Event"><code>Event</code></a>, depending on the type of event.</p>
+							<p>Specifies some detail information about the <a href="#interface-Event"><code>Event</code></a>, depending on the type of event.</p>
 
 							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>0</code>.</p>
 						</dd>
@@ -1969,7 +1968,7 @@ console.log("Exceptions? No problem");</pre>
 
 						<dt>void initUIEvent()</dt>
 						<dd>
-							<p>Initializes attributes of an <code>UIEvent</code> object. This method has the same behavior as <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a>.</p>
+							<p>Initializes attributes of an <code>UIEvent</code> object. This method has the same behavior as <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a>.</p>
 
 							<p class="warning"><strong>Warning!</strong> The <code>initUIEvent</code> method is deprecated, but supported for backwards-compatibility with widely-deployed
 								implementations. See [<a href="#references-UIEvents">UI Events</a>] for an alternate initializer syntax.</p>
@@ -1977,17 +1976,17 @@ console.log("Exceptions? No problem");</pre>
 							<dl class="parameters">
 								<dt>DOMString typeArg</dt>
 								<dd>
-									<p>Refer to the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p>
+									<p>Refer to the <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p>
 								</dd>
 
-								<dt>boolean canBubbleArg</dt>
+								<dt>boolean bubblesArg</dt>
 								<dd>
-									<p>Refer to the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p>
+									<p>Refer to the <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p>
 								</dd>
 
 								<dt>boolean cancelableArg</dt>
 								<dd>
-									<p>Refer to the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p>
+									<p>Refer to the <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p>
 								</dd>
 
 								<dt>AbstractView? viewArg</dt>
@@ -2005,7 +2004,7 @@ console.log("Exceptions? No problem");</pre>
 				</section>
 
 				<p>The User Interface event types are listed below.  Some of these events use the <a href="#interface-UIEvent"><code>UIEvent</code></a> interface if generated from a
-					user interface, but the <a href="#events-Event"><code>Event</code></a> interface otherwise, as detailed in each event.</p>
+					user interface, but the <a href="#interface-Event"><code>Event</code></a> interface otherwise, as detailed in each event.</p>
 
 				<!-- DOMActivate -->
 				<div class="event-definition">
@@ -2045,7 +2044,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element being activated</li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: element being activated</li>
 
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 
@@ -2086,7 +2085,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#interface-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td>
+									<td><a href="#interface-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#interface-Event"><code>Event</code></a> otherwise.</td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -2112,7 +2111,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: common object whose contained resources have loaded</li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: common object whose contained resources have loaded</li>
 
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
 												<code>null</code></li>
@@ -2147,7 +2146,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#interface-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td>
+									<td><a href="#interface-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#interface-Event"><code>Event</code></a> otherwise.</td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -2173,7 +2172,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: common object whose contained resources have been removed</li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: common object whose contained resources have been removed</li>
 
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
 												<code>null</code></li>
@@ -2203,7 +2202,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#interface-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td>
+									<td><a href="#interface-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#interface-Event"><code>Event</code></a> otherwise.</td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -2229,7 +2228,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element whose resources have been stopped from loading without error</li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: element whose resources have been stopped from loading without error</li>
 
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
 												<code>null</code></li>
@@ -2258,7 +2257,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#interface-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td>
+									<td><a href="#interface-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#interface-Event"><code>Event</code></a> otherwise.</td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -2284,7 +2283,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element whose resources have been stopped from loading due to an error</li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: element whose resources have been stopped from loading due to an error</li>
 
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
 												<code>null</code></li>
@@ -2313,7 +2312,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#interface-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#events-Event"><code>Event</code></a> otherwise.</td>
+									<td><a href="#interface-UIEvent"><code>UIEvent</code></a> if generated from a user interface, <a href="#interface-Event"><code>Event</code></a> otherwise.</td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -2339,7 +2338,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element whose text content has been selected</li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: element whose text content has been selected</li>
 
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
 												<code>null</code></li>
@@ -2408,7 +2407,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: object which has been resized</li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: object which has been resized</li>
 
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 
@@ -2478,7 +2477,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: object which has been scrolled</li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: object which has been scrolled</li>
 
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 
@@ -2514,7 +2513,7 @@ console.log("Exceptions? No problem");</pre>
 					<p>The <code>FocusEvent</code> interface provides specific contextual information associated with Focus events.</p>
 
 					<p>
-						To create an instance of the <code>FocusEvent</code> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("FocusEvent")</code></a>
+						To create an instance of the <code>FocusEvent</code> interface, use the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("FocusEvent")</code></a>
 						method call.
 					</p>
 
@@ -2526,7 +2525,7 @@ console.log("Exceptions? No problem");</pre>
 					<dl class="idl" title="interface FocusEvent : UIEvent">
 						<dt>readonly attribute EventTarget? relatedTarget</dt>
 						<dd>
-							<p>Used to identify a secondary <a href="#events-EventTarget"><code>EventTarget</code></a> related to a Focus event, depending on the type of event.</p>
+							<p>Used to identify a secondary <a href="#widl-EventTarget"><code>EventTarget</code></a> related to a Focus event, depending on the type of event.</p>
 
 							<p>For security reasons with nested browsing contexts, when tabbing into or out of a nested context, the relevant EventTarget SHOULD be <code>null</code>.</p>
 
@@ -2594,7 +2593,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-FocusEvent"><code>FocusEvent</code></a></td>
+									<td><a href="#interface-FocusEvent"><code>FocusEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -2620,14 +2619,14 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> losing
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> losing
 												focus</li>
 
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 
-											<li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <code>null</code></li>
+											<li><a href="#widl-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <code>null</code></li>
 										</ul>
 									</td>
 								</tr>
@@ -2652,7 +2651,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-FocusEvent"><code>FocusEvent</code></a></td>
+									<td><a href="#interface-FocusEvent"><code>FocusEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -2678,7 +2677,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> receiving
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> receiving
 												focus</li>
 
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
@@ -2686,7 +2685,7 @@ console.log("Exceptions? No problem");</pre>
 
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 
-											<li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <code>null</code></li>
+											<li><a href="#widl-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <code>null</code></li>
 										</ul>
 									</td>
 								</tr>
@@ -2714,7 +2713,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-FocusEvent"><code>FocusEvent</code></a></td>
+									<td><a href="#interface-FocusEvent"><code>FocusEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -2740,12 +2739,12 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> losing
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> losing
 												focus</li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
 												<code>null</code></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
-											<li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <code>null</code></li>
+											<li><a href="#widl-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <code>null</code></li>
 										</ul>
 									</td>
 								</tr>
@@ -2773,7 +2772,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-FocusEvent"><code>FocusEvent</code></a></td>
+									<td><a href="#interface-FocusEvent"><code>FocusEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -2799,7 +2798,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> receiving
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> receiving
 												focus</li>
 
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
@@ -2807,7 +2806,7 @@ console.log("Exceptions? No problem");</pre>
 
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 
-											<li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <code>null</code></li>
+											<li><a href="#widl-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <code>null</code></li>
 										</ul>
 									</td>
 								</tr>
@@ -2832,7 +2831,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-FocusEvent"><code>FocusEvent</code></a></td>
+									<td><a href="#interface-FocusEvent"><code>FocusEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -2858,7 +2857,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> receiving
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> receiving
 												focus</li>
 
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
@@ -2866,7 +2865,7 @@ console.log("Exceptions? No problem");</pre>
 
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 
-											<li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <a class="def" href="#glossary-event-target">event
+											<li><a href="#widl-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <a class="def" href="#glossary-event-target">event
 												target</a> losing focus  (if any).</li>
 										</ul>
 									</td>
@@ -2878,7 +2877,7 @@ console.log("Exceptions? No problem");</pre>
 								be the element which is about to receive focus.  This event type is similar to <a class="eventtype" href="#event-type-focus"><code>focus</code></a>, but is dispatched
 								before focus is shifted, and does bubble.</p>
 
-							<p class="note" id="_9"><strong>Note:</strong> When using this event type, the content author can use the event's <code class="attribute-name"><a href="#events-FocusEvent-relatedTarget">
+							<p class="note" id="_9"><strong>Note:</strong> When using this event type, the content author can use the event's <code class="attribute-name"><a href="#widl-FocusEvent-relatedTarget">
 								FocusEvent.relatedTarget</a></code> attribute (or a host-language-specific method or means) to get the currently focused element before the focus shifts to the
 								next focus <a class="def" href="#glossary-event-target">event target</a>, thus having access to both the element losing focus and the element gaining focus
 								without the use of the <a class="eventtype" href="#event-type-blur"><code>blur</code></a> or <a class="eventtype" href="#event-type-focusout">focusout</a> event
@@ -2899,7 +2898,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-FocusEvent"><code>FocusEvent</code></a></td>
+									<td><a href="#interface-FocusEvent"><code>FocusEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -2925,7 +2924,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> losing
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-event-target">event target</a> losing
 												focus</li>
 
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
@@ -2933,7 +2932,7 @@ console.log("Exceptions? No problem");</pre>
 
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 
-											<li><a href="#events-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <a class="def" href="#glossary-event-target">event
+											<li><a href="#widl-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>: <a class="def" href="#glossary-event-target">event
 												target</a> receiving focus.</li>
 										</ul>
 									</td>
@@ -2967,7 +2966,7 @@ console.log("Exceptions? No problem");</pre>
 					<p class="note"><strong>Note:</strong> Ancestors of the targeted element can use event bubbling to obtain notifications of mouse events which occur within their descendent
 						elements.</p>
 
-					<p>To create an instance of the <code>MouseEvent</code> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("MouseEvent")</code></a>
+					<p>To create an instance of the <code>MouseEvent</code> interface, use the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("MouseEvent")</code></a>
 						method call.</p>
 
 					<p class="note"><strong>Note:</strong> When initializing <code>MouseEvent</code> objects using <code>initMouseEvent</code>, implementations can use the client
@@ -3087,7 +3086,7 @@ console.log("Exceptions? No problem");</pre>
 
 						<dt>readonly attribute EventTarget? relatedTarget</dt>
 						<dd>
-							<p>Used to identify a secondary <a href="#events-EventTarget"><code>EventTarget</code></a> related to a UI event, depending on the type of event.</p>
+							<p>Used to identify a secondary <a href="#widl-EventTarget"><code>EventTarget</code></a> related to a UI event, depending on the type of event.</p>
 
 							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>null</code>.</p>
 						</dd>
@@ -3096,7 +3095,7 @@ console.log("Exceptions? No problem");</pre>
 
 						<dt>void initMouseEvent()</dt>
 						<dd>
-							<p>Initializes attributes of a <code>MouseEvent</code> object. This method has the same behavior as <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.</p>
+							<p>Initializes attributes of a <code>MouseEvent</code> object. This method has the same behavior as <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.</p>
 
 							<p class="warning"><strong>Warning!</strong> The <code>initMouseEvent</code> method is deprecated, but supported for backwards-compatibility with widely-deployed
 								implementations. See [<a href="#references-UIEvents">UI Events</a>] for an alternate initializer syntax.</p>
@@ -3104,27 +3103,27 @@ console.log("Exceptions? No problem");</pre>
 							<dl class="parameters">
 								<dt>DOMString typeArg</dt>
 								<dd>
-									<p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p>
+									<p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p>
 								</dd>
 
-								<dt>boolean canBubbleArg</dt>
+								<dt>boolean bubblesArg</dt>
 								<dd>
-									<p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p>
+									<p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p>
 								</dd>
 
 								<dt>boolean cancelableArg</dt>
 								<dd>
-									<p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p>
+									<p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p>
 								</dd>
 
 								<dt>AbstractView? viewArg</dt>
 								<dd>
-									<p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p>
+									<p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p>
 								</dd>
 
 								<dt>long detailArg</dt>
 								<dd>
-									<p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p>
+									<p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p>
 								</dd>
 
 								<dt>long screenXArg</dt>
@@ -3358,7 +3357,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: indicates the <a href="#current-click-count">current click count</a>;
 												the attribute value MUST be <code>1</code> when the user begins this action and increments by <code>1</code> for each click.</li>
@@ -3491,7 +3490,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: indicates the <a href="#current-click-count">current click count</a></li>
 											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
@@ -3582,7 +3581,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: indicates the <a href="#current-click-count">current click count</a> incremented
 												by one. For example, if no click happened before the <a class="eventtype"><code>mousedown</code></a>, <a href="#widl-UIEvent-detail"><code>UIEvent.detail</code></a> will
@@ -3657,7 +3656,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
@@ -3732,7 +3731,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
@@ -3805,7 +3804,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
@@ -3879,7 +3878,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
@@ -3952,7 +3951,7 @@ console.log("Exceptions? No problem");</pre>
 										<th>Context info</th>
 										<td>
 											<ul>
-												<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
+												<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
 												<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 												<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 												<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: value based on the pointer position on the screen</li>
@@ -4026,7 +4025,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: indicates the <a href="#current-click-count">current click count</a> incremented
 												by one.</li>
@@ -4099,7 +4098,7 @@ console.log("Exceptions? No problem");</pre>
 
 					<p>The <code>WheelEvent</code> interface provides specific contextual information associated with <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> events.</p>
 
-					<p>To create an instance of the <code>WheelEvent</code> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("WheelEvent")</code></a>
+					<p>To create an instance of the <code>WheelEvent</code> interface, use the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("WheelEvent")</code></a>
 						method call.</p>
 
 					<p class="note"><strong>Authoring Note: </strong>See [<a href="#references-UIEvents">UI Events</a>] for information about programmatically initializing
@@ -4154,7 +4153,7 @@ console.log("Exceptions? No problem");</pre>
 						<dt>readonly attribute unsigned long deltaMode</dt>
 						<dd>
 							<p>The <code>deltaMode</code> attribute contains an indication of the units of measurement for the <a href="#glossary-delta"><code>delta</code></a> values.
-								The default value is <a href="#events-DOM_DELTA_PIXEL"><code class="constant-name">DOM_DELTA_PIXEL</code></a> (pixels).</p>
+								The default value is <a href="#widl-WheelEvent-DOM_DELTA_PIXEL"><code class="constant-name">DOM_DELTA_PIXEL</code></a> (pixels).</p>
 
 							<p>This attribute MUST be set to one of the DOM_DELTA constants to indicate the units of measurement for the <a href="#glossary-delta"><code>delta</code></a> values.  The precise measurement
 								is specific to device, operating system, and application configurations.</p>
@@ -4205,7 +4204,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: <a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
 											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>: if the wheel is associated with a pointing device, the value based
@@ -4283,7 +4282,7 @@ console.log("Exceptions? No problem");</pre>
 						<code>KeyboardEvent.getModifierState(keyArg)</code></a> with <code class="key">'Control'</code>, <code class="key">'Shift'</code>, <code class="key">'Alt'</code>,
 						or <code class="key">'Meta'</code> respectively.</p>
 
-					<p>To create an instance of the <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("KeyboardEvent")</code></a>
+					<p>To create an instance of the <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> interface, use the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("KeyboardEvent")</code></a>
 						method call.</p>
 
 					<p class="note"><strong>Authoring Note: </strong>See [<a href="#references-UIEvents">UI Events</a>] for information about programmatically initializing
@@ -4369,8 +4368,7 @@ console.log("Exceptions? No problem");</pre>
 
 						<dt>readonly attribute unsigned long location</dt>
 						<dd>
-							<p>The <code>location</code> attribute contains an indication of the location of the key on the device, as described in <a href="#events-ID-KeyboardEvent-KeyLocationCode">
-								Keyboard event types</a>.</p>
+							<p>The <code>location</code> attribute contains an indication of the location of the key on the device.</p>
 
 							<p>This attribute MUST be set to one of the DOM_KEY_LOCATION constants to indicate the location of a key on the device. In case a DOM implementation wishes to provide a new location value, a
 								value different from the defined constant values MUST be used.</p>
@@ -4605,7 +4603,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the key event, root element if no suitable
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: focused element processing the key event, root element if no suitable
 												input element focused</li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
@@ -4709,7 +4707,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the key event, root element if no suitable
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: focused element processing the key event, root element if no suitable
 												input element focused</li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
@@ -4760,7 +4758,7 @@ console.log("Exceptions? No problem");</pre>
 
 				<p>Conceptually, a composition session consists of one <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> event, one or more
 					<a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> events, and one <a class="eventtype" href="#event-type-compositionend">
-					<code>compositionend</code></a> event, with the value of the <a href="#events-CompositionEvent-data">data</a> attribute persisting between each <q>stage</q>
+					<code>compositionend</code></a> event, with the value of the <a href="#widl-CompositionEvent-data">data</a> attribute persisting between each <q>stage</q>
 					of this event chain during each session.</p>
 
 				<p class="note"><strong>Note:</strong> While a composition session is active, keyboard events can be dispatched to the DOM if the keyboard is the input device used
@@ -4778,7 +4776,7 @@ console.log("Exceptions? No problem");</pre>
 
 					<p>The <code>CompositionEvent</code> interface provides specific contextual information associated with Composition Events.</p>
 
-					<p>To create an instance of the <code>CompositionEvent</code> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("CompositionEvent")</code></a>
+					<p>To create an instance of the <code>CompositionEvent</code> interface, use the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("CompositionEvent")</code></a>
 						method call.</p>
 
 					<p class="note"><strong>Authoring Note: </strong>See [<a href="#references-UIEvents">UI Events</a>] for information about programmatically initializing
@@ -4852,7 +4850,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-CompositionEvent"><code>CompositionEvent</code></a></td>
+									<td><a href="#interface-CompositionEvent"><code>CompositionEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -4878,12 +4876,12 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the composition</li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: focused element processing the composition</li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
-											<li><a href="#events-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: the original string being edited, otherwise the <a class="def"
+											<li><a href="#widl-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: the original string being edited, otherwise the <a class="def"
 												href="#glossary-empty-string">empty string</a></li>
-											<li><a href="#events-CompositionEvent-locale"><code class="attribute-name">CompositionEvent.locale</code></a>: the language code for the composition event, if available;
+											<li><a href="#widl-CompositionEvent-locale"><code class="attribute-name">CompositionEvent.locale</code></a>: the language code for the composition event, if available;
 												otherwise, the <a class="def" href="#glossary-empty-string">empty string</a></li>
 										</ul>
 									</td>
@@ -4895,8 +4893,8 @@ console.log("Exceptions? No problem");</pre>
 								system</a>) in preparation for composing a passage of text. This event type is device-dependent, and MAY rely upon the capabilities of the text conversion system and how it is
 								mapped into the operating system. When a keyboard is used to feed an input method editor, this event type is generated after a <a class="eventtype"><code>keydown</code></a> event,
 								but speech or handwriting recognition systems MAY send this event type without keyboard events.  Some implementations MAY populate the
-								<a href="#events-CompositionEvent-data"><code>data</code></a> attribute of the <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> event
-								with the text currently selected in the document (for editing and replacement). Otherwise, the value of the <a href="#events-CompositionEvent-data"><code>data</code></a>
+								<a href="#widl-CompositionEvent-data"><code>data</code></a> attribute of the <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> event
+								with the text currently selected in the document (for editing and replacement). Otherwise, the value of the <a href="#widl-CompositionEvent-data"><code>data</code></a>
 								attribute MUST be  the <a class="def" href="#glossary-empty-string">empty string</a>.</p>
 
 							<p>This event MUST be dispatched immediately before a <a class="def" href="#glossary-text-composition-system">text composition system</a> begins a new composition session, and
@@ -4909,7 +4907,7 @@ console.log("Exceptions? No problem");</pre>
 								href="#glossary-ime">IME</a> window).</p>
 
 							<p class="note"><strong>Note: </strong>Some IMEs do not support cancelling an in-progress composition session (e.g., such as GTK which doesn't presently have such an API). In these
-								cases, calling <a href="#events-event-type-preventDefault"><code>preventDefault</code></a> will not stop this event's default action.</p>
+								cases, calling <a href="#widl-Event-preventDefault"><code>preventDefault</code></a> will not stop this event's default action.</p>
 						</dd>
 					</dl>
 				</div>
@@ -4926,7 +4924,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-CompositionEvent"><code>CompositionEvent</code></a></td>
+									<td><a href="#interface-CompositionEvent"><code>CompositionEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -4952,23 +4950,23 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the composition, <code>null</code> if not
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: focused element processing the composition, <code>null</code> if not
 												accessible</li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
-											<li><a href="#events-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: the string comprising the current results of the composition
+											<li><a href="#widl-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: the string comprising the current results of the composition
 												session, which MAY be the <a class="def" href="#glossary-empty-string">empty string</a> if the content has been deleted</li>
-											<li><a href="#events-CompositionEvent-locale"><code class="attribute-name">CompositionEvent.locale</code></a>: the language code for the composition event, if available;
+											<li><a href="#widl-CompositionEvent-locale"><code class="attribute-name">CompositionEvent.locale</code></a>: the language code for the composition event, if available;
 												otherwise, the <a class="def" href="#glossary-empty-string">empty string</a></li>
 										</ul>
 									</td>
 								</tr>
 							</table>
 							<p>A <a class="def" href="#glossary-user-agent">user agent</a> SHOULD dispatch this event during a composition session when a <a class="def" href="#glossary-text-composition-system">
-								text composition system</a> updates its active text passage with a new character, which is added to the string in <a href="#events-CompositionEvent-data"><code>CompositionEvent.data</code></a>.
+								text composition system</a> updates its active text passage with a new character, which is added to the string in <a href="#widl-CompositionEvent-data"><code>CompositionEvent.data</code></a>.
 								Some <a class="def" href="#glossary-text-composition-system">text composition systems</a> might not expose this information to the DOM, in which case this event will not fire
 								during the composition process. If the composition session is canceled, this event will be fired immediately before the <a class="eventtype" href="#event-type-compositionend">
-								<code>compositionend</code></a> event, and the <a href="#events-CompositionEvent-data"><code>CompositionEvent.data</code></a> attribute will be set to the <a class="def"
+								<code>compositionend</code></a> event, and the <a href="#widl-CompositionEvent-data"><code>CompositionEvent.data</code></a> attribute will be set to the <a class="def"
 								href="#glossary-empty-string">empty string</a>.</p>
 						</dd>
 					</dl>
@@ -4986,7 +4984,7 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 								<tr>
 									<th>Interface</th>
-									<td><a href="#events-CompositionEvent"><code>CompositionEvent</code></a></td>
+									<td><a href="#interface-CompositionEvent"><code>CompositionEvent</code></a></td>
 								</tr>
 								<tr>
 									<th>Sync / Async</th>
@@ -5012,12 +5010,12 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the composition</li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: focused element processing the composition</li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
-											<li><a href="#events-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: the string comprising the final result of the composition
+											<li><a href="#widl-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>: the string comprising the final result of the composition
 												session, which MAY be the <a class="def" href="#glossary-empty-string">empty string</a> if the content has been deleted or if the composition process has been canceled</li>
-											<li><a href="#events-CompositionEvent-locale"><code class="attribute-name">CompositionEvent.locale</code></a>: the language code for the composition event, if available;
+											<li><a href="#widl-CompositionEvent-locale"><code class="attribute-name">CompositionEvent.locale</code></a>: the language code for the composition event, if available;
 												otherwise, the <a class="def" href="#glossary-empty-string">empty string</a></li>
 										</ul>
 									</td>
@@ -5061,7 +5059,7 @@ console.log("Exceptions? No problem");</pre>
 
 					<p>The <code>MutationEvent</code> interface provides specific contextual information associated with Mutation events.</p>
 
-					<p>To create an instance of the <code>MutationEvent</code> interface, use the <a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("MutationEvent")</code></a>
+					<p>To create an instance of the <code>MutationEvent</code> interface, use the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("MutationEvent")</code></a>
 						method call.</p>
 
 					<dl class="idl" title="interface MutationEvent : Event">
@@ -5130,21 +5128,21 @@ console.log("Exceptions? No problem");</pre>
 
 						<dt>void initMutationEvent()</dt>
 						<dd>
-							<p>Initializes attributes of a <code>MutationEvent</code> object. This method has the same behavior as <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a>.</p>
+							<p>Initializes attributes of a <code>MutationEvent</code> object. This method has the same behavior as <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a>.</p>
 							<dl class="parameters">
 								<dt>DOMString typeArg</dt>
 								<dd>
-									<p>Refer to the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p>
+									<p>Refer to the <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p>
 								</dd>
 
-								<dt>boolean canBubbleArg</dt>
+								<dt>boolean bubblesArg</dt>
 								<dd>
-									<p>Refer to the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p>
+									<p>Refer to the <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p>
 								</dd>
 
 								<dt>boolean cancelableArg</dt>
 								<dd>
-									<p>Refer to the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p>
+									<p>Refer to the <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p>
 								</dd>
 
 								<dt>Node? relatedNodeArg</dt>
@@ -5221,7 +5219,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element whose attribute is being modified</li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: element whose attribute is being modified</li>
 											<li><a href="#widl-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the name of the changed <code>Attr</code> node</li>
 											<li><a href="#widl-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: the numerical code corresponding to the most applicable
 												<a href="#widl-MutationEvent-attrChangeType">attrChangeType</a></li>
@@ -5285,7 +5283,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: object whose content is being modified</li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: object whose content is being modified</li>
 											<li><a href="#widl-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
 											<li><a href="#widl-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
@@ -5348,7 +5346,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element which is being inserted</li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: element which is being inserted</li>
 											<li><a href="#widl-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
 											<li><a href="#widl-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
@@ -5416,7 +5414,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element which is being inserted</li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: element which is being inserted</li>
 											<li><a href="#widl-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
 											<li><a href="#widl-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
@@ -5483,7 +5481,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element which is being removed</li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: element which is being removed</li>
 											<li><a href="#widl-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
 											<li><a href="#widl-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
@@ -5552,7 +5550,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: element which is being removed</li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: element which is being removed</li>
 											<li><a href="#widl-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
 											<li><a href="#widl-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
@@ -5622,7 +5620,7 @@ console.log("Exceptions? No problem");</pre>
 									<th>Context info</th>
 									<td>
 										<ul>
-											<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: parent node of subtree being modified</li>
+											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: parent node of subtree being modified</li>
 											<li><a href="#widl-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>: the <a class="def" href="#glossary-empty-string">empty
 												string</a></li>
 											<li><a href="#widl-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>: <code>0</code></li>
@@ -5853,10 +5851,10 @@ console.log("Exceptions? No problem");</pre>
 
 			<p>It is also important to note that there is not a one-to-one relationship between key event states and key values.  A particular key value might be associated with
 				multiple keys; for example, many standard keyboards contain more than one key with the <code class="key">'Shift'</code> key value (normally distinguished by the
-				<a href="#widl-KeyboardEvent-location"><code>KeyboardEvent.location</code></a> values <a href="#events-DOM_KEY_LOCATION_LEFT"><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></a>
-				and <a href="#events-DOM_KEY_LOCATION_RIGHT"><code class="constant-name">DOM_KEY_LOCATION_RIGHT</code></a>) or <code class="key">'8'</code> key value (normally
-				distinguished by the <a href="#widl-KeyboardEvent-location"><code>KeyboardEvent.location</code></a> values <a href="#events-DOM_KEY_LOCATION_STANDARD"><code class="constant-name">
-				DOM_KEY_LOCATION_STANDARD</code></a> and <a href="#events-DOM_KEY_LOCATION_NUMPAD"><code class="constant-name">DOM_KEY_LOCATION_NUMPAD</code></a>), and user-configured
+				<a href="#widl-KeyboardEvent-location"><code>KeyboardEvent.location</code></a> values <a href="#widl-KeyboardEvent-DOM_KEY_LOCATION_LEFT"><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></a>
+				and <a href="#widl-KeyboardEvent-DOM_KEY_LOCATION_RIGHT"><code class="constant-name">DOM_KEY_LOCATION_RIGHT</code></a>) or <code class="key">'8'</code> key value (normally
+				distinguished by the <a href="#widl-KeyboardEvent-location"><code>KeyboardEvent.location</code></a> values <a href="#widl-KeyboardEvent-DOM_KEY_LOCATION_STANDARD"><code class="constant-name">
+				DOM_KEY_LOCATION_STANDARD</code></a> and <a href="#widl-KeyboardEvent-DOM_KEY_LOCATION_NUMPAD"><code class="constant-name">DOM_KEY_LOCATION_NUMPAD</code></a>), and user-configured
 				custom keyboard layouts MAY duplicate any key value in multiple key-state scenarios (note that <a href="#widl-KeyboardEvent-location"><code>KeyboardEvent.location</code></a>
 				is intended for standard keyboard layouts, and cannot always indicate a meaningful distinction).</p>
 
@@ -6258,13 +6256,13 @@ else {
 			<section id="keys-IME">
 				<h3>Input Method Editors</h3>
 
-				<p>This specification includes a model for <a class="def" href="#glossary-ime">input method editors (IMEs)</a>, through the <a href="#events-compositionevents">CompositionEvent</a>
+				<p>This specification includes a model for <a class="def" href="#glossary-ime">input method editors (IMEs)</a>, through the <a href="#interface-CompositionEvents">CompositionEvent</a>
 					interface and events.  However, composition events and keyboard events do not necessarily map as a one-to-one relationship.  As an example, receiving a <a class="eventtype"
 					href="#event-type-keydown"><code>keydown</code></a> for the <a href="#key-Accept"><code class="key">'Accept'</code></a> key value does not necessarily imply
 					that the text currently selected in the <a class="def" href="#glossary-ime">IME</a> is being accepted, but indicates only that a keystroke happened, disconnected
 					from the <a class="def" href="#glossary-ime">IME</a> Accept functionality (which would normally result in a <a class="eventtype" href="#event-type-compositionend">
 					<code>compositionend</code></a> event in most <a class="def" href="#glossary-ime">IME</a> systems).  Keyboard events cannot be used to determine the current
-					state of the input method editor, which can be obtained through the <a href="#events-CompositionEvent-data"><code>data</code></a> attribute of the <a href="#events-compositionevents">
+					state of the input method editor, which can be obtained through the <a href="#widl-CompositionEvent-data"><code>data</code></a> attribute of the <a href="#interface-CompositionEvents">
 					CompositionEvent</a> interface.  Additionally, <a class="def" href="#glossary-ime">IME</a> systems and devices vary in their functionality, and in which keys
 					are used for activating that functionality, such that the <code class="key">'Convert'</code> and <code class="key">'Accept'</code> keys MAY be represented
 					by other available keys. Keyboard events correspond to the events generated by the input device after the keyboard layout mapping.</p>
@@ -6603,7 +6601,7 @@ else {
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
 							<td>The <a class="def" href="#glossary-default-action">default action</a> is
-								prevented, e.g., by invoking <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a>.
+								prevented, e.g., by invoking <a href="#widl-Event-preventDefault"><code>Event.preventDefault()</code></a>.
 								</td>
 						</tr>
 						<tr>
@@ -6653,7 +6651,7 @@ else {
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
 							<td>The <a class="def" href="#glossary-default-action">default action</a> is
-								prevented, e.g., by invoking <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a>.
+								prevented, e.g., by invoking <a href="#widl-Event-preventDefault"><code>Event.preventDefault()</code></a>.
 								</td>
 						</tr>
 						<tr>
@@ -6725,7 +6723,7 @@ else {
 							<td class="cell-center"><code class="key">'DeadCircumflex'</code></td>
 							<td class="cell-center"></td>
 							<td>The <a class="def" href="#glossary-default-action">default action</a> is
-								prevented, e.g., by invoking <a href="#events-event-type-preventDefault"><code>Event.preventDefault()</code></a>.
+								prevented, e.g., by invoking <a href="#widl-Event-preventDefault"><code>Event.preventDefault()</code></a>.
 								</td>
 						</tr>
 						<tr>
@@ -7171,11 +7169,11 @@ else {
 		<p>These new event interfaces are:</p>
 
 		<ul>
-			<li><a href="#events-CustomEvent"><code>CustomEvent</code></a></li>
-			<li><a href="#events-FocusEvent"><code>FocusEvent</code></a></li>
+			<li><a href="#interface-CustomEvent"><code>CustomEvent</code></a></li>
+			<li><a href="#interface-FocusEvent"><code>FocusEvent</code></a></li>
 			<li><a href="#interface-WheelEvent"><code>WheelEvent</code></a></li>
 			<li><a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a></li>
-			<li><a href="#events-CompositionEvent"><code>CompositionEvent</code></a></li>
+			<li><a href="#interface-CompositionEvent"><code>CompositionEvent</code></a></li>
 		</ul>
 
 		<p>In DOM Level 2 Events, the initialization of these event interfaces was possible through an init method on the interface (for example <code>initMouseEvent</code>).
@@ -7250,23 +7248,23 @@ else {
 					<dd></dd>
 					<dt>void initCustomEvent()</dt>
 					<dd>
-						<p>Initializes attributes of a <code>CustomEvent</code> object. This method has the same behavior as <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a>.</p>
+						<p>Initializes attributes of a <code>CustomEvent</code> object. This method has the same behavior as <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a>.</p>
 
 						<p class="warning"><strong>Warning!</strong> The <code>initCustomEvent</code> method is deprecated. Event constructor syntax, introduced in [<a href="#references-UIEvents">UI Events</a>], is the expected future
 							syntax for initializing a <code>CustomEvent</code>.</p>
 
 						<dl class="parameters">
 							<dt>DOMString typeArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p></dd>
 
-							<dt>boolean canBubbleArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dt>boolean bubblesArg</dt>
+							<dd><p>Refer to the <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>boolean cancelableArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>any detailArg</dt>
-							<dd><p>Specifies <a href="#events-CustomEvent-detail"><code>CustomEvent.detail</code></a>.</p></dd>
+							<dd><p>Specifies <a href="#widl-CustomEvent-detail"><code>CustomEvent.detail</code></a>.</p></dd>
 						</dl>
 					</dd>
 				</dl>
@@ -7303,29 +7301,29 @@ else {
 					<dd></dd>
 					<dt>void initFocusEvent()</dt>
 					<dd>
-						<p>Initializes attributes of a <code>FocusEvent</code> object. This method has the same behavior as <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.</p>
+						<p>Initializes attributes of a <code>FocusEvent</code> object. This method has the same behavior as <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.</p>
 
 						<p class="warning"><strong>Warning!</strong> The <code>initFocusEvent</code> method is deprecated. Event constructor syntax, introduced in [<a href="#references-UIEvents">UI Events</a>], is the expected future
 							syntax for initializing a <code>FocusEvent</code>.</p>
 
 						<dl class="parameters">
 							<dt>DOMString typeArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
-							<dt>boolean canBubbleArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dt>boolean bubblesArg</dt>
+							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>boolean cancelableArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>AbstractView? viewArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>long detailArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>EventTarget? relatedTargetArg</dt>
-							<dd><p>Specifies <a href="#events-FocusEvent-relatedTarget"><code>FocusEvent.relatedTarget</code></a>. This value MAY be <code>null</code>.</p></dd>
+							<dd><p>Specifies <a href="#widl-FocusEvent-relatedTarget"><code>FocusEvent.relatedTarget</code></a>. This value MAY be <code>null</code>.</p></dd>
 						</dl>
 					</dd>
 				</dl>
@@ -7390,44 +7388,44 @@ else {
 					<dd></dd>
 					<dt>void initWheelEvent()</dt>
 					<dd>
-						<p>Initializes attributes of a <code>WheelEvent</code> object. This method has the same behavior as <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a>.</p>
+						<p>Initializes attributes of a <code>WheelEvent</code> object. This method has the same behavior as <a href="#widl-MouseEvent-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a>.</p>
 
 						<p class="warning"><strong>Warning!</strong> The <code>initWheelEvent</code> method is deprecated. Event constructor syntax, introduced in [<a href="#references-UIEvents">UI Events</a>], is the expected future
 							syntax for initializing a <code>WheelEvent</code>.</p>
 
 						<dl class="parameters">
 							<dt>DOMString typeArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
-							<dt>boolean canBubbleArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dt>boolean bubblesArg</dt>
+							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>boolean cancelableArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>AbstractView? viewArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>long detailArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>long screenXArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-MouseEvent-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>long screenYArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-MouseEvent-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>long clientXArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-MouseEvent-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>long clientYArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-MouseEvent-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>unsigned short buttonArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-MouseEvent-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>EventTarget? relatedTargetArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-MouseEvent-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>DOMString modifiersListArg</dt>
 							<dd>
@@ -7481,7 +7479,7 @@ else {
 					<dd></dd>
 					<dt>void initKeyboardEvent()</dt>
 					<dd>
-						<p>Initializes attributes of a <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> object. This method has the same behavior as <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.
+						<p>Initializes attributes of a <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> object. This method has the same behavior as <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.
 							The value of <a href="#widl-UIEvent-detail"><code>UIEvent.detail</code></a> remains undefined.</p>
 
 						<p class="warning"><strong>Warning!</strong> The <code>initKeyboardEvent</code> method is deprecated. Event constructor syntax, introduced in [<a href="#references-UIEvents">UI Events</a>], is the expected
@@ -7489,19 +7487,19 @@ else {
 
 						<dl class="parameters">
 							<dt>DOMString typeArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
-							<dt>boolean canBubbleArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dt>boolean bubblesArg</dt>
+							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>boolean cancelableArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>AbstractView? viewArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>long detailArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>DOMString keyArg</dt>
 							<dd><p>Specifies <a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>.</p></dd>
@@ -7542,7 +7540,7 @@ else {
 					<dd></dd>
 					<dt>void initCompositionEvent()</dt>
 					<dd>
-						<p>Initializes attributes of a <code>CompositionEvent</code> object. This method has the same behavior as <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.
+						<p>Initializes attributes of a <code>CompositionEvent</code> object. This method has the same behavior as <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.
 							The value of <a href="#widl-UIEvent-detail"><code>UIEvent.detail</code></a> remains undefined.</p>
 
 						<p class="warning"><strong>Warning!</strong> The <code>initCompositionEvent</code> method is deprecated. Event constructor syntax, introduced in [<a href="#references-UIEvents">UI Events</a>], is the expected
@@ -7550,22 +7548,22 @@ else {
 
 						<dl class="parameters">
 							<dt>DOMString typeArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
-							<dt>boolean canBubbleArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dt>boolean bubblesArg</dt>
+							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>boolean cancelableArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>AbstractView? viewArg</dt>
-							<dd><p>Refer to the <a href="#events-event-type-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
+							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
 							<dt>DOMString? dataArg</dt>
-							<dd><p>Specifies <a href="#events-CompositionEvent-data"><code>CompositionEvent.data</code></a>.</p></dd>
+							<dd><p>Specifies <a href="#widl-CompositionEvent-data"><code>CompositionEvent.data</code></a>.</p></dd>
 
 							<dt>DOMString localeArg</dt>
-							<dd><p>Specifies <a href="#events-CompositionEvent-locale"><code>CompositionEvent.locale</code></a>.</p></dd>
+							<dd><p>Specifies <a href="#widl-CompositionEvent-locale"><code>CompositionEvent.locale</code></a>.</p></dd>
 						</dl>
 					</dd>
 				</dl>
@@ -7630,7 +7628,7 @@ else {
 					<p>The partial
 							<a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a>
 						interface can be obtained by using the
-							<a href="#events-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("KeyboardEvent")</code></a>
+							<a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("KeyboardEvent")</code></a>
 						method call in implementations that support this extension.</p>
 
 					<dl class="idl" title="partial interface KeyboardEvent">
@@ -7726,7 +7724,7 @@ else {
 								<th>Context info</th>
 								<td>
 									<ul>
-										<li><a href="#events-event-type-target"><code class="attribute-name">Event.target</code></a>: focused element processing the key event, root element if no suitable
+										<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>: focused element processing the key event, root element if no suitable
 											input element focused</li>
 										<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>: <a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
 										<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>: <code>0</code></li>
@@ -8081,7 +8079,7 @@ else {
 		<section id="extending_events-Custom_Events">
 			<h2>Custom Events</h2>
 			<p>A script author MAY wish to define an application in terms of functional components, with event types that are meaningful to the application architecture.  The
-				content author can use the <a href="#events-CustomEvent"><code>CustomEvent</code></a> interface to create their own events appropriate to the level of abstraction
+				content author can use the <a href="#interface-CustomEvent"><code>CustomEvent</code></a> interface to create their own events appropriate to the level of abstraction
 				they are using.</p>
 
 			<div class="example">
@@ -8227,16 +8225,16 @@ document.documentElement.dispatchEvent(evt);
 				<h3>Changes to DOM Level 2 Events interfaces</h3>
 
 				<dl>
-					<dt>Interface <a href="#events-Event"><code>Event</code></a></dt>
-					<dd>The <a href="#events-Event"><code>Event</code></a> interface has one new attribute, <a href="#events-event-type-defaultPrevented"><code>Event.defaultPrevented</code></a>,
-						and one new method, <a href="#events-event-type-stopImmediatePropagation"><code>Event.stopImmediatePropagation()</code></a>.<br />
-						<a href="#events-event-type-timeStamp"><code>Event.timeStamp</code></a> is now a <code>Number</code> in the ECMAScript binding; a proposed correction to make the
+					<dt>Interface <a href="#interface-Event"><code>Event</code></a></dt>
+					<dd>The <a href="#interface-Event"><code>Event</code></a> interface has one new attribute, <a href="#widl-Event-defaultPrevented"><code>Event.defaultPrevented</code></a>,
+						and one new method, <a href="#widl-Event-stopImmediatePropagation"><code>Event.stopImmediatePropagation()</code></a>.<br />
+						<a href="#widl-Event-timeStamp"><code>Event.timeStamp</code></a> is now a <code>Number</code> in the ECMAScript binding; a proposed correction to make the
 						same change in [<cite><a class="normative" href="#references-DOMCore">DOM3 Core</a></cite>] is forthcoming.<br />
-						DOM Level 3 Events considers the <a href="#events-event-type-type"><code>Event.type</code></a> attribute to be case-sensitive, while DOM Level 2 Events considers
-						<a href="#events-event-type-type"><code>Event.type</code></a> to be case-insensitive.</dd>
+						DOM Level 3 Events considers the <a href="#widl-Event-type"><code>Event.type</code></a> attribute to be case-sensitive, while DOM Level 2 Events considers
+						<a href="#widl-Event-type#widl-Event-type"><code>Event.type</code></a> to be case-insensitive.</dd>
 
-					<dt>Interface <a href="#events-EventTarget"><code>EventTarget</code></a></dt>
-					<dd>The method <a href="#events-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> was modified.</dd>
+					<dt>Interface <a href="#widl-EventTarget"><code>EventTarget</code></a></dt>
+					<dd>The method <a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> was modified.</dd>
 
 					<dt>Interface <a href="#interface-MouseEvent"><code>MouseEvent</code></a></dt>
 					<dd>The <a href="#interface-MouseEvent"><code>MouseEvent</code></a> interface has one new method <a href="#widl-MouseEvent-getModifierState"><code>MouseEvent.getModifierState()</code></a>.</dd>
@@ -8251,10 +8249,10 @@ document.documentElement.dispatchEvent(evt);
 				<h3>New Interfaces</h3>
 
 				<p>The interfaces
-						<a href="#events-CustomEvent"><code>CustomEvent</code></a>,
-						<a href="#events-FocusEvent"><code>FocusEvent</code></a>,
+						<a href="#interface-CustomEvent"><code>CustomEvent</code></a>,
+						<a href="#interface-FocusEvent"><code>FocusEvent</code></a>,
 						<a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a>,
-						<a href="#events-CompositionEvent"><code>CompositionEvent</code></a>,
+						<a href="#interface-CompositionEvent"><code>CompositionEvent</code></a>,
 						and <a href="#interface-WheelEvent"><code>WheelEvent</code></a>
 					were added to the Events module.</p>
 			</section>
