@@ -5268,12 +5268,25 @@ console.log("Exceptions? No problem");</pre>
 									</td>
 								</tr>
 							</table>
-							<p>A <a class="def" href="#glossary-user-agent">user agent</a> SHOULD dispatch this event during a composition session when a <a class="def" href="#glossary-text-composition-system">
-								text composition system</a> updates its active text passage with a new character, which is added to the string in <a href="#widl-CompositionEvent-data"><code>CompositionEvent.data</code></a>.
-								Some <a class="def" href="#glossary-text-composition-system">text composition systems</a> might not expose this information to the DOM, in which case this event will not fire
-								during the composition process. If the composition session is canceled, this event will be fired immediately before the <a class="eventtype" href="#event-type-compositionend">
-								<code>compositionend</code></a> event, and the <a href="#widl-CompositionEvent-data"><code>CompositionEvent.data</code></a> attribute will be set to the <a class="def"
-								href="#glossary-empty-string">empty string</a>.</p>
+							<p>A <a class="def" href="#glossary-user-agent">user agent</a> SHOULD dispatch this event during a composition session when a
+								<a class="def" href="#glossary-text-composition-system">text composition system</a> updates its active text passage with a
+								new character, which is reflected in the string in <a href="#widl-CompositionEvent-data"><code>CompositionEvent.data</code></a>.
+								</p>
+
+							<p>In <a class="def" href="#glossary-text-composition-system">text composition systems</a> which keep the ongoing composition in sync
+								with the input control, the <a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> event
+								MUST be dispatched before the control is updated.
+								</p>
+								
+							<p>Some <a class="def" href="#glossary-text-composition-system">text composition systems</a> might not expose this information to the DOM,
+								in which case this event will not fire during the composition process.
+								</p>
+								
+							<p>If the composition session is canceled, this event will be fired immediately before the
+								<a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event,
+								and the <a href="#widl-CompositionEvent-data"><code>CompositionEvent.data</code></a> attribute will be set to the
+								<a class="def" href="#glossary-empty-string">empty string</a>.
+								</p>
 						</dd>
 					</dl>
 				</div>
@@ -5331,12 +5344,15 @@ console.log("Exceptions? No problem");</pre>
 									</td>
 								</tr>
 							</table>
-							<p>A <a class="def" href="#glossary-user-agent">user agent</a> MUST dispatch this event when a <a class="def" href="#glossary-text-composition-system">text composition
-								system</a> completes or cancels the current composition session.</p>
+							<p>A <a class="def" href="#glossary-user-agent">user agent</a> MUST dispatch this event when a
+								<a class="def" href="#glossary-text-composition-system">text composition system</a> completes or cancels the current composition session,
+								and the <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event MUST be dispatched after the control is updated.
+								</p>
 
-							<p>This event is dispatched immediately after the <a class="def" href="#glossary-text-composition-system">text composition system</a> completes the composition session
-								(e.g., the <a class="def" href="#glossary-ime">IME</a> is closed, minimized, switched out of focus, or otherwise dismissed, and the focus switched back to the
-								<a class="def" href="#glossary-user-agent">user agent</a>).</p>
+							<p>This event is dispatched immediately after the <a class="def" href="#glossary-text-composition-system">text composition system</a> completes
+								the composition session (e.g., the <a class="def" href="#glossary-ime">IME</a> is closed, minimized, switched out of focus, or otherwise dismissed,
+								and the focus switched back to the <a class="def" href="#glossary-user-agent">user agent</a>).
+								</p>
 						</dd>
 					</dl>
 				</div>
