@@ -4195,7 +4195,6 @@ console.log("Exceptions? No problem");</pre>
 				<p>Input events are sent as notifications whenever the DOM is being updated.</p>
 				
 				<p class="issue">
-					This section is still being worked on.
 					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=22070">22070</a> - "Add input/beforeinput events to D3E"
 					</p>
 
@@ -4239,6 +4238,10 @@ console.log("Exceptions? No problem");</pre>
 							<td></td>
 						</tr>
 					</table>
+
+				<p class="issue">
+					Do we need to discuss how these event fire with respect to editing events? Or does that discussion properly belong with the editing event spec?
+					</p>
 
 				</section>
 				
@@ -4927,7 +4930,7 @@ console.log("Exceptions? No problem");</pre>
 
 				<section id="events-composition-event-order">
 					<h4>Composition Event Order</h4>
-					<p>The composition events defined in this specification occur in a set order relative to one another:</p>
+					<p>The composition events defined in this specification MUST occur in the following set order relative to one another:</p>
 
 					<table class="event-sequence-table">
 						<tr>
@@ -4993,6 +4996,148 @@ console.log("Exceptions? No problem");</pre>
 					</table>
 				</section>
 
+				<section id="events-composition-event-canceling">
+					<h4>Canceling Composition Events</h4>
+					<p>If a <code>keydown</code> event is canceled then any composition events that would have fired as a result of that <code>keydown</code> SHOULD not be dispatched:</p>
+
+					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-number">1.</td>
+							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
+							<td>The <a class="def" href="#glossary-default-action">default action</a> is
+								prevented, e.g., by invoking <a href="#widl-Event-preventDefault"><code>Event.preventDefault()</code></a>.
+								</td>
+						</tr>
+						<tr>
+							<td class="cell-number"></td>
+							<td colspan="2"><em>No composition events are dispatched</em></td>
+						</tr>
+						<tr>
+							<td class="cell-number">2.</td>
+							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
+							<td></td>
+						</tr>
+					</table>
+
+					<p>If the initial <code>compositionstart</code> event is canceled then the text composition session SHOULD be
+						terminated:</p>
+
+					<p class="issue">Should <code>compositionend</code> still fire when <code>compositionstart</code> is canceled?</p>
+
+					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-number">1.</td>
+							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">2.</td>
+							<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
+							<td>The <a class="def" href="#glossary-default-action">default action</a> is
+								prevented, e.g., by invoking <a href="#widl-Event-preventDefault"><code>Event.preventDefault()</code></a>.
+								</td>
+						</tr>
+						<tr>
+							<td class="cell-number"></td>
+							<td colspan="2"><em>No composition events are dispatched</em></td>
+						</tr>
+						<tr>
+							<td class="cell-number">3.</td>
+							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">4.</td>
+							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
+							<td></td>
+						</tr>
+					</table>
+				</section>
+
+				<section id="events-composition-event-key-events">
+					<h4>Key Events During Composition</h4>
+					<p>During the composition session, all <code>keydown</code> and <code>keyup</code> events SHOULD be suppressed.</p>
+
+					<p>If key events are suppressed between <code>compositionstart</code> and <code>compositionend</code>, then the first or last key
+						pressed might result in unmatched <code>keydown</code> and <code>keyup</code> events.
+						If a <a class="def" href="#glossary-user-agent">user agent</a> suppresses key events during composition,
+						then it MUST ensure that all <code>keydown</code> and <code>keyup</code> events occur in matching pairs.
+						</p>
+						
+					<p>The following event sequence shows how a <a class="def" href="#glossary-user-agent">user agent</a> might insert the extra <code>keyup</code>
+						for a <code>keydown</code> that initiated a composition session.</p>
+						
+					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-number">1.</td>
+							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
+							<td>This is key event that initiates the composition.</td>
+						</tr>
+						<tr>
+							<td class="cell-number">2.</td>
+							<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">3.</td>
+							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">4.</td>
+							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
+							<td>This event would normally be suppressed because of the ongoing composition session, but it is sent to match the previously sent <code>keydown</code> event.</td>
+						</tr>
+					</table>
+
+					<p>For the final key event in a composition session, <a class="def" href="#glossary-user-agent">user agent</a> may choose to either:</p>
+					
+					<ul>
+						<li>suppress both the <code>keydown</code> and <code>keyup</code> events</li>
+						<li>insert an extra <code>keydown</code> event to match the <code>keyup</code> that occurs after the composition session ends</li>
+					</ul>
+				</section>
+				
+				<section id="events-composition-event-key-events">
+					<h4>Input Events During Composition</h4>
+					<p class="issue">Review this section</p>
+					
+					<p>During the composition session, the <code>beforeinput</code> MUST be dispatched before any <code>compositionupdate</code> event.
+						The <code>input</code> event MUST be dispatched after the <code>compositionupdate</code> (after the DOM has been updated).</p>
+
+					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-number">1.</td>
+							<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">2.</td>
+							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number"></td>
+							<td colspan="2"><em>Any DOM updates occur at this point.</em></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">3.</td>
+							<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
+							<td></td>
+						</tr>
+					</table>
+					
+					<p>When a composition session ends, an <code>input</code> event MUST be send after the <code>compositionend</code> event.
+						</p>
+
+					<p>If the <code>beforeinput</code> event is canceled during a composition session, a <a class="def" href="#glossary-user-agent">user agent</a>
+						MAY cancel the corresponding composition update.
+						</p>
+
+					<p class="note"><strong>Note:</strong> Most IMEs do not support canceling updates during a composition session.</p>
+				</section>
+				
 				<p>The composition event types are listed below.</p>
 
 				<!-- compositionstart -->
@@ -5062,11 +5207,11 @@ console.log("Exceptions? No problem");</pre>
 								composition system</a> to start a new composition session. If this event is canceled, the <a class="def" href="#glossary-text-composition-system">text composition system</a> SHOULD
 								discard the current composition session.</p>
 
-							<p class="note"><strong>Note: </strong>Canceling the <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> <em>event type</em> is distinct
+							<p class="note"><strong>Note:</strong> Canceling the <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> <em>event type</em> is distinct
 								from canceling the <a class="def" href="#glossary-text-composition-system">text composition system</a> itself (e.g., by hitting a cancel button or closing an <a class="def"
 								href="#glossary-ime">IME</a> window).</p>
 
-							<p class="note"><strong>Note: </strong>Some IMEs do not support cancelling an in-progress composition session (e.g., such as GTK which doesn't presently have such an API). In these
+							<p class="note"><strong>Note:</strong> Some IMEs do not support cancelling an in-progress composition session (e.g., such as GTK which doesn't presently have such an API). In these
 								cases, calling <a href="#widl-Event-preventDefault"><code>preventDefault</code></a> will not stop this event's default action.</p>
 						</dd>
 					</dl>
