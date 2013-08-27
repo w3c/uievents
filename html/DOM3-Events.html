@@ -4391,18 +4391,24 @@ console.log("Exceptions? No problem");</pre>
 					<p class="issue">
 						See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=22834">22834</a> - "DOM_KEY_LOCATION_MOBILE and _JOYSTICK are no longer needed"
 						</p>
-						
+					
+					<p class="issue">The spec has been updated to note that the NumLock key has a location of STANDARD since that matches Firefox/IE. Chrome was just
+						updated to return STANDARD for NumLock. Previously the spec stated that all numeric keypad keys should have location=NUMPAD.</p>
+					
 					<dl class="idl" title="interface KeyboardEvent : UIEvent">
 						<dt>// KeyLocationCode</dt>
 
 						<dt>const unsigned long DOM_KEY_LOCATION_STANDARD = 0x00</dt>
 						<dd>
-							<p>The key activation MUST NOT be distinguished as the left or right version of the key, and did not originate from the numeric keypad (or did not originate with
-							a virtual key corresponding to the numeric keypad).</p>
+							<p>The key activation MUST NOT be distinguished as the left or right version of the key, and (other than the <code class="key">'NumLock'</code>key)
+								did not originate from the numeric keypad (or did not originate with a virtual key corresponding to the numeric keypad).
+								</p>
 
 							<div class="example">
 								<div class="example-title"></div>
 								<p>The <code class="key">'Q'</code> key on a PC 101 Key US keyboard.</p>
+								<p>The <code class="key">'NumLock'</code> key on a PC 101 Key US keyboard.</p>
+								<p>The <code class="key">'1'</code> key on a PC 101 Key US keyboard located in the main section of the keyboard.</p>
 							</div>
 						</dd>
 
@@ -4428,7 +4434,8 @@ console.log("Exceptions? No problem");</pre>
 
 						<dt>const unsigned long DOM_KEY_LOCATION_NUMPAD = 0x03</dt>
 						<dd>
-							<p>The key activation originated on the numeric keypad or with a virtual key corresponding to the numeric keypad.</p>
+							<p>The key activation originated on the numeric keypad or with a virtual key corresponding to the numeric keypad
+								 (when there is more than one possible location for this key).</p>
 
 							<div class="example">
 								<div class="example-title"></div>
@@ -4594,7 +4601,8 @@ console.log("Exceptions? No problem");</pre>
 				<p class="note"><strong>Note:</strong> For compatibility with existing content, virtual keyboards, such as software keyboards on screen-based
 					input devices, are expected to produce the normal range of keyboard events, even though they do not possess physical keys.</p>
 
-				<p class="note"><strong>Note:</strong> In some implementations or system configurations, some key events, or their values, might be suppressed by the <a class="def" href="#glossary-ime">IME</a> in use.</p>
+				<p class="note"><strong>Note:</strong> In some implementations or system configurations, some key events, or their values, might be suppressed
+					by the <a class="def" href="#glossary-ime">IME</a> in use.</p>
 
 				<section id="events-keyboard-event-order">
 					<h4>Keyboard Event Order</h4>
