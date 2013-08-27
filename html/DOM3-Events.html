@@ -4594,7 +4594,8 @@ console.log("Exceptions? No problem");</pre>
 						DOM Level 3 Events  does not define values for either
 						<code>keyCode</code> or <code>charCode</code>, or behavior for <code>charCode</code>.
 						In conforming DOM Level 3 Events implementations, content authors can instead use <a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>.
-						<em>For more information, see the informative appendix on <a href="#legacy-key-attributes">Legacy key attributes</a>.</em>
+						</p>
+					<p><em>For more information, see the informative appendix on <a href="#legacy-key-attributes">Legacy key attributes</a>.</em>
 						</p>
 					</div>
 
@@ -6598,7 +6599,8 @@ else {
 
 			<p>Implementations that are unable to identify a key MUST use the key value <a href="#key-Unidentified"><code class="key">'Unidentified'</code></a>.</p>
 
-			<p class="warning"><strong>Warning!</strong> Conforming implementations MUST only use this key value when there is no way for the implementation to detect the key value.
+			<p class="warning"><strong>Warning!</strong> Conforming implementations MUST only use <a href="#key-Unidentified"><code class="key">'Unidentified'</code></a>
+				as a key value when there is no way for the implementation to detect the key value.
 				Exposing only this value MUST NOT indicate a conforming implementation.</p>
 
 			<p>The <a class="def" href="#glossary-key-value">key values</a> defined in this specification are based in part on the sets of keycodes from
@@ -8108,7 +8110,7 @@ else {
 							focus. The focus MUST be given to the element before the dispatch of this event type. This event type MUST be dispatched after the event type <a class="eventtype"
 							href="#event-type-focus"><code>focus</code></a>.</p>
 
-						<p class="warning" id="_7"><strong>Warning!</strong> The <a class="eventtype" href="#event-type-DOMFocusIn"><code>DOMFocusIn</code></a> event type is defined in this
+						<p class="warning"><strong>Warning!</strong> The <a class="eventtype" href="#event-type-DOMFocusIn"><code>DOMFocusIn</code></a> event type is defined in this
 							specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type in favor
 							of the related event types <a class="eventtype" href="#event-type-focus"><code>focus</code></a> and <a class="eventtype" href="#event-type-focusIn"><code>focusin</code></a>.</p>
 					</dd>
@@ -8169,7 +8171,7 @@ else {
 							focus. The focus MUST be taken from the element before the dispatch of this event type. This event type MUST be dispatched after the event type <a class="eventtype"
 							href="#event-type-blur"><code>blur</code></a>.</p>
 
-						<p class="warning" id="_8"><strong>Warning!</strong> The <a class="eventtype" href="#event-type-DOMFocusOut"><code>DOMFocusOut</code></a> event type is defined in
+						<p class="warning"><strong>Warning!</strong> The <a class="eventtype" href="#event-type-DOMFocusOut"><code>DOMFocusOut</code></a> event type is defined in
 							this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type in
 							favor of the related event types <a class="eventtype" href="#event-type-blur"><code>blur</code></a> and <a class="eventtype" href="#event-type-focusout"><code>focusout</code></a>.</p>
 					</dd>
@@ -8354,9 +8356,13 @@ else {
 						<p class="note"><strong>Note:</strong> The <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event is traditionally associated with detecting a
 							<a class="def" href="#glossary-character-value">character value</a> rather than a physical key, and might not be available on all keys in some configurations.</p>
 
-						<p class="warning"><strong>Warning!</strong> The <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event type is defined in this
-							specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type. When
-							in editing contexts, authors can subscribe to the <code>beforeinput</code> event instead.</p>
+						<div class="warning">
+							<p><strong>Warning!</strong></p>
+							<p>The <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event type is defined in this specification for
+								reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type.
+								When in editing contexts, authors can subscribe to the <code>beforeinput</code> event instead.
+								</p>
+						</div>
 
 					</dd>
 				</dl>
@@ -8439,11 +8445,18 @@ else {
 			<p>Many single modifications of the tree can cause multiple mutation events to be dispatched. Rather than attempt to specify the ordering of mutation events due to
 				every possible modification of the tree, the ordering of these events is left to the implementation.</p>
 
-			<p class="warning"><strong>Warning!</strong>  The <a href="#interface-MutationEvent">MutationEvent interface</a> was introduced in DOM Level 2 Events, but has not yet been
-				completely and interoperably implemented across <a class="def" href="#glossary-user-agent">user agents</a>. In addition, there have been critiques that the interface, as designed,
-				introduces a performance and implementation challenge. DOM4 [<a href="#references-DOM4">DOM4</a>] provides a new mechanism using a <code>MutationObserver</code> interface which
-				addresses the use cases that mutation events solve, but in a more performant manner. Thus, this specification describes mutation events for reference and completeness of legacy
-				behavior, but <a class="def" href="#glossary-deprecated">deprecates</a> the use of the <a href="#interface-MutationEvent"><code>MutationEvent</code></a> interface.</p>
+			<div class="warning">
+				<p><strong>Warning!</strong></p>
+				<p>The <a href="#interface-MutationEvent">MutationEvent interface</a> was introduced in DOM Level 2 Events, but has not yet been
+					completely and interoperably implemented across <a class="def" href="#glossary-user-agent">user agents</a>.
+					In addition, there have been critiques that the interface, as designed, introduces a performance and implementation challenge.
+					</p>
+				<p>DOM4 [<a href="#references-DOM4">DOM4</a>] provides a new mechanism using a <code>MutationObserver</code> interface which
+					addresses the use cases that mutation events solve, but in a more performant manner.
+					Thus, this specification describes mutation events for reference and completeness of legacy behavior, but
+					<a class="def" href="#glossary-deprecated">deprecates</a> the use of the <a href="#interface-MutationEvent"><code>MutationEvent</code></a> interface.
+					</p>
+			</div>
 
 			<section id="interface-MutationEvent">
 				<h4>Interface MutationEvent</h4>
@@ -8516,7 +8529,7 @@ else {
 
 						<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>0</code>.</p>
 
-						<p class="warning"><strong>Warning:</strong> There is no defined constant for the attrChange value of 0 (the un-initialized value).</p>
+						<p class="note"><strong>Note:</strong> There is no defined constant for the attrChange value of 0 (the un-initialized value).</p>
 					</dd>
 
 					<dt>void initMutationEvent()</dt>
@@ -8699,7 +8712,7 @@ else {
 							have been modified, but the node itself has not been inserted or deleted.  The <a class="def" href="#glossary-event-target">event target</a> of this event MUST
 							be the <code>CharacterData</code> node or the <code>ProcessingInstruction</code> node.</p>
 
-						<p class="warning" id="_45"><strong>Warning!</strong> The <a class="eventtype" href="#event-type-DOMCharacterDataModified"><code>DOMCharacterDataModified</code></a>
+						<p class="warning"><strong>Warning!</strong> The <a class="eventtype" href="#event-type-DOMCharacterDataModified"><code>DOMCharacterDataModified</code></a>
 							event type is defined in this specification for reference and completeness, but this specification <a class="def" href="#glossary-deprecated">deprecates</a> the
 							use of this event type.</p>
 					</dd>
