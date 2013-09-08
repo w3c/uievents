@@ -6575,13 +6575,9 @@ else {
 					[<cite><a class="informative" href="#references-Keys">Keys enumeration for .Net</a></cite>].
 				</p>
 
-			<p class="note"><strong>Note:</strong> The key names <code class="key">'NumPad0'</code>, <code class="key">'NumPad1'</code>, <code class="key">
-				'NumPad2'</code>, <code class="key">'NumPad3'</code>, <code class="key">'NumPad4'</code>, <code class="key">'NumPad5'</code>, <code class="key">'NumPad6'</code>,
-				<code class="key">'NumPad7'</code>, <code class="key">'NumPad8'</code>, and <code class="key">'NumPad9'</code>, found in some keyboard enumeration sets,
-				are not distinguished from other numerical key values in this set. A content author can use the <a href="#widl-KeyboardEvent-location"><code>KeyboardEvent.location</code></a>
-				attribute to discover if a key originated from the numeric keypad.</p>
-
-			<p>Future versions of this specification MAY include key values not included here, which have become common since the publication of this specification.</p>
+			<p class="note"><strong>Note:</strong> The keys on the numeric keypad (e.g., the keypad <code>'1'</code> key) do not generate distinct <code>key</code> values
+				from their non-keypad counterparts (e.g., the <code>'1'</code> key in the main part of the keyboard).
+				The <a href="#widl-KeyboardEvent-location"><code>KeyboardEvent.location</code></a> attribute can be used to determine if a key originated from the numeric keypad.</p>
 
 			<div class="note">
 				<p><strong>Note:</strong> There are special internationalization considerations for ECMAScript escaped characters.  CharMod conformance [<cite><a class="normative"
@@ -6604,248 +6600,239 @@ else {
 				of values for use in the <a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>
 				attributes, though not all values MAY be available on all platforms or devices.</p>
 			
-			<section id="keys-general">
-				<h4>General Keys</h4>
+			<p>Future versions of this specification MAY include key values not included here, which have become common since the publication of this specification.</p>
+
+			<section id="keys-special">
+				<h4>Special Key Values</h4>
 
 				<!-- Key tables. Note that all keys must be defined within a <div class="key-table"> -->
-				<div id="keys-general" class="key-table">
-					<key name="Attn">The Attention (Attn) key.</key>
-					<key name="ContextMenu">Toggle display of current application's context menu.</key>
-					<key name="CrSel">The Cursor Select (Crsel) key.</key>
-					<key name="ExSel">The Extend Selection (Exsel) key.</key>
-					<key name="Props">The properties (props) key.</key>
-					<key name="Unidentified">This key value is used when an implementations is unable to identify another key value, due to either hardware, platform, or software constraints.</key>
+				<div id="key-table-general" class="key-table">
+					<key name="Unidentified">This key value is used when an implementation is unable to identify another key value, due to either hardware, platform, or software constraints.</key>
 				</div>
 			</section><!-- keys-general -->
 
-			<section id="keys-ui">
-				<h4>UI keys</h4>
-				<div id="keys-ui" class="key-table">
-					<key name="Accept">The Accept (Commit, OK) key. Accept current option or input method sequence conversion.</key>
-					<key name="Again">The Again key, to redo or repeat an action.</key>
-					<key name="ContextMenu">Show the application's context menu.
-						This key is commonly found between the right <code>'OS'</code> key and the right <code>'Control'</code> key.
+			<section id="keys-modifier">
+				<h4>Modifier Keys</h4>
+				<div id="key-table-modifier" class="key-table">
+					<key name="Alt">The Alternative (Alt, Option, Menu) key.  Enable alternate modifier function for interpreting concurrent or subsequent keyboard input.
+						This key value is also used for the Apple <code>'Option'</code> key.
 						</key>
+					<key name="AltGraph">The Alternate Graphics (AltGr or AltGraph) key.
+						This key is used enable the ISO Level 3 shift modifier (the standard <code>'Shift'</code> key is the level 2 modifier).
+						</key>
+					<key name="CapsLock">The Caps Lock (Capital) key.
+						Toggle capital character lock function for interpreting subsequent keyboard input event.
+						</key>
+					<key name="Control">The Control (Ctrl) key, to enable control modifier function for interpreting concurrent or subsequent keyboard input.</key>
+					<key name="Fn">The Function switch (Fn) key.
+						Activating this key simultaneously with another key changes that key's value to an alternate character or function.
+						This key is often handled directly in the keyboard hardware and does not usually generate key events.
+						</key>
+					<key name="FnLock">The Function-Lock (FnLock, F-Lock) key. 
+						Activating this key switches the mode of the keyboard to changes some keys' values to an alternate character or function.
+						This key is often handled directly in the keyboard hardware and does not usually generate key events.
+						</key>
+					<key name="Hyper">The Hyper key.</key>
+					<key name="Meta">The Meta key, to enable meta modifier function for interpreting concurrent or subsequent keyboard input.
+						This key value is also used for the Apple <code>'Command'</code> key.
+						</key>
+					<key name="NumLock">The Number Lock key, to toggle numer-pad mode function for interpreting subsequent keyboard input.</key>
+					<key name="OS">The operating system key (e.g. the <q>Windows Logo</q> key).</key>
+					<key name="Shift">The Shift key, to enable shift modifier function for interpreting concurrent or subsequent keyboard input.</key>
+					<key name="Super">The Super key.</key>
+					<key name="Symbol">The Symbol modifier key (used on some virtual keyboards).</key>
+					<key name="SymbolLock">The Symbol Lock key.</key>
+				</div>
+				<p class="issue">
+					Need to resolve Meta/Super (Linex) vs. Win (Windows) vs. Command (Mac) key.
+					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=22073">22073</a> - "'Meta' key is the same as the 'OS' or 'Win' key"
+					</p>
+			</section><!-- keys-modifier -->
+
+			<section id="keys-whitespace">
+				<h4>Whitespace Keys</h4>
+				<div id="key-table-whitespace" class="key-table">
 					<key name="Enter">The Enter key, to activate current selection or accept current input.
 						This key value is also used for the <code class="key">'Return'</code> (Macintosh numpad) key.
 						</key>
-					<key name="Find">The Find key.</key>
-					<key name="Help">Toggle display of help information.</key>
-					<key name="Pause">Pause the current state or application (as appropriate).</key>
-					<key name="Play">Play or resume the current state or application (as appropriate).</key>
-					<key name="ScrollLock">The Scroll Lock key, to toggle between scrolling and cursor movement modes.</key>
-					<key name="Execute">The Execute key.</key>
-					<key name="Cancel">The Cancel key.</key>
-					<key name="Escape">The Escape (Esc) key, to initiate an escape sequence.</key>
-					<key name="ZoomIn">The ZoomIn key.</key>
-					<key name="ZoomOut">The ZoomOut key.</key>
+					<key name="Separator">The Separator key, for context-sensitive text separators.</key>
+					<key name="Tab">The Horizontal Tabulation (Tab) key.</key>
 				</div>
-			</section><!-- keys-ui -->
+				<p class="note"><strong>Note:</strong> The space or spacebar key is encoded as <code class="glyph">'&nbsp;'</code>.
+					</p>
+			</section><!-- keys-whitespace -->
 
 			<section id="keys-navication">
-				<h4>Navigation keys</h4>
-				<div id="keys-navigation" class="key-table">
+				<h4>Navigation Keys</h4>
+				<div id="key-table-navigation" class="key-table">
 					<key name="ArrowDown">The down arrow key, to navigate or traverse downward.</key>
 					<key name="ArrowLeft">The left arrow key, to navigate or traverse leftward.</key>
 					<key name="ArrowRight">The right arrow key, to navigate or traverse rightward.</key>
 					<key name="ArrowUp">The up arrow key, to navigate or traverse upward.</key>
-					<key name="Home">The Home key, used with keyboard entry, to go to start of content.</key>
 					<key name="End">The End key, used with keyboard entry to go to the end of content.</key>
+					<key name="Home">The Home key, used with keyboard entry, to go to start of content.</key>
 					<key name="PageDown">The Page Down key, to scroll down or display next page of content.</key>
 					<key name="PageUp">The Page Up key, to scroll up or display previous page of content.</key>
 				</div>
 			</section><!-- keys-navigation -->
 
 			<section id="keys-editing">
-				<h4>Editing keys</h4>
-				<div id="keys-edit" class="key-table">
+				<h4>Editing Keys</h4>
+				<div id="key-table-editing" class="key-table">
 					<key name="Backspace">The Backspace key.
-						<p class="note"><strong>Note:</strong> This key value is also used for the key labeled <code>'delete'</code> on MacOS keyboards.</p>
+						This key value is also used for the key labeled <code>'delete'</code> on MacOS keyboards.
 						</key>
 					<key name="Clear">The Clear key, for removing current selected input.</key>
 					<key name="Copy">The Copy key.</key>
+					<key name="CrSel">The Cursor Select (Crsel) key.</key>
 					<key name="Cut">The Cut key.</key>
 					<key name="Delete">The Delete (Del) Key.
-						<p class="note"><strong>Note:</strong> This key value is also used for the key labeled <code>'delete'</code> on MacOS keyboards when modified by
-							the <code class="key">'Fn'</code> key.</p>
+						This key value is also used for the key labeled <code>'delete'</code> on MacOS keyboards when modified by the <code class="key">'Fn'</code> key.
 						</key>
 					<key name="EraseEof">The Erase to End of Field key.  This key deletes all characters from the current cursor position to the end of the current field.</key>
+					<key name="ExSel">The Extend Selection (Exsel) key.</key>
 					<key name="Insert">The Insert (Ins) key, to toggle between text modes for insertion or overtyping.</key>
 					<key name="Paste">The Paste key.</key>
-					<key name="Undo">The Undo key.</key>
 					<key name="Redo">The Redo key.</key>
+					<key name="Undo">The Undo key.</key>
 				</div>
 			</section><!-- keys-editing -->
 
-			<section id="keys-modifier">
-				<h4>Modifier keys</h4>
-				<div id="keys-modifier" class="key-table">
-					<key name="Alphanumeric">The Alphanumeric key.</key>
-					<key name="Alt">The Alternative (Alt, Option, Menu) key.  Enable alternate modifier function for interpreting concurrent or subsequent keyboard input.
-						<p class="note"><strong>Note:</strong> This key value is also used for the Apple <code>'Option'</code> key.</p>
+			<section id="keys-ui">
+				<h4>UI Keys</h4>
+				<div id="key-table-ui" class="key-table">
+					<key name="Accept">The Accept (Commit, OK) key. Accept current option or input method sequence conversion.</key>
+					<key name="Again">The Again key, to redo or repeat an action.</key>
+					<key name="Attn">The Attention (Attn) key.</key>
+					<key name="Cancel">The Cancel key.</key>
+					<key name="ContextMenu">Show the application's context menu.
+						This key is commonly found between the right <code>'OS'</code> key and the right <code>'Control'</code> key.
 						</key>
-					<key name="AltGraph">The Alt-Graph key.</key>
-					<key name="CapsLock">The Caps Lock (Capital) key.  Toggle capital character lock function for interpreting subsequent keyboard input event.</key>
-					<key name="Control">The Control (Ctrl) key, to enable control modifier function for interpreting concurrent or subsequent keyboard input.</key>
-					<key name="Fn">The Function switch (Fn) key.  Activating this key simultaneously with another key changes that key's value to an alternate character or function.</key>
-					<key name="FnLock">The Function-Lock (FnLock, F-Lock) key.  Activating this key switches the mode of the keyboard to changes some keys' values to an alternate character or function.</key>
-					<key name="Meta">The Meta key, to enable meta modifier function for interpreting concurrent or subsequent keyboard input.
-						<p class="note"><strong>Note:</strong> This key value is also used for the Apple <code>'Command'</code> key.</p>
+					<key name="Escape">The Escape (Esc) key, to initiate an escape sequence.</key>
+					<key name="Execute">The Execute key.</key>
+					<key name="Find">The Find key.</key>
+					<key name="Help">Toggle display of help information.</key>
+					<key name="Pause">Pause the current state or application (as appropriate).
+						<p class="note"><strong>Note:</strong> This value is intended for theDo not use this value for the pause button on media controllers. Use <code>'MediaPause'</code> instead.
 						</key>
-					<key name="Process">The Process key.</key>
-					<key name="NumLock">The Number Lock key, to toggle numer-pad mode function for interpreting subsequent keyboard input.</key>
-					<key name="Shift">The Shift key, to enable shift modifier function for interpreting concurrent or subsequent keyboard input.</key>
-					<key name="Symbol">The Symbol modifier key (used on some virtual keyboards).</key>
-					<key name="SymbolLock">The Symbol Lock key.</key>
-					<key name="OS">The operating system key (e.g. the <q>Windows Logo</q> key).
-						<p class="issue">
-							See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=22073">22073</a> - "'Meta' key is the same as the 'OS' or 'Win' key"
-							</p>
+					<key name="Play">Play or resume the current state or application (as appropriate).
+						<p class="issue">Is this the same as MediaPlay?</p>
 						</key>
-					<key name="Compose">The Compose key, also known as <em>Multi_key</em> on the X Window System.  This key acts in a manner similar to a
-						<a class="def" href="#glossary-dead-key">dead key</a>, triggering a mode where subsequent key presses are combined to produce a different character.
-						</key>
+					<key name="Props">The properties (Props) key.</key>
+					<key name="ScrollLock">The Scroll Lock key, to toggle between scrolling and cursor movement modes.</key>
+					<key name="ZoomIn">The ZoomIn key.</key>
+					<key name="ZoomOut">The ZoomOut key.</key>
 				</div>
-			</section><!-- keys-modifier -->
-
-			<section id="keys-characater">
-				<h4>Character keys</h4>
-				<div id="keys-character" class="key-table">
-					<key name="Separator">The Separator key, for context-sensitive text separators.</key>
-					<key name="Spacebar">The Space (Spacebar) key (<code class="glyph">'&nbsp;'</code>).
-						<p class="issue">
-							See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=22081">22081</a> - "Needs to be clearer definition of "Spacebar" whether it should be used when non-ASCII space (U+20) is inputted or physical space key is pressed"
-							</p>
-						</key>
-					<key name="Tab">The Horizontal Tabulation (Tab) key.</key>
-				</div>
-			</section><!-- keys-character -->
+			</section><!-- keys-ui -->
 
 			<section id="keys-device">
-				<h4>Device keys</h4>
-				<div id="keys-device" class="key-table">
+				<h4>Device Keys</h4>
+				<div id="key-table-device" class="key-table">
 					<key name="BrightnessDown">The Brightness Down key. Typically controls the display brightness.</key>
 					<key name="BrightnessUp">The Brightness Up key. Typically controls the display brightness.</key>
 					<key name="Camera">The Camera key.</key>
 					<key name="Eject">Toggle removable media to eject (open) and insert (close) state.</key>
-					<key name="PrintScreen">The Print Screen (PrintScrn, SnapShot) key, to initiate print-screen function.</key>
+					<key name="Hibernate">The Hibernate key.</key>
+					<key name="LogOff">The LogOff key.</key>
 					<key name="Power">Toggle power state.
 						<p class="note"><strong>Note:</strong> Some devices might not expose this key to the operating environment.</p>
 						</key>
-					<key name="Standby">The Standby key.</key>
 					<key name="PowerDown">The PowerDown key.</key>
-					<key name="PowerOff">The PowerOff key.
-						<p class="issue">How is this different from the PowerDown key?</p>
-						</key>
-					<key name="WakeUp">The WakeUp key.</key>
+					<key name="PowerOff">The PowerOff key.</key>
+					<key name="PrintScreen">The Print Screen (PrintScrn, SnapShot) key, to initiate print-screen function.</key>
 					<key name="Sleep">The Sleep key.</key>
-					<key name="LogOff">The LogOff key.</key>
+					<key name="Standby">The Standby key.</key>
 					<key name="Suspend">The Suspend key.</key>
-					<key name="Hibernate">The Hibernate key.</key>
+					<key name="WakeUp">The WakeUp key.</key>
 				</div>
+				<p class="issue">What is the difference between the Sleep, Hibernate and Suspend keys?</p>
+				<p class="issue">How is this different from the PowerDown and PowerOff keys?  Is there a PowerOn key?</p>
 			</section><!-- keys-device -->
 
-			<section id="keys-apps">
-				<h4>Application Keys</h4>
-				<p>The exact number of these LaunchApplication keys varies on different platforms, and only the first
-					few are defined explicitly here.  Additional key names are implicitly defined by incrementing the
-					base-10 index at the end of the function key name. Thus
-					<span class="key">'LaunchApplication12'</span> is a valid key value.
-					</p>
-				<!-- Key tables. Note that all keys must be defined within a <div class="key-table"> -->
-				<div id="keys-apps" class="key-table">
-					<key name="LaunchApplication1">The Start Application key, as index 1.</key>
-					<key name="LaunchApplication2">The Start Application key, as index 2.</key>
-					<key name="LaunchMail">The Start Mail key.</key>
-					<!--key name="List">Toggle display listing of currently available content or programs.</key-->
-				</div>
-				<p class="issue">
-					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=21134">21134</a> - "Define key names which launches specific application"
-					</p>
-				<p class="issue">
-					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=21143">21143</a> - "Define command key names for multimedia keyboard"
-					</p>
-			</section><!-- keys-apps -->
-
-			<section id="keys-browser">
-				<h4>Browser keys</h4>
-				<div id="keys-browser" class="key-table">
-					<key name="BrowserFavorites">The Browser Favorites key.</key>
-					<key name="BrowserHome">The Browser Home key, used with keyboard entry, to go to the home page.</key>
-					<key name="BrowserRefresh">The Browser Refresh key, to refresh the current page or content.</key>
-					<key name="BrowserSearch">The Browser Search key, to call up the user's preferred search page.</key>
-					<key name="BrowserStop">The Browser Stop key, to stop loading the current page or content.</key>
-					<key name="BrowserBack">Navigate to previous content or page in current history.</key>
-					<key name="BrowserForward">Navigate to next content or page in current history.</key>
-				</div>
-			</section><!-- keys-browser -->
-
 			<section id="keys-composition">
-				<h4>Composition keys</h4>
-				<div id="keys-composition" class="key-table">
-					<key name="DeadGrave">The Combining Grave Accent (Greek Varia, Dead Grave) key.</key>
-					<key name="DeadAcute">The Combining Acute Accent (Stress Mark, Greek Oxia, Tonos, Dead Eacute) key.</key>
-					<key name="DeadCircumflex">The Combining Circumflex Accent (Hat, Dead Circumflex) key.</key>
-					<key name="DeadTilde">The Combining Tilde (Dead Tilde) key.</key>
-					<key name="DeadMacron">The Combining Macron (Long, Dead Macron) key.</key>
-					<key name="DeadBreve">The Combining Breve (Short, Dead Breve) key.</key>
-					<key name="DeadAboveDot">The Combining Dot Above (Derivative, Dead Above Dot) key.</key>
-					<key name="DeadUmlaut">The Combining Diaeresis (Double Dot Abode, Umlaut, Greek Dialytika, Double Derivative, Dead Diaeresis) key.</key>
-					<key name="DeadAboveRing">The Combining Ring Above (Dead Above Ring) key.</key>
-					<key name="DeadDoubleAcute">The Combining Double Acute Accent (Dead Doubleacute) key.</key>
-					<key name="DeadCaron">The Combining Caron (Hacek, V Above, Dead Caron) key.</key>
-					<key name="DeadCedilla">The Combining Cedilla (Dead Cedilla) key.</key>
-					<key name="DeadOgonek">The Combining Ogonek (Nasal Hook, Dead Ogonek) key.</key>
-					<key name="DeadIota">The Combining Greek Ypogegrammeni (Greek Non-Spacing Iota Below, Iota Subscript, Dead Iota) key.</key>
-					<key name="DeadVoicedSound">The Combining Katakana-Hiragana Voiced Sound Mark (Dead Voiced Sound) key.</key>
-					<key name="DeadSemivoicedSound">The Combining Katakana-Hiragana Semi-Voiced Sound Mark (Dead Semivoiced Sound) key.</key>
-				</div>
-				<p class="issue">
-					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=21114">21114</a> - "Dead key names are not enough for Linux"
-					</p>
-			</section><!-- keys-composition -->
-
-			<section id="keys-ime">
-				<h4>IME keys</h4>
-				<div id="keys-ime" class="key-table">
+				<h4>IME and Composition Keys</h4>
+				<div id="key-table-composition" class="key-table">
 					<key name="AllCandidates">The All Candidates key, to initate the multi-candidate mode.</key>
-					<key name="NextCandidate">The Next Candidate function key.</key>
-					<key name="PreviousCandidate">The Previous Candidate function key.</key>
-					<key name="SingleCandidate">The Single Candidate function key.</key>
+					<key name="Alphanumeric">The Alphanumeric key.</key>
 					<key name="CodeInput">The Code Input key, to initiate the Code Input mode to allow characters to be entered by their code points.</key>
+					<key name="Compose">The Compose key, also known as <em>Multi_key</em> on the X Window System.  This key acts in a manner similar to a
+						<a class="def" href="#glossary-dead-key">dead key</a>, triggering a mode where subsequent key presses are combined to produce a different character.
+						</key>
 					<key name="Convert">The Convert key, to convert the current input method sequence.</key>
-					<key name="Nonconvert">The Nonconvert (Don't Convert) key, to accept current input method sequence without conversion in IMEs.</key>
 					<key name="FinalMode">The Final Mode (Final) key used on some Asian keyboards, to enable the final mode for IMEs.</key>
-					<key name="FullWidth">The Full-Width Characters key.</key>
-					<key name="HalfWidth">The Half-Width Characters key.</key>
-					<key name="ZenkakuHankaku">The Zenkaku/Hankaku (full-width/half-width) toggle key.</key>
+					<key name="GroupFirst">Switch to the first character group. (ISO/IEC 9995)</key>
+					<key name="GroupLast">Switch to the last character group. (ISO/IEC 9995)</key>
+					<key name="GroupNext">Switch to the next character group. (ISO/IEC 9995)</key>
+					<key name="GroupPrevious">Switch to the previous character group. (ISO/IEC 9995)</key>
 					<key name="ModeChange">The Mode Change key, to toggle between or cycle through input modes of IMEs.</key>
+					<key name="NextCandidate">The Next Candidate function key.</key>
+					<key name="NonConvert">The Nonconvert (Don't Convert) key, to accept current input method sequence without conversion in IMEs.</key>
+					<key name="PreviousCandidate">The Previous Candidate function key.</key>
+					<key name="Process">The Process key.</key>
+					<key name="SingleCandidate">The Single Candidate function key.</key>
+				</div>
+
+				<p>Keys specific to Korean keyboards</p>
+				<div id="key-table-ime-korean" class="key-table">
 					<key name="RomanCharacters">The Roman Characters function key, also known as the <code>'Youngja'</code> or <code>'Young'</code> key.</key>
 					<key name="HangulMode">The Hangul (Korean characters) Mode key, to toggle between Hangul and English modes.</key>
 					<key name="HanjaMode">The Hanja (Korean characters) Mode key.</key>
 					<key name="JunjaMode">The Junja (Korean characters) Mode key.</key>
+				</div>
+
+				<p>Keys specific to Japanese keyboards</p>
+				<div id="key-table-ime-japanese" class="key-table">
+					<key name="FullWidth">The Full-Width Characters key.</key>
+					<key name="HalfWidth">The Half-Width Characters key.</key>
+					<key name="ZenkakuHankaku">The Zenkaku/Hankaku (full-width/half-width) toggle key.</key>
 					<key name="KanaMode">The Kana Mode (Kana Lock) key.</key>
 					<key name="KanjiMode">The Kanji (Japanese name for ideographic characters of Chinese origin) Mode key.</key>
 					<key name="Hiragana">The Hiragana (Japanese Kana characters) key.</key>
 					<key name="Katakana">The Katakana (Japanese Kana characters) key.</key>
 					<key name="HiraganaKatakana">The Hiragana/Katakana toggle key.</key>
 				</div>
+				<p class="issue">KanaLock?, InputMethodToggle?</p>
+				<p class="issue">Use Zenkaku and Hankaku instead of Fullwidth and Halfwidth (since those are the names used in the VK_).</p>
 				<p class="issue">
 					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=21140">21140</a> - "Define key names for keyboard layout change keys"
 					</p>
 				<p class="issue">
 					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=22750">22750</a> - "What's the good key name for "Eisu" (英数) key of JIS keyboard for Mac?"
 					</p>
-			</section><!-- keys-ime -->
+
+				<p>Dead keys</p>
+				<div id="key-table-dead" class="key-table">
+					<key name="DeadAboveDot">The Combining Dot Above (Derivative, Dead Above Dot) key.</key>
+					<key name="DeadAboveRing">The Combining Ring Above (Dead Above Ring) key.</key>
+					<key name="DeadAcute">The Combining Acute Accent (Stress Mark, Greek Oxia, Tonos, Dead Eacute) key.</key>
+					<key name="DeadBreve">The Combining Breve (Short, Dead Breve) key.</key>
+					<key name="DeadCaron">The Combining Caron (Hacek, V Above, Dead Caron) key.</key>
+					<key name="DeadCedilla">The Combining Cedilla (Dead Cedilla) key.</key>
+					<key name="DeadCircumflex">The Combining Circumflex Accent (Hat, Dead Circumflex) key.</key>
+					<key name="DeadDoubleAcute">The Combining Double Acute Accent (Dead Doubleacute) key.</key>
+					<key name="DeadGrave">The Combining Grave Accent (Greek Varia, Dead Grave) key.</key>
+					<key name="DeadIota">The Combining Greek Ypogegrammeni (Greek Non-Spacing Iota Below, Iota Subscript, Dead Iota) key.</key>
+					<key name="DeadMacron">The Combining Macron (Long, Dead Macron) key.</key>
+					<key name="DeadOgonek">The Combining Ogonek (Nasal Hook, Dead Ogonek) key.</key>
+					<key name="DeadSemivoicedSound">The Combining Katakana-Hiragana Semi-Voiced Sound Mark (Dead Semivoiced Sound) key.</key>
+					<key name="DeadTilde">The Combining Tilde (Dead Tilde) key.</key>
+					<key name="DeadUmlaut">The Combining Diaeresis (Double Dot Abode, Umlaut, Greek Dialytika, Double Derivative, Dead Diaeresis) key.</key>
+					<key name="DeadVoicedSound">The Combining Katakana-Hiragana Voiced Sound Mark (Dead Voiced Sound) key.</key>
+				</div>
+				<p class="issue">
+					Why not just use the Unicode combining characters here instead of 'DeadXxx'?
+					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=21114">21114</a> - "Dead key names are not enough for Linux"
+					</p>
+			</section><!-- keys-ime-composition -->
 
 			<section id="keys-function">
-				<h4>General-purpose function keys</h4>
+				<h4>General-Purpose Function Keys</h4>
 				<p>The exact number of these general purpose function keys varies on different platforms, and only the first
 					few are defined explicitly here.  Additional function key names are implicitly defined by incrementing the
 					base-10 index at the end of the function key name. Thus, <span class="key">'F24'</span>
 					and <span class="key">'Soft8'</span> are all valid key values.
 					</p>
-				<div id="keys-function-keys" class="key-table">
+				<div id="key-table-function" class="key-table">
 					<key name="F1">The F1 key, a general purpose function key, as index 1.</key>
 					<key name="F2">The F2 key, a general purpose function key, as index 2.</key>
 					<key name="F3">The F3 key, a general purpose function key, as index 3.</key>
@@ -6865,8 +6852,68 @@ else {
 				</div>
 			</section><!-- keys-function -->
 
-			<section id="keys-media">
-				<h4>Media controller keys</h4>
+			<section id="keys-multimedia">
+				<h4>Mediamedia Keys</h4>
+				<p>These are extra keys found on "multimedia" keyboards.</p>
+
+				<div id="key-table-multimedia" class="key-table">
+					<key name="Close">Close the current document or message.</key>
+					<key name="MailForward">Open an editor to forward the current message.</key>
+					<key name="MailReply">Open an editor to reply to the current message.</key>
+					<key name="MailSend">Send the current message.</key>
+					<key name="MediaPlayPause">Toggle media between play and pause states.</key>
+					<key name="MediaSelect">Select media.</key>
+					<key name="MediaStop">Stop media playing, pausing, forwarding, rewinding, or recording, if not already stopped.</key>
+					<key name="MediaTrackNext">Seek to next media or program track.</key>
+					<key name="MediaTrackPrevious">Seek to previous media or program track.</key>
+					<key name="New">Open a new document or message.</key>
+					<key name="Open">Open an existing document or message.</key>
+					<key name="Print">Print the current document or message.</key>
+					<key name="Save">Save the current document or message.</key>
+					<key name="SpellCheck">Spellcheck the current document or selection.</key>
+					<key name="VolumeDown">Decrease audio volume.</key>
+					<key name="VolumeUp">Increase audio volume.</key>
+					<key name="VolumeMute">Toggle between muted state and prior volume level.</key>
+				</div>
+			</section><!-- keys-function -->
+
+			<section id="keys-apps">
+				<h4>Application Keys</h4>
+				<p>The exact number of these LaunchApplication keys varies on different platforms, and only the first
+					few are defined explicitly here.  Additional key names are implicitly defined by incrementing the
+					base-10 index at the end of the function key name. Thus
+					<span class="key">'LaunchApplication12'</span> is a valid key value.
+					</p>
+				<!-- Key tables. Note that all keys must be defined within a <div class="key-table"> -->
+				<div id="key-table-apps" class="key-table">
+					<key name="LaunchApplication1">The Start Application key, as index 1. This key is often labeled 'My Computer'.</key>
+					<key name="LaunchApplication2">The Start Application key, as index 2. This key is often labeled 'Calculator'.</key>
+					<key name="LaunchMail">The Start Mail key.</key>
+					<!--key name="List">Toggle display listing of currently available content or programs.</key-->
+				</div>
+				<p class="issue">
+					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=21134">21134</a> - "Define key names which launches specific application"
+					</p>
+				<p class="issue">
+					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=21143">21143</a> - "Define command key names for multimedia keyboard"
+					</p>
+			</section><!-- keys-apps -->
+
+			<section id="keys-browser">
+				<h4>Browser Keys</h4>
+				<div id="key-table-browser" class="key-table">
+					<key name="BrowserBack">Navigate to previous content or page in current history.</key>
+					<key name="BrowserFavorites">The Browser Favorites key.</key>
+					<key name="BrowserForward">Navigate to next content or page in current history.</key>
+					<key name="BrowserHome">The Browser Home key, used with keyboard entry, to go to the home page.</key>
+					<key name="BrowserRefresh">The Browser Refresh key, to refresh the current page or content.</key>
+					<key name="BrowserSearch">The Browser Search key, to call up the user's preferred search page.</key>
+					<key name="BrowserStop">The Browser Stop key, to stop loading the current page or content.</key>
+				</div>
+			</section><!-- keys-browser -->
+
+			<section id="keys-media-controller">
+				<h4>Media Controller Keys</h4>
 
 				<p>The <a class="def" href="#glossary-key-value">key values</a> for media controllers (e.g. remote controls for television, audio systems, and set-top boxes)
 					are derived in part from the consumer electronics technical specifications:</p>
@@ -6882,7 +6929,7 @@ else {
 					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23167">23167</a> - "Define key name for TV".
 					</p>
 
-				<div id="keys-media" class="key-table">
+				<div id="key-table-media-controller" class="key-table">
 					<key name="AudioBalanceLeft">Adjust audio balance leftward. (VK_AUDIO_BALANCE_LEFT)</key>
 					<key name="AudioBalanceRight">Adjust audio balance rightward. (VK_AUDIO_BALANCE_RIGHT)</key>
 					<key name="AudioBassBoostDown">Decrease audio bass boost or cycle down through bass boost states. (VK_BASS_BOOST_DOWN)</key>
@@ -6916,7 +6963,7 @@ else {
 					<key name="FavoriteStore3">Store current program or content as favorite 3. (VK_STORE_FAVORITE_3)</key>
 					<key name="Guide">Toggle display of program or content guide. (VK_GUIDE)</key>
 					<key name="GuideNextDay">If guide is active and displayed, then display next day's content. (VK_NEXT_DAY)</key>
-					<key name="GuidePrevDay">If guide is active and displayed, then display previous day's content. (VK_PREV_DAY)</key>
+					<key name="GuidePreviousDay">If guide is active and displayed, then display previous day's content. (VK_PREV_DAY)</key>
 					<key name="Info">Toggle display of information about currently selected context or media. (VK_INFO)</key>
 					<key name="InstantReplay">Toggle instant replay. (VK_INSTANT_REPLAY)</key>
 					<key name="Link">Launch linked content, if available and appropriate. (VK_LINK)</key>
@@ -6932,13 +6979,9 @@ else {
 						<p class="note"><strong>Note:</strong> Media controller devices should use this value rather than <code>'Pause'</code> for their pause keys.</p>
 						</key>
 					<key name="MediaPlay">Initiate or continue media playback at normal speed, if not currently playing at normal speed. (VK_PLAY)</key>
-					<key name="MediaPlayPause">Toggle media between play and pause states. (VK_PLAY_PAUSE)</key>
 					<key name="MediaRecord">Initiate or resume recording of currently selected media. (VK_RECORD)</key>
 					<key name="MediaRewind">Initiate or continue reverse playback at faster than normal speed, or increase speed if already rewinding. (VK_REWIND)</key>
 					<key name="MediaSkip">Skip forward to next content or program. (VK_SKIP)</key>
-					<key name="MediaStop">Stop media playing, pausing, forwarding, rewinding, or recording, if not already stopped. (VK_STOP)</key>
-					<key name="MediaTrackNext">Seek to next media or program track. (VK_TRACK_NEXT)</key>
-					<key name="MediaTrackPrevious">Seek to previous media or program track. (VK_TRACK_PREV)</key>
 					<key name="NextFavoriteChannel">Cycle to next favorite channel (in favorites list). (VK_NEXT_FAVORITE_CHANNEL)</key>
 					<key name="NextUserProfile">Cycle to next user profile (if there are multiple user profiles). (VK_USER)</key>
 					<key name="OnDemand">Access on-demand content or programs. (VK_ON_DEMAND)</key>
@@ -6968,22 +7011,26 @@ else {
 					These following table summarizes the key values that MUST be used:
 				</p>
 				
-				<div id="keys-media2" class="key-table">
-					<key name="BrowserBack">Navigate to previous content or page in current history. (VK_BACK)</key>
-					<key name="BrowserForward">Navigate to next content or page in current history. (VK_FORWARD)</key>
-					<key name="ContextMenu">Toggle display of the on-screen menu. (VK_MENU)</key>
-					<key name="Eject">Toggle removable media to eject (open) and insert (close) state. (VK_EJECT_TOGGLE)</key>
-					<key name="End">The End key, used with keyboard entry to go to the end of content. (VK_GO_TO_END)</key>
-					<key name="Enter">The Enter key, to activate current selection or accept current input. (VK_SELECT)</key>
-					<key name="Home">The Home key, used with keyboard entry, to go to start of content. (VK_GO_TO_START)</key>
-					<key name="Power">Toggle power state. (VK_POWER)</key>
-					<key name="Unidentified">This key value is used when an implementations is unable to identify another key value, due to either hardware, platform, or software constraints. (VK_UNDEFINED)</key>
-					<key name="VolumeDown">Decrease audio volume. (VK_VOLUME_DOWN)</key>
-					<key name="VolumeUp">Increase audio volume. (VK_VOLUME_UP)</key>
-					<key name="VolumeMute">Toggle between muted state and prior volume level. (VK_VOLUME_MUTE)</key>
+				<div id="key-table-media-controller-dup" class="key-table">
+					<key name="BrowserBack" noid>Navigate to previous content or page in current history. (VK_BACK)</key>
+					<key name="BrowserForward" noid>Navigate to next content or page in current history. (VK_FORWARD)</key>
+					<key name="ContextMenu" noid>Toggle display of the on-screen menu. (VK_MENU)</key>
+					<key name="Eject" noid>Toggle removable media to eject (open) and insert (close) state. (VK_EJECT_TOGGLE)</key>
+					<key name="End" noid>The End key, used with keyboard entry to go to the end of content. (VK_GO_TO_END)</key>
+					<key name="Enter" noid>The Enter key, to activate current selection or accept current input. (VK_SELECT)</key>
+					<key name="Home" noid>The Home key, used with keyboard entry, to go to start of content. (VK_GO_TO_START)</key>
+					<key name="MediaPlayPause" noid>Toggle media between play and pause states. (VK_PLAY_PAUSE)</key>
+					<key name="MediaStop" noid>Stop media playing, pausing, forwarding, rewinding, or recording, if not already stopped. (VK_STOP)</key>
+					<key name="MediaTrackNext" noid>Seek to next media or program track. (VK_TRACK_NEXT)</key>
+					<key name="MediaTrackPrevious" noid>Seek to previous media or program track. (VK_TRACK_PREV)</key>
+					<key name="Power" noid>Toggle power state. (VK_POWER)</key>
+					<key name="Unidentified" noid>This key value is used when an implementations is unable to identify another key value, due to either hardware, platform, or software constraints. (VK_UNDEFINED)</key>
+					<key name="VolumeDown" noid>Decrease audio volume. (VK_VOLUME_DOWN)</key>
+					<key name="VolumeUp" noid>Increase audio volume. (VK_VOLUME_UP)</key>
+					<key name="VolumeMute" noid>Toggle between muted state and prior volume level. (VK_VOLUME_MUTE)</key>
 				</div>
 
-			</section><!-- keys-media -->
+			</section><!-- keys-media-controller -->
 
 		</section>
 
