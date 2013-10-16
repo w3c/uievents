@@ -2377,6 +2377,11 @@ console.log("Exceptions? No problem");</pre>
 
 				<section id="events-focusevent-doc-focus">
 					<h4>Document Focus and Focus Context</h4>
+
+					<p class="issue">
+						See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23271">23271</a> - "confusing and unclear text about system focus and document focus"
+						</p>
+						
 					<p>This event module includes event types for notification of changes in document <a class="def" href="#glossary-event-focus">focus</a>.  Depending on the environment,
 						document focus MAY be distinct from <a class="def" href="#glossary-user-agent">user agent</a> focus and operating system focus. This is referred to as focus context.
 						For example, in a typical desktop browser environment, the operating system context focus might be on one of many different applications, one of which is the browser.
@@ -4924,6 +4929,11 @@ console.log("Exceptions? No problem");</pre>
 
 				<section id="events-composition-event-order">
 					<h4>Composition Event Order</h4>
+
+					<p class="issue">
+						See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23258">23258</a> - "Consider composition event order relative to IME API info when choosing to update DOM after compositionupdate..."
+						</p>
+						
 					<p>The composition events defined in this specification MUST occur in the following set order relative to one another:</p>
 
 					<table class="event-sequence-table">
@@ -4943,10 +4953,6 @@ console.log("Exceptions? No problem");</pre>
 							<td></td>
 						</tr>
 					</table>
-					
-					<p class="issue">
-						See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=22842">22842</a> - "Should keyboard events fire during a composition session?"
-						</p>
 				</section>
 
 				<section id="handwriting">
@@ -5079,17 +5085,58 @@ console.log("Exceptions? No problem");</pre>
 						</tr>
 					</table>
 
-					<p>For the final key event in a composition session, <a class="def" href="#glossary-user-agent">user agent</a> may choose to either:</p>
+					<p class="issue">Review the following section during teleconf</p>
 					
-					<ul>
-						<li>suppress both the <code>keydown</code> and <code>keyup</code> events</li>
-						<li>insert an extra <code>keydown</code> event to match the <code>keyup</code> that occurs after the composition session ends</li>
-					</ul>
+					<p>For the final key event in a composition session, a <a class="def" href="#glossary-user-agent">user agent</a> may choose to either
+						suppress both the <code>keydown</code> and <code>keyup</code> events:
+						</p>
+						
+					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-number"></td>
+							<td colspan="2"><em>Keydown for key that exits IME suppressed during composition session</em></td>
+						</tr>
+						<tr>
+							<td class="cell-number">1.</td>
+							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number"></td>
+							<td colspan="2"><em>A keyup event would normally be sent at this time, but it is suppressed to avoid generating an unmatched keyup event.</em></td>
+						</tr>
+					</table>
+
+					<p>Or the <a class="def" href="#glossary-user-agent">user agent</a> may choose to
+						insert an extra <code>keydown</code> event to match the <code>keyup</code> that occurs after the composition session ends:
+						</p>
+
+					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-number"></td>
+							<td colspan="2"><em>Keydown for key that exits IME suppressed during composition session</em></td>
+						</tr>
+						<tr>
+							<td class="cell-number">1.</td>
+							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">2.</td>
+							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
+							<td>This is key event that was suppressed earlier. It is sent now to match the upcoming keyup.</td>
+						</tr>
+						<tr>
+							<td class="cell-number">3.</td>
+							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
+							<td></td>
+						</tr>
+					</table>
+
 				</section>
 				
 				<section id="events-composition-event-key-events">
 					<h4>Input Events During Composition</h4>
-					<p class="issue">Review this section</p>
 					
 					<p>During the composition session, the <code>beforeinput</code> MUST be dispatched before any <code>compositionupdate</code> event.
 						The <code>input</code> event MUST be dispatched after the <code>compositionupdate</code> (after the DOM has been updated).</p>
