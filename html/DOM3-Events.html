@@ -240,9 +240,9 @@
 
 				<dt>Key and character values</dt>
 				<dd>
-					This is a key name: <code class="key">'Spacebar'</code> (e.g., the value of <a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>).
-					This is the equivalent character value: <code class="char">'\u0020'</code>.
-					This is a glyph that represents that same character value: <code class="glyph">' '</code>.
+					This is a key name: <code class="key">'='</code> (e.g., the value of <a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>).
+					This is the equivalent character value: <code class="char">'\u003d'</code>.
+					This is a glyph that represents that same character value: <code class="glyph">'='</code>.
 				</dd>
 
 				<dt>Glossary definitions</dt>
@@ -900,7 +900,7 @@ console.log("Exceptions? No problem");</pre>
 				<div class="example">
 					<div class="example-title"></div>
 					<p>When a user activates a hyperlink using a keyboard, such as by focusing the hyperlink element
-					and pressing the <a href="#key-Enter"><code class="key">'Enter'</code></a> or <a href="#key-Spacebar"><code class="key">'Space'</code></a> key, a <a class="eventtype"
+					and pressing the <a href="#key-Enter"><code class="key">'Enter'</code></a> or <code class="key">'&nbsp;'</code> key, a <a class="eventtype"
 					href="#event-type-click"><code>click</code></a> event would be dispatched as the <a class="def" href="#glossary-default-action">default action</a> of the respective
 					<a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event.</p>
 				</div>
@@ -941,7 +941,7 @@ console.log("Exceptions? No problem");</pre>
 						<td class="cell-number">1.</td>
 						<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 						<td>MUST be a key which can activate the element, such as the
-							<a href="#key-Enter"><code class="key">'Enter'</code></a> or <a href="#key-Spacebar"><code class="key">'Spacebar'</code></a> key,
+							<a href="#key-Enter"><code class="key">'Enter'</code></a> or <code class="key">'&nbsp;'</code> key,
 							or the element is not activated</td>
 					</tr>
 					<tr>
@@ -2378,19 +2378,35 @@ console.log("Exceptions? No problem");</pre>
 				<section id="events-focusevent-doc-focus">
 					<h4>Document Focus and Focus Context</h4>
 
+					<p>This event module includes event types for notification of changes in document
+						<a class="def" href="#glossary-event-focus">focus</a>.
+						There are three distinct focus contexts that are relevant to this discussion:
+						</p>
+					
+					<ul>
+						<li>The <em>operating system focus context</em> which MAY be on one of many different applications currently
+							running on the computer. One of these applications with focus can be a browser.
+							</li>
+						<li>When the browser has focus, the user can switch (such as with the tab key) the
+							<em>application focus context</em> among the different browser user interface fields (e.g., the
+							Web site location bar, a search field, etc.). One of these user interface fields can be the
+							document being shown in a tab.
+							</li>
+						<li>When the document itself has focus, the <em>document focus context</em> can be set to any of the
+							focusable elements in the document.
+							</li>
+					</ul>
+
+					<p>The event types defined in this specification deal exclusively with document focus, and the
+						<a class="def" href="#glossary-event-target">event target</a> identified in the event details
+						MUST only be part of the document or documents in the window, never a part of the browser or
+						operating system, even when switching from one focus context to another.
+						</p>
+					
 					<p class="issue">
 						See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23271">23271</a> - "confusing and unclear text about system focus and document focus"
 						</p>
 						
-					<p>This event module includes event types for notification of changes in document <a class="def" href="#glossary-event-focus">focus</a>.  Depending on the environment,
-						document focus MAY be distinct from <a class="def" href="#glossary-user-agent">user agent</a> focus and operating system focus. This is referred to as focus context.
-						For example, in a typical desktop browser environment, the operating system context focus might be on one of many different applications, one of which is the browser.
-						When the browser has focus, the user can shift the application context focus (such as with the tab key) among different browser user interface fields (e.g., the
-						Web site location bar, a search field, etc.) before or after achieving document focus. Once the document itself has focus, sequential shifting of focus will step
-						through the focusable elements in the document.  The event types defined in this specification deal exclusively with document focus, and the <a class="def" href="#glossary-event-target">
-						event target</a> identified in the event details MUST only be part of the document or documents in the window, never a part of the browser or operating system,
-						even when switching from one focus context to another.</p>
-
 					<p>Normally, a document always has a focused element (even if it is the document element itself) and a persistent <a class="def" href="#glossary-event-focus-ring">focus
 						ring</a>. When switching between focus contexts, the document's currently focused element and focus ring normally remain in their current state. For example,
 						if a document has three focusable elements, with the second element focused, when a user changes operating system focus to another application and then back to
@@ -2399,7 +2415,8 @@ console.log("Exceptions? No problem");</pre>
 						focus MAY be changed, and the order in which the focus changes.  For example, in some cases an element might be given focus by moving a pointer over it, while other
 						circumstances might require a mouse click. Some elements might not be focusable at all, and some might be focusable only by special means (clicking on the element),
 						but not by tabbing to it.  Documents MAY contain multiple focus rings.  Other specifications MAY define a more complex focus model than is described in this specification,
-						including allowing multiple elements to have the current focus.</p>
+						including allowing multiple elements to have the current focus.
+						</p>
 				</section>
 
 				<p>The Focus event types are listed below.</p>
@@ -3171,10 +3188,6 @@ console.log("Exceptions? No problem");</pre>
 				<p>The Mouse event types are listed below. In the case of nested elements, mouse event types are always targeted at the most deeply nested element. Ancestors of the
 					targeted element MAY use bubbling to obtain notification of mouse events which occur within its descendent elements.</p>
 
-				<p class="issue">
-					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23240">23240</a> - "Normatively specify that right/middle mouse button presses do not cause click/dblclick events"
-					</p>
-
 				<!-- click -->
 				<div class="event-definition">
 					<dl>
@@ -3247,10 +3260,13 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 							</table>
 
-							<p>The <a class="eventtype" href="#event-type-click"><code>click</code></a> event type MUST be dispatched on the <a class="def" href="#glossary-topmost-event-target">
-								topmost event target</a> indicated by the pointer, when the user presses down and releases the pointer button, or otherwise activates the pointer in a manner that
-								simulates such an action.  The actuation method of the mouse button depends upon the pointer device and the environment configuration, e.g., it MAY depend on
-								the screen location or the delay between the press and release of the pointing device button.</p>
+							<p>The <a class="eventtype" href="#event-type-click"><code>click</code></a> event type MUST be dispatched on the
+								<a class="def" href="#glossary-topmost-event-target">topmost event target</a> indicated by the pointer, when
+								the user presses down and releases any pointer button,
+								or otherwise activates the pointer in a manner that simulates such an action.
+								The actuation method of the mouse button depends upon the pointer device and the environment configuration,
+								e.g., it MAY depend on the screen location or the delay between the press and release of the pointing device button.
+								</p>
 
 							<p>The <a class="eventtype" href="#event-type-click"><code>click</code></a> event MAY be preceded by the <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a>
 								and <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> events on the same element, disregarding changes between other node types (e.g., text
@@ -3283,6 +3299,13 @@ console.log("Exceptions? No problem");</pre>
 								based on the <a class="def" href="#glossary-event-target">event target</a> of the event and the value of the <a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a>
 								or <a href="#widl-MouseEvent-buttons"><code>MouseEvent.buttons</code></a> attributes.  Typical <a class="def" href="#glossary-default-action">default actions</a>
 								of the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type are as follows:</p>
+
+							<p class="issue">
+								<strong>FIXED - Needs review<br/>
+								The text above has been updated to explicitly state that these events fire for all buttons since that is implied by the text below.
+								</strong><br/>
+								See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23240">23240</a> - "Normatively specify that right/middle mouse button presses do not cause click/dblclick events".
+								</p>
 
 							<ul>
 								<li><em>Left click</em> (<a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a> value is <code>0</code>, <a href="#widl-MouseEvent-buttons"><code>
@@ -4009,6 +4032,7 @@ console.log("Exceptions? No problem");</pre>
 					the wheel device into the appropriate values and units.</p>
 
 				<p class="issue">
+					<strong>RESOLVED - Moving into UI Events</strong><br/>
 					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23259">23259</a> - "Expose ticks in wheel events"
 					</p>
 					
@@ -4525,6 +4549,7 @@ console.log("Exceptions? No problem");</pre>
 							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>""</code> (the empty string).</p>
 							
 							<p class="issue">
+								<strong>Intent is to move the locale attribute into UI Events unless it is needed for composition events</strong><br/>
 								See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=21830">21830</a> - "KeyboardEvent.locale is too general".
 								<br/>
 								Also related:
@@ -4769,7 +4794,7 @@ console.log("Exceptions? No problem");</pre>
 								<li>If the key is the <a href="#key-Tab"><code class="key">'Tab'</code></a> key, the default action MUST be to shift the document focus from the currently focused
 									element (if any) to the new focused element, as described in <a href="#events-focusevent">Focus Event Types</a></li>
 
-								<li>If the key is the <a href="#key-Enter"><code class="key">'Enter'</code></a> or <a href="#key-Spacebar"><code class="key">'Space'</code></a> key and the
+								<li>If the key is the <a href="#key-Enter"><code class="key">'Enter'</code></a> or <code class="key">'&nbsp;'</code> key and the
 									current focus is on a state-changing element, the default action MUST be to dispatch a <a class="eventtype" href="#event-type-click"><code>click</code></a> event,
 									and a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event if that event type is supported by the <a class="def" href="#glossary-user-agent">
 									user agent</a> (refer to <a href="#event-flow-activation">activation triggers and behavior</a> for more details)</li>
@@ -4871,7 +4896,7 @@ console.log("Exceptions? No problem");</pre>
 				<h3>Composition Event Types</h3>
 
 				<p>Composition Events provide a means for inputing text in a supplementary or alternate manner than by Keyboard Events, in order to allow the use of characters that
-					might not be commonly available on keyboard. For example, Composition events might be used to add accents to characters despite their absence from standard US keyboards,
+					might not be commonly available on keyboard. For example, Composition Events might be used to add accents to characters despite their absence from standard US keyboards,
 					to build up logograms of many Asian languages from their base components or categories, to select word choices from a combination of key presses on a mobile device
 					keyboard, or to convert voice commands into text using a speech recognition processor.  Refer to <a href="#keys">Keyboard events and key values</a> for examples
 					on how Composition Events are used in combination with keyboard events.</p>
@@ -4934,10 +4959,15 @@ console.log("Exceptions? No problem");</pre>
 					<h4>Composition Event Order</h4>
 
 					<p class="issue">
+						<strong>Spec as written specifies cu+bi+DOM+i event dispatch order.<br/>
+						Bug is suggesting that DOM be updated during cu (which implies bi+DOM+cu+i order).<br/>
+						Changing this would match current IE behavior, but would deviate from current Chrome/FF behavior.<br/>
+						See <a href="https://docs.google.com/document/d/1pGo9hmOXCu71lnpXbqpTQNQP70DU9E-1tNN3yEWg5ig/edit#heading=h.t3zwmzew1bzu">this document</a>
+						for a comparison of composition events on various browsers.</strong><br/>
 						See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23258">23258</a> - "Consider composition event order relative to IME API info when choosing to update DOM after compositionupdate..."
 						</p>
 						
-					<p>The composition events defined in this specification MUST occur in the following set order relative to one another:</p>
+					<p>The Composition Events defined in this specification MUST occur in the following set order relative to one another:</p>
 
 					<table class="event-sequence-table">
 						<tr>
@@ -4988,7 +5018,7 @@ console.log("Exceptions? No problem");</pre>
 							<td><code>'text'</code></td>
 						</tr>
 						<tr>
-							<td class="cell-number">3.</td>
+							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
 							<td><code>'text'</code></td>
 						</tr>
@@ -4997,7 +5027,7 @@ console.log("Exceptions? No problem");</pre>
 
 				<section id="events-composition-event-canceling">
 					<h4>Canceling Composition Events</h4>
-					<p>If a <code>keydown</code> event is canceled then any composition events that would have fired as a result of that <code>keydown</code> SHOULD not be dispatched:</p>
+					<p>If a <code>keydown</code> event is canceled then any Composition Events that would have fired as a result of that <code>keydown</code> SHOULD not be dispatched:</p>
 
 					<table class="event-sequence-table">
 						<tr>
@@ -5009,7 +5039,7 @@ console.log("Exceptions? No problem");</pre>
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="2"><em>No composition events are dispatched</em></td>
+							<td colspan="2"><em>No Composition Events are dispatched</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">2.</td>
@@ -5037,7 +5067,7 @@ console.log("Exceptions? No problem");</pre>
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="2"><em>No composition events are dispatched</em></td>
+							<td colspan="2"><em>No Composition Events are dispatched</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">3.</td>
@@ -5088,10 +5118,10 @@ console.log("Exceptions? No problem");</pre>
 						</tr>
 					</table>
 
-					<p class="issue">Review the following section during teleconf</p>
-					
-					<p>For the final key event in a composition session, a <a class="def" href="#glossary-user-agent">user agent</a> may choose to either
-						suppress both the <code>keydown</code> and <code>keyup</code> events:
+					<p>For the final key event in a composition session, a <a class="def" href="#glossary-user-agent">user agent</a> may choose to either:
+						</p>
+
+					<p>(A) Suppress both the <code>keydown</code> and <code>keyup</code> events:
 						</p>
 						
 					<table class="event-sequence-table">
@@ -5110,8 +5140,7 @@ console.log("Exceptions? No problem");</pre>
 						</tr>
 					</table>
 
-					<p>Or the <a class="def" href="#glossary-user-agent">user agent</a> may choose to
-						insert an extra <code>keydown</code> event to match the <code>keyup</code> that occurs after the composition session ends:
+					<p>(B) Insert an extra <code>keydown</code> event to match the <code>keyup</code> that occurs after the composition session ends:
 						</p>
 
 					<table class="event-sequence-table">
@@ -5141,8 +5170,8 @@ console.log("Exceptions? No problem");</pre>
 				<section id="events-composition-event-key-events">
 					<h4>Input Events During Composition</h4>
 					
-					<p>During the composition session, the <code>beforeinput</code> MUST be dispatched before any <code>compositionupdate</code> event.
-						The <code>input</code> event MUST be dispatched after the <code>compositionupdate</code> (after the DOM has been updated).</p>
+					<p>During the composition session, the <code>compositionupdate</code> MUST be dispatched before the <code>beforeinput</code> 
+						and <code>input</code> events are sent.</p>
 
 					<table class="event-sequence-table">
 						<tr>
@@ -5167,13 +5196,6 @@ console.log("Exceptions? No problem");</pre>
 						</tr>
 					</table>
 					
-					<p>When a composition session ends, an <code>input</code> event MUST be send after the <code>compositionend</code> event.
-						</p>
-
-					<p>If the <code>beforeinput</code> event is canceled during a composition session, a <a class="def" href="#glossary-user-agent">user agent</a>
-						MAY cancel the corresponding composition update.
-						</p>
-
 					<p class="note"><strong>Note:</strong> Most IMEs do not support canceling updates during a composition session.</p>
 				</section>
 				
@@ -5823,6 +5845,10 @@ else {
 							<td>Latin Small Letter V</td>
 						</tr>
 						<tr>
+							<td class="cell-number"></td>
+							<td colspan="4"><em>No beforeinput or input events are generated.</em></td>
+						</tr>
+						<tr>
 							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'v'</code></td>
@@ -5839,8 +5865,62 @@ else {
 					</table>
 				</div>
 
+				<p>The following example shows the sequence of events when both <code class="key">'Shift'</code> and <code class="key">'Control'</code> are pressed:</p>
+
+				<div class="example">
+					<div class="example-title"></div>
+					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-number">1.</td>
+							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
+							<td class="cell-center"><code class="key">'Control'</code></td>
+							<td><code class="attribute-name">ctrlKey</code></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">2.</td>
+							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
+							<td class="cell-center"><code class="key">'Shift'</code></td>
+							<td><code class="attribute-name">ctrlKey</code> <code class="attribute-name">shiftKey</code></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">3.</td>
+							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
+							<td class="cell-center"><code class="key">'V'</code></td>
+							<td><code class="attribute-name">ctrlKey</code> <code class="attribute-name">shiftKey</code></td>
+							<td>Latin Capital Letter V</td>
+						</tr>
+						<tr>
+							<td class="cell-number"></td>
+							<td colspan="4"><em>No beforeinput or input events are generated.</em></td>
+						</tr>
+						<tr>
+							<td class="cell-number">4.</td>
+							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
+							<td class="cell-center"><code class="key">'V'</code></td>
+							<td><code class="attribute-name">ctrlKey</code> <code class="attribute-name">shiftKey</code></td>
+							<td>Latin Capital Letter V</td>
+						</tr>
+						<tr>
+							<td class="cell-number">5.</td>
+							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
+							<td class="cell-center"><code class="key">'Shift'</code></td>
+							<td><code class="attribute-name">ctrlKey</code></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">6.</td>
+							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
+							<td class="cell-center"><code class="key">'Control'</code></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</table>
+				</div>
+
 				<p>For non-US keyboard layouts, the sequence of events is the same, but the value of the key is based on the current
-					keyboard layout. The following example shows the sequence of events when an Arabic keyboard layout is used:</p>
+					keyboard layout. The following example shows a sequence of events when an Arabic keyboard layout is used:</p>
 
 				<div class="example">
 					<div class="example-title"></div>
@@ -5860,6 +5940,10 @@ else {
 							<td>Arabic Letter Reh</td>
 						</tr>
 						<tr>
+							<td class="cell-number"></td>
+							<td colspan="4"><em>No beforeinput or input events are generated.</em></td>
+						</tr>
+						<tr>
 							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'ر'</code></td>
@@ -5876,7 +5960,11 @@ else {
 					</table>
 				</div>
 
-				<p class="issue">Are there any other key event sequences we should include here?</p>
+				<p class="note"><strong>Note:</strong> The value in the keydown and keyup events varies based on the current keyboard layout
+					in effect when the key is pressed. This means that the <code class="key">'v'</code> key on a US layout and the
+					<code class="key">'ر'</code> key on an Arabic layout will generate different events even though they are the same physical
+					key. To identify these events as coming from the same physical key, you will need to make use of the <code>code</code> attribute
+					as specified in the [<a href="#references-UIEvents">UI Events</a>] specification.</p>
 				
 				<p>In some cases, modifier keys change the key value value for a key event.  For example, on some MacOS keyboards, the  key labeled <code>'delete'</code>
 					functions the same as the <code class="key">'Backspace'</code> key on the Windows OS when unmodified, but when modified by the <code class="key">'Fn'</code>
@@ -5889,6 +5977,7 @@ else {
 				<h3>Dead keys</h3>
 
 				<p class="issue">
+					<strong>This needs to be discussed in the context of key events during composition and whether or not we need DeadXxx keys.</strong><br/>
 					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23257">23257</a> - "Review Dead Key Examples and Composition Event use in light of recent changes"
 					</p>
 
@@ -6054,7 +6143,7 @@ else {
 				<h3>Input Method Editors</h3>
 
 				<p>This specification includes a model for <a class="def" href="#glossary-ime">input method editors (IMEs)</a>, through the <a href="#interface-CompositionEvents">CompositionEvent</a>
-					interface and events.  However, composition events and keyboard events do not necessarily map as a one-to-one relationship.  As an example, receiving a <a class="eventtype"
+					interface and events.  However, Composition Events and Keyboard Events do not necessarily map as a one-to-one relationship.  As an example, receiving a <a class="eventtype"
 					href="#event-type-keydown"><code>keydown</code></a> for the <a href="#key-Accept"><code class="key">'Accept'</code></a> key value does not necessarily imply
 					that the text currently selected in the <a class="def" href="#glossary-ime">IME</a> is being accepted, but indicates only that a keystroke happened, disconnected
 					from the <a class="def" href="#glossary-ime">IME</a> Accept functionality (which would normally result in a <a class="eventtype" href="#event-type-compositionend">
@@ -6707,7 +6796,8 @@ else {
 					<key name="SymbolLock">The Symbol Lock key.</key>
 				</div>
 				<p class="issue">
-					Need to resolve Meta/Super (Linex) vs. Win (Windows) vs. Command (Mac) key.
+					<strong>Need to discuss this. This will affect which flags we need to define for key events.</strong><br/>
+					Need to resolve Meta/Super (Linux) vs. Win (Windows) vs. Command (Mac) key.
 					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=22073">22073</a> - "'Meta' key is the same as the 'OS' or 'Win' key"
 					</p>
 			</section><!-- keys-modifier -->
@@ -6776,10 +6866,10 @@ else {
 					<key name="Find">The Find key.</key>
 					<key name="Help">Toggle display of help information.</key>
 					<key name="Pause">Pause the current state or application (as appropriate).
-						<p class="note"><strong>Note:</strong> This value is intended for theDo not use this value for the pause button on media controllers. Use <code>'MediaPause'</code> instead.
+						<p class="note"><strong>Note:</strong> Do not use this value for the pause button on media controllers. Use <code>'MediaPause'</code> instead.</p>
 						</key>
 					<key name="Play">Play or resume the current state or application (as appropriate).
-						<p class="issue">Is this the same as MediaPlay?</p>
+						<p class="note"><strong>Note:</strong> Do not use this value for the play button on media controllers. Use <code>'MediaPlay'</code> instead.</p>
 						</key>
 					<key name="Props">The properties (Props) key.</key>
 					<key name="ScrollLock">The Scroll Lock key, to toggle between scrolling and cursor movement modes.</key>
@@ -6795,21 +6885,21 @@ else {
 					<key name="BrightnessUp">The Brightness Up key. Typically controls the display brightness.</key>
 					<key name="Camera">The Camera key.</key>
 					<key name="Eject">Toggle removable media to eject (open) and insert (close) state.</key>
-					<key name="Hibernate">The Hibernate key.</key>
 					<key name="LogOff">The LogOff key.</key>
 					<key name="Power">Toggle power state.
 						<p class="note"><strong>Note:</strong> Some devices might not expose this key to the operating environment.</p>
 						</key>
-					<key name="PowerDown">The PowerDown key.</key>
-					<key name="PowerOff">The PowerOff key.</key>
+					<key name="PowerOff">The PowerOff key. Sometime called "PowerDown".</key>
 					<key name="PrintScreen">The Print Screen (PrintScrn, SnapShot) key, to initiate print-screen function.</key>
-					<key name="Sleep">The Sleep key.</key>
-					<key name="Standby">The Standby key.</key>
-					<key name="Suspend">The Suspend key.</key>
+					<key name="Hibernate">The Hibernate key.
+						This key saves the current state of the computer to disk so that it can be restored. The computer will then shutdown.
+						</key>
+					<key name="Standby">The Standby key.
+						This key turns off the display and places the computer into a low-power mode without completely shutting down.
+						It is sometimes called the "Suspend" or "Sleep" key.
+						</key>
 					<key name="WakeUp">The WakeUp key.</key>
 				</div>
-				<p class="issue">What is the difference between the Sleep, Hibernate and Suspend keys?</p>
-				<p class="issue">How is this different from the PowerDown and PowerOff keys?  Is there a PowerOn key?</p>
 			</section><!-- keys-device -->
 
 			<section id="keys-composition">
@@ -6845,23 +6935,16 @@ else {
 
 				<p>Keys specific to Japanese keyboards</p>
 				<div id="key-table-ime-japanese" class="key-table">
-					<key name="FullWidth">The Full-Width Characters key.</key>
-					<key name="HalfWidth">The Half-Width Characters key.</key>
+					<key name="Zenkaku">The Zenkaku (Full-Width) Characters key.</key>
+					<key name="Hankaku">The (Half-Width) Characters key.</key>
 					<key name="ZenkakuHankaku">The Zenkaku/Hankaku (full-width/half-width) toggle key.</key>
 					<key name="KanaMode">The Kana Mode (Kana Lock) key.</key>
 					<key name="KanjiMode">The Kanji (Japanese name for ideographic characters of Chinese origin) Mode key.</key>
 					<key name="Hiragana">The Hiragana (Japanese Kana characters) key.</key>
 					<key name="Katakana">The Katakana (Japanese Kana characters) key.</key>
 					<key name="HiraganaKatakana">The Hiragana/Katakana toggle key.</key>
+					<key name="Eisu">The Eisu key. This key may close the IME, but it's purpose is defined by the current IME.</key>
 				</div>
-				<p class="issue">KanaLock?, InputMethodToggle?</p>
-				<p class="issue">Use Zenkaku and Hankaku instead of Fullwidth and Halfwidth (since those are the names used in the VK_).</p>
-				<p class="issue">
-					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=21140">21140</a> - "Define key names for keyboard layout change keys"
-					</p>
-				<p class="issue">
-					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=22750">22750</a> - "What's the good key name for "Eisu" (英数) key of JIS keyboard for Mac?"
-					</p>
 
 				<p>Dead keys</p>
 				<div id="key-table-dead" class="key-table">
@@ -6883,6 +6966,9 @@ else {
 					<key name="DeadVoicedSound">The Combining Katakana-Hiragana Voiced Sound Mark (Dead Voiced Sound) key.</key>
 				</div>
 				<p class="issue">
+					<strong>The current proposal is to have dead keys handled as composition events. In a composition session, we shouldn't be sending keydown
+					or keyup events. The composition events don't use these DeadXxx values (they use the Unicode codepoint).<br/>
+					Thus, if a dead key starts a composition session, then I don't think that these values are needed.</strong><br/>
 					Why not just use the Unicode combining characters here instead of 'DeadXxx'?
 					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=21114">21114</a> - "Dead key names are not enough for Linux"
 					</p>
@@ -6955,10 +7041,10 @@ else {
 					<!--key name="List">Toggle display listing of currently available content or programs.</key-->
 				</div>
 				<p class="issue">
+					<strong>We have 2 options here: Either define LaunchApp1 ... LaunchAppN and have suggested apps for each one
+					(like 'My Computer' or 'Calculator'), or try to define every possible application name.
+					If we define each app, then we need to plan for being able to make additions (and we should remove LaunchApp1 and 2).</strong><br/>
 					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=21134">21134</a> - "Define key names which launches specific application"
-					</p>
-				<p class="issue">
-					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=21143">21143</a> - "Define command key names for multimedia keyboard"
 					</p>
 			</section><!-- keys-apps -->
 
@@ -6988,6 +7074,7 @@ else {
 				<p></p>
 				
 				<p class="issue">
+					<strong>Proposal: Skip this for the pre-TPAC LCWD, but get a list together to pub immediately after.</strong><br/>
 					We need a section covering the basic mobile phone keys.
 					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23167">23167</a> - "Define key name for TV".
 					</p>
@@ -7790,7 +7877,7 @@ else {
 					<tr><td><code class="key">'Alt'</code></td>				<td class="cell-center">18</td>		<td></td>	</tr>
 					<tr><td><code class="key">'CapsLock'</code></td>		<td class="cell-center">20</td>		<td></td>	</tr>
 					<tr><td><code class="key">'Escape'</code></td>			<td class="cell-center">27</td>		<td><em>Esc</em></td>	</tr>
-					<tr><td><code class="key">'Spacebar'</code></td>		<td class="cell-center">32</td>		<td><em>Space</em></td>	</tr>
+					<tr><td><code class="key">' '</code></td>				<td class="cell-center">32</td>		<td><em>Space</em></td>	</tr>
 					<tr><td><code class="key">'PageUp'</code></td>			<td class="cell-center">33</td>		<td></td>	</tr>
 					<tr><td><code class="key">'PageDown'</code></td>		<td class="cell-center">34</td>		<td></td>	</tr>
 					<tr><td><code class="key">'End'</code></td>				<td class="cell-center">35</td>		<td></td>	</tr>
@@ -8110,7 +8197,7 @@ else {
 						<td class="cell-number">1.</td>
 						<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 						<td>MUST be a key which can activate the element, such as the
-							<a href="#key-Enter"><code class="key">'Enter'</code></a> or <a href="#key-Spacebar"><code class="key">'Spacebar'</code></a> key,
+							<a href="#key-Enter"><code class="key">'Enter'</code></a> or <code class="key">'&nbsp;'</code> key,
 							or the element is not activated</td>
 					</tr>
 					<tr>
