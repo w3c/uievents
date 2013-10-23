@@ -1292,9 +1292,13 @@ console.log("Exceptions? No problem");</pre>
 						
 						<dt>EventListener? listener</dt>
 						<dd>
-							<p>The <code>listener</code> parameter MUST be an object that implements the <a href="#interface-EventListener"><code>EventListener</code></a> interface or a function.
-								If <code>listener</code> is a function then it MUST be used as the callback for the event. Otherwise, if <code>listener</code> implements <a href="#interface-EventListener">
-								<code>EventListener</code></a>, then its <a href="#widl-EventListener-handleEvent">handleEvent</a> method MUST be used as the callback.</p>
+							<p>If non-null, the <code>listener</code> parameter MUST be an object that implements the
+								<a href="#interface-EventListener"><code>EventListener</code></a> interface or a function.
+								If <code>listener</code> is a function then it MUST be used as the callback for the event.
+								Otherwise, if <code>listener</code> implements
+								<a href="#interface-EventListener"><code>EventListener</code></a>, then its
+								<a href="#widl-EventListener-handleEvent">handleEvent</a> method MUST be used as the callback.
+								</p>
 						</dd>
 
 						<dt>optional boolean useCapture = false</dt>
@@ -2829,12 +2833,8 @@ console.log("Exceptions? No problem");</pre>
 				<section id="events-mouseevent-event-order">
 					<h4>Mouse Event Order</h4>
 
-					<p class="issue">
-						<strong>For discussion, see <a href="https://dvcs.w3.org/hg/d4e/raw-file/tip/mouse-event-test.html">mouse event test page</a>.</strong><br/>
-						See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=22641">22641</a> - "Normatively specify the order in which mouse events should fire"
-						</p>
-						
-					<p>Certain mouse events defined in this specification occur in a set order relative to one another.  The following is the typical sequence of events when a pointing
+					<p>Certain mouse events defined in this specification MUST occur in a set order relative to one another.
+						The following shows the event sequence that MUST occur when a pointing
 						device's cursor is moved over an element:</p>
 
 					<table class="event-sequence-table">
@@ -2852,7 +2852,7 @@ console.log("Exceptions? No problem");</pre>
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="3"><em>Pointing device is moved into an element...</em></td>
+							<td colspan="3"><em>Pointing device is moved into element A...</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">2.</td>
@@ -2874,7 +2874,7 @@ console.log("Exceptions? No problem");</pre>
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="3"><em>Pointing device is moved out of the element...</em></td>
+							<td colspan="3"><em>Pointing device is moved out of element A...</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">5.</td>
@@ -2890,8 +2890,9 @@ console.log("Exceptions? No problem");</pre>
 						</tr>
 					</table>
 
-					<p>When a pointing device is moved into an element <em>A</em>, and then into a nested element <em>B</em> and then back out again, the following is the typical
-						sequence of events:</p>
+					<p>When a pointing device is moved into an element <em>A</em>, and then into a nested element <em>B</em>
+						and then back out again, the following sequence of events MUST occur:
+						</p>
 
 					<table class="event-sequence-table">
 						<tr>
@@ -3002,14 +3003,17 @@ console.log("Exceptions? No problem");</pre>
 						</tr>
 					</table>
 
-					<p>Sometimes elements can be visually overlapped using CSS. In the following example, three elements labeled A, B, and C all have the same dimensions and
-						absolute position on a web page. Element C is a child of B, and B is a child of A in the DOM:</p>
+					<p>Sometimes elements can be visually overlapped using CSS. In the following example, three elements
+						labeled A, B, and C all have the same dimensions and absolute position on a web page.
+						Element C is a child of B, and B is a child of A in the DOM:
+						</p>
 
 					<div class="figure" style="text-align: center">
 						<img src="images/stacked-event-mouse-dispatch.png" alt="Graphical representation of three stacked elements all on top of each other. The bottom element is labeled A and the top element is C" title="Graphical representation of three stacked elements all on top of each other, with the pointing device moving over the stack." />
 					</div>
 
-					<p>When the pointing device is moved from outside the element stack to the element labeled C and then moved out again, the following series of events occur:</p>
+					<p>When the pointing device is moved from outside the element stack to the element labeled C and then moved
+						out again, the following series of events MUST occur:</p>
 
 					<table class="event-sequence-table">
 						<tr>
@@ -3089,7 +3093,7 @@ console.log("Exceptions? No problem");</pre>
 					</table>
 
 					<p class="note"><strong>Note:</strong> The <code>mouseover</code>/<code>mouseout</code> events are only fired once, while <code>mouseenter</code>/<code>mouseleave</code>
-						events are fired three times.</p>
+						events are fired three times (once to each element).</p>
 
 					<p>The following is the typical sequence of events when a button associated with a pointing device (e.g., a mouse button or trackpad) is pressed and released over
 						an element:</p>
@@ -3296,13 +3300,6 @@ console.log("Exceptions? No problem");</pre>
 								based on the <a class="def" href="#glossary-event-target">event target</a> of the event and the value of the <a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a>
 								or <a href="#widl-MouseEvent-buttons"><code>MouseEvent.buttons</code></a> attributes.  Typical <a class="def" href="#glossary-default-action">default actions</a>
 								of the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type are as follows:</p>
-
-							<p class="issue">
-								<strong>FIXED - Needs review<br/>
-								The text above has been updated to explicitly state that these events fire for all buttons since that is implied by the text below.
-								</strong><br/>
-								See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23240">23240</a> - "Normatively specify that right/middle mouse button presses do not cause click/dblclick events".
-								</p>
 
 							<ul>
 								<li><em>Left click</em> (<a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a> value is <code>0</code>, <a href="#widl-MouseEvent-buttons"><code>
@@ -4028,11 +4025,6 @@ console.log("Exceptions? No problem");</pre>
 					in units of pixels, lines, or pages. The reported measurements are provided after an environment-specific algorithm translates the actual rotation/movement of
 					the wheel device into the appropriate values and units.</p>
 
-				<p class="issue">
-					<strong>RESOLVED - Moving into UI Events</strong><br/>
-					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23259">23259</a> - "Expose ticks in wheel events"
-					</p>
-					
 				<p class="note"><strong>Authoring Note:</strong> A user's environment settings can be customized to interpret actual rotation/movement of a wheel device in different ways.
 					One movement of a common <q>dented</q> mouse wheel can produce a measurement of 162 pixels (162 is just an example value, actual values can depend on the current screen
 					dimensions of the user-agent). But a user can change their default environment settings to speed-up their mouse wheel, increasing this number. Furthermore, some
@@ -4955,15 +4947,6 @@ console.log("Exceptions? No problem");</pre>
 				<section id="events-composition-event-order">
 					<h4>Composition Event Order</h4>
 
-					<p class="issue">
-						<strong>Spec as written specifies cu+bi+DOM+i event dispatch order.<br/>
-						Bug is suggesting that DOM be updated during cu (which implies bi+DOM+cu+i order).<br/>
-						Changing this would match current IE behavior, but would deviate from current Chrome/FF behavior.<br/>
-						See <a href="https://docs.google.com/document/d/1pGo9hmOXCu71lnpXbqpTQNQP70DU9E-1tNN3yEWg5ig/edit#heading=h.t3zwmzew1bzu">this document</a>
-						for a comparison of composition events on various browsers.</strong><br/>
-						See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23258">23258</a> - "Consider composition event order relative to IME API info when choosing to update DOM after compositionupdate..."
-						</p>
-						
 					<p>The Composition Events defined in this specification MUST occur in the following set order relative to one another:</p>
 
 					<table class="event-sequence-table">
@@ -7070,12 +7053,6 @@ else {
 					</ul>
 				<p></p>
 				
-				<p class="issue">
-					<strong>Proposal: Skip this for the pre-TPAC LCWD, but get a list together to pub immediately after.</strong><br/>
-					We need a section covering the basic mobile phone keys.
-					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23167">23167</a> - "Define key name for TV".
-					</p>
-
 				<div id="key-table-media-controller" class="key-table">
 					<key name="AudioBalanceLeft">Adjust audio balance leftward. (VK_AUDIO_BALANCE_LEFT)</key>
 					<key name="AudioBalanceRight">Adjust audio balance rightward. (VK_AUDIO_BALANCE_RIGHT)</key>
