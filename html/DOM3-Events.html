@@ -5914,16 +5914,13 @@ else {
 			<section id="keys-DeadKeys">
 				<h3>Dead keys</h3>
 
-				<p class="issue">
-					<strong>This needs to be discussed in the context of key events during composition and whether or not we need DeadXxx keys.</strong><br/>
-					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=23257">23257</a> - "Review Dead Key Examples and Composition Event use in light of recent changes"
-					</p>
-
 				<p>Some keyboard input uses <a class="def" href="#glossary-dead-key">dead keys</a> for the input of composed character sequences. Unlike the handwriting sequence,
 					in which users enter the base character first, keyboard input requires to enter a special state when a <a class="def" href="#glossary-dead-key">dead key</a> is
 					pressed and emit the character(s) only when one of a limited number of <q>legal</q> base character is entered.</p>
 
-				<p class="note"><strong>Note:</strong> The MacOS and Linux operating systems use input methods to process <a class="def" href="#glossary-dead-key">dead keys</a>.</p>
+				<p class="note"><strong>Note:</strong> The MacOS and Linux operating systems use input methods to process
+					<a class="def" href="#glossary-dead-key">dead keys</a>.
+					</p>
 
 				<p>The <a class="def" href="#glossary-dead-key">dead keys</a> are represented in the key values set using combining diacritical marks.   While Unicode combining characters
 					always follow the handwriting sequence, with the combining character trailing the corresponding letter, typical deadkey input MAY reverse the sequence, with the
@@ -5931,6 +5928,11 @@ else {
 					in Unicode as <em>nai¨ve</em>, but MAY be typed <em>na¨ive</em>.  The sequence of keystrokes <code class="char">'\u0302'</code> (Combining Circumflex Accent key) and <code class="char">'\u0065'</code>
 					(key marked with the Latin Small Letter E) will likely produce (on a PC/AT french keyboard using a french mapping and without any modifier activated) the Unicode
 					character <code class="glyph">'&#xEA;'</code> (Latin Small Letter E With Circumflex), as preferred by the Unicode Normalization Form <em>NFC</em>:</p>
+
+				<p class="note"><strong>Note:</strong> The <code>keydown</code> and <code>keyup</code> events shown in these
+					examples would normally be suppressed during the composition session.
+					They are included in these examples to make the user actions (pressing and releasing keys) more apparent.
+					</p>
 
 				<div class="example">
 					<div class="example-title"></div>
@@ -5945,7 +5947,7 @@ else {
 						<tr>
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
-							<td class="cell-center"><code class="key">'DeadCircumflex'</code></td>
+							<td class="cell-center"><code class="key">'\u0302'</code></td>
 							<td class="cell-center"></td>
 							<td>Combining Circumflex Accent</td>
 						</tr>
@@ -5966,7 +5968,7 @@ else {
 						<tr>
 							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
-							<td class="cell-center"><code class="key">'DeadCircumflex'</code></td>
+							<td class="cell-center"><code class="key">'\u0302'</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
@@ -6001,7 +6003,9 @@ else {
 					</table>
 				</div>
 
-				<p class="note"><strong>Note:</strong> In step 5 above, the key value will <em>not</em> be <code class="key">'e'</code> (Latin Small Letter E key) under normal circumstances
+				<p class="note"><strong>Note:</strong> In the second <code>keydown</code> event (step 5), the key value
+					(assuming the event is not suppressed) will
+					<em>not</em> be <code class="key">'e'</code> (Latin Small Letter E key) under normal circumstances
 					because the value delivered to the user agent will already be modified by the dead key operation.</p>
 
 				<p>This process might be aborted when a user types an unsupported base character (that is, a base character for which the which the active diacritical mark is not
@@ -6020,7 +6024,7 @@ else {
 						<tr>
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
-							<td class="cell-center"><code class="key">'DeadCircumflex'</code></td>
+							<td class="cell-center"><code class="key">'\u0302'</code></td>
 							<td class="cell-center"></td>
 							<td>Combining Circumflex Accent</td>
 						</tr>
@@ -6041,7 +6045,7 @@ else {
 						<tr>
 							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
-							<td class="cell-center"><code class="key">'DeadCircumflex'</code></td>
+							<td class="cell-center"><code class="key">'\u0302'</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
@@ -6544,7 +6548,7 @@ else {
 						<tr>
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
-							<td class="cell-center"><code class="key">'DeadCircumflex'</code></td>
+							<td class="cell-center"><code class="key">'\u0302'</code></td>
 							<td class="cell-center"></td>
 							<td>The <a class="def" href="#glossary-default-action">default action</a> is
 								prevented, e.g., by invoking <a href="#widl-Event-preventDefault"><code>Event.preventDefault()</code></a>.
@@ -6553,7 +6557,7 @@ else {
 						<tr>
 							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
-							<td class="cell-center"><code class="key">'DeadCircumflex'</code></td>
+							<td class="cell-center"><code class="key">'\u0302'</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
@@ -6627,16 +6631,19 @@ else {
 							'Q'</code> maps to the key values <code class="key">'5'</code> (unmodified) and <code class="key">'%'</code> (shifted).  The primary function of this key
 							is to generate the character <code class="key">'5'</code> (<code class="char">'\u0035'</code>).  Since this character is a character (in Unicode general category
 							<abbr title="Number, Decimal Digit">Nd</abbr>), the <a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>
-							attribute value for the unmodified key will be <code class="key">'5'</code>.</li>
-						<li>On a French PC keyboard with a standard French mapping, the primary function of the <code class="key">'^'</code> key is as a <a class="def" href="#glossary-dead-key">
-							dead key</a> for the circumflex diacritical mark. While the Unicode value <code class="char">'\u0302'</code> exists for this character, there is
-							also the value <code class="key">'DeadCircumflex'</code> defined in the <a href="#keys-keyvalues">key values set</a> that takes precedence.
-							<abbr title="Mark, Nonspacing">Mn</abbr>, the key value will be <code class="char">'\u0302'</code>.</li>
+							attribute value for the unmodified key will be <code class="key">'5'</code>.
+							</li>
+						<li>On a French PC keyboard with a standard French mapping, the primary function of the <code class="key">'^'</code> key is as a
+							<a class="def" href="#glossary-dead-key">dead key</a> for the circumflex diacritical mark.
+							The Unicode value for this key is <code class="char">'\u0302'</code>.
+							</li>
 						<li>On a Korean PC keyboard with a standard Korean mapping, the primary function of the <code class="key">'Ha/En'</code> key is to switch between Hangul and English
-							input.  The predefined key value list has an appropriate entry for this key, <code class="key">'HangulMode'</code>, so this will be the key value.</li>
-						<li>On some models of mobile devices, the primary function of the key with a picture of a calendar on it is to launch the calendaring program. Since there is no Unicode
-							character that corresponds to this function, and there is no appropriate entry in the predefined key value list, a new value can be devised, such as <code class="key">
-							'Calendar'</code>.</li>
+							input.  The predefined key value list has an appropriate entry for this key, <code class="key">'HangulMode'</code>, so this will be the key value.
+							</li>
+						<li>On some models of mobile devices, there are special keys to launch specific applications.
+							For a standard application like Calendar, there is a predefined key value of <code class="key">'LaunchCalendar'</code>.
+							For applications not listed in the key value list, a new value can be devised.
+							</li>
 					</ul>
 				</div>
 			</section>
@@ -6733,11 +6740,6 @@ else {
 					<key name="Symbol">The Symbol modifier key (used on some virtual keyboards).</key>
 					<key name="SymbolLock">The Symbol Lock key.</key>
 				</div>
-				<p class="issue">
-					<strong>Need to discuss this. This will affect which flags we need to define for key events.</strong><br/>
-					Need to resolve Meta/Super (Linux) vs. Win (Windows) vs. Command (Mac) key.
-					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=22073">22073</a> - "'Meta' key is the same as the 'OS' or 'Win' key"
-					</p>
 			</section><!-- keys-modifier -->
 
 			<section id="keys-whitespace">
@@ -6884,34 +6886,6 @@ else {
 					<key name="Eisu">The Eisu key. This key may close the IME, but it's purpose is defined by the current IME.</key>
 				</div>
 
-				<p>Dead keys</p>
-				<div id="key-table-dead" class="key-table">
-					<key name="DeadAboveDot">The Combining Dot Above (Derivative, Dead Above Dot) key.</key>
-					<key name="DeadAboveRing">The Combining Ring Above (Dead Above Ring) key.</key>
-					<key name="DeadAcute">The Combining Acute Accent (Stress Mark, Greek Oxia, Tonos, Dead Eacute) key.</key>
-					<key name="DeadBreve">The Combining Breve (Short, Dead Breve) key.</key>
-					<key name="DeadCaron">The Combining Caron (Hacek, V Above, Dead Caron) key.</key>
-					<key name="DeadCedilla">The Combining Cedilla (Dead Cedilla) key.</key>
-					<key name="DeadCircumflex">The Combining Circumflex Accent (Hat, Dead Circumflex) key.</key>
-					<key name="DeadDoubleAcute">The Combining Double Acute Accent (Dead Doubleacute) key.</key>
-					<key name="DeadGrave">The Combining Grave Accent (Greek Varia, Dead Grave) key.</key>
-					<key name="DeadIota">The Combining Greek Ypogegrammeni (Greek Non-Spacing Iota Below, Iota Subscript, Dead Iota) key.</key>
-					<key name="DeadMacron">The Combining Macron (Long, Dead Macron) key.</key>
-					<key name="DeadOgonek">The Combining Ogonek (Nasal Hook, Dead Ogonek) key.</key>
-					<key name="DeadSemivoicedSound">The Combining Katakana-Hiragana Semi-Voiced Sound Mark (Dead Semivoiced Sound) key.</key>
-					<key name="DeadTilde">The Combining Tilde (Dead Tilde) key.</key>
-					<key name="DeadUmlaut">The Combining Diaeresis (Double Dot Abode, Umlaut, Greek Dialytika, Double Derivative, Dead Diaeresis) key.</key>
-					<key name="DeadVoicedSound">The Combining Katakana-Hiragana Voiced Sound Mark (Dead Voiced Sound) key.</key>
-				</div>
-				<p class="issue">
-					<strong>The current proposal is to have dead keys handled as composition events. In a composition session, we shouldn't be sending keydown
-					or keyup events. The composition events don't use these DeadXxx values (they use the Unicode codepoint).<br/>
-					Thus, if a dead key starts a composition session, then I don't think that these values are needed.</strong><br/>
-					Why not just use the Unicode combining characters here instead of 'DeadXxx'?
-					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=21114">21114</a> - "Dead key names are not enough for Linux"
-					</p>
-			</section><!-- keys-ime-composition -->
-
 			<section id="keys-function">
 				<h4>General-Purpose Function Keys</h4>
 				<p>The exact number of these general purpose function keys varies on different platforms, and only the first
@@ -6973,17 +6947,19 @@ else {
 					</p>
 				<!-- Key tables. Note that all keys must be defined within a <div class="key-table"> -->
 				<div id="key-table-apps" class="key-table">
-					<key name="LaunchApplication1">The Start Application key, as index 1. This key is often labeled 'My Computer'.</key>
-					<key name="LaunchApplication2">The Start Application key, as index 2. This key is often labeled 'Calculator'.</key>
-					<key name="LaunchMail">The Start Mail key.</key>
+					<key name="LaunchCalculator">The 'Calculator' key. This is often the generic 'LaunchApplication' key, as index 2.</key>
+					<key name="LaunchCalendar">The 'Calendar' key.</key>
+					<key name="LaunchMail">The 'Mail' key.</key>
+					<key name="LaunchMediaPlayer">The 'Media Player' key.</key>
+					<key name="LaunchMusicPlayer">The 'Music Player' key.</key>
+					<key name="LaunchMyComputer">The 'My Computer' key. This is often the generic 'LaunchApplication' key, as index 1.</key>
+					<key name="LaunchScreenSaver">The 'Screen Saver' key.</key>
+					<key name="LaunchSpreadsheet">The 'Spreadsheet' key.</key>
+					<key name="LaunchWebBrowser">The 'Web Browser' key.</key>
+					<key name="LaunchWebCam">The 'WebCam' key.</key>
+					<key name="LaunchWordProcessor">The 'Word Processor' key.</key>
 					<!--key name="List">Toggle display listing of currently available content or programs.</key-->
 				</div>
-				<p class="issue">
-					<strong>We have 2 options here: Either define LaunchApp1 ... LaunchAppN and have suggested apps for each one
-					(like 'My Computer' or 'Calculator'), or try to define every possible application name.
-					If we define each app, then we need to plan for being able to make additions (and we should remove LaunchApp1 and 2).</strong><br/>
-					See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=21134">21134</a> - "Define key names which launches specific application"
-					</p>
 			</section><!-- keys-apps -->
 
 			<section id="keys-browser">
