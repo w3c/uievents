@@ -3263,10 +3263,17 @@ console.log("Exceptions? No problem");</pre>
 
 							<p>The <a class="eventtype" href="#event-type-click"><code>click</code></a> event type MUST be dispatched on the
 								<a class="def" href="#glossary-topmost-event-target">topmost event target</a> indicated by the pointer, when
-								the user presses down and releases any pointer button,
+								the user presses down and releases the primary pointer button,
 								or otherwise activates the pointer in a manner that simulates such an action.
 								The actuation method of the mouse button depends upon the pointer device and the environment configuration,
 								e.g., it MAY depend on the screen location or the delay between the press and release of the pointing device button.
+								</p>
+
+							<p class="note"><strong>Note:</strong> The <code>click</code> event should only be fired for the primary
+								pointer button (i.e., when <a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a> value is <code>0</code>,
+								<a href="#widl-MouseEvent-buttons"><code>MouseEvent.buttons</code></a> value is <code>1</code>).
+								Secondary buttons (like the middle or right button on a standard mouse) MUST NOT fire
+								<code>click</code> events.
 								</p>
 
 							<p>The <a class="eventtype" href="#event-type-click"><code>click</code></a> event MAY be preceded by the <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a>
@@ -3290,45 +3297,32 @@ console.log("Exceptions? No problem");</pre>
 							<p>In addition to being associated with pointer devices, the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type MUST be dispatched as
 								part of an element activation, as described in <a href="#event-flow-activation">Activation triggers and behavior</a>.</p>
 
-							<p class="note"><strong>Note:</strong> For maximum accessibility, content authors are encouraged to use the <a class="eventtype" href="#event-type-click">
-								<code>click</code></a> event type when defining activation behavior for custom controls, rather than other pointing-device event types such as <a class="eventtype"
-								href="#event-type-mousedown"><code>mousedown</code></a> or <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a>, which are more device-specific.
-								Though the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type has its origins in pointer devices (e.g., a mouse), subsequent implementation
-								enhancements have extended it beyond that association, and it can be considered a device-independent event type for element activation.</p>
+							<p class="note"><strong>Note:</strong> For maximum accessibility, content authors are encouraged to use the
+								<a class="eventtype" href="#event-type-click"><code>click</code></a> event type when defining activation
+								behavior for custom controls, rather than other pointing-device event types such as
+								<a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> or
+								<a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a>, which are more device-specific.
+								Though the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type has its origins
+								in pointer devices (e.g., a mouse), subsequent implementation
+								enhancements have extended it beyond that association, and it can be considered a device-independent event
+								type for element activation.
+								</p>
 
-							<p>The <a class="def" href="#glossary-default-action">default action</a> of the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type varies
-								based on the <a class="def" href="#glossary-event-target">event target</a> of the event and the value of the <a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a>
-								or <a href="#widl-MouseEvent-buttons"><code>MouseEvent.buttons</code></a> attributes.  Typical <a class="def" href="#glossary-default-action">default actions</a>
-								of the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type are as follows:</p>
+							<p>The <a class="def" href="#glossary-default-action">default action</a> of the
+								<a class="eventtype" href="#event-type-click"><code>click</code></a> event type varies
+								based on the <a class="def" href="#glossary-event-target">event target</a> of the event and the value of the
+								<a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a>
+								or <a href="#widl-MouseEvent-buttons"><code>MouseEvent.buttons</code></a> attributes.
+								Typical <a class="def" href="#glossary-default-action">default actions</a>
+								of the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type are as follows:
+								</p>
 
 							<ul>
-								<li><em>Left click</em> (<a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a> value is <code>0</code>, <a href="#widl-MouseEvent-buttons"><code>
-									MouseEvent.buttons</code></a> value is <code>1</code>):
-									<ul>
-										<li>If the <a class="def" href="#glossary-event-target">event target</a> has associated activation behavior, the <a class="def" href="#glossary-default-action">default
-											action</a> MUST be to execute that activation behavior (see <a href="#event-flow-activation">Activation triggers and behavior</a>).</li>
+								<li>If the <a class="def" href="#glossary-event-target">event target</a> has associated activation behavior, the <a class="def" href="#glossary-default-action">default
+									action</a> MUST be to execute that activation behavior (see <a href="#event-flow-activation">Activation triggers and behavior</a>).</li>
 
-										<li>If the <a class="def" href="#glossary-event-target">event target</a> is focusable, the <a class="def" href="#glossary-default-action">default action</a> MUST be
-											to give that element document focus.</li>
-									</ul>
-								</li>
-								<li><em>Right click</em> (<a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a> value is <code>1</code>, <a href="#widl-MouseEvent-buttons"><code>
-									MouseEvent.buttons</code></a> value is <code>2</code>):
-									<ul>
-										<li>The <a class="def" href="#glossary-default-action">default action</a> MUST be to provide a context menu of options related to that <a class="def" href="#glossary-event-target">
-											event target</a>.</li>
-									</ul>
-								</li>
-								<li><em>Middle click</em> (<a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a> value is <code>2</code>, <a href="#widl-MouseEvent-buttons"><code>
-									MouseEvent.buttons</code></a> value is <code>4</code>):
-									<ul>
-										<li>If the <a class="def" href="#glossary-event-target">event target</a> has associated activation behavior, the <a class="def" href="#glossary-default-action">default
-											action</a> MUST be to execute that activation behavior in an alternate fashion (such as opening a link in a new tab or window).</li>
-
-										<li>If the <a class="def" href="#glossary-event-target">event target</a> has no associated activation behavior, a user agent MAY assign a custom <a class="def" href="#glossary-default-action">
-											default action</a> such as an alternate scrolling or panning mode.</li>
-									</ul>
-								</li>
+								<li>If the <a class="def" href="#glossary-event-target">event target</a> is focusable, the <a class="def" href="#glossary-default-action">default action</a> MUST be
+									to give that element document focus.</li>
 							</ul>
 						</dd>
 					</dl>
@@ -3405,30 +3399,43 @@ console.log("Exceptions? No problem");</pre>
 								</tr>
 							</table>
 
-							<p>A <a class="def" href="#glossary-user-agent">user agent</a> MUST dispatch this event when a pointing device button is clicked twice over an element. The definition
-								of a double click depends on the environment configuration, except that the event target MUST be the same between <a class="eventtype" href="#event-type-mousedown">
-								<code>mousedown</code></a>, <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a>, and <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a>.
-								This event type MUST be dispatched after the event type <a class="eventtype" href="#event-type-click"><code>click</code></a> if a click and double click occur simultaneously,
-								and after the event type <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> otherwise.</p>
+							<p>A <a class="def" href="#glossary-user-agent">user agent</a> MUST dispatch this event when the primary button
+								of a pointing device is clicked twice over an element. The definition of a double click depends on the environment
+								configuration, except that the event target MUST be the same between
+								<a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a>,
+								<a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a>, and
+								<a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a>.
+								This event type MUST be dispatched after the event type
+								<a class="eventtype" href="#event-type-click"><code>click</code></a>
+								if a click and double click occur simultaneously,
+								and after the event type <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> otherwise.
+								</p>
 
-							<p class="note"><strong>Note:</strong> Canceling the <a class="eventtype" href="#event-type-click"><code>click</code></a> event does not affect the firing
-								of a <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> event.</p>
+							<p class="note"><strong>Note:</strong> As with the <code>click</code> event, the <code>dblclick</code> event
+								should only be fired for the primary pointer button.
+								Secondary buttons MUST NOT fire <code>dblclick</code> events.
+								</p>
 
-							<p>As with the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type, the <a class="def" href="#glossary-default-action">default action</a>
-								of the <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> event type varies based on the <a class="def" href="#glossary-event-target">event
-								target</a> of the event and the value of the <a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a> or <a href="#widl-MouseEvent-buttons"><code>MouseEvent.buttons</code></a>
-								attributes.  Normally, the typical <a class="def" href="#glossary-default-action">default actions</a> of the <a class="eventtype" href="#event-type-dblclick"><code>
-								dblclick</code></a> event type match those of the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type, with the following additional
-								behavior:</p>
+							<p class="note"><strong>Note:</strong> Canceling the
+								<a class="eventtype" href="#event-type-click"><code>click</code></a> event does not affect the firing
+								of a <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> event.
+								</p>
+
+							<p>As with the <a class="eventtype" href="#event-type-click"><code>click</code></a> event type, the
+								<a class="def" href="#glossary-default-action">default action</a>
+								of the <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> event type varies based on the
+								<a class="def" href="#glossary-event-target">event target</a> of the event and the value of the
+								<a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a> or
+								<a href="#widl-MouseEvent-buttons"><code>MouseEvent.buttons</code></a> attributes.
+								Normally, the typical <a class="def" href="#glossary-default-action">default actions</a> of the
+								<a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> event type match those of the
+								<a class="eventtype" href="#event-type-click"><code>click</code></a> event type, with the following additional
+								behavior:
+								</p>
 
 							<ul>
-								<li><em>Left click</em> (<a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a> value is <code>0</code>, <a href="#widl-MouseEvent-buttons"><code>
-									MouseEvent.buttons</code></a> value is <code>1</code>):
-									<ul>
-										<li>If the <a class="def" href="#glossary-event-target">event target</a> is selectable, the <a class="def" href="#glossary-default-action">default action</a> MUST
-											be to select part or all of the selectable content. Subsequent clicks MAY select additional selectable portions of that content.</li>
-									</ul>
-								</li>
+								<li>If the <a class="def" href="#glossary-event-target">event target</a> is selectable, the <a class="def" href="#glossary-default-action">default action</a> MUST
+									be to select part or all of the selectable content. Subsequent clicks MAY select additional selectable portions of that content.</li>
 							</ul>
 						</dd>
 					</dl>
