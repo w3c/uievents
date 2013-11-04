@@ -4524,30 +4524,6 @@ console.log("Exceptions? No problem");</pre>
 							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>false</code>.</p>
 						</dd>
 
-						<dt>readonly attribute DOMString locale</dt>
-						<dd>
-							<p>The <code>locale</code> <code>DOMString</code> attribute contains a BCP-47 tag [<a href="#ref-BCP-47">BCP-47</a>] indicating the locale for which the keyboard originating
-								the event is configured, e.g. <code>"en-US"</code>. The <code>locale</code> MAY be the <a class="def" href="#glossary-empty-string">empty string</a> when inapplicable
-								or unknown, e.g. when this information is not exposed by the underlying platform.</p>
-
-							<p class="note"><strong>Note:</strong> <code>locale</code> does not necessarily indicate the locale of the data or the context in which
-								it is being entered.  For example, a French user often might not switch to an English keyboard setting when typing English, in which case the <code>locale</code>
-								will still indicate French.  Nor can it be used to definitively calculate the <q>physical</q> or <q>virtual</q> key associated with the event, or the character
-								printed on that key.</p>
-
-							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>""</code> (the empty string).</p>
-							
-							<p class="issue">
-								<strong>Intent is to move the locale attribute into UI Events unless it is needed for composition events</strong><br/>
-								See bug <a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=21830">21830</a> - "KeyboardEvent.locale is too general".
-								<br/>
-								Also related:
-									the WebKit bug <a href="https://bugs.webkit.org/show_bug.cgi?id=69029">69029</a> - "Consider implementing key, char, location and locale properties of KeyboardEvent",
-									the Chromium bug <a href="https://code.google.com/p/chromium/issues/detail?id=168971">168971</a> - "Implement 'locale' attribute in KeyboardEvent",
-									and the thread with the <a href="http://lists.w3.org/Archives/Public/www-dom/2010JulSep/0024.html">original proposal</a> on www-dom.
-								</p>
-						</dd>
-
 						<dt>boolean getModifierState()</dt>
 						<dd>
 							<p>Queries the state of a modifier using a key value. See also <a href="#keys-Modifiers">Modifier keys</a>.</p>
@@ -4748,8 +4724,6 @@ console.log("Exceptions? No problem");</pre>
 												<code>true</code> if <a href="#key-Meta"><code class="key">'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-KeyboardEvent-repeat"><code class="attribute-name">KeyboardEvent.repeat</code></a>:
 												<code>true</code> if a key has been depressed long enough to trigger key repetition, otherwise <code>false</code></li>
-											<li><a href="#widl-KeyboardEvent-locale"><code class="attribute-name">KeyboardEvent.locale</code></a>:
-												the language code for the key event, if available. otherwise, the <a class="def" href="#glossary-empty-string">empty string</a></li>
 										</ul>
 									</td>
 								</tr>
@@ -4856,8 +4830,6 @@ console.log("Exceptions? No problem");</pre>
 												<code>true</code> if <a href="#key-Meta"><code class="key">'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-KeyboardEvent-repeat"><code class="attribute-name">KeyboardEvent.repeat</code></a>:
 												<code>false</code></li>
-											<li><a href="#widl-KeyboardEvent-locale"><code class="attribute-name">KeyboardEvent.locale</code></a>:
-												the language code for the key event, if available. otherwise, the <a class="def" href="#glossary-empty-string">empty string</a></li>
 										</ul>
 									</td>
 								</tr>
@@ -4926,21 +4898,6 @@ console.log("Exceptions? No problem");</pre>
 
 							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>""</code> (the empty string).</p>
 						</dd>
-
-						<dt>readonly attribute DOMString locale</dt>
-						<dd>
-							<p>The <code>locale</code> <code>DOMString</code> attribute contains a BCP-47 tag [<a href="#ref-BCP-47">BCP-47</a>] indicating the locale for which the IME originating
-								the event is configured, e.g. <code>"ja"</code>, <code>"zh-Hans"</code>, <code>"ko"</code>. MAY be the <a class="def" href="#glossary-empty-string">empty string</a>
-								when inapplicable or unknown, e.g. when this information is not exposed by the underlying platform or application.</p>
-
-							<p class="note"><strong>Note:</strong> <code>locale</code> does not necessarily indicate the locale of the data or the context in
-								which it is being entered.  For example, a French user often might not switch to an English keyboard setting when typing English, in which case the <code>locale</code>
-								will still indicate French, even though the data is actually English.  Similarly, an IME application could fail to distinguish between the locale of Chinese and
-								Kanji characters.</p>
-
-							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>""</code> (the empty string).</p>
-						</dd>
-
 					</dl>
 				</section>
 
@@ -5227,8 +5184,6 @@ console.log("Exceptions? No problem");</pre>
 												<code>0</code></li>
 											<li><a href="#widl-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>:
 												the original string being edited, otherwise the <a class="def" href="#glossary-empty-string">empty string</a></li>
-											<li><a href="#widl-CompositionEvent-locale"><code class="attribute-name">CompositionEvent.locale</code></a>:
-												the language code for the composition event, if available. otherwise, the <a class="def" href="#glossary-empty-string">empty string</a></li>
 										</ul>
 									</td>
 								</tr>
@@ -5305,8 +5260,6 @@ console.log("Exceptions? No problem");</pre>
 											<li><a href="#widl-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>:
 												the string comprising the current results of the composition session, which MAY be the
 												<a class="def" href="#glossary-empty-string">empty string</a> if the content has been deleted</li>
-											<li><a href="#widl-CompositionEvent-locale"><code class="attribute-name">CompositionEvent.locale</code></a>:
-												the language code for the composition event, if available. otherwise, the <a class="def" href="#glossary-empty-string">empty string</a></li>
 										</ul>
 									</td>
 								</tr>
@@ -5381,8 +5334,6 @@ console.log("Exceptions? No problem");</pre>
 											<li><a href="#widl-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>:
 												the string comprising the final result of the composition session, which MAY be the
 												<a class="def" href="#glossary-empty-string">empty string</a> if the content has been deleted or if the composition process has been canceled</li>
-											<li><a href="#widl-CompositionEvent-locale"><code class="attribute-name">CompositionEvent.locale</code></a>:
-												the language code for the composition event, if available. otherwise, the <a class="def" href="#glossary-empty-string">empty string</a></li>
 										</ul>
 									</td>
 								</tr>
@@ -7599,7 +7550,6 @@ else {
 					<dt>boolean altKey = false</dt><dd></dd>
 					<dt>boolean metaKey = false</dt><dd></dd>
 					<dt>boolean repeat = false</dt><dd></dd>
-					<dt>DOMString locale = ""</dt><dd></dd>
 					<!-- Legacy attributes for KeyboardEvent -->
 					<dt>unsigned long charCode = 0</dt><dd></dd>
 					<dt>unsigned long keyCode = 0</dt><dd></dd>
@@ -7645,9 +7595,6 @@ else {
 
 							<dt>boolean repeat</dt>
 							<dd><p>Specifies whether the key event is repeating. See <a href="#widl-KeyboardEvent-repeat"><code>KeyboardEvent.repeat</code></a>.</p></dd>
-
-							<dt>DOMString localeArg</dt>
-							<dd><p>Specifies <a href="#widl-KeyboardEvent-locale"><code>KeyboardEvent.locale</code></a>.</p></dd>
 						</dl>
 					</dd>
 				</dl>
@@ -7664,7 +7611,6 @@ else {
 					<dt>long detail = 0</dt><dd></dd>
 					<!-- Attributes from CompositionEvent -->
 					<dt>DOMString? data = null</dt><dd></dd>
-					<dt>DOMString locale = ""</dt><dd></dd>
 				</dl>
 				<dl class="idl" title="[Constructor(DOMString typeArg, optional CompositionEventInit compositionEventInitDict] partial interface CompositionEvent">
 					<dt>// Originally introduced (and deprecated) in DOM Level 3</dt>
@@ -7692,9 +7638,6 @@ else {
 
 							<dt>DOMString? dataArg</dt>
 							<dd><p>Specifies <a href="#widl-CompositionEvent-data"><code>CompositionEvent.data</code></a>.</p></dd>
-
-							<dt>DOMString localeArg</dt>
-							<dd><p>Specifies <a href="#widl-CompositionEvent-locale"><code>CompositionEvent.locale</code></a>.</p></dd>
 						</dl>
 					</dd>
 				</dl>
@@ -8474,8 +8417,6 @@ else {
 											<code>true</code> if <a href="#key-Meta"><code class="key">'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
 										<li><a href="#widl-KeyboardEvent-repeat"><code class="attribute-name">KeyboardEvent.repeat</code></a>:
 											<code>true</code> if a key has been depressed long enough to trigger key repetition, otherwise <code>false</code></li>
-										<li><a href="#widl-KeyboardEvent-locale"><code class="attribute-name">KeyboardEvent.locale</code></a>:
-											the language code for the key event, if available. otherwise, the <a class="def" href="#glossary-empty-string">empty string</a></li>
 									</ul>
 								</td>
 							</tr>
