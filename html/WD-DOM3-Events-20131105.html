@@ -675,7 +675,7 @@ table.simple {
 						<em class="rfc2119" title="MAY">MAY</em> implement the deprecated interfaces, events, or APIs for backwards compatibility, but is not required to do so in order to be conforming), and the complete
 						set of <a class="def" href="#glossary-character-value">character values</a> and <a class="def" href="#glossary-key-value">key values</a> in the <a href="#key-value-tables">
 						Key Value Tables</a> (subject to platform availability), as well as all other normative requirements defined in this specification.  A conforming browser <em class="rfc2119" title="MUST">MUST</em>
-						<a class="def" href="#glossary-dispatch">dispatch</a> events appropriate to the given <a href="#widl-EventTarget">EventTarget</a> when the conditions defined
+						<a class="def" href="#glossary-dispatch">dispatch</a> events appropriate to the given <a href="#interface-EventTarget">EventTarget</a> when the conditions defined
 						for that <a class="def" href="#glossary-event-type">event type</a> have been met.</p>
 
 					<p><span id="conform-arch">A browser conforms specifically to the DOM Level 3 Events Architecture if it implements the <a href="#dom-event-architecture">DOM Event
@@ -1210,7 +1210,7 @@ console.log(&quot;Exceptions? No problem&quot;);</pre>
 			</ul>
 
 			<p>In the production of the <a class="def" href="#glossary-propagation-path">propagation path</a>, if the <a class="def" href="#glossary-defaultView">defaultView</a>
-				implements the <a href="#widl-EventTarget"><code>EventTarget</code></a> interface, the event propagates from <a class="def" href="#glossary-defaultView">defaultView</a>
+				implements the <a href="#interface-EventTarget"><code>EventTarget</code></a> interface, the event propagates from <a class="def" href="#glossary-defaultView">defaultView</a>
 				to the <code>document</code> object during the <a class="def" href="#glossary-capture-phase">capture phase</a>, and from the <code>document</code> object to the
 				<a class="def" href="#glossary-defaultView">defaultView</a> during the <a class="def" href="#glossary-bubbling-phase">bubble phase</a>.</p>
 
@@ -1553,11 +1553,11 @@ console.log(&quot;Exceptions? No problem&quot;);</pre>
 <span class="idlAttribute">    readonly    attribute <span class="idlAttrType">boolean</span>        <span class="idlAttrName"><a href="#widl-Event-bubbles">bubbles</a></span>;</span>
 <span class="idlAttribute">    readonly    attribute <span class="idlAttrType">boolean</span>        <span class="idlAttrName"><a href="#widl-Event-cancelable">cancelable</a></span>;</span>
 <span class="idlAttribute">    readonly    attribute <span class="idlAttrType">DOMTimeStamp</span>   <span class="idlAttrName"><a href="#widl-Event-timeStamp">timeStamp</a></span>;</span>
-<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-Event-stopPropagation-void">stopPropagation</a></span> ();</span>
-<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-Event-preventDefault-void">preventDefault</a></span> ();</span>
-<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-Event-initEvent-void-DOMString-eventTypeArg-boolean-bubblesArg-boolean-cancelableArg">initEvent</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">eventTypeArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">bubblesArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">cancelableArg</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-Event-stopPropagation">stopPropagation</a></span> ();</span>
+<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-Event-preventDefault">preventDefault</a></span> ();</span>
+<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-Event-initEvent">initEvent</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">eventTypeArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">bubblesArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">cancelableArg</span></span>);</span>
 <span class="idlSectionComment">    // Introduced in DOM Level 3</span>
-<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-Event-stopImmediatePropagation-void">stopImmediatePropagation</a></span> ();</span>
+<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-Event-stopImmediatePropagation">stopImmediatePropagation</a></span> ();</span>
 <span class="idlAttribute">    readonly    attribute <span class="idlAttrType">boolean</span>        <span class="idlAttrName"><a href="#widl-Event-defaultPrevented">defaultPrevented</a></span>;</span>
 <span class="idlAttribute">    readonly    attribute <span class="idlAttrType">boolean</span>        <span class="idlAttrName"><a href="#widl-Event-isTrusted">isTrusted</a></span>;</span>
 };</span></pre><div id="attributes" class="section"><h4 id="h4_attributes"><span class="secno">4.1.1 </span>Attributes</h4><dl class="attributes"><dt id="widl-Event-bubbles"><code>bubbles</code> of type <span class="idlAttrType">boolean</span>, readonly   </dt><dd>
@@ -1749,9 +1749,9 @@ console.log(&quot;Exceptions? No problem&quot;);</pre>
 
 			<pre class="idl"><span class="idlInterface" id="idl-def-EventTarget">interface <span class="idlInterfaceID">EventTarget</span> {
 <span class="idlSectionComment">    // Modified in DOM Level 3</span>
-<span class="idlMethod">    <span class="idlMethType">void</span>    <span class="idlMethName"><a href="#widl-EventTarget-addEventListener-void-DOMString-type-EventListener-listener-boolean-useCapture">addEventListener</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">type</span></span>, <span class="idlParam"><span class="idlParamType"><a href="#idl-def-EventListener" class="idlType"><code>EventListener</code></a>?</span> <span class="idlParamName">listener</span></span>, <span class="idlParam">optional <span class="idlParamType">boolean</span> <span class="idlParamName">useCapture</span> = <span class="idlDefaultValue">false</span></span>);</span>
-<span class="idlMethod">    <span class="idlMethType">void</span>    <span class="idlMethName"><a href="#widl-EventTarget-removeEventListener-void-DOMString-type-EventListener-listener-boolean-useCapture">removeEventListener</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">type</span></span>, <span class="idlParam"><span class="idlParamType"><a href="#idl-def-EventListener" class="idlType"><code>EventListener</code></a>?</span> <span class="idlParamName">listener</span></span>, <span class="idlParam">optional <span class="idlParamType">boolean</span> <span class="idlParamName">useCapture</span> = <span class="idlDefaultValue">false</span></span>);</span>
-<span class="idlMethod">    <span class="idlMethType">boolean</span> <span class="idlMethName"><a href="#widl-EventTarget-dispatchEvent-boolean-Event-event">dispatchEvent</a></span> (<span class="idlParam"><span class="idlParamType"><a href="#idl-def-Event" class="idlType"><code>Event</code></a></span> <span class="idlParamName">event</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType">void</span>    <span class="idlMethName"><a href="#widl-EventTarget-addEventListener">addEventListener</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">type</span></span>, <span class="idlParam"><span class="idlParamType"><a href="#idl-def-EventListener" class="idlType"><code>EventListener</code></a>?</span> <span class="idlParamName">listener</span></span>, <span class="idlParam">optional <span class="idlParamType">boolean</span> <span class="idlParamName">useCapture</span> = <span class="idlDefaultValue">false</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType">void</span>    <span class="idlMethName"><a href="#widl-EventTarget-removeEventListener">removeEventListener</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">type</span></span>, <span class="idlParam"><span class="idlParamType"><a href="#idl-def-EventListener" class="idlType"><code>EventListener</code></a>?</span> <span class="idlParamName">listener</span></span>, <span class="idlParam">optional <span class="idlParamType">boolean</span> <span class="idlParamName">useCapture</span> = <span class="idlDefaultValue">false</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType">boolean</span> <span class="idlMethName"><a href="#widl-EventTarget-dispatchEvent">dispatchEvent</a></span> (<span class="idlParam"><span class="idlParamType"><a href="#idl-def-Event" class="idlType"><code>Event</code></a></span> <span class="idlParamName">event</span></span>);</span>
 };</span></pre><div id="methods-1" class="section"><h4 id="h4_methods-1"><span class="secno">4.3.1 </span>Methods</h4><dl class="methods"><dt id="widl-EventTarget-addEventListener"><code>addEventListener</code></dt><dd>
 					<p><em>Modified in DOM Level 3</em></p>
 
@@ -1845,12 +1845,12 @@ console.log(&quot;Exceptions? No problem&quot;);</pre>
 			<p class="intro-dom">Introduced in DOM Level 2</p>
 
 			<p>The <code>EventListener</code> interface is the primary way to handle events. <code>EventListener</code> represents the callback object that the user agent will
-				invoke when dispatching an <code>Event</code> to an <a href="#widl-EventTarget"><code>EventTarget</code></a>.</p>
+				invoke when dispatching an <code>Event</code> to an <a href="#interface-EventTarget"><code>EventTarget</code></a>.</p>
 
 			<div class="note"><div class="note-title" id="h_note_28"><span>Note</span></div><p class=""><strong>Note:</strong> Authors define an object which implements the <code>EventListener</code> interface and register their event listener using <a href="#widl-EventTarget-addEventListener">EventTarget.addEventListener</a>. In JavaScript, an <code>EventListener</code> can be either a function or an object
 				with a <code>handleEvent</code> member function.</p></div>
 
-			<div class="note"><div class="note-title" id="h_note_29"><span>Note</span></div><p class=""><strong>Note:</strong> It is a best practice for authors to remove their <code>EventListener</code> from its <a href="#widl-EventTarget"><code>EventTarget</code></a>
+			<div class="note"><div class="note-title" id="h_note_29"><span>Note</span></div><p class=""><strong>Note:</strong> It is a best practice for authors to remove their <code>EventListener</code> from its <a href="#interface-EventTarget"><code>EventTarget</code></a>
 				after they have completed using the listener.</p></div>
 
 			<p>Copying a <code>Node</code>, with methods such as <code>Node.cloneNode</code> or <code>Range.cloneContents</code> [<cite><a class="informative" href="#references-DOMRange">DOM Range</a></cite>], <em class="rfc2119" title="MUST NOT">MUST NOT</em> copy the event listeners attached to it.
@@ -1860,7 +1860,7 @@ console.log(&quot;Exceptions? No problem&quot;);</pre>
 				[<cite><a class="informative" href="#references-DOMRange">DOM Range</a></cite>], <em class="rfc2119" title="MUST NOT">MUST NOT</em> cause the event listeners attached to it to be removed or un-registered.</p>
 
 			<pre class="idl"><span class="idlInterface" id="idl-def-EventListener">interface <span class="idlInterfaceID">EventListener</span> {
-<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-EventListener-handleEvent-void-Event-event">handleEvent</a></span> (<span class="idlParam"><span class="idlParamType"><a href="#idl-def-Event" class="idlType"><code>Event</code></a></span> <span class="idlParamName">event</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-EventListener-handleEvent">handleEvent</a></span> (<span class="idlParam"><span class="idlParamType"><a href="#idl-def-Event" class="idlType"><code>Event</code></a></span> <span class="idlParamName">event</span></span>);</span>
 };</span></pre><div id="methods-2" class="section"><h4 id="h4_methods-2"><span class="secno">4.4.1 </span>Methods</h4><dl class="methods"><dt id="widl-EventListener-handleEvent"><code>handleEvent</code></dt><dd>
 					<p>This method <em class="rfc2119" title="MUST">MUST</em> be called whenever an event occurs of the event type for which the <code>EventListener</code> interface was registered.</p>
 
@@ -1888,7 +1888,7 @@ console.log(&quot;Exceptions? No problem&quot;);</pre>
 
 			<pre class="idl"><span class="idlInterface" id="idl-def-DocumentEvent">[<span class="extAttr">NoInterfaceObject</span>]
 interface <span class="idlInterfaceID">DocumentEvent</span> {
-<span class="idlMethod">    <span class="idlMethType"><a href="#idl-def-Event" class="idlType"><code>Event</code></a></span> <span class="idlMethName"><a href="#widl-DocumentEvent-createEvent-Event-DOMString-eventInterface">createEvent</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">eventInterface</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType"><a href="#idl-def-Event" class="idlType"><code>Event</code></a></span> <span class="idlMethName"><a href="#widl-DocumentEvent-createEvent">createEvent</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">eventInterface</span></span>);</span>
 };</span></pre><div id="methods-3" class="section"><h4 id="h4_methods-3"><span class="secno">4.5.1 </span>Methods</h4><dl class="methods"><dt id="widl-DocumentEvent-createEvent"><code>createEvent</code></dt><dd>
 					<p class="intro-dom">Modified in DOM Level 3</p>
 
@@ -2774,7 +2774,7 @@ interface <span class="idlInterfaceID">DocumentEvent</span> {
 					<pre class="idl"><span class="idlInterface" id="idl-def-FocusEvent">interface <span class="idlInterfaceID">FocusEvent</span> : <span class="idlSuperclass"><a href="#idl-def-UIEvent" class="idlType"><code>UIEvent</code></a></span> {
 <span class="idlAttribute">    readonly    attribute <span class="idlAttrType"><a href="#idl-def-EventTarget" class="idlType"><code>EventTarget</code></a>?</span> <span class="idlAttrName"><a href="#widl-FocusEvent-relatedTarget">relatedTarget</a></span>;</span>
 };</span></pre><div class="section"><h6 id="attributes-3">Attributes</h6><dl class="attributes"><dt id="widl-FocusEvent-relatedTarget"><code>relatedTarget</code> of type <span class="idlAttrType"><a href="#idl-def-EventTarget" class="idlType"><code>EventTarget</code></a></span>, readonly   , nullable</dt><dd>
-							<p>Used to identify a secondary <a href="#widl-EventTarget"><code>EventTarget</code></a> related to a Focus event, depending on the type of event.</p>
+							<p>Used to identify a secondary <a href="#interface-EventTarget"><code>EventTarget</code></a> related to a Focus event, depending on the type of event.</p>
 
 							<p>For security reasons with nested browsing contexts, when tabbing into or out of a nested context, the relevant EventTarget <em class="rfc2119" title="SHOULD">SHOULD</em> be <code>null</code>.</p>
 
@@ -3162,7 +3162,7 @@ interface <span class="idlInterfaceID">DocumentEvent</span> {
 <span class="idlAttribute">    readonly    attribute <span class="idlAttrType">unsigned short</span> <span class="idlAttrName"><a href="#widl-MouseEvent-buttons">buttons</a></span>;</span>
 <span class="idlAttribute">    readonly    attribute <span class="idlAttrType"><a href="#idl-def-EventTarget" class="idlType"><code>EventTarget</code></a>?</span>   <span class="idlAttrName"><a href="#widl-MouseEvent-relatedTarget">relatedTarget</a></span>;</span>
 <span class="idlSectionComment">    // Introduced in DOM Level 3</span>
-<span class="idlMethod">    <span class="idlMethType">boolean</span> <span class="idlMethName"><a href="#widl-MouseEvent-getModifierState-boolean-DOMString-keyArg">getModifierState</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">keyArg</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType">boolean</span> <span class="idlMethName"><a href="#widl-MouseEvent-getModifierState">getModifierState</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">keyArg</span></span>);</span>
 };</span></pre><div class="section"><h6 id="attributes-4">Attributes</h6><dl class="attributes"><dt id="widl-MouseEvent-altKey"><code>altKey</code> of type <span class="idlAttrType">boolean</span>, readonly   </dt><dd>
 							<p>Refer to the <a href="#widl-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a> attribute.</p>
 						</dd><dt id="widl-MouseEvent-button"><code>button</code> of type <span class="idlAttrType">unsigned short</span>, readonly   </dt><dd>
@@ -3234,7 +3234,7 @@ interface <span class="idlInterfaceID">DocumentEvent</span> {
 
 							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute <em class="rfc2119" title="MUST">MUST</em> be <code>false</code>.</p>
 						</dd><dt id="widl-MouseEvent-relatedTarget"><code>relatedTarget</code> of type <span class="idlAttrType"><a href="#idl-def-EventTarget" class="idlType"><code>EventTarget</code></a></span>, readonly   , nullable</dt><dd>
-							<p>Used to identify a secondary <a href="#widl-EventTarget"><code>EventTarget</code></a> related to a UI event, depending on the type of event.</p>
+							<p>Used to identify a secondary <a href="#interface-EventTarget"><code>EventTarget</code></a> related to a UI event, depending on the type of event.</p>
 
 							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute <em class="rfc2119" title="MUST">MUST</em> be <code>null</code>.</p>
 						</dd><dt id="widl-MouseEvent-screenX"><code>screenX</code> of type <span class="idlAttrType">long</span>, readonly   </dt><dd>
@@ -4854,10 +4854,10 @@ interface <span class="idlInterfaceID">DocumentEvent</span> {
 
 					<pre class="idl"><span class="idlInterface" id="idl-def-KeyboardEvent">interface <span class="idlInterfaceID">KeyboardEvent</span> : <span class="idlSuperclass"><a href="#idl-def-UIEvent" class="idlType"><code>UIEvent</code></a></span> {
 <span class="idlSectionComment">    // KeyLocationCode</span>
-<span class="idlConst">    const <span class="idlConstType">unsigned long</span> <span class="idlConstName"><a href="#DOM_KEY_LOCATION_STANDARD">DOM_KEY_LOCATION_STANDARD</a></span> = <span class="idlConstValue">0x00</span>;</span>
-<span class="idlConst">    const <span class="idlConstType">unsigned long</span> <span class="idlConstName"><a href="#DOM_KEY_LOCATION_LEFT">DOM_KEY_LOCATION_LEFT</a></span> = <span class="idlConstValue">0x01</span>;</span>
-<span class="idlConst">    const <span class="idlConstType">unsigned long</span> <span class="idlConstName"><a href="#DOM_KEY_LOCATION_RIGHT">DOM_KEY_LOCATION_RIGHT</a></span> = <span class="idlConstValue">0x02</span>;</span>
-<span class="idlConst">    const <span class="idlConstType">unsigned long</span> <span class="idlConstName"><a href="#DOM_KEY_LOCATION_NUMPAD">DOM_KEY_LOCATION_NUMPAD</a></span> = <span class="idlConstValue">0x03</span>;</span>
+<span class="idlConst">    const <span class="idlConstType">unsigned long</span> <span class="idlConstName"><a href="#widl-KeyboardEvent-DOM_KEY_LOCATION_STANDARD">DOM_KEY_LOCATION_STANDARD</a></span> = <span class="idlConstValue">0x00</span>;</span>
+<span class="idlConst">    const <span class="idlConstType">unsigned long</span> <span class="idlConstName"><a href="#widl-KeyboardEvent-DOM_KEY_LOCATION_LEFT">DOM_KEY_LOCATION_LEFT</a></span> = <span class="idlConstValue">0x01</span>;</span>
+<span class="idlConst">    const <span class="idlConstType">unsigned long</span> <span class="idlConstName"><a href="#widl-KeyboardEvent-DOM_KEY_LOCATION_RIGHT">DOM_KEY_LOCATION_RIGHT</a></span> = <span class="idlConstValue">0x02</span>;</span>
+<span class="idlConst">    const <span class="idlConstType">unsigned long</span> <span class="idlConstName"><a href="#widl-KeyboardEvent-DOM_KEY_LOCATION_NUMPAD">DOM_KEY_LOCATION_NUMPAD</a></span> = <span class="idlConstValue">0x03</span>;</span>
 <span class="idlAttribute">    readonly    attribute <span class="idlAttrType">DOMString</span>     <span class="idlAttrName"><a href="#widl-KeyboardEvent-key">key</a></span>;</span>
 <span class="idlAttribute">    readonly    attribute <span class="idlAttrType">unsigned long</span> <span class="idlAttrName"><a href="#widl-KeyboardEvent-location">location</a></span>;</span>
 <span class="idlAttribute">    readonly    attribute <span class="idlAttrType">boolean</span>       <span class="idlAttrName"><a href="#widl-KeyboardEvent-ctrlKey">ctrlKey</a></span>;</span>
@@ -4865,7 +4865,7 @@ interface <span class="idlInterfaceID">DocumentEvent</span> {
 <span class="idlAttribute">    readonly    attribute <span class="idlAttrType">boolean</span>       <span class="idlAttrName"><a href="#widl-KeyboardEvent-altKey">altKey</a></span>;</span>
 <span class="idlAttribute">    readonly    attribute <span class="idlAttrType">boolean</span>       <span class="idlAttrName"><a href="#widl-KeyboardEvent-metaKey">metaKey</a></span>;</span>
 <span class="idlAttribute">    readonly    attribute <span class="idlAttrType">boolean</span>       <span class="idlAttrName"><a href="#widl-KeyboardEvent-repeat">repeat</a></span>;</span>
-<span class="idlMethod">    <span class="idlMethType">boolean</span> <span class="idlMethName"><a href="#widl-KeyboardEvent-getModifierState-boolean-DOMString-keyArg">getModifierState</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">keyArg</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType">boolean</span> <span class="idlMethName"><a href="#widl-KeyboardEvent-getModifierState">getModifierState</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">keyArg</span></span>);</span>
 };</span></pre><div class="section"><h6 id="attributes-7">Attributes</h6><dl class="attributes"><dt id="widl-KeyboardEvent-altKey"><code>altKey</code> of type <span class="idlAttrType">boolean</span>, readonly   </dt><dd>
 							<p><code>true</code> if the <a href="#key-Alt"><code class="key">'Alt'</code></a> (alternative) or <code>Option</code> key modifier was active.</p>
 
@@ -6502,12 +6502,12 @@ else {
 			<div id="keys-IME" class="section">
 				<h4 id="h4_keys-IME"><span class="secno">6.2.4 </span>Input Method Editors</h4>
 
-				<p>This specification includes a model for <a class="def" href="#glossary-ime">input method editors (IMEs)</a>, through the <a href="#interface-CompositionEvents">CompositionEvent</a>
+				<p>This specification includes a model for <a class="def" href="#glossary-ime">input method editors (IMEs)</a>, through the <a href="#interface-CompositionEvent">CompositionEvent</a>
 					interface and events.  However, Composition Events and Keyboard Events do not necessarily map as a one-to-one relationship.  As an example, receiving a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> for the <a href="#key-Accept"><code class="key">'Accept'</code></a> key value does not necessarily imply
 					that the text currently selected in the <a class="def" href="#glossary-ime">IME</a> is being accepted, but indicates only that a keystroke happened, disconnected
 					from the <a class="def" href="#glossary-ime">IME</a> Accept functionality (which would normally result in a <a class="eventtype" href="#event-type-compositionend">
 					<code>compositionend</code></a> event in most <a class="def" href="#glossary-ime">IME</a> systems).  Keyboard events cannot be used to determine the current
-					state of the input method editor, which can be obtained through the <a href="#widl-CompositionEvent-data"><code>data</code></a> attribute of the <a href="#interface-CompositionEvents">
+					state of the input method editor, which can be obtained through the <a href="#widl-CompositionEvent-data"><code>data</code></a> attribute of the <a href="#interface-CompositionEvent">
 					CompositionEvent</a> interface.  Additionally, <a class="def" href="#glossary-ime">IME</a> systems and devices vary in their functionality, and in which keys
 					are used for activating that functionality, such that the <code class="key">'Convert'</code> and <code class="key">'Accept'</code> keys <em class="rfc2119" title="MAY">MAY</em> be represented
 					by other available keys. Keyboard events correspond to the events generated by the input device after the keyboard layout mapping.</p>
@@ -7383,7 +7383,7 @@ partial interface <span class="idlInterfaceID">Event</span> {
 				<pre class="idl"><span class="idlInterface" id="idl-def-CustomEvent-1">[<span class="extAttr">Constructor(DOMString typeArg, optional CustomEventInit customEventInitDict</span>]
 partial interface <span class="idlInterfaceID">CustomEvent</span> {
 <span class="idlSectionComment">    // Originally introduced (and deprecated) in DOM Level 3</span>
-<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-CustomEvent-initCustomEvent-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-any-detailArg">initCustomEvent</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">typeArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">bubblesArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">cancelableArg</span></span>, <span class="idlParam"><span class="idlParamType">any</span> <span class="idlParamName">detailArg</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-CustomEvent-initCustomEvent">initCustomEvent</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">typeArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">bubblesArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">cancelableArg</span></span>, <span class="idlParam"><span class="idlParamType">any</span> <span class="idlParamName">detailArg</span></span>);</span>
 };</span></pre><div class="section"><h6 id="methods-6">Methods</h6><dl class="methods"><dt id="widl-CustomEvent-initCustomEvent"><code>initCustomEvent</code></dt><dd>
 						<p>Initializes attributes of a <code>CustomEvent</code> object. This method has the same behavior as <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a>.</p>
 
@@ -7405,7 +7405,7 @@ partial interface <span class="idlInterfaceID">CustomEvent</span> {
 				<pre class="idl"><span class="idlInterface" id="idl-def-UIEvent-1">[<span class="extAttr">Constructor(DOMString typeArg, optional UIEventInit uiEventInitDict</span>]
 partial interface <span class="idlInterfaceID">UIEvent</span> {
 <span class="idlSectionComment">    // Deprecated in DOM Level 3</span>
-<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-UIEvent-initUIEvent-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg">initUIEvent</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">typeArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">bubblesArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">cancelableArg</span></span>, <span class="idlParam"><span class="idlParamType">AbstractView?</span> <span class="idlParamName">viewArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">detailArg</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-UIEvent-initUIEvent">initUIEvent</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">typeArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">bubblesArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">cancelableArg</span></span>, <span class="idlParam"><span class="idlParamType">AbstractView?</span> <span class="idlParamName">viewArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">detailArg</span></span>);</span>
 };</span></pre><div class="section"><h6 id="methods-7">Methods</h6><dl class="methods"><dt id="widl-UIEvent-initUIEvent"><code>initUIEvent</code></dt><dd>
 						<p>Initializes attributes of an <code>UIEvent</code> object. This method has the same behavior as <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a>.</p>
 
@@ -7438,7 +7438,7 @@ partial interface <span class="idlInterfaceID">UIEvent</span> {
 				<pre class="idl"><span class="idlInterface" id="idl-def-FocusEvent-1">[<span class="extAttr">Constructor(DOMString typeArg, optional FocusEventInit focusEventInitDict</span>]
 partial interface <span class="idlInterfaceID">FocusEvent</span> {
 <span class="idlSectionComment">    // Originally introduced (and deprecated) in DOM Level 3</span>
-<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-FocusEvent-initFocusEvent-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg-EventTarget-relatedTargetArg">initFocusEvent</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">typeArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">bubblesArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">cancelableArg</span></span>, <span class="idlParam"><span class="idlParamType">AbstractView?</span> <span class="idlParamName">viewArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">detailArg</span></span>, <span class="idlParam"><span class="idlParamType"><a href="#idl-def-EventTarget" class="idlType"><code>EventTarget</code></a>?</span> <span class="idlParamName">relatedTargetArg</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-FocusEvent-initFocusEvent">initFocusEvent</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">typeArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">bubblesArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">cancelableArg</span></span>, <span class="idlParam"><span class="idlParamType">AbstractView?</span> <span class="idlParamName">viewArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">detailArg</span></span>, <span class="idlParam"><span class="idlParamType"><a href="#idl-def-EventTarget" class="idlType"><code>EventTarget</code></a>?</span> <span class="idlParamName">relatedTargetArg</span></span>);</span>
 };</span></pre><div class="section"><h6 id="methods-8">Methods</h6><dl class="methods"><dt id="widl-FocusEvent-initFocusEvent"><code>initFocusEvent</code></dt><dd>
 						<p>Initializes attributes of a <code>FocusEvent</code> object. This method has the same behavior as <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.</p>
 
@@ -7471,7 +7471,7 @@ partial interface <span class="idlInterfaceID">FocusEvent</span> {
 				<pre class="idl"><span class="idlInterface" id="idl-def-MouseEvent-1">[<span class="extAttr">Constructor(DOMString typeArg, optional MouseEventInit mouseEventInitDict</span>]
 partial interface <span class="idlInterfaceID">MouseEvent</span> {
 <span class="idlSectionComment">    // Deprecated in DOM Level 3</span>
-<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-MouseEvent-initMouseEvent-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg-long-screenXArg-long-screenYArg-long-clientXArg-long-clientYArg-boolean-ctrlKeyArg-boolean-altKeyArg-boolean-shiftKeyArg-boolean-metaKeyArg-unsigned-short-buttonArg-EventTarget-relatedTargetArg">initMouseEvent</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">typeArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">bubblesArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">cancelableArg</span></span>, <span class="idlParam"><span class="idlParamType">AbstractView?</span> <span class="idlParamName">viewArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">detailArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">screenXArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">screenYArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">clientXArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">clientYArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">ctrlKeyArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">altKeyArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">shiftKeyArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">metaKeyArg</span></span>, <span class="idlParam"><span class="idlParamType">unsigned short</span> <span class="idlParamName">buttonArg</span></span>, <span class="idlParam"><span class="idlParamType"><a href="#idl-def-EventTarget" class="idlType"><code>EventTarget</code></a>?</span> <span class="idlParamName">relatedTargetArg</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-MouseEvent-initMouseEvent">initMouseEvent</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">typeArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">bubblesArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">cancelableArg</span></span>, <span class="idlParam"><span class="idlParamType">AbstractView?</span> <span class="idlParamName">viewArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">detailArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">screenXArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">screenYArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">clientXArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">clientYArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">ctrlKeyArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">altKeyArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">shiftKeyArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">metaKeyArg</span></span>, <span class="idlParam"><span class="idlParamType">unsigned short</span> <span class="idlParamName">buttonArg</span></span>, <span class="idlParam"><span class="idlParamType"><a href="#idl-def-EventTarget" class="idlType"><code>EventTarget</code></a>?</span> <span class="idlParamName">relatedTargetArg</span></span>);</span>
 };</span></pre><div class="section"><h6 id="methods-9">Methods</h6><dl class="methods"><dt id="widl-MouseEvent-initMouseEvent"><code>initMouseEvent</code></dt><dd>
 						<p>Initializes attributes of a <code>MouseEvent</code> object. This method has the same behavior as <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.</p>
 
@@ -7538,7 +7538,7 @@ partial interface <span class="idlInterfaceID">MouseEvent</span> {
 				<pre class="idl"><span class="idlInterface" id="idl-def-WheelEvent-1">[<span class="extAttr">Constructor(DOMString typeArg, optional WheelEventInit wheelEventInitDict</span>]
 partial interface <span class="idlInterfaceID">WheelEvent</span> {
 <span class="idlSectionComment">    // Originally introduced (and deprecated) in DOM Level 3</span>
-<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-WheelEvent-initWheelEvent-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg-long-screenXArg-long-screenYArg-long-clientXArg-long-clientYArg-unsigned-short-buttonArg-EventTarget-relatedTargetArg-DOMString-modifiersListArg-double-deltaXArg-double-deltaYArg-double-deltaZArg-unsigned-long-deltaMode">initWheelEvent</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">typeArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">bubblesArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">cancelableArg</span></span>, <span class="idlParam"><span class="idlParamType">AbstractView?</span> <span class="idlParamName">viewArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">detailArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">screenXArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">screenYArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">clientXArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">clientYArg</span></span>, <span class="idlParam"><span class="idlParamType">unsigned short</span> <span class="idlParamName">buttonArg</span></span>, <span class="idlParam"><span class="idlParamType"><a href="#idl-def-EventTarget" class="idlType"><code>EventTarget</code></a>?</span> <span class="idlParamName">relatedTargetArg</span></span>, <span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">modifiersListArg</span></span>, <span class="idlParam"><span class="idlParamType">double</span> <span class="idlParamName">deltaXArg</span></span>, <span class="idlParam"><span class="idlParamType">double</span> <span class="idlParamName">deltaYArg</span></span>, <span class="idlParam"><span class="idlParamType">double</span> <span class="idlParamName">deltaZArg</span></span>, <span class="idlParam"><span class="idlParamType">unsigned long</span> <span class="idlParamName">deltaMode</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-WheelEvent-initWheelEvent">initWheelEvent</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">typeArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">bubblesArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">cancelableArg</span></span>, <span class="idlParam"><span class="idlParamType">AbstractView?</span> <span class="idlParamName">viewArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">detailArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">screenXArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">screenYArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">clientXArg</span></span>, <span class="idlParam"><span class="idlParamType">long</span> <span class="idlParamName">clientYArg</span></span>, <span class="idlParam"><span class="idlParamType">unsigned short</span> <span class="idlParamName">buttonArg</span></span>, <span class="idlParam"><span class="idlParamType"><a href="#idl-def-EventTarget" class="idlType"><code>EventTarget</code></a>?</span> <span class="idlParamName">relatedTargetArg</span></span>, <span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">modifiersListArg</span></span>, <span class="idlParam"><span class="idlParamType">double</span> <span class="idlParamName">deltaXArg</span></span>, <span class="idlParam"><span class="idlParamType">double</span> <span class="idlParamName">deltaYArg</span></span>, <span class="idlParam"><span class="idlParamType">double</span> <span class="idlParamName">deltaZArg</span></span>, <span class="idlParam"><span class="idlParamType">unsigned long</span> <span class="idlParamName">deltaMode</span></span>);</span>
 };</span></pre><div class="section"><h6 id="methods-10">Methods</h6><dl class="methods"><dt id="widl-WheelEvent-initWheelEvent"><code>initWheelEvent</code></dt><dd>
 						<p>Initializes attributes of a <code>WheelEvent</code> object. This method has the same behavior as <a href="#widl-MouseEvent-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a>.</p>
 
@@ -8527,7 +8527,7 @@ partial interface <span class="idlInterfaceID">CompositionEvent</span> {
 <span class="idlAttribute">    readonly    attribute <span class="idlAttrType">DOMString</span>      <span class="idlAttrName"><a href="#widl-MutationEvent-newValue">newValue</a></span>;</span>
 <span class="idlAttribute">    readonly    attribute <span class="idlAttrType">DOMString</span>      <span class="idlAttrName"><a href="#widl-MutationEvent-attrName">attrName</a></span>;</span>
 <span class="idlAttribute">    readonly    attribute <span class="idlAttrType">unsigned short</span> <span class="idlAttrName"><a href="#widl-MutationEvent-attrChange">attrChange</a></span>;</span>
-<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-MutationEvent-initMutationEvent-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-Node-relatedNodeArg-DOMString-prevValueArg-DOMString-newValueArg-DOMString-attrNameArg-unsigned-short-attrChangeArg">initMutationEvent</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">typeArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">bubblesArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">cancelableArg</span></span>, <span class="idlParam"><span class="idlParamType">Node?</span> <span class="idlParamName">relatedNodeArg</span></span>, <span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">prevValueArg</span></span>, <span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">newValueArg</span></span>, <span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">attrNameArg</span></span>, <span class="idlParam"><span class="idlParamType">unsigned short</span> <span class="idlParamName">attrChangeArg</span></span>);</span>
+<span class="idlMethod">    <span class="idlMethType">void</span> <span class="idlMethName"><a href="#widl-MutationEvent-initMutationEvent">initMutationEvent</a></span> (<span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">typeArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">bubblesArg</span></span>, <span class="idlParam"><span class="idlParamType">boolean</span> <span class="idlParamName">cancelableArg</span></span>, <span class="idlParam"><span class="idlParamType">Node?</span> <span class="idlParamName">relatedNodeArg</span></span>, <span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">prevValueArg</span></span>, <span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">newValueArg</span></span>, <span class="idlParam"><span class="idlParamType">DOMString</span> <span class="idlParamName">attrNameArg</span></span>, <span class="idlParam"><span class="idlParamType">unsigned short</span> <span class="idlParamName">attrChangeArg</span></span>);</span>
 };</span></pre><div class="section"><h6 id="attributes-10">Attributes</h6><dl class="attributes"><dt id="widl-MutationEvent-attrChange"><code>attrChange</code> of type <span class="idlAttrType">unsigned short</span>, readonly   </dt><dd>
 						<p><code>attrChange</code> indicates the type of change which triggered the <a class="eventtype" href="#event-type-DOMAttrModified"><code>DOMAttrModified</code></a>
 							event. The values can be <code>MODIFICATION</code>, <code>ADDITION</code>, or <code>REMOVAL</code>.</p>
@@ -8637,7 +8637,7 @@ partial interface <span class="idlInterfaceID">CompositionEvent</span> {
 										<li><a href="#widl-MutationEvent-attrName"><code class="attribute-name">MutationEvent.attrName</code></a>:
 											the name of the changed <code>Attr</code> node</li>
 										<li><a href="#widl-MutationEvent-attrChange"><code class="attribute-name">MutationEvent.attrChange</code></a>:
-											the numerical code corresponding to the most applicable <a href="#widl-MutationEvent-attrChangeType">attrChangeType</a></li>
+											the numerical code corresponding to the most applicable <a href="#idl-def-MutationEvent">attrChangeType</a></li>
 										<li><a href="#widl-MutationEvent-relatedNode"><code class="attribute-name">MutationEvent.relatedNode</code></a>:
 											the <code>Attr</code> node that has been modified, added, or removed.</li>
 										<li><a href="#widl-MutationEvent-newValue"><code class="attribute-name">MutationEvent.newValue</code></a>:
@@ -9264,9 +9264,9 @@ document.documentElement.dispatchEvent(evt);
 						<a href="#widl-Event-timeStamp"><code>Event.timeStamp</code></a> is now a <code>Number</code> in the ECMAScript binding. A proposed correction to make the
 						same change in [<cite><a class="normative" href="#references-DOMCore">DOM3 Core</a></cite>] is forthcoming.<br />
 						DOM Level 3 Events considers the <a href="#widl-Event-type"><code>Event.type</code></a> attribute to be case-sensitive, while DOM Level 2 Events considers
-						<a href="#widl-Event-type#widl-Event-type"><code>Event.type</code></a> to be case-insensitive.</dd>
+						<a href="#widl-Event-type"><code>Event.type</code></a> to be case-insensitive.</dd>
 
-					<dt>Interface <a href="#widl-EventTarget"><code>EventTarget</code></a></dt>
+					<dt>Interface <a href="#interface-EventTarget"><code>EventTarget</code></a></dt>
 					<dd>The method <a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> was modified.</dd>
 
 					<dt>Interface <a href="#interface-MouseEvent"><code>MouseEvent</code></a></dt>
@@ -9398,66 +9398,67 @@ document.documentElement.dispatchEvent(evt);
 			<h4 id="h4_references-References-Normative"><span class="secno">6.11.1 </span>Normative References</h4>
 
 			<dl>
-				<dt><strong>[BCP-47]</strong> Best Current Practice 47: Tags for Identifying Languages</dt>
+				<dt><strong>[<a id="ref-BCP-47">BCP-47</a>]</strong> Best Current Practice 47: Tags for Identifying Languages</dt>
 				<dd>A. Phillips, M. Davis, Editors, September 2009. The specification for describing the structure, content, construction, and semantics of language tags to indicate
 					the human language used. Available at <a href="http://www.rfc-editor.org/rfc/bcp/bcp47.txt">http://www.rfc-editor.org/rfc/bcp/bcp47.txt</a></dd>
 
-				<dt><strong>[CharMod]</strong></dt>
+				<dt><strong>[<a id="references-charmod">CharMod</a>]</strong></dt>
 				<dd><cite><a href="http://www.w3.org/TR/2005/REC-charmod-20050215/">Character Model for the World Wide Web 1.0: Fundamentals</a></cite>, M. Dürst, F. Yergeau,
 					R. Ishida, M. Wolf, T. Texin, Editors. World Wide Web Consortium, 15 February 2005. This version of the Character Model for the World Wide Web 1.0: Fundamentals
 					specification is http://www.w3.org/TR/2005/REC-charmod-20050215/. The <a class="normative" href="http://www.w3.org/TR/charmod/">latest version of Character Model for
 					the World Wide Web 1.0: Fundamentals</a> is available at http://www.w3.org/TR/charmod/. </dd>
 
-				<dt><strong>[DOM3 Core]</strong></dt>
+				<dt><strong>[<a id="references-DOMCore">DOM3 Core</a>]</strong></dt>
 				<dd><cite><a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/">Document Object Model Level 3 Core Specification</a></cite>, A. Le Hors, et al., Editors.
 					World Wide Web Consortium, April 2004. This version of the Document Object Model Level 3 Core Specification is http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/.
 					The <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/">latest version of DOM Level 3 Core</a> is available at http://www.w3.org/TR/DOM-Level-3-Core/. </dd>
 
-				<dt><strong>[DOM2 Events]</strong></dt>
+				<dt><strong>[<a id="references-DOM2Events">DOM2 Events</a>]</strong></dt>
 				<dd><cite><a href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Events-20001113/">Document Object Model Level 2 Events Specification</a></cite>, T. Pixley, Editor. World
 					Wide Web Consortium, November 2000. This version of the Document Object Model Level 2 Events Specification is http://www.w3.org/TR/2000/REC-DOM-Level-2-Events-20001113.
 					The <a class="normative" href="http://www.w3.org/TR/DOM-Level-2-Events/">latest version of Document Object Model Level 2 Events</a> is available
 					at http://www.w3.org/TR/DOM-Level-2-Events/. </dd>
 
-				<dt><strong>[ECMAScript]</strong></dt>
+				<dt><strong>[<a id="references-ECMAScript">ECMAScript</a>]</strong></dt>
 				<dd><cite><a href="http://ecma-international.org/ecma-262/5.1/">ECMAScript Language Specification</a></cite>, 5.1 Edition. European Computer Manufacturers Association,
 					Standard ECMA-262, June 2011. This version of the ECMAScript Language is available from http://ecma-international.org/ecma-262/5.1/. </dd>
 
-				<dt><strong>[HTML5]</strong></dt>
+				<dt><strong>[<a id="references-HTML5">HTML5</a>]</strong></dt>
 				<dd><cite class="w3cwd"><a href="http://www.w3.org/TR/2012/WD-html5-20120329/">HTML 5</a></cite>, I. Hickson, editor. World Wide Web Consortium, <span class="wip">work
 					in progress</span>, 29 March 2012. This edition of HTML 5 is http://www.w3.org/TR/2012/WD-html5-20120329/. The <a href="http://www.w3.org/TR/html5/">latest edition of
 					HTML 5</a> is available at http://www.w3.org/TR/html5/. </dd>
 
-				<dt><strong>[Java]</strong></dt>
+				<dt><strong>[<a id="references-Java">Java</a>]</strong></dt>
 				<dd><cite><a href="http://www.oracle.com/technetwork/java/index.html">The Java Language Specification</a></cite>, J. Gosling, B. Joy, and G. Steele, Authors. Addison-Wesley, September
 					1996. Available at http://java.sun.com/docs/books/jls </dd>
 
-				<dt id="ref-rfc2119"><strong>[RFC2119]</strong> Key words for use in RFCs to indicate Requirement Levels</dt>
+				<dt id="ref-rfc2119"><strong>[<a id="RFC2119">RFC2119</a>]</strong> Key words for use in RFCs to indicate Requirement Levels</dt>
 				<dd>S Bradner, 1997. The specification for how to use English to specify normativity, as if it were a technical language. Available at <a href="http://www.ietf.org/rfc/rfc2119.txt">
 					http://www.ietf.org/rfc/rfc2119.txt </a></dd>
 
-				<dt><strong>[UAX #15]</strong></dt>
+				<dt><strong>[<a id="references-UnicodeNormalization">UAX #15</a>]</strong></dt>
 				<dd><cite><a href="http://www.unicode.org/reports/tr15/">Unicode Normalization Forms</a></cite>, The Unicode Standard Annex #15. The Unicode Consortium, 2006. The
 					latest version of this annex is available at http://www.unicode.org/reports/tr15/.</dd>
 
-				<dt><strong>[UIEvents]</strong></dt>
+				<dt><strong>[<a id="references-UIEvents">UIEvents</a>]</strong></dt>
 				<dd><cite><a href="https://dvcs.w3.org/hg/d4e/raw-file/tip/source_respec.htm">UI Events</a></cite>,
-					T. Leithead, G. Kacmarcik, eds. World Wide Web Consortium,
+					G. Kacmarcik, T. Leithead, eds. World Wide Web Consortium,
 					<span class="wip">Editor's Draft</span>, 5 May 2013.
 				</dd>
 
-				<dt><strong>[Unicode]</strong></dt>
+				<dt><strong>[<a id="references-Unicode">Unicode</a>]</strong></dt>
 				<dd><cite>The Unicode Standard, Version 5.0</cite>, ISBN 0-321-48091-0, as updated periodically by the publication of new versions. See also <a class="normative" href="http://www.unicode.org/standard/versions/">Versions of the Unicode Standard</a>, available at http://www.unicode.org/standard/versions/ for
 					latest version and additional information on versions of the standard and of the Unicode Character Database.</dd>
 
-				<dt><strong>[WEB IDL]</strong></dt>
+				<dt><strong>[<a id="references-WebIDL">WEB IDL</a>]</strong></dt>
 				<dd><cite><a href="http://www.w3.org/TR/WebIDL/">Web IDL</a></cite>, C. McCormack. 19 April 2012. This version of the Web IDL Candidate Recommendation is:
 					http://www.w3.org/TR/2012/CR-WebIDL-20120419/. The <a href="http://dev.w3.org/2006/webapi/WebIDL/">latest version of Web IDL</a> is available at
 					http://dev.w3.org/2006/webapi/WebIDL/. </dd>
 
-				<dt><strong>[XML Namespaces 1.0]</strong></dt>
+				<dt><strong>[<a id="references-Namespaces10">XML Namespaces 1.0</a>]</strong></dt>
 				<dd><cite><a href="http://www.w3.org/TR/2006/REC-xml-names-20060816/">Namespaces in XML 1.0</a></cite>, T. Bray, D. Hollander, A. Layman, and R. Tobin, Editors. World
-					Wide Web Consortium, 16 August 2006. This version of the Namespaces in XML 1.0 Specification is http://www.w3.org/TR/2006/REC-xml-names-20060816. The <a class="normative" href="http://www.w3.org/TR/xml-names/">latest version of Namespaces in XML 1.0</a> is available at http://www.w3.org/TR/xml-names/.</dd>
+					Wide Web Consortium, 16 August 2006. This version of the Namespaces in XML 1.0 Specification is http://www.w3.org/TR/2006/REC-xml-names-20060816. The <a class="normative"
+					href="http://www.w3.org/TR/xml-names/">latest version of Namespaces in XML 1.0</a> is available at http://www.w3.org/TR/xml-names/.</dd>
 			</dl>
 		</div>
 
