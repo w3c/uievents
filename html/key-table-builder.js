@@ -41,7 +41,6 @@ function create_key_table(tablediv) {
 		}
 		var keyname = key.getAttribute('name');
 		var noid = key.getAttribute('noid');
-		console.log(noid);
 		
 		row = table.insertRow(-1);
 		var code;
