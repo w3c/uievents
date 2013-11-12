@@ -117,7 +117,7 @@
 			Vendors interested in implementing this document before it eventually reaches the Candidate Recommendation stage
 			should join the aforementioned mailing lists and take part in the discussions.
 			</p>
-	</section>
+	</section>  <!-- sotd -->
 
 	<!-- Section 1: DOM3 Events Overview  ========================================================-->
 	<section id="dom-events">
@@ -241,7 +241,7 @@
 				<dd><code>This is a keyword or value</code></dd>
 
 				<dt>Event types</dt>
-				<dd><a class="eventtype"><code>This is an event type</code></a></dd>
+				<dd><code class="eventtype">This is an event type</code></dd>
 
 				<dt>Key and character values</dt>
 				<dd>
@@ -251,7 +251,7 @@
 				</dd>
 
 				<dt>Glossary definitions</dt>
-				<dd><a class="def">This is a link to a definition in the glossary</a></dd>
+				<dd><span class="def">This is a link to a definition in the glossary</span></dd>
 
 				<dt>Notes</dt>
 				<dd><p class="note"><strong>Note:</strong> This is a note.</p></dd>
@@ -407,6 +407,18 @@
 				of other possibilities) which is associated with its <a class="def" href="#glossary-event-target">event target</a>. Each event is an instantiation
 				of one specific <a class="def" href="#glossary-event-type">event type</a>.</dd>
 
+			<dt id="glossary-event-focus"><dfn>event focus</dfn></dt>
+			<dd>Event focus is a special state of receptivity and concentration on an particular element or other <a class="def" href="#glossary-event-target">event target</a> within
+				a document.  Each element has different behavior when focused, depending on its functionality, such as priming the element for activation (as for a button or hyperlink)
+				or toggling state (as for a checkbox), receiving text input (as for a text form field), or copying selected text.  For more details, see <a href="#events-focusevent-doc-focus">
+				Document Focus and Focus Context</a>.</dd>
+
+			<dt id="glossary-event-focus-ring"><dfn>event focus ring</dfn></dt>
+			<dd>An event focus ring is an ordered set of <a class="def" href="#glossary-event-focus">event focus</a> targets within a document.  A <a class="def" href="#glossary-host-language">
+				host language</a> MAY define one or more ways to determine the order of targets, such as document order, a numerical index defined per focus target, explicit pointers
+				between focus targets, or a hybrid of different models.  Each document MAY contain multiple focus rings, or conditional focus rings.  Typically, for document-order
+				or indexed focus rings, focus <q>wraps around</q> from the last focus target to the first.</dd>
+
 			<dt id="glossary-event-handler"><dfn>event handler</dfn></dt>
 			<dt><dfn>event listener</dfn></dt>
 			<dd>An object that implements the <a href="#interface-EventListener"><code>EventListener</code></a> interface and provides an <a href="#widl-EventListener-handleEvent">
@@ -446,18 +458,6 @@
 				<code>load</code></a> event types. The event type is exposed as the <a href="#widl-Event-type"><code class="interface-attribute">Event.type</code></a>
 				attribute on the event object.  See <a href="#event-types">event types</a> for more details.  Also loosely referred to as <em>'event'</em>, such as the <em><a class="eventtype"
 				href="#event-type-click"><code>click</code></a> event</em>.</dd>
-
-			<dt id="glossary-event-focus"><dfn>focus</dfn></dt>
-			<dd>Focus is a special state of receptivity and concentration on an particular element or other <a class="def" href="#glossary-event-target">event target</a> within
-				a document.  Each element has different behavior when focused, depending on its functionality, such as priming the element for activation (as for a button or hyperlink)
-				or toggling state (as for a checkbox), receiving text input (as for a text form field), or copying selected text.  For more details, see <a href="#events-focusevent-doc-focus">
-				Document Focus and Focus Context</a>.</dd>
-
-			<dt id="glossary-event-focus-ring"><dfn>focus ring</dfn></dt>
-			<dd>A focus ring is an ordered set of <a class="def" href="#glossary-event-focus">focus</a> targets within a document.  A <a class="def" href="#glossary-host-language">
-				host language</a> MAY define one or more ways to determine the order of targets, such as document order, a numerical index defined per focus target, explicit pointers
-				between focus targets, or a hybrid of different models.  Each document MAY contain multiple focus rings, or conditional focus rings.  Typically, for document-order
-				or indexed focus rings, focus <q>wraps around</q> from the last focus target to the first.</dd>
 
 			<dt id="glossary-fire"><dfn>fire</dfn></dt>
 			<dd>A synonym for <a href="#glossary-dispatch">dispatch</a>.</dd>
@@ -592,7 +592,7 @@
 				Web browsers and other dynamic or interactive user agents</a> and <a href="#conf-author-tools">Authoring tools</a> for details on the requirements for a <em>conforming</em>
 				user agent.</dd>
 		</dl>
-	</section>
+	</section>  <!-- glossary -->
 
 	<!-- Section 3: Architecture ========================================================-->
 	<section id="dom-event-architecture">
@@ -608,11 +608,10 @@
 				is dispatched to an element in an XML document, the object propagates through parts of the document, as determined by the DOM event flow which is defined at the
 				end of this section.</p>
 
-			<div class="figure" style="text-align: center">
-				<object type="image/svg+xml" data="images/eventflow.svg" width="520" height="560">
-					<img src="images/eventflow.png" alt="Graphical representation of an event dispatched in a DOM tree using the DOM event flow" title="Graphical representation of an event dispatched in a DOM tree using the DOM event flow" />
-				</object>
-			</div>
+			<figure id="figure-dom-event-flow">
+				<img src='images/eventflow.svg' width="520" height="560">
+				<figcaption>Graphical representation of an event dispatched in a DOM tree using the DOM event flow</figcaption>
+			</figure>
 
 			<p>Event objects are dispatched to an <a class="def" href="#glossary-event-target">event target</a>. At the beginning
 				of the dispatch, implementations MUST first determine the event object's <a class="def" href="#glossary-propagation-path">propagation path</a>.</p>
@@ -809,7 +808,7 @@ console.log("Exceptions? No problem");</pre>
 				<div class="example-title"></div>
 				<p>During loading of a document, an inline script element is parsed and executed. The <a class="eventtype" href="#event-type-load">
 				<code>load</code></a> event is queued to be fired asynchronously at the script element. However, because it is an async event, its order with relation to other synchronous
-				events fired during document load (such as the <a class="eventtype"><code>DOMContentLoaded</code></a> event from <cite><a class="informative" href="#references-HTML5">HTML5</a></cite>) is not guaranteed.</p>
+				events fired during document load (such as the <code class="eventtype">DOMContentLoaded</code> event from <cite><a class="informative" href="#references-HTML5">HTML5</a></cite>) is not guaranteed.</p>
 			</div>
 
 			<section id="event-order-and-loops">
@@ -1008,11 +1007,10 @@ console.log("Exceptions? No problem");</pre>
 			they derive from.  Event types defined in other specifications MAY similarly inherit from these basic interfaces or other interfaces defined in this specification,
 			or MAY define their own interfaces.  The following chart describes the inheritance structure of interfaces defined in this specification.</p>
 
-		<div class="figure" style="text-align: center">
-			<object type="image/svg+xml" data="images/event-inheritance.svg" width="960" height="230">
-				<img src="images/event-inheritance.png" alt="Graphical representation of the DOM3 Events interface inheritance" />
-			</object>
-		</div>
+		<figure id="figure-event-inheritance">
+			<img src='images/event-inheritance.svg' width="960" height="230">
+			<figcaption>Graphical representation of the DOM3 Events interface inheritance</figcaption>
+		</figure>
 
 		<section id="interface-Event">
 			<h2>Interface Event</h2>
@@ -3013,9 +3011,10 @@ console.log("Exceptions? No problem");</pre>
 						Element C is a child of B, and B is a child of A in the DOM:
 						</p>
 
-					<div class="figure" style="text-align: center">
-						<img src="images/stacked-event-mouse-dispatch.png" alt="Graphical representation of three stacked elements all on top of each other. The bottom element is labeled A and the top element is C" title="Graphical representation of three stacked elements all on top of each other, with the pointing device moving over the stack." />
-					</div>
+					<figure id="figure-mouse-event-stacked-elements">
+						<img src='images/stacked-event-mouse-dispatch.png' width="382" height="211">
+						<figcaption>Graphical representation of three stacked elements all on top of each other, with the pointing device moving over the stack.</figcaption>
+					</figure>
 
 					<p>When the pointing device is moved from outside the element stack to the element labeled C and then moved
 						out again, the following series of events MUST occur:</p>
@@ -5462,11 +5461,10 @@ console.log("Exceptions? No problem");</pre>
 						match the keyboards or configurations of many users.  Content authors cannot rely upon any particular configuration, and are expected to create content in an internationalized
 						and localizable manner.</p>
 
-					<div id="figure-keyboard" class="figure" style="text-align: center">
-						<object type="image/svg+xml" data="images/ISOIEC-9995-3-FCD-2009A.svg" width="900" height="300">
-							<img src="images/ISOIEC-9995-3-FCD-2009A.png" alt="A graphical depiction of an ISO standard defining layouts of computer keyboards, ISO/IEC 9995, parts 2 and 3" />
-						</object>
-					</div>
+					<figure id="figure-keyboard">
+						<img src='images/ISOIEC-9995-3-FCD-2009A.svg' width="900" height="300">
+						<figcaption>A graphical depiction of an ISO standard defining layouts of computer keyboards, ISO/IEC 9995, parts 2 and 3.</figcaption>
+					</figure>
 				</section>
 
 				<section id="keyboard-mobile">
@@ -5481,11 +5479,10 @@ console.log("Exceptions? No problem");</pre>
 						or configurations of many users.  Content authors cannot rely upon any particular configuration, and are expected to create content in an internationalized and
 						localizable manner.</p>
 
-					<div id="figure-numberpad" class="figure" style="text-align:center">
-						<object type="image/svg+xml" data="images/ISOIEC-9995-8-2006.svg" width="180" height="240">
-							<img src="images/ISOIEC-9995-8-2006.png" alt="A graphical depiction of an ISO standard defining layouts of numeric keypads, with distribution of letters on the keys, ISO/IEC 9995-8:2006" />
-						</object>
-					</div>
+					<figure id="figure-numeric-keypad">
+						<img src='images/ISOIEC-9995-8-2006.svg' width="180" height="240">
+						<figcaption>A graphical depiction of an ISO standard defining layouts of numeric keypads, with distribution of letters on the keys, ISO/IEC 9995-8:2006.</figcaption>
+					</figure>
 				</section>
 
 				<section id="remote-control">
@@ -5498,11 +5495,10 @@ console.log("Exceptions? No problem");</pre>
 					<p>Because of the smaller form factor, keys (or buttons) on a remote control will often be modal, with one key performing different functions based on the context
 						of the on-screen content.  Additionally, many keys serve as toggles, to change back and forth between two or more states (see toggling keys).</p>
 
-					<div id="figure-remotecontrol" class="figure" style="text-align:center">
-						<object type="image/svg+xml" data="images/remote-control.svg" width="102" height="422">
-							<img src="images/remote-control.png" alt="A graphical depiction of a media remote control, with buttons mapped to specific keys values" />
-						</object>
-					</div>
+					<figure id="figure-media-remote-control">
+						<img src='images/remote-control.svg' width="102" height="422">
+						<figcaption>A graphical depiction of a media remote control, with buttons mapped to specific keys values.</figcaption>
+					</figure>
 
 				</section>
 
@@ -7098,7 +7094,7 @@ else {
 
 		</section>
 
-	</section>
+	</section>  <!-- keys -->
 
 	<!-- Appendix A: Initializing New Event Interfaces ========================================================-->
 	<section id="new-event-interface-initializers" class="appendix">
@@ -7633,7 +7629,7 @@ else {
 			</section>
 
 		</section>
-	</section>
+	</section>  <!-- new-event-interface-initializers -->
 
 	<!-- Appendix B: Legacy Key Attributes ========================================================-->
 	<section id="legacy-key-attributes">
@@ -7669,7 +7665,7 @@ else {
 				languages and layouts, <a class="def" href="#glossary-user-agent">user agents</a>, versions, and even event types.</p>
 
 			<dl>
-				<dt><strong>Interface <em><a id="events-KeyboardEvent-supplemental">KeyboardEvent (supplemental)</a></em></strong></dt>
+				<dt id="events-KeyboardEvent-supplemental"><strong>Interface <em>KeyboardEvent (supplemental)</em></strong></dt>
 				<dd>
 					<p class="intro-dom">Introduced in DOM Level 3</p>
 					
@@ -7833,9 +7829,9 @@ else {
 				</table>
 			</section>
 		</section>
-	</section>
+	</section>  <!-- legacy-key-attributes -->
 
-	<!-- Appendix C: Legacy Event Types ========================================================-->	
+	<!-- Appendix C: Legacy Event Types ========================================================-->
 	<section id="legacy-event-types">
 		<h1>Legacy Event Types</h1>
 		<p><em>This section is informative</em></p>
@@ -9143,21 +9139,21 @@ else {
 
 		</section>
 
-	</section>
-	
+	</section>  <!-- legacy-event-types -->
+
 	<!-- Appendix D: Extending Events ========================================================-->
-	<section id="extending_events">
+	<section id="extending-events">
 		<h1>Extending Events</h1>
 		<p><em>This section is informative</em></p>
 
-		<section id="extending_events-intro">
+		<section id="extending-events-intro">
 			<h2>Introduction</h2>
 			<p>This specification defines several interfaces and many events, however, this is not an exhaustive set of events for all purposes.  To allow content
 				authors and implementers to add desired functionality, this specification provides two mechanisms for extend this set of interfaces and events without creating
-				conflicts: <a href="#extending_events-Custom_Events">custom events</a> and <a href="#extending_events-Impl_Extensions">implementation-specific extensions</a>.</p>
+				conflicts: <a href="#extending-events-Custom_Events">custom events</a> and <a href="#extending-events-Impl_Extensions">implementation-specific extensions</a>.</p>
 		</section>
 
-		<section id="extending_events-Custom_Events">
+		<section id="extending-events-Custom_Events">
 			<h2>Custom Events</h2>
 			<p>A script author MAY wish to define an application in terms of functional components, with event types that are meaningful to the application architecture.  The
 				content author can use the <a href="#interface-CustomEvent"><code>CustomEvent</code></a> interface to create their own events appropriate to the level of abstraction
@@ -9179,7 +9175,7 @@ document.documentElement.dispatchEvent(evt);
 			</div>
 		</section>
 
-		<section id="extending_events-Impl_Extensions">
+		<section id="extending-events-Impl_Extensions">
 			<h2>Implementation-Specific Extensions</h2>
 			<p>While a new event is being designed and prototyped, or when an event is intended for implementation-specific functionality, it is desirable to distinguish it from
 				standardized events.  Implementors SHOULD prefix event types specific to their implementations with a short string to distinguish it from the same event in other
@@ -9189,23 +9185,23 @@ document.documentElement.dispatchEvent(evt);
 
 			<div class="example">
 				<div class="example-title"></div>
-				<p>A particular browser vendor, <q>FooCorp</q>, might wish to introduce a new event, <a class="eventtype"><code>jump</code></a>.  This vendor implements
-					<a class="eventtype"><code>fooJump</code></a> in their browser, using their vendor-specific prefix, <code>'foo'</code>.  Early adopters start experimenting with the event,
-					using <code>someElement.addEventListener("fooJump", doJump, false )</code>, and provide feedback to FooCorp, who change the behavior of <a class="eventtype"><code>fooJump</code></a>
+				<p>A particular browser vendor, <q>FooCorp</q>, might wish to introduce a new event, <code class="eventtype">jump</code>.  This vendor implements
+					<code class="eventtype">fooJump</code> in their browser, using their vendor-specific prefix, <code>'foo'</code>.  Early adopters start experimenting with the event,
+					using <code>someElement.addEventListener("fooJump", doJump, false )</code>, and provide feedback to FooCorp, who change the behavior of <code class="eventtype">fooJump</code>
 					accordingly.</p>
 
 				<p>After some time, another vendor, <q>BarOrg</q>, decides they also want the functionality, but implement it slightly differently, so they use their own vendor-specific
-					prefix, <code>"bar"</code> in their event type name, <a class="eventtype"><code>barJump</code></a>.  Content authors experimenting with this version of the
-					<a class="eventtype"><code>jump</code></a> event type register events with BarOrg's event type name.  Content authors who wish to write code that accounts for both browsers
+					prefix, <code>"bar"</code> in their event type name, <code class="eventtype">barJump</code>.  Content authors experimenting with this version of the
+					<code class="eventtype">jump</code> event type register events with BarOrg's event type name.  Content authors who wish to write code that accounts for both browsers
 					can either register each event type separately with specific handlers, or use the same handler and switch on the name of the event type. Thus, early experiments in different
 					codebases do not conflict, and the early adopter is able to write easily-maintained code for multiple implementations.</p>
 
 				<p>Eventually, as the feature matures, the behavior of both browsers stabilize and might converge due to content author and user feedback or through formal standardization.
-					As this stabilization occurs, and risk of conflicts decrease, content authors can remove the forked code, and use the <a class="eventtype"><code>jump</code></a> event type name (even
+					As this stabilization occurs, and risk of conflicts decrease, content authors can remove the forked code, and use the <code class="eventtype">jump</code> event type name (even
 					before it is formally standardized) using the same event handler and the more generic registration method <code>someElement.addEventListener( "jump", doJump, false)</code>.</p>
 			</div>
 
-			<section id="extending_events-prefixes">
+			<section id="extending-events-prefixes">
 				<h3>Known Implementation-Specific Prefixes</h3>
 				<p>At the time of writing, the following event-type name prefixes are known to exist:</p>
 				<table border="1" cellpadding="2" cellspacing="0" summary="Known event-type name prefixes">
@@ -9236,10 +9232,10 @@ document.documentElement.dispatchEvent(evt);
 				</table>
 			</section>
 		</section>
-	</section>
+	</section>  <!-- extending-events -->
 
 	<!-- Appendix E: Security Considerations ========================================================-->
-	<section id="security-considerations-Security">
+	<section id="security-considerations">
 		<h1>Security Considerations</h1>
 
 		<p>This appendix discusses security considerations for DOM Level 3 Events implementations. The discussion is limited to security issues that arise directly
@@ -9263,10 +9259,10 @@ document.documentElement.dispatchEvent(evt);
 			support such attacks apply. For conformance with this specification, DOM implementations MAY take reasonable steps to ensure that <a class="def" href="#glossary-DOM-application">
 			DOM applications</a> do not get access to confidential or sensitive information, for example, they might choose to dispatch no <a class="eventtype"><code>load</code></a>
 			events to nodes that attempt to embed resources on the local network.</p>
-	</section>
+	</section>  <!-- security-considerations -->
 
 	<!-- Appendix F: Changes ========================================================-->
-	<section id="changes-Changes">
+	<section id="changes-from-earlier-versions">
 		<h1>Changes</h1>
 
 		<section id="changes-DOMEvents2to3Changes">
@@ -9374,7 +9370,7 @@ document.documentElement.dispatchEvent(evt);
 				<li>EventException has been removed.</li>
 			</ul>
 		</section>
-	</section>
+	</section>  <!-- changes-from-earlier-versions -->
 
 	<!-- Appendix G: Acknowledgements ========================================================-->
 	<section id="acknowledgements-contributors">
@@ -9433,7 +9429,7 @@ document.documentElement.dispatchEvent(evt);
 	</section>
 
 	<!-- Appendix H: References ========================================================-->
-	<section id="references-role-references">
+	<section id="references">
 		<h1>References</h1>
 
 		<p>For the latest version of any W3C specification please consult the list of <a class="normative" href="http://www.w3.org/TR/">W3C Technical Reports</a>
@@ -9443,37 +9439,37 @@ document.documentElement.dispatchEvent(evt);
 			<h2>Normative References</h2>
 
 			<dl>
-				<dt><strong>[<a id="ref-BCP-47">BCP-47</a>]</strong> Best Current Practice 47: Tags for Identifying Languages</dt>
+				<dt id="ref-BCP-47"><strong>[BCP-47]</strong> Best Current Practice 47: Tags for Identifying Languages</dt>
 				<dd>A. Phillips, M. Davis, Editors, September 2009. The specification for describing the structure, content, construction, and semantics of language tags to indicate
 					the human language used. Available at <a href="http://www.rfc-editor.org/rfc/bcp/bcp47.txt">http://www.rfc-editor.org/rfc/bcp/bcp47.txt</a></dd>
 
-				<dt><strong>[<a id="references-charmod">CharMod</a>]</strong></dt>
+				<dt id="references-charmod"><strong>[CharMod]</strong></dt>
 				<dd><cite><a href="http://www.w3.org/TR/2005/REC-charmod-20050215/">Character Model for the World Wide Web 1.0: Fundamentals</a></cite>, M. D&#xFC;rst, F. Yergeau,
 					R. Ishida, M. Wolf, T. Texin, Editors. World Wide Web Consortium, 15 February 2005. This version of the Character Model for the World Wide Web 1.0: Fundamentals
 					specification is http://www.w3.org/TR/2005/REC-charmod-20050215/. The <a class="normative" href="http://www.w3.org/TR/charmod/">latest version of Character Model for
 					the World Wide Web 1.0: Fundamentals</a> is available at http://www.w3.org/TR/charmod/. </dd>
 
-				<dt><strong>[<a id="references-DOMCore">DOM3 Core</a>]</strong></dt>
+				<dt id="references-DOMCore"><strong>[DOM3 Core]</strong></dt>
 				<dd><cite><a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/">Document Object Model Level 3 Core Specification</a></cite>, A. Le Hors, et al., Editors.
 					World Wide Web Consortium, April 2004. This version of the Document Object Model Level 3 Core Specification is http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/.
 					The <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/">latest version of DOM Level 3 Core</a> is available at http://www.w3.org/TR/DOM-Level-3-Core/. </dd>
 
-				<dt><strong>[<a id="references-DOM2Events">DOM2 Events</a>]</strong></dt>
+				<dt id="references-DOM2Events"><strong>[DOM2 Events]</strong></dt>
 				<dd><cite><a href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Events-20001113/">Document Object Model Level 2 Events Specification</a></cite>, T. Pixley, Editor. World
 					Wide Web Consortium, November 2000. This version of the Document Object Model Level 2 Events Specification is http://www.w3.org/TR/2000/REC-DOM-Level-2-Events-20001113.
 					The <a class="normative" href="http://www.w3.org/TR/DOM-Level-2-Events/">latest version of Document Object Model Level 2 Events</a> is available
 					at http://www.w3.org/TR/DOM-Level-2-Events/. </dd>
 
-				<dt><strong>[<a id="references-ECMAScript">ECMAScript</a>]</strong></dt>
+				<dt id="references-ECMAScript"><strong>[ECMAScript]</strong></dt>
 				<dd><cite><a href="http://ecma-international.org/ecma-262/5.1/">ECMAScript Language Specification</a></cite>, 5.1 Edition. European Computer Manufacturers Association,
 					Standard ECMA-262, June 2011. This version of the ECMAScript Language is available from http://ecma-international.org/ecma-262/5.1/. </dd>
 
-				<dt><strong>[<a id="references-HTML5">HTML5</a>]</strong></dt>
+				<dt id="references-HTML5"><strong>[HTML5]</strong></dt>
 				<dd><cite class="w3cwd"><a href="http://www.w3.org/TR/2012/WD-html5-20120329/">HTML 5</a></cite>, I. Hickson, editor. World Wide Web Consortium, <span class="wip">work
 					in progress</span>, 29 March 2012. This edition of HTML 5 is http://www.w3.org/TR/2012/WD-html5-20120329/. The <a href="http://www.w3.org/TR/html5/">latest edition of
 					HTML 5</a> is available at http://www.w3.org/TR/html5/. </dd>
 
-				<dt><strong>[<a id="references-Java">Java</a>]</strong></dt>
+				<dt id="references-Java"><strong>[Java]</strong></dt>
 				<dd><cite><a href="http://www.oracle.com/technetwork/java/index.html">The Java Language Specification</a></cite>, J. Gosling, B. Joy, and G. Steele, Authors. Addison-Wesley, September
 					1996. Available at http://java.sun.com/docs/books/jls </dd>
 
@@ -9482,27 +9478,27 @@ document.documentElement.dispatchEvent(evt);
 				<dd>S Bradner, 1997. The specification for how to use English to specify normativity, as if it were a technical language. Available at <a href="http://www.ietf.org/rfc/rfc2119.txt">
 					http://www.ietf.org/rfc/rfc2119.txt </a></dd>
 
-				<dt><strong>[<a id="references-UnicodeNormalization">UAX #15</a>]</strong></dt>
+				<dt id="references-UnicodeNormalization"><strong>[UAX #15]</strong></dt>
 				<dd><cite><a href="http://www.unicode.org/reports/tr15/">Unicode Normalization Forms</a></cite>, The Unicode Standard Annex #15. The Unicode Consortium, 2006. The
 					latest version of this annex is available at http://www.unicode.org/reports/tr15/.</dd>
 
-				<dt><strong>[<a id="references-UIEvents">UIEvents</a>]</strong></dt>
+				<dt id="references-UIEvents"><strong>[UIEvents]</strong></dt>
 				<dd><cite><a href="https://dvcs.w3.org/hg/d4e/raw-file/tip/source_respec.htm">UI Events</a></cite>,
 					G. Kacmarcik, T. Leithead, eds. World Wide Web Consortium,
 					<span class="wip">Editor's Draft</span>, 5 May 2013.
 				</dd>
 
-				<dt><strong>[<a id="references-Unicode">Unicode</a>]</strong></dt>
+				<dt id="references-Unicode"><strong>[Unicode]</strong></dt>
 				<dd><cite>The Unicode Standard, Version 5.0</cite>, ISBN 0-321-48091-0, as updated periodically by the publication of new versions. See also <a class="normative"
 					href="http://www.unicode.org/standard/versions/">Versions of the Unicode Standard</a>, available at http://www.unicode.org/standard/versions/ for
 					latest version and additional information on versions of the standard and of the Unicode Character Database.</dd>
 
-				<dt><strong>[<a id="references-WebIDL">WEB IDL</a>]</strong></dt>
+				<dt id="references-WebIDL"><strong>[WEB IDL]</strong></dt>
 				<dd><cite><a href="http://www.w3.org/TR/WebIDL/">Web IDL</a></cite>, C. McCormack. 19 April 2012. This version of the Web IDL Candidate Recommendation is:
 					http://www.w3.org/TR/2012/CR-WebIDL-20120419/. The <a href="http://dev.w3.org/2006/webapi/WebIDL/">latest version of Web IDL</a> is available at
 					http://dev.w3.org/2006/webapi/WebIDL/. </dd>
 
-				<dt><strong>[<a id="references-Namespaces10">XML Namespaces 1.0</a>]</strong></dt>
+				<dt id="references-Namespaces10"><strong>[XML Namespaces 1.0]</strong></dt>
 				<dd><cite><a href="http://www.w3.org/TR/2006/REC-xml-names-20060816/">Namespaces in XML 1.0</a></cite>, T. Bray, D. Hollander, A. Layman, and R. Tobin, Editors. World
 					Wide Web Consortium, 16 August 2006. This version of the Namespaces in XML 1.0 Specification is http://www.w3.org/TR/2006/REC-xml-names-20060816. The <a class="normative"
 					href="http://www.w3.org/TR/xml-names/">latest version of Namespaces in XML 1.0</a> is available at http://www.w3.org/TR/xml-names/.</dd>
@@ -9512,102 +9508,102 @@ document.documentElement.dispatchEvent(evt);
 		<section id="references-References-Informative">
 			<h2>Informative References</h2>
 			<dl>
-				<dt><strong>[<a id="ref-ARIA">ARIA</a>]</strong></dt>
+				<dt id="ref-ARIA"><strong>[ARIA]</strong></dt>
 				<dd><cite class="w3cwd"><a href="http://www.w3.org/TR/2009/WD-wai-aria-20091215/">Accessible Rich Internet Applications (WAI-ARIA) Version 1.0</a></cite>, J. Craig, M. Cooper,
 					R. Schwerdtfeger, L. Seeman, L. Pappas, eds. World Wide Web Consortium, 18 January 2011. This version of the WAI-ARIA Candidate Recommendation is
 					http://www.w3.org/TR/2011/CR-wai-aria-20110118/. The <a href="http://www.w3.org/TR/wai-aria/">latest edition of WAI-ARIA</a> is available at http://www.w3.org/TR/wai-aria/. </dd>
 
-				<dt><strong>[<a id="ref-xforms">XFORMS</a>]</strong></dt>
+				<dt id="ref-xforms"><strong>[XFORMS]</strong></dt>
 				<dd><cite class="w3crec"><a href="http://www.w3.org/TR/2009/REC-xforms-20091020/">XForms 1.1</a></cite>, J. Boyer, ed. World Wide Web Consortium, <span class="wip">work
 					in progress</span>, 20 October 2009. This edition of XForms 1.1 is http://www.w3.org/TR/2009/REC-xforms-20091020/. The <a href="http://www.w3.org/TR/xforms/">latest
 					edition of XForms</a> is available at http://www.w3.org/TR/xforms/. </dd>
 
-				<dt><strong>[<a id="references-CSS2">CSS2.1</a>]</strong></dt>
+				<dt id="references-CSS2"><strong>[CSS2.1]</strong></dt>
 				<dd><cite><a href="http://www.w3.org/TR/2011/REC-CSS2-20110607/">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a></cite>, B. Bos, T. &#xC7;elik,
 					I. Hickson, H.W. Lie, Editors. World Wide Web Consortium, 07 June 2011, This version of the CSS 2.1 Recommendation is http://www.w3.org/TR/2011/REC-CSS2-20110607/.
 					The <a class="normative" href="http://www.w3.org/TR/CSS2/">latest version of CSS 2.1</a> is available at http://www.w3.org/TR/CSS2/. </dd>
 
-				<dt><strong>[<a id="references-DASE">DASE</a>]</strong></dt>
+				<dt id="references-DASE"><strong>[DASE]</strong></dt>
 				<dd><cite><a href="http://www.atsc.org/cms/standards/a100/a_100_2.pdf">ATSC A/100-2, DTV Application Software Environment Level 1 (DASE-1) Part 2: Declarative Applications
 					and Environment</a></cite>.  Advanced Television Systems Committee, 09 March 2003. Available at <a href="http://www.atsc.org/cms/standards/a100/a_100_2.pdf">
 					http://www.atsc.org/cms/standards/a100/a_100_2.pdf </a>.</dd>
 
-				<dt><strong>[<a id="references-DOMLS">DOM3 Load and Save</a>]</strong></dt>
+				<dt id="references-DOMLS"><strong>[<aDOM3 Load and Save]</strong></dt>
 				<dd><cite><a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-LS-20040407/">Document Object Model Level 3 Load and Save Specification</a></cite>, J. Stenback, A. Heninger,
 					Editors. World Wide Web Consortium, April 2004. This version of the DOM Level 3 Load and Save Specification is http://www.w3.org/TR/2004/REC-DOM-Level-3-LS-20040407/.
 					The <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-LS/">latest version of DOM Level 3 Load and Save</a> is available at http://www.w3.org/TR/DOM-Level-3-LS/. </dd>
 
-				<dt><strong>[<a id="references-DOMRange">DOM2 Range</a>]</strong></dt>
+				<dt id="references-DOMRange"><strong>[DOM2 Range]</strong></dt>
 				<dd><cite><a href="http://www.w3.org/TR/DOM-Level-2-Traversal-Range/">Document Object Model (DOM) Level 2 Traversal and Range Specification</a></cite>, J. Kesselman,
 					J. Robie, M. Champion, P. Sharpe, V. Apparao, L. Wood, Editors. World Wide Web Consortium, November 2000.</dd>
 
-				<dt><strong>[<a id="references-DOM4">DOM4</a>]</strong></dt>
+				<dt id="references-DOM4"><strong>[DOM4]</strong></dt>
 				<dd><cite><a href="http://www.w3.org/TR/dom/">DOM4</a></cite>, A. van Kesteren, A. Gregor, Ms2ger, Editors. World Wide Web Consortium, <span class="wip">Working Draft</span>,
 					5 April 2012. </dd>
 
-				<dt><strong>[<a id="references-DWW95">DWW95</a>]</strong></dt>
+				<dt id="references-DWW95"><strong>[DWW95]</strong></dt>
 				<dd><cite>Developing International Software for Windows 95 and Windows NT: A Handbook for International Software Design</cite>, N. Kano, Author. Microsoft Press, 1995.
 					ISBN 1-55615-840-8.</dd>
 
-				<dt><strong>[<a id="references-HTML40">HTML 4.01</a>]</strong></dt>
+				<dt id="references-HTML40"><strong>[HTML 4.01]</strong></dt>
 				<dd><cite><a href="http://www.w3.org/TR/1999/REC-html401-19991224/">HTML 4.01 Specification</a></cite>, D. Raggett, A. Le Hors, and I. Jacobs, Editors. World Wide
 					Web Consortium, December 1999. This version of the HTML 4.01 Recommendation is http://www.w3.org/TR/1999/REC-html401-19991224. The <a class="normative" href="http://www.w3.org/TR/html4/">
 					latest version of HTML 4</a> is available at http://www.w3.org/TR/html4/. </dd>
 
-				<dt><strong>[<a id="references-HTMLEd">HTML Editing</a>]</strong></dt>
+				<dt id="references-HTMLEd"><strong>[HTML Editing]</strong></dt>
 				<dd><cite><a href="https://dvcs.w3.org/hg/editing/raw-file/tip/editing.html">HTML Editing APIs</a></cite>, A. Gregor, Editor. World Wide Web Consortium, <span class="wip">
 					work in progress</span>, 12 March 2012. </dd>
 
-				<dt><strong>[<a id="references-ISO-9995-2-3">ISO9995-2/3</a>]</strong></dt>
+				<dt id="references-ISO-9995-2-3"><strong>[ISO9995-2/3]</strong></dt>
 				<dd><cite><a href="http://www.iso.org/iso/search.htm?qt=9995&amp;published=on">ISO/IEC 9995, Information technology -- Keyboard layouts for text and office systems -- Part 2:
 					Alphanumeric Section and Part 3: Complementary layouts of the alphanumeric zone of the alphanumeric section.</a></cite></dd>
 
-				<dt><strong>[<a id="references-ISO-9995-8">ISO9995-8</a>]</strong></dt>
+				<dt id="references-ISO-9995-8"><strong>[ISO9995-8]</strong></dt>
 				<dd><cite><a href="http://www.iso.org/iso/search.htm?qt=9995&amp;published=on">ISO/IEC 9995-8:2006, Information technology -- Keyboard layouts for text and office systems --
 					Part 8: Allocation of letters to the keys of a numeric keypad.</a></cite></dd>
 
-				<dt><strong>[<a id="references-KeyEvent">KeyEvent for Java</a>]</strong></dt>
+				<dt id="references-KeyEvent"><strong>[KeyEvent for Java]</strong></dt>
 				<dd><cite><a href="http://docs.oracle.com/javase/6/docs/api/java/awt/event/KeyEvent.html">Java&#x2122; Platform, Standard Edition 6 API Specification, Class java.awt.events.KeyEvent</a></cite>.
 					Oracle. Available at http://docs.oracle.com/javase/6/docs/api/java/awt/event/KeyEvent.html. </dd>
 
-				<dt><strong>[<a id="references-Keys">Keys enumeration for .Net</a>]</strong></dt>
+				<dt id="references-Keys"><strong>[Keys enumeration for .Net]</strong></dt>
 				<dd><cite><a href="http://msdn.microsoft.com/en-us/library/system.windows.forms.keys.aspx">.NET Framework 4.5 Class Library, Keys Enumeration</a></cite>.
 					Microsoft. Available at http://msdn.microsoft.com/en-us/library/system.windows.forms.keys.aspx.</dd>
 
-				<dt><strong>[<a id="references-KeyProps">KeyProps</a>]</strong></dt>
+				<dt id="references-KeyProps"><strong>[KeyProps]</strong></dt>
 				<dd><cite class="w3cwd"><a href="https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/Note-KeyProps.html">Legacy Keyboard Event Properties</a></cite>, D. Schepers, editor.
 					World Wide Web Consortium, <span class="wip">work in progress</span>, 04 August 2010. This edition of Legacy Keyboard Event Properties is
 					https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/Note-KeyProps.html.
 					The <a href="https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/Note-KeyProps.html">latest edition
 					of Legacy Keyboard Event Properties</a> is available at https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/Note-KeyProps.html. </dd>
 
-				<dt><strong>[<a id="references-OCAP">OCAP</a>]</strong></dt>
+				<dt id="references-OCAP"><strong>[OCAP]</strong></dt>
 				<dd><cite><a href="http://www.cablelabs.com/specifications/OC-SP-OCAP1.1.3-100603.pdf">Open Cable Application Platform 1.1.3</a></cite>.  Cable Television Laboratories,
 					Inc., 03 June 2010. Available at <a href="http://www.cablelabs.com/specifications/OC-SP-OCAP1.1.3-100603.pdf">http://www.cablelabs.com/specifications/OC-SP-OCAP1.1.3-100603.pdf</a>.</dd>
 
-				<dt><strong>[<a id="references-pcre">PCRE</a>]</strong></dt>
+				<dt id="references-pcre"><strong>[PCRE]</strong></dt>
 				<dd><cite><a href="http://www.pcre.org/">Perl Compatible Regular Expressions library</a></cite>.  Available at http://www.pcre.org/. </dd>
 
-				<dt><strong>[<a id="ref-rfc20">RFC20</a>]</strong> ASCII format for Network Interchange</dt>
+				<dt id="ref-rfc20"><strong>[RFC20]</strong> ASCII format for Network Interchange</dt>
 				<dd>V. Cerf, 1969. Available at <a href="http://tools.ietf.org/rfc/rfc20.txt">http://tools.ietf.org/rfc/rfc20.txt</a></dd>
 
-				<dt><strong>[<a id="ref-US-ASCII">US-ASCII</a>]</strong> Coded Character Set - 7-Bit American Standard Code for Information Interchange</dt>
+				<dt id="ref-US-ASCII"><strong>[US-ASCII]</strong> Coded Character Set - 7-Bit American Standard Code for Information Interchange</dt>
 				<dd>Standard ANSI X3.4-1986, ANSI, 1986.</dd>
 
-				<dt><strong>[<a id="references-UAAG2">UAAG 2.0</a>]</strong></dt>
+				<dt id="references-UAAG2"><strong>[UAAG 2.0]</strong></dt>
 				<dd><cite><a href="http://www.w3.org/WAI/UA/2010/ED-UAAG20-20100308/">User Agent Accessibility Guidelines (UAAG) 2.0</a></cite>, J. Allan, K. Ford, J. Richards, J. Spellman, editors.
 					World Wide Web Consortium, <span class="wip">work in progress</span>, 8 March 2010. This version of the UAAG 2.0 specfication is http://www.w3.org/WAI/UA/2010/ED-UAAG20-20100308/.
 					The <a class="normative" href="http://www.w3.org/TR/UAAG20/">latest version of UAAG 2.0</a> is available at http://www.w3.org/TR/UAAG20/. </dd>
 
-				<dt><strong>[<a id="references-WEB4CE">WEB4CE</a>]</strong></dt>
+				<dt id="references-WEB4CE"><strong>[WEB4CE]</strong></dt>
 				<dd><cite><a href="http://www.ce.org/Standards/Standard-Listings/R7-Home-Network-Committee/CEA-2014-B-(ANSI%29.aspx">ANSI/CEA-2014-B, Web-based Protocol and Framework for Remote User Interface on UPnPTM Networks
 					and the Internet (Web4CE)</a></cite>. Consumer Electronics Association, January 2011. Available at <a href="http://www.ce.org/Standards/Standard-Listings/R7-Home-Network-Committee/CEA-2014-B-(ANSI).aspx">
 						http://www.ce.org/Standards/Standard-Listings/R7-Home-Network-Committee/CEA-2014-B-(ANSI%29.aspx </a>.</dd>
 
-				<dt><strong>[<a id="ref-WIN1252">WIN1252</a>]</strong></dt>
+				<dt id="ref-WIN1252"><strong>[WIN1252]</strong></dt>
 				<dd><a href="http://www.microsoft.com/globaldev/reference/sbcs/1252.htm">Windows 1252</a> a Coded Character Set - 8-Bit. Microsoft Corporation.</dd>
 
-				<dt><strong>[<a id="references-XML">XML 1.0</a>]</strong></dt>
+				<dt id="references-XML"><strong>[XML 1.0]</strong></dt>
 				<dd><cite><a href="http://www.w3.org/TR/2006/REC-xml-20060816/">Extensible Markup Language (XML) 1.0</a></cite>, T. Bray, J. Paoli, C. M. Sperberg-McQueen, et. al,
 					Editors. World Wide Web Consortium, August 2006. This version of the XML 1.0 Recommendation is http://www.w3.org/TR/2006/REC-xml-20060816/. The <a class="normative"
 					href="http://www.w3.org/TR/xml/">latest version of XML 1.0</a> is available at http://www.w3.org/TR/xml/. </dd>
