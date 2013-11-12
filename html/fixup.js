@@ -24,8 +24,8 @@ bad_ids = [
 	["widl-CustomEvent-initCustomEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-any-detailArg"],
 	["widl-FocusEvent-initFocusEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg-EventTarget-relatedTargetArg"],
 	["widl-WheelEvent-initWheelEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg-long-screenXArg-long-screenYArg-long-clientXArg-long-clientYArg-unsigned-short-buttonArg-EventTarget-relatedTargetArg-DOMString-modifiersListArg-double-deltaXArg-double-deltaYArg-double-deltaZArg-unsigned-long-deltaMode"],
-	["widl-KeyboardEvent-initKeyboardEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg-DOMString-keyArg-unsigned-long-locationArg-DOMString-modifiersListArg-boolean-repeat-DOMString-localeArg"],
-	["widl-CompositionEvent-initCompositionEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-AbstractView-viewArg-DOMString-dataArg-DOMString-localeArg"],
+	["widl-KeyboardEvent-initKeyboardEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg-DOMString-keyArg-unsigned-long-locationArg-DOMString-modifiersListArg-boolean-repeat"],
+	["widl-CompositionEvent-initCompositionEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-AbstractView-viewArg-DOMString-dataArg"],
 ];
  
 function fixup_ids() {
