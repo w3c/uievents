@@ -7636,33 +7636,50 @@ else {
 		<h1>Legacy Key Attributes</h1>
 		<p><em>This section is informative</em></p>
 
-		<p>This section provides a non-normative description of the attributes that are currently used when handling keyboard events.</p>
+		<p>This section provides a non-normative description of the attributes that are currently used when
+			handling keyboard events.
+			</p>
 
-		<p>These features were never formally specified and the current browser implementations vary in significant ways.
-			The large amount of legacy content, including script libraries, that relies upon detecting the <a class="def" href="#glossary-user-agent">user agent</a>
-			and acting accordingly means that any attempt to formalize these legacy attributes and events would risk breaking as much content as it would fix or enable.
-			Additionally, these attributes are not suitable for international usage, nor do they address accessibility concerns.</p>
+		<p>These features were never formally specified and the current browser implementations vary in
+			significant ways.
+			The large amount of legacy content, including script libraries, that relies upon detecting the
+			<a class="def" href="#glossary-user-agent">user agent</a> and acting accordingly means that any
+			attempt to formalize these legacy attributes and events would risk breaking as much content as
+			it would fix or enable.
+			Additionally, these attributes are not suitable for international usage, nor do they address
+			accessibility concerns.
+			</p>
 
-		<p>Therefore, this specification does not normatively define the events and attributes commonly employed for handling keyboard input,
-			though they MAY be present in <a class="def" href="#glossary-user-agent">user agents</a> for compatibility with legacy content.
-			Authors SHOULD use the <a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attribute instead of the <code class="attribute-name">charCode</code>
-			and <code class="attribute-name">keyCode</code> attributes.</p>
+		<p>Therefore, this specification does not normatively define the events and attributes commonly employed
+			for handling keyboard input, though they MAY be present in
+			<a class="def" href="#glossary-user-agent">user agents</a> for compatibility with legacy content.
+			Authors SHOULD use the <a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attribute
+			instead of the <code class="attribute-name">charCode</code>
+			and <code class="attribute-name">keyCode</code> attributes.
+			</p>
 
-		<p>However, for the purpose of documenting the current state of these features and their relation to normative events and attributes, this section provides an
-			informative description.
-			For implementations which do support these attributes and events, it is suggested that the definitions provided in this section be used.</p>
+		<p>However, for the purpose of documenting the current state of these features and their relation to
+			normative events and attributes, this section provides an informative description.
+			For implementations which do support these attributes and events, it is suggested that the definitions
+			provided in this section be used.
+			</p>
 
 		<section id="KeyboardEvent-supplemental-interface">
 			<h2>Legacy <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> supplemental interface</h2>
 			<p><em>This section is informative</em></p>
 			
-			<p>Browser support for keyboards has traditionally relied on three ad-hoc attributes, <code class="attribute-name">keyCode</code>, <code class="attribute-name">charCode</code>,
+			<p>Browser support for keyboards has traditionally relied on three ad-hoc attributes,
+				<code class="attribute-name">keyCode</code>, <code class="attribute-name">charCode</code>,
 				and <code class="attribute-name">which</code>.</p>
 
-			<p>All three of these attributes return a numerical code that represents some aspect of the key pressed: <code class="attribute-name">keyCode</code> is an index of
-				the key itself. <code class="attribute-name">charCode</code> is the ASCII value of the character keys. <code class="attribute-name">which</code> is the character
-				value where available and otherwise the key index.  The values for these attributes, and the availability of the attribute, is inconsistent across platforms, keyboard
-				languages and layouts, <a class="def" href="#glossary-user-agent">user agents</a>, versions, and even event types.</p>
+			<p>All three of these attributes return a numerical code that represents some aspect of the key pressed:
+				<code class="attribute-name">keyCode</code> is an index of the key itself.
+				<code class="attribute-name">charCode</code> is the ASCII value of the character keys.
+				<code class="attribute-name">which</code> is the character value where available and otherwise the key index.
+				The values for these attributes, and the availability of the attribute, is inconsistent across
+				platforms, keyboard languages and layouts, <a class="def" href="#glossary-user-agent">user agents</a>,
+				versions, and even event types.
+				</p>
 
 			<dl>
 				<dt id="events-KeyboardEvent-supplemental"><strong>Interface <em>KeyboardEvent (supplemental)</em></strong></dt>
@@ -7691,27 +7708,44 @@ else {
 
 						<dt>readonly attribute unsigned long charCode</dt>
 						<dd>
-							<p><code class="attribute-name">charCode</code> holds a character value, for <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> events which
-								generate character input.  The value is the Unicode reference number (code point) of that character (e.g. <code>event.charCode = event.char.charCodeAt(0)</code>).
-								For <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> or  <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events, the
-								value of <code class="attribute-name">charCode</code> is <code>0</code>.</p>
+							<p><code class="attribute-name">charCode</code> holds a character value, for
+								<a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> events which
+								generate character input.
+								The value is the Unicode reference number (code point) of that character (e.g.
+								<code>event.charCode = event.char.charCodeAt(0)</code>).
+								For <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> or
+								<a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events, the
+								value of <code class="attribute-name">charCode</code> is <code>0</code>.
+								</p>
 						</dd>
 
 						<dt>readonly attribute unsigned long keyCode</dt>
 						<dd>
-							<p><code class="attribute-name">keyCode</code> holds a system- and implementation-dependent numerical code signifying the unmodified identifier associated with the
-								key pressed. Unlike the <a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>
-								attribute, the set of possible values are not normatively defined in this specification. Typically, these value of the <code class="attribute-name">keyCode</code>
-								SHOULD represent the decimal codepoint in ASCII [<a href="#ref-rfc20">RFC20</a>][<a href="#ref-US-ASCII">US-ASCII</a>] or Windows 1252 [<a href="#ref-WIN1252">WIN1252</a>],
-								but MAY be drawn from a different appropriate character set. Implementations that are unable to identify a key use the key value <code class="key">'0'</code>.</p>
+							<p><code class="attribute-name">keyCode</code> holds a system- and implementation-dependent
+								numerical code signifying the unmodified identifier associated with the key pressed.
+								Unlike the <a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>
+								attribute, the set of possible values are not normatively defined in this specification.
+								Typically, these value of the <code class="attribute-name">keyCode</code>
+								SHOULD represent the decimal codepoint in
+								ASCII [<a href="#ref-rfc20">RFC20</a>][<a href="#ref-US-ASCII">US-ASCII</a>]
+								or Windows 1252 [<a href="#ref-WIN1252">WIN1252</a>],
+								but MAY be drawn from a different appropriate character set.
+								Implementations that are unable to identify a key use the key value
+								<code class="key">'0'</code>.
+								</p>
 
-							<p>See <a href="#legacy-key-models">Legacy key models</a> for more details on how to determine the values for <code class="attribute-name">keyCode</code>.</p>
+							<p>See <a href="#legacy-key-models">Legacy key models</a> for more details on how to
+								determine the values for <code class="attribute-name">keyCode</code>.
+								</p>
 						</dd>
 
 						<dt>readonly attribute unsigned long which</dt>
 						<dd>
-							<p><code>which</code> holds a system- and implementation-dependent numerical code signifying the unmodified identifier associated with the key pressed.  In most cases,
-								the value is identical to <code class="attribute-name"><a href="#widl-KeyboardEvent-keyCode">keyCode</a></code>.</p>
+							<p><code>which</code> holds a system- and implementation-dependent numerical code
+								signifying the unmodified identifier associated with the key pressed.
+								In most cases, the value is identical to
+								<code class="attribute-name"><a href="#widl-KeyboardEvent-keyCode">keyCode</a></code>.
+								</p>
 						</dd>
 					</dl>
 
@@ -7723,26 +7757,37 @@ else {
 			<h2>Legacy key models</h2>
 			<p><em>This section is informative</em></p>
 
-			<p>Implementations differ on which values are exposed on these attributes for different event types.  An implementation MAY choose to expose both virtual key codes
-				and character codes in the <code class="attribute-name">keyCode</code> property (<em>conflated model</em>), or report separate <code class="attribute-name">keyCode</code>
-				and <code class="attribute-name">charCode</code> properties (<em>split model</em>).</p>
+			<p>Implementations differ on which values are exposed on these attributes for different event types.
+				An implementation MAY choose to expose both virtual key codes and character codes in the
+				<code class="attribute-name">keyCode</code> property (<em>conflated model</em>), or report
+				separate <code class="attribute-name">keyCode</code> and <code class="attribute-name">charCode</code>
+				properties (<em>split model</em>).
+				</p>
 
 			<section id="determine-keydown-keyup-keyCode">
-				<h3>How to determine <code class="attribute-name">keyCode</code> for <code>keydown</code>
-				and <code>keyup</code> events</h3>
+				<h3>How to determine <code class="attribute-name">keyCode</code> for <code>keydown</code> and <code>keyup</code> events</h3>
 
-				<p>The <code class="attribute-name">keyCode</code> for <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> or <a class="eventtype" href="#event-type-keyup">
-					<code>keyup</code></a> events is calculated as follows:</p>
+				<p>The <code class="attribute-name">keyCode</code> for
+					<a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>
+					or <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events is calculated
+					as follows:
+					</p>
 
 				<ol>
-					<li>Read the virtual key code from the operating system's event information, if such information is available.</li>
-					<li>If an Input Method Editor is processing key input and the event is <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>, return 229.</li>
-					<li>If input key when pressed without modifiers would insert a numerical character (0-9), return the ASCII code of that numerical character.</li>
-					<li>If input key when pressed without modifiers would insert a a lower case character in the a-z alphabetical range, return the ASCII code of the upper case equivalent.</li>
-					<li>If the implementation supports a key code conversion table for the operating system and platform, look up the value. If the conversion table specifies an alternate
-						virtual key value for the given input, return the specified value.</li>
-					<li>If the key's function, as determined in an implementation-specific way, corresponds to one of the keys in the <a href="#fixed-virtual-key-codes">table of fixed
-						virtual key codes</a>, return the corresponding key code.</li>
+					<li>Read the virtual key code from the operating system's event information, if such information
+						is available.</li>
+					<li>If an Input Method Editor is processing key input and the event is
+						<a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>, return 229.</li>
+					<li>If input key when pressed without modifiers would insert a numerical character (0-9),
+						return the ASCII code of that numerical character.</li>
+					<li>If input key when pressed without modifiers would insert a lower case character in the
+						a-z alphabetical range, return the ASCII code of the upper case equivalent.</li>
+					<li>If the implementation supports a key code conversion table for the operating system and platform,
+						look up the value. If the conversion table specifies an alternate virtual key value for the given
+						input, return the specified value.</li>
+					<li>If the key's function, as determined in an implementation-specific way, corresponds to one of
+						the keys in the <a href="#fixed-virtual-key-codes">table of fixed virtual key codes</a>,
+						return the corresponding key code.</li>
 					<li>Return the virtual key code from the operating system.</li>
 					<li>If no key code was found, return 0.</li>
 				</ol>
@@ -7751,11 +7796,14 @@ else {
 			<section id="determine-keypress-keyCode">
 				<h3>How to determine <code class="attribute-name">keyCode</code> for <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> events</h3>
 
-				<p>The <code class="attribute-name">keyCode</code> for <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> events is calculated as follows:</p>
+				<p>The <code class="attribute-name">keyCode</code> for
+					<a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> events is
+					calculated as follows:
+					</p>
 
 				<ol>
-					<li>If the implementation supports a <em>conflated model</em>, set <code class="attribute-name">keyCode</code> to the Unicode code point of the character being entered.
-					</li>
+					<li>If the implementation supports a <em>conflated model</em>, set <code class="attribute-name">keyCode</code>
+						to the Unicode code point of the character being entered.</li>
 					<li>If the implementation supports a <em>split model</em>, set <code class="attribute-name">keyCode</code> to 0.</li>
 				</ol>
 			</section>
@@ -7763,7 +7811,9 @@ else {
 			<section id="fixed-virtual-key-codes">
 				<h3>Fixed virtual key codes</h3>
 
-				<p>The virtual key codes for the following keys do not usually change with keyboard layouts on desktop systems:</p>
+				<p>The virtual key codes for the following keys do not usually change with keyboard layouts
+					on desktop systems:
+					</p>
 
 				<table class="legacy-key-table">
 					<tr>
@@ -7795,8 +7845,9 @@ else {
 			<section id="optionally-fixed-virtual-key-codes">
 				<h3>Optionally fixed virtual key codes</h3>
 
-				<p>The following punctuation characters MAY change virtual codes between keyboard layouts, but reporting these values will likely be more compatible with legacy content
-					expecting US-English keyboard layout:</p>
+				<p>The following punctuation characters MAY change virtual codes between keyboard layouts, but reporting
+					these values will likely be more compatible with legacy content expecting US-English keyboard layout:
+					</p>
 
 				<table class="legacy-key-table">
 					<tr>
