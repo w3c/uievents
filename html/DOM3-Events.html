@@ -1882,7 +1882,7 @@ console.log("Exceptions? No problem");</pre>
 					<p>To create an instance of the <code>UIEvent</code> interface, use the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("UIEvent")</code></a>
 						method call.</p>
 
-					<dl class="idl" title="interface UIEvent : Event">
+					<dl class="idl" title="[Constructor(DOMString type, optional UIEventInit eventInitDict)] interface UIEvent : Event">
 						<dt>readonly attribute AbstractView? view</dt>
 						<dd>
 							<p>The <code>view</code> attribute identifies the <code>AbstractView</code> from which the event was generated.</p>
@@ -1896,9 +1896,30 @@ console.log("Exceptions? No problem");</pre>
 
 							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>0</code>.</p>
 						</dd>
-						
 					</dl>
-				</section>
+
+					<dl class="idl" title="dictionary UIEventInit : EventInit">
+						<dt>Window? view = null</dt>
+						<dd>
+							<p>Should be initialized to the Window object of the global environment 
+								in which this event will be dispatched. If this event will be dispatched
+								to an element, the view property should be set to the Window object 
+								containing the element's <code>ownerDocument</code>.
+								</p>
+						</dd>
+
+						<dt>long detail = 0</dt>
+						<dd>
+							<p>This value is initialized to a number that is application-specific.
+								</p>
+						</dd>
+					</dl>
+
+					<p class="issue">
+						Should <code>view</code> be defined as <code>AbstractView</code> or <code>Window</code>?
+						</p>
+						
+				</section>  <!-- interface-UIEvent -->
 
 				<p>The User Interface event types are listed below.  Some of these events use the <a href="#interface-UIEvent"><code>UIEvent</code></a> interface if generated from a
 					user interface, but the <a href="#interface-Event"><code>Event</code></a> interface otherwise, as detailed in each event.</p>
@@ -2354,17 +2375,34 @@ console.log("Exceptions? No problem");</pre>
 						FocusEvent objects.
 					</p>
 
-					<dl class="idl" title="interface FocusEvent : UIEvent">
+		            <dl class="idl" title="[Constructor(DOMString typeArg, optional FocusEventInit focusEventInitDict)] interface FocusEvent : UIEvent">
 						<dt>readonly attribute EventTarget? relatedTarget</dt>
 						<dd>
-							<p>Used to identify a secondary <a href="#interface-EventTarget"><code>EventTarget</code></a> related to a Focus event, depending on the type of event.</p>
+							<p>Used to identify a secondary <a href="#interface-EventTarget"><code>EventTarget</code></a>
+								related to a Focus event, depending on the type of event.
+								</p>
 
-							<p>For security reasons with nested browsing contexts, when tabbing into or out of a nested context, the relevant EventTarget SHOULD be <code>null</code>.</p>
+							<p>For security reasons with nested browsing contexts, when tabbing into or out of a nested
+								context, the relevant EventTarget SHOULD be <code>null</code>.
+								</p>
 
-							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>null</code>.</p>
+							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this
+								attribute MUST be <code>null</code>.
+								</p>
 						</dd>
 
+						<dl class="idl" title="dictionary FocusEventInit : UIEventInit">
+							<dt>EventTarget? relatedTarget = null</dt>
+							<dd>
+								<p>The <code>relatedTarget</code> should be initialized to the element 
+									losing focus (in the case of a <em>focus</em> or <em>focusin</em>
+									event) or the element gaining focus (in the case of a <em>blur</em> 
+									or <em>focusout</em> event).
+									</p>
+							</dd>
+						</dl>
 					</dl>
+					
 				</section>  <!-- interface-FocusEvent -->
 
 				<section id="events-focusevent-event-order">
@@ -2726,7 +2764,7 @@ console.log("Exceptions? No problem");</pre>
 						coordinates <code>clientX</code> and <code>clientY</code> for calculation of other coordinates (such as target coordinates exposed by <a class="def" href="#glossary-DOM-Level-0">
 						DOM Level 0</a> implementations or other proprietary attributes, e.g., <code>pageX</code>).</p>
 
-					<dl class="idl" title="interface MouseEvent : UIEvent">
+					<dl class="idl" title="[Constructor(DOMString typeArg, optional MouseEventInit mouseEventInitDict)] interface MouseEvent : UIEvent">
 						<dt>readonly attribute long screenX</dt>
 						<dd>
 							<p>The horizontal coordinate at which the event occurred relative to the origin of the screen coordinate system.</p>
@@ -2863,6 +2901,136 @@ console.log("Exceptions? No problem");</pre>
 						</dd>
 
 					</dl>
+
+					<dl class="idl" title="dictionary MouseEventInit : UIEventInit">
+
+						<dt>long screenX = 0</dt>
+						<dd>
+							<p>See <code>screenY</code> (substituting "horizontal" for "veritcal").</p>
+						</dd>
+
+						<dt>long screenY = 0</dt>
+						<dd>
+							<p>Initializes the <code>screenY</code> attribute of the MouseEvent
+								object to the desired vertical relative position of the mouse 
+								pointer on the user's screen.
+								</p>
+
+							<p>Initializing the event object to the given mouse position must 
+								not move the user's mouse pointer to the initialized position.
+								</p>
+						</dd>
+
+						<dt>long clientX = 0</dt>
+						<dd>
+							<p>See <code>clientY</code> (substituting "horizontal" for "vertical").</p>
+						</dd>
+
+						<dt>long clientY = 0</dt>
+						<dd>
+							<p>Initializes the <code>clientY</code> attribute of the MouseEvent
+								object to the desired vertical position of the mouse pointer 
+								relative to the client window of the user's browser.
+								</p>
+
+							<p>Initializing the event object to the given mouse position must 
+								not move the user's mouse pointer to the initialized position.
+								</p>
+						</dd>
+
+						<dt>boolean ctrlKey = false</dt>
+						<dd>
+							<p>Initializes the <code>ctrlKey</code> attribute of the MouseEvent
+								object to <code>true</code> if the <code>ctrlKey</code> modifier
+								key is to be considered depressed, <code>false</code> otherwise.
+								</p>
+						</dd>
+
+						<dt>boolean shiftKey = false</dt>
+						<dd>
+							<p>Initializes the <code>shiftKey</code> attribute of the MouseEvent
+								object to <code>true</code> if the <code>shiftKey</code> modifier
+								key is to be considered depressed, <code>false</code> otherwise.
+								<p>
+						</dd>
+
+						<dt>boolean altKey = false</dt>
+						<dd>
+							<p>Initializes the <code>altKey</code> attribute of the MouseEvent
+								object to <code>true</code> if the <code>altKey</code> modifier
+								key is to be considered depressed, <code>false</code> otherwise.
+								</p>
+						</dd>
+
+						<dt>boolean metaKey = false</dt>
+						<dd>
+							<p>Initializes the <code>metaKey</code> attribute of the MouseEvent
+								object to <code>true</code> if the <code>metaKey</code> modifier
+								key is to be considered depressed, <code>false</code> otherwise.
+								<p>
+						</dd>
+
+						<dt>unsigned short button = 0</dt>
+						<dd>
+							<p>Initializes the <code>button</code> attribute of the MouseEvent
+								object to a number representing one of the button(s) of the mouse 
+								that is to be considered active.
+								</p>
+
+							<p class="note"><strong>Note:</strong>
+								The value 0 is used to represent
+								the primary mouse button, 1 is used to represent the auxillery/
+								middle mouse button, and 2 to represent the right mouse button.
+								Numbers greater than 2 are also possible, but not well-defined
+								in DOM Level 3 Events [[DOM-LEVEL-3-EVENTS]].
+								</p>
+						</dd>
+
+						<dt>unsigned short buttons = 0</dt>
+						<dd>
+							<p>Initializes the <code>buttons</code> attribute of the MouseEvent
+								object to a number representing one <em>or more</em> of the button(s) of the mouse 
+								that are to be considered active.
+								<p>
+
+							<p class="note"><strong>Note:</strong>
+								The <code>buttons</code>
+								attribute is a bit-field. To apply a value according to the 
+								definition in DOM Level 3 Events [[DOM-LEVEL-3-EVENTS]], first, determine the 
+								buttons that are to be considered active, then apply a bit-wise
+								OR operation the the result set. The value 1 is used to represent
+								the primary mouse button, 2 to represent the right mouse button,
+								and 4 to represent the auxillery/middle button. Numbers greater 
+								than 4 are also possible and should be subsequent powers of 2 (8, 
+								16, etc.), but these additional values are not well-defined in DOM 
+								Level 3 Events.
+								</p>
+
+							<div class="example">
+								<p>In JavaScript, to initialize the 
+									<code>buttons</code> attribute as if the right (2) and middle 
+									button (4) were being pressed simultaneously, the buttons value 
+									can be assigned as either:<br/>
+									<code>{ buttons: 2 | 4 }</code></br/>
+									or:<br/>
+									<code>{ buttons: 6 }</code>
+									</p>
+							</div><!-- Initializing buttons -->
+						</dd>
+
+						<dt>EventTarget? relatedTarget = null</dt>
+						<dd>
+							<p>The <code>relatedTarget</code> should be initialized to the element 
+								whose bounds the mouse pointer just left (in the case of a 
+								<em>mouseover</em> or <em>mouseenter</em> event) or the element 
+								whose bounds the mouse pointer is entering (in the case of a 
+								<em>mouseout</em> or <em>mouseleave</em>
+								or <em>focusout</em> event). For other events, this value need not
+								be assigned (and will default to null).
+								<p>
+						</dd>
+					</dl>
+
 				</section>  <!-- interface-MouseEvent -->
 
 				<p id="current-click-count">Implementations MUST maintain the <em>current click count</em> when generating mouse events. This MUST be a non-negative integer indicating
@@ -4100,64 +4268,124 @@ console.log("Exceptions? No problem");</pre>
 					<p class="note"><strong>Authoring Note: </strong>See [<a href="#references-UIEvents">UI Events</a>] for information about programmatically initializing
 						WheelEvent objects.</p>
 
-					<dl class="idl" title="interface WheelEvent : MouseEvent">
+					<dl class="idl" title="[Constructor(DOMString typeArg, optional WheelEventInit wheelEventInitDict)] interface WheelEvent : MouseEvent">
 						<dt>// DeltaModeCode</dt>
 
 						<dt>const unsigned long DOM_DELTA_PIXEL = 0x00</dt>
 						<dd>
-							<p>The units of measurement for the <a href="#glossary-delta"><code>delta</code></a> MUST be pixels.  This is the most typical case in most operating system and implementation
-								configurations.</p>
+							<p>The units of measurement for the <a href="#glossary-delta"><code>delta</code></a> MUST be
+								pixels. This is the most typical case in most operating system and implementation
+								configurations.
+								</p>
 						</dd>
 
 						<dt>const unsigned long DOM_DELTA_LINE  = 0x01</dt>
 						<dd>
-							<p>The units of measurement for the <a href="#glossary-delta"><code>delta</code></a> MUST be individual lines of text.  This is the case for many form controls.</p>
+							<p>The units of measurement for the <a href="#glossary-delta"><code>delta</code></a> MUST be
+								individual lines of text.  This is the case for many form controls.
+								</p>
 						</dd>
 
 						<dt>const unsigned long DOM_DELTA_PAGE  = 0x02</dt>
 						<dd>
-							<p>The units of measurement for the <a href="#glossary-delta"><code>delta</code></a> MUST be pages, either defined as a single screen or as a demarcated page.</p>
+							<p>The units of measurement for the <a href="#glossary-delta"><code>delta</code></a> MUST be
+								pages, either defined as a single screen or as a demarcated page.
+								</p>
 						</dd>
 
 						<dt>readonly attribute double deltaX</dt>
 						<dd>
-							<p>In user agents where the default action of the <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event is to scroll, the value MUST be the measurement along
-								the x-axis (in pixels, lines, or pages) to be scrolled in the case where the event is not cancelled. Otherwise, this is an implementation-specific
-								measurement (in pixels, lines, or pages) of the movement of a wheel device around the x-axis.</p>
+							<p>In user agents where the default action of the
+								<a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event is to scroll,
+								the value MUST be the measurement along the x-axis (in pixels, lines, or pages) to be scrolled
+								in the case where the event is not cancelled. Otherwise, this is an implementation-specific
+								measurement (in pixels, lines, or pages) of the movement of a wheel device around the x-axis.
+								</p>
 
-							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>0</code>.</p>
+							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute
+								MUST be <code>0</code>.
+								</p>
 						</dd>
 
 						<dt>readonly attribute double deltaY</dt>
 						<dd>
-							<p>In user agents where the default action of the <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event is to scroll, the value MUST be the measurement along
-								the y-axis (in pixels, lines, or pages) to be scrolled in the case where the event is not cancelled. Otherwise, this is an implementation-specific
-								measurement (in pixels, lines, or pages) of the movement of a wheel device around the y-axis.</p>
+							<p>In user agents where the default action of the
+								<a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event is to scroll, the value
+								MUST be the measurement along the y-axis (in pixels, lines, or pages) to be scrolled in the case
+								where the event is not cancelled. Otherwise, this is an implementation-specific
+								measurement (in pixels, lines, or pages) of the movement of a wheel device around the y-axis.
+								</p>
 
-							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>0</code>.</p>
+							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute
+								MUST be <code>0</code>.
+								</p>
 						</dd>
 
 						<dt>readonly attribute double deltaZ</dt>
 						<dd>
-							<p>In user agents where the default action of the <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event is to scroll, the value MUST be the measurement along
-								the z-axis (in pixels, lines, or pages) to be scrolled in the case where the event is not cancelled. Otherwise, this is an implementation-specific
-								measurement (in pixels, lines, or pages) of the movement of a wheel device around the z-axis.</p>
+							<p>In user agents where the default action of the
+								<a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event is to scroll, the value
+								MUST be the measurement along the z-axis (in pixels, lines, or pages) to be scrolled in the case
+								where the event is not cancelled. Otherwise, this is an implementation-specific
+								measurement (in pixels, lines, or pages) of the movement of a wheel device around the z-axis.
+								</p>
 
-							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>0</code>.</p>
+							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute
+								MUST be <code>0</code>.
+								</p>
 						</dd>
 
 						<dt>readonly attribute unsigned long deltaMode</dt>
 						<dd>
-							<p>The <code>deltaMode</code> attribute contains an indication of the units of measurement for the <a href="#glossary-delta"><code>delta</code></a> values.
-								The default value is <a href="#widl-WheelEvent-DOM_DELTA_PIXEL"><code class="constant-name">DOM_DELTA_PIXEL</code></a> (pixels).</p>
+							<p>The <code>deltaMode</code> attribute contains an indication of the units of measurement for the
+								<a href="#glossary-delta"><code>delta</code></a> values.
+								The default value is
+									<a href="#widl-WheelEvent-DOM_DELTA_PIXEL"><code class="constant-name">DOM_DELTA_PIXEL</code></a>
+								(pixels).
+								</p>
 
-							<p>This attribute MUST be set to one of the DOM_DELTA constants to indicate the units of measurement for the <a href="#glossary-delta"><code>delta</code></a> values.  The precise measurement
-								is specific to device, operating system, and application configurations.</p>
+							<p>This attribute MUST be set to one of the DOM_DELTA constants to indicate the units of measurement
+								for the <a href="#glossary-delta"><code>delta</code></a> values.  The precise measurement
+								is specific to device, operating system, and application configurations.
+								</p>
 
-							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>0</code>.</p>
+							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute
+								MUST be <code>0</code>.
+								</p>
 						</dd>
 
 					</dl>
+
+					<dl class="idl" title="dictionary WheelEventInit: MouseEventInit">
+						<dt>double deltaX = 0.0</dt>
+						<dd><p>See <code>deltaZ</code> attribute.</p></dd>
+
+						<dt>double deltaY = 0.0</dt>
+						<dd><p>See <code>deltaZ</code> attribute.</p></dd>
+
+						<dt>double deltaZ = 0.0</dt>
+						<dd>
+							<p>Initializes the <code>deltaZ</code> attribute of the WheelEvent object.
+								Relative positive values for this attribute (as well as the 
+								<code>deltaX</code> and <code>deltaY</code> attributes) are given by 
+								a right-hand coordinate system where the X, Y, and Z axes are 
+								directed towards the right-most edge, bottom-most edge, and farthest 
+								depth (away from the user) of the document, respectively. Negative 
+								relative values are in the respective opposite directions.
+								<p>
+						</dd>
+
+						<dt>unsigned long deltaMode = 0</dt>
+						<dd>
+							<p>Initializes the <code>deltaMode</code> attribute on the WheelEvent 
+								object to the enumerated values 0, 1, or 2, which represent the amount
+								of pixels scrolled (DOM_DELTA_PIXEL), lines scrolled (DOM_DELTA_LINE),
+								or pages scrolled (DOM_DELTA_PAGE) if the rotation of the wheel would 
+								have resulted in scrolling.
+								</p>
+						</dd>
+					</dl>
+
 				</section>  <!-- interface-WheelEvent -->
 
 				<p>The Wheel event types are listed below.</p>
@@ -4273,17 +4501,32 @@ console.log("Exceptions? No problem");</pre>
 
 					<p class="intro-dom">Introduced in DOM Level 3</p>
 
-					<dl class="idl" title="interface InputEvent : Event">
+					<dl class="idl" title="[Constructor(DOMString typeArg, optional InputEventInit inputEventInitDict)] interface InputEvent : Event">
 						<dt>readonly attribute DOMString data</dt>
 						<dd>
-							<p><code>data</code> holds the value of the characters generated by an input method. This MAY be a single Unicode character or a non-empty sequence of Unicode characters
-								[<cite><a class="normative" href="#references-Unicode">Unicode</a></cite>]. Characters SHOULD be normalized as defined by the Unicode normalization form <em>NFC</em>,
-								defined in [<cite><a class="normative" href="#references-UnicodeNormalization">UAX #15</a></cite>]. This attribute MAY be null or contain the <a class="def" href="#glossary-empty-string">
-								empty string</a>.</p>
+							<p><code>data</code> holds the value of the characters generated by an input method.
+								This MAY be a single Unicode character or a non-empty sequence of Unicode characters
+								[<cite><a class="normative" href="#references-Unicode">Unicode</a></cite>].
+								Characters SHOULD be normalized as defined by the Unicode normalization form <em>NFC</em>,
+								defined in [<cite><a class="normative" href="#references-UnicodeNormalization">UAX #15</a></cite>].
+								This attribute MAY be null or contain the <a class="def" href="#glossary-empty-string">
+								empty string</a>.
+								</p>
 
-							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>""</code> (the empty string).</p>
+							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute
+								MUST be <code>""</code> (the empty string).
+								</p>
 						</dd>
 					</dl>
+					
+					<dl class="idl" title="dictionary WheelEventInit: MouseEventInit">
+						<dt>DOMString data = ""</dt>
+						<dd>
+							<p>Initializes the <code>data</code> attribute of the InputEvent object.
+								</p>
+						</dd>
+					</dl>
+
 				</section>  <!-- interface-InputEvent -->
 
 				<section id="events-inputevent-event-order">
@@ -4453,7 +4696,7 @@ console.log("Exceptions? No problem");</pre>
 					<p class="note"><strong>Authoring Note: </strong>See [<a href="#references-UIEvents">UI Events</a>] for information about programmatically initializing
 						<a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> objects.</p>
 
-					<dl class="idl" title="interface KeyboardEvent : UIEvent">
+					<dl class="idl" title="[Constructor(DOMString typeArg, optional KeyboardEventInit keyboardEventInitDict)] interface KeyboardEvent : UIEvent">
 						<dt>// KeyLocationCode</dt>
 
 						<dt>const unsigned long DOM_KEY_LOCATION_STANDARD = 0x00</dt>
@@ -4600,8 +4843,96 @@ console.log("Exceptions? No problem");</pre>
 
 							</dl>
 						</dd>
-
 					</dl>
+
+					<dl class="idl" title="dictionary KeyboardEventInit : UIEventInit">
+						<dt>DOMString char = ""</dt>
+						<dd>
+							<p>Initializes the <code>char</code> attribute of the KeyboardEvent
+								object to the unicode character string representing a printable 
+								character. If the related <code>key</code> value is not a printable
+								character, then this attribute should be assigned the empty string
+								(which is the default value).
+								</p>
+						</dd>
+
+						<dt>DOMString key = ""</dt>
+						<dd>
+							<p>Initializes the <code>key</code> attribute of the KeyboardEvent
+								object to the unicode character string representing the meaning of a
+								key after taking into account all keyboard modifications (such as 
+								shift-state). This value is the final effective value of the key. 
+								If the key is not a printable character, then it should be one of
+								the key values defined in [[DOM-LEVEL-3-EVENTS]] *** Fix ref ***.
+								<p>
+						</dd>
+
+						<dt>DOMString code = ""</dt>
+						<dd>
+							<p>Initializes the <code>code</code> attribute of the KeyboardEvent
+								object to the unicode character string representing the key that
+								was pressed, ignoring any keyboard modifications such as keyboard
+								layout.
+								This value should be one of the code values defined in the
+								<a href="#keyboard-events">Keyboard Events</a> section.
+								<p>
+						</dd>
+
+						<dt>unsigned long location = 0</dt>
+						<dd>
+							<p>Initializes the <code>location</code> attribute of the KeyboardEvent
+								object to one of the following location numerical constants:
+								</p>
+							<ul>
+								<li><code>KeyboardEvent.DOM_KEY_LOCATION_STANDARD</code> (numerical value 0)</li>
+								<li><code>KeyboardEvent.DOM_KEY_LOCATION_LEFT</code> (numerical value 1)</li>
+								<li><code>KeyboardEvent.DOM_KEY_LOCATION_RIGHT</code> (numerical value 2)</li>
+								<li><code>KeyboardEvent.DOM_KEY_LOCATION_NUMPAD</code> (numerical value 3)</li>
+							</ul>
+						</dd>
+
+						<dt>boolean ctrlKey = false</dt>
+						<dd>
+							<p>Initializes the <code>ctrlKey</code> attribute of the KeyboardEvent
+								object to <code>true</code> if the <code>ctrlKey</code> modifier
+								key is to be considered depressed, <code>false</code> otherwise.
+								</p>
+						</dd>
+
+						<dt>boolean shiftKey = false</dt>
+						<dd>
+							<p>Initializes the <code>shiftKey</code> attribute of the KeyboardEvent
+								object to <code>true</code> if the <code>shiftKey</code> modifier
+								key is to be considered depressed, <code>false</code> otherwise.
+								</p>
+						</dd>
+
+						<dt>boolean altKey = false</dt>
+						<dd>
+							<p>Initializes the <code>altKey</code> attribute of the KeyboardEvent
+								object to <code>true</code> if the <code>altKey</code> modifier
+								key is to be considered depressed, <code>false</code> otherwise.
+								</p>
+						</dd>
+
+						<dt>boolean metaKey = false</dt>
+						<dd>
+							<p>Initializes the <code>metaKey</code> attribute of the KeyboardEvent
+								object to <code>true</code> if the <code>metaKey</code> modifier
+								key is to be considered depressed, <code>false</code> otherwise.
+								</p>
+						</dd>
+
+						<dt>boolean repeat = false</dt>
+						<dd>
+							<p>Initializes the <code>repeat</code> attribute of the KeyboardEvent
+								object to <code>true</code> if the the current KeyboardEvent is
+								considered part of a repeating sequence of similar events caused
+								by the long depression of any single key, <code>false</code> otherwise.
+								</p>
+						</dd>
+					</dl>
+
 				</section>  <!-- interface-KeyboardEvent -->
 
 				<div class="warning">
@@ -4935,17 +5266,33 @@ console.log("Exceptions? No problem");</pre>
 					<p class="note"><strong>Authoring Note: </strong>See [<a href="#references-UIEvents">UI Events</a>] for information about programmatically initializing
 						<code>CompositionEvent</code> objects.</p>
 
-					<dl class="idl" title="interface CompositionEvent : UIEvent">
+					<dl class="idl" title="[Constructor(DOMString typeArg, optional CompositionEventInit compositionEventInitDict)] interface CompositionEvent : UIEvent">
 						<dt>readonly attribute DOMString? data</dt>
 						<dd>
-							<p><code>data</code> holds the value of the characters generated by an input method. This MAY be a single Unicode character or a non-empty sequence of Unicode characters
-								[<cite><a class="normative" href="#references-Unicode">Unicode</a></cite>]. Characters SHOULD be normalized as defined by the Unicode normalization form <em>NFC</em>,
-								defined in [<cite><a class="normative" href="#references-UnicodeNormalization">UAX #15</a></cite>]. This attribute MAY be null or contain the <a class="def" href="#glossary-empty-string">
-								empty string</a>.</p>
+							<p><code>data</code> holds the value of the characters generated by an input method.
+								This MAY be a single Unicode character or a non-empty sequence of Unicode characters
+								[<cite><a class="normative" href="#references-Unicode">Unicode</a></cite>].
+								Characters SHOULD be normalized as defined by the Unicode normalization form <em>NFC</em>,
+								defined in [<cite><a class="normative" href="#references-UnicodeNormalization">UAX #15</a></cite>].
+								This attribute MAY be null or contain the <a class="def" href="#glossary-empty-string">
+								empty string</a>.
+								</p>
 
-							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>""</code> (the empty string).</p>
+							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute
+								MUST be <code>""</code> (the empty string).
+								</p>
 						</dd>
 					</dl>
+
+					<dl class="idl" title="dictionary CompositionEventInit : UIEventInit">
+						<dt>DOMString? data = ""</dt>
+						<dd>
+							<p>Initializes the <code>data</code> attribute of the CompositionEvent
+								object to the characters generated by the IME composition.
+								</p>
+						</dd>
+					</dl>
+
 				</section>  <!-- interface-CompositionEvent -->
 
 				<section id="events-composition-event-order">
