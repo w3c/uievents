@@ -1097,13 +1097,25 @@ console.log("Exceptions? No problem");</pre>
 
 				<dt>readonly attribute boolean cancelable</dt>
 				<dd>
-					<p>Used to indicate whether or not an event can have its <a class="def" href="#glossary-default-action">default action</a> prevented (see also <a href="#event-flow-default-cancel">
-						Default actions and cancelable events</a>). If the <a class="def" href="#glossary-default-action">default action</a> can be prevented the value MUST be <code>true</code>,
-						otherwise the value MUST be <code>false</code>.</p>
+					<p>Used to indicate whether or not an event can have its
+							<a class="def" href="#glossary-default-action">default action</a>
+						prevented.
+						If the
+							<a class="def" href="#glossary-default-action">default action</a>
+						can be prevented the value MUST be <code>true</code>, otherwise the value
+						MUST be <code>false</code>.
+						See <a href="#event-flow-default-cancel">Default actions and cancelable events</a>
+						for more information on cancelable events.
+						</p>
 
-					<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>false</code>.</p>
+					<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a>
+						of this attribute MUST be <code>false</code>.
+						</p>
 
-					<p class="note"><strong>Note:</strong> Use <code>Event.defaultPrevented</code> to see whether a cancelable event has beened cancelled or not.</p>
+					<p class="note"><strong>Note:</strong>
+						Use <code>Event.defaultPrevented</code> to see whether a cancelable event has
+						been cancelled or not.
+						</p>
 				</dd>
 
 				<dt>readonly attribute DOMTimeStamp timeStamp</dt>
@@ -1114,46 +1126,71 @@ console.log("Exceptions? No problem");</pre>
 
 				<dt>void stopPropagation()</dt>
 				<dd>
-					<p>Prevents all other <a class="def" href="#glossary-event-handler">event listeners</a> from being triggered for this event dispatch, <strong>excluding</strong> any remaining <a class="def"
-						href="#glossary-candidate-event-handlers">candidate event listeners</a>. Once it has been called, further calls to this method have no additional effect.</p>
+					<p>Prevents all other
+							<a class="def" href="#glossary-event-handler">event listeners</a>
+						from being triggered for this event dispatch, <strong>excluding</strong> any remaining
+							<a class="def" href="#glossary-candidate-event-handlers">candidate event listeners</a>.
+						Once it has been called, further calls to this method have no additional effect.
+						</p>
 
-					<p class="note" id="note-stopPropagation-default"><strong>Note:</strong> This method does not prevent the <a class="def" href="#glossary-default-action">default action</a>
-						from being invoked &mdash; use <a href="#widl-Event-preventDefault"><code>Event.preventDefault()</code></a> for that effect.</p>
+					<p class="note" id="note-stopPropagation-default"><strong>Note:</strong>
+						This method does not prevent the
+							<a class="def" href="#glossary-default-action">default action</a>
+						from being invoked &mdash; use
+							<a href="#widl-Event-preventDefault"><code>Event.preventDefault()</code></a>
+						for that effect.
+						</p>
 				</dd>
 
 				<dt>void preventDefault()</dt>
 				<dd>
-					<p>When this method is invoked, the event MUST be canceled, meaning any <a class="def" href="#glossary-default-action">default actions</a> normally taken by the implementation
-						as a result of the event MUST NOT occur (see also <a href="#event-flow-default-cancel">Default actions and cancelable events</a>). Default actions which occur prior
-						to the event's dispatch (see <a href="#event-flow-default-cancel">Default actions and cancelable events</a>) are reverted. Calling this method for a non-cancelable
-						event MUST have no effect.  If an event has more than one <a class="def" href="#glossary-default-action">default action</a>, each cancelable <a class="def" href="#glossary-default-action">
-						default action</a> MUST be canceled.</p>
+					<p>When this method is invoked, the event MUST be canceled, meaning any
+							<a class="def" href="#glossary-default-action">default actions</a>
+						normally taken by the implementation as a result of the event MUST NOT occur.
+						Default actions which occur prior to the event's dispatch are reverted.
+						Calling this method for a non-cancelable event MUST have no effect.
+						If an event has more than one
+							<a class="def" href="#glossary-default-action">default action</a>,
+						each cancelable
+							<a class="def" href="#glossary-default-action">default action</a>
+						MUST be canceled.
+						See <a href="#event-flow-default-cancel">Default actions and cancelable events</a>
+						for more information on cancelable events.
+						</p>
 
-					<p class="note"><strong>Note:</strong> This method does not stop the event propagation &mdash; use <a href="#widl-Event-stopPropagation">
-						<code>Event.stopPropagation()</code></a> or <a href="#widl-Event-stopImmediatePropagation"><code>Event.stopImmediatePropagation()</code></a> for that effect.</p>
+					<p class="note"><strong>Note:</strong>
+						This method does not stop the event propagation &mdash; use
+							<a href="#widl-Event-stopPropagation"><code>Event.stopPropagation()</code></a>
+						or
+							<a href="#widl-Event-stopImmediatePropagation"><code>Event.stopImmediatePropagation()</code></a>
+						for that effect.
+						</p>
 				</dd>
 
 				<dt>void initEvent()</dt>
 				<dd>
 					<p>Initializes attributes of an <code>Event</code>.
 						The <code>Event</code> could have been created through the
-						<a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent</code></a>
-						method or by the implementation in response to a user action. For any <code>Event</code> created with
-						the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent</code></a> method,
-						this method MUST be called before the <code>Event</code> is dispatched via the
-						<a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method.
+							<a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent</code></a>
+						method or by the implementation in response to a user action.
+						For any <code>Event</code> created with the
+							<a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent</code></a>
+						method, this method MUST be called before the <code>Event</code> is dispatched via the
+							<a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a>
+						method.
 						If the method is called several times before invoking
-						<a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent</code></a>, only
-						the final invocation takes precedence.
+							<a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent</code></a>,
+						only the final invocation takes precedence.
 						If this method is called during an invocation of
-						<a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent</code></a>, this method
-						MUST do nothing and return immediately.
+							<a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent</code></a>,
+						this method MUST do nothing and return immediately.
 						If called from a subclass of the <code>Event</code> interface only the values specified in
 						this method are modified, all other attributes are left unchanged.
 						</p>
 
 					<p>This method MUST also reset the event object's internal-propagation and default-action-prevention states.
-						This allows an event object to be "reset" before being dispatched multiple times.</p>
+						This allows an event object to be "reset" before being dispatched multiple times.
+						</p>
 
 					<div class="example">
 						<div class="example-title"></div>
@@ -1162,7 +1199,7 @@ console.log("Exceptions? No problem");</pre>
 							calling this method, the event can be re-dispatched (via <code>dispatchEvent</code>) and
 							will propagate through all candidate event listeners along its propagation path (as it did
 							during the prior dispatch).
-							Similarily, if an <code>EventListener</code> called <code>preventDefault()</code>
+							Similarly, if an <code>EventListener</code> called <code>preventDefault()</code>
 							during the event's previous dispatch, then after calling this method, the event's
 							<code>defaultPrevented</code> property will be <code>false</code>.
 							</p>
@@ -1170,9 +1207,10 @@ console.log("Exceptions? No problem");</pre>
 
 					<p class="warning" id="warning-initEvent-untrusted"><strong>Warning!</strong>
 						For security reasons, events modified using
-						<a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a> MUST have a
-						<code class="attribute-name"><a href="#widl-Event-isTrusted">isTrusted</a></code> attribute
-						value of <code>false</code>.
+							<a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a>
+						MUST have a
+							<code class="attribute-name"><a href="#widl-Event-isTrusted">isTrusted</a></code>
+						attribute value of <code>false</code>.
 						See <a href="#trusted-events">trusted events</a> for more details.
 						</p>
 
@@ -1188,7 +1226,7 @@ console.log("Exceptions? No problem");</pre>
 						<a class="def" href="#trusted-events">Trusted events</a> are pre-initialized by the implementation
 						before being dispatched.
 						As a result, it is not necessary to call <code>Event.initEvent()</code> prior to re-dispatching
-						the trusted event--however calling
+						the trusted event &mdash; however calling
 						<a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> will convert
 						the <code>Event</code> from a trusted event to an untrusted event (e.g., the
 						<a href="#widl-Event-isTrusted"><code>Event.isTrusted</code></a> attribute will return <code>false</code>).
@@ -1262,24 +1300,31 @@ console.log("Exceptions? No problem");</pre>
 
 			<p class="intro-dom">Introduced in DOM Level 2</p>
 
-			<p>The <a href="#interface-CustomEvent"><code>CustomEvent</code></a> interface is the RECOMMENDED interface for application-specific event types. Unlike the <a href="#interface-Event">
-				<code>Event</code></a> interface, it allows applications to provide contextual information about the event type.</p>
+			<p>The <a href="#interface-CustomEvent"><code>CustomEvent</code></a> interface is the RECOMMENDED
+				interface for application-specific event types.
+				Unlike the <a href="#interface-Event"><code>Event</code></a> interface, it allows applications
+				to provide contextual information about the event type.
+				</p>
 
-			<p class="note"><strong>Authoring Note:</strong> Use a prefix string on the event type name for application-specific event types to avoid clashes with future general-purpose
-				event types.</p>
+			<p class="note"><strong>Authoring Note:</strong>
+				Use a prefix string on the event type name for application-specific event types to avoid
+				clashes with future general-purpose event types.
+				</p>
 
-			<p>To create an instance of the <code>CustomEvent</code> interface, use the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("CustomEvent")</code></a>
-				method call.</p>
-
-			<p class="note"><strong>Authoring Note: </strong>See [<a href="#references-UIEvents">UI Events</a>] for information about programmatically initializing
-				CustomEvent objects.</p>
+			<p>To create an instance of the <code>CustomEvent</code> interface, use the
+				<a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("CustomEvent")</code></a>
+				method call.
+				</p>
 
 			<dl class="idl" title="interface CustomEvent">
 				<dt>readonly attribute any detail</dt>
 				<dd>
-					<p>Specifies some detail information about the <a href="#interface-Event"><code>Event</code></a>.</p>
+					<p>Specifies some detail information about the <a href="#interface-Event"><code>Event</code></a>.
+						</p>
 
-					<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>null</code>.</p>
+					<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a>
+						of this attribute MUST be <code>null</code>.
+						</p>
 				</dd>
 			</dl>
 		</section><!-- interface-CustomEvent -->
@@ -1864,13 +1909,18 @@ console.log("Exceptions? No problem");</pre>
 
 		<section id="event-definitions">
 			<h2>Event Module Definitions</h2>
-			<p>The DOM Event Model allows a DOM implementation to support multiple modules of events. The model has been designed to allow addition of new event modules in the future.
-				This document does not attempt to define all possible events. For purposes of interoperability, the DOM defines a module of user interface events including lower
-				level device dependent events and a module of document mutation events.</p>
+			<p>The DOM Event Model allows a DOM implementation to support multiple modules of events.
+				The model has been designed to allow addition of new event modules in the future.
+				This document does not attempt to define all possible events.
+				For purposes of interoperability, the DOM defines a module of user interface events
+				including lower level device dependent events and a module of document mutation events.
+				</p>
 
 			<section id="events-uievents">
 				<h3>User Interface Event Types</h3>
-				<p>The User Interface event module contains basic event types associated with user interfaces and document manipulation.</p>
+				<p>The User Interface event module contains basic event types associated with user
+					interfaces and document manipulation.
+					</p>
 
 				<section id="interface-UIEvent">
 					<h4>Interface UIEvent</h4>
@@ -7479,13 +7529,29 @@ else {
 
 	</section>  <!-- keys -->
 
-	<!-- Appendix A: Initializing New Event Interfaces ========================================================-->
-	<section id="new-event-interface-initializers" class="appendix">
-		<h1>Initializing New Event Interfaces</h1>
+	<!-- Appendix A: Legacy Event Initializers ========================================================-->
+	<section id="legacy-event-interface-initializers" class="appendix">
+		<h1>Legacy Event Initializers</h1>
 
 		<p><em>This section is informative</em></p>
 
-		<p>This specification defines several new event interfaces without a mechanism for content authors to initialize their respective events.
+		<p>Early versions of this specification included an initialization method on the
+			interface (for example <code>initMouseEvent</code>) that required a long list of parameters
+			that, in most cases, did not fully initialize all attributes of the event object.
+			Because of this, event interfaces which were derived from the basic <code>Event</code> interface
+			required that the initializer of <em>each</em> of the derived
+			interfaces be called explicitly in order to fully initialize an event.
+			</p>
+			
+		<div class="example">
+			<div class="example-title"></div>
+			<p>Initializing all the attributes of a MutationEvent requires calls to two initializer methods: <code>initEvent</code> and
+				<code>initMutationEvent</code>.</p>
+		</div>
+
+		<p>Due in part to the length of time in the development of this standard, some implementations MAY have
+			taken a dependency on these (now deprecated) initializer methods.
+			For completeness, these legacy event intializers are described in this Appendix.
 			</p>
 
 		<p>These new event interfaces are:</p>
@@ -7506,40 +7572,11 @@ else {
 			to call the initializer of each of the derived interfaces explicitly.
 			</p>
 
-		<div class="example">
-			<div class="example-title"></div>
-			<p>Initializing all the attributes of a MutationEvent requires calls to two initializer methods: <code>initEvent</code> and
-				<code>initMutationEvent</code>.</p>
-		</div>
-
-		<p>Due in part to the length of time in the development of this standard, some implementations MAY have
-			taken a dependency on a set of initializer methods that were formerly defined in this specification.
-			For completeness, these legacy event intializers are described in this Appendix.
-			</p>
-
-		<p>The initialization of new derived event objects becomes easier with the introduction of event constructors
-			in [<a href="#references-UIEvents">UI Events</a>].
-			Event constructors are a new mechanism for initializing the event object's attributes that allows
-			authors to pick-and-choose which of all the possible event attributes SHOULD be initialized to
-			a value. For the omitted values, a suitable default is applied.
-			</p>
-
-		<p>This specification does not require a conforming implementation to support event constructors.
-			Likewise it does not require a conforming implementation to support the legacy event initializers.
-			However, it would be prudent for a conforming implementation to support one or the other, so that
-			authors have some mechanism to initilize the new event interfaces defined in this specification.
-			</p>
-
-		<p class="note"><strong>Note: </strong>
-			Event constructors are a relatively new concept and are subject to change.
-			For the latest syntax, please refer to the UI Events specification [<a href="#references-UIEvents">UI Events</a>].
-			</p>
-
 		<section id="event-initializers">
-			<h2>Supplemental Initializer Interfaces</h2>
+			<h2>Legacy Initializer Interfaces</h2>
 			<p><em>This section is informative</em></p>
 
-			<p>This section documents legacy initializer methods <b>and</b> suggested event constructors for the
+			<p>This section documents legacy initializer methods for the
 				following event interfaces introduced in DOM Level 3 Events:
 				</p>
 
@@ -8081,7 +8118,7 @@ else {
 			</section>  <!-- idl-interface-CompositionEvent-initializers -->
 
 		</section>  <!-- event-initializers -->
-	</section>  <!-- new-event-interface-initializers -->
+	</section>  <!-- legacy-event-interface-initializers -->
 
 	<!-- Appendix B: Legacy Key Attributes ========================================================-->
 	<section id="legacy-key-attributes">
