@@ -1017,12 +1017,17 @@ console.log("Exceptions? No problem");</pre>
 
 			<p class="intro-dom">Introduced in DOM Level 2</p>
 
-			<p>The <code>Event</code> interface provides basic contextual information about an event to all registered <a class="def" href="#glossary-event-handler">event handlers</a>.
-				Specific events can also implement other derived interfaces, for example the <a href="#interface-UIEvent"><code>UIEvent</code></a> and <a href="#interface-MouseEvent">
-				<code>MouseEvent</code></a> interfaces.</p>
+			<p>The <code>Event</code> interface provides basic contextual information about an event to
+				all registered <a class="def" href="#glossary-event-handler">event handlers</a>.
+				Specific events can also implement other derived interfaces, for example the
+				<a href="#interface-UIEvent"><code>UIEvent</code></a> and <a href="#interface-MouseEvent">
+				<code>MouseEvent</code></a> interfaces.
+				</p>
 
-			<p>To create an instance of the <code>Event</code> interface, use the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("Event")</code></a>
-				method call.</p>
+			<p>To create an instance of the <code>Event</code> interface, use the
+				<a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("Event")</code></a>
+				method call.
+				</p>
 
 			<dl class="idl" title="interface Event">
 				<dt>// PhaseType</dt>
@@ -1130,53 +1135,84 @@ console.log("Exceptions? No problem");</pre>
 
 				<dt>void initEvent()</dt>
 				<dd>
-					<p>Initializes attributes of an <code>Event</code>. The <code>Event</code> could have been created through the <a href="#widl-DocumentEvent-createEvent">
-						<code>DocumentEvent.createEvent</code></a> method or by the implementation in response to a user action. For any <code>Event</code> created with the
-						<a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent</code></a> method, this method MUST be called before the <code>Event</code>
-						is dispatched via the <a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method. If the method is called several
-						times before invoking <a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent</code></a>, only the final invocation takes precedence.
-						If this method is called during an invocation of <a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent</code></a>, this method
-						MUST do nothing and return immediately. If called from a subclass of the <code>Event</code> interface only the values specified in
-						this method are modified, all other attributes are left unchanged.</p>
+					<p>Initializes attributes of an <code>Event</code>.
+						The <code>Event</code> could have been created through the
+						<a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent</code></a>
+						method or by the implementation in response to a user action. For any <code>Event</code> created with
+						the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent</code></a> method,
+						this method MUST be called before the <code>Event</code> is dispatched via the
+						<a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> method.
+						If the method is called several times before invoking
+						<a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent</code></a>, only
+						the final invocation takes precedence.
+						If this method is called during an invocation of
+						<a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent</code></a>, this method
+						MUST do nothing and return immediately.
+						If called from a subclass of the <code>Event</code> interface only the values specified in
+						this method are modified, all other attributes are left unchanged.
+						</p>
 
-					<p>This method MUST also reset the event object's internal-propagation and default-action-prevention states. This allows an event object to be "reset"
-						before being dispatched multiple times.</p>
+					<p>This method MUST also reset the event object's internal-propagation and default-action-prevention states.
+						This allows an event object to be "reset" before being dispatched multiple times.</p>
 
 					<div class="example">
 						<div class="example-title"></div>
-						<p>If an <code>EventListener</code> called <code>stopPropagation()</code> or <code>stopImmediatePropagation()</code> during
-						the event's previous dispatch, then after calling this method, the event can be re-dispatched (via <code>dispatchEvent</code>) and will propagate through all candidate
-						event listeners along its propagation path (as it did during the prior dispatch). Similarily, if an <code>EventListener</code> called <code>preventDefault()</code>
-						during the event's previous dispatch, then after calling this method, the event's <code>defaultPrevented</code> property will be <code>false</code>.</p>
+						<p>If an <code>EventListener</code> called <code>stopPropagation()</code> or
+							<code>stopImmediatePropagation()</code> during the event's previous dispatch, then after
+							calling this method, the event can be re-dispatched (via <code>dispatchEvent</code>) and
+							will propagate through all candidate event listeners along its propagation path (as it did
+							during the prior dispatch).
+							Similarily, if an <code>EventListener</code> called <code>preventDefault()</code>
+							during the event's previous dispatch, then after calling this method, the event's
+							<code>defaultPrevented</code> property will be <code>false</code>.
+							</p>
 					</div>
 
-					<p class="warning" id="warning-initEvent-untrusted"><strong>Warning!</strong> For security reasons, events modified using <a href="#widl-Event-initEvent"><code>
-						Event.initEvent()</code></a> MUST have a <code class="attribute-name"><a href="#widl-Event-isTrusted">isTrusted</a></code> attribute value of <code>false</code>.
-						See <a href="#trusted-events">trusted events</a> for more details.</p>
+					<p class="warning" id="warning-initEvent-untrusted"><strong>Warning!</strong>
+						For security reasons, events modified using
+						<a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a> MUST have a
+						<code class="attribute-name"><a href="#widl-Event-isTrusted">isTrusted</a></code> attribute
+						value of <code>false</code>.
+						See <a href="#trusted-events">trusted events</a> for more details.
+						</p>
 
-					<p class="note"><strong>Authoring Note:</strong> <a class="def" href="#trusted-events">Trusted events</a> can have their <a class="def" href="#glossary-event-type">
-						event type</a> and other attributes changed using this method. However, this method always converts the <code>Event</code> from a trusted event to an untrusted
-						event (e.g., the <a href="#widl-Event-isTrusted"><code>Event.isTrusted</code></a> attribute will return <code>false</code>).</p>
+					<p class="note"><strong>Authoring Note:</strong>
+						<a class="def" href="#trusted-events">Trusted events</a> can have their
+						<a class="def" href="#glossary-event-type">event type</a> and other attributes changed using this method.
+						However, this method always converts the <code>Event</code> from a trusted event to an untrusted
+						event (e.g., the <a href="#widl-Event-isTrusted"><code>Event.isTrusted</code></a> attribute will return
+						<code>false</code>).
+						</p>
 
-					<p class="note"><strong>Authoring Note:</strong> <a class="def" href="#trusted-events">Trusted events</a> are pre-initialized by the implementation before being dispatched.
-						As a result, it is not necessary to call <code>Event.initEvent()</code> prior to re-dispatching the trusted event--however calling <a href="#widl-EventTarget-dispatchEvent">
-						<code>EventTarget.dispatchEvent()</code></a> will convert the <code>Event</code> from a trusted event to an untrusted event (e.g., the <a href="#widl-Event-isTrusted">
-						<code>Event.isTrusted</code></a> attribute will return <code>false</code>).</p>
+					<p class="note"><strong>Authoring Note:</strong>
+						<a class="def" href="#trusted-events">Trusted events</a> are pre-initialized by the implementation
+						before being dispatched.
+						As a result, it is not necessary to call <code>Event.initEvent()</code> prior to re-dispatching
+						the trusted event--however calling
+						<a href="#widl-EventTarget-dispatchEvent"><code>EventTarget.dispatchEvent()</code></a> will convert
+						the <code>Event</code> from a trusted event to an untrusted event (e.g., the
+						<a href="#widl-Event-isTrusted"><code>Event.isTrusted</code></a> attribute will return <code>false</code>).
+						</p>
 
 					<dl class="parameters">
 						<dt>DOMString eventTypeArg</dt>
 						<dd>
-							<p>Specifies <a href="#widl-Event-type"><code>Event.type</code></a>, the name of the event type.</p>
+							<p>Specifies <a href="#widl-Event-type"><code>Event.type</code></a>, the name of the event type.
+								</p>
 						</dd>
 						
 						<dt>boolean bubblesArg</dt>
 						<dd>
-							<p>Specifies <a href="#widl-Event-bubbles"><code>Event.bubbles</code></a>. This parameter overrides the intrinsic bubbling behavior of the event.</p>
+							<p>Specifies <a href="#widl-Event-bubbles"><code>Event.bubbles</code></a>.
+								This parameter overrides the intrinsic bubbling behavior of the event.
+								</p>
 						</dd>
 
 						<dt>boolean cancelableArg</dt>
 						<dd>
-							<p>Specifies <a href="#widl-Event-cancelable"><code>Event.cancelable</code></a>. This parameter overrides the intrinsic cancelable behavior of the event.</p>
+							<p>Specifies <a href="#widl-Event-cancelable"><code>Event.cancelable</code></a>.
+								This parameter overrides the intrinsic cancelable behavior of the event.
+								</p>
 						</dd>
 					</dl>
 				</dd>
@@ -7102,7 +7138,8 @@ else {
 
 		<p><em>This section is informative</em></p>
 
-		<p>This specification defines several new event interfaces without a mechanism for content authors to initialize their respective events.</p>
+		<p>This specification defines several new event interfaces without a mechanism for content authors to initialize their respective events.
+			</p>
 
 		<p>These new event interfaces are:</p>
 
@@ -7114,9 +7151,13 @@ else {
 			<li><a href="#interface-CompositionEvent"><code>CompositionEvent</code></a></li>
 		</ul>
 
-		<p>In DOM Level 2 Events, the initialization of these event interfaces was possible through an init method on the interface (for example <code>initMouseEvent</code>).
-			These init methods needed a long list of parameters that, in most cases, did not fully initialize all attributes of the event object. In order to fully initialize
-			an event interface which was derived from the basic <code>Event</code> interface, it was necessary to call the initializer of each of the derived interfaces explicitly.</p>
+		<p>In DOM Level 2 Events, the initialization of these event interfaces was possible through an init
+			method on the interface (for example <code>initMouseEvent</code>).
+			These init methods needed a long list of parameters that, in most cases, did not fully initialize
+			all attributes of the event object. In order to fully initialize
+			an event interface which was derived from the basic <code>Event</code> interface, it was necessary
+			to call the initializer of each of the derived interfaces explicitly.
+			</p>
 
 		<div class="example">
 			<div class="example-title"></div>
@@ -7124,27 +7165,37 @@ else {
 				<code>initMutationEvent</code>.</p>
 		</div>
 
-		<p>Due in part to the length of time in the development of this standard, some implementations MAY have taken a dependency on a set of initializer methods that were
-			formerly defined in this specification. For completeness, these legacy event intializers are described in this Appendix.</p>
+		<p>Due in part to the length of time in the development of this standard, some implementations MAY have
+			taken a dependency on a set of initializer methods that were formerly defined in this specification.
+			For completeness, these legacy event intializers are described in this Appendix.
+			</p>
 
-		<p>The initialization of new derived event objects becomes easier with the introduction of event constructors in
-			[<a href="#references-UIEvents">UI Events</a>]. Event constructors
-			are a new mechanism for initializing the event object's attributes that allows authors to pick-and-choose which of all the possible event attributes SHOULD be initialized to
-			a value. For the omitted values, a suitable default is applied.</p>
+		<p>The initialization of new derived event objects becomes easier with the introduction of event constructors
+			in [<a href="#references-UIEvents">UI Events</a>].
+			Event constructors are a new mechanism for initializing the event object's attributes that allows
+			authors to pick-and-choose which of all the possible event attributes SHOULD be initialized to
+			a value. For the omitted values, a suitable default is applied.
+			</p>
 
-		<p>This specification does not require a conforming implementation to support event constructors. Likewise it does not require a conforming implementation to support
-			the legacy event initializers. However, it would be prudent for a conforming implementation to support one or the other, so that authors have some mechanism to initilize
-			the new event interfaces defined in this specification.</p>
+		<p>This specification does not require a conforming implementation to support event constructors.
+			Likewise it does not require a conforming implementation to support the legacy event initializers.
+			However, it would be prudent for a conforming implementation to support one or the other, so that
+			authors have some mechanism to initilize the new event interfaces defined in this specification.
+			</p>
 
-		<p class="note"><strong>Note: </strong>Event constructors are a relatively new concept and are subject to change. For the latest syntax, please refer to the UI Events specification
-			[<a href="#references-UIEvents">UI Events</a>].</p>
+		<p class="note"><strong>Note: </strong>
+			Event constructors are a relatively new concept and are subject to change.
+			For the latest syntax, please refer to the UI Events specification [<a href="#references-UIEvents">UI Events</a>].
+			</p>
 
 		<section id="event-initializers">
 			<h2>Supplemental Initializer Interfaces</h2>
 			<p><em>This section is informative</em></p>
-			<p>
-				This section documents legacy initializer methods <b>and</b> suggested event constructors for the following event interfaces introduced in DOM Level 3 Events:
-			</p>
+
+			<p>This section documents legacy initializer methods <b>and</b> suggested event constructors for the
+				following event interfaces introduced in DOM Level 3 Events:
+				</p>
+
 			<ul>
 				<li><a href="#idl-interface-CustomEvent-initializers"><code>CustomEvent</code></a></li>
 				<li><a href="#idl-interface-FocusEvent-initializers"><code>FocusEvent</code></a></li>
@@ -7152,34 +7203,41 @@ else {
 				<li><a href="#idl-interface-KeyboardEvent-initializers"><code>KeyboardEvent</code></a></li>
 				<li><a href="#idl-interface-CompositionEvent-initializers"><code>CompositionEvent</code></a></li>
 			</ul>
-			<p>
-				This section also documents suggested event constructors for the following event interfaces which were introduced in DOM Level 2 Events [<a
-					href="#references-DOM2Events">DOM2 Events</a>] and deprecated in this specification:
-			</p>
+
+			<p>This section also documents suggested event constructors for the following event interfaces
+				which were introduced in DOM Level 2 Events [<a href="#references-DOM2Events">DOM2 Events</a>]
+				and deprecated in this specification:
+				</p>
+
 			<ul>
 				<li><a href="#idl-interface-UIEvent-initializers"><code>UIEvent</code></a></li>
 				<li><a href="#idl-interface-MouseEvent-initializers"><code>MouseEvent</code></a></li>
 			</ul>
-			<p>
-				For completeness, this section also documents suggested event constructors for the following event interfaces which were introduced in DOM Level 2 Events [<a
-					href="#references-DOM2Events">DOM2 Events</a>] but not deprecated in this specification:
-			</p>
+
+			<p>For completeness, this section also documents suggested event constructors for the following event
+				interfaces which were introduced in DOM Level 2 Events
+				[<a href="#references-DOM2Events">DOM2 Events</a>] but not deprecated in this specification:
+				</p>
+
 			<ul>
 				<li><a href="#idl-interface-Event-initializers"><code>Event</code></a></li>
 			</ul>
 
 			<section id="idl-interface-Event-initializers">
 				<h3>Initializers for interface Event</h3>
+
 				<dl class="idl" title="dictionary EventInit">
 					<dt>boolean bubbles = false</dt><dd></dd>
 					<dt>boolean cancelable = false</dt><dd></dd>
 				</dl>
+
 				<dl class="idl" title="[Constructor(DOMString typeArg, optional EventInit eventInitDict] partial interface Event">
 				</dl>
-			</section>
+			</section>  <!-- idl-interface-Event-initializers -->
 			
 			<section id="idl-interface-CustomEvent-initializers">
 				<h3>Initializers for interface CustomEvent</h3>
+
 				<dl class="idl" title="dictionary CustomEventInit">
 					<!-- Attributes from Event -->
 					<dt>boolean bubbles = false</dt><dd></dd>
@@ -7187,15 +7245,21 @@ else {
 					<!-- Attributes from CustomEvent -->
 					<dt>any detail = null</dt><dd></dd>
 				</dl>
+
 				<dl class="idl" title="[Constructor(DOMString typeArg, optional CustomEventInit customEventInitDict] partial interface CustomEvent">
 					<dt>// Originally introduced (and deprecated) in DOM Level 3</dt>
 					<dd></dd>
 					<dt>void initCustomEvent()</dt>
 					<dd>
-						<p>Initializes attributes of a <code>CustomEvent</code> object. This method has the same behavior as <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a>.</p>
+						<p>Initializes attributes of a <code>CustomEvent</code> object. This method has the
+							same behavior as <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a>.
+							</p>
 
-						<p class="warning"><strong>Warning!</strong> The <code>initCustomEvent</code> method is deprecated. Event constructor syntax, introduced in [<a href="#references-UIEvents">UI Events</a>], is the expected future
-							syntax for initializing a <code>CustomEvent</code>.</p>
+						<p class="warning"><strong>Warning!</strong>
+							The <code>initCustomEvent</code> method is deprecated.
+							Event constructor syntax, introduced in [<a href="#references-UIEvents">UI Events</a>], is
+							the expected future syntax for initializing a <code>CustomEvent</code>.
+							</p>
 
 						<dl class="parameters">
 							<dt>DOMString typeArg</dt>
@@ -7212,10 +7276,11 @@ else {
 						</dl>
 					</dd>
 				</dl>
-			</section>
+			</section>  <!-- idl-interface-CustomEvent-initializers -->
 
 			<section id="idl-interface-UIEvent-initializers">
 				<h3>Initializers for interface UIEvent</h3>
+
 				<dl class="idl" title="dictionary UIEventInit">
 					<!-- Attributes from Event -->
 					<dt>boolean bubbles = false</dt><dd></dd>
@@ -7224,15 +7289,21 @@ else {
 					<dt>AbstractView? view = null</dt><dd></dd>
 					<dt>long detail = 0</dt><dd></dd>
 				</dl>
+
 				<dl class="idl" title="[Constructor(DOMString typeArg, optional UIEventInit uiEventInitDict] partial interface UIEvent">
 					<dt>// Deprecated in DOM Level 3</dt>
 
 					<dt>void initUIEvent()</dt>
 					<dd>
-						<p>Initializes attributes of an <code>UIEvent</code> object. This method has the same behavior as <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a>.</p>
+						<p>Initializes attributes of an <code>UIEvent</code> object.
+							This method has the same behavior as <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a>.
+							</p>
 
-						<p class="warning"><strong>Warning!</strong> The <code>initUIEvent</code> method is deprecated, but supported for backwards-compatibility with widely-deployed
-							implementations. See [<a href="#references-UIEvents">UI Events</a>] for an alternate initializer syntax.</p>
+						<p class="warning"><strong>Warning!</strong>
+							The <code>initUIEvent</code> method is deprecated, but supported for
+							backwards-compatibility with widely-deployed implementations.
+							See [<a href="#references-UIEvents">UI Events</a>] for an alternate initializer syntax.
+							</p>
 
 						<dl class="parameters">
 							<dt>DOMString typeArg</dt>
@@ -7262,10 +7333,11 @@ else {
 						</dl>
 					</dd>
 				</dl>
-			</section>
+			</section>  <!-- idl-interface-UIEvent-initializers -->
 
 			<section id="idl-interface-FocusEvent-initializers">
 				<h3>Initializers for interface FocusEvent</h3>
+
 				<dl class="idl" title="dictionary FocusEventInit">
 					<!-- Attributes from Event -->
 					<dt>boolean bubbles = false</dt><dd></dd>
@@ -7276,15 +7348,21 @@ else {
 					<!-- Attributes from FocusEvent -->
 					<dt>EventTarget? relatedTarget = null</dt><dd></dd>
 				</dl>
+
 				<dl class="idl" title="[Constructor(DOMString typeArg, optional FocusEventInit focusEventInitDict] partial interface FocusEvent">
 					<dt>// Originally introduced (and deprecated) in DOM Level 3</dt>
 					<dd></dd>
 					<dt>void initFocusEvent()</dt>
 					<dd>
-						<p>Initializes attributes of a <code>FocusEvent</code> object. This method has the same behavior as <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.</p>
+						<p>Initializes attributes of a <code>FocusEvent</code> object.
+							This method has the same behavior as <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.
+							</p>
 
-						<p class="warning"><strong>Warning!</strong> The <code>initFocusEvent</code> method is deprecated. Event constructor syntax, introduced in [<a href="#references-UIEvents">UI Events</a>], is the expected future
-							syntax for initializing a <code>FocusEvent</code>.</p>
+						<p class="warning"><strong>Warning!</strong>
+							The <code>initFocusEvent</code> method is deprecated.
+							Event constructor syntax, introduced in [<a href="#references-UIEvents">UI Events</a>], is the expected future
+							syntax for initializing a <code>FocusEvent</code>.
+							</p>
 
 						<dl class="parameters">
 							<dt>DOMString typeArg</dt>
@@ -7307,10 +7385,11 @@ else {
 						</dl>
 					</dd>
 				</dl>
-			</section>
+			</section>  <!-- idl-interface-FocusEvent-initializers -->
 
 			<section id="idl-interface-MouseEvent-initializers">
 				<h3>Initializers for interface MouseEvent</h3>
+
 				<dl class="idl" title="dictionary MouseEventInit">
 					<!-- Attributes from Event -->
 					<dt>boolean bubbles = false</dt><dd></dd>
@@ -7332,15 +7411,20 @@ else {
 					<dt>unsigned short buttons = 0</dt><dd></dd>
 					<dt>EventTarget? relatedTarget = null</dt><dd></dd>
 				</dl>
+
 				<dl class="idl" title="[Constructor(DOMString typeArg, optional MouseEventInit mouseEventInitDict] partial interface MouseEvent">
 					<dt>// Deprecated in DOM Level 3</dt>
 
 					<dt>void initMouseEvent()</dt>
 					<dd>
-						<p>Initializes attributes of a <code>MouseEvent</code> object. This method has the same behavior as <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.</p>
+						<p>Initializes attributes of a <code>MouseEvent</code> object.
+							This method has the same behavior as <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.
+							</p>
 
-						<p class="warning"><strong>Warning!</strong> The <code>initMouseEvent</code> method is deprecated, but supported for backwards-compatibility with widely-deployed
-							implementations. See [<a href="#references-UIEvents">UI Events</a>] for an alternate initializer syntax.</p>
+						<p class="warning"><strong>Warning!</strong>
+							The <code>initMouseEvent</code> method is deprecated, but supported for backwards-compatibility with widely-deployed
+							implementations. See [<a href="#references-UIEvents">UI Events</a>] for an alternate initializer syntax.
+							</p>
 
 						<dl class="parameters">
 							<dt>DOMString typeArg</dt>
@@ -7421,10 +7505,11 @@ else {
 					</dd>
 
 				</dl>
-			</section>
+			</section>  <!-- idl-interface-MouseEvent-initializers -->
 
 			<section id="idl-interface-WheelEvent-initializers">
 				<h3>Initializers for interface WheelEvent</h3>
+
 				<dl class="idl" title="dictionary WheelEventInit">
 					<!-- Attributes from Event -->
 					<dt>boolean bubbles = false</dt><dd></dd>
@@ -7450,6 +7535,7 @@ else {
 					<dt>double deltaZ = 0.0</dt><dd></dd>
 					<dt>unsigned long deltaMode = 0</dt><dd></dd>
 				</dl>
+
 				<dl class="idl" title="[Constructor(DOMString typeArg, optional WheelEventInit wheelEventInitDict] partial interface WheelEvent">
 					<dt>// Originally introduced (and deprecated) in DOM Level 3</dt>
 					<dd></dd>
@@ -7496,10 +7582,13 @@ else {
 
 							<dt>DOMString modifiersListArg</dt>
 							<dd>
-								<p>A <a class="normative" href="http://www.w3.org/TR/2004/REC-xml-20040204/#NT-S"><em>white space</em></a> separated list of modifier key values to be activated
-									on this object. As an example, <code>"Control Shift"</code> marks the control and shift modifiers as activated (the <a href="#widl-MouseEvent-ctrlKey">
-									<code>MouseEvent.ctrlKey</code></a> and <a href="#widl-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a> inherited attributes will be <code>true</code>
-									on the initialized <code>WheelEvent</code> object).</p>
+								<p>A <a class="normative" href="http://www.w3.org/TR/2004/REC-xml-20040204/#NT-S"><em>white space</em></a>
+									separated list of modifier key values to be activated on this object.
+									As an example, <code>"Control Shift"</code> marks the control and shift modifiers as activated
+									(the <a href="#widl-MouseEvent-ctrlKey"><code>MouseEvent.ctrlKey</code></a> and
+									<a href="#widl-MouseEvent-shiftKey"><code>MouseEvent.shiftKey</code></a> inherited attributes
+									will be <code>true</code> on the initialized <code>WheelEvent</code> object).
+									</p>
 							</dd>
 
 							<dt>double deltaXArg</dt>
@@ -7516,10 +7605,11 @@ else {
 						</dl>
 					</dd>
 				</dl>
-			</section>
+			</section>  <!-- idl-interface-WheelEvent-initializers -->
 
 			<section id="idl-interface-KeyboardEvent-initializers">
 				<h3>Initializers for interface KeyboardEvent</h3>
+
 				<dl class="idl" title="dictionary KeyboardEventInit">
 					<!-- Attributes from Event -->
 					<dt>boolean bubbles = false</dt><dd></dd>
@@ -7540,16 +7630,22 @@ else {
 					<dt>unsigned long keyCode = 0</dt><dd></dd>
 					<dt>unsigned long which = 0</dt><dd></dd>
 				</dl>
+
 				<dl class="idl" title="[Constructor(DOMString typeArg, optional KeyboardEventInit keyboardEventInitDict] partial interface KeyboardEvent">
 					<dt>// Originally introduced (and deprecated) in DOM Level 3</dt>
 					<dd></dd>
 					<dt>void initKeyboardEvent()</dt>
 					<dd>
-						<p>Initializes attributes of a <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> object. This method has the same behavior as <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.
-							The value of <a href="#widl-UIEvent-detail"><code>UIEvent.detail</code></a> remains undefined.</p>
+						<p>Initializes attributes of a <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> object.
+							This method has the same behavior as <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.
+							The value of <a href="#widl-UIEvent-detail"><code>UIEvent.detail</code></a> remains undefined.
+							</p>
 
-						<p class="warning"><strong>Warning!</strong> The <code>initKeyboardEvent</code> method is deprecated. Event constructor syntax, introduced in [<a href="#references-UIEvents">UI Events</a>], is the expected
-							future syntax for initializing a <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a>.</p>
+						<p class="warning"><strong>Warning!</strong>
+							The <code>initKeyboardEvent</code> method is deprecated.
+							Event constructor syntax, introduced in [<a href="#references-UIEvents">UI Events</a>], is the expected
+							future syntax for initializing a <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a>.
+							</p>
 
 						<dl class="parameters">
 							<dt>DOMString typeArg</dt>
@@ -7574,8 +7670,10 @@ else {
 							<dd><p>Specifies <a href="#widl-KeyboardEvent-location"><code>KeyboardEvent.location</code></a>.</p></dd>
 
 							<dt>DOMString modifiersListArg</dt>
-							<dd><p>A <a class="normative" href="http://www.w3.org/TR/2004/REC-xml-20040204/#NT-S"><em>white space</em></a> separated list of modifier key values to be activated on
-								this object. As an example, <code>"Control Alt"</code> marks the control and alt modifiers as activated.</p>
+							<dd><p>A <a class="normative" href="http://www.w3.org/TR/2004/REC-xml-20040204/#NT-S"><em>white space</em></a>
+								separated list of modifier key values to be activated on this object.
+								As an example, <code>"Control Alt"</code> marks the control and alt modifiers as activated.
+								</p>
 							</dd>
 
 							<dt>boolean repeat</dt>
@@ -7583,10 +7681,11 @@ else {
 						</dl>
 					</dd>
 				</dl>
-			</section>
+			</section>  <!-- idl-interface-KeyboardEvent-initializers -->
 
 			<section id="idl-interface-CompositionEvent-initializers">
 				<h3>Initializers for interface CompositionEvent</h3>
+
 				<dl class="idl" title="dictionary CompositionEventInit">
 					<!-- Attributes from Event -->
 					<dt>boolean bubbles = false</dt><dd></dd>
@@ -7597,16 +7696,22 @@ else {
 					<!-- Attributes from CompositionEvent -->
 					<dt>DOMString? data = null</dt><dd></dd>
 				</dl>
+
 				<dl class="idl" title="[Constructor(DOMString typeArg, optional CompositionEventInit compositionEventInitDict] partial interface CompositionEvent">
 					<dt>// Originally introduced (and deprecated) in DOM Level 3</dt>
 					<dd></dd>
 					<dt>void initCompositionEvent()</dt>
 					<dd>
-						<p>Initializes attributes of a <code>CompositionEvent</code> object. This method has the same behavior as <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.
-							The value of <a href="#widl-UIEvent-detail"><code>UIEvent.detail</code></a> remains undefined.</p>
+						<p>Initializes attributes of a <code>CompositionEvent</code> object.
+							This method has the same behavior as <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.
+							The value of <a href="#widl-UIEvent-detail"><code>UIEvent.detail</code></a> remains undefined.
+							</p>
 
-						<p class="warning"><strong>Warning!</strong> The <code>initCompositionEvent</code> method is deprecated. Event constructor syntax, introduced in [<a href="#references-UIEvents">UI Events</a>], is the expected
-							future syntax for initializing a <code>CompositionEvent</code>.</p>
+						<p class="warning"><strong>Warning!</strong>
+							The <code>initCompositionEvent</code> method is deprecated.
+							Event constructor syntax, introduced in [<a href="#references-UIEvents">UI Events</a>], is the expected
+							future syntax for initializing a <code>CompositionEvent</code>.
+							</p>
 
 						<dl class="parameters">
 							<dt>DOMString typeArg</dt>
@@ -7626,9 +7731,9 @@ else {
 						</dl>
 					</dd>
 				</dl>
-			</section>
+			</section>  <!-- idl-interface-CompositionEvent-initializers -->
 
-		</section>
+		</section>  <!-- event-initializers -->
 	</section>  <!-- new-event-interface-initializers -->
 
 	<!-- Appendix B: Legacy Key Attributes ========================================================-->
