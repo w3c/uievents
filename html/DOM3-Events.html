@@ -1001,17 +1001,25 @@ console.log("Exceptions? No problem");</pre>
 	<section id="event-interfaces">
 		<h1>Basic Event Interfaces</h1>
 
-		<p>The interfaces described in this section are fundamental to DOM Level 3 Events and MUST always be supported by the implementation.</p>
+		<p>The interfaces described in this section are fundamental to DOM Level 3 Events and MUST
+			always be supported by the implementation.
+			</p>
 
-		<p>The event types defined in this specification derive from these basic interfaces, and MUST inherit all of the attributes, methods, and constants of the interfaces
-			they derive from.  Event types defined in other specifications MAY similarly inherit from these basic interfaces or other interfaces defined in this specification,
-			or MAY define their own interfaces.  The following chart describes the inheritance structure of interfaces defined in this specification.</p>
+		<p>The event types defined in this specification derive from these basic interfaces, and MUST
+			inherit all of the attributes, methods, and constants of the interfaces they derive from.
+			Event types defined in other specifications MAY similarly inherit from these basic interfaces
+			or other interfaces defined in this specification, or MAY define their own interfaces.
+			The following chart describes the inheritance structure of interfaces defined in this specification.
+			</p>
 
 		<figure id="figure-event-inheritance">
 			<img src='images/event-inheritance.svg' width="960" height="230" />
 			<figcaption>Graphical representation of the DOM3 Events interface inheritance</figcaption>
 		</figure>
 
+		<p class="issue">
+			Need to add InputEvent to this diagram.
+			</p>
 		<section id="interface-Event">
 			<h2>Interface Event</h2>
 
@@ -1020,8 +1028,10 @@ console.log("Exceptions? No problem");</pre>
 			<p>The <code>Event</code> interface provides basic contextual information about an event to
 				all registered <a class="def" href="#glossary-event-handler">event handlers</a>.
 				Specific events can also implement other derived interfaces, for example the
-				<a href="#interface-UIEvent"><code>UIEvent</code></a> and <a href="#interface-MouseEvent">
-				<code>MouseEvent</code></a> interfaces.
+					<a href="#interface-UIEvent"><code>UIEvent</code></a>
+				and
+					<a href="#interface-MouseEvent"><code>MouseEvent</code></a>
+				interfaces.
 				</p>
 
 			<p>To create an instance of the <code>Event</code> interface, use the
@@ -1029,7 +1039,12 @@ console.log("Exceptions? No problem");</pre>
 				method call.
 				</p>
 
-			<dl class="idl" title="interface Event">
+			<dl class="idl" title="dictionary EventInit">
+				<dt>boolean bubbles = false</dt><dd></dd>
+				<dt>boolean cancelable = false</dt><dd></dd>
+			</dl>
+
+			<dl class="idl" title="[Constructor(DOMString typeArg, optional EventInit eventInitDict] interface Event">
 				<dt>// PhaseType</dt>
 
 				<dt>const unsigned short NONE = 0</dt>
@@ -1316,7 +1331,11 @@ console.log("Exceptions? No problem");</pre>
 				method call.
 				</p>
 
-			<dl class="idl" title="interface CustomEvent">
+			<dl class="idl" title="dictionary CustomEventInit">
+				<dt>any detail = null</dt><dd></dd>
+			</dl>
+
+			<dl class="idl" title="[Constructor(DOMString typeArg, optional CustomEventInit customEventInitDict] interface CustomEvent">
 				<dt>readonly attribute any detail</dt>
 				<dd>
 					<p>Specifies some detail information about the <a href="#interface-Event"><code>Event</code></a>.
@@ -1927,10 +1946,14 @@ console.log("Exceptions? No problem");</pre>
 
 					<p class="intro-dom">Introduced in DOM Level 2</p>
 
-					<p>The <code>UIEvent</code> interface provides specific contextual information associated with User Interface events.</p>
+					<p>The <code>UIEvent</code> interface provides specific contextual information associated
+						with User Interface events.
+						</p>
 
-					<p>To create an instance of the <code>UIEvent</code> interface, use the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("UIEvent")</code></a>
-						method call.</p>
+					<p>To create an instance of the <code>UIEvent</code> interface, use the
+						<a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("UIEvent")</code></a>
+						method call.
+						</p>
 
 					<dl class="idl" title="[Constructor(DOMString type, optional UIEventInit eventInitDict)] interface UIEvent : Event">
 						<dt>readonly attribute AbstractView? view</dt>
@@ -1971,8 +1994,11 @@ console.log("Exceptions? No problem");</pre>
 						
 				</section>  <!-- interface-UIEvent -->
 
-				<p>The User Interface event types are listed below.  Some of these events use the <a href="#interface-UIEvent"><code>UIEvent</code></a> interface if generated from a
-					user interface, but the <a href="#interface-Event"><code>Event</code></a> interface otherwise, as detailed in each event.</p>
+				<p>The User Interface event types are listed below.  Some of these events use the
+					<a href="#interface-UIEvent"><code>UIEvent</code></a> interface if generated from a
+					user interface, but the <a href="#interface-Event"><code>Event</code></a> interface
+					otherwise, as detailed in each event.
+					</p>
 
 				<!-- load -->
 				<div class="event-definition">
@@ -2403,27 +2429,31 @@ console.log("Exceptions? No problem");</pre>
 			<section id="events-focusevent">
 				<h3>Focus Event Types</h3>
 
-				<p class="note"><strong>Note:</strong> This interface and its associated event types and <a href="#events-focusevent-event-order">focus event
-					order</a> were designed in accordance to the concepts and guidelines defined in <a href="http://www.w3.org/WAI/UA/2010/ED-UAAG20-20100308/">User Agent Accessibility
-					Guidelines 2.0</a> [<a href="#references-UAAG2">UAAG 2.0</a>], with particular attention on the <a href="http://www.w3.org/WAI/UA/2010/ED-UAAG20-20100308/#gl-focus-mechanism">
-					focus mechanism</a> and the terms defined in the <a href="http://www.w3.org/WAI/UA/2010/ED-UAAG20-20100308/#def-focus">glossary entry for focus</a>.</p>
+				<p class="note"><strong>Note:</strong>
+					This interface and its associated event types and
+						<a href="#events-focusevent-event-order">focus event order</a>
+					were designed in accordance to the concepts and guidelines defined in
+						<a href="http://www.w3.org/WAI/UA/2010/ED-UAAG20-20100308/">User Agent Accessibility Guidelines 2.0</a>
+						[<a href="#references-UAAG2">UAAG 2.0</a>],
+					with particular attention on the
+						<a href="http://www.w3.org/WAI/UA/2010/ED-UAAG20-20100308/#gl-focus-mechanism">focus mechanism</a>
+					and the terms defined in the
+						<a href="http://www.w3.org/WAI/UA/2010/ED-UAAG20-20100308/#def-focus">glossary entry for focus</a>.
+					</p>
 
 				<section id="interface-FocusEvent">
 					<h4>Interface FocusEvent</h4>
 
 					<p class="intro-dom">Introduced in DOM Level 3</p>
 
-					<p>The <code>FocusEvent</code> interface provides specific contextual information associated with Focus events.</p>
+					<p>The <code>FocusEvent</code> interface provides specific contextual information associated
+						with Focus events.
+						</p>
 
-					<p>
-						To create an instance of the <code>FocusEvent</code> interface, use the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("FocusEvent")</code></a>
+					<p>To create an instance of the <code>FocusEvent</code> interface, use the
+						<a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("FocusEvent")</code></a>
 						method call.
-					</p>
-
-					<p class="note">
-						<strong>Authoring Note: </strong>See [<a href="#references-UIEvents">UI Events</a>] for information about programmatically initializing
-						FocusEvent objects.
-					</p>
+						</p>
 
 		            <dl class="idl" title="[Constructor(DOMString typeArg, optional FocusEventInit focusEventInitDict)] interface FocusEvent : UIEvent">
 						<dt>readonly attribute EventTarget? relatedTarget</dt>
@@ -2800,129 +2830,219 @@ console.log("Exceptions? No problem");</pre>
 
 					<p class="intro-dom">Introduced in DOM Level 2, modified in DOM Level 3</p>
 
-					<p>The <code>MouseEvent</code> interface provides specific contextual information associated with Mouse events.</p>
+					<p>The <code>MouseEvent</code> interface provides specific contextual information
+						associated with Mouse events.
+						</p>
 
-					<p>In the case of nested elements, mouse events are always targeted at the most deeply nested element.</p>
+					<p>In the case of nested elements, mouse events are always targeted at the most deeply
+						nested element.
+						</p>
 
-					<p class="note"><strong>Note:</strong> Ancestors of the targeted element can use event bubbling to obtain notifications of mouse events which occur within their descendent
-						elements.</p>
+					<p class="note"><strong>Note:</strong>
+						Ancestors of the targeted element can use event bubbling to obtain notifications
+						of mouse events which occur within their descendent elements.
+						</p>
 
-					<p>To create an instance of the <code>MouseEvent</code> interface, use the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("MouseEvent")</code></a>
-						method call.</p>
+					<p>To create an instance of the <code>MouseEvent</code> interface, use the
+						<a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("MouseEvent")</code></a>
+						method call.
+						</p>
 
-					<p class="note"><strong>Note:</strong> When initializing <code>MouseEvent</code> objects using <code>initMouseEvent</code>, implementations can use the client
-						coordinates <code>clientX</code> and <code>clientY</code> for calculation of other coordinates (such as target coordinates exposed by <a class="def" href="#glossary-DOM-Level-0">
-						DOM Level 0</a> implementations or other proprietary attributes, e.g., <code>pageX</code>).</p>
+					<p class="note"><strong>Note:</strong>
+						When initializing <code>MouseEvent</code> objects using <code>initMouseEvent</code>,
+						implementations can use the client coordinates <code>clientX</code> and <code>clientY</code>
+						for calculation of other coordinates (such as target coordinates exposed by
+							<a class="def" href="#glossary-DOM-Level-0">DOM Level 0</a>
+						implementations or other proprietary attributes, e.g., <code>pageX</code>).
+						</p>
 
 					<dl class="idl" title="[Constructor(DOMString typeArg, optional MouseEventInit mouseEventInitDict)] interface MouseEvent : UIEvent">
 						<dt>readonly attribute long screenX</dt>
 						<dd>
-							<p>The horizontal coordinate at which the event occurred relative to the origin of the screen coordinate system.</p>
+							<p>The horizontal coordinate at which the event occurred relative to the origin
+								of the screen coordinate system.
+								</p>
 
-							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>0</code>.</p>
+							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a>
+								of this attribute MUST be <code>0</code>.
+								</p>
 						</dd>
 
 						<dt>readonly attribute long screenY</dt>
 						<dd>
-							<p>The vertical coordinate at which the event occurred relative to the origin of the screen coordinate system.</p>
+							<p>The vertical coordinate at which the event occurred relative to the origin
+								of the screen coordinate system.
+								</p>
 
-							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>0</code>.</p>
+							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a>
+								of this attribute MUST be <code>0</code>.
+								</p>
 						</dd>
 
 						<dt>readonly attribute long clientX</dt>
 						<dd>
-							<p>The horizontal coordinate at which the event occurred relative to the viewport associated with the event.</p>
+							<p>The horizontal coordinate at which the event occurred relative to the viewport
+								associated with the event.
+								</p>
 
-							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>0</code>.</p>
+							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a>
+								of this attribute MUST be <code>0</code>.
+								</p>
 						</dd>
 
 						<dt>readonly attribute long clientY</dt>
 						<dd>
-							<p>The vertical coordinate at which the event occurred relative to the viewport associated with the event.</p>
+							<p>The vertical coordinate at which the event occurred relative to the viewport
+								associated with the event.
+								</p>
 
-							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>0</code>.</p>
+							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a>
+								of this attribute MUST be <code>0</code>.
+								</p>
 						</dd>
 
 						<dt>readonly attribute boolean ctrlKey</dt>
 						<dd>
 							<p>Refer to the <a href="#widl-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a> attribute.</p>
 
-							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>false</code>.</p>
+							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a>
+								of this attribute MUST be <code>false</code>.
+								</p>
 						</dd>
 
 						<dt>readonly attribute boolean shiftKey</dt>
 						<dd>
 							<p>Refer to the <a href="#widl-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a> attribute.</p>
+
+							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a>
+								of this attribute MUST be <code>false</code>.
+								</p>
 						</dd>
 
 						<dt>readonly attribute boolean altKey</dt>
 						<dd>
 							<p>Refer to the <a href="#widl-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a> attribute.</p>
+
+							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a>
+								of this attribute MUST be <code>false</code>.
+								</p>
 						</dd>
 
 						<dt>readonly attribute boolean metaKey</dt>
 						<dd>
 							<p>Refer to the <a href="#widl-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a> attribute.</p>
 
-							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>false</code>.</p>
+							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a>
+								of this attribute MUST be <code>false</code>.
+								</p>
 						</dd>
 
 						<dt>readonly attribute unsigned short button</dt>
 						<dd>
-							<p>During mouse events caused by the depression or release of a mouse button, <code>button</code> MUST be used to indicate which pointer device button changed state.</p>
-							<p>The value of the <a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a> attribute MUST be as follows:</p>
+							<p>During mouse events caused by the depression or release of a mouse button,
+								<code>button</code> MUST be used to indicate which pointer device button
+								changed state.
+								</p>
+								
+							<p>The value of the <a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a>
+								attribute MUST be as follows:
+								</p>
 
 							<ul>
-								<li><code>0</code> MUST indicate the primary button of the device (in general, the left button  or the only button on single-button devices, used to activate a user
-									interface control or select text) or the un-initialized value.</li>
-								<li><code>1</code> MUST indicate the auxiliary button (in general, the middle button, often combined with a mouse wheel).</li>
-								<li><code>2</code> MUST indicate the secondary button (in general, the right button, often used to display a context menu).</li>
+								<li><code>0</code> MUST indicate the primary button of the device
+									(in general, the left button  or the only button on single-button devices,
+									used to activate a user interface control or select text) or the
+									un-initialized value.</li>
+								<li><code>1</code> MUST indicate the auxiliary button
+									(in general, the middle button, often combined with a mouse wheel).</li>
+								<li><code>2</code> MUST indicate the secondary button
+									(in general, the right button, often used to display a context menu).</li>
 							</ul>
 
-							<p>Some pointing devices provide or simulate more buttons, and values higher than <code>2</code> MAY be used to represent such buttons.</p>
+							<p>Some pointing devices provide or simulate more buttons, and values higher than
+								<code>2</code> MAY be used to represent such buttons.
+								</p>
 
-							<p class="note"><strong>Note:</strong> The value of <code>button</code> is not updated for events not caused by the depression/release of a mouse button. In these
-								scenarios, take care not to interpret the value <code>0</code> as the left button, but rather as the <a class="def" href="#glossary-un-initialized-value">un-initialized
-								value</a></p>
+							<p class="note"><strong>Note:</strong>
+								The value of <code>button</code> is not updated for events not caused by the
+								depression/release of a mouse button.
+								In these scenarios, take care not to interpret the value <code>0</code> as the
+								left button, but rather as the
+									<a class="def" href="#glossary-un-initialized-value">un-initialized value</a>.
+								</p>
 
-							<p class="note"><strong>Authoring Note:</strong> Some <a class="def" href="#glossary-default-action">default actions</a> related to events such as
-								<a class="eventtype"><code>mousedown</code></a> and <a class="eventtype"><code>mouseup</code></a> depend on the specific mouse button in use.</p>
+							<p class="note"><strong>Authoring Note:</strong>
+								Some <a class="def" href="#glossary-default-action">default actions</a> related
+								to events such as <a class="eventtype"><code>mousedown</code></a> and
+								<a class="eventtype"><code>mouseup</code></a> depend on the specific mouse
+								button in use.
+								</p>
 
-							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>0</code>.</p>
+							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a>
+								of this attribute MUST be <code>0</code>.
+								</p>
 						</dd>
 
 						<dt>readonly attribute unsigned short buttons</dt>
 						<dd>
-							<p>During any mouse events, <code>buttons</code> MUST be used to indicate which combination of mouse buttons are
-								currently being pressed, expressed as a bitmask.</p>
+							<p>During any mouse events, <code>buttons</code> MUST be used to indicate
+								which combination of mouse buttons are currently being pressed,
+								expressed as a bitmask.
+								</p>
 
-							<p class="note"><strong>Note:</strong> Though similarly named, the values for the <code>buttons</code> attribute and the <a href="#widl-MouseEvent-button"><code>button</code></a>
-								attribute are very different. The value of <code>button</code> is assumed to be valid during <a class="eventtype"><code>mousedown</code></a>/
-								<a class="eventtype"><code>mouseup</code></a> event handlers, whereas the <code>buttons</code> attribute reflects the state of the mouse's buttons for any
-								trusted <code>MouseEvent</code> object (while it is being dispatched), because it can represent the "no button currently active" state (0).</p>
+							<p class="note"><strong>Note:</strong>
+								Though similarly named, the values for the <code>buttons</code> attribute
+								and the <a href="#widl-MouseEvent-button"><code>button</code></a>
+								attribute are very different.
+								The value of <code>button</code> is assumed to be valid during
+								<a class="eventtype"><code>mousedown</code></a> /
+								<a class="eventtype"><code>mouseup</code></a> event handlers,
+								whereas the <code>buttons</code> attribute reflects the state of the
+								mouse's buttons for any trusted <code>MouseEvent</code> object
+								(while it is being dispatched), because it can represent the
+								"no button currently active" state (0).
+								</p>
 
-							<p>The value of the <a href="#widl-MouseEvent-buttons"><code>MouseEvent.buttons</code></a> attribute MUST be as follows:</p>
+							<p>The value of the <a href="#widl-MouseEvent-buttons"><code>MouseEvent.buttons</code></a>
+								attribute MUST be as follows:
+								</p>
 
 							<ul>
 								<li><code>0</code> MUST indicate no button is currently active.</li>
-								<li><code>1</code> MUST indicate the primary button of the device (in general, the left button or the only button on single-button devices, used to activate a user
-									interface control or select text).</li>
-								<li><code>2</code> MUST indicate the secondary button (in general, the right button, often used to display a context menu), if present.</li>
-								<li><code>4</code> MUST indicate the auxiliary button (in general, the middle button, often combined with a mouse wheel).</li>
+								<li><code>1</code> MUST indicate the primary button of the device
+									(in general, the left button or the only button on single-button devices,
+									used to activate a user interface control or select text).</li>
+								<li><code>2</code> MUST indicate the secondary button
+									(in general, the right button, often used to display a context menu), if present.</li>
+								<li><code>4</code> MUST indicate the auxiliary button
+									(in general, the middle button, often combined with a mouse wheel).</li>
 							</ul>
 
-							<p>Some pointing devices provide or simulate more buttons.  To represent such buttons, the value MUST be doubled for each successive button (in the binary series <code>
-								8</code>, <code>16</code>, <code>32</code>, ... ).</p>
+							<p>Some pointing devices provide or simulate more buttons.
+								To represent such buttons, the value MUST be doubled for each successive button
+								(in the binary series <code>8</code>, <code>16</code>, <code>32</code>, ... ).
+								</p>
 
-							<p class="note" id="buttons-mask"><strong>Note:</strong> Because the sum of any set of button values is a unique number, a content author can use a bitwise operation
-								to determine how many buttons are currently being pressed and which buttons they are, for an arbitrary number of mouse buttons on a device, e.g., the value <code>3</code>
-								indicates that the left and right button are currently both pressed, while the value <code>5</code> indicates that the left and middle button are currently both
-								pressed.</p>
+							<p class="note" id="buttons-mask"><strong>Note:</strong>
+								Because the sum of any set of button values is a unique number, a content
+								author can use a bitwise operation to determine how many buttons are currently
+								being pressed and which buttons they are, for an arbitrary number of mouse buttons
+								on a device.
+								For example, the value <code>3</code> indicates that the left and right button are
+								currently both pressed, while the value <code>5</code> indicates that the left and
+								middle button are currently both pressed.
+								</p>
 
-							<p class="note"><strong>Authoring Note: </strong>Some <a class="def" href="#glossary-default-action">default actions</a> related to events such as
-								<a class="eventtype"><code>mousedown</code></a> and <a class="eventtype"><code>mouseup</code></a> depend on the specific mouse button in use.</p>
+							<p class="note"><strong>Authoring Note:</strong>
+								Some <a class="def" href="#glossary-default-action">default actions</a> related
+								to events such as <a class="eventtype"><code>mousedown</code></a> and
+								<a class="eventtype"><code>mouseup</code></a> depend on the specific mouse button
+								in use.
+								</p>
 
-							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>0</code>.</p>
+							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a>
+								of this attribute MUST be <code>0</code>.
+								</p>
 						</dd>
 
 						<dt>readonly attribute EventTarget? relatedTarget</dt>
@@ -2938,9 +3058,13 @@ console.log("Exceptions? No problem");</pre>
 						<dd>
 							<p class="intro-dom">Introduced in DOM Level 3</p>
 
-							<p>Queries the state of a modifier using a key value. See also <a href="#keys-modifiers">Modifier keys</a>.</p>
+							<p>Queries the state of a modifier using a key value.
+								See also <a href="#keys-modifiers">Modifier keys</a>.
+								</p>
 
-							<p>Returns <code>true</code> if it is a modifier key and the modifier is activated, <code>false</code> otherwise.</p>
+							<p>Returns <code>true</code> if it is a modifier key and the modifier is activated,
+								<code>false</code> otherwise.
+								</p>
 
 							<dl class="parameters">
 								<dt>DOMString keyArg</dt>
@@ -4282,41 +4406,73 @@ console.log("Exceptions? No problem");</pre>
 
 				<div class="example">
 					<div class="example-title"></div>
-					<p>The user's environment might be configured to associate vertical scrolling with rotation along the y-axis, horizontal
-					scrolling with rotation along the x-axis, and zooming with rotation along the z-axis.</p>
+					<p>The user's environment might be configured to associate vertical scrolling
+						with rotation along the y-axis, horizontal scrolling with rotation along
+						the x-axis, and zooming with rotation along the z-axis.
+						</p>
 				</div>
 
-				<p>The deltaX, deltaY, and deltaZ attributes of <a href="#interface-WheelEvent"><code>WheelEvent</code></a> objects indicate a measurement along their respective axes
-					in units of pixels, lines, or pages. The reported measurements are provided after an environment-specific algorithm translates the actual rotation/movement of
-					the wheel device into the appropriate values and units.</p>
+				<p>The deltaX, deltaY, and deltaZ attributes of
+					<a href="#interface-WheelEvent"><code>WheelEvent</code></a> objects indicate a
+					measurement along their respective axes in units of pixels, lines, or pages.
+					The reported measurements are provided after an environment-specific algorithm
+					translates the actual rotation/movement of the wheel device into the appropriate
+					values and units.
+					</p>
 
-				<p class="note"><strong>Authoring Note:</strong> A user's environment settings can be customized to interpret actual rotation/movement of a wheel device in different ways.
-					One movement of a common <q>dented</q> mouse wheel can produce a measurement of 162 pixels (162 is just an example value, actual values can depend on the current screen
-					dimensions of the user-agent). But a user can change their default environment settings to speed-up their mouse wheel, increasing this number. Furthermore, some
-					mouse wheel software can support acceleration (the faster the wheel is rotated/moved, the greater the delta of each measurement) or even sub-pixel rotation measurements.
-					Because of this, authors can not assume a given rotation amount in one user agent will produce the same delta value in all user agents.</p>
+				<p class="note"><strong>Authoring Note:</strong>
+					A user's environment settings can be customized to interpret actual rotation/movement
+					of a wheel device in different ways.
+					One movement of a common <q>dented</q> mouse wheel can produce a measurement of 162 pixels
+					(162 is just an example value, actual values can depend on the current screen
+					dimensions of the user-agent).
+					But a user can change their default environment settings to speed-up their mouse wheel,
+					increasing this number.
+					Furthermore, some mouse wheel software can support acceleration (the faster the wheel
+					is rotated/moved, the greater the delta of each measurement) or even sub-pixel rotation
+					measurements.
+					Because of this, authors can not assume a given rotation amount in one user agent will
+					produce the same delta value in all user agents.
+					</p>
 
-				<p>The sign (positive or negative) of the values of the deltaX, deltaY, and deltaZ attributes MUST be consistent between multiple dispatches of the
-					<a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event while the motion of the actual wheel device is rotating/moving in the same direction. If a user agent scrolls as the
-					default action of the <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event then the sign of the delta SHOULD be given by a right-hand coordinate system where positive X,
-					Y, and Z axes are directed towards the right-most edge, bottom-most edge, and farthest depth (away from the user) of the document, respectively.</p>
+				<p>The sign (positive or negative) of the values of the deltaX, deltaY, and deltaZ attributes
+					MUST be consistent between multiple dispatches of the
+					<a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event while the
+					motion of the actual wheel device is rotating/moving in the same direction.
+					If a user agent scrolls as the default action of the
+					<a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event then the sign
+					of the delta SHOULD be given by a right-hand coordinate system where positive X,
+					Y, and Z axes are directed towards the right-most edge, bottom-most edge, and farthest
+					depth (away from the user) of the document, respectively.
+					</p>
 
-				<p class="note"><strong>Note:</strong> Individual user agents can (depending on their environment and hardware configuration) interpret the same physical user interaction
-					on the wheel differently. For example, a vertical swipe on the edge of a trackpad from top to bottom can be interpreted as a wheel action intended to either scroll the
-					page down or to pan the page up (i.e., resulting in either a positive or negative deltaY value respectively).</p>
+				<p class="note"><strong>Note:</strong>
+					Individual user agents can (depending on their environment and hardware configuration)
+					interpret the same physical user interaction on the wheel differently.
+					For example, a vertical swipe on the edge of a trackpad from top to bottom can be
+					interpreted as a wheel action intended to either scroll the
+					page down or to pan the page up (i.e., resulting in either a positive or negative
+					deltaY value respectively).
+					</p>
 
 				<section id="interface-WheelEvent">
 					<h4>Interface WheelEvent</h4>
 
 					<p class="intro-dom">Introduced in DOM Level 3</p>
 
-					<p>The <code>WheelEvent</code> interface provides specific contextual information associated with <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> events.</p>
+					<p>The <code>WheelEvent</code> interface provides specific contextual information
+						associated with <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a>
+						events.
+						</p>
 
-					<p>To create an instance of the <code>WheelEvent</code> interface, use the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("WheelEvent")</code></a>
-						method call.</p>
+					<p>To create an instance of the <code>WheelEvent</code> interface, use the
+						<a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("WheelEvent")</code></a>
+						method call.
+						</p>
 
-					<p class="note"><strong>Authoring Note: </strong>See [<a href="#references-UIEvents">UI Events</a>] for information about programmatically initializing
-						WheelEvent objects.</p>
+					<p class="note"><strong>Authoring Note:</strong>
+						See [<a href="#references-UIEvents">UI Events</a>] for information about programmatically
+						initializing WheelEvent objects.</p>
 
 					<dl class="idl" title="[Constructor(DOMString typeArg, optional WheelEventInit wheelEventInitDict)] interface WheelEvent : MouseEvent">
 						<dt>// DeltaModeCode</dt>
@@ -4551,7 +4707,7 @@ console.log("Exceptions? No problem");</pre>
 
 					<p class="intro-dom">Introduced in DOM Level 3</p>
 
-					<dl class="idl" title="[Constructor(DOMString typeArg, optional InputEventInit inputEventInitDict)] interface InputEvent : Event">
+					<dl class="idl" title="[Constructor(DOMString typeArg, optional InputEventInit inputEventInitDict)] interface InputEvent : UIEvent">
 						<dt>readonly attribute DOMString data</dt>
 						<dd>
 							<p><code>data</code> holds the value of the characters generated by an input method.
@@ -4569,7 +4725,7 @@ console.log("Exceptions? No problem");</pre>
 						</dd>
 					</dl>
 					
-					<dl class="idl" title="dictionary WheelEventInit: MouseEventInit">
+					<dl class="idl" title="dictionary InputEventInit : UIEventInit">
 						<dt>DOMString data = ""</dt>
 						<dd>
 							<p>Initializes the <code>data</code> attribute of the InputEvent object.
@@ -4719,32 +4875,53 @@ console.log("Exceptions? No problem");</pre>
 			<section id="events-keyboardevents">
 				<h3>Keyboard Event Types</h3>
 
-				<p>Keyboard events are device dependent, i.e., they rely on the capabilities of the input devices and how they are mapped in the operating systems. Refer to <a href="#keys">
-					Keyboard events and key values</a> for more details, including examples on how Keyboard Events are used in combination with Composition Events. Depending on the
-					character generation device, keyboard events might not be generated.</p>
+				<p>Keyboard events are device dependent, i.e., they rely on the capabilities of the
+					input devices and how they are mapped in the operating systems. Refer to
+					<a href="#keys">Keyboard events and key values</a> for more details, including
+					examples on how Keyboard Events are used in combination with Composition Events.
+					Depending on the
+					character generation device, keyboard events might not be generated.
+					</p>
 
-				<p class="note"><strong>Authoring Note:</strong> Keyboard events are only one modality of providing textual input. For editing scenarios, consider also using the "input" event
-					defined in [<cite><a class="informative" href="#references-HTML5">HTML5</a></cite>] as an alternate to (or in addition to) keyboard events.</p>
+				<p class="note"><strong>Authoring Note:</strong>
+					Keyboard events are only one modality of providing textual input.
+					For editing scenarios, consider also using the
+						<a href="#interface-InputEvent"><code>InputEvent</code></a>
+					as an alternate to (or in addition to) keyboard events.
+					</p>
 
 				<section id="interface-KeyboardEvent">
 					<h4>Interface KeyboardEvent</h4>
 
 					<p class="intro-dom">Introduced in DOM Level 3</p>
 
-					<p>The <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> interface provides specific contextual information associated with keyboard devices. Each keyboard event references a key using a
-						value. Keyboard events are commonly directed at the element that has the focus.</p>
+					<p>The <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> interface
+						provides specific contextual information associated with keyboard devices.
+						Each keyboard event references a key using a value.
+						Keyboard events are commonly directed at the element that has the focus.
+						</p>
 
-					<p>The <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> interface provides convenient attributes for some common modifiers keys: <a href="#widl-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>,
-						<a href="#widl-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>, <a href="#widl-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>,
-						<a href="#widl-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a>. These attributes are equivalent to using the method <a href="#widl-KeyboardEvent-getModifierState">
-						<code>KeyboardEvent.getModifierState(keyArg)</code></a> with <code class="key">'Control'</code>, <code class="key">'Shift'</code>, <code class="key">'Alt'</code>,
-						or <code class="key">'Meta'</code> respectively.</p>
+					<p>The <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> interface
+						provides convenient attributes for some common modifiers keys:
+							<a href="#widl-KeyboardEvent-ctrlKey"><code>KeyboardEvent.ctrlKey</code></a>,
+							<a href="#widl-KeyboardEvent-shiftKey"><code>KeyboardEvent.shiftKey</code></a>,
+							<a href="#widl-KeyboardEvent-altKey"><code>KeyboardEvent.altKey</code></a>,
+							<a href="#widl-KeyboardEvent-metaKey"><code>KeyboardEvent.metaKey</code></a>.
+						These attributes are equivalent to using the method
+							<a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState(keyArg)</code></a>
+						with
+							<code class="key">'Control'</code>,
+							<code class="key">'Shift'</code>,
+							<code class="key">'Alt'</code>, or
+							<code class="key">'Meta'</code>
+						respectively.
+						</p>
 
-					<p>To create an instance of the <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> interface, use the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("KeyboardEvent")</code></a>
-						method call.</p>
-
-					<p class="note"><strong>Authoring Note: </strong>See [<a href="#references-UIEvents">UI Events</a>] for information about programmatically initializing
-						<a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> objects.</p>
+					<p>To create an instance of the <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a>
+						interface, use the
+							<a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("KeyboardEvent")</code></a>
+						method call.
+						</p>
 
 					<dl class="idl" title="[Constructor(DOMString typeArg, optional KeyboardEventInit keyboardEventInitDict)] interface KeyboardEvent : UIEvent">
 						<dt>// KeyLocationCode</dt>
@@ -4883,8 +5060,12 @@ console.log("Exceptions? No problem");</pre>
 										<a href="#key-Shift"><code class="key">'Shift'</code></a>
 										<a href="#key-SymbolLock"><code class="key">'SymbolLock'</code></a>, and
 										<a href="#key-OS"><code class="key">'OS'</code></a>
-										User agents MAY support additional implementation-specific modifier keys depending on the environment.</p>
+										User agents MAY support additional implementation-specific modifier keys
+										depending on the environment.
+										</p>
 
+									<p class="issue">Refer to table rather than listing the modifier keys here.</p>
+									
 									<p>Returns <code>true</code> if it is a modifier key and the modifier is activated, <code>false</code> otherwise.</p>
 
 									<p class="note"><strong>Note:</strong> If an application wishes to distinguish between right and left modifiers, this information could be
@@ -4896,16 +5077,6 @@ console.log("Exceptions? No problem");</pre>
 					</dl>
 
 					<dl class="idl" title="dictionary KeyboardEventInit : UIEventInit">
-						<dt>DOMString char = ""</dt>
-						<dd>
-							<p>Initializes the <code>char</code> attribute of the KeyboardEvent
-								object to the unicode character string representing a printable 
-								character. If the related <code>key</code> value is not a printable
-								character, then this attribute should be assigned the empty string
-								(which is the default value).
-								</p>
-						</dd>
-
 						<dt>DOMString key = ""</dt>
 						<dd>
 							<p>Initializes the <code>key</code> attribute of the KeyboardEvent
@@ -4913,8 +5084,9 @@ console.log("Exceptions? No problem");</pre>
 								key after taking into account all keyboard modifications (such as 
 								shift-state). This value is the final effective value of the key. 
 								If the key is not a printable character, then it should be one of
-								the key values defined in [[DOM-LEVEL-3-EVENTS]] *** Fix ref ***.
+								the key values defined in [[DOM-LEVEL-3-EVENTS]].
 								</p>
+							<p class="issue">Fix DOM3 reference markup</p>
 						</dd>
 
 						<dt>DOMString code = ""</dt>
@@ -4987,31 +5159,44 @@ console.log("Exceptions? No problem");</pre>
 
 				<div class="warning">
 					<p><strong>Warning!</strong></p>
-					<p>Legacy keyboard event implementations include three additional attributes, <code>keyCode</code>, <code>charCode</code>, and
-						<code>which</code>.  The <code>keyCode</code> attribute indicates a numeric value associated with a particular key on a computer keyboard,
-						while the <code>charCode</code> attribute indicates the <acronym title="American Standard Code for Information Interchange">ASCII</acronym> value of the character
-						associated with that key (which might be the same as the <code>keyCode</code> value) and is applicable only to keys that produce a
+					<p>Legacy keyboard event implementations include three additional attributes,
+						<code>keyCode</code>, <code>charCode</code>, and <code>which</code>.
+						The <code>keyCode</code> attribute indicates a numeric value associated with
+						a particular key on a computer keyboard,
+						while the <code>charCode</code> attribute indicates the
+						<acronym title="American Standard Code for Information Interchange">ASCII</acronym>
+						value of the character associated with that key (which might be the same as
+						the <code>keyCode</code> value) and is applicable only to keys that produce a
 						<a class="def" href="#glossary-character-value">character value</a>.
 						</p>
 					<p>In practice, <code>keyCode</code> and <code>charCode</code> are inconsistent across platforms
 						and even the same implementation on different operating systems or using different localizations.
 						DOM Level 3 Events  does not define values for either
 						<code>keyCode</code> or <code>charCode</code>, or behavior for <code>charCode</code>.
-						In conforming DOM Level 3 Events implementations, content authors can instead use <a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>.
+						In conforming DOM Level 3 Events implementations, content authors can instead use
+						<a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> and
+						<a href="#widl-KeyboardEvent-code"><code>KeyboardEvent.code</code></a>.
 						</p>
-					<p><em>For more information, see the informative appendix on <a href="#legacy-key-attributes">Legacy key attributes</a>.</em>
+					<p><em>For more information, see the informative appendix on
+						<a href="#legacy-key-attributes">Legacy key attributes</a>.</em>
 						</p>
 					</div>
 
-				<p class="note"><strong>Note:</strong> For compatibility with existing content, virtual keyboards, such as software keyboards on screen-based
-					input devices, are expected to produce the normal range of keyboard events, even though they do not possess physical keys.</p>
+				<p class="note"><strong>Note:</strong>
+					For compatibility with existing content, virtual keyboards, such as software keyboards
+					on screen-based input devices, are expected to produce the normal range of keyboard
+					events, even though they do not possess physical keys.
+					</p>
 
-				<p class="note"><strong>Note:</strong> In some implementations or system configurations, some key events, or their values, might be suppressed
-					by the <a class="def" href="#glossary-ime">IME</a> in use.</p>
+				<p class="note"><strong>Note:</strong>
+					In some implementations or system configurations, some key events, or their values,
+					might be suppressed by the <a class="def" href="#glossary-ime">IME</a> in use.
+					</p>
 
 				<section id="events-keyboard-event-order">
 					<h4>Keyboard Event Order</h4>
-					<p>The keyboard events defined in this specification occur in a set order relative to one another, for any given key:</p>
+					<p>The keyboard events defined in this specification occur in a set order relative
+						to one another, for any given key:</p>
 
 					<table class="event-sequence-table">
 						<tr>
@@ -5045,7 +5230,8 @@ console.log("Exceptions? No problem");</pre>
 						</tr>
 					</table>
 					
-					<p>If the key is depressed for a sustained period, the following events MAY repeat at an environment-dependent rate: <!-- and the key should seek counseling -->
+					<p>If the key is depressed for a sustained period, the following events MAY repeat
+						at an environment-dependent rate: <!-- and the key should seek counseling -->
 						</p>
 					
 					<table class="event-sequence-table">
@@ -5071,19 +5257,32 @@ console.log("Exceptions? No problem");</pre>
 						</tr>
 					</table>
 
-					<p class="note"><strong>Note:</strong> Typically, any <a class="def" href="#glossary-default-action">default actions</a> associated with any particular
-						key are completed before the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event is dispatched. This might delay the <a class="eventtype"
-						href="#event-type-keyup"><code>keyup</code></a> event slightly (though this is not likely to be a perceptible delay).</p>
+					<p class="note"><strong>Note:</strong>
+						Typically, any <a class="def" href="#glossary-default-action">default actions</a>
+						associated with any particular key are completed before the
+						<a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event is dispatched.
+						This might delay the <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>
+						event slightly (though this is not likely to be a perceptible delay).
+						</p>
 
-					<p>The <a class="def" href="#glossary-event-target">event target</a> of a key event is the currently focused element which is processing the keyboard activity. This
-						is often an HTML <code>input</code> element or a textual element which is editable, but MAY be an element defined by the <a class="def" href="#glossary-host-language">
-						host language</a> to accept keyboard input for non-text purposes, such as the activation of a hotkey or trigger of some other behavior. If no suitable element
-						is in focus, the event target will be the root element.</p>
+					<p>The <a class="def" href="#glossary-event-target">event target</a> of a key event is
+						the currently focused element which is processing the keyboard activity.
+						This is often an HTML <code>input</code> element or a textual element which is editable,
+						but MAY be an element defined by the
+						<a class="def" href="#glossary-host-language">host language</a> to accept keyboard input
+						for non-text purposes, such as the activation of a hotkey or trigger of some other behavior.
+						If no suitable element is in focus, the event target will be the root element.
+						</p>
 
-					<p class="note"><strong>Note:</strong>  The <a class="def" href="#glossary-event-target">event target</a> might change between different key events.
-						For example, a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event for the <a href="#key-Tab"><code class="key">'Tab'</code></a> key
-						will likely have a different <a class="def" href="#glossary-event-target">event target</a> than the  <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>
-						event on the same keystroke.</p>
+					<p class="note"><strong>Note:</strong>
+						The <a class="def" href="#glossary-event-target">event target</a> might change between
+						different key events.
+						For example, a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>
+						event for the <a href="#key-Tab"><code class="key">'Tab'</code></a> key
+						will likely have a different <a class="def" href="#glossary-event-target">event target</a>
+						than the  <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>
+						event on the same keystroke.
+						</p>
 				</section>  <!-- events-keyboard-event-order -->
 
 				<p>The keyboard event types are listed below.</p>
@@ -5284,24 +5483,41 @@ console.log("Exceptions? No problem");</pre>
 			<section id="events-compositionevents">
 				<h3>Composition Event Types</h3>
 
-				<p>Composition Events provide a means for inputing text in a supplementary or alternate manner than by Keyboard Events, in order to allow the use of characters that
-					might not be commonly available on keyboard. For example, Composition Events might be used to add accents to characters despite their absence from standard US keyboards,
-					to build up logograms of many Asian languages from their base components or categories, to select word choices from a combination of key presses on a mobile device
-					keyboard, or to convert voice commands into text using a speech recognition processor.  Refer to <a href="#keys">Keyboard events and key values</a> for examples
-					on how Composition Events are used in combination with keyboard events.</p>
+				<p>Composition Events provide a means for inputing text in a supplementary or alternate
+					manner than by Keyboard Events, in order to allow the use of characters that
+					might not be commonly available on keyboard.
+					For example, Composition Events might be used
+						to add accents to characters despite their absence from standard US keyboards,
+						to build up logograms of many Asian languages from their base components or categories,
+						to select word choices from a combination of key presses on a mobile device keyboard,
+						or to convert voice commands into text using a speech recognition processor.
+					Refer to <a href="#keys">Keyboard events and key values</a> for examples
+					on how Composition Events are used in combination with keyboard events.
+					</p>
 
-				<p>Conceptually, a composition session consists of one <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> event, one or more
-					<a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> events, and one <a class="eventtype" href="#event-type-compositionend">
-					<code>compositionend</code></a> event, with the value of the <a href="#widl-CompositionEvent-data"><code>data</code></a> attribute persisting between each <q>stage</q>
-					of this event chain during each session.</p>
+				<p>Conceptually, a composition session consists of one
+						<a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>
+					event, one or more
+						<a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>
+					events, and one
+						<a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>
+					event, with the value of the <a href="#widl-CompositionEvent-data"><code>data</code></a>
+					attribute persisting between each <q>stage</q> of this event chain during each session.
+					</p>
 
-				<p class="note"><strong>Note:</strong> While a composition session is active, keyboard events can be dispatched to the DOM if the keyboard is the input device used
-					with the composition session. See the <a href="#event-type-compositionstart"><code>compositionstart</code> event details</a> and <a href="#keys-IME">IME section</a>
-					for relevent event ordering.</p>
+				<p class="note"><strong>Note:</strong>
+					While a composition session is active, keyboard events can be dispatched to the DOM
+					if the keyboard is the input device used with the composition session.
+					See the <a href="#event-type-compositionstart"><code>compositionstart</code> event details</a>
+					and <a href="#keys-IME">IME section</a> for relevent event ordering.
+					</p>
 
-				<p>Not all <a class="def" href="#glossary-ime">IME</a> systems or devices expose the necessary data to the DOM, so the active composition string (the <q>Reading Window</q>
-					or <q>candidate selection menu option</q>) might not be available through this interface, in which case the selection MAY be represented by the <a class="def" href="#glossary-empty-string">
-					empty string</a>.</p>
+				<p>Not all <a class="def" href="#glossary-ime">IME</a> systems or devices expose the necessary
+					data to the DOM, so the active composition string (the <q>Reading Window</q>
+					or <q>candidate selection menu option</q>) might not be available through this interface,
+					in which case the selection MAY be represented by the
+					<a class="def" href="#glossary-empty-string">empty string</a>.
+					</p>
 
 				<section id="interface-CompositionEvent">
 					<h4>Interface CompositionEvent</h4>
@@ -5312,9 +5528,6 @@ console.log("Exceptions? No problem");</pre>
 
 					<p>To create an instance of the <code>CompositionEvent</code> interface, use the <a href="#widl-DocumentEvent-createEvent"><code>DocumentEvent.createEvent("CompositionEvent")</code></a>
 						method call.</p>
-
-					<p class="note"><strong>Authoring Note: </strong>See [<a href="#references-UIEvents">UI Events</a>] for information about programmatically initializing
-						<code>CompositionEvent</code> objects.</p>
 
 					<dl class="idl" title="[Constructor(DOMString typeArg, optional CompositionEventInit compositionEventInitDict)] interface CompositionEvent : UIEvent">
 						<dt>readonly attribute DOMString? data</dt>
@@ -7529,7 +7742,7 @@ else {
 	</section>  <!-- keys -->
 
 	<!-- Appendix A: Legacy Event Initializers ========================================================-->
-	<section id="legacy-event-interface-initializers" class="appendix">
+	<section id="legacy-event-initializers" class="appendix">
 		<h1>Legacy Event Initializers</h1>
 
 		<p><em>This section is informative</em></p>
@@ -7544,8 +7757,9 @@ else {
 			
 		<div class="example">
 			<div class="example-title"></div>
-			<p>Initializing all the attributes of a MutationEvent requires calls to two initializer methods: <code>initEvent</code> and
-				<code>initMutationEvent</code>.</p>
+			<p>Initializing all the attributes of a MutationEvent requires calls to two initializer methods:
+				<code>initEvent</code> and <code>initMutationEvent</code>.
+				</p>
 		</div>
 
 		<p>Due in part to the length of time in the development of this standard, some implementations MAY have
@@ -7553,83 +7767,18 @@ else {
 			For completeness, these legacy event intializers are described in this Appendix.
 			</p>
 
-		<p>These new event interfaces are:</p>
-
-		<ul>
-			<li><a href="#interface-CustomEvent"><code>CustomEvent</code></a></li>
-			<li><a href="#interface-FocusEvent"><code>FocusEvent</code></a></li>
-			<li><a href="#interface-WheelEvent"><code>WheelEvent</code></a></li>
-			<li><a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a></li>
-			<li><a href="#interface-CompositionEvent"><code>CompositionEvent</code></a></li>
-		</ul>
-
-		<p>In DOM Level 2 Events, the initialization of these event interfaces was possible through an init
-			method on the interface (for example <code>initMouseEvent</code>).
-			These init methods needed a long list of parameters that, in most cases, did not fully initialize
-			all attributes of the event object. In order to fully initialize
-			an event interface which was derived from the basic <code>Event</code> interface, it was necessary
-			to call the initializer of each of the derived interfaces explicitly.
-			</p>
-
-		<section id="event-initializers">
-			<h2>Legacy Initializer Interfaces</h2>
+		<section id="legacy-event-initializer-interfaces">
+			<h2>Legacy Event Initializer Interfaces</h2>
 			<p><em>This section is informative</em></p>
 
-			<p>This section documents legacy initializer methods for the
-				following event interfaces introduced in DOM Level 3 Events:
+			<p>This section documents legacy initializer methods that were introduced in earlier
+				versions of the DOM Level 3 Events specification.
 				</p>
 
-			<ul>
-				<li><a href="#idl-interface-CustomEvent-initializers"><code>CustomEvent</code></a></li>
-				<li><a href="#idl-interface-FocusEvent-initializers"><code>FocusEvent</code></a></li>
-				<li><a href="#idl-interface-WheelEvent-initializers"><code>WheelEvent</code></a></li>
-				<li><a href="#idl-interface-KeyboardEvent-initializers"><code>KeyboardEvent</code></a></li>
-				<li><a href="#idl-interface-CompositionEvent-initializers"><code>CompositionEvent</code></a></li>
-			</ul>
-
-			<p>This section also documents suggested event constructors for the following event interfaces
-				which were introduced in DOM Level 2 Events [<a href="#references-DOM2Events">DOM2 Events</a>]
-				and deprecated in this specification:
-				</p>
-
-			<ul>
-				<li><a href="#idl-interface-UIEvent-initializers"><code>UIEvent</code></a></li>
-				<li><a href="#idl-interface-MouseEvent-initializers"><code>MouseEvent</code></a></li>
-			</ul>
-
-			<p>For completeness, this section also documents suggested event constructors for the following event
-				interfaces which were introduced in DOM Level 2 Events
-				[<a href="#references-DOM2Events">DOM2 Events</a>] but not deprecated in this specification:
-				</p>
-
-			<ul>
-				<li><a href="#idl-interface-Event-initializers"><code>Event</code></a></li>
-			</ul>
-
-			<section id="idl-interface-Event-initializers">
-				<h3>Initializers for interface Event</h3>
-
-				<dl class="idl" title="dictionary EventInit">
-					<dt>boolean bubbles = false</dt><dd></dd>
-					<dt>boolean cancelable = false</dt><dd></dd>
-				</dl>
-
-				<dl class="idl" title="[Constructor(DOMString typeArg, optional EventInit eventInitDict] partial interface Event">
-				</dl>
-			</section>  <!-- idl-interface-Event-initializers -->
-			
 			<section id="idl-interface-CustomEvent-initializers">
 				<h3>Initializers for interface CustomEvent</h3>
 
-				<dl class="idl" title="dictionary CustomEventInit">
-					<!-- Attributes from Event -->
-					<dt>boolean bubbles = false</dt><dd></dd>
-					<dt>boolean cancelable = false</dt><dd></dd>
-					<!-- Attributes from CustomEvent -->
-					<dt>any detail = null</dt><dd></dd>
-				</dl>
-
-				<dl class="idl" title="[Constructor(DOMString typeArg, optional CustomEventInit customEventInitDict] partial interface CustomEvent">
+				<dl class="idl" title="partial interface CustomEvent">
 					<dt>// Originally introduced (and deprecated) in DOM Level 3</dt>
 					<dd></dd>
 					<dt>void initCustomEvent()</dt>
@@ -7640,8 +7789,6 @@ else {
 
 						<p class="warning"><strong>Warning!</strong>
 							The <code>initCustomEvent</code> method is deprecated.
-							Event constructor syntax, introduced in [<a href="#references-UIEvents">UI Events</a>], is
-							the expected future syntax for initializing a <code>CustomEvent</code>.
 							</p>
 
 						<dl class="parameters">
@@ -7664,16 +7811,7 @@ else {
 			<section id="idl-interface-UIEvent-initializers">
 				<h3>Initializers for interface UIEvent</h3>
 
-				<dl class="idl" title="dictionary UIEventInit">
-					<!-- Attributes from Event -->
-					<dt>boolean bubbles = false</dt><dd></dd>
-					<dt>boolean cancelable = false</dt><dd></dd>
-					<!-- Attributes from UIEvent -->
-					<dt>AbstractView? view = null</dt><dd></dd>
-					<dt>long detail = 0</dt><dd></dd>
-				</dl>
-
-				<dl class="idl" title="[Constructor(DOMString typeArg, optional UIEventInit uiEventInitDict] partial interface UIEvent">
+				<dl class="idl" title="partial interface UIEvent">
 					<dt>// Deprecated in DOM Level 3</dt>
 
 					<dt>void initUIEvent()</dt>
@@ -7685,7 +7823,6 @@ else {
 						<p class="warning"><strong>Warning!</strong>
 							The <code>initUIEvent</code> method is deprecated, but supported for
 							backwards-compatibility with widely-deployed implementations.
-							See [<a href="#references-UIEvents">UI Events</a>] for an alternate initializer syntax.
 							</p>
 
 						<dl class="parameters">
@@ -7721,30 +7858,18 @@ else {
 			<section id="idl-interface-FocusEvent-initializers">
 				<h3>Initializers for interface FocusEvent</h3>
 
-				<dl class="idl" title="dictionary FocusEventInit">
-					<!-- Attributes from Event -->
-					<dt>boolean bubbles = false</dt><dd></dd>
-					<dt>boolean cancelable = false</dt><dd></dd>
-					<!-- Attributes from UIEvent -->
-					<dt>AbstractView? view = null</dt><dd></dd>
-					<dt>long detail = 0</dt><dd></dd>
-					<!-- Attributes from FocusEvent -->
-					<dt>EventTarget? relatedTarget = null</dt><dd></dd>
-				</dl>
-
-				<dl class="idl" title="[Constructor(DOMString typeArg, optional FocusEventInit focusEventInitDict] partial interface FocusEvent">
+				<dl class="idl" title="partial interface FocusEvent">
 					<dt>// Originally introduced (and deprecated) in DOM Level 3</dt>
 					<dd></dd>
 					<dt>void initFocusEvent()</dt>
 					<dd>
 						<p>Initializes attributes of a <code>FocusEvent</code> object.
-							This method has the same behavior as <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.
+							This method has the same behavior as
+							<a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a>.
 							</p>
 
 						<p class="warning"><strong>Warning!</strong>
 							The <code>initFocusEvent</code> method is deprecated.
-							Event constructor syntax, introduced in [<a href="#references-UIEvents">UI Events</a>], is the expected future
-							syntax for initializing a <code>FocusEvent</code>.
 							</p>
 
 						<dl class="parameters">
@@ -7773,29 +7898,7 @@ else {
 			<section id="idl-interface-MouseEvent-initializers">
 				<h3>Initializers for interface MouseEvent</h3>
 
-				<dl class="idl" title="dictionary MouseEventInit">
-					<!-- Attributes from Event -->
-					<dt>boolean bubbles = false</dt><dd></dd>
-					<dt>boolean cancelable = false</dt><dd></dd>
-					<!-- Attributes from UIEvent -->
-					<dt>AbstractView? view = null</dt><dd></dd>
-					<dt>long detail = 0</dt><dd></dd>
-					<!-- Attributes from MouseEvent -->
-					<dt>long screenX = 0</dt><dd></dd>
-					<dt>long screenY = 0</dt><dd></dd>
-					<dt>long clientX = 0</dt><dd></dd>
-					<dt>long clientY = 0</dt><dd></dd>
-					<dt>boolean ctrlKey = false</dt><dd></dd>
-					<dt>boolean shiftKey = false</dt><dd></dd>
-					<dt>boolean altKey = false</dt><dd></dd>
-					<dt>boolean metaKey = false</dt><dd></dd>
-					<dt>unsigned short button = 0</dt><dd></dd>
-					<!-- Note: "buttons" was not previously initializable through initMouseEvent! -->
-					<dt>unsigned short buttons = 0</dt><dd></dd>
-					<dt>EventTarget? relatedTarget = null</dt><dd></dd>
-				</dl>
-
-				<dl class="idl" title="[Constructor(DOMString typeArg, optional MouseEventInit mouseEventInitDict] partial interface MouseEvent">
+				<dl class="idl" title="partial interface MouseEvent">
 					<dt>// Deprecated in DOM Level 3</dt>
 
 					<dt>void initMouseEvent()</dt>
@@ -7880,6 +7983,12 @@ else {
 								<p>Specifies <a href="#widl-MouseEvent-button"><code>MouseEvent.button</code></a>.</p>
 							</dd>
 
+							<!-- Note: "buttons" was not previously initializable through initMouseEvent! -->
+							<dt>unsigned short buttonsArg</dt>
+							<dd>
+								<p>Specifies <a href="#widl-MouseEvent-buttons"><code>MouseEvent.buttons</code></a>.</p>
+							</dd>
+
 							<dt>EventTarget? relatedTargetArg</dt>
 							<dd>
 								<p>Specifies <a href="#widl-MouseEvent-relatedTarget"><code>MouseEvent.relatedTarget</code></a>. This value MAY be <code>null</code>.</p>
@@ -7893,41 +8002,19 @@ else {
 			<section id="idl-interface-WheelEvent-initializers">
 				<h3>Initializers for interface WheelEvent</h3>
 
-				<dl class="idl" title="dictionary WheelEventInit">
-					<!-- Attributes from Event -->
-					<dt>boolean bubbles = false</dt><dd></dd>
-					<dt>boolean cancelable = false</dt><dd></dd>
-					<!-- Attributes from UIEvent -->
-					<dt>AbstractView? view = null</dt><dd></dd>
-					<dt>long detail = 0</dt><dd></dd>
-					<!-- Attributes from MouseEvent -->
-					<dt>long screenX = 0</dt><dd></dd>
-					<dt>long screenY = 0</dt><dd></dd>
-					<dt>long clientX = 0</dt><dd></dd>
-					<dt>long clientY = 0</dt><dd></dd>
-					<dt>boolean ctrlKey = false</dt><dd></dd>
-					<dt>boolean shiftKey = false</dt><dd></dd>
-					<dt>boolean altKey = false</dt><dd></dd>
-					<dt>boolean metaKey = false</dt><dd></dd>
-					<dt>unsigned short button = 0</dt><dd></dd>
-					<dt>unsigned short buttons = 0</dt><dd></dd>
-					<dt>EventTarget? relatedTarget = null</dt><dd></dd>
-					<!-- Attributes from WheelEvent -->
-					<dt>double deltaX = 0.0</dt><dd></dd>
-					<dt>double deltaY = 0.0</dt><dd></dd>
-					<dt>double deltaZ = 0.0</dt><dd></dd>
-					<dt>unsigned long deltaMode = 0</dt><dd></dd>
-				</dl>
-
-				<dl class="idl" title="[Constructor(DOMString typeArg, optional WheelEventInit wheelEventInitDict] partial interface WheelEvent">
+				<dl class="idl" title="partial interface WheelEvent">
 					<dt>// Originally introduced (and deprecated) in DOM Level 3</dt>
 					<dd></dd>
 					<dt>void initWheelEvent()</dt>
 					<dd>
-						<p>Initializes attributes of a <code>WheelEvent</code> object. This method has the same behavior as <a href="#widl-MouseEvent-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a>.</p>
+						<p>Initializes attributes of a <code>WheelEvent</code> object.
+							This method has the same behavior as
+							<a href="#widl-MouseEvent-initMouseEvent"><code>MouseEvent.initMouseEvent()</code></a>.
+							</p>
 
-						<p class="warning"><strong>Warning!</strong> The <code>initWheelEvent</code> method is deprecated. Event constructor syntax, introduced in [<a href="#references-UIEvents">UI Events</a>], is the expected future
-							syntax for initializing a <code>WheelEvent</code>.</p>
+						<p class="warning"><strong>Warning!</strong>
+							The <code>initWheelEvent</code> method is deprecated.
+							</p>
 
 						<dl class="parameters">
 							<dt>DOMString typeArg</dt>
@@ -7993,28 +8080,7 @@ else {
 			<section id="idl-interface-KeyboardEvent-initializers">
 				<h3>Initializers for interface KeyboardEvent</h3>
 
-				<dl class="idl" title="dictionary KeyboardEventInit">
-					<!-- Attributes from Event -->
-					<dt>boolean bubbles = false</dt><dd></dd>
-					<dt>boolean cancelable = false</dt><dd></dd>
-					<!-- Attributes from UIEvent -->
-					<dt>AbstractView? view = null</dt><dd></dd>
-					<dt>long detail = 0</dt><dd></dd>
-					<!-- Attributes from KeyboardEvent -->
-					<dt>DOMString key = ""</dt><dd></dd>
-					<dt>unsigned long location = 0</dt><dd></dd>
-					<dt>boolean ctrlKey = false</dt><dd></dd>
-					<dt>boolean shiftKey = false</dt><dd></dd>
-					<dt>boolean altKey = false</dt><dd></dd>
-					<dt>boolean metaKey = false</dt><dd></dd>
-					<dt>boolean repeat = false</dt><dd></dd>
-					<!-- Legacy attributes for KeyboardEvent -->
-					<dt>unsigned long charCode = 0</dt><dd></dd>
-					<dt>unsigned long keyCode = 0</dt><dd></dd>
-					<dt>unsigned long which = 0</dt><dd></dd>
-				</dl>
-
-				<dl class="idl" title="[Constructor(DOMString typeArg, optional KeyboardEventInit keyboardEventInitDict] partial interface KeyboardEvent">
+				<dl class="idl" title="partial interface KeyboardEvent">
 					<dt>// Originally introduced (and deprecated) in DOM Level 3</dt>
 					<dd></dd>
 					<dt>void initKeyboardEvent()</dt>
@@ -8069,18 +8135,7 @@ else {
 			<section id="idl-interface-CompositionEvent-initializers">
 				<h3>Initializers for interface CompositionEvent</h3>
 
-				<dl class="idl" title="dictionary CompositionEventInit">
-					<!-- Attributes from Event -->
-					<dt>boolean bubbles = false</dt><dd></dd>
-					<dt>boolean cancelable = false</dt><dd></dd>
-					<!-- Attributes from UIEvent -->
-					<dt>AbstractView? view = null</dt><dd></dd>
-					<dt>long detail = 0</dt><dd></dd>
-					<!-- Attributes from CompositionEvent -->
-					<dt>DOMString? data = null</dt><dd></dd>
-				</dl>
-
-				<dl class="idl" title="[Constructor(DOMString typeArg, optional CompositionEventInit compositionEventInitDict] partial interface CompositionEvent">
+				<dl class="idl" title="partial interface CompositionEvent">
 					<dt>// Originally introduced (and deprecated) in DOM Level 3</dt>
 					<dd></dd>
 					<dt>void initCompositionEvent()</dt>
@@ -8092,8 +8147,6 @@ else {
 
 						<p class="warning"><strong>Warning!</strong>
 							The <code>initCompositionEvent</code> method is deprecated.
-							Event constructor syntax, introduced in [<a href="#references-UIEvents">UI Events</a>], is the expected
-							future syntax for initializing a <code>CompositionEvent</code>.
 							</p>
 
 						<dl class="parameters">
@@ -8116,8 +8169,8 @@ else {
 				</dl>
 			</section>  <!-- idl-interface-CompositionEvent-initializers -->
 
-		</section>  <!-- event-initializers -->
-	</section>  <!-- legacy-event-interface-initializers -->
+		</section>  <!-- legacy-event-initializer-interfaces -->
+	</section>  <!-- legacy-event-initializers -->
 
 	<!-- Appendix B: Legacy Key Attributes ========================================================-->
 	<section id="legacy-key-attributes">
