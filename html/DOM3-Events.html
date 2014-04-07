@@ -8399,37 +8399,41 @@ else {
 			</section>  <!-- keys-cancelable-keys -->
 
 			<section id="keys-guidelines">
-				<h3>Guidelines for selecting and defining key values</h3>
-
-<p class="issue">
-Should we allow implementations to define their own values? If not we should update the text and remove this section.
-<a href="https://www.w3.org/Bugs/Public/show_bug.cgi?id=24247">24247</a>
-</p>
+				<h3>Guidelines for selecting key values</h3>
 
 				<p><strong>This section is normative.</strong></p>
 
-				<p>The list of key values contained in this specification is not exhaustive, and input devices MAY have to define their own key values. Consider the current function
-					of the key (i.e., with modifiers), taking into consideration the keyboard layout mapping in use, to determine if the key is represented by the set of defined key
-					values, if a corresponding Unicode character exists from which a key value MAY be derived, or if a new key value MUST be defined.  The following algorithm determines
+				<p>To determine the appropriate key values for a key, the user agent needs to consider the current
+					function of the key (i.e., with modifiers), taking into account the
+					keyboard layout mapping in use, to determine if the key is represented by the set of defined key
+					values, if a corresponding Unicode character exists from which a key value MAY be derived, or if
+					a new key value MUST be defined.
+					The following algorithm determines
 					the <em>key value</em> and <em>character value</em> to use:</p>
 
 				<ol class="algo" id="key-algorithm">
 					<li>If the primary current function of the key is to generate a character, then:
 						<ol class="algo">
-							<li>If there exists an appropriate character in the <a href="#keys-keyvalues">key values set</a>, then
-								the <a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attribute MUST be a string consisting
-								of the <em>key value</em> of that character.</li>
-							<li>If there is no appropriate key value in the <a href="#keys-keyvalues">key values set</a>, and there exists an appropriate <a class="def" href="#glossary-unicode-code-point">
-								Unicode code point</a>, then
-								the <a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attribute MUST be a string consisting
-								of the <em>char value</em> of that character.</li>
+							<li>If there exists an appropriate character in the <a href="#keys-keyvalues">key values set</a>,
+								then the
+									<a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>
+								attribute MUST be a string consisting of the <em>key value</em> of that character.
+								</li>
+							<li>If there is no appropriate key value in the <a href="#keys-keyvalues">key values set</a>,
+								and there exists an appropriate
+									<a class="def" href="#glossary-unicode-code-point">Unicode code point</a>,
+								then the
+									<a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>
+								attribute MUST be a string consisting of the <em>char value</em> of that character.
+								</li>
 						</ol>
 					</li>
 					<li>If the primary current function of the key is to serve as a function key, then:
 						<ol class="algo">
-							<li>If there exists an appropriate key value in the <a href="#keys-keyvalues">key values set</a>, then:
-								the <a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attribute MUST be a string consisting
-								of the <em>key value</em> of that character.</li>
+							<li>If there exists an appropriate key value in the <a href="#keys-keyvalues">key values set</a>,
+								then the
+									<a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>
+								attribute MUST be a string consisting of the <em>key value</em> of that character.</li>
 						</ol>
 					</li>
 				</ol>
@@ -8437,25 +8441,49 @@ Should we allow implementations to define their own values? If not we should upd
 				<div class="example">
 					<div class="example-title"></div>
 					<ul>
-						<li>On a PC/AT US keyboard with a right-handed single-hand Dvorak <a class="def" href="#glossary-key-mapping">key mapping</a>, the key labeled <code class="key">
-							'Q'</code> maps to the key values <code class="key">'5'</code> (unmodified) and <code class="key">'%'</code> (shifted).  The primary function of this key
-							is to generate the character <code class="key">'5'</code> (<code class="char">'\u0035'</code>).  Since this character is a character (in Unicode general category
-							<abbr title="Number, Decimal Digit">Nd</abbr>), the <a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>
+						<li>On a PC/AT US keyboard with a right-handed single-hand Dvorak
+								<a class="def" href="#glossary-key-mapping">key mapping</a>,
+							the key labeled
+								<code class="key">'Q'</code>
+							maps to the key values
+								<code class="key">'5'</code> (unmodified)
+							and
+								<code class="key">'%'</code> (shifted).
+							The primary function of this key is to generate the character
+								<code class="key">'5'</code> (<code class="char">'\u0035'</code>).
+							Since this character is a character (in Unicode general category
+							<abbr title="Number, Decimal Digit">Nd</abbr>), the
+								<a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>
 							attribute value for the unmodified key will be <code class="key">'5'</code>.
 							</li>
-						<li>On a French PC keyboard with a standard French mapping, the primary function of the <code class="key">'^'</code> key is as a
-							<a class="def" href="#glossary-dead-key">dead key</a> for the circumflex diacritical mark.
+						<li>On a French PC keyboard with a standard French mapping, the primary function of the
+								<code class="key">'^'</code>
+							key is as a
+								<a class="def" href="#glossary-dead-key">dead key</a>
+							for the circumflex diacritical mark.
 							The Unicode value for this key is <code class="char">'\u0302'</code>.
 							</li>
-						<li>On a Korean PC keyboard with a standard Korean mapping, the primary function of the <code class="key">'Ha/En'</code> key is to switch between Hangul and English
-							input.  The predefined key value list has an appropriate entry for this key, <code class="key">'HangulMode'</code>, so this will be the key value.
+						<li>On a Korean PC keyboard with a standard Korean mapping, the primary function of the
+								<code class="key">'Ha/En'</code>
+							key is to switch between Hangul and English input.
+							The predefined key value list has an appropriate entry for this key,
+								<code class="key">'HangulMode'</code>,
+							so this will be the key value.
 							</li>
 						<li>On some models of mobile devices, there are special keys to launch specific applications.
-							For a standard application like Calendar, there is a predefined key value of <code class="key">'LaunchCalendar'</code>.
-							For applications not listed in the key value list, a new value can be devised.
+							For a standard application like Calendar, there is a predefined key value of
+								<code class="key">'LaunchCalendar'</code>.
+							For applications not listed in the key value list, a new value may need to be defined.
 							</li>
 					</ul>
 				</div>
+
+				<p>While every attempt has been made to make this list of key values as complete as possible, new key values
+					will periodically need to be defined as new input devices are introduced.
+					Rather than allowing user agents to define their own key values (which may not work across multiple user
+					agents), bugs should be filed so that this specification can be updated. 
+					</p>
+
 			</section>  <!-- keys-guidelines -->
 		</section>  <!-- keys-keyvalues -->
 
