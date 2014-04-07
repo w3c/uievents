@@ -5046,6 +5046,18 @@ console.log("Exceptions? No problem");</pre>
 							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>false</code>.</p>
 						</dd>
 
+						<dt>readonly attribute boolean isComposing</dt>
+						<dd>
+							<p><code>true</code> if the key event occurs as part of a composition session, i.e., after a
+								<a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a>
+								event and before the corresponding
+								<a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>
+								event.
+							</p>
+
+							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>false</code>.</p>
+						</dd>
+
 						<dt>boolean getModifierState()</dt>
 						<dd>
 							<p>Queries the state of a modifier using a key value. See also <a href="#keys-modifiers">Modifier keys</a>.</p>
@@ -5121,7 +5133,7 @@ console.log("Exceptions? No problem");</pre>
 						<dt>boolean ctrlKey = false</dt>
 						<dd>
 							<p>Initializes the <code>ctrlKey</code> attribute of the KeyboardEvent
-								object to <code>true</code> if the <code>ctrlKey</code> modifier
+								object. This attribute should be set to <code>true</code> if the <code>ctrlKey</code> modifier
 								key is to be considered depressed, <code>false</code> otherwise.
 								</p>
 						</dd>
@@ -5129,7 +5141,7 @@ console.log("Exceptions? No problem");</pre>
 						<dt>boolean shiftKey = false</dt>
 						<dd>
 							<p>Initializes the <code>shiftKey</code> attribute of the KeyboardEvent
-								object to <code>true</code> if the <code>shiftKey</code> modifier
+								object. This attribute should be set to <code>true</code> if the <code>shiftKey</code> modifier
 								key is to be considered depressed, <code>false</code> otherwise.
 								</p>
 						</dd>
@@ -5137,7 +5149,7 @@ console.log("Exceptions? No problem");</pre>
 						<dt>boolean altKey = false</dt>
 						<dd>
 							<p>Initializes the <code>altKey</code> attribute of the KeyboardEvent
-								object to <code>true</code> if the <code>altKey</code> modifier
+								object. This attribute should be set to <code>true</code> if the <code>altKey</code> modifier
 								key is to be considered depressed, <code>false</code> otherwise.
 								</p>
 						</dd>
@@ -5145,7 +5157,7 @@ console.log("Exceptions? No problem");</pre>
 						<dt>boolean metaKey = false</dt>
 						<dd>
 							<p>Initializes the <code>metaKey</code> attribute of the KeyboardEvent
-								object to <code>true</code> if the <code>metaKey</code> modifier
+								object. This attribute should be set to <code>true</code> if the <code>metaKey</code> modifier
 								key is to be considered depressed, <code>false</code> otherwise.
 								</p>
 						</dd>
@@ -5153,9 +5165,18 @@ console.log("Exceptions? No problem");</pre>
 						<dt>boolean repeat = false</dt>
 						<dd>
 							<p>Initializes the <code>repeat</code> attribute of the KeyboardEvent
-								object to <code>true</code> if the the current KeyboardEvent is
+								object. This attribute should be set to <code>true</code> if the the current KeyboardEvent is
 								considered part of a repeating sequence of similar events caused
 								by the long depression of any single key, <code>false</code> otherwise.
+								</p>
+						</dd>
+
+						<dt>boolean isComposing = false</dt>
+						<dd>
+							<p>Initializes the <code>isComposing</code> attribute of the KeyboardEvent
+								object. This attribute should be set to <code>true</code> if the
+								event being constructed occurs as part of a composition sequence,
+								<code>false</code> otherwise.
 								</p>
 						</dd>
 					</dl>
@@ -5683,86 +5704,210 @@ console.log("Exceptions? No problem");</pre>
 
 				<section id="events-composition-event-key-events">
 					<h4>Key Events During Composition</h4>
-					<p>During the composition session, all <code>keydown</code> and <code>keyup</code> events SHOULD be suppressed.</p>
-
-					<p>If key events are suppressed between <code>compositionstart</code> and <code>compositionend</code>, then the first or last key
-						pressed might result in unmatched <code>keydown</code> and <code>keyup</code> events.
-						If a <a class="def" href="#glossary-user-agent">user agent</a> suppresses key events during composition,
-						then it MUST ensure that all <code>keydown</code> and <code>keyup</code> events occur in matching pairs.
+					<p>During the composition session, all <code>keydown</code> and <code>keyup</code> events SHOULD be suppressed.
 						</p>
+
+					<section id="events-composition-event-including-key-events">
+						<h4>Including Key Events During Composition</h4>
+
+						<p>If a <a class="def" href="#glossary-user-agent">user agent</a> does not suppress these events during
+							composition, then it MUST set the key event's
+								<a href="#widl-KeyboardEvent-isComposing"><code>isComposing</code></a>
+							attribute to <code>true</code> for any events that occur during a composition session.
+							</p>
+
+						<table class="event-sequence-table">
+							<tr>
+								<td class="cell-number"></td>
+								<th>Event Name</th>
+								<th class="cell-center"><a href="#widl-KeyboardEvent-isComposing"><code>KeyboardEvent<br/>isComposing</code></a></th>
+								<th>Notes</th>
+							</tr>
+							<tr>
+								<td class="cell-number">1.</td>
+								<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
+								<td class="cell-center"><code>false</code></td>
+								<td>This is the key event that initiates the composition.</td>
+							</tr>
+							<tr>
+								<td class="cell-number">2.</td>
+								<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td class="cell-number">3.</td>
+								<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td class="cell-number">4.</td>
+								<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
+								<td class="cell-center"><code>true</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td class="cell-number"></td>
+								<td>...</td>
+								<td></td>
+								<td>Any key events sent during the composition session MUST have <code>isComposing</code> set to <code>true</code>.</td>
+							</tr>
+							<tr>
+								<td class="cell-number">5.</td>
+								<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
+								<td class="cell-center"><code>true</code></td>
+								<td>This is the key event that exits the composition.</td>
+							</tr>
+							<tr>
+								<td class="cell-number">6.</td>
+								<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td class="cell-number">7.</td>
+								<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
+								<td class="cell-center"><code>false</code></td>
+								<td></td>
+							</tr>
+						</table>
+
+					</section> <!-- events-composition-event-including-key-events -->
+
+					<section id="events-composition-event-suppressing-key-events">
+						<h4>Suppressing Key Events During Composition</h4>
+
+						<p>If key events are suppressed between <code>compositionstart</code> and <code>compositionend</code>, then the first or last key
+							pressed might result in unmatched <code>keydown</code> and <code>keyup</code> events.
+							If a <a class="def" href="#glossary-user-agent">user agent</a> suppresses key events during composition,
+							then it MUST ensure that all <code>keydown</code> and <code>keyup</code> events occur in matching pairs.
+							</p>
+
+						<p>To ensure that the initial <code>keydown</code> has a matching <code>keyup</code>,
+							a <a class="def" href="#glossary-user-agent">user agent</a> might insert an extra <code>keyup</code>
+							to match the <code>keydown</code> that initiated a composition session, as shown
+							in the following example:
+							</p>
+
+						<table class="event-sequence-table">
+							<tr>
+								<td class="cell-number"></td>
+								<th>Event Name</th>
+								<th class="cell-center"><a href="#widl-KeyboardEvent-isComposing"><code>KeyboardEvent<br/>isComposing</code></a></th>
+								<th>Notes</th>
+							</tr>
+							<tr>
+								<td class="cell-number">1.</td>
+								<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
+								<td class="cell-center"><code>false</code></td>
+								<td>This is the key event that initiates the composition.</td>
+							</tr>
+							<tr>
+								<td class="cell-number">2.</td>
+								<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td class="cell-number">3.</td>
+								<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td class="cell-number">4.</td>
+								<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
+								<td class="cell-center"><code>true</code></td>
+								<td>This event would normally be suppressed because of the ongoing composition session, but it is sent to match the previously sent <code>keydown</code> event.</td>
+							</tr>
+							<tr>
+								<td class="cell-number"></td>
+								<td>...</td>
+								<td></td>
+								<td>Any other key events that occur during the composition session are suppressed.</td>
+							</tr>
+							<tr>
+								<td class="cell-number">5.</td>
+								<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
+								<td></td>
+								<td></td>
+							</tr>
+						</table>
+
+						<p>To ensure that the composition session doesn't end with a dangling <code>keyup</code> event,
+							a <a class="def" href="#glossary-user-agent">user agent</a> can choose either (A) to suppress this
+							<code>keyup</code> event, or (B) to insert an extra <code>keydown</code> event.
+							</p>
+
+						<p>An example event sequence where both the <code>keydown</code> and <code>keyup</code> events have
+							been suppressed:
+							</p>
 						
-					<p>The following event sequence shows how a <a class="def" href="#glossary-user-agent">user agent</a> might insert the extra <code>keyup</code>
-						for a <code>keydown</code> that initiated a composition session.</p>
-						
-					<table class="event-sequence-table">
-						<tr>
-							<td class="cell-number">1.</td>
-							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
-							<td>This is key event that initiates the composition.</td>
-						</tr>
-						<tr>
-							<td class="cell-number">2.</td>
-							<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td class="cell-number">3.</td>
-							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td class="cell-number">4.</td>
-							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
-							<td>This event would normally be suppressed because of the ongoing composition session, but it is sent to match the previously sent <code>keydown</code> event.</td>
-						</tr>
-					</table>
+						<table class="event-sequence-table">
+							<tr>
+								<td class="cell-number"></td>
+								<th>Event Name</th>
+								<th class="cell-center"><a href="#widl-KeyboardEvent-isComposing"><code>KeyboardEvent<br/>isComposing</code></a></th>
+								<th>Notes</th>
+							</tr>
+							<tr>
+								<td class="cell-number"></td>
+								<td></td>
+								<td></td>
+								<td><em>Keydown for key that exits IME suppressed during composition session</em></td>
+							</tr>
+							<tr>
+								<td class="cell-number">1.</td>
+								<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td class="cell-number"></td>
+								<td></td>
+								<td></td>
+								<td><em>A keyup event would normally be sent at this time, but it is suppressed to avoid generating an unmatched keyup event.</em></td>
+							</tr>
+						</table>
 
-					<p>For the final key event in a composition session, a <a class="def" href="#glossary-user-agent">user agent</a> may choose to either:
-						</p>
+						<p>An example event sequence where a <code>keydown</code> has been inserted:
+							</p>
 
-					<p>(A) Suppress both the <code>keydown</code> and <code>keyup</code> events:
-						</p>
-						
-					<table class="event-sequence-table">
-						<tr>
-							<td class="cell-number"></td>
-							<td colspan="2"><em>Keydown for key that exits IME suppressed during composition session</em></td>
-						</tr>
-						<tr>
-							<td class="cell-number">1.</td>
-							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td class="cell-number"></td>
-							<td colspan="2"><em>A keyup event would normally be sent at this time, but it is suppressed to avoid generating an unmatched keyup event.</em></td>
-						</tr>
-					</table>
-
-					<p>(B) Insert an extra <code>keydown</code> event to match the <code>keyup</code> that occurs after the composition session ends:
-						</p>
-
-					<table class="event-sequence-table">
-						<tr>
-							<td class="cell-number"></td>
-							<td colspan="2"><em>Keydown for key that exits IME suppressed during composition session</em></td>
-						</tr>
-						<tr>
-							<td class="cell-number">1.</td>
-							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td class="cell-number">2.</td>
-							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
-							<td>This is key event that was suppressed earlier. It is sent now to match the upcoming keyup.</td>
-						</tr>
-						<tr>
-							<td class="cell-number">3.</td>
-							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
-							<td></td>
-						</tr>
-					</table>
+						<table class="event-sequence-table">
+							<tr>
+								<td class="cell-number"></td>
+								<th>Event Name</th>
+								<th class="cell-center"><a href="#widl-KeyboardEvent-isComposing"><code>KeyboardEvent<br/>isComposing</code></a></th>
+								<th>Notes</th>
+							</tr>
+							<tr>
+								<td class="cell-number"></td>
+								<td></td>
+								<td></td>
+								<td><em>Keydown for key that exits IME suppressed during composition session</em></td>
+							</tr>
+							<tr>
+								<td class="cell-number">1.</td>
+								<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td class="cell-number">2.</td>
+								<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
+								<td class="cell-center"><code>false</code></td>
+								<td>This is key event that was suppressed earlier. It is sent now to match the upcoming keyup.</td>
+							</tr>
+							<tr>
+								<td class="cell-number">3.</td>
+								<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
+								<td class="cell-center"><code>false</code></td>
+								<td></td>
+							</tr>
+						</table>
+					
+					</section> <!-- events-composition-event-suppressing-key-events -->
 
 				</section>  <!-- events-composition-event-key-events -->
 				
@@ -5773,6 +5918,11 @@ console.log("Exceptions? No problem");</pre>
 						and <code>input</code> events are sent.</p>
 
 					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-number"></td>
+							<th>Event Name</th>
+							<th>Notes</th>
+						</tr>
 						<tr>
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
@@ -5785,8 +5935,8 @@ console.log("Exceptions? No problem");</pre>
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="2"><em>Any DOM updates occur at this point.</em></td>
 							<td></td>
+							<td><em>Any DOM updates occur at this point.</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">3.</td>
@@ -7522,6 +7672,7 @@ else {
 							<td class="cell-number"></td>
 							<th>Event Name</th>
 							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
+							<th class="cell-center"><a href="#widl-KeyboardEvent-isComposing"><code>KeyboardEvent<br/>isComposing</code></a></th>
 							<th class="cell-center"><a href="#widl-CompositionEvent-data"><code>CompositionEvent<br/>data</code></a></th>
 							<th>Notes</th>
 						</tr>
@@ -7529,12 +7680,14 @@ else {
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'\u0302'</code></td>
+							<td class="cell-center"><code>false</code></td>
 							<td class="cell-center"></td>
 							<td>Combining Circumflex Accent</td>
 						</tr>
 						<tr>
 							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">''</code></td>
 							<td></td>
@@ -7543,6 +7696,7 @@ else {
 							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"><code class="char">'\u0302'</code></td>
 							<td></td>
 						</tr>
@@ -7550,6 +7704,7 @@ else {
 							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'\u0302'</code></td>
+							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
@@ -7557,12 +7712,14 @@ else {
 							<td class="cell-number">5.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'ê'</code></td>
+							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
 						<tr>
 							<td class="cell-number">6.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'ê'</code></td>
 							<td></td>
@@ -7571,6 +7728,7 @@ else {
 							<td class="cell-number">7.</td>
 							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
 							<td class="cell-center"></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'ê'</code></td>
 							<td></td>
 						</tr>
@@ -7578,6 +7736,7 @@ else {
 							<td class="cell-number">8.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'e'</code></td>
+							<td class="cell-center"><code>false</code></td>
 							<td class="cell-center"></td>
 							<td>Latin Small Letter E</td>
 						</tr>
@@ -7599,6 +7758,7 @@ else {
 							<td class="cell-number"></td>
 							<th>Event Name</th>
 							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
+							<th class="cell-center"><a href="#widl-KeyboardEvent-isComposing"><code>KeyboardEvent<br/>isComposing</code></a></th>
 							<th class="cell-center"><a href="#widl-CompositionEvent-data"><code>CompositionEvent<br/>data</code></a></th>
 							<th>Notes</th>
 						</tr>
@@ -7606,12 +7766,14 @@ else {
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'\u0302'</code></td>
+							<td class="cell-center"><code>false</code></td>
 							<td class="cell-center"></td>
 							<td>Combining Circumflex Accent</td>
 						</tr>
 						<tr>
 							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">''</code></td>
 							<td></td>
@@ -7620,6 +7782,7 @@ else {
 							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"><code class="char">'\u0302'</code></td>
 							<td></td>
 						</tr>
@@ -7627,6 +7790,7 @@ else {
 							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'\u0302'</code></td>
+							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
@@ -7634,12 +7798,14 @@ else {
 							<td class="cell-number">5.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'q'</code></td>
+							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td>Latin Small Letter Q</td>
 						</tr>
 						<tr>
 							<td class="cell-number">6.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">''</code></td>
 							<td></td>
@@ -7648,6 +7814,7 @@ else {
 							<td class="cell-number">7.</td>
 							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
 							<td class="cell-center"></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">''</code></td>
 							<td></td>
 						</tr>
@@ -7655,6 +7822,7 @@ else {
 							<td class="cell-number">8.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'q'</code></td>
+							<td class="cell-center"><code>false</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
@@ -7694,6 +7862,7 @@ else {
 							<td class="cell-number"></td>
 							<th>Event Name</th>
 							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
+							<th class="cell-center"><a href="#widl-KeyboardEvent-isComposing"><code>KeyboardEvent<br/>isComposing</code></a></th>
 							<th class="cell-center"><a href="#widl-CompositionEvent-data"><code>CompositionEvent<br/>data</code></a></th>
 							<th>Notes</th>
 						</tr>
@@ -7701,12 +7870,14 @@ else {
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'s'</code></td>
+							<td class="cell-center"><code>false</code></td>
 							<td class="cell-center"></td>
 							<td>Latin Small Letter S</td>
 						</tr>
 						<tr>
 							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">''</code></td>
 							<td></td>
@@ -7715,6 +7886,7 @@ else {
 							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'s'</code></td>
 							<td></td>
 						</tr>
@@ -7722,6 +7894,7 @@ else {
 							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'s'</code></td>
+							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
@@ -7729,12 +7902,14 @@ else {
 							<td class="cell-number">5.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'i'</code></td>
+							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td>Latin Small Letter I</td>
 						</tr>
 						<tr>
 							<td class="cell-number">6.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'し'</code></td>
 							<td></td>
@@ -7743,6 +7918,7 @@ else {
 							<td class="cell-number">7.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'i'</code></td>
+							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
@@ -7750,12 +7926,14 @@ else {
 							<td class="cell-number">8.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Convert'</code></td>
+							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td>Convert</td>
 						</tr>
 						<tr>
 							<td class="cell-number">9.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'&#x8A69;'</code></td>
 							<td></td>
@@ -7764,6 +7942,7 @@ else {
 							<td class="cell-number">10.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Convert'</code></td>
+							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
@@ -7771,12 +7950,14 @@ else {
 							<td class="cell-number">11.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Convert'</code></td>
+							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td>Convert</td>
 						</tr>
 						<tr>
 							<td class="cell-number">12.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'&#x5E02;'</code></td>
 							<td></td>
@@ -7785,6 +7966,7 @@ else {
 							<td class="cell-number">13.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Convert'</code></td>
+							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
@@ -7792,12 +7974,14 @@ else {
 							<td class="cell-number">14.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Accept'</code></td>
+							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td>Accept</td>
 						</tr>
 						<tr>
 							<td class="cell-number">15.</td>
 							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'&#x5E02;'</code></td>
 							<td></td>
@@ -7806,6 +7990,7 @@ else {
 							<td class="cell-number">16.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Accept'</code></td>
+							<td class="cell-center"><code>false</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
@@ -7823,6 +8008,7 @@ else {
 							<td class="cell-number"></td>
 							<th>Event Name</th>
 							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
+							<th class="cell-center"><a href="#widl-KeyboardEvent-isComposing"><code>KeyboardEvent<br/>isComposing</code></a></th>
 							<th class="cell-center"><a href="#widl-CompositionEvent-data"><code>CompositionEvent<br/>data</code></a></th>
 							<th>Notes</th>
 						</tr>
@@ -7830,12 +8016,14 @@ else {
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'s'</code></td>
+							<td class="cell-center"><code>false</code></td>
 							<td class="cell-center"></td>
 							<td>Latin Small Letter S</td>
 						</tr>
 						<tr>
 							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">''</code></td>
 							<td></td>
@@ -7844,6 +8032,7 @@ else {
 							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'s'</code></td>
 							<td></td>
 						</tr>
@@ -7851,6 +8040,7 @@ else {
 							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'s'</code></td>
+							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
@@ -7858,12 +8048,14 @@ else {
 							<td class="cell-number">5.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'i'</code></td>
+							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td>Latin Small Letter I</td>
 						</tr>
 						<tr>
 							<td class="cell-number">6.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'し'</code></td>
 							<td></td>
@@ -7872,6 +8064,7 @@ else {
 							<td class="cell-number">7.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'i'</code></td>
+							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
@@ -7879,12 +8072,14 @@ else {
 							<td class="cell-number">8.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Convert'</code></td>
+							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td>Convert</td>
 						</tr>
 						<tr>
 							<td class="cell-number">9.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'&#x8A69;'</code></td>
 							<td></td>
@@ -7893,6 +8088,7 @@ else {
 							<td class="cell-number">10.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Convert'</code></td>
+							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
@@ -7900,12 +8096,14 @@ else {
 							<td class="cell-number">11.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Convert'</code></td>
+							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td>Convert</td>
 						</tr>
 						<tr>
 							<td class="cell-number">12.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'&#x5E02;'</code></td>
 							<td></td>
@@ -7914,6 +8112,7 @@ else {
 							<td class="cell-number">13.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Convert'</code></td>
+							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
@@ -7921,12 +8120,14 @@ else {
 							<td class="cell-number">14.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Cancel'</code></td>
+							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td>Cancel</td>
 						</tr>
 						<tr>
 							<td class="cell-number">15.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">''</code></td>
 							<td></td>
@@ -7935,6 +8136,7 @@ else {
 							<td class="cell-number">16.</td>
 							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
 							<td class="cell-center"></td>
+							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">''</code></td>
 							<td></td>
 						</tr>
@@ -7942,6 +8144,7 @@ else {
 							<td class="cell-number">17.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Cancel'</code></td>
+							<td class="cell-center"><code>false</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
