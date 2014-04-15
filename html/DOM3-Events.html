@@ -5937,8 +5937,10 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 				<section id="events-composition-event-input-events">
 					<h4>Input Events During Composition</h4>
 					
-					<p>During the composition session, the <code>compositionupdate</code> MUST be dispatched before the <code>beforeinput</code> 
-						and <code>input</code> events are sent.</p>
+					<p>During the composition session, the <code>compositionupdate</code> MUST be dispatched
+						before the <code>beforeinput</code> 
+						and <code>input</code> events are sent.
+						</p>
 
 					<table class="event-sequence-table">
 						<tr>
@@ -5967,224 +5969,272 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 							<td></td>
 						</tr>
 					</table>
+
+					<p class="note"><strong>Note:</strong> Most IMEs do not support canceling updates
+						during a composition session.
+						</p>
+
+					<p>When a composition session is finished, any <code>beforeinput</code>
+						and <code>input</code> events MUST be
+						dispatched after the <code>compositionend</code> event.
+						</p>
+
+					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-number"></td>
+							<th>Event Name</th>
+							<th>Notes</th>
+						</tr>
+						<tr>
+							<td class="cell-number">1.</td>
+							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">2.</td>
+							<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
+							<td><em>Sent only if we’re about to update the DOM
+								(i.e., the composition was not canceled).
+								Canceling this will prevent the DOM update and the <code>input</code> event.</em>
+								</td>
+						</tr>
+						<tr>
+							<td class="cell-number"></td>
+							<td></td>
+							<td><em>Any DOM updates occur at this point.</em></td>
+						</tr>
+						<tr>
+							<td class="cell-number">3.</td>
+							<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
+							<td><em>Sent only if the DOM was updated.</em></td>
+						</tr>
+					</table>
 					
-					<p class="note"><strong>Note:</strong> Most IMEs do not support canceling updates during a composition session.</p>
+					<p class="note"><strong>Note:</strong> Some IMEs update the DOM before the
+						<code>compositionend</code> event is dispatched.
+						In this case, canceling the <code>beforeinput</code> event will have no effect
+						(i.e., the <code>input</code> input will still fire).
+						</p>
+
 				</section>  <!-- events-composition-event-input-events -->
 				
-				<p>The composition event types are listed below.</p>
+				<section id="events-composition-event-types">
+					<h4>Composition Event Types</h4>
+					<p>The composition event types are listed below.</p>
 
-				<!-- compositionstart -->
-				<div class="event-definition">
-					<dl>
-						<dt id="event-type-compositionstart"><dfn><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></dfn></dt>
-						<dd>
-							<table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-								<tr>
-									<th>Type</th>
-									<td><strong><code>compositionstart</code></strong></td>
-								</tr>
-								<tr>
-									<th>Interface</th>
-									<td><a href="#interface-CompositionEvent"><code>CompositionEvent</code></a></td>
-								</tr>
-								<tr>
-									<th>Sync / Async</th>
-									<td>Sync</td>
-								</tr>
-								<tr>
-									<th>Bubbles</th>
-									<td>Yes</td>
-								</tr>
-								<tr>
-									<th>Target</th>
-									<td><code>Element</code></td>
-								</tr>
-								<tr>
-									<th>Cancelable</th>
-									<td>Yes</td>
-								</tr>
-								<tr>
-									<th>Default action</th>
-									<td>Start a new composition session when a <a class="def" href="#glossary-text-composition-system">text composition system</a> is enabled</td>
-								</tr>
-								<tr>
-									<th>Context info</th>
-									<td>
-										<ul>
-											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
-												focused element processing the composition</li>
-											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
-											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
-												<code>0</code></li>
-											<li><a href="#widl-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>:
-												the original string being edited, otherwise the <a class="def" href="#glossary-empty-string">empty string</a></li>
-										</ul>
-									</td>
-								</tr>
-							</table>
+					<!-- compositionstart -->
+					<div class="event-definition">
+						<dl>
+							<dt id="event-type-compositionstart"><dfn><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></dfn></dt>
+							<dd>
+								<table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
+									<tr>
+										<th>Type</th>
+										<td><strong><code>compositionstart</code></strong></td>
+									</tr>
+									<tr>
+										<th>Interface</th>
+										<td><a href="#interface-CompositionEvent"><code>CompositionEvent</code></a></td>
+									</tr>
+									<tr>
+										<th>Sync / Async</th>
+										<td>Sync</td>
+									</tr>
+									<tr>
+										<th>Bubbles</th>
+										<td>Yes</td>
+									</tr>
+									<tr>
+										<th>Target</th>
+										<td><code>Element</code></td>
+									</tr>
+									<tr>
+										<th>Cancelable</th>
+										<td>Yes</td>
+									</tr>
+									<tr>
+										<th>Default action</th>
+										<td>Start a new composition session when a <a class="def" href="#glossary-text-composition-system">text composition system</a> is enabled</td>
+									</tr>
+									<tr>
+										<th>Context info</th>
+										<td>
+											<ul>
+												<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
+													focused element processing the composition</li>
+												<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
+													<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+												<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
+													<code>0</code></li>
+												<li><a href="#widl-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>:
+													the original string being edited, otherwise the <a class="def" href="#glossary-empty-string">empty string</a></li>
+											</ul>
+										</td>
+									</tr>
+								</table>
 
-							<p>A <a class="def" href="#glossary-user-agent">user agent</a> MUST dispatch this event when a <a class="def" href="#glossary-text-composition-system">text composition
-								system</a> is enabled and a new composition session is about to begin (or has begun, depending on the <a class="def" href="#glossary-text-composition-system">text composition
-								system</a>) in preparation for composing a passage of text. This event type is device-dependent, and MAY rely upon the capabilities of the text conversion system and how it is
-								mapped into the operating system. When a keyboard is used to feed an input method editor, this event type is generated after a <a class="eventtype"><code>keydown</code></a> event,
-								but speech or handwriting recognition systems MAY send this event type without keyboard events.  Some implementations MAY populate the
-								<a href="#widl-CompositionEvent-data"><code>data</code></a> attribute of the <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> event
-								with the text currently selected in the document (for editing and replacement). Otherwise, the value of the <a href="#widl-CompositionEvent-data"><code>data</code></a>
-								attribute MUST be  the <a class="def" href="#glossary-empty-string">empty string</a>.</p>
+								<p>A <a class="def" href="#glossary-user-agent">user agent</a> MUST dispatch this event when a <a class="def" href="#glossary-text-composition-system">text composition
+									system</a> is enabled and a new composition session is about to begin (or has begun, depending on the <a class="def" href="#glossary-text-composition-system">text composition
+									system</a>) in preparation for composing a passage of text. This event type is device-dependent, and MAY rely upon the capabilities of the text conversion system and how it is
+									mapped into the operating system. When a keyboard is used to feed an input method editor, this event type is generated after a <a class="eventtype"><code>keydown</code></a> event,
+									but speech or handwriting recognition systems MAY send this event type without keyboard events.  Some implementations MAY populate the
+									<a href="#widl-CompositionEvent-data"><code>data</code></a> attribute of the <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> event
+									with the text currently selected in the document (for editing and replacement). Otherwise, the value of the <a href="#widl-CompositionEvent-data"><code>data</code></a>
+									attribute MUST be  the <a class="def" href="#glossary-empty-string">empty string</a>.</p>
 
-							<p>This event MUST be dispatched immediately before a <a class="def" href="#glossary-text-composition-system">text composition system</a> begins a new composition session, and
-								before the DOM is modified due to the composition process. The default action of this event is for the <a class="def" href="#glossary-text-composition-system">text
-								composition system</a> to start a new composition session. If this event is canceled, the <a class="def" href="#glossary-text-composition-system">text composition system</a> SHOULD
-								discard the current composition session.</p>
+								<p>This event MUST be dispatched immediately before a <a class="def" href="#glossary-text-composition-system">text composition system</a> begins a new composition session, and
+									before the DOM is modified due to the composition process. The default action of this event is for the <a class="def" href="#glossary-text-composition-system">text
+									composition system</a> to start a new composition session. If this event is canceled, the <a class="def" href="#glossary-text-composition-system">text composition system</a> SHOULD
+									discard the current composition session.</p>
 
-							<p class="note"><strong>Note:</strong> Canceling the <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> <em>event type</em> is distinct
-								from canceling the <a class="def" href="#glossary-text-composition-system">text composition system</a> itself (e.g., by hitting a cancel button or closing an <a class="def"
-								href="#glossary-ime">IME</a> window).</p>
+								<p class="note"><strong>Note:</strong> Canceling the <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> <em>event type</em> is distinct
+									from canceling the <a class="def" href="#glossary-text-composition-system">text composition system</a> itself (e.g., by hitting a cancel button or closing an <a class="def"
+									href="#glossary-ime">IME</a> window).</p>
 
-							<p class="note"><strong>Note:</strong> Some IMEs do not support cancelling an in-progress composition session (e.g., such as GTK which doesn't presently have such an API). In these
-								cases, calling <a href="#widl-Event-preventDefault"><code>preventDefault</code></a> will not stop this event's default action.</p>
-						</dd>
-					</dl>
-				</div>
+								<p class="note"><strong>Note:</strong> Some IMEs do not support cancelling an in-progress composition session (e.g., such as GTK which doesn't presently have such an API). In these
+									cases, calling <a href="#widl-Event-preventDefault"><code>preventDefault</code></a> will not stop this event's default action.</p>
+							</dd>
+						</dl>
+					</div>
 
-				<!-- compositionupdate -->
-				<div class="event-definition">
-					<dl>
-						<dt id="event-type-compositionupdate"><dfn><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></dfn></dt>
-						<dd>
-							<table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-								<tr>
-									<th>Type</th>
-									<td><strong><code>compositionupdate</code></strong></td>
-								</tr>
-								<tr>
-									<th>Interface</th>
-									<td><a href="#interface-CompositionEvent"><code>CompositionEvent</code></a></td>
-								</tr>
-								<tr>
-									<th>Sync / Async</th>
-									<td>Sync</td>
-								</tr>
-								<tr>
-									<th>Bubbles</th>
-									<td>Yes</td>
-								</tr>
-								<tr>
-									<th>Target</th>
-									<td><code>Element</code></td>
-								</tr>
-								<tr>
-									<th>Cancelable</th>
-									<td>No</td>
-								</tr>
-								<tr>
-									<th>Default action</th>
-									<td>None</td>
-								</tr>
-								<tr>
-									<th>Context info</th>
-									<td>
-										<ul>
-											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
-												focused element processing the composition, <code>null</code> if not accessible</li>
-											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
-											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
-												<code>0</code></li>
-											<li><a href="#widl-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>:
-												the string comprising the current results of the composition session, which MAY be the
-												<a class="def" href="#glossary-empty-string">empty string</a> if the content has been deleted</li>
-										</ul>
-									</td>
-								</tr>
-							</table>
-							<p>A <a class="def" href="#glossary-user-agent">user agent</a> SHOULD dispatch this event during a composition session when a
-								<a class="def" href="#glossary-text-composition-system">text composition system</a> updates its active text passage with a
-								new character, which is reflected in the string in <a href="#widl-CompositionEvent-data"><code>CompositionEvent.data</code></a>.
-								</p>
+					<!-- compositionupdate -->
+					<div class="event-definition">
+						<dl>
+							<dt id="event-type-compositionupdate"><dfn><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></dfn></dt>
+							<dd>
+								<table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
+									<tr>
+										<th>Type</th>
+										<td><strong><code>compositionupdate</code></strong></td>
+									</tr>
+									<tr>
+										<th>Interface</th>
+										<td><a href="#interface-CompositionEvent"><code>CompositionEvent</code></a></td>
+									</tr>
+									<tr>
+										<th>Sync / Async</th>
+										<td>Sync</td>
+									</tr>
+									<tr>
+										<th>Bubbles</th>
+										<td>Yes</td>
+									</tr>
+									<tr>
+										<th>Target</th>
+										<td><code>Element</code></td>
+									</tr>
+									<tr>
+										<th>Cancelable</th>
+										<td>No</td>
+									</tr>
+									<tr>
+										<th>Default action</th>
+										<td>None</td>
+									</tr>
+									<tr>
+										<th>Context info</th>
+										<td>
+											<ul>
+												<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
+													focused element processing the composition, <code>null</code> if not accessible</li>
+												<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
+													<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+												<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
+													<code>0</code></li>
+												<li><a href="#widl-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>:
+													the string comprising the current results of the composition session, which MAY be the
+													<a class="def" href="#glossary-empty-string">empty string</a> if the content has been deleted</li>
+											</ul>
+										</td>
+									</tr>
+								</table>
+								<p>A <a class="def" href="#glossary-user-agent">user agent</a> SHOULD dispatch this event during a composition session when a
+									<a class="def" href="#glossary-text-composition-system">text composition system</a> updates its active text passage with a
+									new character, which is reflected in the string in <a href="#widl-CompositionEvent-data"><code>CompositionEvent.data</code></a>.
+									</p>
 
-							<p>In <a class="def" href="#glossary-text-composition-system">text composition systems</a> which keep the ongoing composition in sync
-								with the input control, the <a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> event
-								MUST be dispatched before the control is updated.
-								</p>
+								<p>In <a class="def" href="#glossary-text-composition-system">text composition systems</a> which keep the ongoing composition in sync
+									with the input control, the <a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> event
+									MUST be dispatched before the control is updated.
+									</p>
 								
-							<p>Some <a class="def" href="#glossary-text-composition-system">text composition systems</a> might not expose this information to the DOM,
-								in which case this event will not fire during the composition process.
-								</p>
+								<p>Some <a class="def" href="#glossary-text-composition-system">text composition systems</a> might not expose this information to the DOM,
+									in which case this event will not fire during the composition process.
+									</p>
 								
-							<p>If the composition session is canceled, this event will be fired immediately before the
-								<a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event,
-								and the <a href="#widl-CompositionEvent-data"><code>CompositionEvent.data</code></a> attribute will be set to the
-								<a class="def" href="#glossary-empty-string">empty string</a>.
-								</p>
-						</dd>
-					</dl>
-				</div>
+								<p>If the composition session is canceled, this event will be fired immediately before the
+									<a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event,
+									and the <a href="#widl-CompositionEvent-data"><code>CompositionEvent.data</code></a> attribute will be set to the
+									<a class="def" href="#glossary-empty-string">empty string</a>.
+									</p>
+							</dd>
+						</dl>
+					</div>
 
-				<!-- compositionend -->
-				<div class="event-definition">
-					<dl>
-						<dt id="event-type-compositionend"><dfn><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></dfn></dt>
-						<dd>
-							<table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
-								<tr>
-									<th>Type</th>
-									<td><strong><code>compositionend</code></strong></td>
-								</tr>
-								<tr>
-									<th>Interface</th>
-									<td><a href="#interface-CompositionEvent"><code>CompositionEvent</code></a></td>
-								</tr>
-								<tr>
-									<th>Sync / Async</th>
-									<td>Sync</td>
-								</tr>
-								<tr>
-									<th>Bubbles</th>
-									<td>Yes</td>
-								</tr>
-								<tr>
-									<th>Target</th>
-									<td><code>Element</code></td>
-								</tr>
-								<tr>
-									<th>Cancelable</th>
-									<td>No</td>
-								</tr>
-								<tr>
-									<th>Default action</th>
-									<td>None</td>
-								</tr>
-								<tr>
-									<th>Context info</th>
-									<td>
-										<ul>
-											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
-												focused element processing the composition</li>
-											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
-											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
-												<code>0</code></li>
-											<li><a href="#widl-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>:
-												the string comprising the final result of the composition session, which MAY be the
-												<a class="def" href="#glossary-empty-string">empty string</a> if the content has been deleted or if the composition process has been canceled</li>
-										</ul>
-									</td>
-								</tr>
-							</table>
-							<p>A <a class="def" href="#glossary-user-agent">user agent</a> MUST dispatch this event when a
-								<a class="def" href="#glossary-text-composition-system">text composition system</a> completes or cancels the current composition session,
-								and the <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event MUST be dispatched after the control is updated.
-								</p>
+					<!-- compositionend -->
+					<div class="event-definition">
+						<dl>
+							<dt id="event-type-compositionend"><dfn><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></dfn></dt>
+							<dd>
+								<table border="0" summary="This table contains information about the semantics of the given event type" cellpadding="2" cellspacing="0">
+									<tr>
+										<th>Type</th>
+										<td><strong><code>compositionend</code></strong></td>
+									</tr>
+									<tr>
+										<th>Interface</th>
+										<td><a href="#interface-CompositionEvent"><code>CompositionEvent</code></a></td>
+									</tr>
+									<tr>
+										<th>Sync / Async</th>
+										<td>Sync</td>
+									</tr>
+									<tr>
+										<th>Bubbles</th>
+										<td>Yes</td>
+									</tr>
+									<tr>
+										<th>Target</th>
+										<td><code>Element</code></td>
+									</tr>
+									<tr>
+										<th>Cancelable</th>
+										<td>No</td>
+									</tr>
+									<tr>
+										<th>Default action</th>
+										<td>None</td>
+									</tr>
+									<tr>
+										<th>Context info</th>
+										<td>
+											<ul>
+												<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
+													focused element processing the composition</li>
+												<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
+													<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+												<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
+													<code>0</code></li>
+												<li><a href="#widl-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>:
+													the string comprising the final result of the composition session, which MAY be the
+													<a class="def" href="#glossary-empty-string">empty string</a> if the content has been deleted or if the composition process has been canceled</li>
+											</ul>
+										</td>
+									</tr>
+								</table>
+								<p>A <a class="def" href="#glossary-user-agent">user agent</a> MUST dispatch this event when a
+									<a class="def" href="#glossary-text-composition-system">text composition system</a> completes or cancels the current composition session,
+									and the <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event MUST be dispatched after the control is updated.
+									</p>
 
-							<p>This event is dispatched immediately after the <a class="def" href="#glossary-text-composition-system">text composition system</a> completes
-								the composition session (e.g., the <a class="def" href="#glossary-ime">IME</a> is closed, minimized, switched out of focus, or otherwise dismissed,
-								and the focus switched back to the <a class="def" href="#glossary-user-agent">user agent</a>).
-								</p>
-						</dd>
-					</dl>
-				</div>
+								<p>This event is dispatched immediately after the <a class="def" href="#glossary-text-composition-system">text composition system</a> completes
+									the composition session (e.g., the <a class="def" href="#glossary-ime">IME</a> is closed, minimized, switched out of focus, or otherwise dismissed,
+									and the focus switched back to the <a class="def" href="#glossary-user-agent">user agent</a>).
+									</p>
+							</dd>
+						</dl>
+					</div>
+				</section>  <!-- events-composition-event-types -->
 			</section>  <!-- events-compositionevents -->
 
 		</section>  <!-- event-definitions -->
