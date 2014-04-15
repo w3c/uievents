@@ -1313,7 +1313,7 @@ console.log("Exceptions? No problem");</pre>
 		<section id="interface-CustomEvent">
 			<h2>Interface CustomEvent</h2>
 
-			<p class="intro-dom">Introduced in DOM Level 2</p>
+			<p class="intro-dom">Introduced in DOM Level 3</p>
 
 			<p>The <a href="#interface-CustomEvent"><code>CustomEvent</code></a> interface is the RECOMMENDED
 				interface for application-specific event types.
@@ -1351,7 +1351,7 @@ console.log("Exceptions? No problem");</pre>
 		<section id="interface-EventTarget">
 			<h2>Interface EventTarget</h2>
 
-			<p class="intro-dom">Introduced in DOM Level 3</p>
+			<p class="intro-dom">Introduced in DOM Level 2</p>
 
 			<p>The <code>EventTarget</code> interface allows registration and removal of event listeners, and dispatch of events to an event target.</p>
 
@@ -2484,6 +2484,21 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						</dl>
 					</dl>
 					
+					<dl class="idl" title="dictionary FocusEventInit : UIEventInit">
+
+						<dt>EventTarget? relatedTarget = null</dt>
+						<dd>
+							<p>The <code>relatedTarget</code> should be initialized to the element 
+								whose bounds the mouse pointer just left (in the case of a 
+								<em>mouseover</em> or <em>mouseenter</em> event) or the element 
+								whose bounds the mouse pointer is entering (in the case of a 
+								<em>mouseout</em> or <em>mouseleave</em>
+								or <em>focusout</em> event). For other events, this value need not
+								be assigned (and will default to null).
+								</p>
+						</dd>
+					</dl>
+
 				</section>  <!-- interface-FocusEvent -->
 
 				<section id="events-focusevent-event-order">
@@ -2984,6 +2999,15 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								</p>
 						</dd>
 
+						<dt>readonly attribute EventTarget? relatedTarget</dt>
+						<dd>
+							<p>Used to identify a secondary <a href="#interface-EventTarget"><code>EventTarget</code></a> related to a UI event, depending on the type of event.</p>
+
+							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>null</code>.</p>
+						</dd>
+
+						<dt>// Introduced in DOM Level 3</dt>
+
 						<dt>readonly attribute unsigned short buttons</dt>
 						<dd>
 							<p>During any mouse events, <code>buttons</code> MUST be used to indicate
@@ -3045,15 +3069,6 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								of this attribute MUST be <code>0</code>.
 								</p>
 						</dd>
-
-						<dt>readonly attribute EventTarget? relatedTarget</dt>
-						<dd>
-							<p>Used to identify a secondary <a href="#interface-EventTarget"><code>EventTarget</code></a> related to a UI event, depending on the type of event.</p>
-
-							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>null</code>.</p>
-						</dd>
-
-						<dt>// Introduced in DOM Level 3</dt>
 
 						<dt>boolean getModifierState()</dt>
 						<dd>
