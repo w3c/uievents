@@ -355,10 +355,6 @@
 				be cancelled through the invocation of the <a href="#widl-Event-preventDefault"><code>Event.preventDefault()</code></a> method. For more details, see
 				<a href="#event-flow-default-cancel">Default actions and cancelable events</a>.</dd>
 
-			<dt id="glossary-defaultView"><dfn>defaultView</dfn></dt>
-			<dd>The <code>defaultView</code> is the document's browsing context's Window Proxy object as defined in <a href="http://dev.w3.org/html5/spec/single-page.html#dom-document-defaultview"
-				title="HTML5 defaultView IDL attribute">HTML5</a> [<cite><a class="normative" href="#references-HTML5">HTML5</a></cite>].</dd>
-
 			<dt id="glossary-delta"><dfn>delta</dfn></dt>
 			<dd>The estimated scroll amount (in pixels, lines, or pages) that the user agent will scroll or zoom the page in response to the physical movement of an input device that
 				supports the <code>WheelEvent</code> interface (such as a mouse wheel or touch pad). The value of a <a class="def" href="#glossary-delta">delta</a> (e.g., the <a
@@ -510,7 +506,7 @@
 
 			<dt id="glossary-phase"><dfn>phase</dfn></dt>
 			<dd>In the context of <a class="def" href="#glossary-event">events</a>, a phase is set of logical traversals from node to node along the DOM tree, from the <a class="def"
-				href="#glossary-defaultView">defaultView</a> (window), to the <code>Document</code> object, <a class="def" href="#glossary-root-element">root element</a>, and down
+				href="#glossary-window">Window</a> to the <code>Document</code> object, <a class="def" href="#glossary-root-element">root element</a>, and down
 				to the <a class="def" href="#glossary-event-target">event target</a> (<a class="def" href="#glossary-capture-phase">capture phase</a>), at the <a class="def" href="#glossary-event-target">
 				event target</a> itself (<a class="def" href="#glossary-target-phase">target phase</a>), and back up the same chain (<a class="def" href="#glossary-bubbling-phase">bubbling
 				phase</a>).</dd>
@@ -591,6 +587,10 @@
 				presenting, or creating content.  Users MAY act on the content using different user agents at different times, for different purposes.  See the <a href="#conf-interactive-ua">
 				Web browsers and other dynamic or interactive user agents</a> and <a href="#conf-author-tools">Authoring tools</a> for details on the requirements for a <em>conforming</em>
 				user agent.</dd>
+
+			<dt id="glossary-window"><dfn>Window</dfn></dt>
+			<dd>The <code>Window</code> is the object referred to by the current document's browsing context's Window Proxy object as defined in <a href="http://dev.w3.org/html5/spec/single-page.html#windowproxy"
+				title="HTML5 WindowProxy description">HTML5</a> [<cite><a class="normative" href="#references-HTML5">HTML5</a></cite>].</dd>
 		</dl>
 	</section>  <!-- glossary -->
 
@@ -657,7 +657,7 @@ console.log("Exceptions? No problem");</pre>
 
 			<ol>
 				<li>The <strong id="capture-phase">capture phase</strong>: The event object MUST propagate through the target's ancestors from the <a class="def"
-					href="#glossary-defaultView">defaultView</a> to the target's parent. This phase is also known as the <em>capturing phase</em>. Event
+					href="#glossary-window">Window</a> to the target's parent. This phase is also known as the <em>capturing phase</em>. Event
 					listeners registered for this phase MUST handle the event before it reaches its target.</li>
 
 				<li>The <strong id="target-phase">target phase</strong>: The event object MUST arrive at the event object's <a class="def" href="#glossary-event-target">
@@ -666,7 +666,7 @@ console.log("Exceptions? No problem");</pre>
 					the event MUST NOT bubble, the event object MUST halt after completion of this phase.</li>
 
 				<li>The <strong id="bubble-phase">bubble phase</strong>: The event object propagates through the target's ancestors in reverse order, starting
-					with the target's parent and ending with the <a class="def" href="#glossary-defaultView">defaultView</a>. This phase is also known as the <em>bubbling phase</em>.
+					with the target's parent and ending with the <a class="def" href="#glossary-window">Window</a>. This phase is also known as the <em>bubbling phase</em>.
 					Event listeners registered for this phase MUST handle the event after it has reached its target.</li>
 			</ol>
 
@@ -693,10 +693,9 @@ console.log("Exceptions? No problem");</pre>
 				<li>The listener has been registered for this <a class="def" href="#glossary-event-type">event type</a>.</li>
 			</ul>
 
-			<p>In the production of the <a class="def" href="#glossary-propagation-path">propagation path</a>, if the <a class="def" href="#glossary-defaultView">defaultView</a>
-				implements the <a href="#interface-EventTarget"><code>EventTarget</code></a> interface, the event propagates from <a class="def" href="#glossary-defaultView">defaultView</a>
+			<p>In the production of the <a class="def" href="#glossary-propagation-path">propagation path</a>, the event propagates from the <a class="def" href="#glossary-window">Window</a>
 				to the <code>document</code> object during the <a class="def" href="#glossary-capture-phase">capture phase</a>, and from the <code>document</code> object to the
-				<a class="def" href="#glossary-defaultView">defaultView</a> during the <a class="def" href="#glossary-bubbling-phase">bubble phase</a>.</p>
+				<a class="def" href="#glossary-window">Window</a> during the <a class="def" href="#glossary-bubbling-phase">bubble phase</a>.</p>
 
 			<p>After an event completes all the phases of its <a class="def" href="#glossary-propagation-path">propagation path</a>, its <a href="#widl-Event-currentTarget">
 				<code>Event.currentTarget</code></a> MUST be set to <code>null</code> and the <a href="#widl-Event-eventPhase"><code>Event.eventPhase</code></a> MUST be
@@ -706,7 +705,7 @@ console.log("Exceptions? No problem");</pre>
 
 			<p>The model defined above MUST be applied regardless of the specific event flow associated with an event target. Each event flow MUST define how the propagation path
 				MUST be determined and which event phases are supported. The <em>DOM event flow</em> is an application of this model: the propagation path for a <code>Node</code>
-				object MUST be determined by its <code>Node.parentNode</code> chain, and if applicable, the document's containing <a class="def" href="#glossary-defaultView">defaultView</a>.
+				object MUST be determined by its <code>Node.parentNode</code> chain, and if applicable, the document's containing <a class="def" href="#glossary-window">Window</a>.
 				All events accomplish the capture and target phases. Whether an event accomplishes the bubble phase MUST be defined individually for each <a class="def" href="#glossary-event-type">
 				event type</a>. An alternate application of this model can be found in [<cite><a class="informative" href="#references-DOMLS">DOM3 Load and Save</a></cite>].</p>
 
@@ -1796,7 +1795,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						<td><a class="eventtype" href="#event-type-load"><code>load</code></a></td>
 						<td>Async</td>
 						<td>No</td>
-						<td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>Element</code></td>
+						<td><a class="def" href="#glossary-window"><code>Window</code></a>, <code>Document</code>, <code>Element</code></td>
 						<td><a href="#interface-Event"><code>Event</code></a></td>
 						<td>No</td>
 						<td>None</td>
@@ -1868,7 +1867,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						<td><a class="eventtype" href="#event-type-resize"><code>resize</code></a></td>
 						<td>Sync</td>
 						<td>No</td>
-						<td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code></td>
+						<td><a class="def" href="#glossary-window"><code>Window</code></a>, <code>Document</code></td>
 						<td><a href="#interface-UIEvent"><code>UIEvent</code></a></td>
 						<td>No</td>
 						<td>None</td>
@@ -1877,7 +1876,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						<td><a class="eventtype" href="#event-type-scroll"><code>scroll</code></a></td>
 						<td>Async</td>
 						<td>No / <a href="#scroll-document">Yes</a></td>
-						<td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>Element</code></td>
+						<td><a class="def" href="#glossary-window"><code>Window</code></a>, <code>Document</code>, <code>Element</code></td>
 						<td><a href="#interface-UIEvent"><code>UIEvent</code></a></td>
 						<td>No</td>
 						<td>None</td>
@@ -1895,7 +1894,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						<td><a class="eventtype" href="#event-type-unload"><code>unload</code></a></td>
 						<td>Sync</td>
 						<td>No</td>
-						<td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>Element</code></td>
+						<td><a class="def" href="#glossary-window"><code>Window</code></a>, <code>Document</code>, <code>Element</code></td>
 						<td><a href="#interface-Event"><code>Event</code></a></td>
 						<td>No</td>
 						<td>None</td>
@@ -1904,7 +1903,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						<td><a class="eventtype" href="#event-type-wheel"><code>wheel</code></a></td>
 						<td>Async</td>
 						<td>Yes</td>
-						<td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>Element</code></td>
+						<td><a class="def" href="#glossary-window"><code>Window</code></a>, <code>Document</code>, <code>Element</code></td>
 						<td><a href="#interface-WheelEvent"><code>WheelEvent</code></a></td>
 						<td>Yes</td>
 						<td>Scroll (or zoom) the document</td>
@@ -1918,7 +1917,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 					<div class="example-title"></div>
 					<p>The following is one way to interpret the above tables: the <a class="eventtype" href="#event-type-load"><code>load</code></a> event will
 					trigger event listeners attached on <code>Element</code> nodes for that event and on the capture and target phases. This event is not cancelable. If an event listener for the
-					<a class="eventtype" href="#event-type-load"><code>load</code></a> event is attached to a node other than <a class="def" href="#glossary-defaultView"><code>defaultView</code></a>,
+					<a class="eventtype" href="#event-type-load"><code>load</code></a> event is attached to a node other than <a class="def" href="#glossary-window"><code>Window</code></a>,
 					<code>Document</code>, or <code>Element</code> nodes, or if it is attached to the bubbling phase only, this event listener would not be triggered.</p>
 				</div>
 
@@ -1961,7 +1960,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						</p>
 
 					<dl class="idl" title="[Constructor(DOMString type, optional UIEventInit eventInitDict)] interface UIEvent : Event">
-						<dt>readonly attribute Window? view</dt>
+						<dt>readonly attribute WindowProxy? view</dt>
 						<dd>
 							<p>The <code>view</code> attribute identifies the <code>Window</code> from which the event was generated.</p>
 
@@ -1977,7 +1976,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 					</dl>
 
 					<dl class="idl" title="dictionary UIEventInit : EventInit">
-						<dt>Window? view = null</dt>
+						<dt>WindowProxy? view = null</dt>
 						<dd>
 							<p>Should be initialized to the Window object of the global environment 
 								in which this event will be dispatched. If this event will be dispatched
@@ -2025,7 +2024,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								</tr>
 								<tr>
 									<th>Target</th>
-									<td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>Element</code></td>
+									<td><a class="def" href="#glossary-window"><code>Window</code></a>, <code>Document</code>, <code>Element</code></td>
 								</tr>
 								<tr>
 									<th>Cancelable</th>
@@ -2042,7 +2041,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												common object whose contained resources have loaded</li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a>, <code>null</code></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												<code>0</code></li>
 										</ul>
@@ -2056,7 +2055,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								node.</p>
 
 							<p class="note"><strong>Note:</strong> For legacy reasons, <a class="eventtype" href="#event-type-load"><code>load</code></a> events for resources inside
-								the document (e.g., images) do not include the <a class="def" href="#glossary-defaultView">defaultView</a> in the propagation path in HTML implementations. See
+								the document (e.g., images) do not include the <a class="def" href="#glossary-window">Window</a> in the propagation path in HTML implementations. See
 								[<cite><a class="informative" href="#references-HTML5">HTML5</a></cite>] for more information.</p>
 						</dd>
 					</dl>
@@ -2086,7 +2085,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								</tr>
 								<tr>
 									<th>Target</th>
-									<td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>Element</code></td>
+									<td><a class="def" href="#glossary-window"><code>Window</code></a>, <code>Document</code>, <code>Element</code></td>
 								</tr>
 								<tr>
 									<th>Cancelable</th>
@@ -2103,7 +2102,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												common object whose contained resources have been removed</li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a>, <code>null</code></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												<code>0</code></li>
 										</ul>
@@ -2159,7 +2158,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												element whose resources have been stopped from loading without error</li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a>, <code>null</code></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												<code>0</code></li>
 										</ul>
@@ -2214,7 +2213,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												element whose resources have been stopped from loading due to an error</li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a>, <code>null</code></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												<code>0</code></li>
 										</ul>
@@ -2269,7 +2268,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												element whose text content has been selected</li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a>, <code>null</code></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												<code>0</code></li>
 										</ul>
@@ -2321,7 +2320,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								</tr>
 								<tr>
 									<th>Target</th>
-									<td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a></td>
+									<td><a class="def" href="#glossary-window"><code>Window</code></a></td>
 								</tr>
 								<tr>
 									<th>Cancelable</th>
@@ -2338,7 +2337,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												object which has been resized</li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												<code>0</code></li>
 										</ul>
@@ -2353,7 +2352,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 							<p><a class="def" href="#glossary-user-agent">User agents</a> which support continuous reflow of the document's layout during user-initiated resizing MUST dispatch
 								this event synchronously after each reflow of the document.</p>
 
-							<p>The <a class="def" href="#glossary-defaultView"><code>defaultView</code></a> object SHOULD always be resizable.  A <a class="def" href="#glossary-host-language">
+							<p>The <a class="def" href="#glossary-window"><code>Window</code></a> object SHOULD always be resizable.  A <a class="def" href="#glossary-host-language">
 								host language</a> MAY define certain elements to be resizable, and under what conditions (e.g., specific elements like <code>&lt;iframe&gt;</code>, or elements
 								with particular characteristics like width and height). However, this specification does not define the behavior for elements.</p>
 
@@ -2392,7 +2391,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								</tr>
 								<tr>
 									<th>Target</th>
-									<td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>Element</code></td>
+									<td><a class="def" href="#glossary-window"><code>Window</code></a>, <code>Document</code>, <code>Element</code></td>
 								</tr>
 								<tr>
 									<th>Cancelable</th>
@@ -2409,7 +2408,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												object which has been scrolled</li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												<code>0</code></li>
 										</ul>
@@ -2420,8 +2419,8 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 							<p>A <a class="def" href="#glossary-user-agent">user agent</a> MUST dispatch this event when a document view or an element has been scrolled.  This event type is dispatched
 								after the scroll has occurred.</p>
 
-							<p id="scroll-document">When dispatched on the <code>Document</code> element, this event type MUST bubble to the <a class="def" href="#glossary-defaultView"><code>
-								defaultView</code></a> object.</p>
+							<p id="scroll-document">When dispatched on the <code>Document</code> element, this event type MUST 
+								bubble to the <a class="def" href="#glossary-window"><code>Window</code></a> object.</p>
 						</dd>
 					</dl>
 				</div>
@@ -2635,7 +2634,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												<a class="def" href="#glossary-event-target">event target</a> losing focus</li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												<code>0</code></li>
 											<li><a href="#widl-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>:
@@ -2693,7 +2692,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												<a class="def" href="#glossary-event-target">event target</a> receiving focus</li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a>, <code>null</code></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												<code>0</code></li>
 											<li><a href="#widl-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>:
@@ -2751,7 +2750,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												<a class="def" href="#glossary-event-target">event target</a> receiving focus</li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a>, <code>null</code></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												<code>0</code></li>
 											<li><a href="#widl-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>:
@@ -2816,7 +2815,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												<a class="def" href="#glossary-event-target">event target</a> losing focus</li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a>, <code>null</code></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												<code>0</code></li>
 											<li><a href="#widl-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>:
@@ -3628,7 +3627,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												<a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												indicates the <a href="#current-click-count">current click count</a>;
 												the attribute value MUST be <code>1</code> when the user begins this action and increments by <code>1</code> for each click.</li>
@@ -3767,7 +3766,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												<a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												indicates the <a href="#current-click-count">current click count</a></li>
 											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>:
@@ -3880,7 +3879,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												<a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												indicates the <a href="#current-click-count">current click count</a> incremented by one. For example, if no click happened
 												before the <a class="eventtype"><code>mousedown</code></a>, <a href="#widl-UIEvent-detail"><code>UIEvent.detail</code></a>
@@ -3964,7 +3963,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												<a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												<code>0</code></li>
 											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>:
@@ -4047,7 +4046,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												<a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												<code>0</code></li>
 											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>:
@@ -4128,7 +4127,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												<a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												<code>0</code></li>
 											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>:
@@ -4211,7 +4210,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												<a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												<code>0</code></li>
 											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>:
@@ -4292,7 +4291,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 												<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 													<a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
 												<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-													<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+													<a class="def" href="#glossary-window"><code>Window</code></a></li>
 												<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 													<code>0</code></li>
 												<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>:
@@ -4374,7 +4373,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												<a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												indicates the <a href="#current-click-count">current click count</a> incremented by one.</li>
 											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>:
@@ -4632,7 +4631,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								</tr>
 								<tr>
 									<th>Target</th>
-									<td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>Element</code></td>
+									<td><a class="def" href="#glossary-window"><code>Window</code></a>, <code>Document</code>, <code>Element</code></td>
 								</tr>
 								<tr>
 									<th>Cancelable</th>
@@ -4649,7 +4648,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												<a class="def" href="#glossary-topmost-event-target">topmost event target</a></li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												<code>0</code></li>
 											<li><a href="#widl-MouseEvent-screenX"><code class="attribute-name">MouseEvent.screenX</code></a>:
@@ -5383,7 +5382,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												focused element processing the key event, root element if no suitable input element focused</li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												<code>0</code></li>
 											<li><a href="#widl-KeyboardEvent-key"><code class="attribute-name">KeyboardEvent.key</code></a>:
@@ -5489,7 +5488,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												focused element processing the key event, root element if no suitable input element focused</li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-												<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+												<a class="def" href="#glossary-window"><code>Window</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												<code>0</code></li>
 											<li><a href="#widl-KeyboardEvent-key"><code class="attribute-name">KeyboardEvent.key</code></a>:
@@ -6063,7 +6062,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 												<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 													focused element processing the composition</li>
 												<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-													<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+													<a class="def" href="#glossary-window"><code>Window</code></a></li>
 												<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 													<code>0</code></li>
 												<li><a href="#widl-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>:
@@ -6138,7 +6137,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 												<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 													focused element processing the composition, <code>null</code> if not accessible</li>
 												<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-													<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+													<a class="def" href="#glossary-window"><code>Window</code></a></li>
 												<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 													<code>0</code></li>
 												<li><a href="#widl-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>:
@@ -6212,7 +6211,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 												<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 													focused element processing the composition</li>
 												<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-													<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+													<a class="def" href="#glossary-window"><code>Window</code></a></li>
 												<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 													<code>0</code></li>
 												<li><a href="#widl-CompositionEvent-data"><code class="attribute-name">CompositionEvent.data</code></a>:
@@ -9923,7 +9922,7 @@ else {
 				<td><a class="eventtype" href="#event-type-DOMSubtreeModified"><code>DOMSubtreeModified</code></a></td>
 				<td>Sync</td>
 				<td>Yes</td>
-				<td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>DocumentFragment</code>, <code>Element</code>, <code>Attr</code>
+				<td><a class="def" href="#glossary-window"><code>Window</code></a>, <code>Document</code>, <code>DocumentFragment</code>, <code>Element</code>, <code>Attr</code>
 				</td>
 				<td><a href="#interface-MutationEvent"><code>MutationEvent</code></a></td>
 				<td>No</td>
@@ -9988,7 +9987,7 @@ else {
 										<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 											element being activated</li>
 										<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-											<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+											<a class="def" href="#glossary-window"><code>Window</code></a></li>
 										<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 											<code>0</code></li>
 									</ul>
@@ -10182,7 +10181,7 @@ else {
 										<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 											<a class="def" href="#glossary-event-target">event target</a> receiving focus</li>
 										<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-											<a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
+											<a class="def" href="#glossary-window"><code>Window</code></a>, <code>null</code></li>
 										<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 											<code>0</code></li>
 										<li><a href="#widl-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>:
@@ -10250,7 +10249,7 @@ else {
 										<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 											<a class="def" href="#glossary-event-target">event target</a> losing focus</li>
 										<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-											<a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>null</code></li>
+											<a class="def" href="#glossary-window"><code>Window</code></a>, <code>null</code></li>
 										<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 											<code>0</code></li>
 										<li><a href="#widl-FocusEvent-relatedTarget"><code class="attribute-name">FocusEvent.relatedTarget</code></a>:
@@ -10414,7 +10413,7 @@ else {
 										<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 											focused element processing the key event, root element if no suitable input element focused</li>
 										<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
-											<a class="def" href="#glossary-defaultView"><code>defaultView</code></a></li>
+											<a class="def" href="#glossary-window"><code>Window</code></a></li>
 										<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 											<code>0</code></li>
 										<li><a href="#widl-KeyboardEvent-charCode"><code class="attribute-name">KeyboardEvent.charCode</code></a>:
@@ -11260,7 +11259,7 @@ else {
 							</tr>
 							<tr>
 								<th>Target</th>
-								<td><a class="def" href="#glossary-defaultView"><code>defaultView</code></a>, <code>Document</code>, <code>DocumentFragment</code>, <code>Element</code>, <code>Attr</code>
+								<td><a class="def" href="#glossary-window"><code>Window</code></a>, <code>Document</code>, <code>DocumentFragment</code>, <code>Element</code>, <code>Attr</code>
 								</td>
 							</tr>
 							<tr>
@@ -11511,8 +11510,8 @@ document.documentElement.dispatchEvent(evt);
 
 				<ul>
 					<li>Event listeners are now ordered. In DOM Level 2, the event ordering was unspecified.</li>
-					<li>The event flow now includes the <a class="def" href="#glossary-defaultView">defaultView</a>
-						(or <code>window</code>), to reflect existing implementations.</li>
+					<li>The event flow now includes the <a class="def" href="#glossary-window">Window</code>, to 
+						reflect existing implementations.</li>
 				</ul>
 			</section>
 
