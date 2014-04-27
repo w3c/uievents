@@ -14,7 +14,6 @@
 	<link rel="stylesheet" type="text/css" href="https://www.w3.org/StyleSheets/TR/W3C-WD" />
 	<link rel="stylesheet" type="text/css" href="override.css" />
 	<script type="text/javascript" src='https://www.w3.org/Tools/respec/respec-w3c-common' class='remove' async></script>
-	<script type="text/javascript" src='key-table-builder.js'></script>
 	<script type="text/javascript" src='fixup.js'></script>
 	<script src="bug-assist.js"></script>
 	<script type="text/javascript">
@@ -167,15 +166,34 @@
 			<dl>
 				<dt id="conf-interactive-ua">Web browsers and other dynamic or interactive <a class="def" href="#glossary-user-agent">user agents</a></dt>
 				<dd>
-					<p>A dynamic or interactive <a class="def" href="#glossary-user-agent">user agent</a>, referred to here as a <q>browser</q> (be it a Web browser, AT (Accessibility
-						Technology) application, or other similar program), conforms to DOM Level 3 Events if it supports the Core module defined in [<cite><a class="normative" href="#references-DOMCore">DOM3
-						Core</a></cite>], the <a href="#event-flow">Event dispatch and DOM event flow</a> mechanism, all the interfaces and events with their associated methods, attributes,
-						and semantics defined in this specification with the exception of those marked as <a class="def" href="#glossary-deprecated">deprecated</a> (a conforming user agent
-						MAY implement the deprecated interfaces, events, or APIs for backwards compatibility, but is not required to do so in order to be conforming), and the complete
-						set of <a class="def" href="#glossary-character-value">character values</a> and <a class="def" href="#glossary-key-value">key values</a> in the <a href="#key-value-tables">
-						Key Value Tables</a> (subject to platform availability), as well as all other normative requirements defined in this specification.  A conforming browser MUST
-						<a class="def" href="#glossary-dispatch">dispatch</a> events appropriate to the given <a href="#interface-EventTarget">EventTarget</a> when the conditions defined
-						for that <a class="def" href="#glossary-event-type">event type</a> have been met.</p>
+					<p>A dynamic or interactive <a class="def" href="#glossary-user-agent">user agent</a>, referred to
+						here as a <q>browser</q> (be it a Web browser, AT (Accessibility Technology) application,
+						or other similar program), conforms to DOM Level 3 Events if it supports:
+						</p>
+					<ul>
+						<li>the Core module defined in
+							[<cite><a class="normative" href="#references-DOMCore">DOM3 Core</a></cite>]
+							</li>
+						<li>the <a href="#event-flow">Event dispatch and DOM event flow</a> mechanism
+							</li>
+						<li>all the interfaces and events with their associated methods, attributes, and
+							semantics defined in this specification with the exception of those marked as
+							<a class="def" href="#glossary-deprecated">deprecated</a> (a conforming user
+							agent MAY implement the deprecated interfaces, events, or APIs for backwards
+							compatibility, but is not required to do so in order to be conforming)
+							</li>
+						<li>the complete set of <code>key</code> and <code>code</code> values defined in
+							[<a href="#references-D3E-key">DOM3 key Values</a>] and
+							[<a href="#references-D3E-code">DOM3 code Values</a>]
+							(subject to platform availability), and
+							</li>
+						<li>all other normative requirements defined in this specification.
+							</li>
+					</ul>
+					<p>A conforming browser MUST <a class="def" href="#glossary-dispatch">dispatch</a> events appropriate
+						to the given <a href="#interface-EventTarget">EventTarget</a> when the conditions defined
+						for that <a class="def" href="#glossary-event-type">event type</a> have been met.
+						</p>
 
 					<p><span id="conform-arch">A browser conforms specifically to the DOM Level 3 Events Architecture if it implements the <a href="#dom-event-architecture">DOM Event
 						Architecture</a> and <a href="#event-interfaces">Basic Event Interfaces</a>, regardless of its support for any other event interfaces or <a class="def" href="#glossary-event-type">
@@ -5111,8 +5129,9 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 							<dl class="parameters">
 								<dt>DOMString keyArg</dt>
 								<dd>
-									<p>A modifier key value.  Modifier keys defined in this specification are given in the
-										<a href="#key-table-modifier">Modifier Keys</a> table.
+									<p>A modifier key value.  Valid modifier keys are defined in the
+										<a href="#key-table-modifier">Modifier Keys</a> table in
+										[<a href="#references-D3E-key">DOM3 key Values</a>].
 										</p>
 
 									<p>Returns <code>true</code> if it is a modifier key and the modifier is activated, <code>false</code> otherwise.</p>
@@ -5133,8 +5152,8 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								key after taking into account all keyboard modifications (such as 
 								shift-state). This value is the final effective value of the key. 
 								If the key is not a printable character, then it should be one of
-								the key values defined in the
-								<a href="#key-value-tables">Keyboard Event <code>key</code> Value Tables</a>.
+								the key values defined in
+								[<a href="#references-D3E-key">DOM3 key Values</a>].
 								</p>
 						</dd>
 
@@ -5144,8 +5163,8 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								object to the unicode character string representing the key that
 								was pressed, ignoring any keyboard modifications such as keyboard
 								layout.
-								This value should be one of the code values defined in the
-								<a href="#code-value-tables">Keyboard Events <code>code</code> Value Tables</a>.
+								This value should be one of the code values defined in
+								[<a href="#references-D3E-code">DOM3 code Values</a>].
 								</p>
 						</dd>
 
@@ -6349,6 +6368,10 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 				(unaffected by the current keyboard state) that uniquely identifies each key on the keyboard.
 				</p>
 
+			<p>The list of valid <code>code</code> values is defined in the
+				DOM Level 3 KeyboardEvent code Values Specification [<a href="#references-D3E-code">DOM3 code Values</a>].
+				</p>
+
 			<section id="code-motivation">
 				<h1>Motivation for Adding the <code>code</code> Attribute</h1>
 
@@ -6514,8 +6537,12 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 
 			<p>A key value is a <code>DOMString</code> that can be used to indicate any given key on a keyboard, regardless of position or state, by the value it produces.  These
 				key values MAY be used as return values for keyboard events generated by the implementation, or as input values by the content author to specify desired input (such
-				as for keyboard shortcuts).  This specification defines a set of common key values (defined in the <a href="#key-value-tables">Key Value Tables</a>), and rules for production
-				of new key values.</p>
+				as for keyboard shortcuts).
+				</p>
+
+			<p>The list of valid <code>key</code> values is defined in the
+				DOM Level 3 KeyboardEvent key Values Specification [<a href="#references-D3E-key">DOM3 key Values</a>].
+				</p>
 
 			<p>Key values can be used to detect the value of a key which has been pressed, using the <a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>
 				attribute.  Content authors can retrieve the <a class="def" href="#glossary-character-value">
@@ -6909,16 +6936,24 @@ else {
 					</table>
 				</div>
 
-				<p class="note"><strong>Note:</strong> The value in the keydown and keyup events varies based on the current keyboard layout
-					in effect when the key is pressed. This means that the <code class="key">'v'</code> key on a US layout and the
-					<code class="key">'ر'</code> key on an Arabic layout will generate different events even though they are the same physical
-					key. To identify these events as coming from the same physical key, you will need to make use of the <code>code</code> attribute
-					as specified in the [<a href="#references-UIEvents">UI Events</a>] specification.</p>
+				<p class="note"><strong>Note:</strong>
+					The value in the keydown and keyup events varies based on the current keyboard
+					layout in effect when the key is pressed.
+					This means that the <code class="key">'v'</code> key on a US layout and the
+					<code class="key">'ر'</code> key on an Arabic layout will generate different
+					events even though they are the same physical key.
+					To identify these events as coming from the same physical key, you will need
+					to make use of the <code>code</code> attribute.
+					</p>
 				
-				<p>In some cases, modifier keys change the key value value for a key event.  For example, on some MacOS keyboards, the  key labeled <code>'delete'</code>
-					functions the same as the <code class="key">'Backspace'</code> key on the Windows OS when unmodified, but when modified by the <code class="key">'Fn'</code>
-					key, acts as the <code class="key">'Delete'</code> key, and the value of the key value will match the most appropriate function of the key in its current modified
-					state.</p>
+				<p>In some cases, modifier keys change the key value value for a key event.
+					For example, on some MacOS keyboards, the  key labeled <code>'delete'</code>
+					functions the same as the <code class="key">'Backspace'</code> key on the
+					Windows OS when unmodified, but when modified by the <code class="key">'Fn'</code>
+					key, acts as the <code class="key">'Delete'</code> key, and the value of the
+					key value will match the most appropriate function of the key in its current
+					modified state.
+					</p>
 
 			</section>  <!-- keys-modifiers -->
 
@@ -10473,6 +10508,15 @@ document.documentElement.dispatchEvent(evt);
 					Available at <a href="http://www.rfc-editor.org/rfc/bcp/bcp47.txt">http://www.rfc-editor.org/rfc/bcp/bcp47.txt</a>.
 					</dd>
 
+				<dt id="references-DOM2Events"><strong>[DOM2 Events]</strong></dt>
+				<dd><cite><a href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Events-20001113/">Document Object Model Level 2 Events Specification</a></cite>,<br/>
+					T. Pixley, Editor.<br/>
+					World Wide Web Consortium, November 2000.<br/>
+					This version of the Document Object Model Level 2 Events Specification is http://www.w3.org/TR/2000/REC-DOM-Level-2-Events-20001113.<br/>
+					The <a class="normative" href="http://www.w3.org/TR/DOM-Level-2-Events/">latest version of Document Object Model Level 2 Events</a>
+					is available at http://www.w3.org/TR/DOM-Level-2-Events/.
+					</dd>
+
 				<dt id="references-DOMCore"><strong>[DOM3 Core]</strong></dt>
 				<dd><cite><a href="http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/">Document Object Model Level 3 Core Specification</a></cite>,<br/>
 					A. Le Hors, et al., Editors.<br/>
@@ -10482,13 +10526,18 @@ document.documentElement.dispatchEvent(evt);
 					is available at http://www.w3.org/TR/DOM-Level-3-Core/.
 					</dd>
 
-				<dt id="references-DOM2Events"><strong>[DOM2 Events]</strong></dt>
-				<dd><cite><a href="http://www.w3.org/TR/2000/REC-DOM-Level-2-Events-20001113/">Document Object Model Level 2 Events Specification</a></cite>,<br/>
-					T. Pixley, Editor.<br/>
-					World Wide Web Consortium, November 2000.<br/>
-					This version of the Document Object Model Level 2 Events Specification is http://www.w3.org/TR/2000/REC-DOM-Level-2-Events-20001113.<br/>
-					The <a class="normative" href="http://www.w3.org/TR/DOM-Level-2-Events/">latest version of Document Object Model Level 2 Events</a>
-					is available at http://www.w3.org/TR/DOM-Level-2-Events/.
+				<dt id="references-D3E-code"><strong>[DOM3 code Values]</strong></dt>
+				<dd><cite><a href="https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/DOM3Events-code.html">DOM Level 3 KeyboardEvent code Values</a></cite>,<br/>
+					G. Kacmarcik, T. Leithead, Editors.<br/>
+					World Wide Web Consortium, April 2014.<br/>
+					This version of the DOM Level 3 KeyboardEvent code Values is https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/DOM3Events-key.html.<br/>
+					</dd>
+
+				<dt id="references-D3E-key"><strong>[DOM3 key Values]</strong></dt>
+				<dd><cite><a href="https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/DOM3Events-key.html">DOM Level 3 KeyboardEvent key Values</a></cite>,<br/>
+					G. Kacmarcik, T. Leithead, Editors.<br/>
+					World Wide Web Consortium, April 2014.<br/>
+					This version of the DOM Level 3 KeyboardEvent key Values is https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/DOM3Events-key.html.<br/>
 					</dd>
 
 				<dt id="references-ECMAScript"><strong>[ECMAScript]</strong></dt>
@@ -10570,20 +10619,18 @@ document.documentElement.dispatchEvent(evt);
 					The <a href="http://www.w3.org/TR/wai-aria/">latest edition of WAI-ARIA</a> is available at http://www.w3.org/TR/wai-aria/.
 					</dd>
 
-				<dt id="ref-xforms"><strong>[XFORMS]</strong></dt>
-				<dd><cite class="w3crec"><a href="http://www.w3.org/TR/2009/REC-xforms-20091020/">XForms 1.1</a></cite>,<br/>
-					J. Boyer, Editor.<br/>
-					World Wide Web Consortium, <span class="wip">work in progress</span>, 20 October 2009.<br/>
-					This edition of XForms 1.1 is http://www.w3.org/TR/2009/REC-xforms-20091020/.<br/>
-					The <a href="http://www.w3.org/TR/xforms/">latest edition of XForms</a> is available at http://www.w3.org/TR/xforms/.
-					</dd>
-
 				<dt id="references-CSS2"><strong>[CSS2.1]</strong></dt>
 				<dd><cite><a href="http://www.w3.org/TR/2011/REC-CSS2-20110607/">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a></cite>,<br/>
 					B. Bos, T. &#xC7;elik, I. Hickson, H.W. Lie, Editors.<br/>
 					World Wide Web Consortium, 07 June 2011.<br/>
 					This version of the CSS 2.1 Recommendation is http://www.w3.org/TR/2011/REC-CSS2-20110607/.<br/>
 					The <a class="normative" href="http://www.w3.org/TR/CSS2/">latest version of CSS 2.1</a> is available at http://www.w3.org/TR/CSS2/.
+					</dd>
+
+				<dt id="references-DOMRange"><strong>[DOM2 Range]</strong></dt>
+				<dd><cite><a href="http://www.w3.org/TR/DOM-Level-2-Traversal-Range/">Document Object Model (DOM) Level 2 Traversal and Range Specification</a></cite>,<br/>
+					J. Kesselman, J. Robie, M. Champion, P. Sharpe, V. Apparao, L. Wood, Editors.<br/>
+					World Wide Web Consortium, November 2000.
 					</dd>
 
 				<dt id="references-DOMLS"><strong>[DOM3 Load and Save]</strong></dt>
@@ -10593,12 +10640,6 @@ document.documentElement.dispatchEvent(evt);
 					This version of the DOM Level 3 Load and Save Specification is http://www.w3.org/TR/2004/REC-DOM-Level-3-LS-20040407/.<br/>
 					The <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-LS/">latest version of DOM Level 3 Load and Save</a>
 					is available at http://www.w3.org/TR/DOM-Level-3-LS/.
-					</dd>
-
-				<dt id="references-DOMRange"><strong>[DOM2 Range]</strong></dt>
-				<dd><cite><a href="http://www.w3.org/TR/DOM-Level-2-Traversal-Range/">Document Object Model (DOM) Level 2 Traversal and Range Specification</a></cite>,<br/>
-					J. Kesselman, J. Robie, M. Champion, P. Sharpe, V. Apparao, L. Wood, Editors.<br/>
-					World Wide Web Consortium, November 2000.
 					</dd>
 
 				<dt id="references-DOM4"><strong>[DOM4]</strong></dt>
@@ -10662,6 +10703,14 @@ document.documentElement.dispatchEvent(evt);
 				<dt id="ref-WIN1252"><strong>[WIN1252]</strong></dt>
 				<dd><a href="http://www.microsoft.com/globaldev/reference/sbcs/1252.htm">Windows 1252</a> a Coded Character Set - 8-Bit.<br/>
 					Microsoft Corporation.
+					</dd>
+
+				<dt id="ref-xforms"><strong>[XFORMS]</strong></dt>
+				<dd><cite class="w3crec"><a href="http://www.w3.org/TR/2009/REC-xforms-20091020/">XForms 1.1</a></cite>,<br/>
+					J. Boyer, Editor.<br/>
+					World Wide Web Consortium, <span class="wip">work in progress</span>, 20 October 2009.<br/>
+					This edition of XForms 1.1 is http://www.w3.org/TR/2009/REC-xforms-20091020/.<br/>
+					The <a href="http://www.w3.org/TR/xforms/">latest edition of XForms</a> is available at http://www.w3.org/TR/xforms/.
 					</dd>
 
 				<dt id="references-XML"><strong>[XML 1.0]</strong></dt>
