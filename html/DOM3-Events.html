@@ -346,14 +346,6 @@
 				<a class="def" href="#glossary-event-target">event target</a>. See the description of the <a href="#capture-phase">capture phase</a> in the context
 				of event flow for more details.</dd>
 
-			<dt id="glossary-character-value"><dfn>character value</dfn></dt>
-			<dd>In the context of key values, a character value is a string representing one or more Unicode characters, such as a letter or symbol, or a set of letters. In this
-				specification, character values are denoted as a unicode string (e.g., <code class="char">'\u0020'</code>) or a glyph representation of the same code point (e.g.,
-				<code class="glyph">' '</code>), and are color coded to help distinguish these two representations.
-				<p class="note"><strong>Note:</strong> In source code, some key values, such as non-graphic characters, can be represented using
-				the character escape syntax of the programming language in use.</p>
-			</dd>
-
 			<dt id="glossary-candidate-event-handlers"><dfn>candidate event handlers</dfn></dt>
 			<dt><dfn>candidate event listeners</dfn></dt>
 			<dd>The list of all <a class="def" href="#glossary-event-handler">event listeners</a> that have been registered on the target object in their order of registration. This
@@ -362,6 +354,14 @@
 				the order of listeners that will be invoked on the target object).
 
 				<p class="note"><strong>Note:</strong> Initially capturing the candidate event handlers prevents infinite loops of event listener dispatch on a given target object.</p>
+			</dd>
+
+			<dt id="glossary-character-value"><dfn>character value</dfn></dt>
+			<dd>In the context of key values, a character value is a string representing one or more Unicode characters, such as a letter or symbol, or a set of letters. In this
+				specification, character values are denoted as a unicode string (e.g., <code class="char">'\u0020'</code>) or a glyph representation of the same code point (e.g.,
+				<code class="glyph">' '</code>), and are color coded to help distinguish these two representations.
+				<p class="note"><strong>Note:</strong> In source code, some key values, such as non-graphic characters, can be represented using
+				the character escape syntax of the programming language in use.</p>
 			</dd>
 
 			<dt id="glossary-current-event-target"><dfn>current event target</dfn></dt>
@@ -449,9 +449,9 @@
 				<code>EventListener.handleEvent()</code></a> callback method. Event handlers are language-specific. Event handlers are invoked in the context of a particular object
 				(the <a class="def" href="#glossary-current-event-target">current event target</a>) and are provided with the event object itself.
 
-				<p class="note"><strong>Note: </strong>In JavaScript, user-defined functions are considered to implement the <code>EventListener</code> interface. Thus the
-					<code>Event</code> object will be provided as the first parameter to the user-defined function when it is invoked. Additionally, JavaScript objects can also implement
-					the <code>EventListener</code> interface when they define a <q><code>handleEvent</code></q> method.</p>
+				<p class="note"><strong>Note: </strong>In JavaScript, user-defined functions are considered to implement the <a href="#interface-EventListener"><code>EventListener</code></a> interface. Thus the
+					event object will be provided as the first parameter to the user-defined function when it is invoked. Additionally, JavaScript objects can also implement
+					the <a href="#interface-EventListener"><code>EventListener</code></a> interface when they define a <a href="#widl-EventListener-handleEvent"><code>handleEvent</code></a> method.</p>
 			</dd>
 
 			<dt id="glossary-event-order"><dfn>event order</dfn></dt>
@@ -504,18 +504,18 @@
 				IME</a> MAY also be used for dictionary-based word completion, such as on mobile devices.  See <a href="#keys-IME">Input Method Editors</a> for treatment of
 				IMEs in this specification.  See also <a class="def" href="#glossary-text-composition-system">text composition system</a>.</dd>
 
+			<dt id="glossary-key-mapping"><dfn>key mapping</dfn></dt>
+			<dd>Key mapping is the process of assigning a key value to a particular key, and is the result of a combination of several factors, including the operating system
+				and the keyboard layout (e.g., <a class="def" href="#glossary-qwerty">QWERTY</a>, Dvorak, Spanish, InScript, Chinese, etc.), and after taking into account all <a
+				class="def" href="#glossary-modifier-key">modifier key</a> (<a href="#key-Shift"><code class="key">'Shift'</code></a>, <a href="#key-Alt"><code class="key">
+				'Alt'</code></a>, etc.) and <a class="def" href="#glossary-dead-key">dead key</a> states.</dd>
+
 			<dt id="glossary-key-value"><dfn>key value</dfn></dt>
 			<dd>A key value is a <a class="def" href="#glossary-character-value">character value</a> or multi-character string (such as <a href="#key-Enter"><code class="key">'Enter'
 				</code></a>, <a href="#key-Tab"><code class="key">'Tab'</code></a>, or <a href="#key-MediaTrackNext"><code class="key">'MediaTrackNext'</code></a>) associated
 				with a key in a particular state. Every key has a key value, whether or not it has a <a class="def" href="#glossary-character-value">character value</a>. This includes
 				control keys, function keys, <a class="def" href="#glossary-modifier-key">modifier keys</a>, <a class="def" href="#glossary-dead-key">dead keys</a>, and any other key.
 				The key value of any given key at any given time depends upon the <a class="def" href="#glossary-key-mapping">key mapping</a>.</dd>
-
-			<dt id="glossary-key-mapping"><dfn>key mapping</dfn></dt>
-			<dd>Key mapping is the process of assigning a key value to a particular key, and is the result of a combination of several factors, including the operating system
-				and the keyboard layout (e.g., <a class="def" href="#glossary-qwerty">QWERTY</a>, Dvorak, Spanish, InScript, Chinese, etc.), and after taking into account all <a
-				class="def" href="#glossary-modifier-key">modifier key</a> (<a href="#key-Shift"><code class="key">'Shift'</code></a>, <a href="#key-Alt"><code class="key">
-				'Alt'</code></a>, etc.) and <a class="def" href="#glossary-dead-key">dead key</a> states.</dd>
 
 			<dt id="glossary-localname"><dfn>local name</dfn></dt>
 			<dd>See local name in [<cite><a class="informative" href="#references-Namespaces10">XML Namespaces 1.0</a></cite>].</dd>
@@ -557,13 +557,13 @@
 			<dd>An indication of incremental change on an input device using the <a href="#interface-WheelEvent">WheelEvent</a> interface. On some devices this MAY be a literal
 				rotation of a wheel, while on others, it MAY be movement along a flat surface, or pressure on a particular button.</dd>
 
-			<dt id="glossary-text-composition-system"><dfn>text composition system</dfn></dt>
-			<dd>A software component that interprets some form of alternate input (such as a <a class="def" href="#glossary-ime">input method editor</a>, a speech processor, or
-				a handwriting recognition system) and converts it to text.</dd>
-
 			<dt id="glossary-target-phase"><dfn>target phase</dfn></dt>
 			<dd>The process by which an <a class="def" href="#glossary-event">event</a> can be handled by the <a class="def" href="#glossary-event-target">event target</a>.
 				See the description of the <a href="#target-phase">target phase</a> in the context of event flow for more details.</dd>
+
+			<dt id="glossary-text-composition-system"><dfn>text composition system</dfn></dt>
+			<dd>A software component that interprets some form of alternate input (such as a <a class="def" href="#glossary-ime">input method editor</a>, a speech processor, or
+				a handwriting recognition system) and converts it to text.</dd>
 
 			<dt id="glossary-topmost-event-target"><dfn>topmost event target</dfn></dt>
 			<dd>The <a class="def" href="#glossary-topmost-event-target">topmost event target</a> MUST be the element highest in the rendering order which is capable of being
@@ -607,7 +607,7 @@
 			<dt id="glossary-un-initialized-value"><dfn>un-initialized value</dfn></dt>
 			<dd>The value of any event attribute (such as <a href="#widl-Event-bubbles"><code>Event.bubbles</code></a> or <a href="#widl-Event-currentTarget"><code>
 				Event.currentTarget</code></a>) before the event has been initialized with <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a>. The un-initialized
-				values of an <code>Event</code> apply immediately after a new event has been created using the method <a href="#widl-DocumentEvent-createEvent"><code>
+				values of an event apply immediately after a new event has been created using the method <a href="#widl-DocumentEvent-createEvent"><code>
 				DocumentEvent.createEvent()</code></a>.</dd>
 
 			<dt id="glossary-user-agent"><dfn>user agent</dfn></dt>
@@ -3587,7 +3587,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						href="#event-type-dblclick"><code>dblclick</code></a> event will be implementation-, device-, and platform-specific. This tolerance can aid users that have physical
 						disabilities like unsteady hands when these users interact with a pointing device.</p>
 
-					<p>Each implementation will determine the appropriate hysteresis tolerance, but in general SHOULD fire <a class="eventtype" href="#event-type-click"><code>click</code></a>
+					<p>Each implementation will determine the appropriate <a class="def" href="#glossary-hysteresis">hysteresis</a> tolerance, but in general SHOULD fire <a class="eventtype" href="#event-type-click"><code>click</code></a>
 						and <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> events when the event target of the associated <a class="eventtype"
 						href="#event-type-mousedown"><code>mousedown</code></a> and <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> events is the same element with no
 						<a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a> or <a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a>
@@ -3714,7 +3714,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								<p>If a user mouses down on a text node child of a <code>&lt;p&gt;</code> element which has been styled with
 									a large line-height, shifts the mouse slightly such that it is no longer over an area containing text but is still within the containing block of that <code>&lt;p&gt;</code>
 									element (i.e., the pointer is between lines of the same text block, but not over the text node per se), then subsequently mouses up, this will likely still trigger
-									a <a class="eventtype" href="#event-type-click"><code>click</code></a> event (if it falls within the normal temporal hysteresis for a <a class="eventtype" href="#event-type-click">
+									a <a class="eventtype" href="#event-type-click"><code>click</code></a> event (if it falls within the normal temporal <a class="def" href="#glossary-hysteresis">hysteresis</a> for a <a class="eventtype" href="#event-type-click">
 									<code>click</code></a>), since the user has stayed within the scope of the same element. Note that user-agent-generated mouse events are not dispatched on text nodes.
 								</p>
 							</div>
@@ -4435,8 +4435,10 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 
 							<p class="note"><strong>Note: </strong>Many implementations will invoke a context menu as the default action of this event if the right mouse button is being released.</p>
 
-							<p class="note"><strong>Authoring Note: </strong>In some implementation environments, such as a browser, a <a class="eventtype"><code>mouseup</code></a> event
-								can be dispatched even if the pointing device has left the boundary of the user agent, e.g., if the user began a drag operation with a mouse button pressed).</p>
+							<p class="note"><strong>Authoring Note: </strong>In some implementation environments,
+								such as a browser, a <a class="eventtype"><code>mouseup</code></a> event
+								can be dispatched even if the pointing device has left the boundary of the user
+								agent, e.g., if the user began a drag operation with a mouse button pressed.</p>
 						</dd>
 					</dl>
 				</div>
@@ -4472,10 +4474,10 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 					But a user can change their default environment settings to speed-up their mouse wheel,
 					increasing this number.
 					Furthermore, some mouse wheel software can support acceleration (the faster the wheel
-					is rotated/moved, the greater the delta of each measurement) or even sub-pixel rotation
+					is rotated/moved, the greater the <a class="def" href="#glossary-delta">delta</a> of each measurement) or even sub-pixel <a class="def" href="#glossary-rotation">rotation</a>
 					measurements.
-					Because of this, authors can not assume a given rotation amount in one user agent will
-					produce the same delta value in all user agents.
+					Because of this, authors can not assume a given <a class="def" href="#glossary-rotation">rotation</a> amount in one user agent will
+					produce the same <a class="def" href="#glossary-delta">delta</a> value in all user agents.
 					</p>
 
 				<p>The sign (positive or negative) of the values of the deltaX, deltaY, and deltaZ attributes
@@ -4484,7 +4486,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 					motion of the actual wheel device is rotating/moving in the same direction.
 					If a user agent scrolls as the default action of the
 					<a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event then the sign
-					of the delta SHOULD be given by a right-hand coordinate system where positive X,
+					of the <a class="def" href="#glossary-delta">delta</a> SHOULD be given by a right-hand coordinate system where positive X,
 					Y, and Z axes are directed towards the right-most edge, bottom-most edge, and farthest
 					depth (away from the user) of the document, respectively.
 					</p>
@@ -4518,7 +4520,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 
 						<dt>const unsigned long DOM_DELTA_PIXEL = 0x00</dt>
 						<dd>
-							<p>The units of measurement for the <a href="#glossary-delta"><code>delta</code></a> MUST be
+							<p>The units of measurement for the <a href="#glossary-delta">delta</a> MUST be
 								pixels. This is the most typical case in most operating system and implementation
 								configurations.
 								</p>
@@ -4526,14 +4528,14 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 
 						<dt>const unsigned long DOM_DELTA_LINE  = 0x01</dt>
 						<dd>
-							<p>The units of measurement for the <a href="#glossary-delta"><code>delta</code></a> MUST be
+							<p>The units of measurement for the <a href="#glossary-delta">delta</a> MUST be
 								individual lines of text.  This is the case for many form controls.
 								</p>
 						</dd>
 
 						<dt>const unsigned long DOM_DELTA_PAGE  = 0x02</dt>
 						<dd>
-							<p>The units of measurement for the <a href="#glossary-delta"><code>delta</code></a> MUST be
+							<p>The units of measurement for the <a href="#glossary-delta">delta</a> MUST be
 								pages, either defined as a single screen or as a demarcated page.
 								</p>
 						</dd>
@@ -4548,7 +4550,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								</p>
 
 							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute
-								MUST be <code>0</code>.
+								MUST be <code>0.0</code>.
 								</p>
 						</dd>
 
@@ -4562,7 +4564,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								</p>
 
 							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute
-								MUST be <code>0</code>.
+								MUST be <code>0.0</code>.
 								</p>
 						</dd>
 
@@ -4576,21 +4578,21 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								</p>
 
 							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute
-								MUST be <code>0</code>.
+								MUST be <code>0.0</code>.
 								</p>
 						</dd>
 
 						<dt>readonly attribute unsigned long deltaMode</dt>
 						<dd>
 							<p>The <code>deltaMode</code> attribute contains an indication of the units of measurement for the
-								<a href="#glossary-delta"><code>delta</code></a> values.
+								<a href="#glossary-delta">delta</a> values.
 								The default value is
 									<a href="#widl-WheelEvent-DOM_DELTA_PIXEL"><code class="constant-name">DOM_DELTA_PIXEL</code></a>
 								(pixels).
 								</p>
 
 							<p>This attribute MUST be set to one of the DOM_DELTA constants to indicate the units of measurement
-								for the <a href="#glossary-delta"><code>delta</code></a> values.  The precise measurement
+								for the <a href="#glossary-delta">delta</a> values.  The precise measurement
 								is specific to device, operating system, and application configurations.
 								</p>
 
@@ -4624,8 +4626,13 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						<dd>
 							<p>Initializes the <code>deltaMode</code> attribute on the WheelEvent 
 								object to the enumerated values 0, 1, or 2, which represent the amount
-								of pixels scrolled (DOM_DELTA_PIXEL), lines scrolled (DOM_DELTA_LINE),
-								or pages scrolled (DOM_DELTA_PAGE) if the rotation of the wheel would 
+								of pixels scrolled
+								(<a href="#widl-WheelEvent-DOM_DELTA_PIXEL"><code class="constant-name">DOM_DELTA_PIXEL</code></a>),
+								lines scrolled
+								(<a href="#widl-WheelEvent-DOM_DELTA_LINE"><code class="constant-name">DOM_DELTA_LINE</code></a>),
+								or pages scrolled
+								(<a href="#widl-WheelEvent-DOM_DELTA_PAGE"><code class="constant-name">DOM_DELTA_PAGE</code></a>)
+								if the <a class="def" href="#glossary-rotation">rotation</a> of the wheel would 
 								have resulted in scrolling.
 								</p>
 						</dd>
@@ -4723,7 +4730,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 
 							<p>A <a class="def" href="#glossary-user-agent">user agent</a> MUST dispatch this event when a mouse wheel has been rotated around any axis, or when an equivalent
 								input device (such as a mouse-ball, certain tablets or touchpads, etc.) has emulated such an action. Depending on the platform and input device, diagonal wheel
-								deltas MAY be delivered either as a single <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event with multiple non-zero axes or as separate <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a>
+								<a class="def" href="#glossary-delta">deltas</a> MAY be delivered either as a single <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event with multiple non-zero axes or as separate <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a>
 								events for each non-zero axis.</p>
 
 							<p>The typical <a class="def" href="#glossary-default-action">default action</a> of the <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a> event
@@ -4731,7 +4738,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								(or perform whatever other implementation-specific default action is associated with this event type).</p>
 
 							<p class="note"><strong>Note:</strong> In some <a class="def" href="#glossary-user-agent">user agents</a>, or with some input devices, the speed that the wheel has been
-								turned can affect the <a href="#glossary-delta"><code>delta</code></a> values, with a faster speed producing a higher <a href="#glossary-delta"><code>delta</code></a> value.</p>
+								turned can affect the <a href="#glossary-delta">delta</a> values, with a faster speed producing a higher <a href="#glossary-delta">delta</a> value.</p>
 						</dd>
 					</dl>
 				</div>
