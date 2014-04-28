@@ -865,11 +865,10 @@ console.log("Exceptions? No problem");</pre>
 				<code>EventTarget.dispatchEvent()</code></a> method.  The <a href="#widl-Event-isTrusted"><code>isTrusted</code></a> attribute of trusted events has a
 				value of <code>true</code>, while untrusted events have a <a href="#widl-Event-isTrusted"><code>isTrusted</code></a> attribute value of <code>false</code>.</p>
 
-			<p>Most untrusted events SHOULD NOT trigger <a class="def" href="#glossary-default-action">default actions</a>, with the exception of <a class="eventtype" href="#event-type-click">
-				<code>click</code></a> or <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> events. These events trigger the <a class="def" href="#glossary-default-action">
-				default action</a> of an <a class="def" href="#glossary-activation-trigger">activation trigger</a> (see <a href="#event-flow-activation">Activation triggers and behaviors</a> for more details). These
-				untrusted events have an <a href="#widl-Event-isTrusted"><code>isTrusted</code></a> attribute value of <code>false</code>, but still initiate any
-				<a class="def" href="#glossary-default-action">default actions</a> for backwards compatibility. All other untrusted events MUST behave
+			<p>Most untrusted events SHOULD NOT trigger <a class="def" href="#glossary-default-action">default actions</a>, with the exception of the <a class="eventtype" href="#event-type-click">
+				<code>click</code></a> event. This event always triggers the <a class="def" href="#glossary-default-action">
+				default action</a>, even if the <a href="#widl-Event-isTrusted"><code>isTrusted</code></a> attribute is <code>false</code> (this behavior is retained for backward-compatibility).
+				All other untrusted events MUST behave
 				as if the <a href="#widl-Event-preventDefault"><code>Event.preventDefault()</code></a> method had been called on that event.</p>
 		</section>  <!-- trusted-events -->
 
@@ -978,7 +977,7 @@ console.log("Exceptions? No problem");</pre>
 					<tr>
 						<td class="cell-number">2.</td>
 						<td><a class="eventtype" href="#event-type-click"><code>click</code></a></td>
-						<td><a class="def" href="#glossary-default-action">default action</a>; synthesized; <code>isTrusted="false"</code></td>
+						<td><a class="def" href="#glossary-default-action">default action</a>; synthesized; <code>isTrusted="true"</code></td>
 					</tr>
 					<tr>
 						<td class="cell-number">3.</td>
@@ -1250,7 +1249,7 @@ console.log("Exceptions? No problem");</pre>
 					<p class="warning" id="warning-initEvent-untrusted"><strong>Warning!</strong>
 						For security reasons, events modified using
 							<a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a>
-						MUST have a
+						MUST have an
 							<code class="attribute-name"><a href="#widl-Event-isTrusted">isTrusted</a></code>
 						attribute value of <code>false</code>.
 						See <a href="#trusted-events">trusted events</a> for more details.
@@ -8831,7 +8830,7 @@ else {
 						<td class="cell-number">2.</td>
 						<td><a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a></td>
 						<td><a class="def" href="#glossary-default-action">default action</a>, if supported
-							by the <a class="def" href="#glossary-user-agent">user agent</a>; synthesized; <code>isTrusted="false"</code>
+							by the <a class="def" href="#glossary-user-agent">user agent</a>; synthesized; <code>isTrusted="true"</code>
 						</td>
 					</tr>
 					<tr>
@@ -8859,7 +8858,7 @@ else {
 					<tr>
 						<td class="cell-number">2.</td>
 						<td><a class="eventtype" href="#event-type-click"><code>click</code></a></td>
-						<td><a class="def" href="#glossary-default-action">default action</a>; synthesized; <code>isTrusted="false"</code></td>
+						<td><a class="def" href="#glossary-default-action">default action</a>; synthesized; <code>isTrusted="true"</code></td>
 					</tr>
 					<tr>
 						<td class="cell-number">3.</td>
