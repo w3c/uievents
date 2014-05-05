@@ -1392,10 +1392,10 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
 						<td>Sync</td>
 						<td>Yes</td>
-						<td><code>HTMLInputElement</code>, <code>HTMLTextAreaElement</code>, <code>Element</code></td>
+						<td><code>Element</code></td>
 						<td><a href="#interface-InputEvent"><code>InputEvent</code></a></td>
 						<td>Yes</td>
-						<td>None</td>
+						<td>Update the DOM element</td>
 					</tr>
 					<tr>
 						<td><a class="eventtype" href="#event-type-blur"><code>blur</code></a></td>
@@ -1501,7 +1501,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
 						<td>Sync</td>
 						<td>Yes</td>
-						<td><code>HTMLInputElement</code>, <code>HTMLTextAreaElement</code>, <code>Element</code></td>
+						<td><code>Element</code></td>
 						<td><a href="#interface-InputEvent"><code>InputEvent</code></a></td>
 						<td>No</td>
 						<td>None</td>
@@ -4562,7 +4562,8 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								</tr>
 								<tr>
 									<th>Trusted Targets</th>
-									<td><code>HTMLInputElement</code>, <code>HTMLTextAreaElement</code> or any <code>Element</code> with <code>contentEditable<=true</code>.</td>
+									<td><code>Element</code> (specifically: control types such as <code>HTMLInputElement</code>, etc.) or any <code>Element</code> with 
+										<code>contenteditable</code> attribute enabled.</td>
 								</tr>
 								<tr>
 									<th>Cancelable</th>
@@ -4578,9 +4579,17 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 										<ul>
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												<a class="def" href="#glossary-event-target">event target</a> that is about to be updated</li>
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
+												<a class="def" href="#glossary-window"><code>Window</code></a></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
+												<code>0</code></li>
 											<li><a href="#widl-InputEvent-data"><code class="attribute-name">InputEvent.data</code></a>:
 												the string containing the data that will be added to the element,
 												which MAY be the <a class="def" href="#glossary-empty-string">empty string</a> if the content has been deleted</li>
+											<li><a href="#widl-InputEvent-isComposing"><code class="attribute-name">InputEvent.isComposing</code></a>:
+												<code>true</code> if this event is dispatched during a <a href="#keys-dead">dead key</a> sequence or while an 
+												<a href="#glossary-ime">input method editor</a> is active (such that 
+												<a href="#events-compositionevents">composition events</a> are being dispatched); <code>false</code> otherwise.</li>
 										</ul>
 									</td>
 								</tr>
@@ -4615,7 +4624,8 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								</tr>
 								<tr>
 									<th>Trusted Targets</th>
-									<td><code>HTMLInputElement</code>, <code>HTMLTextAreaElement</code> or any <code>Element</code> with <code>contentEditable<=true</code>.</td>
+									<td><code>Element</code> (specifically: control types such as <code>HTMLInputElement</code>, etc.) or any <code>Element</code> with 
+										<code>contenteditable</code> attribute enabled.</td>
 								</tr>
 								<tr>
 									<th>Cancelable</th>
@@ -4631,9 +4641,17 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 										<ul>
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
 												<a class="def" href="#glossary-event-target">event target</a> that was just updated</li>
+											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
+												<a class="def" href="#glossary-window"><code>Window</code></a></li>
+											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
+												<code>0</code></li>
 											<li><a href="#widl-InputEvent-data"><code class="attribute-name">InputEvent.data</code></a>:
 												the string containing the data that was added to the element,
 												which MAY be the <a class="def" href="#glossary-empty-string">empty string</a> if the content has been deleted</li>
+											<li><a href="#widl-InputEvent-isComposing"><code class="attribute-name">InputEvent.isComposing</code></a>:
+												<code>true</code> if this event is dispatched during a <a href="#keys-dead">dead key</a> sequence or while an 
+												<a href="#glossary-ime">input method editor</a> is active (such that 
+												<a href="#events-compositionevents">composition events</a> are being dispatched); <code>false</code> otherwise.</li>
 										</ul>
 									</td>
 								</tr>
@@ -5323,15 +5341,14 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						method call.</p>
 
 					<dl class="idl" title="[Constructor(DOMString typeArg, optional CompositionEventInit compositionEventInitDict)] interface CompositionEvent : UIEvent">
-						<dt>readonly attribute DOMString? data</dt>
+						<dt>readonly attribute DOMString data</dt>
 						<dd>
 							<p><code>data</code> holds the value of the characters generated by an input method.
 								This MAY be a single Unicode character or a non-empty sequence of Unicode characters
 								[<cite><a class="normative" href="#references-Unicode">Unicode</a></cite>].
 								Characters SHOULD be normalized as defined by the Unicode normalization form <em>NFC</em>,
 								defined in [<cite><a class="normative" href="#references-UnicodeNormalization">UAX #15</a></cite>].
-								This attribute MAY be null or contain the <a class="def" href="#glossary-empty-string">
-								empty string</a>.
+								This attribute MAY be the <a class="def" href="#glossary-empty-string">empty string</a>.
 								</p>
 
 							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute
@@ -5341,7 +5358,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 					</dl>
 
 					<dl class="idl" title="dictionary CompositionEventInit : UIEventInit">
-						<dt>DOMString? data = ""</dt>
+						<dt>DOMString data = ""</dt>
 						<dd>
 							<p>Initializes the <code>data</code> attribute of the CompositionEvent
 								object to the characters generated by the IME composition.
@@ -7927,10 +7944,10 @@ else {
 							<dt>Window? viewArg</dt>
 							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
-							<dt>DOMString? dataArg</dt>
+							<dt>DOMString dataArg</dt>
 							<dd><p>Specifies <a href="#widl-CompositionEvent-data"><code>CompositionEvent.data</code></a>.</p></dd>
 
-							<dt>DOMString? locale</dt>
+							<dt>DOMString locale</dt>
 							<dd><p>Specifies the <code>locale</code> attribute of the CompositionEvent.
 								This attribute is not defined in DOM3, but will be included in the
 								[<a href="#references-UIEvents">UI Events</a>] specification.
