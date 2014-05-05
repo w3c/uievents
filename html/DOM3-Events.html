@@ -129,11 +129,11 @@
 	</section>  <!-- sotd -->
 
 	<!-- Section 1: DOM3 Events Overview  ========================================================-->
-	<section id="dom-events">
-		<h1>Document Object Model Events</h1>
+	<section id="dom-events-intro">
+		<h1>Introduction</h1>
 		
 		<section id="dom-events-overview">
-			<h2>Introduction</h2>
+			<h2>Overview</h2>
 			<p>DOM Events is designed with two main goals. The first goal is the design of an <a class="def" href="#glossary-event">event</a> system which allows registration
 				of event listeners and describes event flow through a tree structure. Additionally, the specification will provide standard modules of events for user interface
 				control and document mutation notifications, including defined contextual information for each of these event modules.</p>
@@ -315,326 +315,15 @@
 				that takes advantage of the interfaces, methods, attributes, events, and other features described in this specification in order to make Web applications, and a
 				user is the person who uses those Web applications in an implementation.</p>
 		</section>  <!-- style-conventions -->
-	</section>  <!-- dom-events -->
+	</section>  <!-- dom-events-intro -->
 
+	<!-- Section 2: Issues ==============================================================-->
 	<section id="issues">
 		<h1>Issues</h1>
 		
 		<p class="issue">Open issues in this specification are called out using this convention.</p>
 	</section>
-	<!-- Section 2: Glossary  ========================================================-->
-	<section id="glossary">
-		<h1>Glossary</h1>
-
-		<p class="1st">Some of the following term definitions have been borrowed or modified from similar definitions in other W3C or standards documents. See the links within
-			the definitions for more information.</p>
-
-		<dl id="glossary-list">
-			<dt id="glossary-activation-behavior"><dfn>activation behavior</dfn></dt>
-			<dd>The action taken when an <a class="def" href="#glossary-event">event</a>, typically initiated by users through an input device, causes an element to fulfill a
-				defined task.  The task MAY be defined for that element by the <a class="def" href="#glossary-host-language">host language</a>, or by
-				author-defined variables, or both.  The default task for any given element MAY be a generic action, or MAY be
-				unique to that element.  For example, the activation behavior of an HTML or SVG <code>&lt;a&gt;</code> element is to cause the
-				<a class="def" href="#glossary-user-agent">user agent</a> to traverse the link specified in the <code>href</code> attribute, with the further optional parameter
-				of specifying the browsing context for the traversal (such as the current window or tab, a named window, or a new window). The activation behavior of an HTML
-				<code>&lt;input&gt;</code> element with the <code>type</code> attribute value <code>submit</code> is be to send the values of the form elements to an
-				author-defined IRI by the author-defined HTTP method.  See <a href="#event-flow-activation">Activation triggers and behavior</a> for more details.</dd>
-
-			<dt id="glossary-activation-trigger"><dfn>activation trigger</dfn></dt>
-			<dd>An event which is defined to initiate an <a class="def" href="#glossary-activation-behavior">activation behavior</a>.  Refer to <a href="#event-flow-activation">
-				Activation triggers and behavior</a> for more details.</dd>
-
-			<dt id="glossary-author"><dfn>author</dfn></dt>
-			<dd>In the context of this specification, an <em>author</em>, <em>content author</em>, or <em>script author</em> is a person who writes script or other executable
-				content that uses the interfaces, events, and event flow defined in this specification.  See <a href="#conf-authors">Content authors and content</a>  conformance
-				category for more details.</dd>
-
-			<dt id="glossary-bubbling-phase"><dfn>bubbling phase</dfn></dt>
-			<dd>The process by which an <a class="def" href="#glossary-event">event</a> can be handled by one of the target's ancestors <em>after</em> being handled by the
-				<a class="def" href="#glossary-event-target">event target</a>. See the description of the <a href="#bubble-phase">bubble phase</a> in the context
-				of event flow for more details.</dd>
-
-			<dt id="glossary-capture-phase"><dfn>capture phase</dfn></dt>
-			<dd>The process by which an <a class="def" href="#glossary-event">event</a> can be handled by one of the target's ancestors <em>before</em> being handled by the
-				<a class="def" href="#glossary-event-target">event target</a>. See the description of the <a href="#capture-phase">capture phase</a> in the context
-				of event flow for more details.</dd>
-
-			<dt id="glossary-candidate-event-handlers"><dfn>candidate event handlers</dfn></dt>
-			<dt><dfn>candidate event listeners</dfn></dt>
-			<dd>The list of all <a class="def" href="#glossary-event-handler">event listeners</a> that have been registered on the target object in their order of registration. This
-				list is captured or <q>frozen</q> before event listeners on the target object are dispatched, and released or <q>un-frozen</q> after this set of candidate event
-				handlers have been dispatched (allowing these event listeners to add or remove additional listeners on other objects in an event's propagation chain, but not affect
-				the order of listeners that will be invoked on the target object).
-
-				<p class="note"><strong>Note:</strong> Initially capturing the candidate event handlers prevents infinite loops of event listener dispatch on a given target object.</p>
-			</dd>
-
-			<dt id="glossary-character-value"><dfn>character value</dfn></dt>
-			<dd>In the context of key values, a character value is a string representing one or more Unicode characters, such as a letter or symbol, or a set of letters. In this
-				specification, character values are denoted as a unicode string (e.g., <code class="char">'\u0020'</code>) or a glyph representation of the same code point (e.g.,
-				<code class="glyph">' '</code>), and are color coded to help distinguish these two representations.
-				<p class="note"><strong>Note:</strong> In source code, some key values, such as non-graphic characters, can be represented using
-				the character escape syntax of the programming language in use.</p>
-			</dd>
-
-			<dt id="glossary-current-event-target"><dfn>current event target</dfn></dt>
-			<dd>In an event flow, the current event target is the object associated with the <a class="def" href="#glossary-event-handler">event handler</a> that is currently being
-				dispatched. This object MAY be the <a href="#glossary-event-target">event target</a> itself or one of its ancestors. The current event target changes as the
-				<a class="def" href="#glossary-event">event</a> propagates from object to object through the various <a class="def" href="#glossary-phase">phases</a> of the event flow.
-				The current event target is the value of the <a href="#widl-Event-currentTarget"><code>Event.currentTarget</code></a> attribute.</dd>
-
-			<dt id="glossary-dead-key"><dfn>dead key</dfn></dt>
-			<dd>A dead key is a key or combination of keys which produces no character by itself, but which in combination or sequence with another key produces a modified character,
-				such as a character with diacritical marks (e.g., <code>&#xF6;</code>, <code>&#xE9;</code>, <code>&#xE2;</code>).</dd>
-
-			<dt id="glossary-default-action"><dfn>default action</dfn></dt>
-			<dd>A <a class="def" href="#glossary-default-action">default action</a> is an OPTIONAL supplementary behavior that an implementation
-				MUST perform in combination with the dispatch of the event object.  Each event type definition, and each specification, defines the
-				<a class="def" href="#glossary-default-action">default action</a> for that event type, if it has one.  An instance of an event MAY have more than
-				one <a class="def" href="#glossary-default-action">default action</a> under some circumstances, such as when associated with an
-				<a class="def" href="#glossary-activation-trigger">activation trigger</a>.  A <a class="def" href="#glossary-default-action"> default action</a> MAY
-				be cancelled through the invocation of the <a href="#widl-Event-preventDefault"><code>Event.preventDefault()</code></a> method. For more details, see
-				<a href="#event-flow-default-cancel">Default actions and cancelable events</a>.</dd>
-
-			<dt id="glossary-delta"><dfn>delta</dfn></dt>
-			<dd>The estimated scroll amount (in pixels, lines, or pages) that the user agent will scroll or zoom the page in response to the physical movement of an input device that
-				supports the <code>WheelEvent</code> interface (such as a mouse wheel or touch pad). The value of a <a class="def" href="#glossary-delta">delta</a> (e.g., the <a
-				href="#widl-WheelEvent-deltaX">deltaX</a>, <a href="#widl-WheelEvent-deltaY">deltaY</a>, or <a href="#widl-WheelEvent-deltaZ">deltaZ</a> attributes) is to be
-				interpreted in the context of the current <a href="#widl-WheelEvent-deltaMode"><code>deltaMode</code></a> property. The relationship between the physical movement of
-				a wheel (or other device) and whether the <a class="def" href="#glossary-delta">delta</a> is positive or negative is environment and device dependent. However, if a user
-				agent scrolls as the <a class="def" href="#glossary-default-action">default action</a> then the sign of the <a class="def" href="#glossary-delta">delta</a> is given by a
-				right-hand coordinate system where positive X,Y, and Z axes are directed towards the right-most edge, bottom-most edge, and farthest depth (away from the user) of the
-				document, respectively.</dd>
-
-			<dt id="glossary-deprecated"><dfn>deprecated</dfn></dt>
-			<dd>Features marked as deprecated are included in the specification as reference to older implementations or specifications, but are OPTIONAL
-				and discouraged.  Only features which have existing or in-progress replacements MUST be deprecated in this specification.  Implementations
-				which do not already include support for the feature MAY implement deprecated features for reasons of backwards compatibility with existing
-				content, but content authors creating content SHOULD NOT use deprecated features, unless there is no other way to solve a use case.
-				Other specifications which reference this specification SHOULD NOT use deprecated features, but SHOULD
-				point instead to the replacements of which the feature is deprecated in favor.  Features marked as deprecated in this specification are expected to be dropped from
-				future specifications.</dd>
-
-			<dt id="glossary-dispatch"><dfn>dispatch</dfn></dt>
-			<dd>To create an event with attributes and methods appropriate to its type and context, and propagate it through the DOM tree in the specified manner. Interchangeable
-				with the term <q><a href="#glossary-fire">fire</a></q>, e.g., <q>fire a <a class="eventtype" href="#event-type-click"><code>click</code></a> event</q> or <q>dispatch
-				a <a class="eventtype" href="#event-type-load"><code>load</code></a> event</q>.</dd>
-
-			<dt id="glossary-document"><dfn>document</dfn></dt>
-			<dd>An object instantiating the <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#i-Document" title="Document Object Model Core"><code>Document</code> interface</a>
-				[<cite><a class="normative" href="#references-DOMCore">DOM3 Core</a></cite>], representing the entire HTML or XML text document.  Conceptually, it is the root of
-				the document tree, and provides the primary access to the document's data.</dd>
-
-			<dt id="glossary-DOM-application"><dfn>DOM application</dfn></dt>
-			<dd>A DOM application is script or code, written by a content author or automatically generated, which takes advantage of the interfaces, methods, attributes, events,
-				and other features described in this specification in order to make dynamic or interactive content, such as Web applications, exposed to users in a <a class="def"
-				href="#glossary-user-agent">user agent</a>.</dd>
-
-			<dt id="glossary-DOM-Level-0"><dfn>DOM Level 0</dfn></dt>
-			<dd>The term <q>DOM Level 0</q> refers to a mix of HTML document functionalities, often not formally specified but traditionally supported as de facto standards, implemented
-				originally by Netscape Navigator version 3.0 or Microsoft Internet Explorer version 3.0.  In many cases, attributes or methods have been included for reasons of
-				backward compatibility with <q>DOM Level 0</q>.</dd>
-
-			<dt id="glossary-empty-string"><dfn>empty string</dfn></dt>
-			<dd>The empty string is a value of type <code>DOMString</code> of length <code>0</code>, i.e., a string which contains no characters (neither printing nor control
-				characters).</dd>
-
-			<dt id="glossary-event"><dfn>event</dfn></dt>
-			<dd>An event is the representation of some occurrence (such as a mouse click on the presentation of an element, the removal of child node from an element, or any number
-				of other possibilities) which is associated with its <a class="def" href="#glossary-event-target">event target</a>. Each event is an instantiation
-				of one specific <a class="def" href="#glossary-event-type">event type</a>.</dd>
-
-			<dt id="glossary-event-focus"><dfn>event focus</dfn></dt>
-			<dd>Event focus is a special state of receptivity and concentration on an particular element or other <a class="def" href="#glossary-event-target">event target</a> within
-				a document.  Each element has different behavior when focused, depending on its functionality, such as priming the element for activation (as for a button or hyperlink)
-				or toggling state (as for a checkbox), receiving text input (as for a text form field), or copying selected text.  For more details, see <a href="#events-focusevent-doc-focus">
-				Document Focus and Focus Context</a>.</dd>
-
-			<dt id="glossary-event-focus-ring"><dfn>event focus ring</dfn></dt>
-			<dd>An event focus ring is an ordered set of <a class="def" href="#glossary-event-focus">event focus</a> targets within a document.  A <a class="def" href="#glossary-host-language">
-				host language</a> MAY define one or more ways to determine the order of targets, such as document order, a numerical index defined per focus target, explicit pointers
-				between focus targets, or a hybrid of different models.  Each document MAY contain multiple focus rings, or conditional focus rings.  Typically, for document-order
-				or indexed focus rings, focus <q>wraps around</q> from the last focus target to the first.</dd>
-
-			<dt id="glossary-event-handler"><dfn>event handler</dfn></dt>
-			<dt><dfn>event listener</dfn></dt>
-			<dd>An object that implements the <a href="#interface-EventListener"><code>EventListener</code></a> interface and provides an <a href="#widl-EventListener-handleEvent">
-				<code>EventListener.handleEvent()</code></a> callback method. Event handlers are language-specific. Event handlers are invoked in the context of a particular object
-				(the <a class="def" href="#glossary-current-event-target">current event target</a>) and are provided with the event object itself.
-
-				<p class="note"><strong>Note: </strong>In JavaScript, user-defined functions are considered to implement the <a href="#interface-EventListener"><code>EventListener</code></a> interface. Thus the
-					event object will be provided as the first parameter to the user-defined function when it is invoked. Additionally, JavaScript objects can also implement
-					the <a href="#interface-EventListener"><code>EventListener</code></a> interface when they define a <a href="#widl-EventListener-handleEvent"><code>handleEvent</code></a> method.</p>
-			</dd>
-
-			<dt id="glossary-event-order"><dfn>event order</dfn></dt>
-			<dd>The sequence in which events from the same event source or process occur, using the same or related event interfaces. For example, in an environment with a mouse,
-				a track pad, and a keyboard, each of those input devices would constitute a separate event source, and each would follow its own event order. A <a class="eventtype"
-				href="#event-type-mousedown"><code>mousedown</code></a> event from the trackpad followed by a <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a>
-				event from the mouse would not result in a <a class="eventtype" href="#event-type-click"><code>click</code></a> event.
-
-				<p class="note"><strong>Note:</strong> There can be interactions between different event orders. For example, a <a class="eventtype" href="#event-type-click"><code>click</code></a> event might
-				be modified by a concurrent <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event (<code class="key">'Shift'</code><code>+click</code>). However, the event orders
-				of these different event sources would be distinct.</p>
-
-				The event order of some interfaces are device-independent. For example, a user might change focus using the <a href="#key-Tab"><code class="key">'Tab'</code></a>
-				key, or by clicking the new focused element with the mouse.  The event order in such cases depends on the state of the process, not on the state of the device that
-				initiates the state change.</dd>
-
-			<dt id="glossary-event-phase"><dfn>event phase</dfn></dt>
-			<dd>See <a class="def" href="#glossary-phase">phase</a>.</dd>
-
-			<dt id="glossary-event-target"><dfn>event target</dfn></dt>
-			<dd>The object to which an <a class="def" href="#glossary-event">event</a> is targeted using the <a href="#event-flow">DOM event flow</a>. The event target is the
-				value of the <a href="#widl-Event-target"><code>Event.target</code></a> attribute.</dd>
-
-			<dt id="glossary-event-type"><dfn>event type</dfn></dt>
-			<dd>An <em>event type</em> is an <a class="def" href="#glossary-event">event</a> object with a particular name and which defines particular trigger conditions, properties,
-				and other characteristics which distinguish it from other event types.  For example, the <a class="eventtype" href="#event-type-click"><code>click</code></a> event
-				type has different characteristics than the <a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a> or <a class="eventtype" href="#event-type-load">
-				<code>load</code></a> event types. The event type is exposed as the <a href="#widl-Event-type"><code class="interface-attribute">Event.type</code></a>
-				attribute on the event object.  See <a href="#event-types">event types</a> for more details.  Also loosely referred to as <em>'event'</em>, such as the <em><a class="eventtype"
-				href="#event-type-click"><code>click</code></a> event</em>.</dd>
-
-			<dt id="glossary-fire"><dfn>fire</dfn></dt>
-			<dd>A synonym for <a href="#glossary-dispatch">dispatch</a>.</dd>
-
-			<dt id="glossary-host-language"><dfn>host language</dfn></dt>
-			<dd>Any language which integrates the features of another language or API specification, while normatively referencing the origin specification rather than redefining
-				those features, and extending those features only in ways defined by the origin specification.  An origin specification typically is only intended to be implemented
-				in the context of one or more host languages, not as a standalone language.  For example, XHTML, HTML, and SVG are host languages for DOM 3 Events, and they integrate
-				and extend the objects and models defined in this specification.</dd>
-
-			<dt id="glossary-hysteresis"><dfn>hysteresis</dfn></dt>
-			<dd>A feature of human interface design to accept input values within a certain range of location or time, in order to improve the user experience.  For example, allowing
-				for small deviation in the time it takes for a user to double-click a mouse button is temporal hysteresis, and not immediately closing a nested menu if the user
-				mouses out from the parent window when transitioning to the child menu is locative hysteresis.</dd>
-
-			<dt id="glossary-ime"><dfn>IME</dfn></dt>
-			<dt id="glossary-input-method-editor"><dfn>input method editor</dfn></dt>
-			<dd>An <em>input method editor</em> (IME), also known as a <em>front end processor</em>, is an application that performs the conversion between keystrokes and ideographs
-				or other characters, usually by user-guided dictionary lookup, often used in East Asian languages (e.g., Chinese, Japanese, Korean).  An <a class="def" href="#glossary-ime">
-				IME</a> MAY also be used for dictionary-based word completion, such as on mobile devices.  See <a href="#keys-IME">Input Method Editors</a> for treatment of
-				IMEs in this specification.  See also <a class="def" href="#glossary-text-composition-system">text composition system</a>.</dd>
-
-			<dt id="glossary-key-mapping"><dfn>key mapping</dfn></dt>
-			<dd>Key mapping is the process of assigning a key value to a particular key, and is the result of a combination of several factors, including the operating system
-				and the keyboard layout (e.g., <a class="def" href="#glossary-qwerty">QWERTY</a>, Dvorak, Spanish, InScript, Chinese, etc.), and after taking into account all <a
-				class="def" href="#glossary-modifier-key">modifier key</a> (<a href="#key-Shift"><code class="key">'Shift'</code></a>, <a href="#key-Alt"><code class="key">
-				'Alt'</code></a>, etc.) and <a class="def" href="#glossary-dead-key">dead key</a> states.</dd>
-
-			<dt id="glossary-key-value"><dfn>key value</dfn></dt>
-			<dd>A key value is a <a class="def" href="#glossary-character-value">character value</a> or multi-character string (such as <a href="#key-Enter"><code class="key">'Enter'
-				</code></a>, <a href="#key-Tab"><code class="key">'Tab'</code></a>, or <a href="#key-MediaTrackNext"><code class="key">'MediaTrackNext'</code></a>) associated
-				with a key in a particular state. Every key has a key value, whether or not it has a <a class="def" href="#glossary-character-value">character value</a>. This includes
-				control keys, function keys, <a class="def" href="#glossary-modifier-key">modifier keys</a>, <a class="def" href="#glossary-dead-key">dead keys</a>, and any other key.
-				The key value of any given key at any given time depends upon the <a class="def" href="#glossary-key-mapping">key mapping</a>.</dd>
-
-			<dt id="glossary-localname"><dfn>local name</dfn></dt>
-			<dd>See local name in [<cite><a class="informative" href="#references-Namespaces10">XML Namespaces 1.0</a></cite>].</dd>
-
-			<dt id="glossary-modifier-key"><dfn>modifier key</dfn></dt>
-			<dd>A modifier key changes the normal behavior of a key, such as to produce a character of a different case (as with the <a href="#key-Shift"><code class="key">
-				'Shift'</code></a> key), or to alter what functionality the key triggers (as with the <a href="#key-Fn"><code class="key">'Fn'</code></a> or <a href="#key-Alt">
-				<code class="key">'Alt'</code></a> keys).  Refer to the <a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
-				method for a list of modifier keys defined in this specification.  See also <a href="#keys-modifiers">Modifier keys</a>.</dd>
-
-			<dt id="glossary-namespaceURI"><dfn>namespace URI</dfn></dt>
-			<dd>A <em>namespace URI</em> is a URI that identifies an XML namespace. This is called the namespace name in [<cite><a class="informative" href="#references-Namespaces10">XML
-				Namespaces 1.0</a></cite>]. See also sections 1.3.2 <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#baseURIs-Considerations"><em>DOM URIs</em></a>
-				and 1.3.3 <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Namespaces-Considerations"><em>XML Namespaces</em></a> regarding URIs and namespace
-				URIs handling and comparison in the DOM APIs.</dd>
-
-			<dt id="glossary-phase"><dfn>phase</dfn></dt>
-			<dd>In the context of <a class="def" href="#glossary-event">events</a>, a phase is set of logical traversals from node to node along the DOM tree, from the <a class="def"
-				href="#glossary-window">Window</a> to the <code>Document</code> object, <a class="def" href="#glossary-root-element">root element</a>, and down
-				to the <a class="def" href="#glossary-event-target">event target</a> (<a class="def" href="#glossary-capture-phase">capture phase</a>), at the <a class="def" href="#glossary-event-target">
-				event target</a> itself (<a class="def" href="#glossary-target-phase">target phase</a>), and back up the same chain (<a class="def" href="#glossary-bubbling-phase">bubbling
-				phase</a>).</dd>
-
-			<dt id="glossary-propagation-path"><dfn>propagation path</dfn></dt>
-			<dd>The ordered set of <a class="def" href="#glossary-current-event-target">current event targets</a> though which an <a class="def" href="#glossary-event">event</a> object will pass
-				sequentially on the way to and back from the <a class="def" href="#glossary-event-target">event target</a>.  As the event propagates, each <a class="def"
-				href="#glossary-current-event-target">current event target</a> in the propagation path is in turn set as the <a href="#widl-Event-currentTarget"><code>Event.currentTarget</code></a>.
-				The propagation path is initially composed of one or more <a class="def" href="#glossary-event-phase">event phases</a> as defined by the <a class="def" href="#glossary-event-type">
-				event type</a>, but MAY be interrupted.  Also known as an <em>event target chain</em>.</dd>
-
-			<dt id="glossary-qwerty"><dfn>QWERTY</dfn></dt>
-			<dd>QWERTY (pronounced <q>&#x2C8;kw&#x25C;rti</q>) is a common keyboard layout, so named because the first five character keys on the top row of letter keys are Q,
-				W, E, R, T, and Y.  There are many other popular keyboard layouts (including the Dvorak and Colemak layouts), most designed for localization or ergonomics.</dd>
-
-			<dt id="glossary-root-element"><dfn>root element</dfn></dt>
-			<dd>The first element node of a document, of which all other elements are children. The document element.</dd>
-
-			<dt id="glossary-rotation"><dfn>rotation</dfn></dt>
-			<dd>An indication of incremental change on an input device using the <a href="#interface-WheelEvent">WheelEvent</a> interface. On some devices this MAY be a literal
-				rotation of a wheel, while on others, it MAY be movement along a flat surface, or pressure on a particular button.</dd>
-
-			<dt id="glossary-target-phase"><dfn>target phase</dfn></dt>
-			<dd>The process by which an <a class="def" href="#glossary-event">event</a> can be handled by the <a class="def" href="#glossary-event-target">event target</a>.
-				See the description of the <a href="#target-phase">target phase</a> in the context of event flow for more details.</dd>
-
-			<dt id="glossary-text-composition-system"><dfn>text composition system</dfn></dt>
-			<dd>A software component that interprets some form of alternate input (such as a <a class="def" href="#glossary-ime">input method editor</a>, a speech processor, or
-				a handwriting recognition system) and converts it to text.</dd>
-
-			<dt id="glossary-topmost-event-target"><dfn>topmost event target</dfn></dt>
-			<dd>The <a class="def" href="#glossary-topmost-event-target">topmost event target</a> MUST be the element highest in the rendering order which is capable of being
-				an <a class="def" href="#glossary-event-target">event target</a>. In graphical user interfaces this is the element under the user's pointing device. A user
-				interface's <q>hit testing</q> facility is used to determine the target. For specific details regarding hit testing and stacking order, refer to the
-				<a class="def" href="#glossary-host-language">host language</a>.</dd>
-
-			<dt id="glossary-tree"><dfn>tree</dfn></dt>
-			<dd>A data structure that represents a document as a hierarchical set of nodes with child-parent-sibling relationships, i.e., each node having one or more possible
-				ancestors (nodes higher in the hierarchy in a direct lineage), one or more possible descendants (nodes lower in the hierarchy in a direct lineage), and one or more
-				possible peers (nodes of the same level in the hierarchy, with the same immediate ancestor).</dd>
-
-			<dt id="glossary-Unicode-character-categories"><dfn>Unicode character categories</dfn></dt>
-			<dd>A subset of the General Category values that are defined for each Unicode code point. This subset contains all the
-				Letter (<abbr title="Letter, Lowercase">Ll</abbr>,
-					<abbr title="Letter, Modifier">Lm</abbr>,
-					<abbr title="Letter, Other">Lo</abbr>,
-					<abbr title="Letter, Titlecase">Lt</abbr>,
-					<abbr title="Letter, Uppercase">Lu</abbr>),
-				Number (<abbr title="Number, Decimal Digit">Nd</abbr>,
-					<abbr title="Number, Letter">Nl</abbr>,
-					<abbr title="Number, Other">No</abbr>),
-				Punctuation (<abbr title="Punctuation, Connector">Pc</abbr>,
-					<abbr title="Punctuation, Dash">Pd</abbr>,
-					<abbr title="Punctuation, Close">Pe</abbr>,
-					<abbr title="Punctuation, Final quote">Pf</abbr>,
-					<abbr title="Punctuation, Initial quote">Pi</abbr>,
-					<abbr title="Punctuation, Other">Po</abbr>,
-					<abbr title="Punctuation, Open">Ps</abbr>)
-				and Symbol (<abbr title="Symbol, Currency">Sc</abbr>,
-					<abbr title="Symbol, Modifier">Sk</abbr>,
-					<abbr title="Symbol, Math">Sm</abbr>,
-					<abbr title="Symbol, Other">So</abbr>)
-				category values.</dd>
-
-			<dt id="glossary-unicode-code-point"><dfn>Unicode code point</dfn></dt>
-			<dd>A Unicode code point is a unique hexadecimal number signifying a character by its index in the Unicode codespace (or library of characters).  In the context of
-				key values, a Unicode code point is expressed as a string in the format <code>\u</code> followed by a hexadecimal character index in the range <code>0000</code>
-				to <code>10FFFF</code>, using at least four digits. See also <a class="def" href="#glossary-character-value">character value</a>.</dd>
-
-			<dt id="glossary-un-initialized-value"><dfn>un-initialized value</dfn></dt>
-			<dd>The value of any event attribute (such as <a href="#widl-Event-bubbles"><code>Event.bubbles</code></a> or <a href="#widl-Event-currentTarget"><code>
-				Event.currentTarget</code></a>) before the event has been initialized with <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a>. The un-initialized
-				values of an event apply immediately after a new event has been created using the method <a href="#widl-DocumentEvent-createEvent"><code>
-				DocumentEvent.createEvent()</code></a>.</dd>
-
-			<dt id="glossary-user-agent"><dfn>user agent</dfn></dt>
-			<dd>A program, such as a browser or content authoring tool, normally running on a client machine, which acts on a user's behalf in retrieving, interpreting, executing,
-				presenting, or creating content.  Users MAY act on the content using different user agents at different times, for different purposes.  See the <a href="#conf-interactive-ua">
-				Web browsers and other dynamic or interactive user agents</a> and <a href="#conf-author-tools">Authoring tools</a> for details on the requirements for a <em>conforming</em>
-				user agent.</dd>
-
-			<dt id="glossary-window"><dfn>Window</dfn></dt>
-			<dd>The <code>Window</code> is the object referred to by the current document's browsing context's Window Proxy object as defined in <a href="http://dev.w3.org/html5/spec/single-page.html#windowproxy"
-				title="HTML5 WindowProxy description">HTML5</a> [<cite><a class="normative" href="#references-HTML5">HTML5</a></cite>].</dd>
-		</dl>
-	</section>  <!-- glossary -->
-
+	
 	<!-- Section 3: Architecture ========================================================-->
 	<section id="dom-event-architecture">
 		<h1>DOM Event Architecture</h1>
@@ -10511,7 +10200,320 @@ document.documentElement.dispatchEvent(evt);
 		</section>  <!-- acknowledgements-Productions -->
 	</section>  <!-- acknowledgements-contributors -->
 
-	<!-- Appendix H: References ========================================================-->
+	<!-- Appendix H: Glossary  ========================================================-->
+	<section id="glossary">
+		<h1>Glossary</h1>
+
+		<p class="1st">Some of the following term definitions have been borrowed or modified from similar definitions in other W3C or standards documents. See the links within
+			the definitions for more information.</p>
+
+		<dl id="glossary-list">
+			<dt id="glossary-activation-behavior"><dfn>activation behavior</dfn></dt>
+			<dd>The action taken when an <a class="def" href="#glossary-event">event</a>, typically initiated by users through an input device, causes an element to fulfill a
+				defined task.  The task MAY be defined for that element by the <a class="def" href="#glossary-host-language">host language</a>, or by
+				author-defined variables, or both.  The default task for any given element MAY be a generic action, or MAY be
+				unique to that element.  For example, the activation behavior of an HTML or SVG <code>&lt;a&gt;</code> element is to cause the
+				<a class="def" href="#glossary-user-agent">user agent</a> to traverse the link specified in the <code>href</code> attribute, with the further optional parameter
+				of specifying the browsing context for the traversal (such as the current window or tab, a named window, or a new window). The activation behavior of an HTML
+				<code>&lt;input&gt;</code> element with the <code>type</code> attribute value <code>submit</code> is be to send the values of the form elements to an
+				author-defined IRI by the author-defined HTTP method.  See <a href="#event-flow-activation">Activation triggers and behavior</a> for more details.</dd>
+
+			<dt id="glossary-activation-trigger"><dfn>activation trigger</dfn></dt>
+			<dd>An event which is defined to initiate an <a class="def" href="#glossary-activation-behavior">activation behavior</a>.  Refer to <a href="#event-flow-activation">
+				Activation triggers and behavior</a> for more details.</dd>
+
+			<dt id="glossary-author"><dfn>author</dfn></dt>
+			<dd>In the context of this specification, an <em>author</em>, <em>content author</em>, or <em>script author</em> is a person who writes script or other executable
+				content that uses the interfaces, events, and event flow defined in this specification.  See <a href="#conf-authors">Content authors and content</a>  conformance
+				category for more details.</dd>
+
+			<dt id="glossary-bubbling-phase"><dfn>bubbling phase</dfn></dt>
+			<dd>The process by which an <a class="def" href="#glossary-event">event</a> can be handled by one of the target's ancestors <em>after</em> being handled by the
+				<a class="def" href="#glossary-event-target">event target</a>. See the description of the <a href="#bubble-phase">bubble phase</a> in the context
+				of event flow for more details.</dd>
+
+			<dt id="glossary-capture-phase"><dfn>capture phase</dfn></dt>
+			<dd>The process by which an <a class="def" href="#glossary-event">event</a> can be handled by one of the target's ancestors <em>before</em> being handled by the
+				<a class="def" href="#glossary-event-target">event target</a>. See the description of the <a href="#capture-phase">capture phase</a> in the context
+				of event flow for more details.</dd>
+
+			<dt id="glossary-candidate-event-handlers"><dfn>candidate event handlers</dfn></dt>
+			<dt><dfn>candidate event listeners</dfn></dt>
+			<dd>The list of all <a class="def" href="#glossary-event-handler">event listeners</a> that have been registered on the target object in their order of registration. This
+				list is captured or <q>frozen</q> before event listeners on the target object are dispatched, and released or <q>un-frozen</q> after this set of candidate event
+				handlers have been dispatched (allowing these event listeners to add or remove additional listeners on other objects in an event's propagation chain, but not affect
+				the order of listeners that will be invoked on the target object).
+
+				<p class="note"><strong>Note:</strong> Initially capturing the candidate event handlers prevents infinite loops of event listener dispatch on a given target object.</p>
+			</dd>
+
+			<dt id="glossary-character-value"><dfn>character value</dfn></dt>
+			<dd>In the context of key values, a character value is a string representing one or more Unicode characters, such as a letter or symbol, or a set of letters. In this
+				specification, character values are denoted as a unicode string (e.g., <code class="char">'\u0020'</code>) or a glyph representation of the same code point (e.g.,
+				<code class="glyph">' '</code>), and are color coded to help distinguish these two representations.
+				<p class="note"><strong>Note:</strong> In source code, some key values, such as non-graphic characters, can be represented using
+				the character escape syntax of the programming language in use.</p>
+			</dd>
+
+			<dt id="glossary-current-event-target"><dfn>current event target</dfn></dt>
+			<dd>In an event flow, the current event target is the object associated with the <a class="def" href="#glossary-event-handler">event handler</a> that is currently being
+				dispatched. This object MAY be the <a href="#glossary-event-target">event target</a> itself or one of its ancestors. The current event target changes as the
+				<a class="def" href="#glossary-event">event</a> propagates from object to object through the various <a class="def" href="#glossary-phase">phases</a> of the event flow.
+				The current event target is the value of the <a href="#widl-Event-currentTarget"><code>Event.currentTarget</code></a> attribute.</dd>
+
+			<dt id="glossary-dead-key"><dfn>dead key</dfn></dt>
+			<dd>A dead key is a key or combination of keys which produces no character by itself, but which in combination or sequence with another key produces a modified character,
+				such as a character with diacritical marks (e.g., <code>&#xF6;</code>, <code>&#xE9;</code>, <code>&#xE2;</code>).</dd>
+
+			<dt id="glossary-default-action"><dfn>default action</dfn></dt>
+			<dd>A <a class="def" href="#glossary-default-action">default action</a> is an OPTIONAL supplementary behavior that an implementation
+				MUST perform in combination with the dispatch of the event object.  Each event type definition, and each specification, defines the
+				<a class="def" href="#glossary-default-action">default action</a> for that event type, if it has one.  An instance of an event MAY have more than
+				one <a class="def" href="#glossary-default-action">default action</a> under some circumstances, such as when associated with an
+				<a class="def" href="#glossary-activation-trigger">activation trigger</a>.  A <a class="def" href="#glossary-default-action"> default action</a> MAY
+				be cancelled through the invocation of the <a href="#widl-Event-preventDefault"><code>Event.preventDefault()</code></a> method. For more details, see
+				<a href="#event-flow-default-cancel">Default actions and cancelable events</a>.</dd>
+
+			<dt id="glossary-delta"><dfn>delta</dfn></dt>
+			<dd>The estimated scroll amount (in pixels, lines, or pages) that the user agent will scroll or zoom the page in response to the physical movement of an input device that
+				supports the <code>WheelEvent</code> interface (such as a mouse wheel or touch pad). The value of a <a class="def" href="#glossary-delta">delta</a> (e.g., the <a
+				href="#widl-WheelEvent-deltaX">deltaX</a>, <a href="#widl-WheelEvent-deltaY">deltaY</a>, or <a href="#widl-WheelEvent-deltaZ">deltaZ</a> attributes) is to be
+				interpreted in the context of the current <a href="#widl-WheelEvent-deltaMode"><code>deltaMode</code></a> property. The relationship between the physical movement of
+				a wheel (or other device) and whether the <a class="def" href="#glossary-delta">delta</a> is positive or negative is environment and device dependent. However, if a user
+				agent scrolls as the <a class="def" href="#glossary-default-action">default action</a> then the sign of the <a class="def" href="#glossary-delta">delta</a> is given by a
+				right-hand coordinate system where positive X,Y, and Z axes are directed towards the right-most edge, bottom-most edge, and farthest depth (away from the user) of the
+				document, respectively.</dd>
+
+			<dt id="glossary-deprecated"><dfn>deprecated</dfn></dt>
+			<dd>Features marked as deprecated are included in the specification as reference to older implementations or specifications, but are OPTIONAL
+				and discouraged.  Only features which have existing or in-progress replacements MUST be deprecated in this specification.  Implementations
+				which do not already include support for the feature MAY implement deprecated features for reasons of backwards compatibility with existing
+				content, but content authors creating content SHOULD NOT use deprecated features, unless there is no other way to solve a use case.
+				Other specifications which reference this specification SHOULD NOT use deprecated features, but SHOULD
+				point instead to the replacements of which the feature is deprecated in favor.  Features marked as deprecated in this specification are expected to be dropped from
+				future specifications.</dd>
+
+			<dt id="glossary-dispatch"><dfn>dispatch</dfn></dt>
+			<dd>To create an event with attributes and methods appropriate to its type and context, and propagate it through the DOM tree in the specified manner. Interchangeable
+				with the term <q><a href="#glossary-fire">fire</a></q>, e.g., <q>fire a <a class="eventtype" href="#event-type-click"><code>click</code></a> event</q> or <q>dispatch
+				a <a class="eventtype" href="#event-type-load"><code>load</code></a> event</q>.</dd>
+
+			<dt id="glossary-document"><dfn>document</dfn></dt>
+			<dd>An object instantiating the <a href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#i-Document" title="Document Object Model Core"><code>Document</code> interface</a>
+				[<cite><a class="normative" href="#references-DOMCore">DOM3 Core</a></cite>], representing the entire HTML or XML text document.  Conceptually, it is the root of
+				the document tree, and provides the primary access to the document's data.</dd>
+
+			<dt id="glossary-DOM-application"><dfn>DOM application</dfn></dt>
+			<dd>A DOM application is script or code, written by a content author or automatically generated, which takes advantage of the interfaces, methods, attributes, events,
+				and other features described in this specification in order to make dynamic or interactive content, such as Web applications, exposed to users in a <a class="def"
+				href="#glossary-user-agent">user agent</a>.</dd>
+
+			<dt id="glossary-DOM-Level-0"><dfn>DOM Level 0</dfn></dt>
+			<dd>The term <q>DOM Level 0</q> refers to a mix of HTML document functionalities, often not formally specified but traditionally supported as de facto standards, implemented
+				originally by Netscape Navigator version 3.0 or Microsoft Internet Explorer version 3.0.  In many cases, attributes or methods have been included for reasons of
+				backward compatibility with <q>DOM Level 0</q>.</dd>
+
+			<dt id="glossary-empty-string"><dfn>empty string</dfn></dt>
+			<dd>The empty string is a value of type <code>DOMString</code> of length <code>0</code>, i.e., a string which contains no characters (neither printing nor control
+				characters).</dd>
+
+			<dt id="glossary-event"><dfn>event</dfn></dt>
+			<dd>An event is the representation of some occurrence (such as a mouse click on the presentation of an element, the removal of child node from an element, or any number
+				of other possibilities) which is associated with its <a class="def" href="#glossary-event-target">event target</a>. Each event is an instantiation
+				of one specific <a class="def" href="#glossary-event-type">event type</a>.</dd>
+
+			<dt id="glossary-event-focus"><dfn>event focus</dfn></dt>
+			<dd>Event focus is a special state of receptivity and concentration on an particular element or other <a class="def" href="#glossary-event-target">event target</a> within
+				a document.  Each element has different behavior when focused, depending on its functionality, such as priming the element for activation (as for a button or hyperlink)
+				or toggling state (as for a checkbox), receiving text input (as for a text form field), or copying selected text.  For more details, see <a href="#events-focusevent-doc-focus">
+				Document Focus and Focus Context</a>.</dd>
+
+			<dt id="glossary-event-focus-ring"><dfn>event focus ring</dfn></dt>
+			<dd>An event focus ring is an ordered set of <a class="def" href="#glossary-event-focus">event focus</a> targets within a document.  A <a class="def" href="#glossary-host-language">
+				host language</a> MAY define one or more ways to determine the order of targets, such as document order, a numerical index defined per focus target, explicit pointers
+				between focus targets, or a hybrid of different models.  Each document MAY contain multiple focus rings, or conditional focus rings.  Typically, for document-order
+				or indexed focus rings, focus <q>wraps around</q> from the last focus target to the first.</dd>
+
+			<dt id="glossary-event-handler"><dfn>event handler</dfn></dt>
+			<dt><dfn>event listener</dfn></dt>
+			<dd>An object that implements the <a href="#interface-EventListener"><code>EventListener</code></a> interface and provides an <a href="#widl-EventListener-handleEvent">
+				<code>EventListener.handleEvent()</code></a> callback method. Event handlers are language-specific. Event handlers are invoked in the context of a particular object
+				(the <a class="def" href="#glossary-current-event-target">current event target</a>) and are provided with the event object itself.
+
+				<p class="note"><strong>Note: </strong>In JavaScript, user-defined functions are considered to implement the <a href="#interface-EventListener"><code>EventListener</code></a> interface. Thus the
+					event object will be provided as the first parameter to the user-defined function when it is invoked. Additionally, JavaScript objects can also implement
+					the <a href="#interface-EventListener"><code>EventListener</code></a> interface when they define a <a href="#widl-EventListener-handleEvent"><code>handleEvent</code></a> method.</p>
+			</dd>
+
+			<dt id="glossary-event-order"><dfn>event order</dfn></dt>
+			<dd>The sequence in which events from the same event source or process occur, using the same or related event interfaces. For example, in an environment with a mouse,
+				a track pad, and a keyboard, each of those input devices would constitute a separate event source, and each would follow its own event order. A <a class="eventtype"
+				href="#event-type-mousedown"><code>mousedown</code></a> event from the trackpad followed by a <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a>
+				event from the mouse would not result in a <a class="eventtype" href="#event-type-click"><code>click</code></a> event.
+
+				<p class="note"><strong>Note:</strong> There can be interactions between different event orders. For example, a <a class="eventtype" href="#event-type-click"><code>click</code></a> event might
+				be modified by a concurrent <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event (<code class="key">'Shift'</code><code>+click</code>). However, the event orders
+				of these different event sources would be distinct.</p>
+
+				The event order of some interfaces are device-independent. For example, a user might change focus using the <a href="#key-Tab"><code class="key">'Tab'</code></a>
+				key, or by clicking the new focused element with the mouse.  The event order in such cases depends on the state of the process, not on the state of the device that
+				initiates the state change.</dd>
+
+			<dt id="glossary-event-phase"><dfn>event phase</dfn></dt>
+			<dd>See <a class="def" href="#glossary-phase">phase</a>.</dd>
+
+			<dt id="glossary-event-target"><dfn>event target</dfn></dt>
+			<dd>The object to which an <a class="def" href="#glossary-event">event</a> is targeted using the <a href="#event-flow">DOM event flow</a>. The event target is the
+				value of the <a href="#widl-Event-target"><code>Event.target</code></a> attribute.</dd>
+
+			<dt id="glossary-event-type"><dfn>event type</dfn></dt>
+			<dd>An <em>event type</em> is an <a class="def" href="#glossary-event">event</a> object with a particular name and which defines particular trigger conditions, properties,
+				and other characteristics which distinguish it from other event types.  For example, the <a class="eventtype" href="#event-type-click"><code>click</code></a> event
+				type has different characteristics than the <a class="eventtype" href="#event-type-mouseover"><code>mouseover</code></a> or <a class="eventtype" href="#event-type-load">
+				<code>load</code></a> event types. The event type is exposed as the <a href="#widl-Event-type"><code class="interface-attribute">Event.type</code></a>
+				attribute on the event object.  See <a href="#event-types">event types</a> for more details.  Also loosely referred to as <em>'event'</em>, such as the <em><a class="eventtype"
+				href="#event-type-click"><code>click</code></a> event</em>.</dd>
+
+			<dt id="glossary-fire"><dfn>fire</dfn></dt>
+			<dd>A synonym for <a href="#glossary-dispatch">dispatch</a>.</dd>
+
+			<dt id="glossary-host-language"><dfn>host language</dfn></dt>
+			<dd>Any language which integrates the features of another language or API specification, while normatively referencing the origin specification rather than redefining
+				those features, and extending those features only in ways defined by the origin specification.  An origin specification typically is only intended to be implemented
+				in the context of one or more host languages, not as a standalone language.  For example, XHTML, HTML, and SVG are host languages for DOM 3 Events, and they integrate
+				and extend the objects and models defined in this specification.</dd>
+
+			<dt id="glossary-hysteresis"><dfn>hysteresis</dfn></dt>
+			<dd>A feature of human interface design to accept input values within a certain range of location or time, in order to improve the user experience.  For example, allowing
+				for small deviation in the time it takes for a user to double-click a mouse button is temporal hysteresis, and not immediately closing a nested menu if the user
+				mouses out from the parent window when transitioning to the child menu is locative hysteresis.</dd>
+
+			<dt id="glossary-ime"><dfn>IME</dfn></dt>
+			<dt id="glossary-input-method-editor"><dfn>input method editor</dfn></dt>
+			<dd>An <em>input method editor</em> (IME), also known as a <em>front end processor</em>, is an application that performs the conversion between keystrokes and ideographs
+				or other characters, usually by user-guided dictionary lookup, often used in East Asian languages (e.g., Chinese, Japanese, Korean).  An <a class="def" href="#glossary-ime">
+				IME</a> MAY also be used for dictionary-based word completion, such as on mobile devices.  See <a href="#keys-IME">Input Method Editors</a> for treatment of
+				IMEs in this specification.  See also <a class="def" href="#glossary-text-composition-system">text composition system</a>.</dd>
+
+			<dt id="glossary-key-mapping"><dfn>key mapping</dfn></dt>
+			<dd>Key mapping is the process of assigning a key value to a particular key, and is the result of a combination of several factors, including the operating system
+				and the keyboard layout (e.g., <a class="def" href="#glossary-qwerty">QWERTY</a>, Dvorak, Spanish, InScript, Chinese, etc.), and after taking into account all <a
+				class="def" href="#glossary-modifier-key">modifier key</a> (<a href="#key-Shift"><code class="key">'Shift'</code></a>, <a href="#key-Alt"><code class="key">
+				'Alt'</code></a>, etc.) and <a class="def" href="#glossary-dead-key">dead key</a> states.</dd>
+
+			<dt id="glossary-key-value"><dfn>key value</dfn></dt>
+			<dd>A key value is a <a class="def" href="#glossary-character-value">character value</a> or multi-character string (such as <a href="#key-Enter"><code class="key">'Enter'
+				</code></a>, <a href="#key-Tab"><code class="key">'Tab'</code></a>, or <a href="#key-MediaTrackNext"><code class="key">'MediaTrackNext'</code></a>) associated
+				with a key in a particular state. Every key has a key value, whether or not it has a <a class="def" href="#glossary-character-value">character value</a>. This includes
+				control keys, function keys, <a class="def" href="#glossary-modifier-key">modifier keys</a>, <a class="def" href="#glossary-dead-key">dead keys</a>, and any other key.
+				The key value of any given key at any given time depends upon the <a class="def" href="#glossary-key-mapping">key mapping</a>.</dd>
+
+			<dt id="glossary-localname"><dfn>local name</dfn></dt>
+			<dd>See local name in [<cite><a class="informative" href="#references-Namespaces10">XML Namespaces 1.0</a></cite>].</dd>
+
+			<dt id="glossary-modifier-key"><dfn>modifier key</dfn></dt>
+			<dd>A modifier key changes the normal behavior of a key, such as to produce a character of a different case (as with the <a href="#key-Shift"><code class="key">
+				'Shift'</code></a> key), or to alter what functionality the key triggers (as with the <a href="#key-Fn"><code class="key">'Fn'</code></a> or <a href="#key-Alt">
+				<code class="key">'Alt'</code></a> keys).  Refer to the <a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
+				method for a list of modifier keys defined in this specification.  See also <a href="#keys-modifiers">Modifier keys</a>.</dd>
+
+			<dt id="glossary-namespaceURI"><dfn>namespace URI</dfn></dt>
+			<dd>A <em>namespace URI</em> is a URI that identifies an XML namespace. This is called the namespace name in [<cite><a class="informative" href="#references-Namespaces10">XML
+				Namespaces 1.0</a></cite>]. See also sections 1.3.2 <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#baseURIs-Considerations"><em>DOM URIs</em></a>
+				and 1.3.3 <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Namespaces-Considerations"><em>XML Namespaces</em></a> regarding URIs and namespace
+				URIs handling and comparison in the DOM APIs.</dd>
+
+			<dt id="glossary-phase"><dfn>phase</dfn></dt>
+			<dd>In the context of <a class="def" href="#glossary-event">events</a>, a phase is set of logical traversals from node to node along the DOM tree, from the <a class="def"
+				href="#glossary-window">Window</a> to the <code>Document</code> object, <a class="def" href="#glossary-root-element">root element</a>, and down
+				to the <a class="def" href="#glossary-event-target">event target</a> (<a class="def" href="#glossary-capture-phase">capture phase</a>), at the <a class="def" href="#glossary-event-target">
+				event target</a> itself (<a class="def" href="#glossary-target-phase">target phase</a>), and back up the same chain (<a class="def" href="#glossary-bubbling-phase">bubbling
+				phase</a>).</dd>
+
+			<dt id="glossary-propagation-path"><dfn>propagation path</dfn></dt>
+			<dd>The ordered set of <a class="def" href="#glossary-current-event-target">current event targets</a> though which an <a class="def" href="#glossary-event">event</a> object will pass
+				sequentially on the way to and back from the <a class="def" href="#glossary-event-target">event target</a>.  As the event propagates, each <a class="def"
+				href="#glossary-current-event-target">current event target</a> in the propagation path is in turn set as the <a href="#widl-Event-currentTarget"><code>Event.currentTarget</code></a>.
+				The propagation path is initially composed of one or more <a class="def" href="#glossary-event-phase">event phases</a> as defined by the <a class="def" href="#glossary-event-type">
+				event type</a>, but MAY be interrupted.  Also known as an <em>event target chain</em>.</dd>
+
+			<dt id="glossary-qwerty"><dfn>QWERTY</dfn></dt>
+			<dd>QWERTY (pronounced <q>&#x2C8;kw&#x25C;rti</q>) is a common keyboard layout, so named because the first five character keys on the top row of letter keys are Q,
+				W, E, R, T, and Y.  There are many other popular keyboard layouts (including the Dvorak and Colemak layouts), most designed for localization or ergonomics.</dd>
+
+			<dt id="glossary-root-element"><dfn>root element</dfn></dt>
+			<dd>The first element node of a document, of which all other elements are children. The document element.</dd>
+
+			<dt id="glossary-rotation"><dfn>rotation</dfn></dt>
+			<dd>An indication of incremental change on an input device using the <a href="#interface-WheelEvent">WheelEvent</a> interface. On some devices this MAY be a literal
+				rotation of a wheel, while on others, it MAY be movement along a flat surface, or pressure on a particular button.</dd>
+
+			<dt id="glossary-target-phase"><dfn>target phase</dfn></dt>
+			<dd>The process by which an <a class="def" href="#glossary-event">event</a> can be handled by the <a class="def" href="#glossary-event-target">event target</a>.
+				See the description of the <a href="#target-phase">target phase</a> in the context of event flow for more details.</dd>
+
+			<dt id="glossary-text-composition-system"><dfn>text composition system</dfn></dt>
+			<dd>A software component that interprets some form of alternate input (such as a <a class="def" href="#glossary-ime">input method editor</a>, a speech processor, or
+				a handwriting recognition system) and converts it to text.</dd>
+
+			<dt id="glossary-topmost-event-target"><dfn>topmost event target</dfn></dt>
+			<dd>The <a class="def" href="#glossary-topmost-event-target">topmost event target</a> MUST be the element highest in the rendering order which is capable of being
+				an <a class="def" href="#glossary-event-target">event target</a>. In graphical user interfaces this is the element under the user's pointing device. A user
+				interface's <q>hit testing</q> facility is used to determine the target. For specific details regarding hit testing and stacking order, refer to the
+				<a class="def" href="#glossary-host-language">host language</a>.</dd>
+
+			<dt id="glossary-tree"><dfn>tree</dfn></dt>
+			<dd>A data structure that represents a document as a hierarchical set of nodes with child-parent-sibling relationships, i.e., each node having one or more possible
+				ancestors (nodes higher in the hierarchy in a direct lineage), one or more possible descendants (nodes lower in the hierarchy in a direct lineage), and one or more
+				possible peers (nodes of the same level in the hierarchy, with the same immediate ancestor).</dd>
+
+			<dt id="glossary-Unicode-character-categories"><dfn>Unicode character categories</dfn></dt>
+			<dd>A subset of the General Category values that are defined for each Unicode code point. This subset contains all the
+				Letter (<abbr title="Letter, Lowercase">Ll</abbr>,
+					<abbr title="Letter, Modifier">Lm</abbr>,
+					<abbr title="Letter, Other">Lo</abbr>,
+					<abbr title="Letter, Titlecase">Lt</abbr>,
+					<abbr title="Letter, Uppercase">Lu</abbr>),
+				Number (<abbr title="Number, Decimal Digit">Nd</abbr>,
+					<abbr title="Number, Letter">Nl</abbr>,
+					<abbr title="Number, Other">No</abbr>),
+				Punctuation (<abbr title="Punctuation, Connector">Pc</abbr>,
+					<abbr title="Punctuation, Dash">Pd</abbr>,
+					<abbr title="Punctuation, Close">Pe</abbr>,
+					<abbr title="Punctuation, Final quote">Pf</abbr>,
+					<abbr title="Punctuation, Initial quote">Pi</abbr>,
+					<abbr title="Punctuation, Other">Po</abbr>,
+					<abbr title="Punctuation, Open">Ps</abbr>)
+				and Symbol (<abbr title="Symbol, Currency">Sc</abbr>,
+					<abbr title="Symbol, Modifier">Sk</abbr>,
+					<abbr title="Symbol, Math">Sm</abbr>,
+					<abbr title="Symbol, Other">So</abbr>)
+				category values.</dd>
+
+			<dt id="glossary-unicode-code-point"><dfn>Unicode code point</dfn></dt>
+			<dd>A Unicode code point is a unique hexadecimal number signifying a character by its index in the Unicode codespace (or library of characters).  In the context of
+				key values, a Unicode code point is expressed as a string in the format <code>\u</code> followed by a hexadecimal character index in the range <code>0000</code>
+				to <code>10FFFF</code>, using at least four digits. See also <a class="def" href="#glossary-character-value">character value</a>.</dd>
+
+			<dt id="glossary-un-initialized-value"><dfn>un-initialized value</dfn></dt>
+			<dd>The value of any event attribute (such as <a href="#widl-Event-bubbles"><code>Event.bubbles</code></a> or <a href="#widl-Event-currentTarget"><code>
+				Event.currentTarget</code></a>) before the event has been initialized with <a href="#widl-Event-initEvent"><code>Event.initEvent()</code></a>. The un-initialized
+				values of an event apply immediately after a new event has been created using the method <a href="#widl-DocumentEvent-createEvent"><code>
+				DocumentEvent.createEvent()</code></a>.</dd>
+
+			<dt id="glossary-user-agent"><dfn>user agent</dfn></dt>
+			<dd>A program, such as a browser or content authoring tool, normally running on a client machine, which acts on a user's behalf in retrieving, interpreting, executing,
+				presenting, or creating content.  Users MAY act on the content using different user agents at different times, for different purposes.  See the <a href="#conf-interactive-ua">
+				Web browsers and other dynamic or interactive user agents</a> and <a href="#conf-author-tools">Authoring tools</a> for details on the requirements for a <em>conforming</em>
+				user agent.</dd>
+
+			<dt id="glossary-window"><dfn>Window</dfn></dt>
+			<dd>The <code>Window</code> is the object referred to by the current document's browsing context's Window Proxy object as defined in <a href="http://dev.w3.org/html5/spec/single-page.html#windowproxy"
+				title="HTML5 WindowProxy description">HTML5</a> [<cite><a class="normative" href="#references-HTML5">HTML5</a></cite>].</dd>
+		</dl>
+	</section>  <!-- glossary -->
+	
+	<!-- Appendix I: References ========================================================-->
 	<section id="references">
 		<h1>References</h1>
 
