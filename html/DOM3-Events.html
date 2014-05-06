@@ -61,7 +61,7 @@
 				note: "until Jul 2002",
 			}
 		],
-		publishDate:  "2014-04-29",
+		publishDate:  "2014-05-05",
 		edDraftURI: "https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/DOM3-Events.html",
 		previousPublishDate: "2013-11-05",
 		previousMaturity: "WD",
@@ -6139,7 +6139,8 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 				<dl>
 					<dt><code>key</code></dt>
 					<dd>The <code>key</code> attribute is intended for users who are interested in the meaning of the key
-						being pressed, taking into account the current keyboard layout (and IME and dead keys).
+						being pressed, taking into account the current keyboard layout (and IME; <a href="#keys-dead">dead keys</a>
+						are given a unique <code>key</code> value).
 						Example use case: Detecting modified keys or bare modifier keys (e.g., to perform an action in response to a keyboard shortcut).
 						</dd>
 
@@ -6160,17 +6161,17 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 					<table class="data-table">
 						<thead><tr><th>Keyboard Layout</th><th><code>key</code></th><th><code>code</code></th><th>Notes</th></tr></thead>
 						<tbody>
-							<tr><td>US</td><td><code class="key-code">'Alt'</code></td><td><code class="key-code">'AltLeft'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td></tr>
-							<tr><td>French</td><td><code class="key-code">'Alt'</code></td><td><code class="key-code">'AltLeft'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td></tr>
-							<tr><td>US</td><td><code class="key-code">'Alt'</code></td><td><code class="key-code">'AltRight'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_RIGHT</code></td></tr>
-							<tr><td>French</td><td><code class="key-code">'AltGr'</code></td><td><code class="key-code">'AltRight'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_RIGHT</code></td></tr>
+							<tr><td>US</td><td><code class="key">'Alt'</code></td><td><code class="key-code">'AltLeft'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td></tr>
+							<tr><td>French</td><td><code class="key">'Alt'</code></td><td><code class="key-code">'AltLeft'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td></tr>
+							<tr><td>US</td><td><code class="key">'Alt'</code></td><td><code class="key-code">'AltRight'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_RIGHT</code></td></tr>
+							<tr><td>French</td><td><code class="key">'AltGr'</code></td><td><code class="key-code">'AltRight'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_RIGHT</code></td></tr>
 						</tbody>
 					</table>
-					<p>In this example, checking the <code>key</code> attribute permits matching <code class="key-code">'Alt'</code> without worrying about which Alt key (left or right) was pressed.
+					<p>In this example, checking the <code>key</code> attribute permits matching <code class="key">'Alt'</code> without worrying about which Alt key (left or right) was pressed.
 						Checking the <code>code</code> attribute permits matching the right Alt key (<code class="key-code">'AltRight'</code>) without worrying about which layout is currently in effect.
 						</p>
-					<p>Note that, in the French example, the <code class="key-code">'Alt'</code> and
-						<code class="key-code">'AltGr'</code> keys retain their left and right location, even through there
+					<p>Note that, in the French example, the <code class="key">'Alt'</code> and
+						<code class="key">'AltGr'</code> keys retain their left and right location, even through there
 						is only one of each key.
 						</p>
 				</div>  <!-- Handling Left and Right Alt Keys -->
@@ -6181,9 +6182,9 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 					<table class="data-table">
 						<thead><tr><th>Keyboard Layout</th><th><code>key</code></th><th><code>code</code></th><th>Notes</th></tr></thead>
 						<tbody>
-							<tr><td>US</td><td><code class="key-code">'''</code></td><td><code class="key-code">'Quote'</code></td><td></td></tr>
-							<tr><td>Japanese</td><td><code class="key-code">':'</code></td><td><code class="key-code">'Quote'</code></td><td></td></tr>
-							<tr><td>US Intl</td><td><code class="key-code">'DeadAcute'</code></td><td><code class="key-code">'Quote'</code></td><td></td></tr>
+							<tr><td>US</td><td><code class="key">'''</code></td><td><code class="key-code">'Quote'</code></td><td></td></tr>
+							<tr><td>Japanese</td><td><code class="key">':'</code></td><td><code class="key-code">'Quote'</code></td><td></td></tr>
+							<tr><td>US Intl</td><td><code class="key">'DeadKey'</code></td><td><code class="key-code">'Quote'</code></td><td></td></tr>
 						</tbody>
 					</table>
 					<p>This example shows how dead key values are encoded in the attributes. The <code>char</code> and
@@ -6198,16 +6199,16 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 					<table class="data-table">
 						<thead><tr><th>Keyboard Layout</th><th><code>key</code></th><th><code>code</code></th><th>Notes</th></tr></thead>
 						<tbody>
-							<tr><td>US</td><td><code class="key-code">'2'</code></td><td><code class="key-code">'Digit2'</code></td><td></td></tr>
-							<tr><td>US</td><td><code class="key-code">'@'</code></td><td><code class="key-code">'Digit2'</code></td><td><code class="constant-name">shiftKey</code></td></tr>
-							<tr><td>UK</td><td><code class="key-code">'2'</code></td><td><code class="key-code">'Digit2'</code></td><td></td></tr>
-							<tr><td>UK</td><td><code class="key-code">'"'</code></td><td><code class="key-code">'Digit2'</code></td><td><code class="constant-name">shiftKey</code></td></tr>
-							<tr><td>French</td><td><code class="key-code">'é'</code></td><td><code class="key-code">'Digit2'</code></td><td></td></tr>
-							<tr><td>French</td><td><code class="key-code">'2'</code></td><td><code class="key-code">'Digit2'</code></td><td><code class="constant-name">shiftKey</code></td></tr>
+							<tr><td>US</td><td><code class="key">'2'</code></td><td><code class="key-code">'Digit2'</code></td><td></td></tr>
+							<tr><td>US</td><td><code class="key">'@'</code></td><td><code class="key-code">'Digit2'</code></td><td><code class="constant-name">shiftKey</code></td></tr>
+							<tr><td>UK</td><td><code class="key">'2'</code></td><td><code class="key-code">'Digit2'</code></td><td></td></tr>
+							<tr><td>UK</td><td><code class="key">'"'</code></td><td><code class="key-code">'Digit2'</code></td><td><code class="constant-name">shiftKey</code></td></tr>
+							<tr><td>French</td><td><code class="key">'é'</code></td><td><code class="key-code">'Digit2'</code></td><td></td></tr>
+							<tr><td>French</td><td><code class="key">'2'</code></td><td><code class="key-code">'Digit2'</code></td><td><code class="constant-name">shiftKey</code></td></tr>
 						</tbody>
 					</table>
-					<p>Regardless of the current locale or the modifier key state, pressing the key labelled <code class="keycap">2</code>
-						on a US keyboard always results in <code class="key-code">'Digit2'</code> in the <code>code</code> attribute. 
+					<p>Regardless of the current locale or the modifier key state, pressing the key labelled <code class="glyph">'2'</code>
+						on a US keyboard always results in <code class="key">'Digit2'</code> in the <code>code</code> attribute. 
 						</p>
 				</div><!-- Handling the 2 Key -->
 
@@ -6221,11 +6222,11 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 					<table class="data-table">
 						<thead><tr><th>Keyboard Layout</th><th>Event</th><th><code>key</code></th><th><code>code</code></th><th>Notes</th></tr></thead>
 						<tbody>
-							<tr><td>US</td><td>keydown</td><td><code class="key-code">'Shift'</code></td><td><code class="key-code">'ShiftLeft'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td></tr>
-							<tr><td>US</td><td>keydown</td><td><code class="key-code">'@'</code></td><td><code class="key-code">'Digit2'</code></td><td><code class="constant-name">shiftKey</code></td></tr>
-							<tr><td>US</td><td>keypress</td><td><code class="key-code">'@'</code></td><td><code class="key-code">''</code></td><td></td></tr>
-							<tr><td>US</td><td>keyup</td><td><code class="key-code">'@'</code></td><td><code class="key-code">'Digit2'</code></td><td><code class="constant-name">shiftKey</code></td></tr>
-							<tr><td>US</td><td>keyup</td><td><code class="key-code">'Shift'</code></td><td><code class="key-code">'ShiftLeft'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td></tr>
+							<tr><td>US</td><td>keydown</td><td><code class="key">'Shift'</code></td><td><code class="key-code">'ShiftLeft'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td></tr>
+							<tr><td>US</td><td>keydown</td><td><code class="key">'@'</code></td><td><code class="key-code">'Digit2'</code></td><td><code class="constant-name">shiftKey</code></td></tr>
+							<tr><td>US</td><td>keypress</td><td><code class="key">'@'</code></td><td><code class="key-code">''</code></td><td></td></tr>
+							<tr><td>US</td><td>keyup</td><td><code class="key">'@'</code></td><td><code class="key-code">'Digit2'</code></td><td><code class="constant-name">shiftKey</code></td></tr>
+							<tr><td>US</td><td>keyup</td><td><code class="key">'Shift'</code></td><td><code class="key-code">'ShiftLeft'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td></tr>
 						</tbody>
 					</table>
 					<p>In the second sequence, the Shift is released before the 2, resulting in the following event order:
@@ -6234,15 +6235,15 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 					<table class="data-table">
 						<thead><tr><th>Keyboard Layout</th><th>Event</th><th><code>key</code></th><th><code>code</code></th><th>Notes</th></tr></thead>
 						<tbody>
-							<tr><td>US</td><td>keydown</td><td><code class="key-code">'Shift'</code></td><td><code class="key-code">'ShiftLeft'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td></tr>
-							<tr><td>US</td><td>keydown</td><td><code class="key-code">'@'</code></td><td><code class="key-code">'Digit2'</code></td><td><code class="constant-name">shiftKey</code></td></tr>
-							<tr><td>US</td><td>keypress</td><td><code class="key-code">'@'</code></td><td><code class="key-code">''</code></td><td></td></tr>
-							<tr><td>US</td><td>keyup</td><td><code class="key-code">'Shift'</code></td><td><code class="key-code">'ShiftLeft'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td></tr>
-							<tr><td>US</td><td>keyup</td><td><code class="key-code">'2'</code></td><td><code class="key-code">'Digit2'</code></td><td></td></tr>
+							<tr><td>US</td><td>keydown</td><td><code class="key">'Shift'</code></td><td><code class="key-code">'ShiftLeft'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td></tr>
+							<tr><td>US</td><td>keydown</td><td><code class="key">'@'</code></td><td><code class="key-code">'Digit2'</code></td><td><code class="constant-name">shiftKey</code></td></tr>
+							<tr><td>US</td><td>keypress</td><td><code class="key">'@'</code></td><td><code class="key-code">''</code></td><td></td></tr>
+							<tr><td>US</td><td>keyup</td><td><code class="key">'Shift'</code></td><td><code class="key-code">'ShiftLeft'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td></tr>
+							<tr><td>US</td><td>keyup</td><td><code class="key">'2'</code></td><td><code class="key-code">'Digit2'</code></td><td></td></tr>
 						</tbody>
 					</table>
 					<p>Note that the values contained in the <code>key</code> attribute does not match between
-						the keydown and keyup events for the '2' key. The <code>code</code> attribute provides a consistent value
+						the keydown and keyup events for the <code class="glyph">'2'</code> key. The <code>code</code> attribute provides a consistent value
 						that is not affected by the current modifier state.
 						</p>
 				</div><!-- Sequence of Keyboard Events: Shift and 2 -->
@@ -6295,17 +6296,29 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 				given that most keyboard layouts will provide keys for those.</p>
 
 			<p>A key value does not indicate a specific key on the physical keyboard, nor does it reflect the character printed on the key. A key
-				value indicates the current value of the event with consideration to the current state of all active keys and key input modes (including shift modes and <a class="def"
-				href="#glossary-dead-key">dead keys</a>), as reflected in the operating-system mapping of the keyboard and reported to the implementation.  In other words, the
-				key value for the key marked <code class="glyph">'O'</code> on a <a class="def" href="#glossary-qwerty">QWERTY</a> keyboard has the key value <code class="key">'o'</code> in an unshifted
-				state, <code class="key">'O'</code> in a shifted state, <code class="key">'&#xF6;'</code> in an unshifted state during a dead-key operation to add an umlaut diacritic, and <code class="key">'&#xD6;'</code>
-				in a shifted state during a dead-key operation to add an umlaut diacritic.  Because a user can map their keyboard to an arbitrary custom configuration, the content
-				author is encouraged not to assume that a relationship exists between the shifted and unshifted states of a key and the majuscule form (uppercase or capital letters)
-				and minuscule form (lowercase or small letters) of a character representation, but is encouraged instead to use the value of the <a href="#widl-KeyboardEvent-key">
-				<code>KeyboardEvent.key</code></a> attribute.  The keyboard depicted in <a href="#figure-keyboard">
-				Figure 4</a> illustrates one possible set of <a class="def" href="#glossary-key-mapping">key mappings</a> on one possible keyboard layout. Many others exist,
-				both standard and idiosyncratic.</p>
+				value indicates the current value of the event with consideration to the current state of all active keys and key input modes 
+				(including shift modes), as reflected in the operating-system mapping of the keyboard and reported to the implementation.  In other
+				words, the key value for the key marked <code class="glyph">'O'</code> on a <a class="def" href="#glossary-qwerty">QWERTY</a> keyboard
+				has the key value <code class="key">'o'</code> in an unshifted state and <code class="key">'O'</code> in a shifted state.
+				Because a user can map their keyboard to an arbitrary custom configuration, the content author is encouraged not to assume that a 
+				relationship exists between the shifted and unshifted states of a key and the majuscule form (uppercase or capital letters)
+				and minuscule form (lowercase or small letters) of a character representation, but is encouraged instead to use the value of the 
+				<a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attribute. For example, the Standard "102" Keyboard layout 
+				depicted in [<a href="#references-D3E-code">DOM3 code Values</a>] illustrates one possible set of 
+				<a class="def" href="#glossary-key-mapping">key mappings</a> on one possible keyboard layout. Many others exist, both standard and 
+				idiosyncratic.</p>
 
+			<p class="note"><strong>Note:</strong> To simplify <a class="def" href="#glossary-dead-key">dead key</a> support, when the operating-system 
+				mapping of the keyboard is handling a <a class="def" href="#glossary-dead-key">dead key</a> state, the current state of the dead 
+				key sequence is not reported via the <a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attribute. Rather, a key value of
+				<code class="key">'DeadKey'</code> is reported. Instead, implementations generate <a href="#events-compositionevents">composition events</a>
+				which contain the intermediate state of the dead key sequence reported via the 
+				<a href="#widl-CompositionEvent-data"><code>CompositionEvent.data</code></a> attribute. As in the previous example, the key value for 
+				the key marked <code class="glyph">'O'</code> on a <a class="def" href="#glossary-qwerty">QWERTY</a> keyboard has a 
+				<a href="#widl-CompositionEvent-data"><code>CompositionEvent.data</code></a> value of <code class="char">'&#xF6;'</code> in an unshifted 
+				state during a dead-key operation to add an umlaut diacritic, and <code class="char">'&#xD6;'</code> in a shifted state during a dead-key 
+				operation to add an umlaut diacritic.</p>
+				
 			<p>It is also important to note that there is not a one-to-one relationship between key event states and key values.  A particular key value might be associated with
 				multiple keys. For example, many standard keyboards contain more than one key with the <code class="key">'Shift'</code> key value (normally distinguished by the
 				<a href="#widl-KeyboardEvent-location"><code>KeyboardEvent.location</code></a> values <a href="#widl-KeyboardEvent-DOM_KEY_LOCATION_LEFT"><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></a>
@@ -6701,12 +6714,21 @@ else {
 					<a class="def" href="#glossary-dead-key">dead keys</a>.
 					</p>
 
-				<p>The <a class="def" href="#glossary-dead-key">dead keys</a> are represented in the key values set using combining diacritical marks.   While Unicode combining characters
-					always follow the handwriting sequence, with the combining character trailing the corresponding letter, typical deadkey input MAY reverse the sequence, with the
-					combining character before the corresponding letter. For example, the word <em>naïve</em>, using the combining diacritic <em>¨</em>, would be represented sequentially
-					in Unicode as <em>nai¨ve</em>, but MAY be typed <em>na¨ive</em>.  The sequence of keystrokes <code class="char">'\u0302'</code> (Combining Circumflex Accent key) and <code class="char">'\u0065'</code>
-					(key marked with the Latin Small Letter E) will likely produce (on a PC/AT french keyboard using a french mapping and without any modifier activated) the Unicode
-					character <code class="glyph">'&#xEA;'</code> (Latin Small Letter E With Circumflex), as preferred by the Unicode Normalization Form <em>NFC</em>:</p>
+				<p>The <a class="def" href="#glossary-dead-key">dead keys</a> (across all keyboard layouts and mappings) are represented by the 
+					key value <code class="key">'DeadKey'</code>. In response to any dead key press, <a href="#events-compositionevents">
+					composition events</a> must be dispatched by the user agent and the
+					<a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> event's 
+					<a href="#widl-CompositionEvent-data"><code>CompositionEvent.data</code></a> value must be the character value of the current state
+					of the dead key combining sequence.</p>
+
+				<p>While Unicode combining characters always follow the handwriting sequence, with the 
+					combining character trailing the corresponding letter, typical dead key input MAY reverse the sequence, with the
+					combining character before the corresponding letter. For example, the word <em>naïve</em>, using the combining diacritic 
+					<em>¨</em>, would be represented sequentially in Unicode as <em>nai¨ve</em>, but MAY be typed <em>na¨ive</em>. The sequence 
+					of keystrokes <code class="char">'\u0302'</code> (Combining Circumflex Accent key) and <code class="char">'\u0065'</code>
+					(key marked with the Latin Small Letter E) will likely produce (on a PC/AT french keyboard using a french mapping and without
+					any modifier activated) the Unicode character <code class="glyph">'&#xEA;'</code> (Latin Small Letter E With Circumflex), as 
+					preferred by the Unicode Normalization Form <em>NFC</em>:</p>
 
 				<p class="note"><strong>Note:</strong> The <code>keydown</code> and <code>keyup</code> events shown in these
 					examples would normally be suppressed during the composition session.
@@ -6727,10 +6749,10 @@ else {
 						<tr>
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
-							<td class="cell-center"><code class="key">'\u0302'</code></td>
+							<td class="cell-center"><code class="key">'DeadKey'</code></td>
 							<td class="cell-center"><code>false</code></td>
 							<td class="cell-center"></td>
-							<td>Combining Circumflex Accent</td>
+							<td>Combining Circumflex Accent (Dead Key)</td>
 						</tr>
 						<tr>
 							<td class="cell-number">2.</td>
@@ -6751,7 +6773,7 @@ else {
 						<tr>
 							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
-							<td class="cell-center"><code class="key">'\u0302'</code></td>
+							<td class="cell-center"><code class="key">'DeadKey'</code></td>
 							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td></td>
@@ -6813,10 +6835,10 @@ else {
 						<tr>
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
-							<td class="cell-center"><code class="key">'\u0302'</code></td>
+							<td class="cell-center"><code class="key">'DeadKey'</code></td>
 							<td class="cell-center"><code>false</code></td>
 							<td class="cell-center"></td>
-							<td>Combining Circumflex Accent</td>
+							<td>Combining Circumflex Accent (Dead Key)</td>
 						</tr>
 						<tr>
 							<td class="cell-number">2.</td>
@@ -6837,7 +6859,7 @@ else {
 						<tr>
 							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
-							<td class="cell-center"><code class="key">'\u0302'</code></td>
+							<td class="cell-center"><code class="key">'DeadKey'</code></td>
 							<td class="cell-center"><code>true</code></td>
 							<td class="cell-center"></td>
 							<td></td>
@@ -7486,7 +7508,7 @@ else {
 						<li>On a PC/AT US keyboard with a right-handed single-hand Dvorak
 								<a class="def" href="#glossary-key-mapping">key mapping</a>,
 							the key labeled
-								<code class="key">'Q'</code>
+								<code class="glyph">'Q'</code>
 							maps to the key values
 								<code class="key">'5'</code> (unmodified)
 							and
@@ -7499,14 +7521,14 @@ else {
 							attribute value for the unmodified key will be <code class="key">'5'</code>.
 							</li>
 						<li>On a French PC keyboard with a standard French mapping, the primary function of the
-								<code class="key">'^'</code>
+								<code class="glyph">'^'</code>
 							key is as a
 								<a class="def" href="#glossary-dead-key">dead key</a>
 							for the circumflex diacritical mark.
 							The Unicode value for this key is <code class="char">'\u0302'</code>.
 							</li>
 						<li>On a Korean PC keyboard with a standard Korean mapping, the primary function of the
-								<code class="key">'Ha/En'</code>
+								<code class="glyph">'Ha/En'</code>
 							key is to switch between Hangul and English input.
 							The predefined key value list has an appropriate entry for this key,
 								<code class="key">'HangulMode'</code>,
