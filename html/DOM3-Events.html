@@ -1490,7 +1490,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 						<td>Sync</td>
 						<td>Yes</td>
-						<td><code>Document</code>, <code>Element</code></td>
+						<td><code>Element</code></td>
 						<td><a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a></td>
 						<td>Yes</td>
 						<td>Varies:
@@ -1505,7 +1505,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 						<td>Sync</td>
 						<td>Yes</td>
-						<td><code>Document</code>, <code>Element</code></td>
+						<td><code>Element</code></td>
 						<td><a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a></td>
 						<td>Yes</td>
 						<td>None</td>
@@ -4788,7 +4788,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 							   The value is not affected by the current keyboard layout or modifier state, so a particular
 							   key will always return the same value.
 							</p>
-							<p>The un-initialized value of this attribute must be "" (the empty string).</p>
+							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>""</code> (the empty string).</p>
 						</dd>
 
 						<dt>readonly attribute unsigned long location</dt>
@@ -5098,8 +5098,9 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						This is often an HTML <code>input</code> element or a textual element which is editable,
 						but MAY be an element defined by the
 						<a class="def" href="#glossary-host-language">host language</a> to accept keyboard input
-						for non-text purposes, such as the activation of a hotkey or trigger of some other behavior.
-						If no suitable element is in focus, the event target will be the root element.
+						for non-text purposes, such as the activation of an accelerator key or trigger of some 
+						other behavior. If no suitable element is in focus, the event target will be the HTML
+						&lt;body&gt; element if available, otherwise the <a href="#glossary-root-element">root element</a>.
 						</p>
 
 					<p class="note"><strong>Note:</strong>
@@ -5139,7 +5140,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								</tr>
 								<tr>
 									<th>Trusted Targets</th>
-									<td><code>Document</code>, <code>Element</code></td>
+									<td><code>Element</code></td>
 								</tr>
 								<tr>
 									<th>Cancelable</th>
@@ -5160,13 +5161,16 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 									<td>
 										<ul>
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
-												focused element processing the key event, root element if no suitable input element focused</li>
+												focused element processing the key event or if no element focused, then the &lt;body&gt; 
+												element if available, otherwise the <a href="#glossary-root-element">root element</a></li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
 												<a class="def" href="#glossary-window"><code>Window</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												<code>0</code></li>
 											<li><a href="#widl-KeyboardEvent-key"><code class="attribute-name">KeyboardEvent.key</code></a>:
 												the key value of the key pressed.</li>
+											<li><a href="#widl-KeyboardEvent-code"><code class="attribute-name">KeyboardEvent.code</code></a>:
+												the code value associated with the key's physical placement on the keyboard.</li>
 											<li><a href="#widl-KeyboardEvent-location"><code class="attribute-name">KeyboardEvent.location</code></a>:
 												the location of the key on the device.</li>
 											<li><a href="#widl-KeyboardEvent-altKey"><code class="attribute-name">KeyboardEvent.altKey</code></a>:
@@ -5179,6 +5183,8 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 												<code>true</code> if <code class="key">'Meta'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-KeyboardEvent-repeat"><code class="attribute-name">KeyboardEvent.repeat</code></a>:
 												<code>true</code> if a key has been depressed long enough to trigger key repetition, otherwise <code>false</code></li>
+											<li><a href="#widl-KeyboardEvent-isComposing"><code class="attribute-name">KeyboardEvent.isComposing</code></a>:
+												<code>true</code> if the key event occurs as part of a composition session, otherwise <code>false</code></li>
 										</ul>
 									</td>
 								</tr>
@@ -5251,7 +5257,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								</tr>
 								<tr>
 									<th>Trusted Targets</th>
-									<td><code>Document</code>, <code>Element</code></td>
+									<td><code>Element</code></td>
 								</tr>
 								<tr>
 									<th>Cancelable</th>
@@ -5266,13 +5272,16 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 									<td>
 										<ul>
 											<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
-												focused element processing the key event, root element if no suitable input element focused</li>
+												focused element processing the key event or if no element focused, then the &lt;body&gt; 
+												element if available, otherwise the <a href="#glossary-root-element">root element</a></li>
 											<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
 												<a class="def" href="#glossary-window"><code>Window</code></a></li>
 											<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
 												<code>0</code></li>
 											<li><a href="#widl-KeyboardEvent-key"><code class="attribute-name">KeyboardEvent.key</code></a>:
 												the key value of the key pressed.</li>
+											<li><a href="#widl-KeyboardEvent-code"><code class="attribute-name">KeyboardEvent.code</code></a>:
+												the code value associated with the key's physical placement on the keyboard.</li>
 											<li><a href="#widl-KeyboardEvent-location"><code class="attribute-name">KeyboardEvent.location</code></a>:
 												the location of the key on the device.</li>
 											<li><a href="#widl-KeyboardEvent-altKey"><code class="attribute-name">KeyboardEvent.altKey</code></a>:
@@ -5285,6 +5294,8 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 												<code>true</code> if <code class="key">'Meta'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-KeyboardEvent-repeat"><code class="attribute-name">KeyboardEvent.repeat</code></a>:
 												<code>false</code></li>
+											<li><a href="#widl-KeyboardEvent-isComposing"><code class="attribute-name">KeyboardEvent.isComposing</code></a>:
+												<code>true</code> if the key event occurs as part of a composition session, otherwise <code>false</code></li>
 										</ul>
 									</td>
 								</tr>
@@ -9175,7 +9186,7 @@ else {
 							</tr>
 							<tr>
 								<th>Trusted Targets</th>
-								<td><code>Document</code>, <code>Element</code></td>
+								<td><code>Element</code></td>
 							</tr>
 							<tr>
 								<th>Cancelable</th>
@@ -9194,7 +9205,8 @@ else {
 								<td>
 									<ul>
 										<li><a href="#widl-Event-target"><code class="attribute-name">Event.target</code></a>:
-											focused element processing the key event, root element if no suitable input element focused</li>
+												focused element processing the key event or if no element focused, then the &lt;body&gt; 
+												element if available, otherwise the <a href="#glossary-root-element">root element</a></li>
 										<li><a href="#widl-UIEvent-view"><code class="attribute-name">UIEvent.view</code></a>:
 											<a class="def" href="#glossary-window"><code>Window</code></a></li>
 										<li><a href="#widl-UIEvent-detail"><code class="attribute-name">UIEvent.detail</code></a>:
@@ -9207,6 +9219,8 @@ else {
 											legacy numerical code for this key</li>
 										<li><a href="#widl-KeyboardEvent-key"><code class="attribute-name">KeyboardEvent.key</code></a>:
 											the key value of the key pressed.</li>
+										<li><a href="#widl-KeyboardEvent-code"><code class="attribute-name">KeyboardEvent.code</code></a>:
+											the code value associated with the key's physical placement on the keyboard.</li>
 										<li><a href="#widl-KeyboardEvent-location"><code class="attribute-name">KeyboardEvent.location</code></a>:
 											the location of the key on the device.</li>
 										<li><a href="#widl-KeyboardEvent-altKey"><code class="attribute-name">KeyboardEvent.altKey</code></a>:
@@ -9218,7 +9232,9 @@ else {
 										<li><a href="#widl-KeyboardEvent-metaKey"><code class="attribute-name">KeyboardEvent.metaKey</code></a>:
 											<code>true</code> if <code class="key">'Meta'</code> modifier was active, otherwise <code>false</code></li>
 										<li><a href="#widl-KeyboardEvent-repeat"><code class="attribute-name">KeyboardEvent.repeat</code></a>:
-											<code>true</code> if a key has been depressed long enough to trigger key repetition, otherwise <code>false</code></li>
+											<code>false</code></li>
+										<li><a href="#widl-KeyboardEvent-isComposing"><code class="attribute-name">KeyboardEvent.isComposing</code></a>:
+											<code>true</code> if the key event occurs as part of a composition session, otherwise <code>false</code></li>
 									</ul>
 								</td>
 							</tr>
