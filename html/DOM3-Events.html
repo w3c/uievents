@@ -61,7 +61,7 @@
 				note: "until Jul 2002",
 			}
 		],
-		publishDate:  "2014-05-05",
+		publishDate:  "2014-05-09",
 		edDraftURI: "https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/DOM3-Events.html",
 		previousPublishDate: "2013-11-05",
 		previousMaturity: "WD",
@@ -265,49 +265,17 @@
 				Conventions</a>, with the following supplemental additions:</p>
 
 			<dl>
-				<!-- This is de-facto stylistic convention used in other W3C specs (e.g. DOM4/HTML5/etc.):
-				<dt>Keywords or values</dt>
-				<dd><code>This is a keyword or value</code></dd>
-				-->
-				
-				<!-- This is not stylistically unique in the document: 
-				<dt>Event types</dt>
-				<dd><code class="eventtype">This is an event type</code></dd>
-				-->
-				
 				<dt>Key and character values</dt>
 				<dd><ul>
-					<li>Names of key values are shown as: <code class="key">'='</code> (e.g., the value of <a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>).
-					<li>Character values of keys are shown as: <code class="char">'\u003d'</code>.
-					<li>Glyphs representing character values are shown as: <code class="glyph">'='</code>.
+					<li>Names of key values are shown as: <code class="key">'='</code> (e.g., the value of 
+						<a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>).
+					<li>Names of key codes are shown as: <code class="code">'Equal'</code> (e.g., the value of 
+						<a href="#widl-KeyboardEvent-code"><code>KeyboardEvent.code</code></a>).
+					<li>Character values of keys are shown as: <code class="char">'\u003d'</code> (e.g., the code point 
+						of the key value).
+					<li>Glyphs representing character values are shown as: <code class="glyph">'='</code> (e.g., the
+						<a href="#key-legends"><em>key cap</em></a> or font associated with a character value).
 				</ul></dd>
-
-				<!-- The following are self-describing:
-				<dt>Glossary definitions</dt>
-				<dd><span class="def">This is a link to a definition in the glossary</span></dd>
-
-				<dt>Notes</dt>
-				<dd><p class="note"><strong>Note:</strong> This is a note.</p></dd>
-
-				<dt>Warnings</dt>
-				<dd><p class="warning"><strong>Warning!</strong> This is a warning.  It is used on security notes and to mark <a class="def" href="#glossary-deprecated">deprecated</a> features.</p></dd>
-
-				<dt>Examples</dt>
-				<dd>
-					<div class="example">
-						<div class="example-title"></div>
-						<p>This is an example.</p>
-					</div>
-				</dd>
-				-->
-
-				<!-- [Not current used in this document] <dt>Features at risk</dt>
-					<dd><p class="atrisk">This is a feature at risk, which is likely to be removed from the specification.</p></dd>-->
-
-				<!-- This is a self-describing stylistic convention. However, it really belongs in its own section for issues:
-				<dt>Spec Issues</dt>
-				<dd><p class="issue">This is an open issue.</p></dd>
-				-->
 			</dl>
 
 			<p>In addition, certain terms are used in this specification with particular meanings.  The term <q>implementation</q> applies to a browser, content authoring tool,
@@ -591,14 +559,14 @@ console.log("Exceptions? No problem");</pre>
 				<p>Both HTML and SVG have an <code>&lt;a&gt;</code> element which indicates a link.  Relevant <a
 				class="def" href="#glossary-activation-trigger">activation triggers</a> for an <code>&lt;a&gt;</code> element are a <a class="eventtype" href="#event-type-click"><code>
 				click</code></a> event on the text or image  content of the <code>&lt;a&gt;</code> element, or a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>
-				event with a <a href="#widl-KeyboardEvent-key">key</a> attribute value of <a href="#key-Enter"><code class="key">'Enter'</code></a> key when the <code>&lt;a&gt;</code>
+				event with a <a href="#widl-KeyboardEvent-key">key</a> attribute value of <code class="key">'Enter'</code> key when the <code>&lt;a&gt;</code>
 				element has focus.  The activation behavior for an <code>&lt;a&gt;</code> element is normally to change the content of the window to the content of the new document,
 				in the case of external links, or to reposition the current document relative to the new anchor, in the case of internal links.</p>
 			</div>
 
 			<p>An <a class="def" href="#glossary-activation-trigger">activation trigger</a> is a user action or an event which indicates to the implementation that an activation
 				behavior SHOULD be initiated.  User-initiated <a class="def" href="#glossary-activation-trigger">activation triggers</a> include clicking a mouse button on an activatable
-				element, pressing the <a href="#key-Enter"><code class="key">'Enter'</code></a> key when an activatable element has focus, or pressing a key that is somehow
+				element, pressing the <code class="key">'Enter'</code> key when an activatable element has focus, or pressing a key that is somehow
 				linked to an activatable element (a <q>hotkey</q> or <q>access key</q>) even when that element does not have focus.  Event-based <a class="def" href="#glossary-activation-trigger">
 				activation triggers</a> MAY include timer-based events that activate an element at a certain clock time or after a certain time period has elapsed, progress
 				events after a certain action has been completed, or many other condition-based or state-based events.</p>
@@ -632,7 +600,7 @@ console.log("Exceptions? No problem");</pre>
 				<div class="example">
 					<div class="example-title"></div>
 					<p>When a user activates a hyperlink using a keyboard, such as by focusing the hyperlink element
-					and pressing the <a href="#key-Enter"><code class="key">'Enter'</code></a> or <code class="key">'&nbsp;'</code> key, a <a class="eventtype"
+					and pressing the <code class="key">'Enter'</code> or <code class="key">'&nbsp;'</code> key, a <a class="eventtype"
 					href="#event-type-click"><code>click</code></a> event would be dispatched as the <a class="def" href="#glossary-default-action">default action</a> of the respective
 					<a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event.</p>
 				</div>
@@ -653,13 +621,19 @@ console.log("Exceptions? No problem");</pre>
 
 				<table class="event-sequence-table">
 					<tr>
+						<td class="cell-number"></td>
+						<th>Event Name</th>
+						<th>Notes</th>
+					</tr>
+					<tr>
 						<td class="cell-number">1.</td>
 						<td><a class="eventtype" href="#event-type-click"><code>click</code></a></td>
 						<td></td>
 					</tr>
 					<tr>
-						<td class="cell-number">2.</td>
-						<td colspan="2">
+						<td class="cell-number"></td>
+						<td></td>
+						<td>
 							<em>All <a class="def" href="#glossary-default-action">default actions</a>,
 							including the <a class="def" href="#glossary-activation-behavior">activation behavior</a></em>
 						</td>
@@ -670,10 +644,15 @@ console.log("Exceptions? No problem");</pre>
 
 				<table class="event-sequence-table">
 					<tr>
+						<td class="cell-number"></td>
+						<th>Event Name</th>
+						<th>Notes</th>
+					</tr>
+					<tr>
 						<td class="cell-number">1.</td>
 						<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 						<td>MUST be a key which can activate the element, such as the
-							<a href="#key-Enter"><code class="key">'Enter'</code></a> or <code class="key">'&nbsp;'</code> key,
+							<code class="key">'Enter'</code> or <code class="key">'&nbsp;'</code> key,
 							or the element is not activated</td>
 					</tr>
 					<tr>
@@ -682,8 +661,9 @@ console.log("Exceptions? No problem");</pre>
 						<td><a class="def" href="#glossary-default-action">default action</a>; synthesized; <code>isTrusted="true"</code></td>
 					</tr>
 					<tr>
-						<td class="cell-number">3.</td>
-						<td colspan="2">
+						<td class="cell-number"></td>
+						<td></td>
+						<td>
 							<em>All <a class="def" href="#glossary-default-action">default actions</a>,
 							including the <a class="def" href="#glossary-activation-behavior">activation behavior</a></em>
 						</td>
@@ -2248,7 +2228,13 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 					<table class="event-sequence-table">
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="2"><em>User shifts focus</em></td>
+							<th>Event Name</th>
+							<th>Notes</th>
+						</tr>
+						<tr>
+							<td class="cell-number"></td>
+							<td></td>
+							<td><em>User shifts focus</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">1.</td>
@@ -2262,7 +2248,8 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="2"><em>User shifts focus</em></td>
+							<td></td>
+							<td><em>User shifts focus</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">3.</td>
@@ -2982,7 +2969,9 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="3"><em>Pointing device is moved into element A...</em></td>
+							<td></td>
+							<td></td>
+							<td><em>Pointing device is moved into element A...</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">2.</td>
@@ -3004,7 +2993,9 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="3"><em>Pointing device is moved out of element A...</em></td>
+							<td></td>
+							<td></td>
+							<td><em>Pointing device is moved out of element A...</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">5.</td>
@@ -3039,7 +3030,9 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="3"><em>Pointing device is moved into element A...</em></td>
+							<td></td>
+							<td></td>
+							<td><em>Pointing device is moved into element A...</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">2.</td>
@@ -3061,7 +3054,9 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="3"><em>Pointing device is moved into nested element B...</em></td>
+							<td></td>
+							<td></td>
+							<td><em>Pointing device is moved into nested element B...</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">5.</td>
@@ -3089,7 +3084,9 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="3"><em>Pointing device is moved from element B into A...</em></td>
+							<td></td>
+							<td></td>
+							<td><em>Pointing device is moved from element B into A...</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">9.</td>
@@ -3117,7 +3114,9 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="3"><em>Pointing device is moved out of element A...</em></td>
+							<td></td>
+							<td></td>
+							<td><em>Pointing device is moved out of element A...</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">13.</td>
@@ -3161,7 +3160,9 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="3"><em>Pointing device is moved into element C, the topmost element in the stack</em></td>
+							<td></td>
+							<td></td>
+							<td><em>Pointing device is moved into element C, the topmost element in the stack</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">2.</td>
@@ -3195,7 +3196,9 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="3"><em>Pointing device is moved out of element C...</em></td>
+							<td></td>
+							<td></td>
+							<td><em>Pointing device is moved out of element C...</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">7.</td>
@@ -3374,13 +3377,13 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>:
 												value based on the pointer position within the viewport</li>
 											<li><a href="#widl-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>:
-												<code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Alt'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:
-												<code>true</code> if <a href="#key-Control"><code class="key">'Control'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Control'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:
-												<code>true</code> if <a href="#key-Shift"><code class="key">'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Shift'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:
-												<code>true</code> if <a href="#key-Meta"><code class="key">'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Meta'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>:
 												value based on current button pressed</li>
 											<li><a href="#widl-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>:
@@ -3512,13 +3515,13 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>:
 												value based on the pointer position within the viewport</li>
 											<li><a href="#widl-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>:
-												<code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Alt'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:
-												<code>true</code> if <a href="#key-Control"><code class="key">'Control'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Control'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:
-												<code>true</code> if <a href="#key-Shift"><code class="key">'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Shift'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:
-												<code>true</code> if <a href="#key-Meta"><code class="key">'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Meta'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>:
 												value based on current button pressed</li>
 											<li><a href="#widl-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>:
@@ -3627,13 +3630,13 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>:
 												value based on the pointer position within the viewport</li>
 											<li><a href="#widl-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>:
-												<code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Alt'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:
-												<code>true</code> if <a href="#key-Control"><code class="key">'Control'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Control'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:
-												<code>true</code> if <a href="#key-Shift"><code class="key">'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Shift'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:
-												<code>true</code> if <a href="#key-Meta"><code class="key">'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Meta'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>:
 												value based on current button pressed</li>
 											<li><a href="#widl-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>:
@@ -3709,13 +3712,13 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>:
 												value based on the pointer position within the viewport</li>
 											<li><a href="#widl-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>:
-												<code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Alt'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:
-												<code>true</code> if <a href="#key-Control"><code class="key">'Control'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Control'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:
-												<code>true</code> if <a href="#key-Shift"><code class="key">'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Shift'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:
-												<code>true</code> if <a href="#key-Meta"><code class="key">'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Meta'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>:
 												<code>0</code></li>
 											<li><a href="#widl-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>:
@@ -3792,13 +3795,13 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>:
 												value based on the pointer position within the viewport</li>
 											<li><a href="#widl-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>:
-												<code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Alt'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:
-												<code>true</code> if <a href="#key-Control"><code class="key">'Control'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Control'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:
-												<code>true</code> if <a href="#key-Shift"><code class="key">'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Shift'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:
-												<code>true</code> if <a href="#key-Meta"><code class="key">'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Meta'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>:
 												<code>0</code></li>
 											<li><a href="#widl-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>:
@@ -3873,13 +3876,13 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>:
 												value based on the pointer position within the viewport</li>
 											<li><a href="#widl-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>:
-												<code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Alt'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:
-												<code>true</code> if <a href="#key-Control"><code class="key">'Control'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Control'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:
-												<code>true</code> if <a href="#key-Shift"><code class="key">'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Shift'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:
-												<code>true</code> if <a href="#key-Meta"><code class="key">'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Meta'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>:
 												<code>0</code></li>
 											<li><a href="#widl-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>:
@@ -3959,13 +3962,13 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>:
 												value based on the pointer position within the viewport</li>
 											<li><a href="#widl-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>:
-												<code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Alt'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:
-												<code>true</code> if <a href="#key-Control"><code class="key">'Control'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Control'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:
-												<code>true</code> if <a href="#key-Shift"><code class="key">'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Shift'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:
-												<code>true</code> if <a href="#key-Meta"><code class="key">'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Meta'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>:
 												<code>0</code></li>
 											<li><a href="#widl-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>:
@@ -4040,13 +4043,13 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 												<li><a href="#widl-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>:
 													value based on the pointer position within the viewport</li>
 												<li><a href="#widl-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>:
-													<code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a> modifier was active, otherwise <code>false</code></li>
+													<code>true</code> if <code class="key">'Alt'</code> modifier was active, otherwise <code>false</code></li>
 												<li><a href="#widl-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:
-													<code>true</code> if <a href="#key-Control"><code class="key">'Control'</code></a> modifier was active, otherwise <code>false</code></li>
+													<code>true</code> if <code class="key">'Control'</code> modifier was active, otherwise <code>false</code></li>
 												<li><a href="#widl-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:
-													<code>true</code> if <a href="#key-Shift"><code class="key">'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
+													<code>true</code> if <code class="key">'Shift'</code> modifier was active, otherwise <code>false</code></li>
 												<li><a href="#widl-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:
-													<code>true</code> if <a href="#key-Meta"><code class="key">'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
+													<code>true</code> if <code class="key">'Meta'</code> modifier was active, otherwise <code>false</code></li>
 												<li><a href="#widl-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>:
 													<code>0</code></li>
 												<li><a href="#widl-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>:
@@ -4122,13 +4125,13 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-MouseEvent-clientY"><code class="attribute-name">MouseEvent.clientY </code></a>:
 												value based on the pointer position within the viewport</li>
 											<li><a href="#widl-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>:
-												<code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Alt'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:
-												<code>true</code> if <a href="#key-Control"><code class="key">'Control'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Control'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:
-												<code>true</code> if <a href="#key-Shift"><code class="key">'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Shift'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:
-												<code>true</code> if <a href="#key-Meta"><code class="key">'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Meta'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>:
 												value based on current button pressed</li>
 											<li><a href="#widl-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>:
@@ -4407,14 +4410,14 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 												if the wheel is associated with a pointing device, the value
 												based on the pointer position within the viewport, otherwise <code>0</code></li>
 											<li><a href="#widl-MouseEvent-altKey"><code class="attribute-name">MouseEvent.altKey</code></a>:
-												<code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a>
+												<code>true</code> if <code class="key">'Alt'</code>
 												modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-ctrlKey"><code class="attribute-name">MouseEvent.ctrlKey</code></a>:
-												<code>true</code> if <a href="#key-Control"><code class="key">'Control'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Control'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-shiftKey"><code class="attribute-name">MouseEvent.shiftKey</code></a>:
-												<code>true</code> if <a href="#key-Shift"><code class="key">'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Shift'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-metaKey"><code class="attribute-name">MouseEvent.metaKey</code></a>:
-												<code>true</code> if <a href="#key-Meta"><code class="key">'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Meta'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-MouseEvent-button"><code class="attribute-name">MouseEvent.button</code></a>:
 												if wheel is associated with a pointing device, value based on current button pressed, otherwise <code>0</code></li>
 											<li><a href="#widl-MouseEvent-buttons"><code class="attribute-name">MouseEvent.buttons</code></a>:
@@ -4719,9 +4722,9 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 
 						<dt>const unsigned long DOM_KEY_LOCATION_STANDARD = 0x00</dt>
 						<dd>
-							<p>The key activation MUST NOT be distinguished as the left or right version of the key, and (other than the <code class="key">'NumLock'</code>key)
-								did not originate from the numeric keypad (or did not originate with a virtual key corresponding to the numeric keypad).
-								</p>
+							<p>The key activation MUST NOT be distinguished as the left or right version of the key, and (other than the 
+								<code class="key">'NumLock'</code> key) did not originate from the numeric keypad (or did not originate 
+								with a virtual key corresponding to the numeric keypad).</p>
 
 							<div class="example">
 								<div class="example-title"></div>
@@ -4753,11 +4756,11 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 
 						<dt>const unsigned long DOM_KEY_LOCATION_NUMPAD = 0x03</dt>
 						<dd>
-							<p>The key activation originated on the numeric keypad or with a virtual key corresponding to the numeric keypad
-								 (when there is more than one possible location for this key).
-								 Note that the <code class="key">'NumLock'</code>key should always be encoded with a location of
-								 <a href="#widl-KeyboardEvent-DOM_KEY_LOCATION_STANDARD"><code class="constant-name">DOM_KEY_LOCATION_STANDARD</code></a>.
-								 </p>
+							<p>The key activation originated on the numeric keypad or with a virtual key corresponding to the numeric 
+								keypad (when there is more than one possible location for this key). Note that the <code class="key">'NumLock'</code>
+								key should always be encoded with a location of
+								<a href="#widl-KeyboardEvent-DOM_KEY_LOCATION_STANDARD"><code class="constant-name">DOM_KEY_LOCATION_STANDARD</code></a>.
+								</p>
 
 							<div class="example">
 								<div class="example-title"></div>
@@ -4772,7 +4775,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								string, conforming to the <a href="#key-algorithm">algorithm for determining the key value</a> defined in this specification.
 								If the value is a control key which has no printed representation, it MUST be one of the key values defined in the
 								<a href="#keys-keyvalues">key values set</a>, as determined by the <a href="#key-algorithm">algorithm for determining the key value</a>. Implementations that are
-								unable to identify a key MUST use the key value <a href="#key-Unidentified"><code class="key">'Unidentified'</code></a>.</p>
+								unable to identify a key MUST use the key value <code class="key">'Unidentified'</code>.</p>
 
 							<p class="note"><strong>Note:</strong> The <code>key</code> attribute is not related to the legacy <code>keyCode</code> attribute and does not have the same set of values.</p>
 
@@ -4800,7 +4803,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 
 						<dt>readonly attribute boolean ctrlKey</dt>
 						<dd>
-							<p><code>true</code> if the <a href="#key-Control"><code class="key">'Control'</code></a> (control) key modifier was active.</p>
+							<p><code>true</code> if the <code class="key">'Control'</code> (control) key modifier was active.</p>
 
 							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>false</code>.</p>
 						</dd>
@@ -4814,7 +4817,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 
 						<dt>readonly attribute boolean altKey</dt>
 						<dd>
-							<p><code>true</code> if the <a href="#key-Alt"><code class="key">'Alt'</code></a> (alternative) or <code>Option</code> key modifier was active.</p>
+							<p><code>true</code> if the <code class="key">'Alt'</code> (alternative) or <code>Option</code> key modifier was active.</p>
 
 							<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>false</code>.</p>
 						</dd>
@@ -5012,6 +5015,11 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 
 					<table class="event-sequence-table">
 						<tr>
+							<td class="cell-number"></td>
+							<th>Event Name</th>
+							<th>Notes</th>
+						</tr>
+						<tr>
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td></td>
@@ -5023,7 +5031,8 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="2"><em>Any <a class="def" href="#glossary-default-action">default actions</a> related to this key, such as inserting a
+							<td></td>
+							<td><em>Any <a class="def" href="#glossary-default-action">default actions</a> related to this key, such as inserting a
 								character in to the DOM.</em></td>
 						</tr>
 						<tr>
@@ -5033,7 +5042,8 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="2"><em>Any events as a result of the key being held for a sustained period (see below).</em></td>
+							<td></td>
+							<td><em>Any events as a result of the key being held for a sustained period (see below).</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">4.</td>
@@ -5048,6 +5058,11 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 					
 					<table class="event-sequence-table">
 						<tr>
+							<td class="cell-number"></td>
+							<th>Event Name</th>
+							<th>Notes</th>
+						</tr>
+						<tr>
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td><em>(with <a href="#widl-KeyboardEvent-repeat">repeat</a> attribute set to <code> true</code>)</em></td>
@@ -5059,7 +5074,8 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="2"><em>Any <a class="def" href="#glossary-default-action">default actions</a> related to this key, such as inserting a
+							<td></td>
+							<td><em>Any <a class="def" href="#glossary-default-action">default actions</a> related to this key, such as inserting a
 								character in to the DOM.</em></td>
 						</tr>
 						<tr>
@@ -5090,7 +5106,7 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						The <a class="def" href="#glossary-event-target">event target</a> might change between
 						different key events.
 						For example, a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>
-						event for the <a href="#key-Tab"><code class="key">'Tab'</code></a> key
+						event for the <code class="key">'Tab'</code> key
 						will likely have a different <a class="def" href="#glossary-event-target">event target</a>
 						than the  <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>
 						event on the same keystroke.
@@ -5154,13 +5170,13 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-KeyboardEvent-location"><code class="attribute-name">KeyboardEvent.location</code></a>:
 												the location of the key on the device.</li>
 											<li><a href="#widl-KeyboardEvent-altKey"><code class="attribute-name">KeyboardEvent.altKey</code></a>:
-												<code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Alt'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-KeyboardEvent-shiftKey"><code class="attribute-name">KeyboardEvent.shiftKey</code></a>:
-												<code>true</code> if <a href="#key-Shift"><code class="key">'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Shift'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-KeyboardEvent-ctrlKey"><code class="attribute-name">KeyboardEvent.ctrlKey</code></a>:
-												<code>true</code> if <a href="#key-Control"><code class="key">'Control'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Control'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-KeyboardEvent-metaKey"><code class="attribute-name">KeyboardEvent.metaKey</code></a>:
-												<code>true</code> if <a href="#key-Meta"><code class="key">'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Meta'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-KeyboardEvent-repeat"><code class="attribute-name">KeyboardEvent.repeat</code></a>:
 												<code>true</code> if a key has been depressed long enough to trigger key repetition, otherwise <code>false</code></li>
 										</ul>
@@ -5193,10 +5209,10 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								<li>If the key is associated with a <a class="def" href="#glossary-text-composition-system">text composition system</a>, the default action MUST be to launch that
 									system</li>
 
-								<li>If the key is the <a href="#key-Tab"><code class="key">'Tab'</code></a> key, the default action MUST be to shift the document focus from the currently focused
+								<li>If the key is the <code class="key">'Tab'</code> key, the default action MUST be to shift the document focus from the currently focused
 									element (if any) to the new focused element, as described in <a href="#events-focusevent">Focus Event Types</a></li>
 
-								<li>If the key is the <a href="#key-Enter"><code class="key">'Enter'</code></a> or <code class="key">'&nbsp;'</code> key and the
+								<li>If the key is the <code class="key">'Enter'</code> or <code class="key">'&nbsp;'</code> key and the
 									current focus is on a state-changing element, the default action MUST be to dispatch a <a class="eventtype" href="#event-type-click"><code>click</code></a> event,
 									and a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event if that event type is supported by the <a class="def" href="#glossary-user-agent">
 									user agent</a> (refer to <a href="#event-flow-activation">activation triggers and behavior</a> for more details)</li>
@@ -5260,13 +5276,13 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 											<li><a href="#widl-KeyboardEvent-location"><code class="attribute-name">KeyboardEvent.location</code></a>:
 												the location of the key on the device.</li>
 											<li><a href="#widl-KeyboardEvent-altKey"><code class="attribute-name">KeyboardEvent.altKey</code></a>:
-												<code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Alt'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-KeyboardEvent-shiftKey"><code class="attribute-name">KeyboardEvent.shiftKey</code></a>:
-												<code>true</code> if <a href="#key-Shift"><code class="key">'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Shift'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-KeyboardEvent-ctrlKey"><code class="attribute-name">KeyboardEvent.ctrlKey</code></a>:
-												<code>true</code> if <a href="#key-Control"><code class="key">'Control'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Control'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-KeyboardEvent-metaKey"><code class="attribute-name">KeyboardEvent.metaKey</code></a>:
-												<code>true</code> if <a href="#key-Meta"><code class="key">'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
+												<code>true</code> if <code class="key">'Meta'</code> modifier was active, otherwise <code>false</code></li>
 											<li><a href="#widl-KeyboardEvent-repeat"><code class="attribute-name">KeyboardEvent.repeat</code></a>:
 												<code>false</code></li>
 										</ul>
@@ -5376,6 +5392,11 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 
 					<table class="event-sequence-table">
 						<tr>
+							<td class="cell-number"></td>
+							<th>Event Name</th>
+							<th>Notes</th>
+						</tr>
+						<tr>
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
 							<td></td>
@@ -5400,41 +5421,62 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 
 					<table class="event-sequence-table">
 						<tr>
+							<td class="cell-number"></td>
+							<th>Event Name</th>
+							<th><a href="#widl-CompositionEvent-data"><code>CompositionEvent<br>data</code></a></th>
+							<th>Notes</th>
+						</tr>
+						<tr>
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
+							<td><code>''</code></td>
 							<td></td>
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
+							<td></td>
+							<td></td>
 							<td colspan="2"><em>User writes word on tablet surface</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td><code>'test'</code></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
+							<td></td>
+							<td></td>
 							<td colspan="2"><em>User rejects first word-match suggestion, selects different match</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td><code>'text'</code></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
 							<td><code>'text'</code></td>
+							<td></td>
 						</tr>
 					</table>
 				</section>  <!-- handwriting -->
 
 				<section id="events-composition-event-canceling">
 					<h4>Canceling Composition Events</h4>
-					<p>If a <code>keydown</code> event is canceled then any Composition Events that would have fired as a result of that <code>keydown</code> SHOULD not be dispatched:</p>
+					<p>If a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event is canceled then any 
+					Composition Events that would have fired as a result of that 
+					<a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> SHOULD not be dispatched:</p>
 
 					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-number"></td>
+							<th>Event Name</th>
+							<th>Notes</th>
+						</tr>
 						<tr>
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
@@ -5444,7 +5486,8 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="2"><em>No Composition Events are dispatched</em></td>
+							<td></td>
+							<td><em>No Composition Events are dispatched</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">2.</td>
@@ -5453,11 +5496,17 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						</tr>
 					</table>
 
-					<p>If the initial <code>compositionstart</code> event is canceled then the text composition session SHOULD be
-						terminated. Regardless of whether or not the composition session is terminated, the
-						<code>compositionend</code> event MUST be sent.</p>
+					<p>If the initial <a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> event is 
+						canceled then the text composition session SHOULD be terminated. Regardless of whether or not the composition 
+						session is terminated, the <a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>
+						event MUST be sent.</p>
 
 					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-number"></td>
+							<th>Event Name</th>
+							<th>Notes</th>
+						</tr>
 						<tr>
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
@@ -5472,7 +5521,8 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="2"><em>No Composition Events are dispatched</em></td>
+							<td></td>
+							<td><em>No Composition Events are dispatched</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">3.</td>
@@ -5489,8 +5539,8 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 
 				<section id="events-composition-event-key-events">
 					<h4>Key Events During Composition</h4>
-					<p>During the composition session, all <code>keydown</code> and <code>keyup</code> events MAY be suppressed.
-						</p>
+					<p>During the composition session, all <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>
+						and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events MAY be suppressed.</p>
 
 					<section id="events-composition-event-including-key-events">
 						<h4>Including Key Events During Composition</h4>
@@ -5563,16 +5613,23 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 					<section id="events-composition-event-suppressing-key-events">
 						<h4>Suppressing Key Events During Composition</h4>
 
-						<p>If key events are suppressed between <code>compositionstart</code> and <code>compositionend</code>, then the first or last key
-							pressed might result in unmatched <code>keydown</code> and <code>keyup</code> events.
+						<p>If key events are suppressed between 
+							<a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a> and 
+							<a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>, then the first 
+							or last key pressed might result in unmatched 
+							<a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> and 
+							<a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events.
 							If a <a class="def" href="#glossary-user-agent">user agent</a> suppresses key events during composition,
-							then it MUST ensure that all <code>keydown</code> and <code>keyup</code> events occur in matching pairs.
+							then it MUST ensure that all <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> and 
+							<a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events occur in matching pairs.
 							</p>
 
-						<p>To ensure that the initial <code>keydown</code> has a matching <code>keyup</code>,
-							a <a class="def" href="#glossary-user-agent">user agent</a> might insert an extra <code>keyup</code>
-							to match the <code>keydown</code> that initiated a composition session, as shown
-							in the following example:
+						<p>To ensure that the initial <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> has a 
+							matching <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>, a
+							<a class="def" href="#glossary-user-agent">user agent</a> might insert an extra 
+							<a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> to match the 
+							<a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> that initiated a composition session,
+							as shown in the following example:
 							</p>
 
 						<table class="event-sequence-table">
@@ -5604,7 +5661,9 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								<td class="cell-number">4.</td>
 								<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 								<td class="cell-center"><code>true</code></td>
-								<td>This event would normally be suppressed because of the ongoing composition session, but it is sent to match the previously sent <code>keydown</code> event.</td>
+								<td>This event would normally be suppressed because of the ongoing composition session, but it is sent
+									to match the previously sent <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>
+									event.</td>
 							</tr>
 							<tr>
 								<td class="cell-number"></td>
@@ -5620,14 +5679,16 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 							</tr>
 						</table>
 
-						<p>To ensure that the composition session doesn't end with a dangling <code>keyup</code> event,
-							a <a class="def" href="#glossary-user-agent">user agent</a> can choose either (A) to suppress this
-							<code>keyup</code> event, or (B) to insert an extra <code>keydown</code> event.
-							</p>
+						<p>To ensure that the composition session doesn't end with a dangling 
+							<a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event, a 
+							<a class="def" href="#glossary-user-agent">user agent</a> can choose either (A) to suppress this
+							<a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event, or (B) to insert an extra 
+							<a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event.</p>
 
-						<p>An example event sequence where both the <code>keydown</code> and <code>keyup</code> events have
-							been suppressed:
-							</p>
+						<p>An example event sequence where both the 
+							<a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> and 
+							<a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> events have
+							been suppressed:</p>
 						
 						<table class="event-sequence-table">
 							<tr>
@@ -5640,7 +5701,8 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								<td class="cell-number"></td>
 								<td></td>
 								<td></td>
-								<td><em>Keydown for key that exits IME suppressed during composition session</em></td>
+								<td><em><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> for key that exits IME suppressed
+									during composition session</em></td>
 							</tr>
 							<tr>
 								<td class="cell-number">1.</td>
@@ -5652,11 +5714,13 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								<td class="cell-number"></td>
 								<td></td>
 								<td></td>
-								<td><em>A keyup event would normally be sent at this time, but it is suppressed to avoid generating an unmatched keyup event.</em></td>
+								<td><em>A <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event would normally be sent
+									at this time, but it is suppressed to avoid generating an unmatched 
+									<a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event.</em></td>
 							</tr>
 						</table>
 
-						<p>An example event sequence where a <code>keydown</code> has been inserted:
+						<p>An example event sequence where a <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> has been inserted:
 							</p>
 
 						<table class="event-sequence-table">
@@ -5670,7 +5734,8 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								<td class="cell-number"></td>
 								<td></td>
 								<td></td>
-								<td><em>Keydown for key that exits IME suppressed during composition session</em></td>
+								<td><em><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> for key that exits IME suppressed 
+									during composition session</em></td>
 							</tr>
 							<tr>
 								<td class="cell-number">1.</td>
@@ -5682,7 +5747,8 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 								<td class="cell-number">2.</td>
 								<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 								<td class="cell-center"><code>false</code></td>
-								<td>This is key event that was suppressed earlier. It is sent now to match the upcoming keyup.</td>
+								<td>This is key event that was suppressed earlier. It is sent now to match the upcoming 
+									<a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>.</td>
 							</tr>
 							<tr>
 								<td class="cell-number">3.</td>
@@ -5699,9 +5765,9 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 				<section id="events-composition-event-input-events">
 					<h4>Input Events During Composition</h4>
 					
-					<p>During the composition session, the <code>compositionupdate</code> MUST be dispatched
-						before the <code>beforeinput</code> 
-						and <code>input</code> events are sent.
+					<p>During the composition session, the 
+						<a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> MUST be dispatched
+						before the <a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a> and <code>input</code> events are sent.
 						</p>
 
 					<table class="event-sequence-table">
@@ -5736,9 +5802,10 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						during a composition session.
 						</p>
 
-					<p>When a composition session is finished, any <code>beforeinput</code>
-						and <code>input</code> events MUST be
-						dispatched after the <code>compositionend</code> event.
+					<p>When a composition session is finished, any 
+						<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a> and 
+						<a class="eventtype" href="#event-type-input"><code>input</code></a> events MUST be dispatched after the 
+						<a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event.
 						</p>
 
 					<table class="event-sequence-table">
@@ -5755,10 +5822,9 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 						<tr>
 							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
-							<td><em>Sent only if we’re about to update the DOM
-								(i.e., the composition was not canceled).
-								Canceling this will prevent the DOM update and the <code>input</code> event.</em>
-								</td>
+							<td><em>Sent only if we’re about to update the DOM (i.e., the composition was not canceled).
+								Canceling this will prevent the DOM update and the 
+								<a class="eventtype" href="#event-type-input"><code>input</code></a> event.</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
@@ -5773,10 +5839,10 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 					</table>
 					
 					<p class="note"><strong>Note:</strong> Some IMEs update the DOM before the
-						<code>compositionend</code> event is dispatched.
-						In this case, canceling the <code>beforeinput</code> event will have no effect
-						(i.e., the <code>input</code> input will still fire).
-						</p>
+						<a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event is dispatched.
+						In this case, canceling the <a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a>
+						event will have no effect (i.e., the <a class="eventtype" href="#event-type-input"><code>input</code></a>
+						event will still fire).</p>
 
 				</section>  <!-- events-composition-event-input-events -->
 				
@@ -6117,10 +6183,10 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 					location since the code would need to know which layout is in effect in order to know which
 					<code>key</code> values to check for.
 					A real-world example of this is a game that wants to use the
-						<code class="keycap">'W'</code>,
-						<code class="keycap">'A'</code>,
-						<code class="keycap">'S'</code> and
-						<code class="keycap">'D'</code>
+						<code class="glyph">'W'</code>,
+						<code class="glyph">'A'</code>,
+						<code class="glyph">'S'</code> and
+						<code class="glyph">'D'</code>
 					keys to control player movement.
 					The <code>code</code> attribute solves this problem by providing
 					a stable value to check that is <em>not affected by the current keyboard layout</em>.
@@ -6142,8 +6208,8 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 					<dd>The <code>key</code> attribute is intended for users who are interested in the meaning of the key
 						being pressed, taking into account the current keyboard layout (and IME; <a href="#keys-dead">dead keys</a>
 						are given a unique <code>key</code> value).
-						Example use case: Detecting modified keys or bare modifier keys (e.g., to perform an action in response to a keyboard shortcut).
-						</dd>
+						Example use case: Detecting modified keys or bare modifier keys (e.g., to perform an action in
+						response to a keyboard shortcut).</dd>
 
 					<dt><code>code</code></dt>
 					<dd>The <code>code</code> attribute is intended for users who are interested in the key that was pressed
@@ -6159,17 +6225,44 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 				<div class="example">
 					<div class="example-title"></div>
 					<p>Handling the Left and Right Alt Keys</p>
-					<table class="data-table">
-						<thead><tr><th>Keyboard Layout</th><th><code>key</code></th><th><code>code</code></th><th>Notes</th></tr></thead>
+					<table class="data-table" style="width:auto">
+						<thead>
+							<tr>
+								<th>Keyboard Layout</th>
+								<th><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
+								<th><a href="#widl-KeyboardEvent-code"><code>KeyboardEvent<br/>code</code></a></th>
+								<th>Notes</th>
+							</tr>
+						</thead>
 						<tbody>
-							<tr><td>US</td><td><code class="key">'Alt'</code></td><td><code class="key-code">'AltLeft'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td></tr>
-							<tr><td>French</td><td><code class="key">'Alt'</code></td><td><code class="key-code">'AltLeft'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td></tr>
-							<tr><td>US</td><td><code class="key">'Alt'</code></td><td><code class="key-code">'AltRight'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_RIGHT</code></td></tr>
-							<tr><td>French</td><td><code class="key">'AltGr'</code></td><td><code class="key-code">'AltRight'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_RIGHT</code></td></tr>
+							<tr>
+								<td>US</td>
+								<td><code class="key">'Alt'</code></td>
+								<td><code class="code">'AltLeft'</code></td>
+								<td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td>
+							</tr>
+							<tr>
+								<td>French</td>
+								<td><code class="key">'Alt'</code></td>
+								<td><code class="code">'AltLeft'</code></td>
+								<td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td>
+							</tr>
+							<tr>
+								<td>US</td>
+								<td><code class="key">'Alt'</code></td>
+								<td><code class="code">'AltRight'</code></td>
+								<td><code class="constant-name">DOM_KEY_LOCATION_RIGHT</code></td>
+							</tr>
+							<tr>
+								<td>French</td>
+								<td><code class="key">'AltGr'</code></td>
+								<td><code class="code">'AltRight'</code></td>
+								<td><code class="constant-name">DOM_KEY_LOCATION_RIGHT</code></td>
+							</tr>
 						</tbody>
 					</table>
 					<p>In this example, checking the <code>key</code> attribute permits matching <code class="key">'Alt'</code> without worrying about which Alt key (left or right) was pressed.
-						Checking the <code>code</code> attribute permits matching the right Alt key (<code class="key-code">'AltRight'</code>) without worrying about which layout is currently in effect.
+						Checking the <code>code</code> attribute permits matching the right Alt key (<code class="code">'AltRight'</code>) without worrying about which layout is currently in effect.
 						</p>
 					<p>Note that, in the French example, the <code class="key">'Alt'</code> and
 						<code class="key">'AltGr'</code> keys retain their left and right location, even through there
@@ -6180,12 +6273,34 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 				<div class="example">
 					<div class="example-title"></div>
 					<p>Handling the Single Quote Key</p>
-					<table class="data-table">
-						<thead><tr><th>Keyboard Layout</th><th><code>key</code></th><th><code>code</code></th><th>Notes</th></tr></thead>
+					<table class="data-table" style="width:auto">
+						<thead>
+							<tr>
+								<th>Keyboard Layout</th>
+								<th><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
+								<th><a href="#widl-KeyboardEvent-code"><code>KeyboardEvent<br/>code</code></a></th>
+								<th>Notes</th>
+							</tr>
+						</thead>
 						<tbody>
-							<tr><td>US</td><td><code class="key">'''</code></td><td><code class="key-code">'Quote'</code></td><td></td></tr>
-							<tr><td>Japanese</td><td><code class="key">':'</code></td><td><code class="key-code">'Quote'</code></td><td></td></tr>
-							<tr><td>US Intl</td><td><code class="key">'Dead'</code></td><td><code class="key-code">'Quote'</code></td><td></td></tr>
+							<tr>
+								<td>US</td>
+								<td><code class="key">'''</code></td>
+								<td><code class="code">'Quote'</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>Japanese</td>
+								<td><code class="key">':'</code></td>
+								<td><code class="code">'Quote'</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>US Intl</td>
+								<td><code class="key">'Dead'</code></td>
+								<td><code class="code">'Quote'</code></td>
+								<td></td>
+							</tr>
 						</tbody>
 					</table>
 					<p>This example shows how dead key values are encoded in the attributes. The
@@ -6196,16 +6311,53 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 
 				<div class="example" id="example-key-2">
 					<div class="example-title"></div>
-					<p>Handling the '2' Key (with and without Shift pressed)</p>
-					<table class="data-table">
-						<thead><tr><th>Keyboard Layout</th><th><code>key</code></th><th><code>code</code></th><th>Notes</th></tr></thead>
+					<p>Handling the <code class="glyph">'2'</code> Key (with and without Shift pressed)</p>
+					<table class="data-table" style="width:auto">
+						<thead>
+							<tr>
+								<th>Keyboard Layout</th>
+								<th><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
+								<th><a href="#widl-KeyboardEvent-code"><code>KeyboardEvent<br/>code</code></a></th>
+								<th>Notes</th>
+							</tr>
+						</thead>
 						<tbody>
-							<tr><td>US</td><td><code class="key">'2'</code></td><td><code class="key-code">'Digit2'</code></td><td></td></tr>
-							<tr><td>US</td><td><code class="key">'@'</code></td><td><code class="key-code">'Digit2'</code></td><td><code class="constant-name">shiftKey</code></td></tr>
-							<tr><td>UK</td><td><code class="key">'2'</code></td><td><code class="key-code">'Digit2'</code></td><td></td></tr>
-							<tr><td>UK</td><td><code class="key">'"'</code></td><td><code class="key-code">'Digit2'</code></td><td><code class="constant-name">shiftKey</code></td></tr>
-							<tr><td>French</td><td><code class="key">'é'</code></td><td><code class="key-code">'Digit2'</code></td><td></td></tr>
-							<tr><td>French</td><td><code class="key">'2'</code></td><td><code class="key-code">'Digit2'</code></td><td><code class="constant-name">shiftKey</code></td></tr>
+							<tr>
+								<td>US</td>
+								<td><code class="key">'2'</code></td>
+								<td><code class="code">'Digit2'</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>US</td>
+								<td><code class="key">'@'</code></td>
+								<td><code class="code">'Digit2'</code></td>
+								<td><code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
+							</tr>
+							<tr>
+								<td>UK</td>
+								<td><code class="key">'2'</code></td>
+								<td><code class="code">'Digit2'</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>UK</td>
+								<td><code class="key">'"'</code></td>
+								<td><code class="code">'Digit2'</code></td>
+								<td><code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
+							</tr>
+							<tr>
+								<td>French</td>
+								<td><code class="key">'é'</code></td>
+								<td><code class="code">'Digit2'</code></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>French</td>
+								<td><code class="key">'2'</code></td>
+								<td><code class="code">'Digit2'</code></td>
+								<td><code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
+							</tr>
 						</tbody>
 					</table>
 					<p>Regardless of the current locale or the modifier key state, pressing the key labelled <code class="glyph">'2'</code>
@@ -6215,33 +6367,120 @@ The text of this note needs to be reviewed. Remove reference to initMouseEvent (
 
 				<div class="example" id="example-key-shift-2">
 					<div class="example-title"></div>
-					<p>Sequence of Keyboard Events : Shift and '2'</p>
+					<p>Sequence of Keyboard Events : <code class="key">'Shift'</code> and <code class="key">'2'</code></p>
 					<p>Compare the attribute values in the following two key event sequences. They both produce the
 						<code class="glyph">'@'</code> character on a US keyboard, but differ in the order in which the
-						keys are released. In the first sequence, the order is Shift (down), 2 (down), 2 (up), Shift (up).
+						keys are released. In the first sequence, the order is:
+							<code class="key">'Shift'</code> (down),
+							<code class="key">'2'</code> (down),
+							<code class="key">'2'</code> (up), 
+							<code class="key">'Shift'</code> (up).
 						</p>
-					<table class="data-table">
-						<thead><tr><th>Keyboard Layout</th><th>Event</th><th><code>key</code></th><th><code>code</code></th><th>Notes</th></tr></thead>
-						<tbody>
-							<tr><td>US</td><td>keydown</td><td><code class="key">'Shift'</code></td><td><code class="key-code">'ShiftLeft'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td></tr>
-							<tr><td>US</td><td>keydown</td><td><code class="key">'@'</code></td><td><code class="key-code">'Digit2'</code></td><td><code class="constant-name">shiftKey</code></td></tr>
-							<tr><td>US</td><td>keypress</td><td><code class="key">'@'</code></td><td><code class="key-code">''</code></td><td></td></tr>
-							<tr><td>US</td><td>keyup</td><td><code class="key">'@'</code></td><td><code class="key-code">'Digit2'</code></td><td><code class="constant-name">shiftKey</code></td></tr>
-							<tr><td>US</td><td>keyup</td><td><code class="key">'Shift'</code></td><td><code class="key-code">'ShiftLeft'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td></tr>
-						</tbody>
+					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-number"></td>
+							<th>Event Name</th>
+							<th>Keyboard Layout</th>
+							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
+							<th class="cell-center"><a href="#widl-KeyboardEvent-code"><code>KeyboardEvent<br/>code</code></a></th>
+							<th>Notes</th>
+						</tr>
+						<tr>
+							<td class="cell-number">1.</td>
+							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
+							<td>US</td>
+							<td class="cell-center"><code class="key">'Shift'</code></td>
+							<td class="cell-center"><code class="code">'ShiftLeft'</code></td>
+							<td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td>
+						</tr>
+						<tr>
+							<td class="cell-number">2.</td>
+							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
+							<td>US</td>
+							<td class="cell-center"><code class="key">'@'</code></td>
+							<td class="cell-center"><code class="code">'Digit2'</code></td>
+							<td><code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
+						</tr>
+						<tr>
+							<td class="cell-number">3.</td>
+							<td><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a></td>
+							<td>US</td>
+							<td class="cell-center"><code class="key">'@'</code></td>
+							<td class="cell-center"><code>''</code></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">4.</td>
+							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
+							<td>US</td>
+							<td class="cell-center"><code class="key">'@'</code></td>
+							<td class="cell-center"><code class="code">'Digit2'</code></td>
+							<td><code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
+						</tr>
+						<tr>
+							<td class="cell-number">5.</td>
+							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
+							<td>US</td>
+							<td class="cell-center"><code class="key">'Shift'</code></td>
+							<td class="cell-center"><code class="code">'ShiftLeft'</code></td>
+							<td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td>
+						</tr>
 					</table>
 					<p>In the second sequence, the Shift is released before the 2, resulting in the following event order:
-						Shift (down), 2 (down), Shift (up), 2 (up).
+						<code class="key">'Shift'</code> (down),
+						<code class="key">'2'</code> (down), 
+						<code class="key">'Shift'</code> (up), 
+						<code class="key">'2'</code> (up).
 						</p>
-					<table class="data-table">
-						<thead><tr><th>Keyboard Layout</th><th>Event</th><th><code>key</code></th><th><code>code</code></th><th>Notes</th></tr></thead>
-						<tbody>
-							<tr><td>US</td><td>keydown</td><td><code class="key">'Shift'</code></td><td><code class="key-code">'ShiftLeft'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td></tr>
-							<tr><td>US</td><td>keydown</td><td><code class="key">'@'</code></td><td><code class="key-code">'Digit2'</code></td><td><code class="constant-name">shiftKey</code></td></tr>
-							<tr><td>US</td><td>keypress</td><td><code class="key">'@'</code></td><td><code class="key-code">''</code></td><td></td></tr>
-							<tr><td>US</td><td>keyup</td><td><code class="key">'Shift'</code></td><td><code class="key-code">'ShiftLeft'</code></td><td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td></tr>
-							<tr><td>US</td><td>keyup</td><td><code class="key">'2'</code></td><td><code class="key-code">'Digit2'</code></td><td></td></tr>
-						</tbody>
+					<table class="event-sequence-table">
+						<tr>
+							<td class="cell-number"></td>
+							<th>Event Name</th>
+							<th>Keyboard Layout</th>
+							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
+							<th class="cell-center"><a href="#widl-KeyboardEvent-code"><code>KeyboardEvent<br/>code</code></a></th>
+							<th>Notes</th>
+						</tr>
+						<tr>
+							<td class="cell-number">1.</td>
+							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
+							<td>US</td>
+							<td class="cell-center"><code class="key">'Shift'</code></td>
+							<td class="cell-center"><code class="code">'ShiftLeft'</code></td>
+							<td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td>
+						</tr>
+						<tr>
+							<td class="cell-number">2.</td>
+							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
+							<td>US</td>
+							<td class="cell-center"><code class="key">'@'</code></td>
+							<td class="cell-center"><code class="code">'Digit2'</code></td>
+							<td><code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
+						</tr>
+						<tr>
+							<td class="cell-number">3.</td>
+							<td><a class="eventtype" href="#event-type-keypress"><code>keypress</code></a></td>
+							<td>US</td>
+							<td class="cell-center"><code class="key">'@'</code></td>
+							<td class="cell-center"><code>''</code></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td class="cell-number">4.</td>
+							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
+							<td>US</td>
+							<td class="cell-center"><code class="key">'Shift'</code></td>
+							<td class="cell-center"><code class="code">'ShiftLeft'</code></td>
+							<td><code class="constant-name">DOM_KEY_LOCATION_LEFT</code></td>
+						</tr>
+						<tr>
+							<td class="cell-number">5.</td>
+							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
+							<td>US</td>
+							<td class="cell-center"><code class="key">'2'</code></td>
+							<td class="cell-center"><code class="code">'Digit2'</code></td>
+							<td></td>
+						</tr>
 					</table>
 					<p>Note that the values contained in the <code>key</code> attribute does not match between
 						the keydown and keyup events for the <code class="glyph">'2'</code> key. The <code>code</code> attribute provides a consistent value
@@ -6452,17 +6691,24 @@ else {
 					<div class="example-title"></div>
 					<table class="event-sequence-table">
 						<tr>
+							<td class="cell-number"></td>
+							<th>Event Name</th>
+							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
+							<th>Modifiers</th>
+							<th>Notes</th>
+						</tr>
+						<tr>
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Shift'</code></td>
-							<td><code class="attribute-name">shiftKey</code></td>
+							<td><code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
 							<td></td>
 						</tr>
 						<tr>
 							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Q'</code></td>
-							<td><code class="attribute-name">shiftKey</code></td>
+							<td><code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
 							<td>Latin Capital Letter Q</td>
 						</tr>
 						<tr>
@@ -6483,7 +6729,7 @@ else {
 							<td class="cell-number">5.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Q'</code></td>
-							<td><code class="attribute-name">shiftKey</code></td>
+							<td><code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -6504,17 +6750,24 @@ else {
 					<div class="example-title"></div>
 					<table class="event-sequence-table">
 						<tr>
+							<td class="cell-number"></td>
+							<th>Event Name</th>
+							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
+							<th>Modifiers</th>
+							<th>Notes</th>
+						</tr>
+						<tr>
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Shift'</code></td>
-							<td><code class="attribute-name">shiftKey</code></td>
+							<td><code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
 							<td></td>
 						</tr>
 						<tr>
 							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Q'</code></td>
-							<td><code class="attribute-name">shiftKey</code></td>
+							<td><code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
 							<td>Latin Capital Letter Q</td>
 						</tr>
 						<tr>
@@ -6554,17 +6807,24 @@ else {
 					<div class="example-title"></div>
 					<table class="event-sequence-table">
 						<tr>
+							<td class="cell-number"></td>
+							<th>Event Name</th>
+							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
+							<th>Modifiers</th>
+							<th>Notes</th>
+						</tr>
+						<tr>
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Control'</code></td>
-							<td><code class="attribute-name">ctrlKey</code></td>
+							<td><code class="attribute-name"><a href="#widl-MouseEvent-ctrlKey">ctrlKey</a></code></td>
 							<td></td>
 						</tr>
 						<tr>
 							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'v'</code></td>
-							<td><code class="attribute-name">ctrlKey</code></td>
+							<td><code class="attribute-name"><a href="#widl-MouseEvent-ctrlKey">ctrlKey</a></code></td>
 							<td>Latin Small Letter V</td>
 						</tr>
 						<tr>
@@ -6575,7 +6835,7 @@ else {
 							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'v'</code></td>
-							<td><code class="attribute-name">ctrlKey</code></td>
+							<td><code class="attribute-name"><a href="#widl-MouseEvent-ctrlKey">ctrlKey</a></code></td>
 							<td>Latin Small Letter V</td>
 						</tr>
 						<tr>
@@ -6588,30 +6848,40 @@ else {
 					</table>
 				</div>
 
-				<p>The following example shows the sequence of events when both <code class="key">'Shift'</code> and <code class="key">'Control'</code> are pressed:</p>
+				<p>The following example shows the sequence of events when both <code class="key">'Shift'</code> and 
+					<code class="key">'Control'</code> are pressed:</p>
 
 				<div class="example">
 					<div class="example-title"></div>
 					<table class="event-sequence-table">
 						<tr>
+							<td class="cell-number"></td>
+							<th>Event Name</th>
+							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
+							<th>Modifiers</th>
+							<th>Notes</th>
+						</tr>
+						<tr>
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Control'</code></td>
-							<td><code class="attribute-name">ctrlKey</code></td>
+							<td><code class="attribute-name"><a href="#widl-MouseEvent-ctrlKey">ctrlKey</a></code></td>
 							<td></td>
 						</tr>
 						<tr>
 							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Shift'</code></td>
-							<td><code class="attribute-name">ctrlKey</code> <code class="attribute-name">shiftKey</code></td>
+							<td><code class="attribute-name"><a href="#widl-MouseEvent-ctrlKey">ctrlKey</a></code> 
+								<code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
 							<td></td>
 						</tr>
 						<tr>
 							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'V'</code></td>
-							<td><code class="attribute-name">ctrlKey</code> <code class="attribute-name">shiftKey</code></td>
+							<td><code class="attribute-name"><a href="#widl-MouseEvent-ctrlKey">ctrlKey</a></code> 
+								<code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
 							<td>Latin Capital Letter V</td>
 						</tr>
 						<tr>
@@ -6622,14 +6892,15 @@ else {
 							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'V'</code></td>
-							<td><code class="attribute-name">ctrlKey</code> <code class="attribute-name">shiftKey</code></td>
+							<td><code class="attribute-name"><a href="#widl-MouseEvent-ctrlKey">ctrlKey</a></code> 
+								<code class="attribute-name"><a href="#widl-MouseEvent-shiftKey">shiftKey</a></code></td>
 							<td>Latin Capital Letter V</td>
 						</tr>
 						<tr>
 							<td class="cell-number">5.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'Shift'</code></td>
-							<td><code class="attribute-name">ctrlKey</code></td>
+							<td><code class="attribute-name"><a href="#widl-MouseEvent-ctrlKey">ctrlKey</a></code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -6644,22 +6915,29 @@ else {
 
 				<p>For non-US keyboard layouts, the sequence of events is the same, but the value of the key is based on the current
 					keyboard layout. The following example shows a sequence of events when an Arabic keyboard layout is used:</p>
-
+						
 				<div class="example">
 					<div class="example-title"></div>
 					<table class="event-sequence-table">
 						<tr>
+							<td class="cell-number"></td>
+							<th>Event Name</th>
+							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
+							<th>Modifiers</th>
+							<th>Notes</th>
+						</tr>
+						<tr>
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'Control'</code></td>
-							<td><code class="attribute-name">ctrlKey</code></td>
+							<td><code class="attribute-name"><a href="#widl-MouseEvent-ctrlKey">ctrlKey</a></code></td>
 							<td></td>
 						</tr>
 						<tr>
 							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 							<td class="cell-center"><code class="key">'ر'</code></td>
-							<td><code class="attribute-name">ctrlKey</code></td>
+							<td><code class="attribute-name"><a href="#widl-MouseEvent-ctrlKey">ctrlKey</a></code></td>
 							<td>Arabic Letter Reh</td>
 						</tr>
 						<tr>
@@ -6670,7 +6948,7 @@ else {
 							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
 							<td class="cell-center"><code class="key">'ر'</code></td>
-							<td><code class="attribute-name">ctrlKey</code></td>
+							<td><code class="attribute-name"><a href="#widl-MouseEvent-ctrlKey">ctrlKey</a></code></td>
 							<td>Arabic Letter Reh</td>
 						</tr>
 						<tr>
@@ -6760,7 +7038,7 @@ else {
 							<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">''</code></td>
+							<td class="cell-center"><code>''</code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -6792,7 +7070,7 @@ else {
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">'ê'</code></td>
+							<td class="cell-center"><code class="glyph">'ê'</code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -6800,7 +7078,7 @@ else {
 							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">'ê'</code></td>
+							<td class="cell-center"><code class="glyph">'ê'</code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -6846,7 +7124,7 @@ else {
 							<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">''</code></td>
+							<td class="cell-center"><code>''</code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -6878,7 +7156,7 @@ else {
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">''</code></td>
+							<td class="cell-center"><code>''</code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -6886,7 +7164,7 @@ else {
 							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">''</code></td>
+							<td class="cell-center"><code>''</code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -6906,7 +7184,7 @@ else {
 
 				<p>This specification includes a model for <a class="def" href="#glossary-ime">input method editors (IMEs)</a>, through the <a href="#interface-CompositionEvent">CompositionEvent</a>
 					interface and events.  However, Composition Events and Keyboard Events do not necessarily map as a one-to-one relationship.  As an example, receiving a <a class="eventtype"
-					href="#event-type-keydown"><code>keydown</code></a> for the <a href="#key-Accept"><code class="key">'Accept'</code></a> key value does not necessarily imply
+					href="#event-type-keydown"><code>keydown</code></a> for the <code class="key">'Accept'</code> key value does not necessarily imply
 					that the text currently selected in the <a class="def" href="#glossary-ime">IME</a> is being accepted, but indicates only that a keystroke happened, disconnected
 					from the <a class="def" href="#glossary-ime">IME</a> Accept functionality (which would normally result in a <a class="eventtype" href="#event-type-compositionend">
 					<code>compositionend</code></a> event in most <a class="def" href="#glossary-ime">IME</a> systems).  Keyboard events cannot be used to determine the current
@@ -6924,7 +7202,7 @@ else {
 					<code class="char">'\u0020'</code> (Space key) and <code class="key">'Enter'</code>.</p>
 
 				<p class="note"><strong>Note:</strong> <code class="glyph">'&#x8A69;'</code> (<q>poem</q>) and <code class="glyph">'&#x5E02;'</code> (<q>city</q>) are homophones, both
-					pronounced し (<q>shi</q>), so the user needs to use the <code class="key">'Convert'</code> key to select the proper option.</p>
+					pronounced &#x3057; (<q>shi</q>), so the user needs to use the <code class="key">'Convert'</code> key to select the proper option.</p>
 					
 				<div class="example">
 					<div class="example-title"></div>
@@ -6950,7 +7228,7 @@ else {
 							<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">''</code></td>
+							<td class="cell-center"><code>''</code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -6958,7 +7236,7 @@ else {
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">'s'</code></td>
+							<td class="cell-center"><code class="glyph">'s'</code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -6982,7 +7260,7 @@ else {
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">'し'</code></td>
+							<td class="cell-center"><code class="glyph">'&#x3057;'</code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -7006,7 +7284,7 @@ else {
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">'&#x8A69;'</code></td>
+							<td class="cell-center"><code class="glyph">'&#x8A69;'</code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -7030,7 +7308,7 @@ else {
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">'&#x5E02;'</code></td>
+							<td class="cell-center"><code class="glyph">'&#x5E02;'</code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -7054,7 +7332,7 @@ else {
 							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">'&#x5E02;'</code></td>
+							<td class="cell-center"><code class="glyph">'&#x5E02;'</code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -7068,9 +7346,9 @@ else {
 					</table>
 				</div>
 
-				<p>IME composition can also be canceled as in the following example, with conditions identical to the previous example.  The key <a href="#key-Cancel"><code class="key">
-					'Cancel'</code></a> might also be replaced by others depending on the input device in use and the configuration of the IME, e.g., it could be <code class="char">'\u001B'</code>
-					(Escape key).</p>
+				<p>IME composition can also be canceled as in the following example, with conditions identical to the previous example.
+					The key <code class="key">'Cancel'</code> might also be replaced by others depending on the input device in use and 
+					the configuration of the IME, e.g., it could be <code class="char">'\u001B'</code> (Escape key).</p>
 
 				<div class="example">
 					<div class="example-title"></div>
@@ -7096,7 +7374,7 @@ else {
 							<td><a class="eventtype" href="#event-type-compositionstart"><code>compositionstart</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">''</code></td>
+							<td class="cell-center"><code>''</code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -7104,7 +7382,7 @@ else {
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">'s'</code></td>
+							<td class="cell-center"><code class="glyph">'s'</code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -7128,7 +7406,7 @@ else {
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">'し'</code></td>
+							<td class="cell-center"><code class="glyph">'し'</code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -7152,7 +7430,7 @@ else {
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">'&#x8A69;'</code></td>
+							<td class="cell-center"><code class="glyph">'&#x8A69;'</code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -7176,7 +7454,7 @@ else {
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">'&#x5E02;'</code></td>
+							<td class="cell-center"><code class="glyph">'&#x5E02;'</code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -7200,7 +7478,7 @@ else {
 							<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">''</code></td>
+							<td class="cell-center"><code>''</code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -7208,7 +7486,7 @@ else {
 							<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">''</code></td>
+							<td class="cell-center"><code>''</code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -7299,8 +7577,11 @@ else {
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="5">
-								<em>No
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td><em>No
 									<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a>
 								or
 									<a class="eventtype" href="#event-type-input"><code>input</code></a>
@@ -7364,7 +7645,7 @@ else {
 							<td class="cell-number">3.</td>
 							<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">'Q'</code></td>
+							<td class="cell-center"><code class="glyph">'Q'</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
@@ -7395,15 +7676,17 @@ else {
 					</table>
 				</div>
 
-				<p>If the key is part of a sequence of several keystrokes, whether it is a <a class="def" href="#glossary-dead-key">dead key</a> or it is contributing to an Input
-					Method Editor sequence, the keystroke MUST be ignored (not taken into account) only if the <a class="def" href="#glossary-default-action">default action</a> is
-					canceled on the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event.
-					Canceling a <a class="def" href="#glossary-dead-key">dead key</a>
-					on a <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event has no effect on
+				<p>If the key is part of a sequence of several keystrokes, whether it is a <a class="def" href="#glossary-dead-key">dead key</a> or
+					it is contributing to an Input Method Editor sequence, the keystroke MUST be ignored (not taken into account) only if the 
+					<a class="def" href="#glossary-default-action">default action</a> is canceled on the 
+					<a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event. Canceling a 
+					<a class="def" href="#glossary-dead-key">dead key</a> on a 
+					<a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event has no effect on
 					<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a> or
 					<a class="eventtype" href="#event-type-input"><code>input</code></a> events.
-					The following example uses the keystrokes <code class="char">'\u0302'</code> (Combining Circumflex Accent key) and the key marked <code class="key">
-					'e'</code> (<code class="char">'\u0065'</code>, Latin Small Letter E key) (on a PC/AT French keyboard using a French mapping and without any modifier activated):</p>
+					The following example uses the dead key <code class="key">'Dead'</code> (<code class="char">'\u0302'</code> Combining Circumflex 
+					Accent key) and <code class="key">'e'</code> (<code class="char">'\u0065'</code>, Latin Small Letter E key) on a PC/AT French 
+					keyboard using a French mapping and without any modifier activated:</p>
 
 				<div class="example">
 					<div class="example-title"></div>
@@ -7418,7 +7701,7 @@ else {
 						<tr>
 							<td class="cell-number">1.</td>
 							<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
-							<td class="cell-center"><code class="key">'\u0302'</code></td>
+							<td class="cell-center"><code class="key">'Dead'</code></td>
 							<td class="cell-center"></td>
 							<td>The <a class="def" href="#glossary-default-action">default action</a> is
 								prevented, e.g., by invoking <a href="#widl-Event-preventDefault"><code>Event.preventDefault()</code></a>.
@@ -7427,7 +7710,7 @@ else {
 						<tr>
 							<td class="cell-number">2.</td>
 							<td><a class="eventtype" href="#event-type-keyup"><code>keyup</code></a></td>
-							<td class="cell-center"><code class="key">'\u0302'</code></td>
+							<td class="cell-center"><code class="key">'Dead'</code></td>
 							<td class="cell-center"></td>
 							<td></td>
 						</tr>
@@ -7442,7 +7725,7 @@ else {
 							<td class="cell-number">4.</td>
 							<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
 							<td class="cell-center"></td>
-							<td class="cell-center"><code class="key">'e'</code></td>
+							<td class="cell-center"><code class="glyph">'e'</code></td>
 							<td></td>
 						</tr>
 						<tr>
@@ -8601,7 +8884,7 @@ else {
 						<td class="cell-number">1.</td>
 						<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 						<td>MUST be a key which can activate the element, such as the
-							<a href="#key-Enter"><code class="key">'Enter'</code></a> or <code class="key">'&nbsp;'</code> key,
+							<code class="key">'Enter'</code> or <code class="key">'&nbsp;'</code> key,
 							or the element is not activated
 						</td>
 					</tr>
@@ -8918,13 +9201,13 @@ else {
 										<li><a href="#widl-KeyboardEvent-location"><code class="attribute-name">KeyboardEvent.location</code></a>:
 											the location of the key on the device.</li>
 										<li><a href="#widl-KeyboardEvent-altKey"><code class="attribute-name">KeyboardEvent.altKey</code></a>:
-											<code>true</code> if <a href="#key-Alt"><code class="key">'Alt'</code></a> modifier was active, otherwise <code>false</code></li>
+											<code>true</code> if <code class="key">'Alt'</code> modifier was active, otherwise <code>false</code></li>
 										<li><a href="#widl-KeyboardEvent-shiftKey"><code class="attribute-name">KeyboardEvent.shiftKey</code></a>:
-											<code>true</code> if <a href="#key-Shift"><code class="key">'Shift'</code></a> modifier was active, otherwise <code>false</code></li>
+											<code>true</code> if <code class="key">'Shift'</code> modifier was active, otherwise <code>false</code></li>
 										<li><a href="#widl-KeyboardEvent-ctrlKey"><code class="attribute-name">KeyboardEvent.ctrlKey</code></a>:
-											<code>true</code> if <a href="#key-Control"><code class="key">'Control'</code></a> modifier was active, otherwise <code>false</code></li>
+											<code>true</code> if <code class="key">'Control'</code> modifier was active, otherwise <code>false</code></li>
 										<li><a href="#widl-KeyboardEvent-metaKey"><code class="attribute-name">KeyboardEvent.metaKey</code></a>:
-											<code>true</code> if <a href="#key-Meta"><code class="key">'Meta'</code></a> modifier was active, otherwise <code>false</code></li>
+											<code>true</code> if <code class="key">'Meta'</code> modifier was active, otherwise <code>false</code></li>
 										<li><a href="#widl-KeyboardEvent-repeat"><code class="attribute-name">KeyboardEvent.repeat</code></a>:
 											<code>true</code> if a key has been depressed long enough to trigger key repetition, otherwise <code>false</code></li>
 									</ul>
@@ -10399,7 +10682,7 @@ document.documentElement.dispatchEvent(evt);
 				be modified by a concurrent <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event (<code class="key">'Shift'</code><code>+click</code>). However, the event orders
 				of these different event sources would be distinct.</p>
 
-				The event order of some interfaces are device-independent. For example, a user might change focus using the <a href="#key-Tab"><code class="key">'Tab'</code></a>
+				The event order of some interfaces are device-independent. For example, a user might change focus using the <code class="key">'Tab'</code>
 				key, or by clicking the new focused element with the mouse.  The event order in such cases depends on the state of the process, not on the state of the device that
 				initiates the state change.</dd>
 
@@ -10442,12 +10725,12 @@ document.documentElement.dispatchEvent(evt);
 			<dt id="glossary-key-mapping"><dfn>key mapping</dfn></dt>
 			<dd>Key mapping is the process of assigning a key value to a particular key, and is the result of a combination of several factors, including the operating system
 				and the keyboard layout (e.g., <a class="def" href="#glossary-qwerty">QWERTY</a>, Dvorak, Spanish, InScript, Chinese, etc.), and after taking into account all <a
-				class="def" href="#glossary-modifier-key">modifier key</a> (<a href="#key-Shift"><code class="key">'Shift'</code></a>, <a href="#key-Alt"><code class="key">
-				'Alt'</code></a>, etc.) and <a class="def" href="#glossary-dead-key">dead key</a> states.</dd>
+				class="def" href="#glossary-modifier-key">modifier key</a> (<code class="key">'Shift'</code>, <code class="key">'Alt'</code>, etc.) and 
+				<a class="def" href="#glossary-dead-key">dead key</a> states.</dd>
 
 			<dt id="glossary-key-value"><dfn>key value</dfn></dt>
-			<dd>A key value is a <a class="def" href="#glossary-character-value">character value</a> or multi-character string (such as <a href="#key-Enter"><code class="key">'Enter'
-				</code></a>, <a href="#key-Tab"><code class="key">'Tab'</code></a>, or <a href="#key-MediaTrackNext"><code class="key">'MediaTrackNext'</code></a>) associated
+			<dd>A key value is a <a class="def" href="#glossary-character-value">character value</a> or multi-character string (such as <code class="key">'Enter'</code>,
+				<code class="key">'Tab'</code>, or <code class="key">'MediaTrackNext'</code>) associated
 				with a key in a particular state. Every key has a key value, whether or not it has a <a class="def" href="#glossary-character-value">character value</a>. This includes
 				control keys, function keys, <a class="def" href="#glossary-modifier-key">modifier keys</a>, <a class="def" href="#glossary-dead-key">dead keys</a>, and any other key.
 				The key value of any given key at any given time depends upon the <a class="def" href="#glossary-key-mapping">key mapping</a>.</dd>
@@ -10456,9 +10739,9 @@ document.documentElement.dispatchEvent(evt);
 			<dd>See local name in [<cite><a class="informative" href="#references-Namespaces10">XML Namespaces 1.0</a></cite>].</dd>
 
 			<dt id="glossary-modifier-key"><dfn>modifier key</dfn></dt>
-			<dd>A modifier key changes the normal behavior of a key, such as to produce a character of a different case (as with the <a href="#key-Shift"><code class="key">
-				'Shift'</code></a> key), or to alter what functionality the key triggers (as with the <a href="#key-Fn"><code class="key">'Fn'</code></a> or <a href="#key-Alt">
-				<code class="key">'Alt'</code></a> keys).  Refer to the <a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
+			<dd>A modifier key changes the normal behavior of a key, such as to produce a character of a different case (as with the <code class="key">'Shift'</code>
+				key), or to alter what functionality the key triggers (as with the <code class="key">'Fn'</code> or <code class="key">'Alt'</code>
+				keys). Refer to the <a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
 				method for a list of modifier keys defined in this specification.  See also <a href="#keys-modifiers">Modifier keys</a>.</dd>
 
 			<dt id="glossary-namespaceURI"><dfn>namespace URI</dfn></dt>
@@ -10794,5 +11077,18 @@ document.documentElement.dispatchEvent(evt);
 		</section>
 	</section>  <!-- references -->
 
+	<script>
+	 // DELETE FOR PUBLICATION DOCUMENT
+	 try {
+		[].forEach.call(document.querySelectorAll("[class=key]"), function addKeyTitle(elem) { elem.title = "Key Value"; });
+		[].forEach.call(document.querySelectorAll("[class=code]"), function addCodeTitle(elem) { elem.title = "Code Value"; });
+		[].forEach.call(document.querySelectorAll("[class=char]"), function addCharTitle(elem) { elem.title = "Character Value"; });
+		[].forEach.call(document.querySelectorAll("[class=glyph]"), function addGlyphTitle(elem) { elem.title = "Character Value Glyph"; });
+	 } catch (ex) { }
+	</script>
   </body>
 </html>
+
+
+<li>Character values of keys are shown as: <code class="char">'\u003d'</code>.
+					<li>Glyphs representing character values are shown as: <code class="glyph">'='</code>.
