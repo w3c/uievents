@@ -8169,7 +8169,10 @@ else {
 
 			<section id="idl-interface-KeyboardEvent-initializers">
 				<h3>Initializers for interface KeyboardEvent</h3>
-
+				<p class="note"><strong>Note: </strong>The argument list to this legacy KeyboardEvent initializer does not include 
+					the <code>detailArg</code> (present in other initializers) and adds the <code>locale</code> argument (see 
+					<a href="#changes-drafts">Changes between different drafts of DOM Level 3 Events</a>); it is necessary
+					to preserve this inconsistency for compatibility with existing implementations.</p>
 				<dl class="idl" title="partial interface KeyboardEvent">
 					<dt>// Originally introduced (and deprecated) in DOM Level 3</dt>
 					<dd></dd>
@@ -8197,9 +8200,6 @@ else {
 							<dt>Window? viewArg</dt>
 							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
 
-							<dt>long detailArg</dt>
-							<dd><p>Refer to the <a href="#widl-UIEvent-initUIEvent"><code>UIEvent.initUIEvent()</code></a> method for a description of this parameter.</p></dd>
-
 							<dt>DOMString keyArg</dt>
 							<dd><p>Specifies <a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>.</p></dd>
 
@@ -8215,6 +8215,13 @@ else {
 
 							<dt>boolean repeat</dt>
 							<dd><p>Specifies whether the key event is repeating. See <a href="#widl-KeyboardEvent-repeat"><code>KeyboardEvent.repeat</code></a>.</p></dd>
+						
+							<dt>DOMString locale</dt>
+							<dd><p>Specifies the <code>locale</code> attribute of the KeyboardEvent.
+								This attribute is not defined in DOM3, but will be included in the
+								[<a href="#references-UIEvents">UI Events</a>] specification.
+								User agents which do not support <code>locale</code> should ignore this parameter.
+								</p></dd>
 						</dl>
 					</dd>
 				</dl>
@@ -8222,7 +8229,10 @@ else {
 
 			<section id="idl-interface-CompositionEvent-initializers">
 				<h3>Initializers for interface CompositionEvent</h3>
-
+				<p class="note"><strong>Note: </strong>The argument list to this legacy CompositionEvent initializer does not include 
+					the <code>detailArg</code> (present in other initializers) and adds the <code>locale</code> argument (see 
+					<a href="#changes-drafts">Changes between different drafts of DOM Level 3 Events</a>); it is necessary
+					to preserve this inconsistency for compatibility with existing implementations.</p>
 				<dl class="idl" title="partial interface CompositionEvent">
 					<dt>// Originally introduced (and deprecated) in DOM Level 3</dt>
 					<dd></dd>
@@ -8259,7 +8269,6 @@ else {
 								[<a href="#references-UIEvents">UI Events</a>] specification.
 								User agents which do not support <code>locale</code> should ignore this parameter.
 								</p></dd>
-
 						</dl>
 					</dd>
 				</dl>
@@ -10402,6 +10411,10 @@ document.documentElement.dispatchEvent(evt);
 						and <a href="#widl-KeyboardEvent-location"><code>location</code></a>
 					attributes. These attributes were not widely implemented.
 					</li>
+				<li>The <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> and 
+					<a href="#interface-CompositionEvent"><code>CompositionEvent</code></a> interfaces defined
+					a <code>locale</code> attribute. This attribute was underspecified and moved to the
+					UI Events specification [<a href="#references-UIEvents">UIEvents</a>].</li>
 				<li>The <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> also had a <code>char</code>
 					attribute that was only used by the
 						<a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>
