@@ -6696,7 +6696,7 @@ else {
 					</p>
 
 				<p>The following example describes a possible sequence of events associated with the generation of the Unicode character Q (Latin Capital Letter Q, <a class="def"
-					href="#glossary-unicode-code-point">Unicode code point</a> <code class="char">'\u0051'</code>) on a PC/AT US keyboard using a US mapping:</p>
+					href="#glossary-unicode-code-point">Unicode code point</a> <code class="char">'\u0051'</code>) on a US keyboard using a US mapping:</p>
 
 				<div class="example">
 					<div class="example-title"></div>
@@ -7016,7 +7016,7 @@ else {
 					combining character before the corresponding letter. For example, the word <em>naïve</em>, using the combining diacritic 
 					<em>¨</em>, would be represented sequentially in Unicode as <em>nai¨ve</em>, but MAY be typed <em>na¨ive</em>. The sequence 
 					of keystrokes <code class="char">'\u0302'</code> (Combining Circumflex Accent key) and <code class="char">'\u0065'</code>
-					(key marked with the Latin Small Letter E) will likely produce (on a PC/AT french keyboard using a french mapping and without
+					(key marked with the Latin Small Letter E) will likely produce (on a French keyboard using a french mapping and without
 					any modifier activated) the Unicode character <code class="glyph">'&#xEA;'</code> (Latin Small Letter E With Circumflex), as 
 					preferred by the Unicode Normalization Form <em>NFC</em>:</p>
 
@@ -7554,7 +7554,7 @@ else {
 						<a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>
 					if supported) events from being generated.
 					The following example describes a possible sequence of keys to generate the Unicode character
-					Q (Latin Capital Letter Q) on a PC/AT US keyboard using a US mapping:
+					Q (Latin Capital Letter Q) on a US keyboard using a US mapping:
 					</p>
 
 				<div class="example">
@@ -7621,7 +7621,7 @@ else {
 				</div>
 
 				<p>If the key is a modifier key, the keystroke MUST still be taken into account for the modifiers states. The following example describes a possible sequence of keys
-					to generate the Unicode character Q (Latin Capital Letter Q) on a PC/AT US keyboard using a US mapping:</p>
+					to generate the Unicode character Q (Latin Capital Letter Q) on a US keyboard using a US mapping:</p>
 
 				<div class="example">
 					<div class="example-title"></div>
@@ -7696,7 +7696,7 @@ else {
 					<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a> or
 					<a class="eventtype" href="#event-type-input"><code>input</code></a> events.
 					The following example uses the dead key <code class="key">'Dead'</code> (<code class="char">'\u0302'</code> Combining Circumflex 
-					Accent key) and <code class="key">'e'</code> (<code class="char">'\u0065'</code>, Latin Small Letter E key) on a PC/AT French 
+					Accent key) and <code class="key">'e'</code> (<code class="char">'\u0065'</code>, Latin Small Letter E key) on a French 
 					keyboard using a French mapping and without any modifier activated:</p>
 
 				<div class="example">
@@ -7762,45 +7762,39 @@ else {
 
 				<p><strong>This section is normative.</strong></p>
 
-				<p>To determine the appropriate key values for a key, the user agent needs to consider the current
-					function of the key (i.e., with modifiers), taking into account the
-					keyboard layout mapping in use, to determine if the key is represented by the set of defined key
-					values, if a corresponding Unicode character exists from which a key value MAY be derived, or if
-					a new key value MUST be defined.
-					The following algorithm determines
-					the <em>key value</em> and <em>character value</em> to use:</p>
+				<p>To determine the appropriate key values for a key, the user agent needs to
+					consider the current function of the key (including modifiers), taking
+					into account the current keyboard layout, when determining
+					the appropriate <em>key value</em> to use.
+					</p>
 
 				<ol class="algo" id="key-algorithm">
-					<li>If the primary current function of the key is to generate a character, then:
-						<ol class="algo">
-							<li>If there exists an appropriate character in the <a href="#keys-keyvalues">key values set</a>,
-								then the
-									<a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>
-								attribute MUST be a string consisting of the <em>key value</em> of that character.
-								</li>
-							<li>If there is no appropriate key value in the <a href="#keys-keyvalues">key values set</a>,
-								and there exists an appropriate
-									<a class="def" href="#glossary-unicode-code-point">Unicode code point</a>,
-								then the
-									<a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>
-								attribute MUST be a string consisting of the <em>char value</em> of that character.
-								</li>
-						</ol>
-					</li>
-					<li>If the primary current function of the key is to serve as a function key, then:
-						<ol class="algo">
-							<li>If there exists an appropriate key value in the <a href="#keys-keyvalues">key values set</a>,
-								then the
-									<a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>
-								attribute MUST be a string consisting of the <em>key value</em> of that character.</li>
-						</ol>
-					</li>
+					<li>If there exists an appropriate character in the <a href="#keys-keyvalues">key values set</a>,
+						then the
+							<a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>
+						attribute MUST be a string consisting of the <em>key value</em> of that character.
+						</li>
+					<li>If the key generates a printable character, 
+						and there exists an appropriate
+							<a class="def" href="#glossary-unicode-code-point">Unicode code point</a>,
+						then the
+							<a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>
+						attribute MUST be a string consisting of the <em>char value</em> of that character.
+						</li>
+					<li>If the key combination includes one or more modifier keys that result in the key
+						no longer producing a printable character (e.g., 'Control' + 'a'),
+						then the key value should be the printable key value that would have been 
+						produced if the key had been typed with the default keyboard layout
+						with no modifier keys except for 'Shift' and 'AltGr' applied.
+						</li>
+					<li>Otherwise, the special value <code>'Unidentified'</code> should be used.
+						</li>
 				</ol>
 
 				<div class="example">
 					<div class="example-title"></div>
 					<ul>
-						<li>On a PC/AT US keyboard with a right-handed single-hand Dvorak
+						<li>On a US keyboard with a right-handed single-hand Dvorak
 								<a class="def" href="#glossary-key-mapping">key mapping</a>,
 							the key labeled
 								<code class="glyph">'Q'</code>
@@ -7814,6 +7808,10 @@ else {
 							<abbr title="Number, Decimal Digit">Nd</abbr>), the
 								<a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>
 							attribute value for the unmodified key will be <code class="key">'5'</code>.
+							</li>
+						<li>On the same US Dvorak keyboard layout as the previous example,
+							pressing 'Control' and the key labeled <code class="glyph">'Q'</code>
+							will produce a key value of 'q'.
 							</li>
 						<li>On a French PC keyboard with a standard French mapping, the primary function of the
 								<code class="glyph">'^'</code>
