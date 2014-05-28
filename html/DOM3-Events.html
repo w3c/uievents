@@ -2791,14 +2791,28 @@ console.log("Exceptions? No problem");</pre>
 					href="#event-type-dblclick"><code>dblclick</code></a> event will be implementation-, device-, and platform-specific. This tolerance can aid users that have physical
 					disabilities like unsteady hands when these users interact with a pointing device.</p>
 
-				<p>Each implementation will determine the appropriate <a class="def" href="#glossary-hysteresis">hysteresis</a> tolerance, but in general SHOULD fire <a class="eventtype" href="#event-type-click"><code>click</code></a>
-					and <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> events when the event target of the associated <a class="eventtype"
-					href="#event-type-mousedown"><code>mousedown</code></a> and <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> events is the same element with no
-					<a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a> or <a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a>
-					events intervening, and SHOULD fire <a class="eventtype" href="#event-type-click"><code>click</code></a> and <a class="eventtype" href="#event-type-dblclick">
-					<code>dblclick</code></a> events on the nearest common ancestor when the event targets of the associated <a class="eventtype" href="#event-type-mousedown">
-					<code>mousedown</code></a> and <a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> events are different.</p>
+				<p>Each implementation will determine the appropriate <a class="def" href="#glossary-hysteresis">hysteresis</a>
+					tolerance, but in general SHOULD fire <a class="eventtype" href="#event-type-click"><code>click</code></a>
+					and <a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> events when the event target 
+					of the associated <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> and 
+					<a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> events is the same element with no
+					<a class="eventtype" href="#event-type-mouseout"><code>mouseout</code></a> or 
+					<a class="eventtype" href="#event-type-mouseleave"><code>mouseleave</code></a> events intervening, and SHOULD 
+					fire <a class="eventtype" href="#event-type-click"><code>click</code></a> and 
+					<a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a> events on the nearest common inclusive 
+					ancestor when the associated <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> and 
+					<a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> event targets are different.</p>
 
+				<div class="example">
+					<div class="example-title"></div>
+					<p>If a <a class="eventtype" href="#event-type-mousedown"><code>mousedown</code></a> event was targeted at an
+					HTML document's <a href="#glossary-body-element">body element</a>, and the corresponding 
+					<a class="eventtype" href="#event-type-mouseup"><code>mouseup</code></a> event was targeted at the 
+					<a href="#glossary-root-element">root element</a>, then the 
+					<a class="eventtype" href="#event-type-click"><code>click</code></a> event will be dispatched to the
+					<a href="#glossary-root-element">root element</a>, since it is the nearest common inclusive ancestor.</p>
+				</div>
+					
 				<p>If the <a class="def" href="#glossary-event-target">event target</a> (e.g. the target element) is removed from the DOM during the mouse events sequence, the remaining
 					events of the sequence MUST NOT be fired on that element.</p>
 
