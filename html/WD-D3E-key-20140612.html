@@ -1,0 +1,744 @@
+<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>DOM Level 3 KeyboardEvent key Values</title>
+	<style type="text/css">/* --- ISSUES/NOTES --- */
+div.issue-title, div.note-title {
+    padding-right:  1em;
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.issue-title { color: #e05252; }
+div.note-title { color: #2b2; }
+div.issue-title span, div.note-title span {
+    text-transform: uppercase;
+}
+div.note, div.issue {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.note > p:first-child, .issue > p:first-child { margin-top: 0 }
+.issue, .note {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+}
+div.issue, div.note {
+    padding: 1em 1.2em 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+span.note, span.issue { padding: .1em .5em .15em; }
+
+.issue {
+    border-color: #e05252;
+    background: #fbe9e9;
+}
+.note {
+    border-color: #52e052;
+    background: #e9fbe9;
+}
+
+
+</style><link rel="author" href="mailto:www-dom@w3.org" />
+	<link rel="help" href="http://www.w3.org/DOM/" />
+	<link rel="alternate stylesheet" type="text/css" media="screen" title="geek" href="geek.css" />
+	<link rel="stylesheet" type="text/css" href="spec-WD.css" />
+	<link rel="stylesheet" type="text/css" href="https://www.w3.org/StyleSheets/TR/w3c-tr.css" />
+	<link rel="stylesheet" type="text/css" href="override.css" />
+	
+	<script type="text/javascript">
+	var respecConfig = {
+		specStatus: "FPWD",
+		shortName:  "DOM-Level-3-Events-key",
+		editors: [
+			{
+				name: "Gary Kacmarcik", 
+				company: "Google, Inc.",
+				url: "mailto:garykac@google.com?subject=%5BD3E-key%5D%20Spec%20Feedback",
+				companyURL: "http://www.google.com",
+			},
+			{
+				name: "Travis Leithead", 
+				company: "Microsoft Corp.",
+				url: "mailto:travis.leithead@microsoft.com?subject=%5BD3E-key%5D%20Spec%20Feedback",
+				companyURL: "http://www.microsoft.com",
+			},
+		],
+		publishDate:  "2014-06-12",
+		edDraftURI: "https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/DOM3Events-key.html",
+		previousPublishDate: "2013-11-05",
+		previousMaturity: "WD",
+		noIDLIn:  true,
+		inlineCSS:  true,
+		//noRecTrack:  true,
+		wg: ["Web Applications Working Group"],
+		wgURI: ["http://www.w3.org/2008/webapps/"],
+		wgPublicList: "www-dom",
+		wgPatentURI: ["http://www.w3.org/2004/01/pp-impl/42538/status"],
+		maxTocLevel: 4
+	};
+	</script>
+<style type="text/css">/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
+
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
+    text-decoration:    none;
+}
+
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+cite .bibref {
+    font-style: normal;
+}
+
+code {
+    color:  #ff4500;
+}
+
+/* --- TOC --- */
+.toc a, .tof a {
+    text-decoration:    none;
+}
+
+a .secno, a .figno {
+    color:  #000;
+}
+
+ul.tof, ol.tof {
+    list-style: none outside none;
+}
+
+.caption {
+    margin-top: 0.5em;
+    font-style:   italic;
+}
+
+/* --- TABLE --- */
+table.simple {
+    border-spacing: 0;
+    border-collapse:    collapse;
+    border-bottom:  3px solid #005a9c;
+}
+
+.simple th {
+    background: #005a9c;
+    color:  #fff;
+    padding:    3px 5px;
+    text-align: left;
+}
+
+.simple th[scope="row"] {
+    background: inherit;
+    color:  inherit;
+    border-top: 1px solid #ddd;
+}
+
+.simple td {
+    padding:    3px 10px;
+    border-top: 1px solid #ddd;
+}
+
+.simple tr:nth-child(even) {
+    background: #f0f6ff;
+}
+
+/* --- DL --- */
+.section dd > p:first-child {
+    margin-top: 0;
+}
+
+.section dd > p:last-child {
+    margin-bottom: 0;
+}
+
+.section dd {
+    margin-bottom:  1em;
+}
+
+.section dl.attrs dd, .section dl.eldef dd {
+    margin-bottom:  0;
+}
+
+@media print {
+    .removeOnSave {
+        display: none;
+    }
+}
+</style><link type="text/css" rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/W3C-WD" />
+<!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]-->
+</head>
+<body class="h-entry" id="respecDocument"><div class="head" id="respecHeader">
+  <p>
+    
+      <a href="http://www.w3.org/"><img width="72" height="48" src="https://www.w3.org/Icons/w3c_home" alt="W3C" /></a>
+    
+  </p>
+  <h1 class="title p-name" id="title">DOM Level 3 KeyboardEvent key Values</h1>
+  
+  <h2 id="w3c-first-public-working-draft-12-june-2014"><abbr title="World Wide Web Consortium">W3C</abbr> First Public Working Draft <span class="dt-published time">12 June 2014</span></h2>
+  <dl>
+    
+      <dt>This version:</dt>
+      <dd><a class="u-url" href="http://www.w3.org/TR/2014/WD-DOM-Level-3-Events-key-20140612/">http://www.w3.org/TR/2014/WD-DOM-Level-3-Events-key-20140612/</a></dd>
+      <dt>Latest published version:</dt>
+      <dd><a href="http://www.w3.org/TR/DOM-Level-3-Events-key/">http://www.w3.org/TR/DOM-Level-3-Events-key/</a></dd>
+    
+    
+      <dt>Latest editor's draft:</dt>
+      <dd><a href="https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/DOM3Events-key.html">https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/DOM3Events-key.html</a></dd>
+    
+    
+    
+    
+    
+    
+    
+    <dt>Editors:</dt>
+    <dd class="p-author h-card vcard"><span><a class="u-url url p-name fn" href="mailto:garykac@google.com?subject=%5BD3E-key%5D%20Spec%20Feedback">Gary Kacmarcik</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://www.google.com">Google, Inc.</a></span>
+</dd>
+<dd class="p-author h-card vcard"><span><a class="u-url url p-name fn" href="mailto:travis.leithead@microsoft.com?subject=%5BD3E-key%5D%20Spec%20Feedback">Travis Leithead</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://www.microsoft.com">Microsoft Corp.</a></span>
+</dd>
+
+    
+    
+  </dl>
+  
+  
+  
+  
+    
+      <p class="copyright">
+        <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> ©
+        2014
+        
+        <a href="http://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup>
+        (<a href="http://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>,
+        <a href="http://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>,
+        <a href="http://www.keio.ac.jp/">Keio</a>, <a href="http://ev.buaa.edu.cn/">Beihang</a>), 
+        
+        All Rights Reserved.
+        
+        <abbr title="World Wide Web Consortium">W3C</abbr> <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
+        <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and
+        
+          <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a>
+        
+        rules apply.
+      </p>
+    
+  
+  <hr />
+</div>
+	
+<!-- Section: Abstract ========================================================-->
+
+	<div id="abstract" class="introductory section"><h2 id="h2_abstract">Abstract</h2>
+		<p>This specification defines the values for the 
+			<code>KeyboardEvent.key</code> attribute, which is defined as part of the
+			Document Object Model (DOM) Level 3 Events Specification [<a href="#references-D3E">DOM3 Events</a>].
+			The <code>key</code> attribute contains information about the character
+			generated by the key event.
+			</p>
+	</div><div id="sotd" class="introductory section"><h2 id="h2_sotd">Status of This Document</h2>
+  
+    
+      
+        <p>
+          <em>This section describes the status of this document at the time of its publication.
+          Other documents may supersede this document. A list of current <abbr title="World Wide Web Consortium">W3C</abbr> publications and the
+          latest revision of this technical report can be found in the <a href="http://www.w3.org/TR/"><abbr title="World Wide Web Consortium">W3C</abbr> technical reports index</a> at
+          http://www.w3.org/TR/.</em>
+        </p>
+        
+		<p>This document is a Working Draft of the
+			<em>DOM Level 3 KeyboardEvent <code>key</code> Values</em>
+			specification. 
+			It is expected that this specification will progress to
+			<abbr title="World Wide Web Consortium">W3C</abbr> 
+			Recommendation status after review and refinement.
+			</p>
+
+		<p id="this-document-is-produced-by-the-web-app">
+			This document is produced by the
+				<a href="http://www.w3.org/2008/webapps/">Web Applications WG</a>,
+			part of the
+				<a href="http://www.w3.org/2006/rwc/Activity">Rich Web Clients Activity</a>
+			in the <abbr title="World Wide Web Consortium">W3C</abbr>
+				<a href="http://www.w3.org/Interaction/">Interaction Domain</a>.
+			It is expected that this document will progress along the <abbr title="World Wide Web Consortium">W3C</abbr>'s Recommendation track.
+			Publication as a Working Draft does not imply endorsement by the <abbr title="World Wide Web Consortium">W3C</abbr> Membership.
+			This is a draft document and <em class="rfc2119" title="MAY">MAY</em> be updated, replaced or obsoleted by other
+			documents at any time.
+			It is inappropriate to cite this document as other than work in progress.
+			</p>
+
+		<p id="latest-editors-draft">
+			<strong>You can find the latest
+				<a href="https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/DOM3Events-key.html">Editor's Draft</a>
+			of this document in the
+				<a href="https://dvcs.w3.org/hg/"><abbr title="World Wide Web Consortium">W3C</abbr>'s Mercurial repository</a>,
+			which is updated on a regular basis.</strong>
+			</p>
+
+		<p id="unstable">
+			<strong class="redNote">Implementers should be aware that this document is not stable.</strong>
+			Implementers who are not taking part in the discussions are likely to find the
+			specification changing out from under them in incompatible ways.
+			Vendors interested in implementing this document before it eventually reaches
+			the Candidate Recommendation stage should join the aforementioned mailing lists
+			and take part in the discussions.
+			</p>
+	
+        <p>
+          This document was published by the <a href="http://www.w3.org/2008/webapps/">Web Applications Working Group</a> as a First Public Working Draft.
+          
+            This document is intended to become a <abbr title="World Wide Web Consortium">W3C</abbr> Recommendation.
+          
+          
+            If you wish to make comments regarding this document, please send them to 
+            <a href="mailto:www-dom@w3.org">www-dom@w3.org</a> 
+            (<a href="mailto:www-dom-request@w3.org?subject=subscribe">subscribe</a>,
+            <a href="http://lists.w3.org/Archives/Public/www-dom/">archives</a>).
+          
+          
+          
+          
+            All comments are welcome.
+          
+        </p>
+        
+        
+          <p>
+            Publication as a First Public Working Draft does not imply endorsement by the <abbr title="World Wide Web Consortium">W3C</abbr>
+            Membership. This is a draft document and may be updated, replaced or obsoleted by other
+            documents at any time. It is inappropriate to cite this document as other than work in
+            progress.
+          </p>
+        
+        
+        
+        <p>
+          
+            This document was produced by a group operating under the 
+            <a id="sotd_patent" href="http://www.w3.org/Consortium/Patent-Policy-20040205/">5 February 2004 <abbr title="World Wide Web Consortium">W3C</abbr> Patent
+            Policy</a>.
+          
+          
+          
+            
+              <abbr title="World Wide Web Consortium">W3C</abbr> maintains a <a href="http://www.w3.org/2004/01/pp-impl/42538/status" rel="disclosure">public list of any patent
+              disclosures</a> 
+            
+            made in connection with the deliverables of the group; that page also includes
+            instructions for disclosing a patent. An individual who has actual knowledge of a patent
+            which the individual believes contains
+            <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential
+            Claim(s)</a> must disclose the information in accordance with
+            <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section
+            6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
+          
+          
+        </p>
+        
+      
+    
+  
+</div><div id="toc" class="section"><h2 class="introductory" id="h2_toc">Table of Contents</h2><ul class="toc" id="respecContents"><li class="tocline"><a href="#key-value-tables" class="tocxref"><span class="secno">1. </span>Keyboard Event <code>key</code> Value Tables</a><ul class="toc"><li class="tocline"><a href="#keys-special" class="tocxref"><span class="secno">1.1 </span>Special Key Values</a></li><li class="tocline"><a href="#keys-modifier" class="tocxref"><span class="secno">1.2 </span>Modifier Keys</a></li><li class="tocline"><a href="#keys-whitespace" class="tocxref"><span class="secno">1.3 </span>Whitespace Keys</a></li><li class="tocline"><a href="#keys-navigation" class="tocxref"><span class="secno">1.4 </span>Navigation Keys</a></li><li class="tocline"><a href="#keys-editing" class="tocxref"><span class="secno">1.5 </span>Editing Keys</a></li><li class="tocline"><a href="#keys-ui" class="tocxref"><span class="secno">1.6 </span>UI Keys</a></li><li class="tocline"><a href="#keys-device" class="tocxref"><span class="secno">1.7 </span>Device Keys</a></li><li class="tocline"><a href="#keys-composition" class="tocxref"><span class="secno">1.8 </span>IME and Composition Keys</a></li><li class="tocline"><a href="#keys-function" class="tocxref"><span class="secno">1.9 </span>General-Purpose Function Keys</a></li><li class="tocline"><a href="#keys-multimedia" class="tocxref"><span class="secno">1.10 </span>Multimedia Keys</a></li><li class="tocline"><a href="#keys-apps" class="tocxref"><span class="secno">1.11 </span>Application Keys</a></li><li class="tocline"><a href="#keys-browser" class="tocxref"><span class="secno">1.12 </span>Browser Keys</a></li><li class="tocline"><a href="#keys-media-controller" class="tocxref"><span class="secno">1.13 </span>Media Controller Keys</a></li></ul></li><li class="tocline"><a href="#acknowledgements-contributors" class="tocxref"><span class="secno">2. </span>Acknowledgements</a></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">3. </span>References</a><ul class="toc"><li class="tocline"><a href="#references-References-Normative" class="tocxref"><span class="secno">3.1 </span>Normative References</a></li><li class="tocline"><a href="#references-References-Informative" class="tocxref"><span class="secno">3.2 </span>Informative References</a></li></ul></li></ul></div>  
+<!-- abstract -->
+
+
+	
+<!-- Section: SOTD ========================================================-->
+
+	  
+<!-- sotd -->
+
+
+	
+<!-- Section 6: Keyboard and key values ========================================================-->
+
+
+	<div id="key-value-tables" class="section">
+		
+<!--OddPage-->
+<h2 id="h2_key-value-tables"><span class="secno">1. </span>Keyboard Event <code>key</code> Value Tables</h2>
+
+		<p>This section defines a list of <code>key</code> values which implementations <em class="rfc2119" title="MUST">MUST</em> support, at a minimum, in addition to support for the full range of Unicode [<a href="#references-Unicode">Unicode</a>]
+			codepoints.
+			The <a href="http://www.w3.org/TR/DOM-Level-3-Events/#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attribute of an event <em class="rfc2119" title="MUST">MUST</em> always contain one of these control key
+			or character values (even if the value is <a href="#key-Unidentified"><code class="key">'Unidentified'</code></a>). If the key represents one of the set of printable
+			control characters which has a Unicode character entry, such as the tab key, the <a href="http://www.w3.org/TR/DOM-Level-3-Events/#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> attribute
+			<em class="rfc2119" title="MUST">MUST</em> have the key value (e.g., <a href="#key-Tab"><code class="key">'Tab'</code></a>).</p>
+
+		<p>Implementations that are unable to identify a key <em class="rfc2119" title="MUST">MUST</em> use the key value <a href="#key-Unidentified"><code class="key">'Unidentified'</code></a>.</p>
+
+		<p class="warning"><strong>Warning!</strong> Conforming implementations <em class="rfc2119" title="MUST">MUST</em> only use <a href="#key-Unidentified"><code class="key">'Unidentified'</code></a>
+			as a key value when there is no way for the implementation to detect the key value.
+			Exposing only this value <em class="rfc2119" title="MUST NOT">MUST NOT</em> indicate a conforming implementation.</p>
+
+		<p>The <a class="def" href="http://www.w3.org/TR/DOM-Level-3-Events/#glossary-key-value">key values</a> defined in this specification are based in part on the sets of keycodes from
+			the <code>java.awt.event.KeyEvent</code> interface of the Java Platform, Standard Edition 6 API Specification
+				[<cite><a class="informative" href="#references-KeyEvent">KeyEvent for Java</a></cite>],
+			and the <code>System.Windows.Forms.Keys</code> key enumeration of the Microsoft .NET Framework 4.0 Class Library
+				[<cite><a class="informative" href="#references-Keys">Keys enumeration for .Net</a></cite>].
+			</p>
+
+		<div class="note"><div class="note-title" id="h_note_1"><span>Note</span></div><p class=""><strong>Note:</strong> The keys on the numeric keypad (e.g., the keypad <code>'1'</code> key) do not generate distinct <code>key</code> values
+			from their non-keypad counterparts (e.g., the <code>'1'</code> key in the main part of the keyboard).
+			The <a href="http://www.w3.org/TR/DOM-Level-3-Events/#widl-KeyboardEvent-location"><code>KeyboardEvent.location</code></a> attribute can be used to determine if a key originated from the numeric keypad.</p></div>
+
+		<div class="note"><div class="note-title" id="h_note_2"><span>Note</span></div><div class="">
+			<p><strong>Note:</strong> There are special internationalization considerations for ECMAScript escaped characters.  CharMod conformance [<cite><a class="normative" href="#references-charmod">CharMod</a></cite>] <a href="http://www.w3.org/TR/charmod/#C045">expects</a> the use of code points rather than surrogate pairs in escapes.
+				ECMAScript escaped characters use surrogate pairs for characters outside the Basic Multilingual Plane (<code class="char">&quot;\uD84E\uDDC2&quot;</code> for <code class="glyph">'𣧂'</code>,
+				a Chinese character meaning <q>untidy</q>), rather than C-style fixed-length characters (<code class="char">&quot;\U000239c2&quot;</code> for <code class="glyph">'𣧂'</code>) or delimited escapes
+				such as Numeric Character References (<code>&quot;&amp;#x239C2;&quot;</code>). Characters escaped in this manner:</p>
+
+			<ul>
+				<li>are based on UTF-16 encoding, in that it uses surrogate pairs for values outside the Basic Multilingual Plane</li>
+				<li>are expressed using surrogate pairs, which makes it difficult for a human to look up the value, and might require unnecessary overhead for machine processing
+					— this can also cause problems with software written in the incorrect belief that Unicode is a 16-bit character set</li>
+				<li>are problematic for characters on supplementary planes (emoji, or Chinese characters on plane 2), some of which are expected to be input using a keyboard</li>
+				<li>are not be suitable for Java or C, which use different escaping mechanisms (could be solved with a normalizing method)</li>
+			</ul>
+		</div></div>
+
+		<p>The following sub-sections contain the normative list of case-sensitive key values, their character values (where applicable), an informative description of typical usage,
+			and an informative categorization.  A conforming implementation of the <a href="http://www.w3.org/TR/DOM-Level-3-Events/#interface-KeyboardEvent">KeyboardEvent</a> interface <em class="rfc2119" title="MUST">MUST</em> support at least this set
+			of values for use in the <a href="http://www.w3.org/TR/DOM-Level-3-Events/#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a>
+			attributes, though not all values <em class="rfc2119" title="MAY">MAY</em> be available on all platforms or devices.</p>
+		
+		<p>Future versions of this specification <em class="rfc2119" title="MAY">MAY</em> include key values not included here, which have become common since the publication of this specification.</p>
+
+		<div id="keys-special" class="section">
+			<h3 id="h3_keys-special"><span class="secno">1.1 </span>Special Key Values</h3>
+
+			
+<!-- Key tables. Note that all keys must be defined within a <div class="key-table"> -->
+
+			<div id="key-table-general" class="key-table"><table class="data-table key-value-table"><tbody><tr><th width="20%">Key</th><th width="80%">Typical Usage (Informative)</th></tr><tr><td class="key-table-key"><code id="key-Unidentified" class="key">'Unidentified'</code></td><td>This key value is used when an implementation is unable to identify another key value, due to either hardware, platform, or software constraints.</td></tr></tbody></table></div>
+		</div>
+<!-- keys-general -->
+
+
+		<div id="keys-modifier" class="section">
+			<h3 id="h3_keys-modifier"><span class="secno">1.2 </span>Modifier Keys</h3>
+			<div id="key-table-modifier" class="key-table"><table class="data-table key-value-table"><tbody><tr><th width="20%">Key</th><th width="80%">Typical Usage (Informative)</th></tr><tr><td class="key-table-key"><code id="key-Accel" class="key">'Accel'</code></td><td>This is a virtual modifier key that is equivalent to whichever key the current OS uses
+					as the menu &quot;accelerator&quot; key. This virtual modifier key is never set returned in a key event, and
+					is only valid for use with the
+						<a href="http://www.w3.org/TR/DOM-Level-3-Events/#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
+					method. This virtual key is always set in conjunction with one of the other modifier keys in this list.
+					<p>For Windows, this virtual key is equivalent to the <code>'Control'</code> key.
+						</p>
+					<p>For Mac OS, this key is typically equivalent to the <code>'Meta'</code> key.
+						Although note that the <code>'Meta'</code> key on other platforms is not necessarily associated
+						with the <code>'Accel'</code>.
+						</p>
+					</td></tr><tr><td class="key-table-key"><code id="key-Alt" class="key">'Alt'</code></td><td>The Alternative (Alt, Option, Menu) key.  Enable alternate modifier function for interpreting concurrent or subsequent keyboard input.
+					This key value is also used for the Apple <code>'Option'</code> key.
+					</td></tr><tr><td class="key-table-key"><code id="key-AltGraph" class="key">'AltGraph'</code></td><td>The Alternate Graphics (AltGr or AltGraph) key.
+					This key is used enable the ISO Level 3 shift modifier (the standard <code>'Shift'</code> key is the level 2 modifier).
+					</td></tr><tr><td class="key-table-key"><code id="key-CapsLock" class="key">'CapsLock'</code></td><td>The Caps Lock (Capital) key.
+					Toggle capital character lock function for interpreting subsequent keyboard input event.
+					</td></tr><tr><td class="key-table-key"><code id="key-Control" class="key">'Control'</code></td><td>The Control (Ctrl) key, to enable control modifier function for interpreting concurrent or subsequent keyboard input.</td></tr><tr><td class="key-table-key"><code id="key-Fn" class="key">'Fn'</code></td><td>The Function switch (Fn) key.
+					Activating this key simultaneously with another key changes that key's value to an alternate character or function.
+					This key is often handled directly in the keyboard hardware and does not usually generate key events.
+					</td></tr><tr><td class="key-table-key"><code id="key-FnLock" class="key">'FnLock'</code></td><td>The Function-Lock (FnLock, F-Lock) key. 
+					Activating this key switches the mode of the keyboard to changes some keys' values to an alternate character or function.
+					This key is often handled directly in the keyboard hardware and does not usually generate key events.
+					</td></tr><tr><td class="key-table-key"><code id="key-Hyper" class="key">'Hyper'</code></td><td>The Hyper key.</td></tr><tr><td class="key-table-key"><code id="key-Meta" class="key">'Meta'</code></td><td>The Meta key, to enable meta modifier function for interpreting concurrent or subsequent keyboard input.
+					This key value is also used for the Apple <code>'Command'</code> (<code class="glyph">'⌘'</code>) key.
+					</td></tr><tr><td class="key-table-key"><code id="key-NumLock" class="key">'NumLock'</code></td><td>The Number Lock key, to toggle numer-pad mode function for interpreting subsequent keyboard input.</td></tr><tr><td class="key-table-key"><code id="key-OS" class="key">'OS'</code></td><td>The operating system key (e.g. the <q>Windows Logo</q> key).</td></tr><tr><td class="key-table-key"><code id="key-ScrollLock" class="key">'ScrollLock'</code></td><td>The Scroll Lock key, to toggle between scrolling and cursor movement modes.</td></tr><tr><td class="key-table-key"><code id="key-Shift" class="key">'Shift'</code></td><td>The Shift key, to enable shift modifier function for interpreting concurrent or subsequent keyboard input.</td></tr><tr><td class="key-table-key"><code id="key-Super" class="key">'Super'</code></td><td>The Super key.</td></tr><tr><td class="key-table-key"><code id="key-Symbol" class="key">'Symbol'</code></td><td>The Symbol modifier key (used on some virtual keyboards).</td></tr><tr><td class="key-table-key"><code id="key-SymbolLock" class="key">'SymbolLock'</code></td><td>The Symbol Lock key.</td></tr></tbody></table></div>
+		</div>
+<!-- keys-modifier -->
+
+
+		<div id="keys-whitespace" class="section">
+			<h3 id="h3_keys-whitespace"><span class="secno">1.3 </span>Whitespace Keys</h3>
+			<div id="key-table-whitespace" class="key-table"><table class="data-table key-value-table"><tbody><tr><th width="20%">Key</th><th width="80%">Typical Usage (Informative)</th></tr><tr><td class="key-table-key"><code id="key-Enter" class="key">'Enter'</code></td><td>The Enter key, to activate current selection or accept current input.
+					This key value is also used for the <code class="key">'Return'</code> (Macintosh numpad) key.
+					</td></tr><tr><td class="key-table-key"><code id="key-Separator" class="key">'Separator'</code></td><td>The Separator key, for context-sensitive text separators.</td></tr><tr><td class="key-table-key"><code id="key-Tab" class="key">'Tab'</code></td><td>The Horizontal Tabulation (Tab) key.</td></tr></tbody></table></div>
+			<div class="note"><div class="note-title" id="h_note_3"><span>Note</span></div><p class=""><strong>Note:</strong> The space or spacebar key is encoded as <code class="glyph">' '</code>.
+				</p></div>
+		</div>
+<!-- keys-whitespace -->
+
+
+		<div id="keys-navigation" class="section">
+			<h3 id="h3_keys-navigation"><span class="secno">1.4 </span>Navigation Keys</h3>
+			<div id="key-table-navigation" class="key-table"><table class="data-table key-value-table"><tbody><tr><th width="20%">Key</th><th width="80%">Typical Usage (Informative)</th></tr><tr><td class="key-table-key"><code id="key-ArrowDown" class="key">'ArrowDown'</code></td><td>The down arrow key, to navigate or traverse downward.</td></tr><tr><td class="key-table-key"><code id="key-ArrowLeft" class="key">'ArrowLeft'</code></td><td>The left arrow key, to navigate or traverse leftward.</td></tr><tr><td class="key-table-key"><code id="key-ArrowRight" class="key">'ArrowRight'</code></td><td>The right arrow key, to navigate or traverse rightward.</td></tr><tr><td class="key-table-key"><code id="key-ArrowUp" class="key">'ArrowUp'</code></td><td>The up arrow key, to navigate or traverse upward.</td></tr><tr><td class="key-table-key"><code id="key-End" class="key">'End'</code></td><td>The End key, used with keyboard entry to go to the end of content.</td></tr><tr><td class="key-table-key"><code id="key-Home" class="key">'Home'</code></td><td>The Home key, used with keyboard entry, to go to start of content.</td></tr><tr><td class="key-table-key"><code id="key-PageDown" class="key">'PageDown'</code></td><td>The Page Down key, to scroll down or display next page of content.</td></tr><tr><td class="key-table-key"><code id="key-PageUp" class="key">'PageUp'</code></td><td>The Page Up key, to scroll up or display previous page of content.</td></tr></tbody></table></div>
+		</div>
+<!-- keys-navigation -->
+
+
+		<div id="keys-editing" class="section">
+			<h3 id="h3_keys-editing"><span class="secno">1.5 </span>Editing Keys</h3>
+			<div id="key-table-editing" class="key-table"><table class="data-table key-value-table"><tbody><tr><th width="20%">Key</th><th width="80%">Typical Usage (Informative)</th></tr><tr><td class="key-table-key"><code id="key-Backspace" class="key">'Backspace'</code></td><td>The Backspace key.
+					This key value is also used for the key labeled <code>'delete'</code> on MacOS keyboards.
+					</td></tr><tr><td class="key-table-key"><code id="key-Clear" class="key">'Clear'</code></td><td>The Clear key, for removing current selected input.</td></tr><tr><td class="key-table-key"><code id="key-Copy" class="key">'Copy'</code></td><td>The Copy key.</td></tr><tr><td class="key-table-key"><code id="key-CrSel" class="key">'CrSel'</code></td><td>The Cursor Select (Crsel) key.</td></tr><tr><td class="key-table-key"><code id="key-Cut" class="key">'Cut'</code></td><td>The Cut key.</td></tr><tr><td class="key-table-key"><code id="key-Delete" class="key">'Delete'</code></td><td>The Delete (Del) Key.
+					This key value is also used for the key labeled <code>'delete'</code> on MacOS keyboards when modified by the <code class="key">'Fn'</code> key.
+					</td></tr><tr><td class="key-table-key"><code id="key-EraseEof" class="key">'EraseEof'</code></td><td>The Erase to End of Field key.  This key deletes all characters from the current cursor position to the end of the current field.</td></tr><tr><td class="key-table-key"><code id="key-ExSel" class="key">'ExSel'</code></td><td>The Extend Selection (Exsel) key.</td></tr><tr><td class="key-table-key"><code id="key-Insert" class="key">'Insert'</code></td><td>The Insert (Ins) key, to toggle between text modes for insertion or overtyping.</td></tr><tr><td class="key-table-key"><code id="key-Paste" class="key">'Paste'</code></td><td>The Paste key.</td></tr><tr><td class="key-table-key"><code id="key-Redo" class="key">'Redo'</code></td><td>The Redo key.</td></tr><tr><td class="key-table-key"><code id="key-Undo" class="key">'Undo'</code></td><td>The Undo key.</td></tr></tbody></table></div>
+		</div>
+<!-- keys-editing -->
+
+
+		<div id="keys-ui" class="section">
+			<h3 id="h3_keys-ui"><span class="secno">1.6 </span>UI Keys</h3>
+			<div id="key-table-ui" class="key-table"><table class="data-table key-value-table"><tbody><tr><th width="20%">Key</th><th width="80%">Typical Usage (Informative)</th></tr><tr><td class="key-table-key"><code id="key-Accept" class="key">'Accept'</code></td><td>The Accept (Commit, OK) key. Accept current option or input method sequence conversion.</td></tr><tr><td class="key-table-key"><code id="key-Again" class="key">'Again'</code></td><td>The Again key, to redo or repeat an action.</td></tr><tr><td class="key-table-key"><code id="key-Attn" class="key">'Attn'</code></td><td>The Attention (Attn) key.</td></tr><tr><td class="key-table-key"><code id="key-Cancel" class="key">'Cancel'</code></td><td>The Cancel key.</td></tr><tr><td class="key-table-key"><code id="key-ContextMenu" class="key">'ContextMenu'</code></td><td>Show the application's context menu.
+					This key is commonly found between the right <code>'OS'</code> key and the right <code>'Control'</code> key.
+					</td></tr><tr><td class="key-table-key"><code id="key-Escape" class="key">'Escape'</code></td><td>The Escape (Esc) key, to initiate an escape sequence.</td></tr><tr><td class="key-table-key"><code id="key-Execute" class="key">'Execute'</code></td><td>The Execute key.</td></tr><tr><td class="key-table-key"><code id="key-Find" class="key">'Find'</code></td><td>The Find key.</td></tr><tr><td class="key-table-key"><code id="key-Help" class="key">'Help'</code></td><td>Toggle display of help information.</td></tr><tr><td class="key-table-key"><code id="key-Pause" class="key">'Pause'</code></td><td>Pause the current state or application (as appropriate).
+					<div class="note"><div class="note-title" id="h_note_4"><span>Note</span></div><p class=""><strong>Note:</strong> Do not use this value for the pause button on media controllers. Use <code>'MediaPause'</code> instead.</p></div>
+					</td></tr><tr><td class="key-table-key"><code id="key-Play" class="key">'Play'</code></td><td>Play or resume the current state or application (as appropriate).
+					<div class="note"><div class="note-title" id="h_note_5"><span>Note</span></div><p class=""><strong>Note:</strong> Do not use this value for the play button on media controllers. Use <code>'MediaPlay'</code> instead.</p></div>
+					</td></tr><tr><td class="key-table-key"><code id="key-Props" class="key">'Props'</code></td><td>The properties (Props) key.</td></tr><tr><td class="key-table-key"><code id="key-Select" class="key">'Select'</code></td><td>The Select key.</td></tr><tr><td class="key-table-key"><code id="key-ZoomIn" class="key">'ZoomIn'</code></td><td>The ZoomIn key.</td></tr><tr><td class="key-table-key"><code id="key-ZoomOut" class="key">'ZoomOut'</code></td><td>The ZoomOut key.</td></tr></tbody></table></div>
+		</div>
+<!-- keys-ui -->
+
+
+		<div id="keys-device" class="section">
+			<h3 id="h3_keys-device"><span class="secno">1.7 </span>Device Keys</h3>
+			<div id="key-table-device" class="key-table"><table class="data-table key-value-table"><tbody><tr><th width="20%">Key</th><th width="80%">Typical Usage (Informative)</th></tr><tr><td class="key-table-key"><code id="key-BrightnessDown" class="key">'BrightnessDown'</code></td><td>The Brightness Down key. Typically controls the display brightness.</td></tr><tr><td class="key-table-key"><code id="key-BrightnessUp" class="key">'BrightnessUp'</code></td><td>The Brightness Up key. Typically controls the display brightness.</td></tr><tr><td class="key-table-key"><code id="key-Camera" class="key">'Camera'</code></td><td>The Camera key.</td></tr><tr><td class="key-table-key"><code id="key-Eject" class="key">'Eject'</code></td><td>Toggle removable media to eject (open) and insert (close) state.</td></tr><tr><td class="key-table-key"><code id="key-LogOff" class="key">'LogOff'</code></td><td>The LogOff key.</td></tr><tr><td class="key-table-key"><code id="key-Power" class="key">'Power'</code></td><td>Toggle power state.
+					<div class="note"><div class="note-title" id="h_note_6"><span>Note</span></div><p class=""><strong>Note:</strong> Some devices might not expose this key to the operating environment.</p></div>
+					</td></tr><tr><td class="key-table-key"><code id="key-PowerOff" class="key">'PowerOff'</code></td><td>The PowerOff key. Sometime called &quot;PowerDown&quot;.</td></tr><tr><td class="key-table-key"><code id="key-PrintScreen" class="key">'PrintScreen'</code></td><td>The Print Screen (PrintScrn, SnapShot) key, to initiate print-screen function.</td></tr><tr><td class="key-table-key"><code id="key-Hibernate" class="key">'Hibernate'</code></td><td>The Hibernate key.
+					This key saves the current state of the computer to disk so that it can be restored. The computer will then shutdown.
+					</td></tr><tr><td class="key-table-key"><code id="key-Standby" class="key">'Standby'</code></td><td>The Standby key.
+					This key turns off the display and places the computer into a low-power mode without completely shutting down.
+					It is sometimes called the &quot;Suspend&quot; or &quot;Sleep&quot; key.
+					</td></tr><tr><td class="key-table-key"><code id="key-WakeUp" class="key">'WakeUp'</code></td><td>The WakeUp key.</td></tr></tbody></table></div>
+		</div>
+<!-- keys-device -->
+
+
+		<div id="keys-composition" class="section">
+			<h3 id="h3_keys-composition"><span class="secno">1.8 </span>IME and Composition Keys</h3>
+			<div id="key-table-composition" class="key-table"><table class="data-table key-value-table"><tbody><tr><th width="20%">Key</th><th width="80%">Typical Usage (Informative)</th></tr><tr><td class="key-table-key"><code id="key-AllCandidates" class="key">'AllCandidates'</code></td><td>The All Candidates key, to initate the multi-candidate mode.</td></tr><tr><td class="key-table-key"><code id="key-Alphanumeric" class="key">'Alphanumeric'</code></td><td>The Alphanumeric key.</td></tr><tr><td class="key-table-key"><code id="key-CodeInput" class="key">'CodeInput'</code></td><td>The Code Input key, to initiate the Code Input mode to allow characters to be entered by their code points.</td></tr><tr><td class="key-table-key"><code id="key-Compose" class="key">'Compose'</code></td><td>The Compose key, also known as <em>Multi_key</em> on the X Window System.  This key acts in a manner similar to a
+					dead key, triggering a mode where subsequent key presses are combined to produce a different character.
+					</td></tr><tr><td class="key-table-key"><code id="key-Convert" class="key">'Convert'</code></td><td>The Convert key, to convert the current input method sequence.</td></tr><tr><td class="key-table-key"><code id="key-Dead" class="key">'Dead'</code></td><td>A dead key combining key. It may be any combining key from any keyboard layout. For example, on a
+					PC/AT French keyboard, using a French mapping and without any modifier activiated, this is the key value
+					<code>'\u0302'</code> COMBINING CIRCUMFLEX ACCENT. In another layout this might be a different unicode combining key.
+					For applications that need to differentiate between specific combining characters, the associated compositionupdate 
+					event's data attribute provides the specific key value.</td></tr><tr><td class="key-table-key"><code id="key-FinalMode" class="key">'FinalMode'</code></td><td>The Final Mode (Final) key used on some Asian keyboards, to enable the final mode for IMEs.</td></tr><tr><td class="key-table-key"><code id="key-GroupFirst" class="key">'GroupFirst'</code></td><td>Switch to the first character group. (ISO/IEC 9995)</td></tr><tr><td class="key-table-key"><code id="key-GroupLast" class="key">'GroupLast'</code></td><td>Switch to the last character group. (ISO/IEC 9995)</td></tr><tr><td class="key-table-key"><code id="key-GroupNext" class="key">'GroupNext'</code></td><td>Switch to the next character group. (ISO/IEC 9995)</td></tr><tr><td class="key-table-key"><code id="key-GroupPrevious" class="key">'GroupPrevious'</code></td><td>Switch to the previous character group. (ISO/IEC 9995)</td></tr><tr><td class="key-table-key"><code id="key-ModeChange" class="key">'ModeChange'</code></td><td>The Mode Change key, to toggle between or cycle through input modes of IMEs.</td></tr><tr><td class="key-table-key"><code id="key-NextCandidate" class="key">'NextCandidate'</code></td><td>The Next Candidate function key.</td></tr><tr><td class="key-table-key"><code id="key-NonConvert" class="key">'NonConvert'</code></td><td>The NonConvert (Don't Convert) key, to accept current input method sequence without conversion in IMEs.</td></tr><tr><td class="key-table-key"><code id="key-PreviousCandidate" class="key">'PreviousCandidate'</code></td><td>The Previous Candidate function key.</td></tr><tr><td class="key-table-key"><code id="key-Process" class="key">'Process'</code></td><td>The Process key.</td></tr><tr><td class="key-table-key"><code id="key-SingleCandidate" class="key">'SingleCandidate'</code></td><td>The Single Candidate function key.</td></tr></tbody></table></div>
+
+			<p>Keys specific to Korean keyboards</p>
+			<div id="key-table-ime-korean" class="key-table"><table class="data-table key-value-table"><tbody><tr><th width="20%">Key</th><th width="80%">Typical Usage (Informative)</th></tr><tr><td class="key-table-key"><code id="key-HangulMode" class="key">'HangulMode'</code></td><td>The Hangul (Korean characters) Mode key, to toggle between Hangul and English modes.</td></tr><tr><td class="key-table-key"><code id="key-HanjaMode" class="key">'HanjaMode'</code></td><td>The Hanja (Korean characters) Mode key.</td></tr><tr><td class="key-table-key"><code id="key-JunjaMode" class="key">'JunjaMode'</code></td><td>The Junja (Korean characters) Mode key.</td></tr></tbody></table></div>
+
+			<p>Keys specific to Japanese keyboards</p>
+			<div id="key-table-ime-japanese" class="key-table"><table class="data-table key-value-table"><tbody><tr><th width="20%">Key</th><th width="80%">Typical Usage (Informative)</th></tr><tr><td class="key-table-key"><code id="key-Eisu" class="key">'Eisu'</code></td><td>The Eisu key. This key may close the IME, but it's purpose is defined by the current IME.</td></tr><tr><td class="key-table-key"><code id="key-Hankaku" class="key">'Hankaku'</code></td><td>The (Half-Width) Characters key.</td></tr><tr><td class="key-table-key"><code id="key-Hiragana" class="key">'Hiragana'</code></td><td>The Hiragana (Japanese Kana characters) key.</td></tr><tr><td class="key-table-key"><code id="key-HiraganaKatakana" class="key">'HiraganaKatakana'</code></td><td>The Hiragana/Katakana toggle key.</td></tr><tr><td class="key-table-key"><code id="key-KanaMode" class="key">'KanaMode'</code></td><td>The Kana Mode (Kana Lock) key.</td></tr><tr><td class="key-table-key"><code id="key-KanjiMode" class="key">'KanjiMode'</code></td><td>The Kanji (Japanese name for ideographic characters of Chinese origin) Mode key.</td></tr><tr><td class="key-table-key"><code id="key-Katakana" class="key">'Katakana'</code></td><td>The Katakana (Japanese Kana characters) key.</td></tr><tr><td class="key-table-key"><code id="key-Romaji" class="key">'Romaji'</code></td><td>The Roman characters function key.</td></tr><tr><td class="key-table-key"><code id="key-Zenkaku" class="key">'Zenkaku'</code></td><td>The Zenkaku (Full-Width) Characters key.</td></tr><tr><td class="key-table-key"><code id="key-ZenkakuHankaku" class="key">'ZenkakuHankaku'</code></td><td>The Zenkaku/Hankaku (full-width/half-width) toggle key.</td></tr></tbody></table></div>
+		</div>
+<!-- keys-composition -->
+
+
+		<div id="keys-function" class="section">
+			<h3 id="h3_keys-function"><span class="secno">1.9 </span>General-Purpose Function Keys</h3>
+			<p>The exact number of these general purpose function keys varies on different platforms, and only the first
+				few are defined explicitly here.  Additional function key names are implicitly defined by incrementing the
+				base-10 index at the end of the function key name. Thus, <span class="key">'F24'</span>
+				and <span class="key">'Soft8'</span> are all valid key values.
+				</p>
+			<div id="key-table-function" class="key-table"><table class="data-table key-value-table"><tbody><tr><th width="20%">Key</th><th width="80%">Typical Usage (Informative)</th></tr><tr><td class="key-table-key"><code id="key-F1" class="key">'F1'</code></td><td>The F1 key, a general purpose function key, as index 1.</td></tr><tr><td class="key-table-key"><code id="key-F2" class="key">'F2'</code></td><td>The F2 key, a general purpose function key, as index 2.</td></tr><tr><td class="key-table-key"><code id="key-F3" class="key">'F3'</code></td><td>The F3 key, a general purpose function key, as index 3.</td></tr><tr><td class="key-table-key"><code id="key-F4" class="key">'F4'</code></td><td>The F4 key, a general purpose function key, as index 4.</td></tr><tr><td class="key-table-key"><code id="key-F5" class="key">'F5'</code></td><td>The F5 key, a general purpose function key, as index 5.</td></tr><tr><td class="key-table-key"><code id="key-F6" class="key">'F6'</code></td><td>The F6 key, a general purpose function key, as index 6.</td></tr><tr><td class="key-table-key"><code id="key-F7" class="key">'F7'</code></td><td>The F7 key, a general purpose function key, as index 7.</td></tr><tr><td class="key-table-key"><code id="key-F8" class="key">'F8'</code></td><td>The F8 key, a general purpose function key, as index 8.</td></tr><tr><td class="key-table-key"><code id="key-F9" class="key">'F9'</code></td><td>The F9 key, a general purpose function key, as index 9.</td></tr><tr><td class="key-table-key"><code id="key-F10" class="key">'F10'</code></td><td>The F10 key, a general purpose function key, as index 10.</td></tr><tr><td class="key-table-key"><code id="key-F11" class="key">'F11'</code></td><td>The F11 key, a general purpose function key, as index 11.</td></tr><tr><td class="key-table-key"><code id="key-F12" class="key">'F12'</code></td><td>The F12 key, a general purpose function key, as index 12.</td></tr><tr><td class="key-table-key"><code id="key-Soft1" class="key">'Soft1'</code></td><td>General purpose virtual function key, as index 1.</td></tr><tr><td class="key-table-key"><code id="key-Soft2" class="key">'Soft2'</code></td><td>General purpose virtual function key, as index 2.</td></tr><tr><td class="key-table-key"><code id="key-Soft3" class="key">'Soft3'</code></td><td>General purpose virtual function key, as index 3.</td></tr><tr><td class="key-table-key"><code id="key-Soft4" class="key">'Soft4'</code></td><td>General purpose virtual function key, as index 4.</td></tr></tbody></table></div>
+		</div>
+<!-- keys-function -->
+
+
+		<div id="keys-multimedia" class="section">
+			<h3 id="h3_keys-multimedia"><span class="secno">1.10 </span>Multimedia Keys</h3>
+			<p>These are extra keys found on &quot;multimedia&quot; keyboards.</p>
+
+			<div id="key-table-multimedia" class="key-table"><table class="data-table key-value-table"><tbody><tr><th width="20%">Key</th><th width="80%">Typical Usage (Informative)</th></tr><tr><td class="key-table-key"><code id="key-Close" class="key">'Close'</code></td><td>Close the current document or message.</td></tr><tr><td class="key-table-key"><code id="key-MailForward" class="key">'MailForward'</code></td><td>Open an editor to forward the current message.</td></tr><tr><td class="key-table-key"><code id="key-MailReply" class="key">'MailReply'</code></td><td>Open an editor to reply to the current message.</td></tr><tr><td class="key-table-key"><code id="key-MailSend" class="key">'MailSend'</code></td><td>Send the current message.</td></tr><tr><td class="key-table-key"><code id="key-MediaPlayPause" class="key">'MediaPlayPause'</code></td><td>Toggle media between play and pause states.</td></tr><tr><td class="key-table-key"><code id="key-MediaSelect" class="key">'MediaSelect'</code></td><td>Select media.</td></tr><tr><td class="key-table-key"><code id="key-MediaStop" class="key">'MediaStop'</code></td><td>Stop media playing, pausing, forwarding, rewinding, or recording, if not already stopped.</td></tr><tr><td class="key-table-key"><code id="key-MediaTrackNext" class="key">'MediaTrackNext'</code></td><td>Seek to next media or program track.</td></tr><tr><td class="key-table-key"><code id="key-MediaTrackPrevious" class="key">'MediaTrackPrevious'</code></td><td>Seek to previous media or program track.</td></tr><tr><td class="key-table-key"><code id="key-New" class="key">'New'</code></td><td>Open a new document or message.</td></tr><tr><td class="key-table-key"><code id="key-Open" class="key">'Open'</code></td><td>Open an existing document or message.</td></tr><tr><td class="key-table-key"><code id="key-Print" class="key">'Print'</code></td><td>Print the current document or message.</td></tr><tr><td class="key-table-key"><code id="key-Save" class="key">'Save'</code></td><td>Save the current document or message.</td></tr><tr><td class="key-table-key"><code id="key-SpellCheck" class="key">'SpellCheck'</code></td><td>Spellcheck the current document or selection.</td></tr><tr><td class="key-table-key"><code id="key-VolumeDown" class="key">'VolumeDown'</code></td><td>Decrease audio volume.</td></tr><tr><td class="key-table-key"><code id="key-VolumeUp" class="key">'VolumeUp'</code></td><td>Increase audio volume.</td></tr><tr><td class="key-table-key"><code id="key-VolumeMute" class="key">'VolumeMute'</code></td><td>Toggle between muted state and prior volume level.</td></tr></tbody></table></div>
+		</div>
+<!-- keys-multimedia -->
+
+
+		<div id="keys-apps" class="section">
+			<h3 id="h3_keys-apps"><span class="secno">1.11 </span>Application Keys</h3>
+			<p>The Application Keys are special keys that are assigned to launch a particular application.
+				Additional application key names can be defined by concatenating 'Launch' with the name
+				of the application.
+				</p>
+			
+<!-- Key tables. Note that all keys must be defined within a <div class="key-table"> -->
+
+			<div id="key-table-apps" class="key-table"><table class="data-table key-value-table"><tbody><tr><th width="20%">Key</th><th width="80%">Typical Usage (Informative)</th></tr><tr><td class="key-table-key"><code id="key-LaunchCalculator" class="key">'LaunchCalculator'</code></td><td>The 'Calculator' key. This is often the generic 'LaunchApplication' key, as index 2.</td></tr><tr><td class="key-table-key"><code id="key-LaunchCalendar" class="key">'LaunchCalendar'</code></td><td>The 'Calendar' key.</td></tr><tr><td class="key-table-key"><code id="key-LaunchMail" class="key">'LaunchMail'</code></td><td>The 'Mail' key.</td></tr><tr><td class="key-table-key"><code id="key-LaunchMediaPlayer" class="key">'LaunchMediaPlayer'</code></td><td>The 'Media Player' key.</td></tr><tr><td class="key-table-key"><code id="key-LaunchMusicPlayer" class="key">'LaunchMusicPlayer'</code></td><td>The 'Music Player' key.</td></tr><tr><td class="key-table-key"><code id="key-LaunchMyComputer" class="key">'LaunchMyComputer'</code></td><td>The 'My Computer' key. This is often the generic 'LaunchApplication' key, as index 1.</td></tr><tr><td class="key-table-key"><code id="key-LaunchScreenSaver" class="key">'LaunchScreenSaver'</code></td><td>The 'Screen Saver' key.</td></tr><tr><td class="key-table-key"><code id="key-LaunchSpreadsheet" class="key">'LaunchSpreadsheet'</code></td><td>The 'Spreadsheet' key.</td></tr><tr><td class="key-table-key"><code id="key-LaunchWebBrowser" class="key">'LaunchWebBrowser'</code></td><td>The 'Web Browser' key.</td></tr><tr><td class="key-table-key"><code id="key-LaunchWebCam" class="key">'LaunchWebCam'</code></td><td>The 'WebCam' key.</td></tr><tr><td class="key-table-key"><code id="key-LaunchWordProcessor" class="key">'LaunchWordProcessor'</code></td><td>The 'Word Processor' key.</td></tr></tbody></table></div>
+		</div>
+<!-- keys-apps -->
+
+
+		<div id="keys-browser" class="section">
+			<h3 id="h3_keys-browser"><span class="secno">1.12 </span>Browser Keys</h3>
+			<div id="key-table-browser" class="key-table"><table class="data-table key-value-table"><tbody><tr><th width="20%">Key</th><th width="80%">Typical Usage (Informative)</th></tr><tr><td class="key-table-key"><code id="key-BrowserBack" class="key">'BrowserBack'</code></td><td>Navigate to previous content or page in current history.</td></tr><tr><td class="key-table-key"><code id="key-BrowserFavorites" class="key">'BrowserFavorites'</code></td><td>The Browser Favorites key.</td></tr><tr><td class="key-table-key"><code id="key-BrowserForward" class="key">'BrowserForward'</code></td><td>Navigate to next content or page in current history.</td></tr><tr><td class="key-table-key"><code id="key-BrowserHome" class="key">'BrowserHome'</code></td><td>The Browser Home key, used with keyboard entry, to go to the home page.</td></tr><tr><td class="key-table-key"><code id="key-BrowserRefresh" class="key">'BrowserRefresh'</code></td><td>The Browser Refresh key, to refresh the current page or content.</td></tr><tr><td class="key-table-key"><code id="key-BrowserSearch" class="key">'BrowserSearch'</code></td><td>The Browser Search key, to call up the user's preferred search page.</td></tr><tr><td class="key-table-key"><code id="key-BrowserStop" class="key">'BrowserStop'</code></td><td>The Browser Stop key, to stop loading the current page or content.</td></tr></tbody></table></div>
+		</div>
+<!-- keys-browser -->
+
+
+		<div id="keys-media-controller" class="section">
+			<h3 id="h3_keys-media-controller"><span class="secno">1.13 </span>Media Controller Keys</h3>
+
+			<p>The <a class="def" href="http://www.w3.org/TR/DOM-Level-3-Events/#glossary-key-value">key values</a> for media controllers (e.g. remote controls for television, audio systems, and set-top boxes)
+				are derived in part from the consumer electronics technical specifications:</p>
+				<ul>
+					<li>DTV Application Software Environment [<cite><a href="#references-DASE">DASE</a></cite>]</li>
+					<li>Open Cable Application Platform 1.1.3 [<cite><a href="#references-OCAP">OCAP</a></cite>]</li>
+					<li>ANSI/CEA-2014-B, Web-based Protocol and Framework for Remote User Interface on UPnPTM Networks and the Internet [<cite><a href="#references-WEB4CE">WEB4CE</a></cite>]</li>
+				</ul>
+			<p></p>
+			
+			<div id="key-table-media-controller" class="key-table"><table class="data-table key-value-table"><tbody><tr><th width="20%">Key</th><th width="80%">Typical Usage (Informative)</th></tr><tr><td class="key-table-key"><code id="key-AudioBalanceLeft" class="key">'AudioBalanceLeft'</code></td><td>Adjust audio balance leftward. (VK_AUDIO_BALANCE_LEFT)</td></tr><tr><td class="key-table-key"><code id="key-AudioBalanceRight" class="key">'AudioBalanceRight'</code></td><td>Adjust audio balance rightward. (VK_AUDIO_BALANCE_RIGHT)</td></tr><tr><td class="key-table-key"><code id="key-AudioBassBoostDown" class="key">'AudioBassBoostDown'</code></td><td>Decrease audio bass boost or cycle down through bass boost states. (VK_BASS_BOOST_DOWN)</td></tr><tr><td class="key-table-key"><code id="key-AudioBassBoostUp" class="key">'AudioBassBoostUp'</code></td><td>Increase audio bass boost or cycle up through bass boost states. (VK_BASS_BOOST_UP)</td></tr><tr><td class="key-table-key"><code id="key-AudioFaderFront" class="key">'AudioFaderFront'</code></td><td>Adjust audio fader towards front. (VK_FADER_FRONT)</td></tr><tr><td class="key-table-key"><code id="key-AudioFaderRear" class="key">'AudioFaderRear'</code></td><td>Adjust audio fader towards rear. (VK_FADER_REAR)</td></tr><tr><td class="key-table-key"><code id="key-AudioSurroundModeNext" class="key">'AudioSurroundModeNext'</code></td><td>Advance surround audio mode to next available mode. (VK_SURROUND_MODE_NEXT)</td></tr><tr><td class="key-table-key"><code id="key-AVRInput" class="key">'AVRInput'</code></td><td>Switch the input mode on an external AVR (audio/video receiver).</td></tr><tr><td class="key-table-key"><code id="key-AVRPower" class="key">'AVRPower'</code></td><td>Toggle the power on an external AVR (audio/video receiver).</td></tr><tr><td class="key-table-key"><code id="key-ChannelDown" class="key">'ChannelDown'</code></td><td>Select next (numerically or logically) lower channel. (VK_CHANNEL_DOWN)</td></tr><tr><td class="key-table-key"><code id="key-ChannelUp" class="key">'ChannelUp'</code></td><td>Select next (numerically or logically) higher channel. (VK_CHANNEL_UP)</td></tr><tr><td class="key-table-key"><code id="key-ColorF0Red" class="key">'ColorF0Red'</code></td><td>General purpose color-coded media function key, as index 0 (red). (VK_COLORED_KEY_0)</td></tr><tr><td class="key-table-key"><code id="key-ColorF1Green" class="key">'ColorF1Green'</code></td><td>General purpose color-coded media function key, as index 1 (green). (VK_COLORED_KEY_1)</td></tr><tr><td class="key-table-key"><code id="key-ColorF2Yellow" class="key">'ColorF2Yellow'</code></td><td>General purpose color-coded media function key, as index 2 (yellow). (VK_COLORED_KEY_2)</td></tr><tr><td class="key-table-key"><code id="key-ColorF3Blue" class="key">'ColorF3Blue'</code></td><td>General purpose color-coded media function key, as index 3 (blue). (VK_COLORED_KEY_3)</td></tr><tr><td class="key-table-key"><code id="key-ColorF4Grey" class="key">'ColorF4Grey'</code></td><td>General purpose color-coded media function key, as index 4 (grey). (VK_COLORED_KEY_4)</td></tr><tr><td class="key-table-key"><code id="key-ColorF5Brown" class="key">'ColorF5Brown'</code></td><td>General purpose color-coded media function key, as index 5 (brown). (VK_COLORED_KEY_5)</td></tr><tr><td class="key-table-key"><code id="key-ClosedCaptionToggle" class="key">'ClosedCaptionToggle'</code></td><td>Toggle the display of Closed Captions. (VK_CC)</td></tr><tr><td class="key-table-key"><code id="key-Dimmer" class="key">'Dimmer'</code></td><td>Adjust brightness of device, by toggling between or cycling through states. (VK_DIMMER)</td></tr><tr><td class="key-table-key"><code id="key-DisplaySwap" class="key">'DisplaySwap'</code></td><td>Swap video sources. (VK_DISPLAY_SWAP)</td></tr><tr><td class="key-table-key"><code id="key-Exit" class="key">'Exit'</code></td><td>Exit the current application. (VK_EXIT)</td></tr><tr><td class="key-table-key"><code id="key-FavoriteClear0" class="key">'FavoriteClear0'</code></td><td>Clear program or content stored as favorite 0. (VK_CLEAR_FAVORITE_0)</td></tr><tr><td class="key-table-key"><code id="key-FavoriteClear1" class="key">'FavoriteClear1'</code></td><td>Clear program or content stored as favorite 1. (VK_CLEAR_FAVORITE_1)</td></tr><tr><td class="key-table-key"><code id="key-FavoriteClear2" class="key">'FavoriteClear2'</code></td><td>Clear program or content stored as favorite 2. (VK_CLEAR_FAVORITE_2)</td></tr><tr><td class="key-table-key"><code id="key-FavoriteClear3" class="key">'FavoriteClear3'</code></td><td>Clear program or content stored as favorite 3. (VK_CLEAR_FAVORITE_3)</td></tr><tr><td class="key-table-key"><code id="key-FavoriteRecall0" class="key">'FavoriteRecall0'</code></td><td>Select (recall) program or content stored as favorite 0. (VK_RECALL_FAVORITE_0)</td></tr><tr><td class="key-table-key"><code id="key-FavoriteRecall1" class="key">'FavoriteRecall1'</code></td><td>Select (recall) program or content stored as favorite 1. (VK_RECALL_FAVORITE_1)</td></tr><tr><td class="key-table-key"><code id="key-FavoriteRecall2" class="key">'FavoriteRecall2'</code></td><td>Select (recall) program or content stored as favorite 2. (VK_RECALL_FAVORITE_2)</td></tr><tr><td class="key-table-key"><code id="key-FavoriteRecall3" class="key">'FavoriteRecall3'</code></td><td>Select (recall) program or content stored as favorite 3. (VK_RECALL_FAVORITE_3)</td></tr><tr><td class="key-table-key"><code id="key-FavoriteStore0" class="key">'FavoriteStore0'</code></td><td>Store current program or content as favorite 0. (VK_STORE_FAVORITE_0)</td></tr><tr><td class="key-table-key"><code id="key-FavoriteStore1" class="key">'FavoriteStore1'</code></td><td>Store current program or content as favorite 1. (VK_STORE_FAVORITE_1)</td></tr><tr><td class="key-table-key"><code id="key-FavoriteStore2" class="key">'FavoriteStore2'</code></td><td>Store current program or content as favorite 2. (VK_STORE_FAVORITE_2)</td></tr><tr><td class="key-table-key"><code id="key-FavoriteStore3" class="key">'FavoriteStore3'</code></td><td>Store current program or content as favorite 3. (VK_STORE_FAVORITE_3)</td></tr><tr><td class="key-table-key"><code id="key-Guide" class="key">'Guide'</code></td><td>Toggle display of program or content guide. (VK_GUIDE)</td></tr><tr><td class="key-table-key"><code id="key-GuideNextDay" class="key">'GuideNextDay'</code></td><td>If guide is active and displayed, then display next day's content. (VK_NEXT_DAY)</td></tr><tr><td class="key-table-key"><code id="key-GuidePreviousDay" class="key">'GuidePreviousDay'</code></td><td>If guide is active and displayed, then display previous day's content. (VK_PREV_DAY)</td></tr><tr><td class="key-table-key"><code id="key-Info" class="key">'Info'</code></td><td>Toggle display of information about currently selected context or media. (VK_INFO)</td></tr><tr><td class="key-table-key"><code id="key-InstantReplay" class="key">'InstantReplay'</code></td><td>Toggle instant replay. (VK_INSTANT_REPLAY)</td></tr><tr><td class="key-table-key"><code id="key-Link" class="key">'Link'</code></td><td>Launch linked content, if available and appropriate. (VK_LINK)</td></tr><tr><td class="key-table-key"><code id="key-ListProgram" class="key">'ListProgram'</code></td><td>List the current program. (VK_LIST)</td></tr><tr><td class="key-table-key"><code id="key-LiveContent" class="key">'LiveContent'</code></td><td>Toggle display listing of currently available live content or programs. (VK_LIVE)</td></tr><tr><td class="key-table-key"><code id="key-Lock" class="key">'Lock'</code></td><td>Lock or unlock current content or program. (VK_LOCK)</td></tr><tr><td class="key-table-key"><code id="key-MediaApps" class="key">'MediaApps'</code></td><td>Show a list of media applications. (VK_APPS)
+					<div class="note"><div class="note-title" id="h_note_7"><span>Note</span></div><p class=""><strong>Note:</strong> Do not confuse this key value with the Windows' VK_APPS / VK_CONTEXT_MENU key, which is encoded as <code>'ContextMenu'</code>.</p></div>
+					</td></tr><tr><td class="key-table-key"><code id="key-MediaFastForward" class="key">'MediaFastForward'</code></td><td>Initiate or continue forward playback at faster than normal speed, or increase speed if already fast forwarding. (VK_FAST_FWD)</td></tr><tr><td class="key-table-key"><code id="key-MediaLast" class="key">'MediaLast'</code></td><td>Select previously selected channel or media. (VK_LAST)</td></tr><tr><td class="key-table-key"><code id="key-MediaPause" class="key">'MediaPause'</code></td><td>Pause the currently playing media. (VK_PAUSE)
+					<div class="note"><div class="note-title" id="h_note_8"><span>Note</span></div><p class=""><strong>Note:</strong> Media controller devices should use this value rather than <code>'Pause'</code> for their pause keys.</p></div>
+					</td></tr><tr><td class="key-table-key"><code id="key-MediaPlay" class="key">'MediaPlay'</code></td><td>Initiate or continue media playback at normal speed, if not currently playing at normal speed. (VK_PLAY)</td></tr><tr><td class="key-table-key"><code id="key-MediaRecord" class="key">'MediaRecord'</code></td><td>Initiate or resume recording of currently selected media. (VK_RECORD)</td></tr><tr><td class="key-table-key"><code id="key-MediaRewind" class="key">'MediaRewind'</code></td><td>Initiate or continue reverse playback at faster than normal speed, or increase speed if already rewinding. (VK_REWIND)</td></tr><tr><td class="key-table-key"><code id="key-MediaSkip" class="key">'MediaSkip'</code></td><td>Skip forward to next content or program. (VK_SKIP)</td></tr><tr><td class="key-table-key"><code id="key-NextFavoriteChannel" class="key">'NextFavoriteChannel'</code></td><td>Cycle to next favorite channel (in favorites list). (VK_NEXT_FAVORITE_CHANNEL)</td></tr><tr><td class="key-table-key"><code id="key-NextUserProfile" class="key">'NextUserProfile'</code></td><td>Cycle to next user profile (if there are multiple user profiles). (VK_USER)</td></tr><tr><td class="key-table-key"><code id="key-OnDemand" class="key">'OnDemand'</code></td><td>Access on-demand content or programs. (VK_ON_DEMAND)</td></tr><tr><td class="key-table-key"><code id="key-PinPDown" class="key">'PinPDown'</code></td><td>Move picture-in-picture window down. (VK_PINP_DOWN)</td></tr><tr><td class="key-table-key"><code id="key-PinPMove" class="key">'PinPMove'</code></td><td>Move picture-in-picture window. (VK_PINP_MOVE)</td></tr><tr><td class="key-table-key"><code id="key-PinPToggle" class="key">'PinPToggle'</code></td><td>Toggle display of picture-in-picture window. (VK_PINP_TOGGLE)</td></tr><tr><td class="key-table-key"><code id="key-PinPUp" class="key">'PinPUp'</code></td><td>Move picture-in-picture window up. (VK_PINP_UP)</td></tr><tr><td class="key-table-key"><code id="key-PlaySpeedDown" class="key">'PlaySpeedDown'</code></td><td>Decrease media playback speed. (VK_PLAY_SPEED_DOWN)</td></tr><tr><td class="key-table-key"><code id="key-PlaySpeedReset" class="key">'PlaySpeedReset'</code></td><td>Reset playback to normal speed. (VK_PLAY_SPEED_RESET)</td></tr><tr><td class="key-table-key"><code id="key-PlaySpeedUp" class="key">'PlaySpeedUp'</code></td><td>Increase media playback speed. (VK_PLAY_SPEED_UP)</td></tr><tr><td class="key-table-key"><code id="key-RandomToggle" class="key">'RandomToggle'</code></td><td>Toggle random media or content shuffle mode. (VK_RANDOM_TOGGLE)</td></tr><tr><td class="key-table-key"><code id="key-RcLowBattery" class="key">'RcLowBattery'</code></td><td>Not a physical key, but this key code is sent when the remote control battery is low. (VK_RC_LOW_BATTERY)</td></tr><tr><td class="key-table-key"><code id="key-RecordSpeedNext" class="key">'RecordSpeedNext'</code></td><td>Toggle or cycle between media recording speeds. (VK_RECORD_SPEED_NEXT)</td></tr><tr><td class="key-table-key"><code id="key-RfBypass" class="key">'RfBypass'</code></td><td>Toggle RF (radio frequency) input bypass mode (pass RF input directly to the RF output). (VK_RF_BYPASS)</td></tr><tr><td class="key-table-key"><code id="key-ScanChannelsToggle" class="key">'ScanChannelsToggle'</code></td><td>Toggle scan channels mode. (VK_SCAN_CHANNELS_TOGGLE)</td></tr><tr><td class="key-table-key"><code id="key-ScreenModeNext" class="key">'ScreenModeNext'</code></td><td>Advance display screen mode to next available mode. (VK_SCREEN_MODE_NEXT)</td></tr><tr><td class="key-table-key"><code id="key-Settings" class="key">'Settings'</code></td><td>Toggle display of device settings screen. (VK_SETTINGS)</td></tr><tr><td class="key-table-key"><code id="key-SplitScreenToggle" class="key">'SplitScreenToggle'</code></td><td>Toggle split screen mode. (VK_SPLIT_SCREEN_TOGGLE)</td></tr><tr><td class="key-table-key"><code id="key-STBInput" class="key">'STBInput'</code></td><td>Switch the input mode on an external STB (set top box).</td></tr><tr><td class="key-table-key"><code id="key-STBPower" class="key">'STBPower'</code></td><td>Toggle the power on an external STB (set top box).</td></tr><tr><td class="key-table-key"><code id="key-Subtitle" class="key">'Subtitle'</code></td><td>Toggle display of subtitles, if available. (VK_SUBTITLE)</td></tr><tr><td class="key-table-key"><code id="key-Teletext" class="key">'Teletext'</code></td><td>Toggle display of teletext, if available (VK_TELETEXT).</td></tr><tr><td class="key-table-key"><code id="key-TV" class="key">'TV'</code></td><td>Switch to viewing TV.</td></tr><tr><td class="key-table-key"><code id="key-TVInput" class="key">'TVInput'</code></td><td>Switch the input mode on an external TV.</td></tr><tr><td class="key-table-key"><code id="key-TVPower" class="key">'TVPower'</code></td><td>Toggle the power on an external TV.</td></tr><tr><td class="key-table-key"><code id="key-VideoModeNext" class="key">'VideoModeNext'</code></td><td>Advance video mode to next available mode.(VK_VIDEO_MODE_NEXT)</td></tr><tr><td class="key-table-key"><code id="key-Wink" class="key">'Wink'</code></td><td>Cause device to identify itself in some manner, e.g., audibly or visibly. (VK_WINK)</td></tr><tr><td class="key-table-key"><code id="key-ZoomToggle" class="key">'ZoomToggle'</code></td><td>Toggle between full-screen and scaled content, or alter magnification level. (VK_ZOOM)</td></tr></tbody></table></div>
+
+			<p>Some of the keys defined in the media controller standards already have appropriate keys defined in other sections of this specification.
+				These following table summarizes the key values that <em class="rfc2119" title="MUST">MUST</em> be used:
+			</p>
+			
+			<div id="key-table-media-controller-dup" class="key-table"><table class="data-table key-value-table"><tbody><tr><th width="20%">Key</th><th width="80%">Typical Usage (Informative)</th></tr><tr><td class="key-table-key"><code class="key">'BrowserBack'</code></td><td>Navigate to previous content or page in current history. (VK_BACK)</td></tr><tr><td class="key-table-key"><code class="key">'BrowserForward'</code></td><td>Navigate to next content or page in current history. (VK_FORWARD)</td></tr><tr><td class="key-table-key"><code class="key">'ContextMenu'</code></td><td>Toggle display of the on-screen menu. (VK_MENU)</td></tr><tr><td class="key-table-key"><code class="key">'Eject'</code></td><td>Toggle removable media to eject (open) and insert (close) state. (VK_EJECT_TOGGLE)</td></tr><tr><td class="key-table-key"><code class="key">'End'</code></td><td>The End key, used with keyboard entry to go to the end of content. (VK_GO_TO_END)</td></tr><tr><td class="key-table-key"><code class="key">'Enter'</code></td><td>The Enter key, to activate current selection or accept current input. (VK_SELECT)</td></tr><tr><td class="key-table-key"><code class="key">'Home'</code></td><td>The Home key, used with keyboard entry, to go to start of content. (VK_GO_TO_START)</td></tr><tr><td class="key-table-key"><code class="key">'MediaPlayPause'</code></td><td>Toggle media between play and pause states. (VK_PLAY_PAUSE)</td></tr><tr><td class="key-table-key"><code class="key">'MediaStop'</code></td><td>Stop media playing, pausing, forwarding, rewinding, or recording, if not already stopped. (VK_STOP)</td></tr><tr><td class="key-table-key"><code class="key">'MediaNextTrack'</code></td><td>Seek to next media or program track. (VK_TRACK_NEXT)</td></tr><tr><td class="key-table-key"><code class="key">'MediaPreviousTrack'</code></td><td>Seek to previous media or program track. (VK_TRACK_PREV)</td></tr><tr><td class="key-table-key"><code class="key">'Power'</code></td><td>Toggle power state. (VK_POWER)</td></tr><tr><td class="key-table-key"><code class="key">'Unidentified'</code></td><td>This key value is used when an implementations is unable to identify another key value, due to either hardware, platform, or software constraints. (VK_UNDEFINED)</td></tr><tr><td class="key-table-key"><code class="key">'VolumeDown'</code></td><td>Decrease audio volume. (VK_VOLUME_DOWN)</td></tr><tr><td class="key-table-key"><code class="key">'VolumeUp'</code></td><td>Increase audio volume. (VK_VOLUME_UP)</td></tr><tr><td class="key-table-key"><code class="key">'VolumeMute'</code></td><td>Toggle between muted state and prior volume level. (VK_VOLUME_MUTE)</td></tr></tbody></table></div>
+
+		</div>
+<!-- keys-media-controller -->
+
+
+	</div>  
+<!-- key-value-tables -->
+
+
+	
+<!-- Appendix G: Acknowledgements ========================================================-->
+
+	<div id="acknowledgements-contributors" class="section">
+		
+<!--OddPage-->
+<h2 id="h2_acknowledgements-contributors"><span class="secno">2. </span>Acknowledgements</h2>
+
+		<p class="1st">Over the years, many people contributed to the DOM KeyboardEvent specifications,
+			including many participants of the DOM Working Group and the WebApps Working Group.
+			The current set of <code>key</code> values is the result of iterating over many proposals
+			and variations during that time.
+			We especially thank the following participants for their contributions:
+			</p>
+
+		<p>Gary Kacmarcik (Google), Masayuki Nakano (Mozilla) and Travis Leithead (Microsoft).
+			</p>
+
+	</div>  
+<!-- acknowledgements-contributors -->
+
+
+	
+<!-- Appendix H: References ========================================================-->
+
+	<div id="references" class="section">
+		
+<!--OddPage-->
+<h2 id="h2_references"><span class="secno">3. </span>References</h2>
+
+		<p>For the latest version of any <abbr title="World Wide Web Consortium">W3C</abbr> specification please consult the list of
+			<a class="normative" href="http://www.w3.org/TR/"><abbr title="World Wide Web Consortium">W3C</abbr> Technical Reports</a>
+			available at http://www.w3.org/TR/.
+			</p>
+
+		<div id="references-References-Normative" class="section">
+			<h3 id="h3_references-References-Normative"><span class="secno">3.1 </span>Normative References</h3>
+
+			<dl>
+				<dt id="references-charmod"><strong>[CharMod]</strong></dt>
+				<dd><cite><a href="http://www.w3.org/TR/2005/REC-charmod-20050215/">Character Model for the World Wide Web 1.0: Fundamentals</a></cite>,<br />
+					M. Dürst, F. Yergeau, R. Ishida, M. Wolf, T. Texin, Editors.<br />
+					World Wide Web Consortium, 15 February 2005.<br />
+					This version of the Character Model for the World Wide Web 1.0: Fundamentals specification is
+						http://www.w3.org/TR/2005/REC-charmod-20050215/.<br />
+					The <a class="normative" href="http://www.w3.org/TR/charmod/">latest version of Character Model for
+					the World Wide Web 1.0: Fundamentals</a> is available at http://www.w3.org/TR/charmod/.
+					</dd>
+
+				<dt id="references-D3E"><strong>[DOM3 Events]</strong></dt>
+				<dd><cite><a href="https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/DOM3-Events.html">Document Object Model (DOM) Level 3 Events Specification</a></cite>,<br />
+					G. Kacmarcik, T. Leithead, Editors.<br />
+					World Wide Web Consortium, April 2014.<br />
+					This version of the Document Object Model Level 3 Events Specification is https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/DOM3-Events.html.<br />
+					The <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Events/">latest version of Document Object Model Level 3 Events</a>
+					is available at http://www.w3.org/TR/DOM-Level-3-Events/.
+					</dd>
+
+				<dt id="references-Unicode"><strong>[Unicode]</strong></dt>
+				<dd><cite>The Unicode Standard, Version 5.0</cite>,<br />
+					ISBN 0-321-48091-0, as updated periodically by the publication of new versions.<br />
+					See also <a class="normative" href="http://www.unicode.org/standard/versions/">Versions of the Unicode Standard</a>,
+					available at http://www.unicode.org/standard/versions/ for
+					latest version and additional information on versions of the standard and of the Unicode Character Database.
+					</dd>
+			</dl>
+		</div>
+
+		<div id="references-References-Informative" class="section">
+			<h3 id="h3_references-References-Informative"><span class="secno">3.2 </span>Informative References</h3>
+			<dl>
+				<dt id="references-DASE"><strong>[DASE]</strong></dt>
+				<dd><cite><a href="http://www.atsc.org/cms/standards/a100/a_100_2.pdf">ATSC A/100-2, DTV Application Software Environment Level 1 (DASE-1) Part 2: Declarative Applications and Environment</a></cite>.<br />
+					Advanced Television Systems Committee, 09 March 2003.<br />
+					Available at <a href="http://www.atsc.org/cms/standards/a100/a_100_2.pdf">http://www.atsc.org/cms/standards/a100/a_100_2.pdf</a>.
+					</dd>
+
+				<dt id="references-KeyEvent"><strong>[KeyEvent for Java]</strong></dt>
+				<dd><cite><a href="http://docs.oracle.com/javase/6/docs/api/java/awt/event/KeyEvent.html">Java™ Platform, Standard Edition 6 API Specification, Class java.awt.events.KeyEvent</a></cite>.<br />
+					Oracle.<br />
+					Available at http://docs.oracle.com/javase/6/docs/api/java/awt/event/KeyEvent.html.
+					</dd>
+
+				<dt id="references-Keys"><strong>[Keys Enumeration for .Net]</strong></dt>
+				<dd><cite><a href="http://msdn.microsoft.com/en-us/library/system.windows.forms.keys.aspx">.NET Framework 4.5 Class Library, Keys Enumeration</a></cite>.<br />
+					Microsoft.<br />
+					Available at http://msdn.microsoft.com/en-us/library/system.windows.forms.keys.aspx.
+					</dd>
+
+				<dt id="references-OCAP"><strong>[OCAP]</strong></dt>
+				<dd><cite><a href="http://www.cablelabs.com/specifications/OC-SP-OCAP1.1.3-100603.pdf">Open Cable Application Platform 1.1.3</a></cite>.<br />
+					Cable Television Laboratories, Inc.,<br />
+					03 June 2010.<br />
+					Available at <a href="http://www.cablelabs.com/specifications/OC-SP-OCAP1.1.3-100603.pdf">http://www.cablelabs.com/specifications/OC-SP-OCAP1.1.3-100603.pdf</a>.
+					</dd>
+
+				<dt id="references-WEB4CE"><strong>[WEB4CE]</strong></dt>
+				<dd><cite><a href="http://www.ce.org/Standards/Standard-Listings/R7-Home-Network-Committee/CEA-2014-B-(ANSI%29.aspx">ANSI/CEA-2014-B,
+					Web-based Protocol and Framework for Remote User Interface on UPnPTM Networks and the Internet (Web4CE)</a></cite>.<br />
+					Consumer Electronics Association, January 2011.<br />
+					Available at
+						<a href="http://www.ce.org/Standards/Standard-Listings/R7-Home-Network-Committee/CEA-2014-B-(ANSI).aspx">http://www.ce.org/Standards/Standard-Listings/R7-Home-Network-Committee/CEA-2014-B-(ANSI%29.aspx</a>.
+					</dd>
+			</dl>
+		</div>
+	</div>  
+<!-- references -->
+
+</body></html>
