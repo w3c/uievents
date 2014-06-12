@@ -2313,8 +2313,8 @@ console.log("Exceptions? No problem");</pre>
 					</dd>
 
 				</dl>
-
-				<dl class="idl" title="dictionary MouseEventInit : UIEventInit">
+        
+				<dl class="idl" title="dictionary MouseEventInit : SharedKeyboardAndMouseEventInit">
 
 					<dt>long screenX = 0</dt>
 					<dd>
@@ -2348,36 +2348,6 @@ console.log("Exceptions? No problem");</pre>
 						<p>Initializing the event object to the given mouse position must 
 							not move the user's mouse pointer to the initialized position.
 							</p>
-					</dd>
-
-					<dt>boolean ctrlKey = false</dt>
-					<dd>
-						<p>Initializes the <code>altKey</code> attribute of the MouseEvent
-							object to <code>true</code> if the <code class="key">'Control'</code>
-							(control) key modifier is to be considered active, 
-							<code>false</code> otherwise.</p>
-					</dd>
-
-					<dt>boolean shiftKey = false</dt>
-					<dd>
-						<p>Initializes the <code>shiftKey</code> attribute of the MouseEvent
-							object to <code>true</code> if the <code class="key">'Shift'</code>
-							key modifier is to be considered active, <code>false</code> otherwise.</p>
-					</dd>
-
-					<dt>boolean altKey = false</dt>
-					<dd>
-						<p>Initializes the <code>altKey</code> attribute of the MouseEvent
-							object to <code>true</code> if the <code class="key">'Alt'</code>
-							(alternative) (or <code class="glyph">'Option'</code>) key modifier 
-							is to be considered active, <code>false</code> otherwise.</p>
-					</dd>
-
-					<dt>boolean metaKey = false</dt>
-					<dd>
-						<p>Initializes the <code>metaKey</code> attribute of the MouseEvent
-							object to <code>true</code> if the <code class="key">'Meta'</code>
-							key modifier is to be considered active, <code>false</code> otherwise.</p>
 					</dd>
 
 					<dt>short button = 0</dt>
@@ -2442,6 +2412,183 @@ console.log("Exceptions? No problem");</pre>
 				the number of consecutive clicks of a pointing device button within a specific time. The delay after which the count resets is specific to the
 				environment configuration.</p>
 
+			<section id="shared-mouse-and-keyboard-initializers">
+				<h4>Shared MouseEvent and KeyboardEvent initializers</h4>
+
+				<p>The <a href="#interface-MouseEvent"><code>MouseEvent</code></a> and
+					<a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> interfaces share a set 
+					of keyboard modifier attributes and support a mechanism for retrieving additional modifier 
+					states. The following dictionary enables authors to initialize keyboard modifier 
+					attributes of the <a href="#interface-MouseEvent"><code>MouseEvent</code></a> and 
+					<a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> interfaces, as well as 
+					the additional modifier states queried via 
+					<a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>.</p>
+            
+          <dl class="idl" title="dictionary SharedKeyboardAndMouseEventInit : UIEventInit">
+
+					<dt>boolean ctrlKey = false</dt>
+					<dd>
+						<p>Initializes the <code>altKey</code> attribute of the 
+							<a href="#interface-MouseEvent"><code>MouseEvent</code></a> or 
+							<a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a>
+							objects to <code>true</code> if the <code class="key">'Control'</code>
+							(control) key modifier is to be considered active, 
+							<code>false</code> otherwise.</p>
+						<p>Implementations must also initialize the event object's key modifier
+							state such that calls to the
+							<a href="#widl-MouseEvent-getModifierState"><code>MouseEvent.getModifierState()</code></a> or 
+							<a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
+							when provided with either the parameter <code class="key">'Control'</code> or
+							the parameter <code class="key">'Accel'</code> must return <code>true</code>.</p>
+					</dd>
+
+					<dt>boolean shiftKey = false</dt>
+					<dd>
+						<p>Initializes the <code>shiftKey</code> attribute of the 
+							<a href="#interface-MouseEvent"><code>MouseEvent</code></a> or 
+							<a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a>
+							objects to <code>true</code> if the <code class="key">'Shift'</code>
+							key modifier is to be considered active, <code>false</code> otherwise.</p>
+						<p>Implementations must also initialize the event object's key modifier
+							state such that calls to the
+							<a href="#widl-MouseEvent-getModifierState"><code>MouseEvent.getModifierState()</code></a> or 
+							<a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
+							when provided with the parameter <code class="key">'Shift'</code> must 
+							return <code>true</code>.</p>
+					</dd>
+
+					<dt>boolean altKey = false</dt>
+					<dd>
+						<p>Initializes the <code>altKey</code> attribute of the 
+							<a href="#interface-MouseEvent"><code>MouseEvent</code></a> or 
+							<a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a>
+							objects to <code>true</code> if the <code class="key">'Alt'</code>
+							(alternative) (or <code class="glyph">'Option'</code>) key modifier 
+							is to be considered active, <code>false</code> otherwise.</p>
+						<p>Implementations must also initialize the event object's key modifier
+							state such that calls to the
+							<a href="#widl-MouseEvent-getModifierState"><code>MouseEvent.getModifierState()</code></a> or 
+							<a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
+							when provided with the parameter <code class="key">'Alt'</code> must 
+							return <code>true</code>.</p>
+					</dd>
+
+					<dt>boolean metaKey = false</dt>
+					<dd>
+						<p>Initializes the <code>metaKey</code> attribute of the 
+							<a href="#interface-MouseEvent"><code>MouseEvent</code></a> or 
+							<a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a>
+							objects to <code>true</code> if the <code class="key">'Meta'</code>
+							key modifier is to be considered active, <code>false</code> otherwise.</p>
+						<p>Implementations must also initialize the event object's key modifier
+							state such that calls to the
+							<a href="#widl-MouseEvent-getModifierState"><code>MouseEvent.getModifierState()</code></a> or 
+							<a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
+							when provided with either the parameter <code class="key">'Meta'</code> or
+							the parameter <code class="key">'Accel'</code> must return <code>true</code>.</p>
+					</dd>
+					
+					<dt>boolean keyModifierStateAltGraph = false</dt>
+					<dd>
+						<p>Initializes the event object's key modifier state such that calls to the
+							<a href="#widl-MouseEvent-getModifierState"><code>MouseEvent.getModifierState()</code></a> or 
+							<a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
+							when provided with the parameter <code class="key">'AltGraph'</code> must 
+							return <code>true</code>.</p>
+					</dd>
+					
+					<dt>boolean keyModifierStateCapsLock = false</dt>
+					<dd>
+						<p>Initializes the event object's key modifier state such that calls to the
+							<a href="#widl-MouseEvent-getModifierState"><code>MouseEvent.getModifierState()</code></a> or 
+							<a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
+							when provided with the parameter <code class="key">'CapsLock'</code> must 
+							return <code>true</code>.</p>
+					</dd>
+					
+					<dt>boolean keyModifierStateFn = false</dt>
+					<dd>
+						<p>Initializes the event object's key modifier state such that calls to the
+							<a href="#widl-MouseEvent-getModifierState"><code>MouseEvent.getModifierState()</code></a> or 
+							<a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
+							when provided with the parameter <code class="key">'Fn'</code> must 
+							return <code>true</code>.</p>
+					</dd>
+					
+					<dt>boolean keyModifierStateFnLock = false</dt>
+					<dd>
+						<p>Initializes the event object's key modifier state such that calls to the
+							<a href="#widl-MouseEvent-getModifierState"><code>MouseEvent.getModifierState()</code></a> or 
+							<a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
+							when provided with the parameter <code class="key">'FnLock'</code> must 
+							return <code>true</code>.</p>
+					</dd>
+					
+					<dt>boolean keyModifierStateHyper = false</dt>
+					<dd>
+						<p>Initializes the event object's key modifier state such that calls to the
+							<a href="#widl-MouseEvent-getModifierState"><code>MouseEvent.getModifierState()</code></a> or 
+							<a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
+							when provided with the parameter <code class="key">'Hyper'</code> must 
+							return <code>true</code>.</p>
+					</dd>
+					
+					<dt>boolean keyModifierStateNumLock = false</dt>
+					<dd>
+						<p>Initializes the event object's key modifier state such that calls to the
+							<a href="#widl-MouseEvent-getModifierState"><code>MouseEvent.getModifierState()</code></a> or 
+							<a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
+							when provided with the parameter <code class="key">'NumLock'</code> must 
+							return <code>true</code>.</p>
+					</dd>
+					
+					<dt>boolean keyModifierStateOS = false</dt>
+					<dd>
+						<p>Initializes the event object's key modifier state such that calls to the
+							<a href="#widl-MouseEvent-getModifierState"><code>MouseEvent.getModifierState()</code></a> or 
+							<a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
+							when provided with the parameter <code class="key">'OS'</code> must 
+							return <code>true</code>.</p>
+					</dd>
+					
+					<dt>boolean keyModifierStateScrollLock = false</dt>
+					<dd>
+						<p>Initializes the event object's key modifier state such that calls to the
+							<a href="#widl-MouseEvent-getModifierState"><code>MouseEvent.getModifierState()</code></a> or 
+							<a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
+							when provided with the parameter <code class="key">'ScrollLock'</code> must 
+							return <code>true</code>.</p>
+					</dd>
+					
+					<dt>boolean keyModifierStateSuper = false</dt>
+					<dd>
+						<p>Initializes the event object's key modifier state such that calls to the
+							<a href="#widl-MouseEvent-getModifierState"><code>MouseEvent.getModifierState()</code></a> or 
+							<a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
+							when provided with the parameter <code class="key">'Super'</code> must 
+							return <code>true</code>.</p>
+					</dd>
+					
+					<dt>boolean keyModifierStateSymbol = false</dt>
+					<dd>
+						<p>Initializes the event object's key modifier state such that calls to the
+							<a href="#widl-MouseEvent-getModifierState"><code>MouseEvent.getModifierState()</code></a> or 
+							<a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
+							when provided with the parameter <code class="key">'Symbol'</code> must 
+							return <code>true</code>.</p>
+					</dd>
+					
+					<dt>boolean keyModifierStateSymbolLock = false</dt>
+					<dd>
+						<p>Initializes the event object's key modifier state such that calls to the
+							<a href="#widl-MouseEvent-getModifierState"><code>MouseEvent.getModifierState()</code></a> or 
+							<a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
+							when provided with the parameter <code class="key">'SymbolLock'</code> must 
+							return <code>true</code>.</p>
+					</dd>
+          
+      </section> <!-- END dictionary SharedKeyboardAndMouseEventInit defs -->
+        
 			<section id="events-mouseevent-event-order">
 				<h4>Mouse Event Order</h4>
 
@@ -4394,7 +4541,7 @@ console.log("Exceptions? No problem");</pre>
 					</dd>
 				</dl>
 
-				<dl class="idl" title="dictionary KeyboardEventInit : UIEventInit">
+				<dl class="idl" title="dictionary KeyboardEventInit : SharedKeyboardAndMouseEventInit">
 					<dt>DOMString key = ""</dt>
 					<dd>
 						<p>Initializes the <code>key</code> attribute of the KeyboardEvent
@@ -4429,36 +4576,6 @@ console.log("Exceptions? No problem");</pre>
 							<li><code>KeyboardEvent.DOM_KEY_LOCATION_RIGHT</code> (numerical value 2)</li>
 							<li><code>KeyboardEvent.DOM_KEY_LOCATION_NUMPAD</code> (numerical value 3)</li>
 						</ul>
-					</dd>
-
-					<dt>boolean ctrlKey = false</dt>
-					<dd>
-						<p>Initializes the <code>altKey</code> attribute of the KeyboardEvent
-							object to <code>true</code> if the <code class="key">'Control'</code>
-							(control) key modifier is to be considered active, 
-							<code>false</code> otherwise.</p>
-					</dd>
-
-					<dt>boolean shiftKey = false</dt>
-					<dd>
-						<p>Initializes the <code>shiftKey</code> attribute of the KeyboardEvent
-							object to <code>true</code> if the <code class="key">'Shift'</code>
-							key modifier is to be considered active, <code>false</code> otherwise.</p>
-					</dd>
-
-					<dt>boolean altKey = false</dt>
-					<dd>
-						<p>Initializes the <code>altKey</code> attribute of the KeyboardEvent
-							object to <code>true</code> if the <code class="key">'Alt'</code>
-							(alternative) (or <code class="glyph">'Option'</code>) key modifier 
-							is to be considered active, <code>false</code> otherwise.</p>
-					</dd>
-
-					<dt>boolean metaKey = false</dt>
-					<dd>
-						<p>Initializes the <code>metaKey</code> attribute of the KeyboardEvent
-							object to <code>true</code> if the <code class="key">'Meta'</code>
-							key modifier is to be considered active, <code>false</code> otherwise.</p>
 					</dd>
 
 					<dt>boolean repeat = false</dt>
