@@ -153,6 +153,7 @@ def refs(line):
 replacestr = [
 	['\[US-<acronym title="American Standard Code for Information Interchange">ASCII</acronym>\]', '[US-ASCII]'],
 	['id="idl-def-KeyboardEventInit">partial dictionary', 'id="idl-def-KeyboardEventInit-extra">partial dictionary'],
+	['<dl class="methods"><dt id="widl-CustomEvent-initCustomEvent"><code>initCustomEvent</code>', '<dl class="methods"><dt id="widl-CustomEvent-initCustomEvent-extra"><code>initCustomEvent</code>'],
 ]
 
 def replace(line):
