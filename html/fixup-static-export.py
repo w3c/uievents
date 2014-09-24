@@ -15,15 +15,15 @@ stripstr = [
 	' content="Gary Kacmarcik"',
 	' content="Travis Leithead"',
 	' property="dcterms:abstract" datatype=""',
-	' typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"',
-	' typeof="bibo:Chapter" resource="#abstract" rel="bibo:Chapter"',
-	' typeof="bibo:Chapter" resource="#sotd" rel="bibo:Chapter"',
+	' typeof="bibo:Chapter" resource="#[A-Za-z0-9_-]+" rel="bibo:Chapter"',
 	' aria-label="False"',
 	' aria-label="True"',
 	' about=""',
 	# More bug-assist.js stuff to remove for WD.
 	'<script src="bug-assist.js" type="text/javascript"></script>',
 	'<form action="http://www.w3.org/Bugs/Public/enter_bug.cgi" target="_blank" style="position: fixed; padding: 5px; top: 1em; right: 2em; font-family: sans-serif; font-size: 0.8em; background-color: rgb\(255, 255, 255\); border: 1px solid rgb\(255, 0, 0\);">Select text and <input type="submit" accesskey="f" value="file a bug" style="display: block;" /><input type="hidden" name="comment" value="" /><input type="hidden" name="product" value="WebAppsWG" /><input type="hidden" name="component" value="DOM3 Events" /></form>',
+	# Respec's TOC generator adds these turds (which the validator complains about).
+	'<ul class="toc"></ul>',
 ]
 
 def strip(line):
