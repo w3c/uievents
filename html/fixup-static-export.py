@@ -8,15 +8,19 @@ stripstr = [
 	' data-bug-product="WebAppsWG" data-bug-component="DOM3 Events" typeof="bibo:Document w3p:WD" about="" property="dcterms:language" content="en" prefix="bibo: http://purl.org/ontology/bibo/ w3p: http://www.w3.org/2001/02pd/rec54#"',
 	' property="dcterms:title"',
 	' property="dcterms:issued" datatype="xsd:dateTime" content="2013-11-05T08:00:00.000Z"',
-	' rel="bibo:editor" inlist=""',
+ 	' property="dcterms:issued" datatype="xsd:dateTime" content="2014-09-25T07:00:00.000Z"',
+ 	' rel="bibo:editor" inlist=""',
 	' typeof="foaf:Person"',
 	' property="foaf:name"',
 	' content="Gary Kacmarcik"',
 	' content="Travis Leithead"',
 	' property="dcterms:abstract" datatype=""',
 	' typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"',
+	' typeof="bibo:Chapter" resource="#abstract" rel="bibo:Chapter"',
+	' typeof="bibo:Chapter" resource="#sotd" rel="bibo:Chapter"',
 	' aria-label="False"',
 	' aria-label="True"',
+	' about=""',
 	# More bug-assist.js stuff to remove for WD.
 	'<script src="bug-assist.js" type="text/javascript"></script>',
 	'<form action="http://www.w3.org/Bugs/Public/enter_bug.cgi" target="_blank" style="position: fixed; padding: 5px; top: 1em; right: 2em; font-family: sans-serif; font-size: 0.8em; background-color: rgb\(255, 255, 255\); border: 1px solid rgb\(255, 0, 0\);">Select text and <input type="submit" accesskey="f" value="file a bug" style="display: block;" /><input type="hidden" name="comment" value="" /><input type="hidden" name="product" value="WebAppsWG" /><input type="hidden" name="component" value="DOM3 Events" /></form>',
@@ -147,7 +151,8 @@ def refs(line):
 
 # Don't use acronym inside reference name.
 replacestr = [
-	['\[US-<acronym title="American Standard Code for Information Interchange">ASCII</acronym>\]', '[<a id="ref-US-ASCII">US-ASCII</a>]'],
+	['\[US-<acronym title="American Standard Code for Information Interchange">ASCII</acronym>\]', '[US-ASCII]'],
+	['id="idl-def-KeyboardEventInit">partial dictionary', 'id="idl-def-KeyboardEventInit-extra">partial dictionary'],
 ]
 
 def replace(line):
