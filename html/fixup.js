@@ -7,15 +7,6 @@
  */
 
 bad_ids = [
-	["widl-Event-initEvent", "-void-DOMString-eventTypeArg-boolean-bubblesArg-boolean-cancelableArg"],
-	["widl-Event-preventDefault", "-void"],
-	["widl-Event-stopImmediatePropagation", "-void"],
-	["widl-Event-stopPropagation", "-void"],
-	["widl-EventTarget-addEventListener", "-void-DOMString-type-EventListener-listener-boolean-useCapture"],
-	["widl-EventTarget-dispatchEvent", "-boolean-Event-event"],
-	["widl-EventTarget-removeEventListener", "-void-DOMString-type-EventListener-listener-boolean-useCapture"],
-	["widl-EventListener-handleEvent", "-void-Event-event"],
-	["widl-DocumentEvent-createEvent", "-Event-DOMString-eventInterface"],
 	["widl-UIEvent-initUIEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-Window-viewArg-long-detailArg"],
 	["widl-MouseEvent-getModifierState", "-boolean-DOMString-keyArg"],
 	["widl-MouseEvent-initMouseEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-Window-viewArg-long-detailArg-long-screenXArg-long-screenYArg-long-clientXArg-long-clientYArg-boolean-ctrlKeyArg-boolean-altKeyArg-boolean-shiftKeyArg-boolean-metaKeyArg-short-buttonArg-EventTarget-relatedTargetArg"],
@@ -24,8 +15,21 @@ bad_ids = [
 	["widl-CustomEvent-initCustomEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-any-detailArg"],
 	["widl-FocusEvent-initFocusEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-Window-viewArg-long-detailArg-EventTarget-relatedTargetArg"],
 	["widl-WheelEvent-initWheelEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-Window-viewArg-long-detailArg-long-screenXArg-long-screenYArg-long-clientXArg-long-clientYArg-short-buttonArg-EventTarget-relatedTargetArg-DOMString-modifiersListArg-double-deltaXArg-double-deltaYArg-double-deltaZArg-unsigned-long-deltaMode"],
-	["widl-KeyboardEvent-initKeyboardEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-Window-viewArg-long-detailArg-DOMString-keyArg-unsigned-long-locationArg-DOMString-modifiersListArg-boolean-repeat"],
+	// 2013-11-05 version: ["widl-KeyboardEvent-initKeyboardEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-Window-viewArg-long-detailArg-DOMString-keyArg-unsigned-long-locationArg-DOMString-modifiersListArg-boolean-repeat"],
+	["widl-KeyboardEvent-initKeyboardEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-Window-viewArg-DOMString-keyArg-unsigned-long-locationArg-DOMString-modifiersListArg-boolean-repeat-DOMString-locale"],
 	["widl-CompositionEvent-initCompositionEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-Window-viewArg-DOMString-dataArg-DOMString-locale"],
+	
+	// The following definitions were removed from the D3E spec for the 2014-09-25 WD because they
+	// were already defined in other specs.
+	//["widl-Event-initEvent", "-void-DOMString-eventTypeArg-boolean-bubblesArg-boolean-cancelableArg"],
+	//["widl-Event-preventDefault", "-void"],
+	//["widl-Event-stopImmediatePropagation", "-void"],
+	//["widl-Event-stopPropagation", "-void"],
+	//["widl-EventTarget-addEventListener", "-void-DOMString-type-EventListener-listener-boolean-useCapture"],
+	//["widl-EventTarget-dispatchEvent", "-boolean-Event-event"],
+	//["widl-EventTarget-removeEventListener", "-void-DOMString-type-EventListener-listener-boolean-useCapture"],
+	//["widl-EventListener-handleEvent", "-void-Event-event"],
+	//["widl-DocumentEvent-createEvent", "-Event-DOMString-eventInterface"],
 ];
 
 idl_constants = {
@@ -64,7 +68,7 @@ function fixup_idl_method_hrefs() {
 	console.log('Fixing up IDL hrefs');
 	var els = document.getElementsByClassName('idlMethName');
 	for (var i = 0; i < els.length; i++) {
-		var href = els[i].firstChild.attributes[0].nodeValue;
+		var href = els[i].firstChild.attributes[0].value;
 		var found = false;
 		for (var j = 0; j < bad_ids.length; j++) {
 			var badid = bad_ids[j][0] + bad_ids[j][1];
@@ -84,7 +88,7 @@ function fixup_idl_constant_hrefs() {
 	console.log('Fixing up IDL constants');
 	var els = document.getElementsByClassName('idlConstName');
 	for (var i = 0; i < els.length; i++) {
-		var href = els[i].firstChild.attributes[0].nodeValue;
+		var href = els[i].firstChild.attributes[0].value;
 		var raw_href = href.slice(1)
 		if (raw_href in idl_constants) {
 			var new_href = idl_constants[raw_href] + raw_href;
@@ -101,6 +105,7 @@ function fixup() {
 	// Wait until ReSpec is done.
 	var check = bad_ids[0][0] + bad_ids[0][1];
 	if (!document.getElementById(check)) {
+		console.log("waiting");
 		setTimeout(fixup, 500);
 		return;
 	}
