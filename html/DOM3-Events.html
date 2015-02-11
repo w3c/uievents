@@ -790,6 +790,63 @@ console.log("Exceptions? No problem");</pre>
 				</tr>
 			</table>
 		</section>  <!-- event-exceptions -->
+		
+		<section id="event-constructors">
+			<h2>Constructing Mouse and Keyboard Events</h2>
+			
+			<p>Generally, when a constructor of an <a href="#interface-Event"><code>Event</code></a> interface, 
+				or of an interface inherited from the <a href="#interface-Event"><code>Event</code></a> interface,
+				is invoked, the steps described in DOM4 [<a href="#references-DOM4">DOM4</a>] should be followed. 
+				However the <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> and
+				<a href="#interface-MouseEvent"><code>MouseEvent</code></a> interfaces provide additional 
+				dictionary members for initializing the internal state of the 
+				<a href="#interface-Event"><code>Event</code></a> object's key modifiers: specifically, the
+				internal state queried for using the 
+				<a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>
+				and <a href="#widl-MouseEvent-getModifierState"><code>MouseEvent.getModifierState()</code></a> 
+				methods. This section supplements the DOM4 steps for intializing a new 
+				<a href="#interface-Event"><code>Event</code></a> object with these optional modifier states.
+				</p>
+			
+			<p>For the purposes of constructing a <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a>, 
+				<a href="#interface-MouseEvent"><code>MouseEvent</code></a>, or object derived from these objects 
+				using the algorithm below, all 
+				<a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a>,
+				<a href="#interface-MouseEvent"><code>MouseEvent</code></a>, and derived ojects have 
+				<dfn id="internal-key-modifier-state">internal key modifier state</dfn> which can be set and
+				retreived using the <a href="#keys-modifiers">key modifier names</a>:
+					<code class="key">'AltGraph'</code>
+					<code class="key">'CapsLock'</code>
+					<code class="key">'Fn'</code>
+					<code class="key">'FnLock'</code>
+					<code class="key">'Hyper'</code>
+					<code class="key">'NumLock'</code>
+					<code class="key">'OS'</code>
+					<code class="key">'ScrollLock'</code>
+					<code class="key">'Super'</code>
+					<code class="key">'Symbol'</code> and
+					<code class="key">'SymbolLock'</code>.
+				
+			<p>The following steps supplement the algorithm defined for constructing events in DOM4:</p>
+			
+			<ol>
+				<li>If the <a href="#interface-Event"><code>Event</code></a> being constructed is a 
+					<a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> or
+					<a href="#interface-MouseEvent"><code>MouseEvent</code></a> object or an object that 
+					derives from either of these, and a 
+					<a href="#shared-mouse-and-keyboard-initializers">SharedKeyboardAndMouseEventInit</a> 
+					argument was provided to the constructor, then run the following sub-steps:
+				<ol>
+					<li>For each <a href="#shared-mouse-and-keyboard-initializers">SharedKeyboardAndMouseEventInit</a>
+						argument, if the dictionary member begins with the string <code>"keyModifierState"</code>, then 
+						let the <dfn id="modifier-key-name">key modifier name</dfn> be the dictionary member's name 
+						excluding the prefix <code>"keyModifierState"</code>, and set the 
+						<a href="#interface-Event"><code>Event</code></a> object's 
+						<a href="#internal-key-modifier-state">internal key modifier state</a> that 
+						matches the <a href="#modifier-key-name">key modifier name</a> to the corresponding value.
+				</ol>
+			</ol>
+		</section>
 	</section>  <!-- dom-event-architecture -->
 
 	<!-- Section 4: Basic Event Interfaces ========================================================-->
@@ -2445,7 +2502,9 @@ console.log("Exceptions? No problem");</pre>
 					attributes of the <a href="#interface-MouseEvent"><code>MouseEvent</code></a> and 
 					<a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> interfaces, as well as 
 					the additional modifier states queried via 
-					<a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>.</p>
+					<a href="#widl-KeyboardEvent-getModifierState"><code>KeyboardEvent.getModifierState()</code></a>.
+					The steps for constructing events using this dictionary are defined in the 
+					<a href="#event-constructors">event constructors</a> section.</p>
 
 				<dl class="idl" title="dictionary SharedKeyboardAndMouseEventInit : UIEventInit">
 
