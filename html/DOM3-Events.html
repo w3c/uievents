@@ -5,7 +5,7 @@
 	>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Document Object Model (DOM) Level 3 Events Specification</title>
+	<title>UI Events Specification (formerly DOM Level 3 Events)</title>
 	<link rel="author" href="mailto:www-dom@w3.org" />
 	<link rel="help" href="http://www.w3.org/DOM/" />
 	<link rel="alternate stylesheet" type="text/css" media="screen" title="geek" href="geek.css" />
@@ -18,50 +18,25 @@
 	<script src="bug-assist.js"></script>
 	<script type="text/javascript">
 	var respecConfig = {
-		specStatus: "WD",
-		shortName:  "DOM-Level-3-Events",
+		specStatus: "ED",
+		shortName:  "UI-Events",
 		editors: [
 			{
 				name: "Gary Kacmarcik", 
 				company: "Google, Inc.",
-				url: "mailto:garykac@google.com?subject=%5BDOM3-event%5D%20Spec%20Feedback",
+				url: "mailto:garykac@google.com?subject=%5BUI-events%5D%20Spec%20Feedback",
 				companyURL: "http://www.google.com",
-				note: "Jun 2013 - present",
+				note: "since Jun 2013",
 			},
 			{
 				name: "Travis Leithead", 
 				company: "Microsoft Corp.",
-				url: "mailto:travis.leithead@microsoft.com?subject=%5BDOM3-event%5D%20Spec%20Feedback",
+				url: "mailto:travis.leithead@microsoft.com?subject=%5BUI-events%5D%20Spec%20Feedback",
 				companyURL: "http://www.microsoft.com",
-				note: "Feb 2012 - present",
-			},
-			{
-				name: "Jacob Rossi", 
-				company: "Microsoft Corp.",
-				note: "Mar 2011 - Oct 2011",
-			},
-			{
-				name: "Doug Schepers", 
-				company: "W3C",
-				note: "Mar 2008 - May 2011",
-			},
-			{
-				name: "Björn Höhrmann", 
-				company: "Invited Expert",
-				note: "until Jan 2008",
-			},
-			{
-				name: "Philippe Le Hégaret", 
-				company: "W3C",
-				note: "until Nov 2003",
-			},
-			{
-				name: "Tom Pixley", 
-				company: "Netscape Communications Corporation",
-				note: "until Jul 2002",
+				note: "since Feb 2012",
 			}
 		],
-		publishDate:  "2014-09-25",
+		publishDate:  "2015-02-24",
 		edDraftURI: "https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/DOM3-Events.html",
 		previousPublishDate: "2013-11-05",
 		previousMaturity: "WD",
@@ -92,7 +67,7 @@
 				value: 'Commit history',
 				href: 'https://dvcs.w3.org/hg/dom3events/shortlog',
 			}, {
-				value: 'DOM3 Events Wiki Home',
+				value: 'UI Events Wiki Home',
 				href: 'http://www.w3.org/2008/webapps/wiki/DOM3Events',
 			}],
 		}],
@@ -102,18 +77,15 @@
 <body>
 	<!-- Section: Abstract ========================================================-->
 	<section id="abstract">
-		<p>This specification defines the Document Object Model Events Level 3, a generic
-			platform- and language-neutral event system which allows registration of event handlers,
-			describes event flow through a tree structure, and provides basic contextual
-			information for each event. The Document Object Model Events Level 3 builds on the
-			Document Object Model Events Level 2 [<a href="#references-DOM2Events">DOM2 Events</a>].
+		<p>This specification defines UI Events which extend the DOM Event objects defined in 
+		    [<a href="#references-DOM4">DOM4</a>]. UI Events are those typically implemented by 
+            visual user agents for handling user interaction such as mouse and keyboard input.
 			</p>
 	</section>  <!-- abstract -->
 
 	<!-- Section: SOTD ========================================================-->
 	<section id="sotd">
-		<p>This document is a Working Draft of the Document Object Model Level 3 Events
-			(DOM3 Events) specification. 
+		<p>This document is a Working Draft of the UI Events specification. 
 			It is expected that this specification will progress to
 			<abbr title="World Wide Web Consortium">W3C</abbr> 
 			Recommendation status after review and refinement.
@@ -141,6 +113,11 @@
 			which is updated on a regular basis.</strong>
 			</p>
 
+		<p>This document is derived from the specification known as Document Object Model Events 
+			Level 3, which in turn builds on the Document Object Model Events Level 2 specification
+			[<a href="#references-DOM2Events">DOM2 Events</a>].
+			</p>
+			
 		<p id="unstable">
 			<strong class="redNote">Implementers should be aware that this document is not stable.</strong>
 			Implementers who are not taking part in the discussions are likely to find the
@@ -151,7 +128,7 @@
 			</p>
 	</section>  <!-- sotd -->
 
-	<!-- Section 1: DOM3 Events Overview  ========================================================-->
+	<!-- Section 1: UI Events Overview  ========================================================-->
 	<section id="dom-events-intro">
 		<h1>Introduction</h1>
 		
@@ -187,10 +164,10 @@
 				A <a class="def" href="#glossary-user-agent">user agent</a> is not required to conform
 				to the entirety of another specification in order to conform to this specification, but it MUST
 				conform to the specific parts of any other specification which are called out in this specification
-				(e.g., a conforming DOM3 Events <a class="def" href="#glossary-user-agent">user agent</a> MUST support
+				(e.g., a conforming UI Events <a class="def" href="#glossary-user-agent">user agent</a> MUST support
 				the <code>DOMString</code> data type as defined in <a href="#references-WebIDL">Web IDL</a>, but need
 				not support every method or data type defined in <a href="#references-WebIDL">Web IDL</a> in order to
-				conform to DOM3 Events).
+				conform to UI Events).
 				</p>
 
 			<p>This specification defines several classes of conformance for different
@@ -203,7 +180,7 @@
 				<dd>
 					<p>A dynamic or interactive <a class="def" href="#glossary-user-agent">user agent</a>, referred to
 						here as a <q>browser</q> (be it a Web browser, AT (Accessibility Technology) application,
-						or other similar program), conforms to DOM Level 3 Events if it supports:
+						or other similar program), conforms to UI Events if it supports:
 						</p>
 					<ul>
 						<li>the Core module defined in
@@ -230,7 +207,7 @@
 						for that <a class="def" href="#glossary-event-type">event type</a> have been met.
 						</p>
 
-					<p>A browser conforms specifically to DOM Level 3 Events if it implements
+					<p>A browser conforms specifically to UI Events if it implements
 						the interfaces and related <a class="def" href="#glossary-event-type">event types</a>
 						specified in <a href="#event-types">Event Types</a>.
 						</p>
@@ -248,13 +225,13 @@
 
 					<p>A conforming browser MAY also support features not found in this specification, but which use
 						the <a href="#event-flow">Event dispatch and DOM event flow</a> mechanism, interfaces, events,
-						or other features defined in DOM Level 3 Events, and MAY implement additional interfaces and
+						or other features defined in this specification, and MAY implement additional interfaces and
 						<a class="def" href="#glossary-event-type">event types</a> appropriate to that implementation.
 						Such features can be later standardized in future specifications.
 						</p>
 
 					<p>A browser which does not conform to all required portions of this specification MUST NOT claim
-						conformance to DOM Level 3 Events.
+						conformance to UI Events.
 						Such an implementation which does conform to portions of this specification MAY claim
 						conformance to those specific portions.
 						</p>
@@ -266,12 +243,12 @@
 
 				<dt id="conf-author-tools">Authoring tools</dt>
 				<dd>
-					<p>A content authoring tool conforms to DOM Level 3 Events if it produces content which uses the
+					<p>A content authoring tool conforms to UI Events if it produces content which uses the
 						<a class="def" href="#glossary-event-type">event types</a> and
 						<a href="#event-flow">Event dispatch and DOM event flow</a> model, consistent in a manner as
 						defined in this specification.
 						</p>
-					<p>A content authoring tool MUST NOT claim conformance to DOM Level 3 Events for content it produces
+					<p>A content authoring tool MUST NOT claim conformance to UI Events for content it produces
 						which uses features of this specification marked as
 						<a class="def" href="#glossary-deprecated">deprecated</a> in this specification.
 						</p>
@@ -284,7 +261,7 @@
 
 				<dt id="conf-authors">Content authors and content</dt>
 				<dd>
-					<p>A content author creates conforming DOM Level 3 Events content if that content uses the
+					<p>A content author creates conforming UI Events content if that content uses the
 						<a class="def" href="#glossary-event-type">event types</a> and
 						<a href="#event-flow">Event dispatch and DOM event flow</a> model, consistent in a manner as
 						defined in this specification.
@@ -308,25 +285,25 @@
 				<dt id="conf-specs">Specifications and host languages</dt>
 				<dd>
 					<p>A specification or <a class="def" href="#glossary-host-language">host language</a> conforms
-						to DOM Level 3 Events if it references and uses the
+						to UI Events if it references and uses the
 						<a href="#event-flow">Event dispatch and DOM event flow</a> mechanism, interfaces, events,
 						or other features defined in [<a href="#references-DOM4">DOM4</a>], and does not extend these
 						features in incompatible ways.
 						</p>
 					<p>A specification or <a class="def" href="#glossary-host-language">host language</a> conforms
-						specifically to DOM Level 3 Events if it references and uses the interfaces and
+						specifically to UI Events if it references and uses the interfaces and
 						related <a class="def" href="#glossary-event-type">event types</a> specified in
 						<a href="#event-types">Event Types</a>.
 						A conforming specification MAY define additional interfaces and
 						<a class="def" href="#glossary-event-type">event types</a> appropriate to that specification,
-						or MAY extend the DOM Level 3 Events interfaces and
+						or MAY extend the UI Events interfaces and
 						<a class="def" href="#glossary-event-type">event types</a> in a manner that does not contradict
 						or conflict with the definitions of those interfaces and
 						<a class="def" href="#glossary-event-type">event types</a> in this specification.
 						</p>
 
 					<p>Specifications or <a class="def" href="#glossary-host-language">host languages</a> which
-						reference DOM Level 3 Events SHOULD NOT use or recommend features of this
+						reference UI Events SHOULD NOT use or recommend features of this
 						specification marked as <a class="def" href="#glossary-deprecated">deprecated</a>, but
 						SHOULD use or recommend the indicated replacement for that the feature (if available).
 						</p>
@@ -854,7 +831,7 @@ console.log("Exceptions? No problem");</pre>
 		<h1>Basic Event Interfaces</h1>
 
 		<p>The basic event interfaces defined in DOM4
-			[<a href="#references-DOM4">DOM4</a>] are fundamental to DOM Level 3 Events.
+			[<a href="#references-DOM4">DOM4</a>] are fundamental to UI Events.
 			These basic event interfaces MUST always be supported by the implementation:
 			</p>
 
@@ -904,8 +881,8 @@ console.log("Exceptions? No problem");</pre>
 			</p>
 
 		<figure id="figure-event-inheritance">
-			<img src='images/event-inheritance.svg' height="230" alt="Graphical representation of the DOM3 Events interface inheritance" />
-			<figcaption>Graphical representation of the DOM3 Events interface inheritance</figcaption>
+			<img src='images/event-inheritance.svg' height="230" alt="Graphical representation of inheritance of interfaces defined by this specification" />
+			<figcaption>Graphical representation of inheritance of interfaces defined by this specification</figcaption>
 		</figure>
 
 		<section id="event-types-list">
@@ -924,7 +901,7 @@ console.log("Exceptions? No problem");</pre>
 			<p>The following table provides an informative summary of the event types defined in this specification.</p>
 
 			<table class="data-table"
-				summary="This table contains the complete list of event types defined by DOM Level 3 Events. The first column contains the local name of the event type. The second column indicates if the event accomplish the bubbling phase or not (all events accomplish the capture and target phases). The third column indicates if the default action associated with the event can be canceled. The fourth column indicates the nodes that can be target of the event. the fifth (and last) column indicates the DOM interface implemented by the event object.">
+				summary="This table contains the complete list of event types defined by this specification. The first column contains the local name of the event type. The second column indicates if the event accomplish the bubbling phase or not (all events accomplish the capture and target phases). The third column indicates if the default action associated with the event can be canceled. The fourth column indicates the nodes that can be target of the event. the fifth (and last) column indicates the DOM interface implemented by the event object.">
 				<tr>
 					<th>Event Type</th>
 					<th>Sync / Async</th>
@@ -1740,7 +1717,7 @@ console.log("Exceptions? No problem");</pre>
 			<section id="interface-FocusEvent">
 				<h4>Interface FocusEvent</h4>
 
-				<p class="intro-dom">Introduced in DOM Level 3</p>
+				<p class="intro-dom">Introduced in this specification</p>
 
 				<p>The <code>FocusEvent</code> interface provides specific contextual information associated
 					with Focus events.
@@ -2146,7 +2123,7 @@ console.log("Exceptions? No problem");</pre>
 			<section id="interface-MouseEvent">
 				<h4>Interface MouseEvent</h4>
 
-				<p class="intro-dom">Introduced in DOM Level 2, modified in DOM Level 3</p>
+				<p class="intro-dom">Introduced in DOM Level 2, modified in this specification</p>
 
 				<p>The <code>MouseEvent</code> interface provides specific contextual information
 					associated with Mouse events.
@@ -2308,7 +2285,7 @@ console.log("Exceptions? No problem");</pre>
 						<p>The <a class="def" href="#glossary-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>null</code>.</p>
 					</dd>
 
-					<dt>// Introduced in DOM Level 3</dt>
+					<dt>// Introduced in this specification</dt>
 
 					<dt>readonly attribute unsigned short buttons</dt>
 					<dd>
@@ -2374,7 +2351,7 @@ console.log("Exceptions? No problem");</pre>
 
 					<dt>boolean getModifierState()</dt>
 					<dd>
-						<p class="intro-dom">Introduced in DOM Level 3</p>
+						<p class="intro-dom">Introduced in this specification</p>
 
 						<p>Queries the state of a modifier using a key value.
 							See <a href="#keys-modifiers">Modifier keys</a> for a list of valid (case-sensitive) arguments to this method.
@@ -3956,7 +3933,7 @@ console.log("Exceptions? No problem");</pre>
 			<section id="interface-WheelEvent">
 				<h4>Interface WheelEvent</h4>
 
-				<p class="intro-dom">Introduced in DOM Level 3</p>
+				<p class="intro-dom">Introduced in this specification</p>
 
 				<p>The <code>WheelEvent</code> interface provides specific contextual information
 					associated with <a class="eventtype" href="#event-type-wheel"><code>wheel</code></a>
@@ -4218,7 +4195,7 @@ console.log("Exceptions? No problem");</pre>
 			<section id="interface-KeyboardEvent">
 				<h4>Interface KeyboardEvent</h4>
 
-				<p class="intro-dom">Introduced in DOM Level 3</p>
+				<p class="intro-dom">Introduced in this specification</p>
 
 				<p>The <a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a> interface
 					provides specific contextual information associated with keyboard devices.
@@ -4485,9 +4462,9 @@ console.log("Exceptions? No problem");</pre>
 					</p>
 				<p>In practice, <code>keyCode</code> and <code>charCode</code> are inconsistent across platforms
 					and even the same implementation on different operating systems or using different localizations.
-					DOM Level 3 Events  does not define values for either
+					This specification does not define values for either
 					<code>keyCode</code> or <code>charCode</code>, or behavior for <code>charCode</code>.
-					In conforming DOM Level 3 Events implementations, content authors can instead use
+					In conforming UI Events implementations, content authors can instead use
 					<a href="#widl-KeyboardEvent-key"><code>KeyboardEvent.key</code></a> and
 					<a href="#widl-KeyboardEvent-code"><code>KeyboardEvent.code</code></a>.
 					</p>
@@ -4863,7 +4840,7 @@ console.log("Exceptions? No problem");</pre>
 			<section id="interface-CompositionEvent">
 				<h4>Interface CompositionEvent</h4>
 
-				<p class="intro-dom">Introduced in DOM Level 3</p>
+				<p class="intro-dom">Introduced in this specification</p>
 
 				<p>The <code>CompositionEvent</code> interface provides specific contextual information associated with Composition Events.</p>
 
@@ -7293,14 +7270,14 @@ else {
 			<p><em>This section is informative</em></p>
 
 			<p>This section documents legacy initializer methods that were introduced in earlier
-				versions of the DOM Level 3 Events specification.
+				versions of this specification.
 				</p>
 
 			<section id="idl-interface-CustomEvent-initializers">
 				<h3>Initializers for interface CustomEvent</h3>
 
 				<dl class="idl" title="partial interface CustomEvent">
-					<dt>// Originally introduced (and deprecated) in DOM Level 3</dt>
+					<dt>// Originally introduced (and deprecated) in this specification</dt>
 					<dd></dd>
 					<dt>void initCustomEvent()</dt>
 					<dd>
@@ -7333,7 +7310,7 @@ else {
 				<h3>Initializers for interface UIEvent</h3>
 
 				<dl class="idl" title="partial interface UIEvent">
-					<dt>// Deprecated in DOM Level 3</dt>
+					<dt>// Deprecated in this specification</dt>
 
 					<dt>void initUIEvent()</dt>
 					<dd>
@@ -7380,7 +7357,7 @@ else {
 				<h3>Initializers for interface FocusEvent</h3>
 
 				<dl class="idl" title="partial interface FocusEvent">
-					<dt>// Originally introduced (and deprecated) in DOM Level 3</dt>
+					<dt>// Originally introduced (and deprecated) in this specification</dt>
 					<dd></dd>
 					<dt>void initFocusEvent()</dt>
 					<dd>
@@ -7420,7 +7397,7 @@ else {
 				<h3>Initializers for interface MouseEvent</h3>
 
 				<dl class="idl" title="partial interface MouseEvent">
-					<dt>// Deprecated in DOM Level 3</dt>
+					<dt>// Deprecated in this specification</dt>
 
 					<dt>void initMouseEvent()</dt>
 					<dd>
@@ -7518,7 +7495,7 @@ else {
 				<h3>Initializers for interface WheelEvent</h3>
 
 				<dl class="idl" title="partial interface WheelEvent">
-					<dt>// Originally introduced (and deprecated) in DOM Level 3</dt>
+					<dt>// Originally introduced (and deprecated) in this specification</dt>
 					<dd></dd>
 					<dt>void initWheelEvent()</dt>
 					<dd>
@@ -7596,10 +7573,10 @@ else {
 				<h3>Initializers for interface KeyboardEvent</h3>
 				<p class="note"><strong>Note: </strong>The argument list to this legacy KeyboardEvent initializer does not include 
 					the <code>detailArg</code> (present in other initializers) and adds the <code>locale</code> argument (see 
-					<a href="#changes-drafts">Changes between different drafts of DOM Level 3 Events</a>); it is necessary
+					<a href="#changes-drafts">Changes between different drafts of this specification</a>); it is necessary
 					to preserve this inconsistency for compatibility with existing implementations.</p>
 				<dl class="idl" title="partial interface KeyboardEvent">
-					<dt>// Originally introduced (and deprecated) in DOM Level 3</dt>
+					<dt>// Originally introduced (and deprecated) in this specification</dt>
 					<dd></dd>
 					<dt>void initKeyboardEvent()</dt>
 					<dd>
@@ -7643,10 +7620,7 @@ else {
 						
 							<dt>DOMString locale</dt>
 							<dd><p>Specifies the <code>locale</code> attribute of the KeyboardEvent.
-								This attribute is not defined in DOM3, but will be included in the
-								[<a href="#references-UIEvents">UI Events</a>] specification.
-								User agents which do not support <code>locale</code> should ignore this parameter.
-								</p></dd>
+								<p class="issue">Should we include locale in this specification now?</p></dd>
 						</dl>
 					</dd>
 				</dl>
@@ -7656,10 +7630,10 @@ else {
 				<h3>Initializers for interface CompositionEvent</h3>
 				<p class="note"><strong>Note: </strong>The argument list to this legacy CompositionEvent initializer does not include 
 					the <code>detailArg</code> (present in other initializers) and adds the <code>locale</code> argument (see 
-					<a href="#changes-drafts">Changes between different drafts of DOM Level 3 Events</a>); it is necessary
+					<a href="#changes-drafts">Changes between different drafts of this specification</a>); it is necessary
 					to preserve this inconsistency for compatibility with existing implementations.</p>
 				<dl class="idl" title="partial interface CompositionEvent">
-					<dt>// Originally introduced (and deprecated) in DOM Level 3</dt>
+					<dt>// Originally introduced (and deprecated) in this specification</dt>
 					<dd></dd>
 					<dt>void initCompositionEvent()</dt>
 					<dd>
@@ -7690,10 +7664,8 @@ else {
 
 							<dt>DOMString locale</dt>
 							<dd><p>Specifies the <code>locale</code> attribute of the CompositionEvent.
-								This attribute is not defined in DOM3, but will be included in the
-								[<a href="#references-UIEvents">UI Events</a>] specification.
-								User agents which do not support <code>locale</code> should ignore this parameter.
-								</p></dd>
+							    <p class="issue">Should we include locale in this specification now?</p>
+								</dd>
 						</dl>
 					</dd>
 				</dl>
@@ -7755,7 +7727,7 @@ else {
 			<dl>
 				<dt id="events-KeyboardEvent-supplemental"><strong>Interface <em>KeyboardEvent (supplemental)</em></strong></dt>
 				<dd>
-					<p class="intro-dom">Introduced in DOM Level 3</p>
+					<p class="intro-dom">Introduced in this specification</p>
 					
 					<p>The partial
 							<a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a>
@@ -8026,7 +7998,7 @@ else {
 			</p>
 
 		<table class="data-table"
-			summary="This table contains the complete list of the deprecated event types defined by DOM Level 3 Events.
+			summary="This table contains the complete list of the deprecated event types defined in this specification.
 				The first column contains the local name of the event type.
 				The second column indicates if the event accomplish the bubbling phase or not (all events accomplish the capture and target phases).
 				The third column indicates if the default action associated with the event can be canceled.
@@ -8251,7 +8223,7 @@ else {
 					</p>
 				
 				<p>Thus, when a <a class="eventtype" href="#event-type-click"><code>click</code></a> event is dispatched
-					by the DOM Level 3 Events <a class="def" href="#glossary-user-agent">user agent</a>, the
+					by a <a class="def" href="#glossary-user-agent">user agent</a> conforming to UI Events, the
 					XForms <a class="def" href="#glossary-user-agent">user agent</a> has to determine whether to synthesize
 					a <a class="eventtype" href="#event-type-DOMActivate"><code>DOMActivate</code></a> event with the
 					same relevant properties as a <a class="def" href="#glossary-default-action">default action</a> of
@@ -8815,7 +8787,7 @@ else {
 			<section id="interface-MutationEvent">
 				<h4>Interface MutationEvent</h4>
 
-				<p class="intro-dom">Introduced in DOM Level 2, deprecated in DOM Level 3</p>
+				<p class="intro-dom">Introduced in DOM Level 2, deprecated in this specification</p>
 
 				<p>The <code>MutationEvent</code> interface provides specific contextual information associated
 					with Mutation events.
@@ -9657,7 +9629,7 @@ document.documentElement.dispatchEvent(evt);
 	<section id="security-considerations">
 		<h1>Security Considerations</h1>
 
-		<p>This appendix discusses security considerations for DOM Level 3 Events implementations.
+		<p>This appendix discusses security considerations for UI Events implementations.
 			The discussion is limited to security issues that arise directly from implementation of the event
 			model, APIs and events defined in this specification.
 			Implementations typically support other features like scripting languages, other APIs and
@@ -9673,7 +9645,7 @@ document.documentElement.dispatchEvent(evt);
 			answer to a multiple choice question shortly before submitting a form, their typing rate or primary
 			input mechanism.
 			In the worst case, malicious event listeners could capture all user interactions and submit them
-			to a third party through means (not defined in DOM Level 3 Events) that are generally available
+			to a third party through means (not defined in this specification) that are generally available
 			in DOM implementations, such as the XMLHttpRequest interface.
 			</p>
 
@@ -9688,7 +9660,7 @@ document.documentElement.dispatchEvent(evt);
 			are open on the system to prepare further attacks.
 			</p>
 
-		<p>An implementation of DOM Level 3 Events alone is generally insufficient to perform attacks of this kind
+		<p>An implementation of UI Events alone is generally insufficient to perform attacks of this kind
 			and the security considerations of the facilities that possibly support such attacks apply.
 			For conformance with this specification, DOM implementations MAY take reasonable steps to ensure that
 			<a class="def" href="#glossary-DOM-application">DOM applications</a> do not get access to confidential
@@ -9704,7 +9676,7 @@ document.documentElement.dispatchEvent(evt);
 		<h1>Changes</h1>
 
 		<section id="changes-DOMEvents2to3Changes">
-			<h2>Changes between DOM Level 2 Events and DOM Level 3 Events</h2>
+			<h2>Changes between DOM Level 2 Events and UI Events (formerly DOM Level 3 Events)</h2>
 
 			<p>Numerous clarifications to the interfaces and event types have been made.
 				The <code>HTMLEvents</code> module is no longer defined in this document.
@@ -9770,7 +9742,7 @@ document.documentElement.dispatchEvent(evt);
 						A proposed correction to make the same change in
 							[<cite><a class="normative" href="#references-DOMCore">DOM3 Core</a></cite>] is forthcoming.
 						<br />
-						DOM Level 3 Events considers the <a href="#widl-Event-type"><code>Event.type</code></a> attribute
+						This specification considers the <a href="#widl-Event-type"><code>Event.type</code></a> attribute
 						to be case-sensitive, while DOM Level 2 Events considers
 						<a href="#widl-Event-type"><code>Event.type</code></a> to be case-insensitive.
 						</dd>
@@ -9809,7 +9781,7 @@ document.documentElement.dispatchEvent(evt);
 		</section>
 
 		<section id="changes-drafts">
-			<h2>Changes between different drafts of DOM Level 3 Events</h2>
+			<h2>Changes between different drafts of UI Events (formerly DOM Level 3 Events)</h2>
 
 			<p>The DOM Level 3 Events document was originally developed between 2000 and 2003, and published
 				as a W3C Note, pending further feedback and interest from implementers.
@@ -9965,6 +9937,14 @@ document.documentElement.dispatchEvent(evt);
 			Vinod Anupam (Lucent).
 			</p>
 
+		<p><strong>Former editors:</strong>
+			Tom Pixley (Netscape Communications Corporation) until July 2002, 
+			Philippe Le Hégaret (W3C) until November 2003,
+			Björn Höhrmann (Invited Expert) until January 2008,
+			Doug Schepers (W3C) from March 2008 to May 2011, 
+			and Jacob Rossi (Microsoft) from March 2011 to October 2011.
+			</p>
+				
 		<p><strong>Contributors:</strong>
 			In the WebApps Working Group, the following people made substantial material contributions
 			in the process of refining and revising this specification:
@@ -10251,7 +10231,7 @@ document.documentElement.dispatchEvent(evt);
 			<dt id="glossary-host-language"><dfn>host language</dfn></dt>
 			<dd>Any language which integrates the features of another language or API specification, while normatively referencing the origin specification rather than redefining
 				those features, and extending those features only in ways defined by the origin specification.  An origin specification typically is only intended to be implemented
-				in the context of one or more host languages, not as a standalone language.  For example, XHTML, HTML, and SVG are host languages for DOM 3 Events, and they integrate
+				in the context of one or more host languages, not as a standalone language.  For example, XHTML, HTML, and SVG are host languages for UI Events, and they integrate
 				and extend the objects and models defined in this specification.</dd>
 
 			<dt id="glossary-hysteresis"><dfn>hysteresis</dfn></dt>
