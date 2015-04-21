@@ -1,0 +1,83 @@
+When "mouse wheeling" occurs, the implementation must dispatch a
+<code>mouseomniwheel</code> event implementing the following interface:
+
+interface MouseOmniWheelEvent : MouseEvent {
+   readonly attribute long            wheelDeltaX;
+   readonly attribute long            wheelDeltaY;
+   readonly attribute long            wheelDeltaZ;
+   void               initMouseOmniWheelEventNS(in DOMString namespaceURI,
+                                                 in DOMString typeArg,
+                                                 in boolean canBubbleArg,
+                                                 in boolean cancelableArg,
+                                                 in views::AbstractView viewArg,
+                                                 in long detailArg,
+                                                 in long screenXArg,
+                                                 in long screenYArg,
+                                                 in long clientXArg,
+                                                 in long clientYArg,
+                                                 in unsigned short buttonArg,
+                                                 in EventTarget relatedTargetArg,
+                                                 in DOMString modifiersList,
+                                                 in long wheelDeltaX,
+                                                 in long wheelDeltaY,
+                                                 in long wheelDeltaZ);
+};
+
+wheelDeltaX is a number indicating the horizontal distance (positive means
+rotated to the right, negative means rotated to the left).
+
+wheelDeltaY is a number indicating the vertical distance (positive means rotated
+away from user or to the right, negative means rotated towards user or to the
+left).
+
+wheelDeltaZ, included for future extensibility, is a number indicating the
+distance along a third unspecified axis (positive means rotated away from the
+user, means rotated towards user). At the present time, implementors may use
+whatever modality is best suited to the task, such as the the use of the wheel
+in conjunction with a control key.
+
+The default value of wheelDeltaX, wheelDeltaY and wheelDeltaZ is 0.
+UIEvent.detail must always be 0.
+
+This event includes both scroll deltas. The default action of this event is to
+dispatch a <code>mousewheel</code> event if the y delta is non-zero. Besides
+that, its default action is to do whatever platform conventions suggest for the
+wheeling behavior.
+
+The <code>mousewheel</code> event implements the following interface:
+
+interface MouseWheelEvent : MouseEvent {
+   readonly attribute long            wheelDelta;
+   void               initMouseWheelEventNS(in DOMString namespaceURI,
+                                            in DOMString typeArg,
+                                            in boolean canBubbleArg,
+                                            in boolean cancelableArg,
+                                            in views::AbstractView viewArg,
+                                            in long detailArg,
+                                            in long screenXArg,
+                                            in long screenYArg,
+                                            in long clientXArg,
+                                            in long clientYArg,
+                                            in unsigned short buttonArg,
+                                            in EventTarget relatedTargetArg,
+                                            in DOMString modifiersList,
+                                            in long wheelDelta);
+};
+
+If the <code>mousewheel</code> event is cancelled, only the default action for
+vertical wheeling is cancelled. 
+
+    wheelDelta
+        A number indicating the distance, measured as the number of "clicks" the wheel has been rotated. A positive value indicates that the wheel has been rotated away from the user (or in a right-hand manner on horizontally aligned devices) and a negative value indicates that the wheel has been rotated towards the user (or in a left-hand manner on horizontally aligned devices). The default value of the wheelDelta attribute is 0.
+
+        A "click" is defined to be a unit of rotation. On some devices this is a finite physical step. On devices with smooth rotation, a "click" becomes the smallest reported amount of rotation.
+
+
+XXX: What about UIEvent.detail?
+
+For both <code>mouseomniwheel</code> and <code>mousewheel</code>,
+<code>MouseEvent.relatedNode</code> must indicate the element over which the
+pointer is located, or <code>null</code> if there is no such element (in the
+case where the device does not have a pointer, but does have a wheel).
+
+

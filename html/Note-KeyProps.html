@@ -1,0 +1,1263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Legacy Keyboard Event Properties</title>
+    <style type="text/css">
+/*<![CDATA[*/
+    code           { font-family: monospace; }
+
+    div.constraint,
+    div.issue,
+    div.note,
+    div.notice     { margin-left: 2em; }
+
+    ol.enumar      { list-style-type: decimal; }
+    ol.enumla      { list-style-type: lower-alpha; }
+    ol.enumlr      { list-style-type: lower-roman; }
+    ol.enumua      { list-style-type: upper-alpha; }
+    ol.enumur      { list-style-type: upper-roman; }
+
+
+    div.exampleInner pre { margin-left: 1em;
+                       margin-top: 0em; margin-bottom: 0em}
+    div.exampleOuter {border: 4px double gray;
+                  margin: 0em; padding: 0em}
+    div.exampleInner { background-color: #d5dee3;
+                   border-top-width: 4px;
+                   border-top-style: double;
+                   border-top-color: #d3d3d3;
+                   border-bottom-width: 4px;
+                   border-bottom-style: double;
+                   border-bottom-color: #d3d3d3;
+                   padding: 4px; margin: 0em }
+    div.exampleWrapper { margin: 4px }
+    div.exampleHeader { font-weight: bold;
+                    margin: 4px}
+ 
+
+    /*style for keyValues keyCode charCode table*/
+    table#tbl-keyValues-keyCode-charCode  { border: 1px solid black;  border-spacing: 0px; padding: 2px; font-size: smaller;}
+    #tbl-keyValues-keyCode-charCode td { border: 1px solid #d3d3d3 }
+    #tbl-keyValues-keyCode-charCode th { border: 1px solid black }
+
+    #tbl-keyValues-keyCode-charCode th { text-align: center; font-weight: bold }
+
+    #tbl-keyValues-keyCode-charCode th { vertical-align: middle; font-size: 0.85em; }
+    #tbl-keyValues-keyCode-charCode td { vertical-align: middle; text-align: center;  }
+
+    .smallRow1 th { 
+      font-size: 0.75em;
+      display:block; 
+      width:1.5em; 
+      height:1.5em; 
+      height:auto;
+    }
+
+    .verticalCell1 { 
+      display:block; 
+      width:1.5em; 
+      height:1.5em; 
+      height:auto;
+    }
+
+    #tbl-keyValues-keyCode-charCode td:first-child + td + td + td + td,
+    #tbl-keyValues-keyCode-charCode td:first-child + td + td + td + td + td + td + td + td + td + td,
+    #tbl-keyValues-keyCode-charCode td:first-child + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td,
+    #tbl-keyValues-keyCode-charCode td:first-child + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td
+    {
+      border-left: 1px solid black;
+    }
+
+
+    #tbl-keyValues-keyCode-charCode td:first-child + td + td + td + td + td + td,
+    #tbl-keyValues-keyCode-charCode td:first-child + td + td + td + td + td + td + td + td,
+    #tbl-keyValues-keyCode-charCode td:first-child + td + td + td + td + td + td + td + td + td + td + td + td,
+    #tbl-keyValues-keyCode-charCode td:first-child + td + td + td + td + td + td + td + td + td + td + td + td + td + td,
+    #tbl-keyValues-keyCode-charCode td:first-child + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td,
+    #tbl-keyValues-keyCode-charCode td:first-child + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td,
+    #tbl-keyValues-keyCode-charCode td:first-child + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td,
+    #tbl-keyValues-keyCode-charCode td:first-child + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td + td
+    {
+      border-left: 1px solid gray;
+    }
+ 
+    /*]]>*/
+    </style>
+    <link rel="stylesheet" type="text/css" href="https://www.w3.org/StyleSheets/TR/W3C-WG-NOTE.css" />
+  </head>
+  <body>
+    <div class="head">
+      <p>
+        <a href="http://www.w3.org/"><img src="https://www.w3.org/Icons/w3c_home" alt="W3C" height="48" width="72" /></a>
+      </p>
+      <h1 id="title">Legacy Keyboard Event Properties</h1>
+      <h2 id="w3c-doctype">W3C Working Group Note 04 August 2010</h2>
+      <dl>
+        <dt>This version:</dt>
+       <dd><a href="https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/Note-KeyProps.html">https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/Note-KeyProps.html</a></dd>
+       
+        <dt>Latest version:</dt>
+        <dd><a href="https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/Note-KeyProps.html">https://dvcs.w3.org/hg/dom3events/raw-file/tip/html/Note-KeyProps.html</a></dd>
+
+        <!-- 
+        <dt>Previous version:</dt>
+        <dd><a href="http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/Note-KeyProps.html">http://dev.w3.org/2006/webapi/DOM-Level-3-Events/html/Note-KeyProps.html</a></dd>
+        -->
+
+        <dt>Editor:</dt>
+        <dd>Doug Schepers, <em>W3C</em></dd>
+      </dl>
+      <p class="copyright">
+        <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2010 <a href="http://www.w3.org/"><acronym title="World Wide Web Consortium">W3C</acronym></a><sup>®</sup> (<a href="http://www.csail.mit.edu/"><acronym title="Massachusetts Institute of Technology">MIT</acronym></a>, <a href="http://www.ercim.eu/"><acronym title="European Research Consortium for Informatics and Mathematics">ERCIM</acronym></a>, <a href="http://www.keio.ac.jp/">Keio</a>), All Rights Reserved. W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a> rules apply.
+      </p>
+    </div>
+    <hr />
+    <div>
+      <h2>
+        <a id="abstract"></a>Abstract
+      </h2>
+      <p>
+        This document describes the legacy key event properties <code class="attr-name">keyCode</code> and <code class="attr-name">charCode</code>, their values in some common browsers, and how they correspond to the key event property values defined in the DOM Level 3 Events [<a href="#references-DOM3Events">DOM3 Events</a>] specification.
+      </p>
+    </div>
+    <div>
+      <h2>
+        <a id="status"></a>Status of this Document
+      </h2>
+      <p>
+        <em>This section describes the status of this document at the time of its publication. Other documents may supersede this document. A list of current W3C publications and the latest revision of this technical report can be found in the <a href="http://www.w3.org/TR/">W3C technical reports index</a> at http://www.w3.org/TR/.</em>
+      </p>
+            				
+      <p>Publication as a Working Group Note does not imply endorsement by the W3C Membership. This is a draft document and may be updated, replaced or obsoleted by other documents at any time. It is inappropriate to cite this document as other than work in progress.</p>
+
+      <p>This document is a Working Group Note. It has been developed by the <a href="http://www.w3.org/2008/webapps/">Web Applications WG</a>, as part of the <a href="http://www.w3.org/2006/rwc/Activity">Rich Web Clients Activity</a> in the <a href="http://www.w3.org/">W3C</a> <a href="http://www.w3.org/Interaction/">Interaction Domain</a>.  Please send comments on this document to the WebApps Working Group's public email list <a href="mailto:www-dom@w3.org">www-dom@w3.org</a> (<a href="http://lists.w3.org/Archives/Public/www-dom/">public archives</a>).</p>
+      					
+      <p> This document was produced by a group operating under the <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/">5 February 2004 W3C Patent Policy</a>. W3C maintains a <a rel="disclosure" href="http://www.w3.org/2004/01/pp-impl/37583/status">public list of any patent disclosures</a> made in connection with the deliverables of the group; that page also includes instructions for disclosing a patent. An individual who has actual knowledge of a patent which the individual believes contains <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential Claim(s)</a> must disclose the information in accordance with <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section 6 of the W3C Patent Policy</a>.</p>
+    </div>
+
+    <div class="toc">
+      <h2 id="Overview-table-of-contents">
+        <a id="Overview-contents">Table of Contents</a>
+      </h2>
+      <ul class="toc">
+        <li><a href="#intro">1. Introduction</a>
+          <ul class="toc">
+            <li><a href="#keyset-keyCode-charCode">1.1. Key values, keyCode, and charCode</a></li>
+          </ul>
+        </li>
+        <li><a href="#refs" class="references">Appendix A: References</a>
+          <ul class="toc">
+            <li><a href="#norm-ref">A.1 Normative References</a></li>
+            <li><a href="#inform-ref">A.2 Informative References</a></li>
+          </ul>
+        </li>
+        <li><a href="#acknowledgements-contributors">Appendix B: Acknowledgements</a></li>
+      </ul>
+    
+    </div>
+    <hr />
+    <div class="body">
+      <h1><a id="intro" href="#intro">1. Introduction</a></h1>
+      <p>Browser support for keyboards has traditionally relied on two ad-hoc event interface properties, <code class="attr-name">keyCode</code>, and <code class="attr-name">charCode</code>.  The values for these properties, and the availability of the attribute, is inconsistent across platforms, keyboard languages and layouts, user agents, versions, and even event types.  A significant amount of legacy content, including script libraries, relies upon detecting the user agent and acting accordingly, and any changes to <code class="attr-name">keyCode</code>, or <code class="attr-name">charCode</code> risk breaking as much content as they fix or enable.  Additionally, these properties are not suitable for international usage, or accessibility concerns.  Therefore, the DOM Level 3 Events  [<a href="#references-DOM3Events">DOM3 Events</a>] specification does not normatively define the <code class="attr-name">keyCode</code>, and <code class="attr-name">charCode</code> properties, relying instead only on the more robust key values, which can be used safely and consistently in any user agent which conforms to that specification.  However, for the purpose of documenting the current state of these properties and their relation to equivalent key values, this note contains the following table, which is to be used as an informative reference only, and does not document the full range of values for <code class="attr-name">keyCode</code>, and <code class="attr-name">charCode</code>.</p>
+
+      <div>
+        <h2><a id="keyset-keyCode-charCode" href="#keyset-keyCode-charCode">1.1. Key values, keyCode, and charCode</a></h2>
+
+        <p class="note" id="_41"><strong>Note:</strong> This section is non-normative.</p>
+
+
+        <table id="tbl-keyValues-keyCode-charCode">
+          <caption><strong>Key Values Set with keyCode and charCode Equivalents for Major Browsers</strong><br/>(<code>keycode</code> labeled <em>key</em>, <code>charcode</code> labeled <em>char</em>)</caption>
+          <tr>
+            <th rowspan="3">Glyph</th>
+            <th rowspan="3">Key Name</th>
+            <th rowspan="3">Character Value</th>
+            <th rowspan="3">Description</th>
+            <th colspan="6">Internet Explorer 7</th>
+            <th colspan="6">Firefox 3</th>
+            <th colspan="6">Safari 3.1</th>
+            <th colspan="6">Opera 9.5</th></tr>
+          <tr>
+            <th colspan="2">keydown</th>
+            <th colspan="2">keypress</th>
+            <th colspan="2">keyup</th>
+            <th colspan="2">keydown</th>
+            <th colspan="2">keypress</th>
+            <th colspan="2">keyup</th>
+            <th colspan="2">keydown</th>
+            <th colspan="2">keypress</th>
+            <th colspan="2">keyup</th>
+            <th colspan="2">keydown</th>
+            <th colspan="2">keypress</th>
+            <th colspan="2">keyup</th></tr>
+          <tr class="smallRow"><th>key</th><th>char</th><th>key</th><th>char</th><th>key</th><th>char</th><th>key</th><th>char</th><th>key</th><th>char</th><th>key</th><th>char</th><th>key</th><th>char</th><th>key</th><th>char</th><th>key</th><th>char</th><th>key</th><th>char</th><th>key</th><th>char</th><th>key</th><th>char</th></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Accept" class="value">'Accept'</code>
+            </td><td> </td><td>The Accept (Commit, OK) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Add" class="value">'Add'</code>
+            </td><td> </td><td>The Add key.</td><td>107</td><td>-</td><td>107</td><td>-</td><td>107</td><td>-</td><td>107</td><td>-</td><td>0</td><td>107</td><td>107</td><td>-</td><td>107</td><td>-</td><td>107</td><td>107</td><td>107</td><td>-</td><td>107</td><td>-</td><td>107</td><td>-</td><td>107</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Again" class="value">'Again'</code>
+            </td><td> </td><td>The Again key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-AllCandidates" class="value">'AllCandidates'</code>
+            </td><td> </td><td>The All Candidates key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Alphanumeric" class="value">'Alphanumeric'</code>
+            </td><td> </td><td>The Alphanumeric key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Alt" class="value">'Alt'</code>
+            </td><td> </td><td>The Alt (Menu) key.</td><td>18</td><td>-</td><td>-</td><td>-</td><td>18</td><td>-</td><td>18</td><td>-</td><td>-</td><td>-</td><td>18</td><td>-</td><td>18</td><td>-</td><td>-</td><td>-</td><td>18</td><td>-</td><td>18</td><td>-</td><td>18</td><td>-</td><td>-</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-AltGraph" class="value">'AltGraph'</code>
+            </td><td> </td><td>The Alt-Graph key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Apps" class="value">'Apps'</code>
+            </td><td> </td><td>The Application key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Attn" class="value">'Attn'</code>
+            </td><td> </td><td>The ATTN key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-BrowserBack" class="value">'BrowserBack'</code>
+            </td><td> </td><td>The Browser Back key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-BrowserFavorites" class="value">'BrowserFavorites'</code>
+            </td><td> </td><td>The Browser Favorites key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-BrowserForward" class="value">'BrowserForward'</code>
+            </td><td> </td><td>The Browser Forward key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-BrowserHome" class="value">'BrowserHome'</code>
+            </td><td> </td><td>The Browser Home key.</td><td>36</td><td>-</td><td>-</td><td>-</td><td>36</td><td>-</td><td>36</td><td>-</td><td>36</td><td>-</td><td>36</td><td>-</td><td>36</td><td>-</td><td>-</td><td>-</td><td>36</td><td>-</td><td>36</td><td>-</td><td>36</td><td>-</td><td>36</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-BrowserRefresh" class="value">'BrowserRefresh'</code>
+            </td><td> </td><td>The Browser Refresh key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-BrowserSearch" class="value">'BrowserSearch'</code>
+            </td><td> </td><td>The Browser Search key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-BrowserStop" class="value">'BrowserStop'</code>
+            </td><td> </td><td>The Browser Stop key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-CapsLock" class="value">'CapsLock'</code>
+            </td><td> </td><td>The Caps Lock (Capital) key.</td><td>20</td><td>-</td><td>-</td><td>-</td><td>20</td><td>-</td><td>20</td><td>-</td><td>-</td><td>-</td><td>20</td><td>-</td><td>20</td><td>-</td><td>-</td><td>-</td><td>20</td><td>-</td><td>20</td><td>-</td><td>-</td><td>-</td><td>20</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Clear" class="value">'Clear'</code>
+            </td><td> </td><td>The Clear key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-CodeInput" class="value">'CodeInput'</code>
+            </td><td> </td><td>The Code Input key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Compose" class="value">'Compose'</code>
+            </td><td> </td><td>The Compose key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Control" class="value">'Control'</code>
+            </td><td> </td><td>The Control (Ctrl) key.</td><td>17</td><td>-</td><td>-</td><td>-</td><td>17</td><td>-</td><td>17</td><td>-</td><td>-</td><td>-</td><td>17</td><td>-</td><td>17</td><td>-</td><td>-</td><td>-</td><td>17</td><td>-</td><td>17</td><td>-</td><td>17</td><td>-</td><td>17</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Crsel" class="value">'Crsel'</code>
+            </td><td> </td><td>The Crsel key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Convert" class="value">'Convert'</code>
+            </td><td> </td><td>The Convert key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Copy" class="value">'Copy'</code>
+            </td><td> </td><td>The Copy key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Cut" class="value">'Cut'</code>
+            </td><td> </td><td>The Cut key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Decimal" class="value">'Decimal'</code>
+            </td><td> </td><td>The Decimal key.</td><td>110</td><td>-</td><td>110</td><td>-</td><td>110</td><td>-</td><td>110</td><td>-</td><td>0</td><td>110</td><td>110</td><td>-</td><td>110</td><td>-</td><td>110</td><td>110</td><td>110</td><td>-</td><td>110</td><td>-</td><td>110</td><td>-</td><td>110</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Divide" class="value">'Divide'</code>
+            </td><td> </td><td>The Divide key.</td><td>111</td><td>-</td><td>111</td><td>-</td><td>111</td><td>-</td><td>111</td><td>-</td><td>0</td><td>111</td><td>111</td><td>-</td><td>111</td><td>-</td><td>111</td><td>111</td><td>111</td><td>-</td><td>111</td><td>-</td><td>111</td><td>-</td><td>111</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Down" class="value">'Down'</code>
+            </td><td> </td><td>The Down Arrow key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-DownLeft" class="value">'DownLeft'</code>
+            </td><td> </td><td>The diagonal Down-Left Arrow key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-DownRight" class="value">'DownRight'</code>
+            </td><td> </td><td>The diagonal Down-Right Arrow key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-End" class="value">'End'</code>
+            </td><td> </td><td>The End key.</td><td>35</td><td>-</td><td>-</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td><td>-</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td><td>35</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Enter" class="value">'Enter'</code>
+            </td><td> </td><td>The Enter key. <em><strong>Note:</strong> This key value shall be also used for the Return (Macintosh numpad) key.</em></td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>13</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td><td>13</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-EraseEof" class="value">'EraseEof'</code>
+            </td><td> </td><td>The Erase EOF key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Execute" class="value">'Execute'</code>
+            </td><td> </td><td>The Execute key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Exsel" class="value">'Exsel'</code>
+            </td><td> </td><td>The Exsel key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Fn" class="value">'Fn'</code>
+            </td><td> </td><td>The Function switch key.</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F1" class="value">'F1'</code>
+            </td><td> </td><td>The F1 key.</td><td>112</td><td>-</td><td>-</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td><td>-</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td><td>112</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F2" class="value">'F2'</code>
+            </td><td> </td><td>The F2 key.</td><td>113</td><td>-</td><td>-</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td><td>-</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td><td>113</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F3" class="value">'F3'</code>
+            </td><td> </td><td>The F3 key.</td><td>114</td><td>-</td><td>-</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td><td>-</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td><td>114</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F4" class="value">'F4'</code>
+            </td><td> </td><td>The F4 key.</td><td>115</td><td>-</td><td>-</td><td>-</td><td>115</td><td>-</td><td>115</td><td>-</td><td>115</td><td>-</td><td>115</td><td>-</td><td>115</td><td>-</td><td>-</td><td>-</td><td>115</td><td>-</td><td>115</td><td>-</td><td>115</td><td>-</td><td>115</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F5" class="value">'F5'</code>
+            </td><td> </td><td>The F5 key.</td><td>116</td><td>-</td><td>-</td><td>-</td><td>116</td><td>-</td><td>116</td><td>-</td><td>116</td><td>-</td><td>116</td><td>-</td><td>116</td><td>-</td><td>-</td><td>-</td><td>116</td><td>-</td><td>116</td><td>-</td><td>116</td><td>-</td><td>116</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F6" class="value">'F6'</code>
+            </td><td> </td><td>The F6 key.</td><td>117</td><td>-</td><td>-</td><td>-</td><td>117</td><td>-</td><td>117</td><td>-</td><td>117</td><td>-</td><td>117</td><td>-</td><td>117</td><td>-</td><td>-</td><td>-</td><td>117</td><td>-</td><td>117</td><td>-</td><td>117</td><td>-</td><td>117</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F7" class="value">'F7'</code>
+            </td><td> </td><td>The F7 key.</td><td>118</td><td>-</td><td>-</td><td>-</td><td>118</td><td>-</td><td>118</td><td>-</td><td>118</td><td>-</td><td>118</td><td>-</td><td>118</td><td>-</td><td>-</td><td>-</td><td>118</td><td>-</td><td>118</td><td>-</td><td>118</td><td>-</td><td>118</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F8" class="value">'F8'</code>
+            </td><td> </td><td>The F8 key.</td><td>119</td><td>-</td><td>-</td><td>-</td><td>119</td><td>-</td><td>119</td><td>-</td><td>119</td><td>-</td><td>119</td><td>-</td><td>119</td><td>-</td><td>-</td><td>-</td><td>119</td><td>-</td><td>119</td><td>-</td><td>119</td><td>-</td><td>119</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F9" class="value">'F9'</code>
+            </td><td> </td><td>The F9 key.</td><td>120</td><td>-</td><td>-</td><td>-</td><td>120</td><td>-</td><td>120</td><td>-</td><td>120</td><td>-</td><td>120</td><td>-</td><td>120</td><td>-</td><td>-</td><td>-</td><td>120</td><td>-</td><td>120</td><td>-</td><td>120</td><td>-</td><td>120</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F10" class="value">'F10'</code>
+            </td><td> </td><td>The F10 key.</td><td>121</td><td>-</td><td>-</td><td>-</td><td>121</td><td>-</td><td>121</td><td>-</td><td>121</td><td>-</td><td>121</td><td>-</td><td>121</td><td>-</td><td>-</td><td>-</td><td>121</td><td>-</td><td>121</td><td>-</td><td>121</td><td>-</td><td>121</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F11" class="value">'F11'</code>
+            </td><td> </td><td>The F11 key.</td><td>122</td><td>-</td><td>-</td><td>-</td><td>122</td><td>-</td><td>122</td><td>-</td><td>122</td><td>-</td><td>122</td><td>-</td><td>122</td><td>-</td><td>-</td><td>-</td><td>122</td><td>-</td><td>122</td><td>-</td><td>122</td><td>-</td><td>122</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F12" class="value">'F12'</code>
+            </td><td> </td><td>The F12 key.</td><td>123</td><td>-</td><td>-</td><td>-</td><td>123</td><td>-</td><td>123</td><td>-</td><td>123</td><td>-</td><td>123</td><td>-</td><td>123</td><td>-</td><td>-</td><td>-</td><td>123</td><td>-</td><td>123</td><td>-</td><td>123</td><td>-</td><td>123</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F13" class="value">'F13'</code>
+            </td><td> </td><td>The F13 key.</td><td>124</td><td>-</td><td>-</td><td>-</td><td>124</td><td>-</td><td>124</td><td>-</td><td>124</td><td>-</td><td>124</td><td>-</td><td>124</td><td>-</td><td>-</td><td>-</td><td>124</td><td>-</td><td>124</td><td>-</td><td>124</td><td>-</td><td>124</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F14" class="value">'F14'</code>
+            </td><td> </td><td>The F14 key.</td><td>125</td><td>-</td><td>-</td><td>-</td><td>125</td><td>-</td><td>125</td><td>-</td><td>125</td><td>-</td><td>125</td><td>-</td><td>125</td><td>-</td><td>-</td><td>-</td><td>125</td><td>-</td><td>125</td><td>-</td><td>125</td><td>-</td><td>125</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F15" class="value">'F15'</code>
+            </td><td> </td><td>The F15 key.</td><td>126</td><td>-</td><td>-</td><td>-</td><td>126</td><td>-</td><td>126</td><td>-</td><td>126</td><td>-</td><td>126</td><td>-</td><td>126</td><td>-</td><td>-</td><td>-</td><td>126</td><td>-</td><td>126</td><td>-</td><td>126</td><td>-</td><td>126</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F16" class="value">'F16'</code>
+            </td><td> </td><td>The F16 key.</td><td>127</td><td>-</td><td>-</td><td>-</td><td>127</td><td>-</td><td>127</td><td>-</td><td>127</td><td>-</td><td>127</td><td>-</td><td>127</td><td>-</td><td>-</td><td>-</td><td>127</td><td>-</td><td>127</td><td>-</td><td>127</td><td>-</td><td>127</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F17" class="value">'F17'</code>
+            </td><td> </td><td>The F17 key.</td><td>128</td><td>-</td><td>-</td><td>-</td><td>128</td><td>-</td><td>128</td><td>-</td><td>128</td><td>-</td><td>128</td><td>-</td><td>128</td><td>-</td><td>-</td><td>-</td><td>128</td><td>-</td><td>128</td><td>-</td><td>128</td><td>-</td><td>128</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F18" class="value">'F18'</code>
+            </td><td> </td><td>The F18 key.</td><td>129</td><td>-</td><td>-</td><td>-</td><td>129</td><td>-</td><td>129</td><td>-</td><td>129</td><td>-</td><td>129</td><td>-</td><td>129</td><td>-</td><td>-</td><td>-</td><td>129</td><td>-</td><td>129</td><td>-</td><td>129</td><td>-</td><td>129</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F19" class="value">'F19'</code>
+            </td><td> </td><td>The F19 key.</td><td>130</td><td>-</td><td>-</td><td>-</td><td>130</td><td>-</td><td>130</td><td>-</td><td>130</td><td>-</td><td>130</td><td>-</td><td>130</td><td>-</td><td>-</td><td>-</td><td>130</td><td>-</td><td>130</td><td>-</td><td>130</td><td>-</td><td>130</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F20" class="value">'F20'</code>
+            </td><td> </td><td>The F20 key.</td><td>131</td><td>-</td><td>-</td><td>-</td><td>131</td><td>-</td><td>131</td><td>-</td><td>131</td><td>-</td><td>131</td><td>-</td><td>131</td><td>-</td><td>-</td><td>-</td><td>131</td><td>-</td><td>131</td><td>-</td><td>131</td><td>-</td><td>131</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F21" class="value">'F21'</code>
+            </td><td> </td><td>The F21 key.</td><td>132</td><td>-</td><td>-</td><td>-</td><td>132</td><td>-</td><td>132</td><td>-</td><td>132</td><td>-</td><td>132</td><td>-</td><td>132</td><td>-</td><td>-</td><td>-</td><td>132</td><td>-</td><td>132</td><td>-</td><td>132</td><td>-</td><td>132</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F22" class="value">'F22'</code>
+            </td><td> </td><td>The F22 key.</td><td>133</td><td>-</td><td>-</td><td>-</td><td>133</td><td>-</td><td>133</td><td>-</td><td>133</td><td>-</td><td>133</td><td>-</td><td>133</td><td>-</td><td>-</td><td>-</td><td>133</td><td>-</td><td>133</td><td>-</td><td>133</td><td>-</td><td>133</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F23" class="value">'F23'</code>
+            </td><td> </td><td>The F23 key.</td><td>134</td><td>-</td><td>-</td><td>-</td><td>134</td><td>-</td><td>134</td><td>-</td><td>134</td><td>-</td><td>134</td><td>-</td><td>134</td><td>-</td><td>-</td><td>-</td><td>134</td><td>-</td><td>134</td><td>-</td><td>134</td><td>-</td><td>134</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-F24" class="value">'F24'</code>
+            </td><td> </td><td>The F24 key.</td><td>135</td><td>-</td><td>-</td><td>-</td><td>135</td><td>-</td><td>135</td><td>-</td><td>135</td><td>-</td><td>135</td><td>-</td><td>135</td><td>-</td><td>-</td><td>-</td><td>135</td><td>-</td><td>135</td><td>-</td><td>135</td><td>-</td><td>135</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-FinalMode" class="value">'FinalMode'</code>
+            </td><td> </td><td>The Final Mode (Final) key used on some asian keyboards.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Find" class="value">'Find'</code>
+            </td><td> </td><td>The Find key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-FullWidth" class="value">'FullWidth'</code>
+            </td><td> </td><td>The Full-Width Characters key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-HalfWidth" class="value">'HalfWidth'</code>
+            </td><td> </td><td>The Half-Width Characters key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-HangulMode" class="value">'HangulMode'</code>
+            </td><td> </td><td>The Hangul (Korean characters) Mode key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-HanjaMode" class="value">'HanjaMode'</code>
+            </td><td> </td><td>The Hanja (Korean characters) Mode key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Help" class="value">'Help'</code>
+            </td><td> </td><td>The Help key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Hiragana" class="value">'Hiragana'</code>
+            </td><td> </td><td>The Hiragana (Japanese Kana characters) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Home" class="value">'Home'</code>
+            </td><td> </td><td>The Home key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Insert" class="value">'Insert'</code>
+            </td><td> </td><td>The Insert (Ins) key.</td><td>45</td><td>-</td><td>-</td><td>-</td><td>45</td><td>-</td><td>45</td><td>-</td><td>45</td><td>-</td><td>45</td><td>-</td><td>45</td><td>-</td><td>-</td><td>-</td><td>45</td><td>-</td><td>45</td><td>-</td><td>45</td><td>-</td><td>45</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-JapaneseHiragana" class="value">'JapaneseHiragana'</code>
+            </td><td> </td><td>The Japanese-Hiragana key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-JapaneseKatakana" class="value">'JapaneseKatakana'</code>
+            </td><td> </td><td>The Japanese-Katakana key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-JapaneseRomaji" class="value">'JapaneseRomaji'</code>
+            </td><td> </td><td>The Japanese-Romaji key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-JunjaMode" class="value">'JunjaMode'</code>
+            </td><td> </td><td>The Junja Mode key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-KanaMode" class="value">'KanaMode'</code>
+            </td><td> </td><td>The Kana Mode (Kana Lock) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-KanjiMode" class="value">'KanjiMode'</code>
+            </td><td> </td><td>The Kanji (Japanese name for ideographic characters of Chinese origin) Mode key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Katakana" class="value">'Katakana'</code>
+            </td><td> </td><td>The Katakana (Japanese Kana characters) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-LaunchApplication1" class="value">'LaunchApplication1'</code>
+            </td><td> </td><td>The Start Application One key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-LaunchApplication2" class="value">'LaunchApplication2'</code>
+            </td><td> </td><td>The Start Application Two key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-LaunchMail" class="value">'LaunchMail'</code>
+            </td><td> </td><td>The Start Mail key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Left" class="value">'Left'</code>
+            </td><td> </td><td>The Left Arrow key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Menu" class="value">'Menu'</code>
+            </td><td> </td><td>The Menu key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Meta" class="value">'Meta'</code>
+            </td><td> </td><td>The Meta key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-MediaNextTrack" class="value">'MediaNextTrack'</code>
+            </td><td> </td><td>The Media Next Track key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-MediaPlayPause" class="value">'MediaPlayPause'</code>
+            </td><td> </td><td>The Media Play Pause key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-MediaPreviousTrack" class="value">'MediaPreviousTrack'</code>
+            </td><td> </td><td>The Media Previous Track key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-MediaStop" class="value">'MediaStop'</code>
+            </td><td> </td><td>The Media Stop key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-ModeChange" class="value">'ModeChange'</code>
+            </td><td> </td><td>The Mode Change key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Multiply" class="value">'Multiply'</code>
+            </td><td> </td><td>The Multiply key.</td><td>106</td><td>-</td><td>106</td><td>-</td><td>106</td><td>-</td><td>106</td><td>-</td><td>0</td><td>106</td><td>106</td><td>-</td><td>106</td><td>-</td><td>106</td><td>106</td><td>106</td><td>-</td><td>106</td><td>-</td><td>106</td><td>-</td><td>106</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-NextCandidate" class="value">'NextCandidate'</code>
+            </td><td> </td><td>The Next Candidate function key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Nonconvert" class="value">'Nonconvert'</code>
+            </td><td> </td><td>The Nonconvert (Don't Convert) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-NumLock" class="value">'NumLock'</code>
+            </td><td> </td><td>The Number Lock key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-PageDown" class="value">'PageDown'</code>
+            </td><td> </td><td>The Page Down (Next) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-PageUp" class="value">'PageUp'</code>
+            </td><td> </td><td>The Page Up key.</td><td>33</td><td>-</td><td>-</td><td>-</td><td>33</td><td>-</td><td>33</td><td>-</td><td>33</td><td>-</td><td>33</td><td>-</td><td>33</td><td>-</td><td>-</td><td>-</td><td>33</td><td>-</td><td>33</td><td>-</td><td>33</td><td>-</td><td>33</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Paste" class="value">'Paste'</code>
+            </td><td> </td><td>The Paste key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Pause" class="value">'Pause'</code>
+            </td><td> </td><td>The Pause key.</td><td>19</td><td>-</td><td>-</td><td>-</td><td>19</td><td>-</td><td>19</td><td>-</td><td>19</td><td>-</td><td>19</td><td>-</td><td>19</td><td>-</td><td>-</td><td>-</td><td>19</td><td>-</td><td>19</td><td>-</td><td>19</td><td>-</td><td>19</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Play" class="value">'Play'</code>
+            </td><td> </td><td>The Play key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-PreviousCandidate" class="value">'PreviousCandidate'</code>
+            </td><td> </td><td>The Previous Candidate function key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-PrintScreen" class="value">'PrintScreen'</code>
+            </td><td> </td><td>The Print Screen (PrintScrn, SnapShot) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Process" class="value">'Process'</code>
+            </td><td> </td><td>The Process key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Props" class="value">'Props'</code>
+            </td><td> </td><td>The Props key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Right" class="value">'Right'</code>
+            </td><td> </td><td>The Right Arrow key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-RomanCharacters" class="value">'RomanCharacters'</code>
+            </td><td> </td><td>The Roman Characters function key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Scroll" class="value">'Scroll'</code>
+            </td><td> </td><td>The Scroll Lock key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Select" class="value">'Select'</code>
+            </td><td> </td><td>The Select key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-SelectMedia" class="value">'SelectMedia'</code>
+            </td><td> </td><td>The Select Media key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Separator" class="value">'Separator'</code>
+            </td><td> </td><td>The Separator key.</td><td>108</td><td>-</td><td>108</td><td>-</td><td>108</td><td>-</td><td>108</td><td>-</td><td>0</td><td>108</td><td>108</td><td>-</td><td>108</td><td>-</td><td>108</td><td>108</td><td>108</td><td>-</td><td>108</td><td>-</td><td>108</td><td>-</td><td>108</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Shift" class="value">'Shift'</code>
+            </td><td> </td><td>The Shift key.</td><td>17</td><td>-</td><td>-</td><td>-</td><td>17</td><td>-</td><td>17</td><td>-</td><td>-</td><td>-</td><td>17</td><td>-</td><td>17</td><td>-</td><td>-</td><td>-</td><td>17</td><td>-</td><td>17</td><td>-</td><td>17</td><td>-</td><td>17</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Soft1" class="value">'Soft1'</code>
+            </td><td> </td><td>The Soft1 key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Soft2" class="value">'Soft2'</code>
+            </td><td> </td><td>The Soft2 key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Soft3" class="value">'Soft3'</code>
+            </td><td> </td><td>The Soft3 key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Soft4" class="value">'Soft4'</code>
+            </td><td> </td><td>The Soft4 key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Stop" class="value">'Stop'</code>
+            </td><td> </td><td>The Stop key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Subtract" class="value">'Subtract'</code>
+            </td><td> </td><td>The Subtract key.</td><td>109</td><td>-</td><td>109</td><td>-</td><td>109</td><td>-</td><td>109</td><td>-</td><td>0</td><td>109</td><td>109</td><td>-</td><td>109</td><td>-</td><td>109</td><td>109</td><td>109</td><td>-</td><td>109</td><td>-</td><td>109</td><td>-</td><td>109</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Up" class="value">'Up'</code>
+            </td><td> </td><td>The Up Arrow key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-UpLeft" class="value">'UpLeft'</code>
+            </td><td> </td><td>The diagonal Up-Left Arrow key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-UpRight" class="value">'UpRight'</code>
+            </td><td> </td><td>The diagonal Up-Right Arrow key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Undo" class="value">'Undo'</code>
+            </td><td> </td><td>The Undo key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-VolumeDown" class="value">'VolumeDown'</code>
+            </td><td> </td><td>The Volume Down key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-VolumeMute" class="value">'VolumeMute'</code>
+            </td><td> </td><td>The Volume Mute key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-VolumeUp" class="value">'VolumeUp'</code>
+            </td><td> </td><td>The Volume Up key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Win" class="value">'Win'</code>
+            </td><td> </td><td>The Windows Logo key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Zoom" class="value">'Zoom'</code>
+            </td><td> </td><td>The Zoom key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Backspace" class="value">'Backspace'</code>
+            </td><td>
+              <code id="tbl-key-U-0008" class="value">'\u0008'</code>
+            </td><td>The Backspace (Back) key.</td><td>8</td><td>-</td><td>-</td><td>-</td><td>8</td><td>-</td><td>8</td><td>-</td><td>8</td><td>-</td><td>8</td><td>-</td><td>8</td><td>-</td><td>-</td><td>-</td><td>8</td><td>-</td><td>8</td><td>-</td><td>8</td><td>-</td><td>8</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Tab" class="value">'Tab'</code>
+            </td><td>
+              <code id="tbl-key-U-0009" class="value">'\u0009'</code>
+            </td><td>The Horizontal Tabulation (Tab) key.</td><td>9</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>9</td><td>-</td><td>9</td><td>-</td><td>-</td><td>-</td><td>9</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>9</td><td>-</td><td>9</td><td>-</td><td>-</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Cancel" class="value">'Cancel'</code>
+            </td><td>
+              <code id="tbl-key-U-0018" class="value">'\u0018'</code>
+            </td><td>The Cancel key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Esc" class="value">'Esc'</code>
+            </td><td>
+              <code id="tbl-key-U-001B" class="value">'\u001B'</code>
+            </td><td>The Escape (Esc) key.</td><td>27</td><td>-</td><td>27</td><td>-</td><td>27</td><td>-</td><td>27</td><td>-</td><td>27</td><td>-</td><td>27</td><td>-</td><td>27</td><td>-</td><td>-</td><td>-</td><td>27</td><td>-</td><td>27</td><td>-</td><td>27</td><td>-</td><td>27</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Spacebar" class="value">'Spacebar'</code>
+            </td><td>
+              <code id="tbl-key-U-0020" class="value">'\u0020'</code>
+            </td><td>The Space (Spacebar) key.</td><td>32</td><td>-</td><td>32</td><td>-</td><td>32</td><td>-</td><td>32</td><td>-</td><td>0</td><td>32</td><td>32</td><td>-</td><td>32</td><td>-</td><td>32</td><td>32</td><td>32</td><td>-</td><td>32</td><td>-</td><td>32</td><td>-</td><td>32</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-ExclamationChar" class="value">'!'</code>
+            </td><td>
+              <code id="tbl-key-Exclamation" class="value">'Exclamation'</code>
+            </td><td>
+              <code id="tbl-key-U-0021" class="value">'\u0021'</code>
+            </td><td>The Exclamation Mark (Factorial, Bang) key.</td><td>49</td><td>-</td><td>33</td><td>-</td><td>49</td><td>-</td><td>49</td><td>-</td><td>0</td><td>33</td><td>49</td><td>-</td><td>49</td><td>-</td><td>33</td><td>33</td><td>49</td><td>-</td><td>49</td><td>-</td><td>33</td><td>-</td><td>49</td><td>-</td></tr>
+          <tr><td> " </td><td>
+              <code id="tbl-key-DoubleQuote" class="value">'DoubleQuote'</code>
+            </td><td>
+              <code id="tbl-key-U-0022" class="value">'\u0022'</code>
+            </td><td>The Quotation Mark (Quote Double) key.  <em><strong>Note:</strong> May need to be escaped as an attribute value.</em></td><td>50</td><td>-</td><td>34</td><td>-</td><td>50</td><td>-</td><td>50</td><td>-</td><td>0</td><td>34</td><td>50</td><td>-</td><td>50</td><td>-</td><td>34</td><td>34</td><td>50</td><td>-</td><td>50</td><td>-</td><td>34</td><td>-</td><td>50</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-HashChar" class="value">'#'</code>
+            </td><td>
+              <code id="tbl-key-Hash" class="value">'Hash'</code>
+            </td><td>
+              <code id="tbl-key-U-0023" class="value">'\u0023'</code>
+            </td><td>The Number Sign (Pound Sign, Hash, Crosshatch, Octothorpe) key.</td><td>51</td><td>-</td><td>35</td><td>-</td><td>51</td><td>-</td><td>51</td><td>-</td><td>0</td><td>35</td><td>51</td><td>-</td><td>51</td><td>-</td><td>35</td><td>35</td><td>51</td><td>-</td><td>51</td><td>-</td><td>35</td><td>-</td><td>51</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-DollarChar" class="value">'$'</code>
+            </td><td>
+              <code id="tbl-key-Dollar" class="value">'Dollar'</code>
+            </td><td>
+              <code id="tbl-key-U-0024" class="value">'\u0024'</code>
+            </td><td>The Dollar Sign (milreis, escudo) key.</td><td>52</td><td>-</td><td>36</td><td>-</td><td>52</td><td>-</td><td>52</td><td>-</td><td>0</td><td>36</td><td>52</td><td>-</td><td>52</td><td>-</td><td>36</td><td>36</td><td>52</td><td>-</td><td>52</td><td>-</td><td>36</td><td>-</td><td>52</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-AmpersandChar" class="value">'&amp;'</code>
+            </td><td>
+              <code id="tbl-key-Ampersand" class="value">'Ampersand'</code>
+            </td><td>
+              <code id="tbl-key-U-0026" class="value">'\u0026'</code>
+            </td><td>The Ampersand key.</td><td>54</td><td>-</td><td>38</td><td>-</td><td>54</td><td>-</td><td>54</td><td>-</td><td>0</td><td>38</td><td>54</td><td>-</td><td>54</td><td>-</td><td>38</td><td>38</td><td>54</td><td>-</td><td>54</td><td>-</td><td>38</td><td>-</td><td>54</td><td>-</td></tr>
+          <tr><td> ' </td><td>
+              <code id="tbl-key-Apostrophe" class="value">'Apostrophe'</code>
+            </td><td>
+              <code id="tbl-key-U-0027" class="value">'\u0027'</code>
+            </td><td>The Apostrophe (Apostrophe-Quote, APL Quote) key.  <em><strong>Note:</strong> May need to be escaped as an attribute value.</em></td><td>191</td><td>-</td><td>39</td><td>-</td><td>191</td><td>-</td><td>191</td><td>-</td><td>0</td><td>39</td><td>191</td><td>-</td><td>191</td><td>-</td><td>39</td><td>39</td><td>191</td><td>-</td><td>222</td><td>-</td><td>39</td><td>-</td><td>222</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-LeftParenChar" class="value">'('</code>
+            </td><td>
+              <code id="tbl-key-LeftParen" class="value">'LeftParen'</code>
+            </td><td>
+              <code id="tbl-key-U-0028" class="value">'\u0028'</code>
+            </td><td>The Left Parenthesis (Opening Parenthesis) key.</td><td>56</td><td>-</td><td>40</td><td>-</td><td>56</td><td>-</td><td>56</td><td>-</td><td>0</td><td>40</td><td>56</td><td>-</td><td>56</td><td>-</td><td>40</td><td>40</td><td>56</td><td>-</td><td>56</td><td>-</td><td>40</td><td>-</td><td>56</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-RightParenChar" class="value">')'</code>
+            </td><td>
+              <code id="tbl-key-RightParen" class="value">'RightParen'</code>
+            </td><td>
+              <code id="tbl-key-U-0029" class="value">'\u0029'</code>
+            </td><td>The Right Parenthesis (Closing Parenthesis) key.</td><td>57</td><td>-</td><td>41</td><td>-</td><td>57</td><td>-</td><td>57</td><td>-</td><td>0</td><td>41</td><td>57</td><td>-</td><td>57</td><td>-</td><td>41</td><td>41</td><td>57</td><td>-</td><td>57</td><td>-</td><td>41</td><td>-</td><td>57</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-AsteriskChar" class="value">'*'</code>
+            </td><td>
+              <code id="tbl-key-Asterisk" class="value">'Asterisk'</code>
+            </td><td>
+              <code id="tbl-key-U-002A" class="value">'\u002A'</code>
+            </td><td>The Asterisk (Star) key: <code class="value charrep">in number pad</code>.</td><td>106</td><td>-</td><td>42</td><td>-</td><td>106</td><td>-</td><td>106</td><td>-</td><td>0</td><td>42</td><td>106</td><td>-</td><td>106</td><td>-</td><td>42</td><td>42</td><td>106</td><td>-</td><td>42</td><td>-</td><td>42</td><td>-</td><td>42</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-PlusChar" class="value">'+'</code>
+            </td><td>
+              <code id="tbl-key-Plus" class="value">'Plus'</code>
+            </td><td>
+              <code id="tbl-key-U-002B" class="value">'\u002B'</code>
+            </td><td>The Plus Sign (Plus) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td>
+              <code id="tbl-key-PercentChar" class="value">'%'</code>
+            </td><td>
+              <code id="tbl-key-Percent" class="value">'Percent'</code>
+            </td><td>
+              <code id="tbl-key-U-0025" class="value">'\u0025'</code>
+            </td><td>The Percent key.</td><td>53</td><td>-</td><td>37</td><td>-</td><td>53</td><td>-</td><td>53</td><td>-</td><td>0</td><td>37</td><td>53</td><td>-</td><td>53</td><td>-</td><td>37</td><td>37</td><td>53</td><td>-</td><td>53</td><td>-</td><td>37</td><td>-</td><td>53</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-CommaChar" class="value">','</code>
+            </td><td>
+              <code id="tbl-key-Comma" class="value">'Comma'</code>
+            </td><td>
+              <code id="tbl-key-U-002C" class="value">'\u002C'</code>
+            </td><td>The Comma (decimal separator) sign key.</td><td>188</td><td>-</td><td>44</td><td>-</td><td>188</td><td>-</td><td>188</td><td>-</td><td>0</td><td>44</td><td>188</td><td>-</td><td>188</td><td>-</td><td>44</td><td>44</td><td>188</td><td>-</td><td>188</td><td>-</td><td>44</td><td>-</td><td>188</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-HyphenMinusChar" class="value">'-'</code>
+            </td><td>
+              <code id="tbl-key-HyphenMinus" class="value">'HyphenMinus'</code>
+            </td><td>
+              <code id="tbl-key-U-002D" class="value">'\u002D'</code>
+            </td><td>The Hyphen-minus (hyphen or minus sign) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td>
+              <code id="tbl-key-PeriodChar" class="value">'.'</code>
+            </td><td>
+              <code id="tbl-key-Period" class="value">'Period'</code>
+            </td><td>
+              <code id="tbl-key-U-002E" class="value">'\u002E'</code>
+            </td><td>The Full Stop (period, dot, decimal point) key.</td><td>190</td><td>-</td><td>46</td><td>-</td><td>190</td><td>-</td><td>190</td><td>-</td><td>0</td><td>46</td><td>190</td><td>-</td><td>190</td><td>-</td><td>46</td><td>46</td><td>190</td><td>-</td><td>190</td><td>-</td><td>46</td><td>-</td><td>190</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-SolidusChar" class="value">'/'</code>
+            </td><td>
+              <code id="tbl-key-Solidus" class="value">'Solidus'</code>
+            </td><td>
+              <code id="tbl-key-U-002F" class="value">'\u002F'</code>
+            </td><td>The Solidus (slash, virgule, shilling) key.</td><td>55</td><td>-</td><td>47</td><td>-</td><td>55</td><td>-</td><td>55</td><td>-</td><td>0</td><td>47</td><td>55</td><td>-</td><td>55</td><td>-</td><td>47</td><td>47</td><td>55</td><td>-</td><td>55</td><td>-</td><td>47</td><td>-</td><td>55</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-0" class="value">'0'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0030" class="value">'\u0030'</code>
+            </td><td>The Digit Zero key.</td><td>48</td><td>48</td><td>48</td><td>48</td><td>48</td><td>48</td><td>48</td><td>-</td><td>0</td><td>48</td><td>48</td><td>-</td><td>48</td><td>-</td><td>48</td><td>48</td><td>48</td><td>-</td><td>48</td><td>-</td><td>48</td><td>-</td><td>48</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-1" class="value">'1'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0031" class="value">'\u0031'</code>
+            </td><td>The Digit One key.</td><td>49</td><td>49</td><td>49</td><td>49</td><td>49</td><td>49</td><td>49</td><td>-</td><td>0</td><td>49</td><td>49</td><td>-</td><td>49</td><td>-</td><td>49</td><td>49</td><td>49</td><td>-</td><td>49</td><td>-</td><td>49</td><td>-</td><td>49</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-2" class="value">'2'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0032" class="value">'\u0032'</code>
+            </td><td>The Digit Two key.</td><td>50</td><td>50</td><td>50</td><td>50</td><td>50</td><td>50</td><td>50</td><td>-</td><td>0</td><td>50</td><td>50</td><td>-</td><td>50</td><td>-</td><td>50</td><td>50</td><td>50</td><td>-</td><td>50</td><td>-</td><td>50</td><td>-</td><td>50</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-3" class="value">'3'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0033" class="value">'\u0033'</code>
+            </td><td>The Digit Three key.</td><td>51</td><td>51</td><td>51</td><td>51</td><td>51</td><td>51</td><td>51</td><td>-</td><td>0</td><td>51</td><td>51</td><td>-</td><td>51</td><td>-</td><td>51</td><td>51</td><td>51</td><td>-</td><td>51</td><td>-</td><td>51</td><td>-</td><td>51</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-4" class="value">'4'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0034" class="value">'\u0034'</code>
+            </td><td>The Digit Four key.</td><td>52</td><td>52</td><td>52</td><td>52</td><td>52</td><td>52</td><td>52</td><td>-</td><td>0</td><td>52</td><td>52</td><td>-</td><td>52</td><td>-</td><td>52</td><td>52</td><td>52</td><td>-</td><td>52</td><td>-</td><td>52</td><td>-</td><td>52</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-5" class="value">'5'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0035" class="value">'\u0035'</code>
+            </td><td>The Digit Five key.</td><td>53</td><td>53</td><td>53</td><td>53</td><td>53</td><td>53</td><td>53</td><td>-</td><td>0</td><td>53</td><td>53</td><td>-</td><td>53</td><td>-</td><td>53</td><td>53</td><td>53</td><td>-</td><td>53</td><td>-</td><td>53</td><td>-</td><td>53</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-6" class="value">'6'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0036" class="value">'\u0036'</code>
+            </td><td>The Digit Six key.</td><td>54</td><td>54</td><td>54</td><td>54</td><td>54</td><td>54</td><td>54</td><td>-</td><td>0</td><td>54</td><td>54</td><td>-</td><td>54</td><td>-</td><td>54</td><td>54</td><td>54</td><td>-</td><td>54</td><td>-</td><td>54</td><td>-</td><td>54</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-7" class="value">'7'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0037" class="value">'\u0037'</code>
+            </td><td>The Digit Seven key.</td><td>55</td><td>55</td><td>55</td><td>55</td><td>55</td><td>55</td><td>55</td><td>-</td><td>0</td><td>55</td><td>55</td><td>-</td><td>55</td><td>-</td><td>55</td><td>55</td><td>55</td><td>-</td><td>55</td><td>-</td><td>55</td><td>-</td><td>55</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-8" class="value">'8'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0038" class="value">'\u0038'</code>
+            </td><td>The Digit Eight key.</td><td>56</td><td>56</td><td>56</td><td>56</td><td>56</td><td>56</td><td>56</td><td>-</td><td>0</td><td>56</td><td>56</td><td>-</td><td>56</td><td>-</td><td>56</td><td>56</td><td>56</td><td>-</td><td>56</td><td>-</td><td>56</td><td>-</td><td>56</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-9" class="value">'9'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0039" class="value">'\u0039'</code>
+            </td><td>The Digit Nine key.</td><td>57</td><td>57</td><td>57</td><td>57</td><td>57</td><td>57</td><td>57</td><td>-</td><td>0</td><td>57</td><td>57</td><td>-</td><td>57</td><td>-</td><td>57</td><td>57</td><td>57</td><td>-</td><td>57</td><td>-</td><td>57</td><td>-</td><td>57</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-ColonChar" class="value">':'</code>
+            </td><td>
+              <code id="tbl-key-Colon" class="value">'Colon'</code>
+            </td><td>
+              <code id="tbl-key-U-003A" class="value">'\u003A'</code>
+            </td><td>The Colon key.</td><td>190</td><td>-</td><td>58</td><td>-</td><td>190</td><td>-</td><td>190</td><td>-</td><td>0</td><td>58</td><td>190</td><td>-</td><td>190</td><td>-</td><td>58</td><td>58</td><td>190</td><td>-</td><td>190</td><td>-</td><td>58</td><td>-</td><td>190</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-SemicolonChar" class="value">';'</code>
+            </td><td>
+              <code id="tbl-key-Semicolon" class="value">'Semicolon'</code>
+            </td><td>
+              <code id="tbl-key-U-003B" class="value">'\u003B'</code>
+            </td><td>The Semicolon key.</td><td>188</td><td>-</td><td>59</td><td>-</td><td>188</td><td>-</td><td>188</td><td>-</td><td>0</td><td>59</td><td>188</td><td>-</td><td>188</td><td>-</td><td>59</td><td>59</td><td>188</td><td>-</td><td>188</td><td>-</td><td>59</td><td>-</td><td>188</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-LessThanChar" class="value">'&lt;'</code>
+            </td><td>
+              <code id="tbl-key-LessThan" class="value">'LessThan'</code>
+            </td><td>
+              <code id="tbl-key-U-003C" class="value">'\u003C'</code>
+            </td><td>The Less-Than Sign key: <code class="value charrep">&lt;</code>.</td><td>188</td><td>-</td><td>60</td><td>-</td><td>188</td><td>-</td><td>188</td><td>-</td><td>0</td><td>60</td><td>188</td><td>-</td><td>188</td><td>-</td><td>60</td><td>60</td><td>188</td><td>-</td><td>188</td><td>-</td><td>60</td><td>-</td><td>188</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-EqualsChar" class="value">'='</code>
+            </td><td>
+              <code id="tbl-key-Equals" class="value">'Equals'</code>
+            </td><td>
+              <code id="tbl-key-U-003D" class="value">'\u003D'</code>
+            </td><td>The Equals Sign key.</td><td>48</td><td>-</td><td>61</td><td>-</td><td>48</td><td>-</td><td>48</td><td>-</td><td>0</td><td>61</td><td>48</td><td>-</td><td>48</td><td>-</td><td>61</td><td>61</td><td>48</td><td>-</td><td>48</td><td>-</td><td>61</td><td>-</td><td>48</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-GreaterThanChar" class="value">'&gt;'</code>
+            </td><td>
+              <code id="tbl-key-GreaterThan" class="value">'GreaterThan'</code>
+            </td><td>
+              <code id="tbl-key-U-003E" class="value">'\u003E'</code>
+            </td><td>The Greater-Than Sign key: <code class="value charrep">&gt;</code>.</td><td>226</td><td>-</td><td>62</td><td>-</td><td>226</td><td>-</td><td>226</td><td>-</td><td>0</td><td>62</td><td>226</td><td>-</td><td>226</td><td>-</td><td>62</td><td>62</td><td>226</td><td>-</td><td>188</td><td>-</td><td>62</td><td>-</td><td>188</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-QuestionMarkChar" class="value">'?'</code>
+            </td><td>
+              <code id="tbl-key-QuestionMark" class="value">'QuestionMark'</code>
+            </td><td>
+              <code id="tbl-key-U-003F" class="value">'\u003F'</code>
+            </td><td>The Question Mark key.</td><td>191</td><td>-</td><td>63</td><td>-</td><td>191</td><td>-</td><td>107</td><td>-</td><td>0</td><td>63</td><td>107</td><td>-</td><td>191</td><td>-</td><td>63</td><td>63</td><td>191</td><td>-</td><td>61</td><td>-</td><td>63</td><td>-</td><td>61</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-AtChar" class="value">'@'</code>
+            </td><td>
+              <code id="tbl-key-At" class="value">'At'</code>
+            </td><td>
+              <code id="tbl-key-U-0040" class="value">'\u0040'</code>
+            </td><td>The Commercial At key.</td><td>50</td><td>-</td><td>64</td><td>-</td><td>50</td><td>-</td><td>50</td><td>-</td><td>0</td><td>64</td><td>50</td><td>-</td><td>50</td><td>-</td><td>64</td><td>64</td><td>50</td><td>-</td><td>50</td><td>-</td><td>64</td><td>-</td><td>50</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-A" class="value">'A'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0041" class="value">'\u0041'</code>
+            </td><td>The Latin Capital Letter A key.</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>-</td><td>0</td><td>65</td><td>65</td><td>-</td><td>65</td><td>-</td><td>65</td><td>65</td><td>65</td><td>-</td><td>65</td><td>-</td><td>65</td><td>-</td><td>65</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-B" class="value">'B'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0042" class="value">'\u0042'</code>
+            </td><td>The Latin Capital Letter B key.</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>-</td><td>0</td><td>66</td><td>66</td><td>-</td><td>66</td><td>-</td><td>66</td><td>66</td><td>66</td><td>-</td><td>66</td><td>-</td><td>66</td><td>-</td><td>66</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-C" class="value">'C'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0043" class="value">'\u0043'</code>
+            </td><td>The Latin Capital Letter C key.</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>-</td><td>0</td><td>67</td><td>67</td><td>-</td><td>67</td><td>-</td><td>67</td><td>67</td><td>67</td><td>-</td><td>67</td><td>-</td><td>67</td><td>-</td><td>67</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-D" class="value">'D'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0044" class="value">'\u0044'</code>
+            </td><td>The Latin Capital Letter D key.</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>-</td><td>0</td><td>68</td><td>68</td><td>-</td><td>68</td><td>-</td><td>68</td><td>68</td><td>68</td><td>-</td><td>68</td><td>-</td><td>68</td><td>-</td><td>68</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-E" class="value">'E'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0045" class="value">'\u0045'</code>
+            </td><td>The Latin Capital Letter E key.</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>-</td><td>0</td><td>69</td><td>69</td><td>-</td><td>69</td><td>-</td><td>69</td><td>69</td><td>69</td><td>-</td><td>69</td><td>-</td><td>69</td><td>-</td><td>69</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-F" class="value">'F'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0046" class="value">'\u0046'</code>
+            </td><td>The Latin Capital Letter F key.</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>-</td><td>0</td><td>70</td><td>70</td><td>-</td><td>70</td><td>-</td><td>70</td><td>70</td><td>70</td><td>-</td><td>70</td><td>-</td><td>70</td><td>-</td><td>70</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-G" class="value">'G'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0047" class="value">'\u0047'</code>
+            </td><td>The Latin Capital Letter G key.</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>-</td><td>0</td><td>71</td><td>71</td><td>-</td><td>71</td><td>-</td><td>71</td><td>71</td><td>71</td><td>-</td><td>71</td><td>-</td><td>71</td><td>-</td><td>71</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-H" class="value">'H'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0048" class="value">'\u0048'</code>
+            </td><td>The Latin Capital Letter H key.</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>-</td><td>0</td><td>72</td><td>72</td><td>-</td><td>72</td><td>-</td><td>72</td><td>72</td><td>72</td><td>-</td><td>72</td><td>-</td><td>72</td><td>-</td><td>72</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-I" class="value">'I'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0049" class="value">'\u0049'</code>
+            </td><td>The Latin Capital Letter I key.</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>-</td><td>0</td><td>73</td><td>73</td><td>-</td><td>73</td><td>-</td><td>73</td><td>73</td><td>73</td><td>-</td><td>73</td><td>-</td><td>73</td><td>-</td><td>73</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-J" class="value">'J'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-004A" class="value">'\u004A'</code>
+            </td><td>The Latin Capital Letter J key.</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>-</td><td>0</td><td>74</td><td>74</td><td>-</td><td>74</td><td>-</td><td>74</td><td>74</td><td>74</td><td>-</td><td>74</td><td>-</td><td>74</td><td>-</td><td>74</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-K" class="value">'K'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-004B" class="value">'\u004B'</code>
+            </td><td>The Latin Capital Letter K key.</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>-</td><td>0</td><td>75</td><td>75</td><td>-</td><td>75</td><td>-</td><td>75</td><td>75</td><td>75</td><td>-</td><td>75</td><td>-</td><td>75</td><td>-</td><td>75</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-L" class="value">'L'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-004C" class="value">'\u004C'</code>
+            </td><td>The Latin Capital Letter L key.</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>-</td><td>0</td><td>76</td><td>76</td><td>-</td><td>76</td><td>-</td><td>76</td><td>76</td><td>76</td><td>-</td><td>76</td><td>-</td><td>76</td><td>-</td><td>76</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-M" class="value">'M'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-004D" class="value">'\u004D'</code>
+            </td><td>The Latin Capital Letter M key.</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>-</td><td>0</td><td>77</td><td>77</td><td>-</td><td>77</td><td>-</td><td>77</td><td>77</td><td>77</td><td>-</td><td>77</td><td>-</td><td>77</td><td>-</td><td>77</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-N" class="value">'N'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-004E" class="value">'\u004E'</code>
+            </td><td>The Latin Capital Letter N key.</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>-</td><td>0</td><td>78</td><td>78</td><td>-</td><td>78</td><td>-</td><td>78</td><td>78</td><td>78</td><td>-</td><td>78</td><td>-</td><td>78</td><td>-</td><td>78</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-O" class="value">'O'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-004F" class="value">'\u004F'</code>
+            </td><td>The Latin Capital Letter O key.</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>-</td><td>0</td><td>79</td><td>79</td><td>-</td><td>79</td><td>-</td><td>79</td><td>79</td><td>79</td><td>-</td><td>79</td><td>-</td><td>79</td><td>-</td><td>79</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-P" class="value">'P'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0050" class="value">'\u0050'</code>
+            </td><td>The Latin Capital Letter P key.</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>-</td><td>0</td><td>80</td><td>80</td><td>-</td><td>80</td><td>-</td><td>80</td><td>80</td><td>80</td><td>-</td><td>80</td><td>-</td><td>80</td><td>-</td><td>80</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-Q" class="value">'Q'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0051" class="value">'\u0051'</code>
+            </td><td>The Latin Capital Letter Q key.</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>-</td><td>0</td><td>81</td><td>81</td><td>-</td><td>81</td><td>-</td><td>81</td><td>81</td><td>81</td><td>-</td><td>81</td><td>-</td><td>81</td><td>-</td><td>81</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-R" class="value">'R'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0052" class="value">'\u0052'</code>
+            </td><td>The Latin Capital Letter R key.</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>-</td><td>0</td><td>82</td><td>82</td><td>-</td><td>82</td><td>-</td><td>82</td><td>82</td><td>82</td><td>-</td><td>82</td><td>-</td><td>82</td><td>-</td><td>82</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-S" class="value">'S'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0053" class="value">'\u0053'</code>
+            </td><td>The Latin Capital Letter S key.</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>-</td><td>0</td><td>83</td><td>83</td><td>-</td><td>83</td><td>-</td><td>83</td><td>83</td><td>83</td><td>-</td><td>83</td><td>-</td><td>83</td><td>-</td><td>83</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-T" class="value">'T'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0054" class="value">'\u0054'</code>
+            </td><td>The Latin Capital Letter T key.</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>-</td><td>0</td><td>84</td><td>84</td><td>-</td><td>84</td><td>-</td><td>84</td><td>84</td><td>84</td><td>-</td><td>84</td><td>-</td><td>84</td><td>-</td><td>84</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-U" class="value">'U'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0055" class="value">'\u0055'</code>
+            </td><td>The Latin Capital Letter U key.</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>-</td><td>0</td><td>85</td><td>85</td><td>-</td><td>85</td><td>-</td><td>85</td><td>85</td><td>85</td><td>-</td><td>85</td><td>-</td><td>85</td><td>-</td><td>85</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-V" class="value">'V'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0056" class="value">'\u0056'</code>
+            </td><td>The Latin Capital Letter V key.</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>-</td><td>0</td><td>86</td><td>86</td><td>-</td><td>86</td><td>-</td><td>86</td><td>86</td><td>86</td><td>-</td><td>86</td><td>-</td><td>86</td><td>-</td><td>86</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-W" class="value">'W'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0057" class="value">'\u0057'</code>
+            </td><td>The Latin Capital Letter W key.</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>-</td><td>0</td><td>87</td><td>87</td><td>-</td><td>87</td><td>-</td><td>87</td><td>87</td><td>87</td><td>-</td><td>87</td><td>-</td><td>87</td><td>-</td><td>87</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-X" class="value">'X'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0058" class="value">'\u0058'</code>
+            </td><td>The Latin Capital Letter X key.</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>-</td><td>0</td><td>88</td><td>88</td><td>-</td><td>88</td><td>-</td><td>88</td><td>88</td><td>88</td><td>-</td><td>88</td><td>-</td><td>88</td><td>-</td><td>88</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-Y" class="value">'Y'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0059" class="value">'\u0059'</code>
+            </td><td>The Latin Capital Letter Y key.</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>-</td><td>0</td><td>89</td><td>89</td><td>-</td><td>89</td><td>-</td><td>89</td><td>89</td><td>89</td><td>-</td><td>89</td><td>-</td><td>89</td><td>-</td><td>89</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-Z" class="value">'Z'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-005A" class="value">'\u005A'</code>
+            </td><td>The Latin Capital Letter Z key.</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>-</td><td>0</td><td>90</td><td>90</td><td>-</td><td>90</td><td>-</td><td>90</td><td>90</td><td>90</td><td>-</td><td>90</td><td>-</td><td>90</td><td>-</td><td>90</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-a" class="value">'a'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0061" class="value">'\u0061'</code>
+            </td><td>The Latin Small Letter A key: <code class="value charrep">a</code>.</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>65</td><td>-</td><td>0</td><td>97</td><td>65</td><td>-</td><td>65</td><td>-</td><td>97</td><td>97</td><td>65</td><td>-</td><td>65</td><td>-</td><td>97</td><td>-</td><td>65</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-b" class="value">'b'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0062" class="value">'\u0062'</code>
+            </td><td>The Latin Small Letter B key: <code class="value charrep">b</code>.</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>66</td><td>-</td><td>0</td><td>98</td><td>66</td><td>-</td><td>66</td><td>-</td><td>98</td><td>98</td><td>66</td><td>-</td><td>66</td><td>-</td><td>98</td><td>-</td><td>66</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-c" class="value">'c'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0063" class="value">'\u0063'</code>
+            </td><td>The Latin Small Letter C key: <code class="value charrep">c</code>.</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>67</td><td>-</td><td>0</td><td>99</td><td>67</td><td>-</td><td>67</td><td>-</td><td>99</td><td>99</td><td>67</td><td>-</td><td>67</td><td>-</td><td>99</td><td>-</td><td>67</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-d" class="value">'d'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0064" class="value">'\u0064'</code>
+            </td><td>The Latin Small Letter D key: <code class="value charrep">d</code>.</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>68</td><td>-</td><td>0</td><td>100</td><td>68</td><td>-</td><td>68</td><td>-</td><td>100</td><td>100</td><td>68</td><td>-</td><td>68</td><td>-</td><td>100</td><td>-</td><td>68</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-e" class="value">'e'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0065" class="value">'\u0065'</code>
+            </td><td>The Latin Small Letter E key: <code class="value charrep">e</code>.</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>69</td><td>-</td><td>0</td><td>101</td><td>69</td><td>-</td><td>69</td><td>-</td><td>101</td><td>101</td><td>69</td><td>-</td><td>69</td><td>-</td><td>101</td><td>-</td><td>69</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-f" class="value">'f'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0066" class="value">'\u0066'</code>
+            </td><td>The Latin Small Letter F key: <code class="value charrep">f</code>.</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>70</td><td>-</td><td>0</td><td>102</td><td>70</td><td>-</td><td>70</td><td>-</td><td>102</td><td>102</td><td>70</td><td>-</td><td>70</td><td>-</td><td>102</td><td>-</td><td>70</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-g" class="value">'g'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0067" class="value">'\u0067'</code>
+            </td><td>The Latin Small Letter G key: <code class="value charrep">g</code>.</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>71</td><td>-</td><td>0</td><td>103</td><td>71</td><td>-</td><td>71</td><td>-</td><td>103</td><td>103</td><td>71</td><td>-</td><td>71</td><td>-</td><td>103</td><td>-</td><td>71</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-h" class="value">'h'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0068" class="value">'\u0068'</code>
+            </td><td>The Latin Small Letter H key: <code class="value charrep">h</code>.</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>72</td><td>-</td><td>0</td><td>104</td><td>72</td><td>-</td><td>72</td><td>-</td><td>104</td><td>104</td><td>72</td><td>-</td><td>72</td><td>-</td><td>104</td><td>-</td><td>72</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-i" class="value">'i'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0069" class="value">'\u0069'</code>
+            </td><td>The Latin Small Letter I key: <code class="value charrep">i</code>.</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>73</td><td>-</td><td>0</td><td>105</td><td>73</td><td>-</td><td>73</td><td>-</td><td>105</td><td>105</td><td>73</td><td>-</td><td>73</td><td>-</td><td>105</td><td>-</td><td>73</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-j" class="value">'j'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-006A" class="value">'\u006A'</code>
+            </td><td>The Latin Small Letter J key: <code class="value charrep">j</code>.</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>74</td><td>-</td><td>0</td><td>106</td><td>74</td><td>-</td><td>74</td><td>-</td><td>106</td><td>106</td><td>74</td><td>-</td><td>74</td><td>-</td><td>106</td><td>-</td><td>74</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-k" class="value">'k'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-006B" class="value">'\u006B'</code>
+            </td><td>The Latin Small Letter K key: <code class="value charrep">k</code>.</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>75</td><td>-</td><td>0</td><td>107</td><td>75</td><td>-</td><td>75</td><td>-</td><td>107</td><td>107</td><td>75</td><td>-</td><td>75</td><td>-</td><td>107</td><td>-</td><td>75</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-l" class="value">'l'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-006C" class="value">'\u006C'</code>
+            </td><td>The Latin Small Letter L key: <code class="value charrep">l</code>.</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>76</td><td>-</td><td>0</td><td>108</td><td>76</td><td>-</td><td>76</td><td>-</td><td>108</td><td>108</td><td>76</td><td>-</td><td>76</td><td>-</td><td>108</td><td>-</td><td>76</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-m" class="value">'m'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-006D" class="value">'\u006D'</code>
+            </td><td>The Latin Small Letter M key: <code class="value charrep">m</code>.</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>77</td><td>-</td><td>0</td><td>109</td><td>77</td><td>-</td><td>77</td><td>-</td><td>109</td><td>109</td><td>77</td><td>-</td><td>77</td><td>-</td><td>109</td><td>-</td><td>77</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-n" class="value">'n'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-006E" class="value">'\u006E'</code>
+            </td><td>The Latin Small Letter N key: <code class="value charrep">n</code>.</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>78</td><td>-</td><td>0</td><td>110</td><td>78</td><td>-</td><td>78</td><td>-</td><td>110</td><td>110</td><td>78</td><td>-</td><td>78</td><td>-</td><td>110</td><td>-</td><td>78</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-o" class="value">'o'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-006F" class="value">'\u006F'</code>
+            </td><td>The Latin Small Letter O key: <code class="value charrep">o</code>.</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>79</td><td>-</td><td>0</td><td>111</td><td>79</td><td>-</td><td>79</td><td>-</td><td>111</td><td>111</td><td>79</td><td>-</td><td>79</td><td>-</td><td>111</td><td>-</td><td>79</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-p" class="value">'p'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0070" class="value">'\u0070'</code>
+            </td><td>The Latin Small Letter P key: <code class="value charrep">p</code>.</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>80</td><td>-</td><td>0</td><td>112</td><td>80</td><td>-</td><td>80</td><td>-</td><td>112</td><td>112</td><td>80</td><td>-</td><td>80</td><td>-</td><td>112</td><td>-</td><td>80</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-q" class="value">'q'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0071" class="value">'\u0071'</code>
+            </td><td>The Latin Small Letter Q key: <code class="value charrep">q</code>.</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>81</td><td>-</td><td>0</td><td>113</td><td>81</td><td>-</td><td>81</td><td>-</td><td>113</td><td>113</td><td>81</td><td>-</td><td>81</td><td>-</td><td>113</td><td>-</td><td>81</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-r" class="value">'r'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0072" class="value">'\u0072'</code>
+            </td><td>The Latin Small Letter R key: <code class="value charrep">r</code>.</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>82</td><td>-</td><td>0</td><td>114</td><td>82</td><td>-</td><td>82</td><td>-</td><td>114</td><td>114</td><td>82</td><td>-</td><td>82</td><td>-</td><td>114</td><td>-</td><td>82</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-s" class="value">'s'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0073" class="value">'\u0073'</code>
+            </td><td>The Latin Small Letter S key: <code class="value charrep">s</code>.</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>83</td><td>-</td><td>0</td><td>115</td><td>83</td><td>-</td><td>83</td><td>-</td><td>115</td><td>115</td><td>83</td><td>-</td><td>83</td><td>-</td><td>115</td><td>-</td><td>83</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-t" class="value">'t'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0074" class="value">'\u0074'</code>
+            </td><td>The Latin Small Letter T key: <code class="value charrep">t</code>.</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>84</td><td>-</td><td>0</td><td>116</td><td>84</td><td>-</td><td>84</td><td>-</td><td>116</td><td>116</td><td>84</td><td>-</td><td>84</td><td>-</td><td>116</td><td>-</td><td>84</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-u" class="value">'u'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0075" class="value">'\u0075'</code>
+            </td><td>The Latin Small Letter U key: <code class="value charrep">u</code>.</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>85</td><td>-</td><td>0</td><td>117</td><td>85</td><td>-</td><td>85</td><td>-</td><td>117</td><td>117</td><td>85</td><td>-</td><td>85</td><td>-</td><td>117</td><td>-</td><td>85</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-v" class="value">'v'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0076" class="value">'\u0076'</code>
+            </td><td>The Latin Small Letter V key: <code class="value charrep">v</code>.</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>86</td><td>-</td><td>0</td><td>118</td><td>86</td><td>-</td><td>86</td><td>-</td><td>118</td><td>118</td><td>86</td><td>-</td><td>86</td><td>-</td><td>118</td><td>-</td><td>86</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-w" class="value">'w'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0077" class="value">'\u0077'</code>
+            </td><td>The Latin Small Letter W key: <code class="value charrep">w</code>.</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>87</td><td>-</td><td>0</td><td>119</td><td>87</td><td>-</td><td>87</td><td>-</td><td>119</td><td>119</td><td>87</td><td>-</td><td>87</td><td>-</td><td>119</td><td>-</td><td>87</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-x" class="value">'x'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0078" class="value">'\u0078'</code>
+            </td><td>The Latin Small Letter X key: <code class="value charrep">x</code>.</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>88</td><td>-</td><td>0</td><td>120</td><td>88</td><td>-</td><td>88</td><td>-</td><td>120</td><td>120</td><td>88</td><td>-</td><td>88</td><td>-</td><td>120</td><td>-</td><td>88</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-y" class="value">'y'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-0079" class="value">'\u0079'</code>
+            </td><td>The Latin Small Letter Y key: <code class="value charrep">y</code>.</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>89</td><td>-</td><td>0</td><td>121</td><td>89</td><td>-</td><td>89</td><td>-</td><td>121</td><td>121</td><td>89</td><td>-</td><td>89</td><td>-</td><td>121</td><td>-</td><td>89</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-z" class="value">'z'</code>
+            </td><td> </td><td>
+              <code id="tbl-key-U-007A" class="value">'\u007A'</code>
+            </td><td>The Latin Small Letter Z key: <code class="value charrep">z</code>.</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>90</td><td>-</td><td>0</td><td>122</td><td>90</td><td>-</td><td>90</td><td>-</td><td>122</td><td>122</td><td>90</td><td>-</td><td>90</td><td>-</td><td>122</td><td>-</td><td>90</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-LeftSquareBracketChar" class="value">'['</code>
+            </td><td>
+              <code id="tbl-key-LeftSquareBracket" class="value">'LeftSquareBracket'</code>
+            </td><td>
+              <code id="tbl-key-U-005B" class="value">'\u005B'</code>
+            </td><td>The Left Square Bracket (Opening Square Bracket) key.</td><td>56</td><td>-</td><td>91</td><td>-</td><td>56</td><td>-</td><td>56</td><td>-</td><td>0</td><td>91</td><td>56</td><td>-</td><td>56</td><td>-</td><td>91</td><td>91</td><td>56</td><td>-</td><td>56</td><td>-</td><td>91</td><td>-</td><td>56</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-BackslashChar" class="value">'\'</code>
+            </td><td>
+              <code id="tbl-key-Backslash" class="value">'Backslash'</code>
+            </td><td>
+              <code id="tbl-key-U-005C" class="value">'\u005C'</code>
+            </td><td>The Reverse Solidus (Backslash) key.</td><td>187</td><td>-</td><td>92</td><td>-</td><td>187</td><td>-</td><td>107</td><td>-</td><td>92</td><td>-</td><td>107</td><td>-</td><td>187</td><td>-</td><td>92</td><td>92</td><td>187</td><td>-</td><td>161</td><td>-</td><td>92</td><td>-</td><td>161</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-RightSquareBracketChar" class="value">']'</code>
+            </td><td>
+              <code id="tbl-key-RightSquareBracket" class="value">'RightSquareBracket'</code>
+            </td><td>
+              <code id="tbl-key-U-005D" class="value">'\u005D'</code>
+            </td><td>The Right Square Bracket (Closing Square Bracket) key.</td><td>57</td><td>-</td><td>93</td><td>-</td><td>57</td><td>-</td><td>57</td><td>-</td><td>0</td><td>93</td><td>57</td><td>-</td><td>57</td><td>-</td><td>93</td><td>93</td><td>57</td><td>-</td><td>57</td><td>-</td><td>93</td><td>-</td><td>57</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-CircumflexChar" class="value">'^'</code>
+            </td><td>
+              <code id="tbl-key-Circumflex" class="value">'Circumflex'</code>
+            </td><td>
+              <code id="tbl-key-U-005E" class="value">'\u005E'</code>
+            </td><td>The Circumflex Accent key.</td><td>186</td><td>-</td><td>94</td><td>-</td><td>186</td><td>-</td><td>59</td><td>-</td><td>0</td><td>94</td><td>59</td><td>-</td><td>186</td><td>-</td><td>94</td><td>94</td><td>186</td><td>-</td><td>168</td><td>-</td><td>94</td><td>-</td><td>168</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-UnderscoreChar" class="value">'_'</code>
+            </td><td>
+              <code id="tbl-key-Underscore" class="value">'Underscore'</code>
+            </td><td>
+              <code id="tbl-key-U-005F" class="value">'\u005F'</code>
+            </td><td>The Low Sign (Spacing Underscore, Underscore) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td>
+              <code id="tbl-key-GraveChar" class="value">'`'</code>
+            </td><td>
+              <code id="tbl-key-Grave" class="value">'Grave'</code>
+            </td><td>
+              <code id="tbl-key-U-0060" class="value">'\u0060'</code>
+            </td><td>The Grave Accent (Back Quote) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td>
+              <code id="tbl-key-LeftCurlyBracketChar" class="value">'{'</code>
+            </td><td>
+              <code id="tbl-key-LeftCurlyBracket" class="value">'LeftCurlyBracket'</code>
+            </td><td>
+              <code id="tbl-key-U-007B" class="value">'\u007B'</code>
+            </td><td>The Left Curly Bracket (Opening Curly Bracket, Opening Brace, Brace Left) key.</td><td>55</td><td>-</td><td>123</td><td>-</td><td>55</td><td>-</td><td>55</td><td>-</td><td>0</td><td>123</td><td>55</td><td>-</td><td>55</td><td>-</td><td>123</td><td>123</td><td>55</td><td>-</td><td>55</td><td>-</td><td>123</td><td>-</td><td>55</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-PipeChar" class="value">'|'</code>
+            </td><td>
+              <code id="tbl-key-Pipe" class="value">'Pipe'</code>
+            </td><td>
+              <code id="tbl-key-U-007C" class="value">'\u007C'</code>
+            </td><td>The Vertical Line (Vertical Bar, Pipe) key.</td><td>226</td><td>-</td><td>124</td><td>-</td><td>226</td><td>-</td><td>226</td><td>-</td><td>0</td><td>124</td><td>226</td><td>-</td><td>226</td><td>-</td><td>124</td><td>124</td><td>226</td><td>-</td><td>188</td><td>-</td><td>124</td><td>-</td><td>188</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-RightCurlyBracketChar" class="value">'}'</code>
+            </td><td>
+              <code id="tbl-key-RightCurlyBracket" class="value">'RightCurlyBracket'</code>
+            </td><td>
+              <code id="tbl-key-U-007D" class="value">'\u007D'</code>
+            </td><td>The Right Curly Bracket (Closing Curly Bracket, Closing Brace, Brace Right) key.</td><td>48</td><td>-</td><td>125</td><td>-</td><td>48</td><td>-</td><td>48</td><td>-</td><td>0</td><td>125</td><td>48</td><td>-</td><td>48</td><td>-</td><td>125</td><td>125</td><td>48</td><td>-</td><td>48</td><td>-</td><td>125</td><td>-</td><td>48</td><td>-</td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-Del" class="value">'Del'</code>
+            </td><td>
+              <code id="tbl-key-U-007F" class="value">'\u007F'</code>
+            </td><td>The Delete (Del) Key.</td><td>46</td><td>-</td><td>-</td><td>-</td><td>46</td><td>-</td><td>46</td><td>-</td><td>46</td><td>-</td><td>46</td><td>-</td><td>46</td><td>-</td><td>-</td><td>-</td><td>46</td><td>-</td><td>46</td><td>-</td><td>46</td><td>-</td><td>46</td><td>-</td></tr>
+          <tr><td>
+              <code id="tbl-key-InvertedExclamationChar" class="value">'&#xA1;'</code>
+            </td><td>
+              <code id="tbl-key-InvertedExclamation" class="value">'InvertedExclamation'</code>
+            </td><td>
+              <code id="tbl-key-U-00A1" class="value">'\u00A1'</code>
+            </td><td>The Inverted Exclamation Mark key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-DeadGrave" class="value">'DeadGrave'</code>
+            </td><td>
+              <code id="tbl-key-U-0300" class="value">'\u0300'</code>
+            </td><td>The Combining Grave Accent (Greek Varia, Dead Grave) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-DeadEacute" class="value">'DeadEacute'</code>
+            </td><td>
+              <code id="tbl-key-U-0301" class="value">'\u0301'</code>
+            </td><td>The Combining Acute Accent (Stress Mark, Greek Oxia, Tonos, Dead Eacute) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-DeadCircumflex" class="value">'DeadCircumflex'</code>
+            </td><td>
+              <code id="tbl-key-U-0302" class="value">'\u0302'</code>
+            </td><td>The Combining Circumflex Accent (Hat, Dead Circumflex) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-DeadTilde" class="value">'DeadTilde'</code>
+            </td><td>
+              <code id="tbl-key-U-0303" class="value">'\u0303'</code>
+            </td><td>The Combining Tilde (Dead Tilde) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-DeadMacron" class="value">'DeadMacron'</code>
+            </td><td>
+              <code id="tbl-key-U-0304" class="value">'\u0304'</code>
+            </td><td>The Combining Macron (Long, Dead Macron) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-DeadBreve" class="value">'DeadBreve'</code>
+            </td><td>
+              <code id="tbl-key-U-0306" class="value">'\u0306'</code>
+            </td><td>The Combining Breve (Short, Dead Breve) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-DeadAboveDot" class="value">'DeadAboveDot'</code>
+            </td><td>
+              <code id="tbl-key-U-0307" class="value">'\u0307'</code>
+            </td><td>The Combining Dot Above (Derivative, Dead Above Dot) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-DeadUmlaut" class="value">'DeadUmlaut'</code>
+            </td><td>
+              <code id="tbl-key-U-0308" class="value">'\u0308'</code>
+            </td><td>The Combining Diaeresis (Double Dot Abode, Umlaut, Greek Dialytika, Double Derivative, Dead Diaeresis) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-DeadAboveRing" class="value">'DeadAboveRing'</code>
+            </td><td>
+              <code id="tbl-key-U-030A" class="value">'\u030A'</code>
+            </td><td>The Combining Ring Above (Dead Above Ring) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-DeadDoubleacute" class="value">'DeadDoubleacute'</code>
+            </td><td>
+              <code id="tbl-key-U-030B" class="value">'\u030B'</code>
+            </td><td>The Combining Double Acute Accent (Dead Doubleacute) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-DeadCaron" class="value">'DeadCaron'</code>
+            </td><td>
+              <code id="tbl-key-U-030C" class="value">'\u030C'</code>
+            </td><td>The Combining Caron (Hacek, V Above, Dead Caron) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-DeadCedilla" class="value">'DeadCedilla'</code>
+            </td><td>
+              <code id="tbl-key-U-0327" class="value">'\u0327'</code>
+            </td><td>The Combining Cedilla (Dead Cedilla) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-DeadOgonek" class="value">'DeadOgonek'</code>
+            </td><td>
+              <code id="tbl-key-U-0328" class="value">'\u0328'</code>
+            </td><td>The Combining Ogonek (Nasal Hook, Dead Ogonek) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-DeadIota" class="value">'DeadIota'</code>
+            </td><td>
+              <code id="tbl-key-U-0345" class="value">'\u0345'</code>
+            </td><td>The Combining Greek Ypogegrammeni (Greek Non-Spacing Iota Below, Iota Subscript, Dead Iota) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td>
+              <code id="tbl-key-EuroChar" class="value">'&#x20AC;'</code>
+            </td><td>
+              <code id="tbl-key-Euro" class="value">'Euro'</code>
+            </td><td>
+              <code id="tbl-key-U-20AC" class="value">'\u20AC'</code>
+            </td><td>The Euro Currency Sign key: <code class="value charrep">&#x20AC;</code>.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-DeadVoicedSound" class="value">'DeadVoicedSound'</code>
+            </td><td>
+              <code id="tbl-key-U-3099" class="value">'\u3099'</code>
+            </td><td>The Combining Katakana-Hiragana Voiced Sound Mark (Dead Voiced Sound) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+          <tr><td> </td><td>
+              <code id="tbl-key-DeadSemivoicedSound" class="value">'DeadSemivoicedSound'</code>
+            </td><td>
+              <code id="tbl-key-U-309A" class="value">'\u309A'</code>
+            </td><td>The Combining Katakana-Hiragana Semi-Voiced Sound Mark (Dead Semivoiced Sound) key.</td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+        </table>
+
+
+      </div>
+
+
+      <div class="div1">
+        <h2>
+          <a id="refs" href="#refs">Appendix A: References</a>
+        </h2>
+        <div class="div2">
+          <h3>
+            <a id="norm-ref" href="#norm-ref">A.1 Normative References</a>
+          </h3>
+          <dl>
+
+            <dt>
+              <strong>[<a id="references-DOM3Events">DOM3 Events</a>]</strong>
+            </dt>
+            <dd><cite><a href="http://www.w3.org/TR/2009/WD-DOM-Level-3-Events-20090908">Document Object Model Level 3 Events Specification</a></cite>, D. Schepers, B. Höhrmann, P. Le Hégaret, T. Pixley, Editors. World Wide Web Consortium, <span class="wip">work in progress</span>, September 2009. This version of the Document Object Model Level 3 Events Specification is http://www.w3.org/TR/2009/WD-DOM-Level-3-Events-20090908. The <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Events">latest version of Document Object Model Level 3 Events</a> is available at http://www.w3.org/TR/DOM-Level-3-Events.</dd>
+
+            <dt class="label">
+              <strong>[<a id="references-RFC2119">RFC 2119</a>]</strong>
+            </dt>
+            <dd>
+              <a href="http://www.ietf.org/rfc/rfc2119.txt"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a> , S. Bradner, Author. Internet Engineering Task Force, March 1997. Available at <a href="http://www.ietf.org/rfc/rfc2119.txt">http://www.ietf.org/rfc/rfc2119.txt</a>.
+            </dd>
+
+
+          </dl>
+        </div>
+        <div class="div2">
+          <h3>
+            <a id="inform-ref" href="#inform-ref">A.2 Informative References</a>
+          </h3>
+          <p><em>none</em></p>
+          <dl>
+            <dt></dt>
+          </dl>
+        </div>
+      </div>
+
+      <div class="div1">
+        <h2><a id="acknowledgements-contributors" href="#acknowledgements-contributors">Appendix B: Acknowledgements</a></h2>
+        <p>
+          This table was compiled using data provided by Olli Pettay (Mozilla).
+        </p>
+      </div>
+
+    </div>
+
+  </body>
+</html>
