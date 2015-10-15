@@ -6,18 +6,18 @@ This repository if for the [UI Events specification](https://w3c.github.io/uieve
 
 ## Goals
 
-The goal of the UI/DOM3 Events sub-group, part of the Web Applications Working Group, is to complete the
+The goal of the UI/DOM3 Events sub-group, part of the Web Platform Working Group, is to complete the
 UI Events specification according to market needs, to drive its adoption and implementation, to provide
 a comprehensive test suite (for implementability at least, and hopefully for interoperability, too),
 and to move it along the Recommendation Track to W3C Recommendation status.
 
 ## Communication
 
-For discussion of matters related to DOM3 Events, the WebApps WG uses the www-dom@w3.org mailing list ([archive](http://lists.w3.org/Archives/Public/www-dom/)).
+For discussion of matters related to DOM3 Events, the group uses the www-dom@w3.org mailing list ([archive](http://lists.w3.org/Archives/Public/www-dom/)).
 
 ## Meetings
 
-See our [bi-weekly meetings](http://www.w3.org/2008/webapps/wiki/Bi-weekly_meetings) for detailed status and progress toward getting this spec finished and ready for CR.
+See our [bi-weekly meetings](https://github.com/w3c/uievents/blob/gh-pages/README.md#meetings) for detailed status and progress toward getting this spec finished and ready for CR.
 
 * Day + Time:
     * Tuesday: San Francisco 17:00; Boston 20:00;
