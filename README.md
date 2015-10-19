@@ -17,7 +17,7 @@ For discussion of matters related to DOM3 Events, the group uses the www-dom@w3.
 
 ## Meetings
 
-See our [bi-weekly meetings](https://github.com/w3c/uievents/blob/gh-pages/README.md#meetings) for detailed status and progress toward getting this spec finished and ready for CR.
+See our [bi-weekly meetings](https://github.com/w3c/uievents/wiki/Meeting-Notes) for detailed status and progress toward getting this spec finished and ready for CR.
 
 * Day + Time:
     * Tuesday: San Francisco 17:00; Boston 20:00;
