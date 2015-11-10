@@ -20,17 +20,22 @@ For discussion of matters related to DOM3 Events, the group uses the www-dom@w3.
 See our [bi-weekly meetings](https://github.com/w3c/uievents/wiki/Meeting-Notes) for detailed status and progress toward getting this spec finished and ready for CR.
 
 * Day + Time:
-    * Tuesday: San Francisco 17:00; Boston 20:00;
-    * Wednesday: UTC: 00:00; Paris: 02:00; Helsinki: 03:00; Tokyo: 09:00
+    * Tuesday 17:00 PST/PDT
+    * During Summer (PDT - Mar to Oct)
+        * Wednesday 00:00 UTC
+        * Wednesday 09:00 JST (Tokyo)
+    * During Winter (PST - Nov to Feb)
+        * Wednesday 01:00 UTC
+        * Wednesday 10:00 JST (Tokyo)
 * Duration = 60 minutes
 * Join [WebEx](https://mit.webex.com/mit/j.php?MTID=m5bc20b6f3ce7fa6b1b77fb810451472c) meeting
-    * Meeting number: 647 802 277
-    * Meeting password: dom3events
-    * https://mit.webex.com/mit/j.php?MTID=m5bc20b6f3ce7fa6b1b77fb810451472c;
+    * Meeting number: 643 771 565
+    * Meeting password: _Send an email to www-dom for password_
+    * https://mit.webex.com/mit/j.php?MTID=mf38ce772aa0aefc906dec0e87b4f6e95;
 * Join by phone
     * +1-617-324-0000 US Toll Number
-    * Access code: 647 802 277
-    * Mobile Auto Dial: +1-617-324-0000,,,647802277#
+    * Access code: 643 771 565
+    * Mobile Auto Dial: +1-617-324-0000,,,643771565#
 * Web interface
     * [IRC Web Interface](http://irc.w3.org/)
     * Note: you must have a Member or Invited Expert account to use this.
