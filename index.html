@@ -32,7 +32,7 @@
 				note: "since Feb 2012",
 			}
 		],
-		publishDate:  "2015-04-21",
+		publishDate:  "2015-11-17",
 		edDraftURI: "https://w3c.github.io/uievents/",
 		previousPublishDate: "2015-03-19",
 		previousMaturity: "WD",
@@ -542,12 +542,15 @@ console.log("Exceptions? No problem");</pre>
 					<a class="eventtype" href="#event-type-dblclick"><code>dblclick</code></a>,
 					<a class="eventtype" href="#event-type-select"><code>select</code></a>,
 					<a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>,
-					<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a>,
-					<a class="eventtype" href="#event-type-input"><code>input</code></a>,
+					<a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a>,
+					<a class="eventtype" href="#event-type-edit"><code>edit</code></a>,
 					<a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>.
 				Each of these events are fired in the sequence initiated by the user's actions.</p>
 			</div>
-
+			
+			<p class="issue">The exact timing of <code>edit</code> and <code>beforeedit</code> with respect to other events needs to be validated with <a 
+				href="http://w3c.github.io/editing/tf-charter.html">the Editing Task Force</a></p>
+				
 			<p>Events which are asynchronous (<em><q>async events</q></em>) MAY be dispatched as the results of the action are completed, with no relation to other events, to
 				other changes in the DOM, nor to user interaction.</p>
 
@@ -863,11 +866,11 @@ console.log("Exceptions? No problem");</pre>
 		<p>The event types defined in this specification derive from these basic interfaces, and MUST
 			inherit all of the attributes, methods, and constants of the interfaces they derive from.
 			</p>
-		<p>The following chart describes the inheritance structure of interfaces defined in this specification.
+		<p>The following chart describes the inheritance structure of the interfaces described in this specification.
 			</p>
 
 		<figure id="figure-event-inheritance">
-			<img src='images/event-inheritance.svg' height="230" alt="Graphical representation of inheritance of interfaces defined by this specification" />
+			<img src='images/event-inheritance.svg' height="180" alt="Graphical representation of inheritance of interfaces defined by this specification" />
 			<figcaption>Graphical representation of inheritance of interfaces defined by this specification</figcaption>
 		</figure>
 
@@ -884,7 +887,7 @@ console.log("Exceptions? No problem");</pre>
 				with an event type. Refer to the specification defining the language used in order to find those restrictions or to find event types that are
 				not defined in this document.</p>
 
-			<p>The following table provides an informative summary of the event types defined in this specification.</p>
+			<p>The following table provides an informative summary of the event types described in this specification.</p>
 
 			<table class="data-table"
 				summary="This table contains the complete list of event types defined by this specification. The first column contains the local name of the event type. The second column indicates if the event accomplish the bubbling phase or not (all events accomplish the capture and target phases). The third column indicates if the default action associated with the event can be canceled. The fourth column indicates the nodes that can be target of the event. the fifth (and last) column indicates the DOM interface implemented by the event object.">
@@ -906,15 +909,17 @@ console.log("Exceptions? No problem");</pre>
 					<td>No</td>
 					<td>None</td>
 				</tr>
+				<!-- Now covered in the Editing TF 
 				<tr>
-					<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
+					<td><a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a></td>
 					<td>Sync</td>
 					<td>Yes</td>
 					<td><code>Element</code></td>
-					<td><a href="#interface-InputEvent"><code>InputEvent</code></a></td>
+					<td><a href="#interface-EditEvent"><code>EditEvent</code></a></td>
 					<td>Yes</td>
 					<td>Update the DOM element</td>
 				</tr>
+				-->
 				<tr>
 					<td><a class="eventtype" href="#event-type-blur"><code>blur</code></a></td>
 					<td>Sync</td>
@@ -1015,15 +1020,17 @@ console.log("Exceptions? No problem");</pre>
 					<td>No</td>
 					<td>None</td>
 				</tr>
+				<!-- now covered in the editing TF
 				<tr>
-					<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
+					<td><a class="eventtype" href="#event-type-edit"><code>edit</code></a></td>
 					<td>Sync</td>
 					<td>Yes</td>
 					<td><code>Element</code></td>
-					<td><a href="#interface-InputEvent"><code>InputEvent</code></a></td>
+					<td><a href="#interface-EditEvent"><code>EditEvent</code></a></td>
 					<td>No</td>
 					<td>None</td>
 				</tr>
+				-->
 				<tr>
 					<td><a class="eventtype" href="#event-type-keydown"><code>keydown</code></a></td>
 					<td>Sync</td>
@@ -1032,7 +1039,7 @@ console.log("Exceptions? No problem");</pre>
 					<td><a href="#interface-KeyboardEvent"><code>KeyboardEvent</code></a></td>
 					<td>Yes</td>
 					<td>Varies:
-						<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a> and <a class="eventtype" href="#event-type-input"><code>input</code></a> events;
+						<a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a> and <a class="eventtype" href="#event-type-edit"><code>edit</code></a> events;
 						launch <a class="def" href="#glossary-text-composition-system">text composition system</a>;
 						<a class="eventtype" href="#event-type-blur"><code>blur</code></a> and <a class="eventtype" href="#event-type-focus"><code>focus</code></a> events;
 						<a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event;
@@ -1198,6 +1205,31 @@ console.log("Exceptions? No problem");</pre>
 			including lower level device dependent events and a module of document mutation events.
 			</p>
 
+		<section id="events-editing-events">
+			<h3>Editing Event Types</h3>
+			
+			<p>The editing event interfaces are defined in Edit Events [EDIT-EVENTS]. UI Events 
+				makes reference to several events defined by that specification in order to describe
+				the relative order in which edit events fire in relation to the events described herein.
+			</p>
+
+			<ul>
+				<li>The <code id="interface-EditEvent">EditEvent</code> interface and its following attributes:
+					<ul>
+						<li><code id="widl-EditEvent-data">data</code> attribute</li>
+					</ul>
+				</li>
+			</ul>		
+			
+			<p>In addition to this interface, this spec also references two event types defined by the Edit 
+			Events specification:</p>
+			
+			<ul>
+				<li><code id="event-type-beforeedit">beforeedit</code></li>
+				<li><code id="event-type-edit">edit</code></li>
+			</ul>
+		</section>
+		
 		<section id="events-uievents">
 			<h3>User Interface Event Types</h3>
 			<p>The User Interface event module contains basic event types associated with user
@@ -4174,7 +4206,7 @@ console.log("Exceptions? No problem");</pre>
 			<p class="note"><strong>Authoring Note:</strong>
 				Keyboard events are only one modality of providing textual input.
 				For editing scenarios, consider also using the
-					<a href="#interface-InputEvent"><code>InputEvent</code></a>
+					<a href="#interface-EditEvent"><code>EditEvent</code></a>
 				as an alternate to (or in addition to) keyboard events.
 				</p>
 
@@ -4329,8 +4361,8 @@ console.log("Exceptions? No problem");</pre>
 					<dd>
 						<p><code>true</code> if the key has been pressed in a sustained manner.  Holding down a key MUST result in the repeating the events
 							<a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>,
-							<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a>,
-							<a class="eventtype" href="#event-type-input"><code>input</code></a>
+							<a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a>,
+							<a class="eventtype" href="#event-type-edit"><code>edit</code></a>
 							in this order, at a rate determined by the system configuration. For mobile devices which have <em>long-key-press</em>
 							behavior, the first key event with a <a href="#widl-KeyboardEvent-repeat"><code>repeat</code></a> attribute value of <code>'true'</code> MUST serve as an
 							indication of a <em>long-key-press</em>. The length of time that the key MUST be pressed in order to begin repeating is configuration-dependent.</p>
@@ -4488,7 +4520,7 @@ console.log("Exceptions? No problem");</pre>
 					</tr>
 					<tr>
 						<td class="cell-number">2.</td>
-						<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
+						<td><a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a></td>
 						<td><em>(only for keys which produce a <a class="def" href="#glossary-character-value">character value</a>)</em></td>
 					</tr>
 					<tr>
@@ -4499,7 +4531,7 @@ console.log("Exceptions? No problem");</pre>
 					</tr>
 					<tr>
 						<td class="cell-number">3.</td>
-						<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
+						<td><a class="eventtype" href="#event-type-edit"><code>edit</code></a></td>
 						<td><em>(only for keys which have updated the DOM)</em></td>
 					</tr>
 					<tr>
@@ -4513,6 +4545,9 @@ console.log("Exceptions? No problem");</pre>
 						<td></td>
 					</tr>
 				</table>
+				
+				<p class="issue">The exact timing of <code>edit</code> and <code>beforeedit</code> with respect to other events remains to be validated with
+				<a href="http://w3c.github.io/editing/tf-charter.html">the Editing Task Force</a></p>
 				
 				<p>If the key is depressed for a sustained period, the following events MAY repeat
 					at an environment-dependent rate: <!-- and the key should seek counseling -->
@@ -4531,7 +4566,7 @@ console.log("Exceptions? No problem");</pre>
 					</tr>
 					<tr>
 						<td class="cell-number">2.</td>
-						<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
+						<td><a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a></td>
 						<td><em>(only for keys which produce a <a class="def" href="#glossary-character-value">character value</a>)</em></td>
 					</tr>
 					<tr>
@@ -4542,11 +4577,14 @@ console.log("Exceptions? No problem");</pre>
 					</tr>
 					<tr>
 						<td class="cell-number">3.</td>
-						<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
+						<td><a class="eventtype" href="#event-type-edit"><code>edit</code></a></td>
 						<td><em>(only for keys which have updated the DOM)</em></td>
 					</tr>
 				</table>
 
+				<p class="issue">The exact timing of <code>edit</code> and <code>beforeedit</code> with respect to other events remains to be validated with
+				<a href="http://w3c.github.io/editing/tf-charter.html">the Editing Task Force</a></p>
+				
 				<p class="note"><strong>Note:</strong>
 					Typically, any <a class="def" href="#glossary-default-action">default actions</a>
 					associated with any particular key are completed before the
@@ -4612,7 +4650,7 @@ console.log("Exceptions? No problem");</pre>
 							<tr>
 								<th>Default action</th>
 								<td>Varies:
-									<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a> and <a class="eventtype" href="#event-type-input"><code>input</code></a> events;
+									<a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a> and <a class="eventtype" href="#event-type-edit"><code>edit</code></a> events;
 									launch <a class="def" href="#glossary-text-composition-system">text composition system</a>;
 									<a class="eventtype" href="#event-type-blur"><code>blur</code></a> and <a class="eventtype" href="#event-type-focus"><code>focus</code></a> events;
 									<a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event;
@@ -4658,8 +4696,8 @@ console.log("Exceptions? No problem");</pre>
 							<code>keydown</code></a> event type is device dependent and relies on the capabilities of the input devices and how they are mapped in the operating system. This
 							event type MUST be generated after the <a class="def" href="#glossary-key-mapping">key mapping</a>.
 							This event type MUST be dispatched before the
-								<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a>,
-								<a class="eventtype" href="#event-type-input"><code>input</code></a>,
+								<a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a>,
+								<a class="eventtype" href="#event-type-edit"><code>edit</code></a>,
 								and <a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>
 							events associated with the same key.</p>
 
@@ -4667,13 +4705,13 @@ console.log("Exceptions? No problem");</pre>
 
 						<ul>
 							<li>If the key is associated with a character, the default action MUST be to dispatch
-									a <a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a> event
-									followed by an <a class="eventtype" href="#event-type-input"><code>input</code></a>
+									a <a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a> event
+									followed by an <a class="eventtype" href="#event-type-edit"><code>edit</code></a>
 								event.
 								In the case where the key which is associated with multiple characters (such as with a macro or certain sequences of dead keys), the default action MUST
 								be to dispatch one set of
-									<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a> /
-									<a class="eventtype" href="#event-type-input"><code>input</code></a>
+									<a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a> /
+									<a class="eventtype" href="#event-type-edit"><code>edit</code></a>
 								events for each character</li>
 
 							<li>If the key is associated with a <a class="def" href="#glossary-text-composition-system">text composition system</a>, the default action MUST be to launch that
@@ -4772,8 +4810,8 @@ console.log("Exceptions? No problem");</pre>
 							This event type MUST be generated after the <a class="def" href="#glossary-key-mapping">key mapping</a>.
 							This event type MUST be dispatched after the
 								<a class="eventtype" href="#event-type-keydown"><code>keydown</code></a>,
-								<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a>,
-								and <a class="eventtype" href="#event-type-input"><code>input</code></a>
+								<a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a>,
+								and <a class="eventtype" href="#event-type-edit"><code>edit</code></a>
 							events associated with the same key.</p>
 
 						<p class="note"><strong>Note:</strong> the <a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> and <a class="eventtype" href="#event-type-keyup">
@@ -6102,14 +6140,14 @@ else {
 						</tr>
 						<tr>
 							<td class="cell-number">3.</td>
-							<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
+							<td><a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a></td>
 							<td class="cell-center"><code class="key">'Q'</code></td>
 							<td></td>
 							<td></td>
 						</tr>
 						<tr>
 							<td class="cell-number">4.</td>
-							<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
+							<td><a class="eventtype" href="#event-type-edit"><code>edit</code></a></td>
 							<td class="cell-center"></td>
 							<td></td>
 							<td></td>
@@ -6131,6 +6169,9 @@ else {
 					</table>
 				</div>
 
+				<p class="issue">The exact timing of <code>edit</code> and <code>beforeedit</code> with respect to other events remains to be validated with
+				<a href="http://w3c.github.io/editing/tf-charter.html">the Editing Task Force</a></p>
+				
 				<p>The following example describes an alternate sequence of keys to the example above, where the <code class="key">'Shift'</code> key is released before the <code
 					class="key">'Q'</code> key.  The key value for the key labeled <code class="glyph">'Q'</code> will revert to its unshifted value for the <a class="eventtype" href="#event-type-keyup">
 					<code>keyup</code></a> event:</p>
@@ -6161,14 +6202,14 @@ else {
 						</tr>
 						<tr>
 							<td class="cell-number">3.</td>
-							<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
+							<td><a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a></td>
 							<td class="cell-center"><code class="key">'Q'</code></td>
 							<td></td>
 							<td></td>
 						</tr>
 						<tr>
 							<td class="cell-number">4.</td>
-							<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
+							<td><a class="eventtype" href="#event-type-edit"><code>edit</code></a></td>
 							<td class="cell-center"></td>
 							<td></td>
 							<td></td>
@@ -6190,6 +6231,9 @@ else {
 					</table>
 				</div>
 
+				<p class="issue">The exact timing of <code>edit</code> and <code>beforeedit</code> with respect to other events remains to be validated with
+				<a href="http://w3c.github.io/editing/tf-charter.html">the Editing Task Force</a></p>
+				
 				<p>The following example describes a possible sequence of keys that does not generate a Unicode character (using the same configuration):</p>
 
 				<div class="example">
@@ -6218,7 +6262,7 @@ else {
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="4"><em>No beforeinput or input events are generated.</em></td>
+							<td colspan="4"><em>No <code>beforeedit</code> or <code>edit</code> events are generated.</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">3.</td>
@@ -6237,6 +6281,9 @@ else {
 					</table>
 				</div>
 
+				<p class="issue">The exact timing of <code>edit</code> and <code>beforeedit</code> with respect to other events remains to be validated with
+				<a href="http://w3c.github.io/editing/tf-charter.html">the Editing Task Force</a></p>
+				
 				<p>The following example shows the sequence of events when both <code class="key">'Shift'</code> and 
 					<code class="key">'Control'</code> are pressed:</p>
 
@@ -6275,7 +6322,7 @@ else {
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="4"><em>No beforeinput or input events are generated.</em></td>
+							<td colspan="4"><em>No <code>beforeedit</code> or <code>edit</code> events are generated.</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">4.</td>
@@ -6302,6 +6349,9 @@ else {
 					</table>
 				</div>
 
+				<p class="issue">The exact timing of <code>edit</code> and <code>beforeedit</code> with respect to other events remains to be validated with
+				<a href="http://w3c.github.io/editing/tf-charter.html">the Editing Task Force</a></p>
+				
 				<p>For non-US keyboard layouts, the sequence of events is the same, but the value of the key is based on the current
 					keyboard layout. The following example shows a sequence of events when an Arabic keyboard layout is used:</p>
 						
@@ -6331,7 +6381,7 @@ else {
 						</tr>
 						<tr>
 							<td class="cell-number"></td>
-							<td colspan="4"><em>No beforeinput or input events are generated.</em></td>
+							<td colspan="4"><em>No <code>beforeedit</code> or <code>edit</code> events are generated.</em></td>
 						</tr>
 						<tr>
 							<td class="cell-number">3.</td>
@@ -6350,6 +6400,9 @@ else {
 					</table>
 				</div>
 
+				<p class="issue">The exact timing of <code>edit</code> and <code>beforeedit</code> with respect to other events remains to be validated with
+				<a href="http://w3c.github.io/editing/tf-charter.html">the Editing Task Force</a></p>
+				
 				<p class="note"><strong>Note:</strong>
 					The value in the keydown and keyup events varies based on the current keyboard
 					layout in effect when the key is pressed.
@@ -6925,9 +6978,9 @@ else {
 					event MUST NOT affect its respective
 						<a class="eventtype" href="#event-type-keyup"><code>keyup</code></a>
 					event, but it MUST prevent the respective
-						<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a>
+						<a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a>
 					and
-						<a class="eventtype" href="#event-type-input"><code>input</code></a>
+						<a class="eventtype" href="#event-type-edit"><code>edit</code></a>
 					(and
 						<a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>
 					if supported) events from being generated.
@@ -6942,7 +6995,7 @@ else {
 							<td class="cell-number"></td>
 							<th>Event Name</th>
 							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
-							<th class="cell-center"><a href="#widl-InputEvent-data"><code>InputEvent<br/>data</code></a></th>
+							<th class="cell-center"><a href="#widl-EditEvent-data"><code>EditEvent<br/>data</code></a></th>
 							<th class="cell-center">Modifiers</th>
 							<th>Notes</th>
 						</tr>
@@ -6971,9 +7024,9 @@ else {
 							<td></td>
 							<td></td>
 							<td><em>No
-									<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a>
+									<a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a>
 								or
-									<a class="eventtype" href="#event-type-input"><code>input</code></a>
+									<a class="eventtype" href="#event-type-edit"><code>edit</code></a>
 								(or 
 									<a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>,
 								if supported) events are generated</em>
@@ -7008,7 +7061,7 @@ else {
 							<td class="cell-number"></td>
 							<th>Event Name</th>
 							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
-							<th class="cell-center"><a href="#widl-InputEvent-data"><code>InputEvent<br/>data</code></a></th>
+							<th class="cell-center"><a href="#widl-EditEvent-data"><code>EditEvent<br/>data</code></a></th>
 							<th class="cell-center">Modifiers</th>
 							<th>Notes</th>
 						</tr>
@@ -7032,7 +7085,7 @@ else {
 						</tr>
 						<tr>
 							<td class="cell-number">3.</td>
-							<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
+							<td><a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="glyph">'Q'</code></td>
 							<td class="cell-center"></td>
@@ -7040,7 +7093,7 @@ else {
 						</tr>
 						<tr>
 							<td class="cell-number">4.</td>
-							<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
+							<td><a class="eventtype" href="#event-type-edit"><code>edit</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
@@ -7071,8 +7124,8 @@ else {
 					<a class="eventtype" href="#event-type-keydown"><code>keydown</code></a> event. Canceling a 
 					<a class="def" href="#glossary-dead-key">dead key</a> on a 
 					<a class="eventtype" href="#event-type-keyup"><code>keyup</code></a> event has no effect on
-					<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a> or
-					<a class="eventtype" href="#event-type-input"><code>input</code></a> events.
+					<a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a> or
+					<a class="eventtype" href="#event-type-edit"><code>edit</code></a> events.
 					The following example uses the dead key <code class="key">'Dead'</code> (<code class="char">'\u0302'</code> Combining Circumflex 
 					Accent key) and <code class="key">'e'</code> (<code class="char">'\u0065'</code>, Latin Small Letter E key) on a French 
 					keyboard using a French mapping and without any modifier activated:</p>
@@ -7084,7 +7137,7 @@ else {
 							<td class="cell-number"></td>
 							<th>Event Name</th>
 							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
-							<th class="cell-center"><a href="#widl-InputEvent-data"><code>InputEvent<br/>data</code></a></th>
+							<th class="cell-center"><a href="#widl-EditEvent-data"><code>EditEvent<br/>data</code></a></th>
 							<th>Notes</th>
 						</tr>
 						<tr>
@@ -7112,14 +7165,14 @@ else {
 						</tr>
 						<tr>
 							<td class="cell-number">4.</td>
-							<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
+							<td><a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="glyph">'e'</code></td>
 							<td></td>
 						</tr>
 						<tr>
 							<td class="cell-number">5.</td>
-							<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
+							<td><a class="eventtype" href="#event-type-edit"><code>edit</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
 							<td></td>
@@ -8531,9 +8584,9 @@ else {
 
 			<p>Note that the <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event
 				is specific to key events, and has been replaced by the more general event sequence of
-				<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a>
-				and <a class="eventtype" href="#event-type-input"><code>input</code></a> events.
-				These new input events are not specific to keyboard actions and can be used to capture
+				<a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a>
+				and <a class="eventtype" href="#event-type-edit"><code>edit</code></a> events.
+				These new <code>edit</code> events are not specific to keyboard actions and can be used to capture
 				user input regardless of the original source.
 				</p>
 				
@@ -8629,13 +8682,13 @@ else {
 							</p>
 
 						<p>If this event is canceled, it should prevent the
-								<a class="eventtype" href="#event-type-input"><code>input</code></a>
+								<a class="eventtype" href="#event-type-edit"><code>edit</code></a>
 							event from firing, in addition to canceling the
 								<a class="def" href="#glossary-default-action">default action</a>.
 							</p>
 
 						<p>Authors SHOULD use the
-								<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a>
+								<a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a>
 							event instead of the
 								<a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>
 							event.
@@ -8652,7 +8705,7 @@ else {
 							<p>The <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a> event type is defined
 								in this specification for reference and completeness, but this specification
 								<a class="def" href="#glossary-deprecated">deprecates</a> the use of this event type.
-								When in editing contexts, authors can subscribe to the <code>beforeinput</code> event instead.
+								When in editing contexts, authors can subscribe to the <code>beforeedit</code> event instead.
 								</p>
 						</div>
 
@@ -8673,9 +8726,9 @@ else {
 
 				<p>The <a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>
 					event type MUST be dispatched after the
-						<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a>
+						<a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a>
 					event and before the
-						<a class="eventtype" href="#event-type-input"><code>input</code></a>
+						<a class="eventtype" href="#event-type-edit"><code>edit</code></a>
 					event associated with the same key.
 					</p>
 
@@ -8691,7 +8744,7 @@ else {
 							<td class="cell-number"></td>
 							<th>Event Name</th>
 							<th class="cell-center"><a href="#widl-KeyboardEvent-key"><code>KeyboardEvent<br/>key</code></a></th>
-							<th class="cell-center"><a href="#widl-InputEvent-data"><code>InputEvent<br/>data</code></a></th>
+							<th class="cell-center"><a href="#widl-EditEvent-data"><code>EditEvent<br/>data</code></a></th>
 						</tr>
 						<tr>
 							<td class="cell-number">1.</td>
@@ -8701,7 +8754,7 @@ else {
 						</tr>
 						<tr>
 							<td class="cell-number">2.</td>
-							<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
+							<td><a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"><code class="key">'a'</code></td>
 						</tr>
@@ -8719,7 +8772,7 @@ else {
 						</tr>
 						<tr>
 							<td class="cell-number">4.</td>
-							<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
+							<td><a class="eventtype" href="#event-type-edit"><code>edit</code></a></td>
 							<td class="cell-center"></td>
 							<td class="cell-center"></td>
 						</tr>
@@ -9792,6 +9845,9 @@ document.documentElement.dispatchEvent(evt);
 				</p>
 
 			<ul>
+				<li><code>beforeinput</code> and <code>input</code> events renamed to <code>beforeedit</code>
+					and <code>edit</code> events, respectively. These events are now defined by the Edit Events spec.
+					</li>
 				<li>The <q>key identifier</q> feature has been renamed <q>key value</q> to disambiguate
 					them from unique identifiers for keys.
 					</li>
@@ -9821,8 +9877,8 @@ document.documentElement.dispatchEvent(evt);
 				<li>The <code>textInput</code> event, originally proposed as a replacement for
 					<a class="eventtype" href="#event-type-keypress"><code>keypress</code></a>, was
 					removed in favor of the current
-						<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a>
-					and <a class="eventtype" href="#event-type-input"><code>input</code></a> events.
+						<a class="eventtype" href="#event-type-beforeedit"><code>beforeedit</code></a>
+					and <a class="eventtype" href="#event-type-edit"><code>edit</code></a> events.
 					</li>
 				<li>Namespaced events have been removed.
 					</li>
