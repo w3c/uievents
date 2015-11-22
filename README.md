@@ -62,8 +62,8 @@ Next call scheduled for Tuesday October 13th, 2015
 * [UI Events Issues Database](https://github.com/w3c/uievents/issues)
    * Need for detailed review by implementors
    * Need for comprehensive test suite
-* [key Values Issues](https://github.com/w3c/DOM-Level-3-Events-key/issues)
-* [code Values Issues](https://github.com/w3c/DOM-Level-3-Events-code/issues)
+* [key Values Issues](https://github.com/w3c/uievents-key/issues)
+* [code Values Issues](https://github.com/w3c/uievents-code/issues)
 
 ## Testing
 
