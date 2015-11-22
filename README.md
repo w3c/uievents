@@ -54,8 +54,8 @@ Next call scheduled for Tuesday October 13th, 2015
     * [DOM Level 3 KeyboardEvent code Values](http://www.w3.org/TR/DOM-Level-3-Events-code/)
 * Editor's Drafts
     * [UI Events](https://w3c.github.io/uievents/)
-    * [DOM Level 3 KeyboardEvent key Values](https://w3c.github.io/DOM-Level-3-Events-key/)
-    * [DOM Level 3 KeyboardEvent code Values](https://w3c.github.io/DOM-Level-3-Events-code/)
+    * [UI Events KeyboardEvent key Values](https://w3c.github.io/uievents-key/)
+    * [UI Events KeyboardEvent code Values](https://w3c.github.io/uievents-code/)
 
 ## Open Issues
 
