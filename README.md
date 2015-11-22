@@ -68,5 +68,7 @@ Next call scheduled for Tuesday October 13th, 2015
 ## Testing
 
 * [Keyboard Event Viewer](https://cdn.rawgit.com/w3c/uievents/gh-pages/tools/key-event-viewer.html)
-
-[Test Suite Mirror](http://w3c-test.org/DOMEvents/)
+* Manual Keyboard Tests
+   * [English 101 en-US](https://cdn.rawgit.com/w3c/uievents/gh-pages/tests/key-mtest-101en-us.html)
+   * [French 102 fr-FR](https://cdn.rawgit.com/w3c/uievents/gh-pages/tests/key-mtest-102fr-fr.html)
+* [Test Suite Mirror](http://w3c-test.org/DOMEvents/)
