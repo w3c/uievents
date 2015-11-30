@@ -22,15 +22,6 @@ function setUserAgent() {
 	setText(uaDiv, userAgent);
 }
 
-function isOldIE() {
-	var ieIndex = navigator.userAgent.indexOf("MSIE");
-	if (ieIndex == -1) {
-		return false;
-	}
-	var ver = parseFloat(navigator.userAgent.substring(ieIndex+5));
-	return ver < 10.0;
-}
-
 function addEventListener(obj, etype, handler) {
 	if (obj.addEventListener) {
 		obj.addEventListener(etype, handler, false);
@@ -136,7 +127,7 @@ function handleDefaultPropagation(etype, e) {
 	var stopPropagation = document.getElementById("sp_" + etype);
 	if (stopPropagation.checked && e.stopPropagation) {
 		e.stopPropagation();
-    }
+	}
 	// Always prevent default for Tab.
 	if (e.keyCode == 9 || e.code == "Tab") {
 		e.preventDefault();
@@ -148,7 +139,7 @@ function addInputEvent(etype, e) {
 		e = window.event;
 	}
 	var eventinfo = {};
-	eventinfo["etype"] = e.type;
+	eventinfo["etype"] = calcRichString(etype, e.type, true);
 	eventinfo["data"] = calcString(e.data);
 	addEvent(eventinfo);
 }
@@ -158,10 +149,10 @@ function addKeyEvent(etype, e) {
 		e = window.event;
 	}
 	var eventinfo = {};
-	eventinfo["etype"] = e.type;
-	eventinfo["charCode"] = calcKeyVal(e.charCode);
-	eventinfo["keyCode"] = calcKeyVal(e.keyCode);
-	eventinfo["which"] = calcKeyVal(e.which);
+	eventinfo["etype"] = calcRichString(etype, e.type, true);
+	eventinfo["charCode"] = calcRichKeyVal(etype, "charCode", e.charCode);
+	eventinfo["keyCode"] = calcRichKeyVal(etype, "keyCode", e.keyCode);
+	eventinfo["which"] = e.which;
 	eventinfo["shift"] = e.shiftKey;
 	eventinfo["ctrl"] = e.ctrlKey;
 	eventinfo["alt"] = e.altKey;
@@ -169,10 +160,10 @@ function addKeyEvent(etype, e) {
 	eventinfo["keyIdentifier"] = e.keyIdentifier;
 	eventinfo["keyLocation"] = calcLocation(e.keyLocation);
 	eventinfo["char"] = calcString(e.char);
-	eventinfo["key"] = calcString(e.key);
+	eventinfo["key"] = calcRichString(etype, e.key, false);
+	eventinfo["code"] = e.code;
 	eventinfo["location"] = calcLocation(e.location);
 	eventinfo["repeat"] = e.repeat;
-	eventinfo["code"] = e.code;
 	addEvent(eventinfo);
 }
 
@@ -181,31 +172,31 @@ function addCompositionEvent(etype, e) {
 		e = window.event;
 	}
 	var eventinfo = {};
-	eventinfo["etype"] = e.type;
+	eventinfo["etype"] = calcRichString(etype, e.type, true);
 	eventinfo["data"] = calcString(e.data);
 	addEvent(eventinfo);
 }
 
 function addEvent(eventinfo) {
 	var row = addOutputRow();
-	addTableCell(row, seqId, "etype");
+	addTableCellText(row, seqId, "etype");
 	addTableCell(row, eventinfo["etype"], "etype");
 	addTableCell(row, eventinfo["charCode"], "legacy");
 	addTableCell(row, eventinfo["keyCode"], "legacy");
-	addTableCell(row, eventinfo["which"], "legacy");
+	addTableCellText(row, eventinfo["which"], "legacy");
 	addTableCellModifierKey(row, eventinfo["shift"], "modifiers");
 	addTableCellModifierKey(row, eventinfo["ctrl"], "modifiers");
 	addTableCellModifierKey(row, eventinfo["alt"], "modifiers");
 	addTableCellModifierKey(row, eventinfo["meta"], "modifiers");
-	addTableCell(row, eventinfo["keyIdentifier"], "olddom3");
-	addTableCell(row, eventinfo["keyLocation"], "olddom3");
-	addTableCell(row, eventinfo["char"], "olddom3");
+	addTableCellText(row, eventinfo["keyIdentifier"], "olddom3");
+	addTableCellText(row, eventinfo["keyLocation"], "olddom3");
+	addTableCellText(row, eventinfo["char"], "olddom3");
 	addTableCell(row, eventinfo["key"], "uievents");
-	addTableCell(row, eventinfo["code"], "uievents");
-	addTableCell(row, eventinfo["location"], "uievents");
-	addTableCell(row, eventinfo["repeat"], "uievents");
-	addTableCell(row, eventinfo["data"], "uievents");
-	addTableCell(row, eventinfo["locale"], "uievents");
+	addTableCellText(row, eventinfo["code"], "uievents");
+	addTableCellText(row, eventinfo["location"], "uievents");
+	addTableCellText(row, eventinfo["repeat"], "uievents");
+	addTableCellText(row, eventinfo["data"], "uievents");
+	addTableCellText(row, eventinfo["locale"], "uievents");
 	addInputCell(row);
 }
 
@@ -216,14 +207,49 @@ function calcLocation(loc) {
 	return loc;
 }
 
-function calcKeyVal(key) {
-    if (key === undefined) {
-		return key;
+function calcRichKeyVal(eventType, attrName, key) {
+	if (key === undefined) {
+		return null;
 	}
-    if (key >= 32 && key < 127) {
-		return key + " '" + String.fromCharCode(key) + "'";
+
+	var keyString = String.fromCharCode(key);
+	if (attrName == "keyCode") {
+		// Don't even try to decipher keyCode unless it's alphanum.
+		if (key < 32 || key > 90) {
+			keyString = "";
+		}
+		// ...or a modifier.
+		switch (key) {
+			case 16: keyString = "Shift"; break;
+			case 17: keyString = "Control"; break;
+			case 18: keyString = "Alt"; break;
+			case 91:
+			case 93:
+			case 224:
+				keyString = "Meta";
+				break;
+		}
 	}
-    return key;
+	
+	if (keyString != ""
+			&& ((eventType == "keypress" && attrName == "charCode")
+				|| ((eventType == "keydown" || eventType == "keyup") && attrName == "keyCode")
+				)
+			) {
+		var data = document.createElement("span");
+		data.appendChild(document.createTextNode(key));
+		var keySpan = document.createElement("span");
+		if (document.getElementById("hl_" + eventType).checked) {
+			keySpan.classList.add("keyevent_hilight");
+			keySpan.classList.add(eventType + "_hilight");
+		} else {
+			keyString = " " + keyString;
+		}
+		keySpan.textContent = keyString;
+		data.appendChild(keySpan);
+		return data;
+	}
+	return document.createTextNode(key);
 }
 
 function calcModifierKey(key) {
@@ -231,24 +257,29 @@ function calcModifierKey(key) {
 }
 
 function calcString(data) {
-    if (data === undefined) {
+	if (data === undefined) {
 		return data;
 	}
 	return "'" + data + "'";
 }
 
-function addClass(obj, className) {
-	if (!isOldIE()) {
-		obj.classList.add(className);
-	}
-}
 
-function addInnerText(obj, text) {
-	if (!isOldIE()) {
-		obj.appendChild(document.createTextNode(text));
-	} else {
-		obj.innerText = text;
+function calcRichString(eventType, data, addArrow) {
+	if (data === undefined) {
+		return null;
 	}
+
+	var keySpan = document.createElement("span");
+	var enableHilight = document.getElementById("hl_" + eventType);
+	if (enableHilight && enableHilight.checked) {
+		keySpan.classList.add("keyevent_hilight");
+		keySpan.classList.add(eventType + "_hilight");
+		if (addArrow && (eventType == "keydown" || eventType == "keyup")) {
+			keySpan.classList.add(eventType + "_arrow");
+		}
+	}
+	keySpan.textContent = data;
+	return keySpan;
 }
 
 function resetTable() {
@@ -267,17 +298,25 @@ function clearTable() {
 
 function addInputCell(row) {
 	var value = document.getElementById("input").value;
-	addTableCell(row, "'" + value + "'", "inputbox", undefined, undefined, "left");
+	addTableCellText(row, "'" + value + "'", "inputbox", undefined, undefined, "left");
 	seqId++;
+}
+
+function addTableCellText(row, textdata, celltype, style, span, align) {
+	var data = null;
+	if (textdata !== undefined) {
+		data = document.createTextNode(textdata);
+	}
+	addTableCell(row, data, celltype, style, span, align);
 }
 
 function addTableCell(row, data, celltype, style, span, align) {
 	var cell = row.insertCell(-1);
-	if (data === undefined) {
-		data = "-";
-		addClass(cell, "undef");
+	if (data === undefined || data == null) {
+		data = document.createTextNode("-");
+		style = "undef";
 	}
-	addInnerText(cell, data);
+	cell.appendChild(data);
 	if (align === undefined) {
 		align = "center";
 	}
@@ -285,15 +324,15 @@ function addTableCell(row, data, celltype, style, span, align) {
 	if (span !== undefined) {
 		cell.setAttribute("colspan", span);
 	}
-	addClass(cell, "keycell");
-	addClass(cell, celltype);
+	cell.classList.add("keycell");
+	cell.classList.add(celltype);
 	if (style !== undefined) {
 		if (style instanceof Array) {
 			for (var i = 0; i < style.length; i++) {
-				addClass(cell, style[i]);
+				cell.classList.add(style[i]);
 			}
 		} else {
-			addClass(cell, style);
+			cell.classList.add(style);
 		}
 	}
 	if (celltype == "etype" || celltype == "empty") {
@@ -308,7 +347,7 @@ function addTableCell(row, data, celltype, style, span, align) {
 
 function addTableCellModifierKey(row, key, celltype) {
 	var modstyle = key ? "modOn" : "modOff";
-	addTableCell(row, calcModifierKey(key), celltype, modstyle);
+	addTableCellText(row, calcModifierKey(key), celltype, modstyle);
 }
 
 function createTableHeader() {
@@ -316,38 +355,38 @@ function createTableHeader() {
 	var head = table.createTHead();
 	var row1 = head.insertRow(-1);
 	var row2 = head.insertRow(-1);
-	addTableCell(row1, "", "empty", undefined, 2);
-	addTableCell(row2, "#", "etype", "etype_header");
-	addTableCell(row2, "Event type", "etype", "etype_header");
+	addTableCellText(row1, "", "empty", undefined, 2);
+	addTableCellText(row2, "#", "etype", "etype_header");
+	addTableCellText(row2, "Event type", "etype", "etype_header");
 	// KeyboardEvent - Legacy
-	addTableCell(row1, "Legacy", "legacy", "legacy_header", 3);
-	addTableCell(row2, "charCode", "legacy", "legacy_header");
-	addTableCell(row2, "keyCode", "legacy", "legacy_header");
-	addTableCell(row2, "which", "legacy", "legacy_header");
+	addTableCellText(row1, "Legacy", "legacy", "legacy_header", 3);
+	addTableCellText(row2, "charCode", "legacy", "legacy_header");
+	addTableCellText(row2, "keyCode", "legacy", "legacy_header");
+	addTableCellText(row2, "which", "legacy", "legacy_header");
 	// KeyboardEvent - Modifiers
-	addTableCell(row1, "Modifiers", "modifiers", "modifiers_header", 4);
-	addTableCell(row2, "shift", "modifiers", "modifiers_header");
-	addTableCell(row2, "ctrl", "modifiers", "modifiers_header");
-	addTableCell(row2, "alt", "modifiers", "modifiers_header");
-	addTableCell(row2, "meta", "modifiers", "modifiers_header");
+	addTableCellText(row1, "Modifiers", "modifiers", "modifiers_header", 4);
+	addTableCellText(row2, "shift", "modifiers", "modifiers_header");
+	addTableCellText(row2, "ctrl", "modifiers", "modifiers_header");
+	addTableCellText(row2, "alt", "modifiers", "modifiers_header");
+	addTableCellText(row2, "meta", "modifiers", "modifiers_header");
 	// KeyboardEvent - Old DOM3
-	addTableCell(row1, "Old DOM3", "olddom3", "olddom3_header", 3);
-	addTableCell(row2, "keyIdentifier", "olddom3", "olddom3_header");
-	addTableCell(row2, "keyLocation", "olddom3", "olddom3_header");
-	addTableCell(row2, "char", "olddom3", "olddom3_header");
+	addTableCellText(row1, "Old DOM3", "olddom3", "olddom3_header", 3);
+	addTableCellText(row2, "keyIdentifier", "olddom3", "olddom3_header");
+	addTableCellText(row2, "keyLocation", "olddom3", "olddom3_header");
+	addTableCellText(row2, "char", "olddom3", "olddom3_header");
 	// KeyboardEvent - UI Events
-	addTableCell(row1, "UI Events", "uievents", "uievents_header", 5);
-	addTableCell(row2, "key", "uievents", "uievents_header");
-	addTableCell(row2, "code", "uievents", "uievents_header");
-	addTableCell(row2, "location", "uievents", "uievents_header");
-	addTableCell(row2, "repeat", "uievents", "uievents_header");
-	addTableCell(row2, "data", "uievents", "uievents_header");
+	addTableCellText(row1, "UI Events", "uievents", "uievents_header", 5);
+	addTableCellText(row2, "key", "uievents", "uievents_header");
+	addTableCellText(row2, "code", "uievents", "uievents_header");
+	addTableCellText(row2, "location", "uievents", "uievents_header");
+	addTableCellText(row2, "repeat", "uievents", "uievents_header");
+	addTableCellText(row2, "data", "uievents", "uievents_header");
 	// KeyboardEvent - Proposed
-	addTableCell(row1, "Proposed", "proposed", "proposed_header", 1);
-	addTableCell(row2, "locale", "proposed", "proposed_header");
+	addTableCellText(row1, "Proposed", "proposed", "proposed_header", 1);
+	addTableCellText(row2, "locale", "proposed", "proposed_header");
 
-	addTableCell(row1, "", "inputbox", "empty");
-	addTableCell(row2, "Input field", "inputbox", "inputbox_header");
+	addTableCellText(row1, "", "inputbox", "empty");
+	addTableCellText(row2, "Input field", "inputbox", "inputbox_header");
 }
 
 function toggleOptions() {
@@ -356,18 +395,15 @@ function toggleOptions() {
 	clearChildren(link);
 	if (options.style.display == "block") {
 		options.style.display = "none";
-		addInnerText(link, "Show Options");
+		link.appendChild(document.createTextNode("Show Options"));
 	}
 	else {
 		options.style.display = "block";
-		addInnerText(link, "Hide Options");
+		link.appendChild(document.createTextNode("Hide Options"));
 	}
 }
 
 function showFieldClick(cb) {
-	if (isOldIE()) {
-		return;
-	}
 	var celltype = cb.id.split('_')[1];
 	var show = cb.checked;
 	
