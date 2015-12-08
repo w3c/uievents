@@ -28,10 +28,10 @@ See our [bi-weekly meetings](https://github.com/w3c/uievents/wiki/Meeting-Notes)
         * Wednesday 01:00 UTC
         * Wednesday 10:00 JST (Tokyo)
 * Duration = 60 minutes
-* Join [WebEx](https://mit.webex.com/mit/j.phpMTID=m0047b5aad60bda870c92982917908195) meeting
+* Join [WebEx](https://mit.webex.com/mit/j.php?MTID=m0047b5aad60bda870c92982917908195) meeting
     * Meeting number: 649 984 974
     * Meeting password: _Send an email to www-dom for password_
-    * https://mit.webex.com/mit/j.phpMTID=m0047b5aad60bda870c92982917908195;
+    * https://mit.webex.com/mit/j.php?MTID=m0047b5aad60bda870c92982917908195;
 * Join by phone
     * +1-617-324-0000 US Toll Number
     * Access code: 649 984 974
