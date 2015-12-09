@@ -71,4 +71,8 @@ Next call scheduled for Tuesday October 13th, 2015
 * Manual Keyboard Tests
    * [English 101 en-US](https://cdn.rawgit.com/w3c/uievents/gh-pages/tests/key-mtest-101en-us.html)
    * [French 102 fr-FR](https://cdn.rawgit.com/w3c/uievents/gh-pages/tests/key-mtest-102fr-fr.html)
-* [Test Suite Mirror](http://w3c-test.org/DOMEvents/)
+* Web Platform Tests
+   * [Github w3c/web-platform-tests uievents](https://github.com/w3c/web-platform-tests/tree/master/uievents)
+   * Tests are mirrored at w3c-test.org:
+      * [uievents](http://w3c-test.org/uievents/)
+      * [DOMEvents](http://w3c-test.org/DOMEvents/) - old
