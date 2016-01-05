@@ -28,18 +28,18 @@ See our [bi-weekly meetings](https://github.com/w3c/uievents/wiki/Meeting-Notes)
         * Wednesday 01:00 UTC
         * Wednesday 10:00 JST (Tokyo)
 * Duration = 60 minutes
-* Join [WebEx](https://mit.webex.com/mit/j.php?MTID=m0047b5aad60bda870c92982917908195) meeting
-    * Meeting number: 649 984 974
+* Join [WebEx](https://mit.webex.com/mit/j.php?MTID=mf1da0382faf3961644b198ae8021ea68) meeting
+    * Meeting number: 646 666 452
     * Meeting password: _Send an email to www-dom for password_
-    * https://mit.webex.com/mit/j.php?MTID=m0047b5aad60bda870c92982917908195;
+    * https://mit.webex.com/mit/j.php?MTID=mf1da0382faf3961644b198ae8021ea68;
 * Join by phone
     * +1-617-324-0000 US Toll Number
-    * Access code: 649 984 974
-    * Mobile Auto Dial: +1-617-324-0000,,,649984974#
+    * Access code: 646 666 452
+    * Mobile Auto Dial: +1-617-324-0000,,,646666452#
 * Web interface
     * [IRC Web Interface](http://irc.w3.org/)
     * Note: you must have a Member or Invited Expert account to use this.
-* [Add](https://mit.webex.com/mit/j.php?MTID=m3168ff2893bb6f5c8181b1df18473f84) this meeting to your calendar.
+* [Add](https://mit.webex.com/mit/j.php?MTID=ma8f9c8624789194825c131ae7454cdd4) this meeting to your calendar.
 * Agendas: a draft agenda is sent to the [www-dom](http://lists.w3.org/Archives/Public/www-dom/) list at least 24 hours before
 * Minutes: meeting minutes are distributed on the [www-dom](http://lists.w3.org/Archives/Public/www-dom/) list.
 * Please submit agenda topics to www-dom mailing list.
