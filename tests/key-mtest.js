@@ -8,8 +8,6 @@ var _keysGood = 0;
 var _keysBad = 0;
 var _keysSkipped = 0;
 
-var _modifierMode = "None";
-
 var _keydownCapture = [];
 var _keyupCapture = [];
 
@@ -37,6 +35,17 @@ var KEYTYPE_NORMAL = 0;
 var KEYTYPE_DISABLED = 1;   // Key cannot be tested: e.g., CapsLock
 var KEYTYPE_END = 2;        // Used to mark end of KeyTable
 var KEYTYPE_MODIFIER = 3;   // Modifer key
+var KEYTYPE_DEAD = 4;       // Dead key
+
+// Test modifiers
+var MODIFIERS_NONE = "None";
+var MODIFIERS_SHIFT = "Shift";
+var _modifierMode = MODIFIERS_NONE;
+
+// Test keys
+var TESTKEYS_NORMAL = "Normal keys";
+var TESTKEYS_DEAD = "Dead keys";
+var _testMode = TESTKEYS_NORMAL;
 
 function clearChildren(e) {
     while (e.firstChild !== null) {
@@ -65,14 +74,6 @@ function addEventListener(obj, etype, handler) {
     }
 }
 
-function addClass(obj, className) {
-    obj.classList.add(className);
-}
-
-function removeClass(obj, className) {
-    obj.classList.remove(className);
-}
-
 function addInnerText(obj, text) {
     obj.appendChild(document.createTextNode(text));
 }
@@ -84,6 +85,10 @@ function calcLocation(loc) {
     return loc;
 }
 
+// Return true if the given key event is a modifier key.
+// This uses the deprecated |keyCode| attribute because the new |key| and |code|
+// attributes are not yet widely supported.
+// TODO: Use |code| to determine this once it is supported by most browsers.
 function isModifierKey(e) {
     // Shift, Control, Alt
     if (e.keyCode >= 16 && e.keyCode <= 18) {
@@ -178,7 +183,7 @@ function verifyKeyEventFields(eventName, keyEventInfo, code, key, error) {
         addErrorIncorrect(error, eventName, "key", keyEventInfo, CAPTURE_KEY, key);
     }
     if (verifyModifiers) {
-        if (keyEventInfo[CAPTURE_SHIFTKEY] != (_modifierMode == "Shift")) {
+        if (keyEventInfo[CAPTURE_SHIFTKEY] != (_modifierMode == MODIFIERS_SHIFT)) {
             good = false;
             addErrorIncorrect(error, eventName, "shiftKey", keyEventInfo, CAPTURE_SHIFTKEY, false);
         }
@@ -208,7 +213,7 @@ function verifyKey() {
     var keyShift = keyInfo[KEYINFO_KEY_SHIFT];
 
     var keyCheck = key;
-    if (_modifierMode == "Shift") {
+    if (_modifierMode == MODIFIERS_SHIFT) {
         keyCheck = keyShift;
     }
 
@@ -331,14 +336,14 @@ function endTest() {
 function removeNextKeyHilight() {
     var curr = document.getElementById(_keyTable[_currKey][KEYINFO_CODE]);
     if (curr) {
-        removeClass(curr, "nextKey")
+        curr.classList.remove("nextKey");
     }
 }
 
 function addNextKeyHilight() {
     var curr = document.getElementById(_keyTable[_currKey][KEYINFO_CODE]);
     if (curr) {
-        addClass(curr, "nextKey")
+        curr.classList.add("nextKey");
     }
 }
 
@@ -350,8 +355,9 @@ function nextKey() {
         keyInfo = _keyTable[_currKey];
         var type = keyInfo[KEYINFO_TYPE];
 
-        // Skip over disabled keys.
-        keepLooking = (type == KEYTYPE_DISABLED);
+        // Skip over disabled and dead keys.
+        keepLooking = (type == KEYTYPE_DISABLED)
+                || (type == KEYTYPE_DEAD);
 
         // Skip over modifier keys if we're testing modifier combinations.
         if (_modifierMode != "None" && type == KEYTYPE_MODIFIER) {
@@ -544,20 +550,41 @@ function addOptionRadio(cell, group, text, handler, checked) {
     cell.appendChild(document.createElement("br"));
 }
 
+function addOptionText(cell, prefix, id, text) {
+    var span1 = document.createElement('span');
+    span1.classList.add("opttext");
+    span1.appendChild(document.createTextNode(prefix));
+
+    var span2 = document.createElement('span');
+    span2.id = id;
+    span2.textContent = 0;
+    span1.appendChild(span2);
+    span1.appendChild(document.createTextNode(text));
+
+    cell.appendChild(span1);
+    cell.appendChild(document.createElement("br"));
+}
+
 function handleModifierGroup() {
     var radio = document.querySelector("input[name=opt_modifier]:checked");
     var oldMode = _modifierMode;
     _modifierMode = radio.value;
 
-    if (oldMode == "Shift") {
+    if (oldMode == MODIFIERS_SHIFT) {
         document.getElementById("ShiftLeft").classList.remove("activeModifierKey");
         document.getElementById("ShiftRight").classList.remove("activeModifierKey");
     }
 
-    if (_modifierMode == "Shift") {
+    if (_modifierMode == MODIFIERS_SHIFT) {
         document.getElementById("ShiftLeft").classList.add("activeModifierKey");
         document.getElementById("ShiftRight").classList.add("activeModifierKey");
     }
+}
+
+function handleTestKeysGroup() {
+    var radio = document.querySelector("input[name=opt_testkeys]:checked");
+    var oldMode = _testMode;
+    _testMode = radio.value;
 }
 
 function createOptions(body) {
@@ -598,8 +625,18 @@ function createOptions(body) {
     cell = document.createElement('td');
     cell.classList.add("optcell");
     addOptionTitle(cell, "Modifiers");
-    addOptionRadio(cell, "opt_modifier", "None", handleModifierGroup, true);
-    addOptionRadio(cell, "opt_modifier", "Shift", handleModifierGroup, false);
+    addOptionRadio(cell, "opt_modifier", MODIFIERS_NONE, handleModifierGroup, true);
+    addOptionRadio(cell, "opt_modifier", MODIFIERS_SHIFT, handleModifierGroup, false);
+    row.appendChild(cell);
+
+    cell = document.createElement('td');
+    cell.classList.add("optcell");
+    addOptionTitle(cell, "Test");
+    addOptionRadio(cell, "opt_testkeys", TESTKEYS_NORMAL, handleTestKeysGroup, true);
+    addOptionRadio(cell, "opt_testkeys", TESTKEYS_DEAD, handleTestKeysGroup, false);
+    addOptionText(cell, "", "keyCountNormal", " normal keys");
+    addOptionText(cell, "", "keyCountDead", " dead keys");
+    addOptionText(cell, "(+", "keyCountModifier", " modifier keys)");
     row.appendChild(cell);
 
     table.appendChild(row);
@@ -630,6 +667,10 @@ function createHelp(body) {
 }
 
 function createKeyboard(body, keytable) {
+    var keyCountNormal = 0;
+    var keyCountDead = 0;
+    var keyCountModifier = 0;
+
     var keyboard = document.createElement('div');
     keyboard.classList.add("keyboard");
 
@@ -646,6 +687,14 @@ function createKeyboard(body, keytable) {
 
         if (type == KEYTYPE_END) {
             continue;
+        }
+
+        if (type == KEYTYPE_NORMAL) {
+            keyCountNormal++;
+        } else if (type == KEYTYPE_MODIFIER) {
+            keyCountModifier++;
+        } else if (type == KEYTYPE_DEAD) {
+            keyCountDead++;
         }
 
         if (rowId != currRow) {
@@ -668,4 +717,9 @@ function createKeyboard(body, keytable) {
 
     keyboard.appendChild(row);
     body.appendChild(keyboard);
+
+    // Update key counts in the options.
+    document.getElementById("keyCountNormal").textContent = keyCountNormal;
+    document.getElementById("keyCountModifier").textContent = keyCountModifier;
+    document.getElementById("keyCountDead").textContent = keyCountDead;
 }
