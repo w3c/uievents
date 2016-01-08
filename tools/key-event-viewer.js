@@ -87,7 +87,7 @@ function onCompositionEnd(e) {
 
 function addOutputRow() {
 	var table = document.getElementById("output");
-	
+
 	while (table.rows.length >= MAX_OUTPUT_ROWS) {
 		table.deleteRow(-1);
 	}
@@ -140,6 +140,7 @@ function addInputEvent(etype, e) {
 	}
 	var eventinfo = {};
 	eventinfo["etype"] = calcRichString(etype, e.type, true);
+	eventinfo["isComposing"] = e.isComposing;
 	eventinfo["data"] = calcString(e.data);
 	addEvent(eventinfo);
 }
@@ -164,6 +165,7 @@ function addKeyEvent(etype, e) {
 	eventinfo["code"] = e.code;
 	eventinfo["location"] = calcLocation(e.location);
 	eventinfo["repeat"] = e.repeat;
+	eventinfo["isComposing"] = e.isComposing;
 	addEvent(eventinfo);
 }
 
@@ -173,6 +175,7 @@ function addCompositionEvent(etype, e) {
 	}
 	var eventinfo = {};
 	eventinfo["etype"] = calcRichString(etype, e.type, true);
+	eventinfo["isComposing"] = e.isComposing;
 	eventinfo["data"] = calcString(e.data);
 	addEvent(eventinfo);
 }
@@ -184,17 +187,18 @@ function addEvent(eventinfo) {
 	addTableCell(row, eventinfo["charCode"], "legacy");
 	addTableCell(row, eventinfo["keyCode"], "legacy");
 	addTableCellText(row, eventinfo["which"], "legacy");
-	addTableCellModifierKey(row, eventinfo["shift"], "modifiers");
-	addTableCellModifierKey(row, eventinfo["ctrl"], "modifiers");
-	addTableCellModifierKey(row, eventinfo["alt"], "modifiers");
-	addTableCellModifierKey(row, eventinfo["meta"], "modifiers");
+	addTableCellBoolean(row, eventinfo["shift"], "modifiers");
+	addTableCellBoolean(row, eventinfo["ctrl"], "modifiers");
+	addTableCellBoolean(row, eventinfo["alt"], "modifiers");
+	addTableCellBoolean(row, eventinfo["meta"], "modifiers");
 	addTableCellText(row, eventinfo["keyIdentifier"], "olddom3");
 	addTableCellText(row, eventinfo["keyLocation"], "olddom3");
 	addTableCellText(row, eventinfo["char"], "olddom3");
 	addTableCell(row, eventinfo["key"], "uievents");
 	addTableCellText(row, eventinfo["code"], "uievents");
 	addTableCellText(row, eventinfo["location"], "uievents");
-	addTableCellText(row, eventinfo["repeat"], "uievents");
+	addTableCellBoolean(row, eventinfo["repeat"], "uievents");
+	addTableCellBoolean(row, eventinfo["isComposing"], "uievents");
 	addTableCellText(row, eventinfo["data"], "uievents");
 	addTableCellText(row, eventinfo["locale"], "uievents");
 	addInputCell(row);
@@ -230,7 +234,7 @@ function calcRichKeyVal(eventType, attrName, key) {
 				break;
 		}
 	}
-	
+
 	if (keyString != ""
 			&& ((eventType == "keypress" && attrName == "charCode")
 				|| ((eventType == "keydown" || eventType == "keyup") && attrName == "keyCode")
@@ -252,7 +256,7 @@ function calcRichKeyVal(eventType, attrName, key) {
 	return document.createTextNode(key);
 }
 
-function calcModifierKey(key) {
+function calcBoolean(key) {
 	return key ? "✓" : "✗";
 }
 
@@ -286,7 +290,7 @@ function resetTable() {
 	clearTable();
 	createTableHeader();
 	seqId = 1;
-	
+
 	var input = document.getElementById("input");
 	input.value = "";
 	input.focus();
@@ -300,6 +304,11 @@ function addInputCell(row) {
 	var value = document.getElementById("input").value;
 	addTableCellText(row, "'" + value + "'", "inputbox", undefined, undefined, "left");
 	seqId++;
+}
+
+function addTableCellBoolean(row, key, celltype) {
+	var modstyle = key ? "modOn" : "modOff";
+	addTableCellText(row, calcBoolean(key), celltype, modstyle);
 }
 
 function addTableCellText(row, textdata, celltype, style, span, align) {
@@ -345,11 +354,6 @@ function addTableCell(row, data, celltype, style, span, align) {
 	}
 }
 
-function addTableCellModifierKey(row, key, celltype) {
-	var modstyle = key ? "modOn" : "modOff";
-	addTableCellText(row, calcModifierKey(key), celltype, modstyle);
-}
-
 function createTableHeader() {
 	var table = document.getElementById("output");
 	var head = table.createTHead();
@@ -357,36 +361,37 @@ function createTableHeader() {
 	var row2 = head.insertRow(-1);
 	addTableCellText(row1, "", "empty", undefined, 2);
 	addTableCellText(row2, "#", "etype", "etype_header");
-	addTableCellText(row2, "Event type", "etype", "etype_header");
+	addTableCellText(row2, "Event type", "etype", ["etype_header", "subheader"]);
 	// KeyboardEvent - Legacy
 	addTableCellText(row1, "Legacy", "legacy", "legacy_header", 3);
-	addTableCellText(row2, "charCode", "legacy", "legacy_header");
-	addTableCellText(row2, "keyCode", "legacy", "legacy_header");
-	addTableCellText(row2, "which", "legacy", "legacy_header");
+	addTableCellText(row2, "charCode", "legacy", ["legacy_header", "subheader"]);
+	addTableCellText(row2, "keyCode", "legacy", ["legacy_header", "subheader"]);
+	addTableCellText(row2, "which", "legacy", ["legacy_header", "subheader"]);
 	// KeyboardEvent - Modifiers
 	addTableCellText(row1, "Modifiers", "modifiers", "modifiers_header", 4);
-	addTableCellText(row2, "shift", "modifiers", "modifiers_header");
-	addTableCellText(row2, "ctrl", "modifiers", "modifiers_header");
-	addTableCellText(row2, "alt", "modifiers", "modifiers_header");
-	addTableCellText(row2, "meta", "modifiers", "modifiers_header");
+	addTableCellText(row2, "shift", "modifiers", ["modifiers_header", "subheader"]);
+	addTableCellText(row2, "ctrl", "modifiers", ["modifiers_header", "subheader"]);
+	addTableCellText(row2, "alt", "modifiers", ["modifiers_header", "subheader"]);
+	addTableCellText(row2, "meta", "modifiers", ["modifiers_header", "subheader"]);
 	// KeyboardEvent - Old DOM3
 	addTableCellText(row1, "Old DOM3", "olddom3", "olddom3_header", 3);
-	addTableCellText(row2, "keyIdentifier", "olddom3", "olddom3_header");
-	addTableCellText(row2, "keyLocation", "olddom3", "olddom3_header");
-	addTableCellText(row2, "char", "olddom3", "olddom3_header");
+	addTableCellText(row2, "keyIdentifier", "olddom3", ["olddom3_header", "subheader"]);
+	addTableCellText(row2, "keyLocation", "olddom3", ["olddom3_header", "subheader"]);
+	addTableCellText(row2, "char", "olddom3", ["olddom3_header", "subheader"]);
 	// KeyboardEvent - UI Events
-	addTableCellText(row1, "UI Events", "uievents", "uievents_header", 5);
-	addTableCellText(row2, "key", "uievents", "uievents_header");
-	addTableCellText(row2, "code", "uievents", "uievents_header");
-	addTableCellText(row2, "location", "uievents", "uievents_header");
-	addTableCellText(row2, "repeat", "uievents", "uievents_header");
-	addTableCellText(row2, "data", "uievents", "uievents_header");
+	addTableCellText(row1, "UI Events", "uievents", "uievents_header", 6);
+	addTableCellText(row2, "key", "uievents", ["uievents_header", "subheader"]);
+	addTableCellText(row2, "code", "uievents", ["uievents_header", "subheader"]);
+	addTableCellText(row2, "location", "uievents", ["uievents_header", "subheader"]);
+	addTableCellText(row2, "repeat", "uievents", ["uievents_header", "subheader"]);
+	addTableCellText(row2, "isComposing", "uievents", ["uievents_header", "subheader"]);
+	addTableCellText(row2, "data", "uievents", ["uievents_header", "subheader"]);
 	// KeyboardEvent - Proposed
 	addTableCellText(row1, "Proposed", "proposed", "proposed_header", 1);
-	addTableCellText(row2, "locale", "proposed", "proposed_header");
+	addTableCellText(row2, "locale", "proposed", ["proposed_header", "subheader"]);
 
 	addTableCellText(row1, "", "inputbox", "empty");
-	addTableCellText(row2, "Input field", "inputbox", "inputbox_header");
+	addTableCellText(row2, "Input field", "inputbox", ["inputbox_header", "subheader"]);
 }
 
 function toggleOptions() {
@@ -406,7 +411,7 @@ function toggleOptions() {
 function showFieldClick(cb) {
 	var celltype = cb.id.split('_')[1];
 	var show = cb.checked;
-	
+
 	var table = document.getElementById("output");
 	for (var ir = 0, row; row = table.rows[ir]; ir++) {
 		for (var ic = 0, cell; cell = row.cells[ic]; ic++) {
