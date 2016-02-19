@@ -29,7 +29,9 @@ var KEYINFO_TYPE = 2;       // Key type (see below)
 var KEYINFO_WIDTH = 3;      // Width of key: 0=normal
 var KEYINFO_KEYCAP = 4;     // Keycap string to display
 var KEYINFO_KEY = 5;        // Unmodified key value
-var KEYINFO_KEY_SHIFT = 6;  // Shifted key value
+var KEYINFO_KEY_SHIFT = 6;  // Shift + key value
+var KEYINFO_KEY_CONTROL = 7;  // Control + key value
+var KEYINFO_KEY_SHIFT_CONTROL = 8;  // Shift + Control + key value
 
 var KEYTYPE_NORMAL = 0;
 var KEYTYPE_DISABLED = 1;   // Key cannot be tested: e.g., CapsLock
@@ -40,6 +42,8 @@ var KEYTYPE_DEAD = 4;       // Dead key
 // Test modifiers
 var MODIFIERS_NONE = "None";
 var MODIFIERS_SHIFT = "Shift";
+var MODIFIERS_CONTROL = "Control";
+var MODIFIERS_SHIFT_CONTROL = "Shift+Control";
 var _modifierMode = MODIFIERS_NONE;
 
 // Test keys
@@ -164,6 +168,14 @@ function addErrorIncorrect(elem, eventName, attrName, keyEventInfo, attr, expect
         + " - Expected " + expected);
 }
 
+function modeCheckShift(mode) {
+    return mode == MODIFIERS_SHIFT || mode == MODIFIERS_SHIFT_CONTROL;
+}
+
+function modeCheckControl(mode) {
+    return mode == MODIFIERS_CONTROL || mode == MODIFIERS_SHIFT_CONTROL;
+}
+
 function verifyKeyEventFields(eventName, keyEventInfo, code, key, error) {
     var verifyCode = document.getElementById("opt_attr_code").checked;
     var verifyKey = document.getElementById("opt_attr_key").checked;
@@ -183,11 +195,11 @@ function verifyKeyEventFields(eventName, keyEventInfo, code, key, error) {
         addErrorIncorrect(error, eventName, "key", keyEventInfo, CAPTURE_KEY, key);
     }
     if (verifyModifiers) {
-        if (keyEventInfo[CAPTURE_SHIFTKEY] != (_modifierMode == MODIFIERS_SHIFT)) {
+        if (keyEventInfo[CAPTURE_SHIFTKEY] != modeCheckShift(_modifierMode)) {
             good = false;
             addErrorIncorrect(error, eventName, "shiftKey", keyEventInfo, CAPTURE_SHIFTKEY, false);
         }
-        if (keyEventInfo[CAPTURE_CONTROLKEY]) {
+        if (keyEventInfo[CAPTURE_CONTROLKEY] != modeCheckControl(_modifierMode)) {
             good = false;
             addErrorIncorrect(error, eventName, "controlKey", keyEventInfo, CAPTURE_CONTROLKEY, false);
         }
@@ -211,10 +223,16 @@ function verifyKey() {
     var code = keyInfo[KEYINFO_CODE];
     var key = keyInfo[KEYINFO_KEY];
     var keyShift = keyInfo[KEYINFO_KEY_SHIFT];
+    var keyControl = keyInfo[KEYINFO_KEY_CONTROL];
+    var keyShiftControl = keyInfo[KEYINFO_KEY_SHIFT_CONTROL];
 
     var keyCheck = key;
     if (_modifierMode == MODIFIERS_SHIFT) {
         keyCheck = keyShift;
+    } else if (_modifierMode == MODIFIERS_CONTROL) {
+        keyCheck = keyControl;
+    } else if (_modifierMode == MODIFIERS_SHIFT_CONTROL) {
+        keyCheck = keyShiftControl;
     }
 
     var verifyKeydown = document.getElementById("opt_event_keydown").checked;
@@ -386,8 +404,7 @@ function toggleOptions() {
     if (options.style.display == "block") {
         options.style.display = "none";
         addInnerText(link, "Show Options");
-    }
-    else {
+    } else {
         options.style.display = "block";
         addInnerText(link, "Hide Options");
     }
@@ -400,8 +417,7 @@ function toggleHelp() {
     if (help.style.display == "block") {
         help.style.display = "none";
         addInnerText(link, "Show Help");
-    }
-    else {
+    } else {
         help.style.display = "block";
         addInnerText(link, "Hide Help");
     }
@@ -533,8 +549,11 @@ function addOptionCheckbox(cell, id, text) {
     cell.appendChild(document.createElement("br"));
 }
 
-function addOptionRadio(cell, group, text, handler, checked) {
+function addOptionRadio(cell, group, text, handler, checked, disabled) {
     var label = document.createElement("label");
+    if (disabled) {
+        label.classList.add("disabledtext");
+    }
 
     var input = document.createElement("input");
     input.type = "radio";
@@ -542,6 +561,9 @@ function addOptionRadio(cell, group, text, handler, checked) {
     input.value = text;
     input.onclick = handler;
     input.checked = checked;
+    if (disabled) {
+        input.disabled = true;
+    }
     label.appendChild(input);
 
     label.appendChild(document.createTextNode(" " + text));
@@ -570,14 +592,24 @@ function handleModifierGroup() {
     var oldMode = _modifierMode;
     _modifierMode = radio.value;
 
-    if (oldMode == MODIFIERS_SHIFT) {
+    if (modeCheckShift(oldMode)) {
         document.getElementById("ShiftLeft").classList.remove("activeModifierKey");
         document.getElementById("ShiftRight").classList.remove("activeModifierKey");
     }
 
-    if (_modifierMode == MODIFIERS_SHIFT) {
+    if (modeCheckControl(oldMode)) {
+        document.getElementById("ControlLeft").classList.remove("activeModifierKey");
+        document.getElementById("ControlRight").classList.remove("activeModifierKey");
+    }
+
+    if (modeCheckShift(_modifierMode)) {
         document.getElementById("ShiftLeft").classList.add("activeModifierKey");
         document.getElementById("ShiftRight").classList.add("activeModifierKey");
+    }
+
+    if (modeCheckControl(_modifierMode)) {
+        document.getElementById("ControlLeft").classList.add("activeModifierKey");
+        document.getElementById("ControlRight").classList.add("activeModifierKey");
     }
 }
 
@@ -627,13 +659,15 @@ function createOptions(body) {
     addOptionTitle(cell, "Modifiers");
     addOptionRadio(cell, "opt_modifier", MODIFIERS_NONE, handleModifierGroup, true);
     addOptionRadio(cell, "opt_modifier", MODIFIERS_SHIFT, handleModifierGroup, false);
+    addOptionRadio(cell, "opt_modifier", MODIFIERS_CONTROL, handleModifierGroup, false);
+    addOptionRadio(cell, "opt_modifier", MODIFIERS_SHIFT_CONTROL, handleModifierGroup, false);
     row.appendChild(cell);
 
     cell = document.createElement('td');
     cell.classList.add("optcell");
     addOptionTitle(cell, "Test");
     addOptionRadio(cell, "opt_testkeys", TESTKEYS_NORMAL, handleTestKeysGroup, true);
-    addOptionRadio(cell, "opt_testkeys", TESTKEYS_DEAD, handleTestKeysGroup, false);
+    addOptionRadio(cell, "opt_testkeys", TESTKEYS_DEAD, handleTestKeysGroup, false, true);
     addOptionText(cell, "", "keyCountNormal", " normal keys");
     addOptionText(cell, "", "keyCountDead", " dead keys");
     addOptionText(cell, "(+", "keyCountModifier", " modifier keys)");
