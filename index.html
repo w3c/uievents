@@ -5452,7 +5452,8 @@ console.log("Exceptions? No problem");</pre>
 
 				<p>During the composition session, the
 					<a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a> MUST be dispatched
-					before the <a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a> and <code>input</code> events are sent.
+					after the <a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a>
+					is sent, but before the <code>input</code> event is sent.
 					</p>
 
 				<table class="event-sequence-table">
@@ -5463,12 +5464,12 @@ console.log("Exceptions? No problem");</pre>
 					</tr>
 					<tr>
 						<td class="cell-number">1.</td>
-						<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
+						<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
 						<td></td>
 					</tr>
 					<tr>
 						<td class="cell-number">2.</td>
-						<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
+						<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
 						<td></td>
 					</tr>
 					<tr>
@@ -5487,10 +5488,18 @@ console.log("Exceptions? No problem");</pre>
 					during a composition session.
 					</p>
 
-				<p>When a composition session is finished, any
+				<p>The
 					<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a> and
-					<a class="eventtype" href="#event-type-input"><code>input</code></a> events MUST be dispatched after the
-					<a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event.
+					<a class="eventtype" href="#event-type-input"><code>input</code></a> events
+					are sent along with the
+					<a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a>
+					event whenever the DOM is updated as part of the composition.
+					Since there are no DOM updates associated with the
+					<a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a>
+					event,
+					<a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a> and
+					<a class="eventtype" href="#event-type-input"><code>input</code></a>
+					events should not be sent at that time.
 					</p>
 
 				<table class="event-sequence-table">
@@ -5501,15 +5510,14 @@ console.log("Exceptions? No problem");</pre>
 					</tr>
 					<tr>
 						<td class="cell-number">1.</td>
-						<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
-						<td></td>
+						<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
+						<td><em>Canceling this will prevent the DOM update and the
+							<a class="eventtype" href="#event-type-input"><code>input</code></a> event.</em></td>
 					</tr>
 					<tr>
 						<td class="cell-number">2.</td>
-						<td><a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a></td>
-						<td><em>Sent only if we’re about to update the DOM (i.e., the composition was not canceled).
-							Canceling this will prevent the DOM update and the
-							<a class="eventtype" href="#event-type-input"><code>input</code></a> event.</em></td>
+						<td><a class="eventtype" href="#event-type-compositionupdate"><code>compositionupdate</code></a></td>
+						<td></td>
 					</tr>
 					<tr>
 						<td class="cell-number"></td>
@@ -5521,13 +5529,12 @@ console.log("Exceptions? No problem");</pre>
 						<td><a class="eventtype" href="#event-type-input"><code>input</code></a></td>
 						<td><em>Sent only if the DOM was updated.</em></td>
 					</tr>
+					<tr>
+						<td class="cell-number">4.</td>
+						<td><a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a></td>
+						<td></td>
+					</tr>
 				</table>
-
-				<p class="note"><strong>Note:</strong> Some IMEs update the DOM before the
-					<a class="eventtype" href="#event-type-compositionend"><code>compositionend</code></a> event is dispatched.
-					In this case, canceling the <a class="eventtype" href="#event-type-beforeinput"><code>beforeinput</code></a>
-					event will have no effect (i.e., the <a class="eventtype" href="#event-type-input"><code>input</code></a>
-					event will still fire).</p>
 
 			</section>  <!-- events-composition-event-input-events -->
 
