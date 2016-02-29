@@ -42,7 +42,7 @@ function init() {
 	addEventListener(input, "keyup", onKeyUp);
 	addEventListener(input, "textInput", onTextInput);
 	addEventListener(input, "textinput", onTextInput);	// For IE9
-	addEventListener(input, "beforeInput", onBeforeInput);
+	addEventListener(input, "beforeinput", onBeforeInput);
 	addEventListener(input, "input", onInput);
 	addEventListener(input, "compositionstart", onCompositionStart);
 	addEventListener(input, "compositionupdate", onCompositionUpdate);
