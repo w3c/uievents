@@ -119,8 +119,8 @@ function init(title, keytable) {
     input.disabled = true;
     addEventListener(input, "keydown", onKeyDown);
     addEventListener(input, "keyup", onKeyUp);
-    //addEventListener(input, "beforeInput", onBeforeInput);
-    //addEventListener(input, "input", onInput);
+    addEventListener(input, "beforeinput", onBeforeInput);
+    addEventListener(input, "input", onInput);
 }
 
 function onKeyDown(e) {
@@ -534,13 +534,13 @@ function addOptionTitle(cell, title) {
     cell.appendChild(document.createElement("br"));
 }
 
-function addOptionCheckbox(cell, id, text) {
+function addOptionCheckbox(cell, id, text, checked) {
     var label = document.createElement("label");
 
     var input = document.createElement("input");
     input.type = "checkbox";
     input.id = id;
-    input.checked = true;
+    input.checked = checked;
     label.appendChild(input);
 
     label.appendChild(document.createTextNode(" " + text));
@@ -632,26 +632,28 @@ function createOptions(body) {
     cell = document.createElement('td');
     cell.classList.add("optcell");
     addOptionTitle(cell, "Keyboard Rows");
-    addOptionCheckbox(cell, "opt_row_0", "Row E (top)");
-    addOptionCheckbox(cell, "opt_row_1", "Row D");
-    addOptionCheckbox(cell, "opt_row_2", "Row C");
-    addOptionCheckbox(cell, "opt_row_3", "Row B");
-    addOptionCheckbox(cell, "opt_row_4", "Row A (bottom)");
+    addOptionCheckbox(cell, "opt_row_0", "Row E (top)", true);
+    addOptionCheckbox(cell, "opt_row_1", "Row D", true);
+    addOptionCheckbox(cell, "opt_row_2", "Row C", true);
+    addOptionCheckbox(cell, "opt_row_3", "Row B", true);
+    addOptionCheckbox(cell, "opt_row_4", "Row A (bottom)", true);
     row.appendChild(cell);
 
     cell = document.createElement('td');
     cell.classList.add("optcell");
     addOptionTitle(cell, "Events");
-    addOptionCheckbox(cell, "opt_event_keydown", "keydown");
-    addOptionCheckbox(cell, "opt_event_keyup", "keyup");
+    addOptionCheckbox(cell, "opt_event_keydown", "keydown", true);
+    addOptionCheckbox(cell, "opt_event_beforeinput", "beforeinput", false);
+    addOptionCheckbox(cell, "opt_event_input", "input", false);
+    addOptionCheckbox(cell, "opt_event_keyup", "keyup", true);
     row.appendChild(cell);
 
     cell = document.createElement('td');
     cell.classList.add("optcell");
     addOptionTitle(cell, "Attributes");
-    addOptionCheckbox(cell, "opt_attr_code", "code");
-    addOptionCheckbox(cell, "opt_attr_key", "key");
-    addOptionCheckbox(cell, "opt_attr_modifiers", "modifiers");
+    addOptionCheckbox(cell, "opt_attr_code", "code", true);
+    addOptionCheckbox(cell, "opt_attr_key", "key", true);
+    addOptionCheckbox(cell, "opt_attr_modifiers", "modifiers", true);
     row.appendChild(cell);
 
     cell = document.createElement('td');

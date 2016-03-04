@@ -1,0 +1,162 @@
+<section>
+<h2 id="ui-events-intro">Introduction</h2>
+
+
+<h3 id="ui-events-overview">Overview</h3>
+
+    UI Events is designed with two main goals. The first goal is the design of
+    an <a>event</a> system which allows registration of event listeners and
+    describes event flow through a tree structure. Additionally, the
+    specification will provide standard modules of events for user interface
+    control and document mutation notifications, including defined contextual
+    information for each of these event modules.
+
+    The second goal of UI Events is to provide a common subset of the current
+    event systems used in existing browsers. This is intended to foster
+    interoperability of existing scripts and content. It is not expected that
+    this goal will be met with full backwards compatibility. However, the
+    specification attempts to achieve this when possible.
+
+
+<h3 id="ui-events-conformance">Conformance</h3>
+
+    <strong>This section is normative.</strong>
+
+    Within this specification, the key words <q>MUST</q>, <q>MUST NOT</q>,
+    <q>REQUIRED</q>, <q>SHALL</q>, <q>SHALL NOT</q>, <q>SHOULD</q>,
+    <q>SHOULD NOT</q>, <q>RECOMMENDED</q>, <q>MAY</q>, and <q>OPTIONAL</q>
+    are to be interpreted as described in [[!RFC2119]].
+
+    This specification is to be understood in the context of the DOM Level 3
+    Core specification [[!DOM-Level-3-Core]] and the general considerations for DOM
+    implementations apply. For example, handling of <a>namespace URIs</a> is
+    discussed in
+    <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/core.html#Namespaces-Considerations"><em>XML Namespaces</em></a>.
+    For additional information about
+    <a class="normative" href="http://www.w3.org/TR/DOM-Level-3-Core/introduction.html#ID-Conformance"><em>conformance</em></a>,
+    please see the DOM Level 3 Core specification [[DOM-Level-3-Core]]. A <a>user
+    agent</a> is not required to conform to the entirety of another
+    specification in order to conform to this specification, but it MUST conform
+    to the specific parts of any other specification which are called out in
+    this specification (e.g., a conforming UI Events <a>user agent</a> MUST
+    support the <code>DOMString</code> data type as defined in [[Web IDL]], but
+    need not support every method or data type defined in [[Web IDL]] in order
+    to conform to UI Events).
+
+    This specification defines several classes of conformance for different
+    <a>user agents</a>, specifications, and content authors:
+
+
+    <h4 id="conf-interactive-ua">Web browsers and other dynamic or interactive <a>user agents</a></h4>
+
+        A dynamic or interactive <a>user agent</a>, referred to here as a
+        <q>browser</q> (be it a Web browser, AT (Accessibility Technology)
+        application, or other similar program), conforms to UI Events if it
+        supports:
+
+        *   the Core module defined in [[DOM-Level-3-Core]]
+
+        *   the [[#event-flow]] mechanism
+
+        *   all the interfaces and events with their associated methods,
+            attributes, and semantics defined in this specification with the
+            exception of those marked as <a>deprecated</a> (a conforming user
+            agent MAY implement the deprecated interfaces, events, or APIs for
+            backwards compatibility, but is not required to do so in order to be
+            conforming)
+
+        *   the complete set of <code>key</code> and <code>code</code>
+            values defined in [[UIEvents-Key]] and [[UIEvents-Code]] (subject to
+            platform availability), and
+
+        *   all other normative requirements defined in this specification.
+
+        A conforming browser MUST <a>dispatch</a> events appropriate to the
+        given {{EventTarget}} when the conditions defined for that <a>event
+        type</a> have been met.
+
+        A browser conforms specifically to UI Events if it implements the
+        interfaces and related <a>event types</a> specified in [[#event-types]].
+
+        A conforming browser MUST support scripting, declarative interactivity,
+        or some other means of detecting and dispatching events in the manner
+        described by this specification, and MUST support the APIs specified for
+        that <a>event type</a>.
+
+        In addition to meeting all other conformance criteria, a conforming
+        browser MAY implement features of this specification marked as
+        <a>deprecated</a>, for backwards compatibility with existing content,
+        but such implementation is discouraged.
+
+        A conforming browser MAY also support features not found in this
+        specification, but which use the [[#event-flow]] mechanism, interfaces,
+        events, or other features defined in this specification, and MAY
+        implement additional interfaces and <a>event types</a> appropriate to
+        that implementation. Such features can be later standardized in future
+        specifications.
+
+        A browser which does not conform to all required portions of this
+        specification MUST NOT claim conformance to UI Events. Such an
+        implementation which does conform to portions of this specification MAY
+        claim conformance to those specific portions.
+
+        A conforming browser MUST also be a <i>conforming implementation</i> of
+        the IDL fragments in this specification, as described in the Web IDL
+        specification [[WebIDL]].
+
+    <h4 id="conf-author-tools">Authoring tools</h4>
+
+        A content authoring tool conforms to UI Events if it produces content
+        which uses the <a>event types</a> and [[#event-flow]] model, consistent
+        in a manner as defined in this specification.
+
+        A content authoring tool MUST NOT claim conformance to UI Events for
+        content it produces which uses features of this specification marked as
+        <a>deprecated</a> in this specification.
+
+        A conforming content authoring tool SHOULD provide to the content author
+        a means to use all <a>event types</a> and interfaces appropriate to all
+        <a>host languages</a> in the content document being produced.
+
+    <h4 id="conf-authors">Content authors and content</h4>
+
+            A content author creates conforming UI Events content if that
+            content uses the <a>event types</a> and [[#event-flow]] model,
+            consistent in a manner as defined in this specification.
+
+            A content author SHOULD NOT use features of this specification
+            marked as <a>deprecated</a>, but SHOULD rely instead upon
+            replacement mechanisms defined in this specification and elsewhere.
+
+            Conforming content MUST use the semantics of the interfaces and
+            <a>event types</a> as described in this specification.
+
+            <p class="note">
+            Content authors are advised to follow best practices as described in
+            <a href="http://www.w3.org/TR/WAI-WEBCONTENT/">accessibility</a> and
+            <a href="http://www.w3.org/standards/techs/i18n">internationalization</a>
+            guideline specifications.
+            </p>
+
+    <h4 id="conf-specs">Specifications and host languages</h4>
+
+        A specification or <a>host language</a> conforms to UI Events if it
+        references and uses the [[#event-flow]] mechanism, interfaces, events,
+        or other features defined in [[!DOM]], and does not extend
+        these features in incompatible ways.
+
+        A specification or <a>host language</a> conforms specifically to UI
+        Events if it references and uses the interfaces and related <a>event
+        types</a> specified in [[#event-types]]. A conforming specification MAY
+        define additional interfaces and <a>event types</a> appropriate to that
+        specification, or MAY extend the UI Events interfaces and <a>event
+        types</a> in a manner that does not contradict or conflict with the
+        definitions of those interfaces and <a>event types</a> in this
+        specification.
+
+        Specifications or <a>host languages</a> which reference UI Events SHOULD
+        NOT use or recommend features of this specification marked as
+        <a>deprecated</a>, but SHOULD use or recommend the indicated replacement
+        for that the feature (if available).
+
+</section>

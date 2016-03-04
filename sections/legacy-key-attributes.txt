@@ -1,0 +1,268 @@
+<section>
+<h2 id="legacy-key-attributes">Legacy Key Attributes</h2>
+
+
+<em>This section is non-normative. The following attributes are obsolete and should
+only be implemented by <a>user agents</a> that require compatibility with legacy
+software that requires these keyboard events.</em>
+
+These features were never formally specified and the current browser
+implementations vary in significant ways. The large amount of legacy content,
+including script libraries, that relies upon detecting the <a>user agent</a> and
+acting accordingly means that any attempt to formalize these legacy attributes
+and events would risk breaking as much content as it would fix or enable.
+Additionally, these attributes are not suitable for international usage, nor do
+they address accessibility concerns.
+
+Therefore, this specification does not normatively define the events and
+attributes commonly employed for handling keyboard input, though they MAY be
+present in <a>user agents</a> for compatibility with legacy content. Authors
+SHOULD use the {{KeyboardEvent/key}} attribute instead of the
+{{KeyboardEvent/charCode}} and {{KeyboardEvent/keyCode}} attributes.
+
+However, for the purpose of documenting the current state of these features and
+their relation to normative events and attributes, this section provides an
+informative description. For implementations which do support these attributes
+and events, it is suggested that the definitions provided in this section be
+used.
+
+
+<h3 id="legacy-KeyboardEvent">Legacy {{KeyboardEvent}} supplemental interface</h3>
+
+	<em>This section is non-informative</em>
+
+	Browser support for keyboards has traditionally relied on three ad-hoc attributes,
+	{{KeyboardEvent/keyCode}}, {{KeyboardEvent/charCode}},
+	and {{KeyboardEvent/which}}.
+
+	All three of these attributes return a numerical code that represents some aspect of the key pressed:
+	{{KeyboardEvent/keyCode}} is an index of the key itself.
+	{{KeyboardEvent/charCode}} is the ASCII value of the character keys.
+	{{KeyboardEvent/which}} is the character value where available and otherwise the key index.
+	The values for these attributes, and the availability of the attribute, is inconsistent across
+	platforms, keyboard languages and layouts, <a>user agents</a>,
+	versions, and even event types.
+
+	<h4 id="legacy-interface-KeyboardEvent">Interface KeyboardEvent (supplemental)</h4>
+
+		<p class="intro-dom">Introduced in this specification</p>
+
+		The partial {{KeyboardEvent}} interface is an informative extension of
+		the {{KeyboardEvent}} interface, which adds the
+		{{KeyboardEvent/charCode}}, {{KeyboardEvent/keyCode}}, and
+		{{KeyboardEvent/which}} attributes.
+
+		The partial {{KeyboardEvent}} interface can be obtained by using the
+		{{Document/createEvent()}} method call in
+		implementations that support this extension.
+
+		<pre class="idl">
+		partial interface KeyboardEvent {
+		  // The following support legacy user agents
+		  readonly attribute unsigned long charCode;
+		  readonly attribute unsigned long keyCode;
+		  readonly attribute unsigned long which;
+		};
+		</pre>
+
+		<dl>
+			<dt><code>KeyboardEvent . charCode</code></dt>
+			<dd>
+				{{KeyboardEvent/charCode}} holds a character value, for
+				EVENT{keypress} events which generate character input. The value
+				is the Unicode reference number (code point) of that character
+				(e.g. <code>event.charCode = event.key.charCodeAt(0)</code> for
+				printable characters). For EVENT{keydown} or EVENT{keyup}
+				events, the value of {{KeyboardEvent/charCode}} is
+				<code>0</code>.
+			</dd>
+
+			<dt><code>KeyboardEvent . keyCode</code></dt>
+			<dd>
+				{{KeyboardEvent/keyCode}} holds a system- and
+				implementation-dependent numerical code signifying the
+				unmodified identifier associated with the key pressed. Unlike
+				the {{KeyboardEvent/key}} attribute, the set of possible values
+				are not normatively defined in this specification. Typically,
+				these value of the {{KeyboardEvent/keyCode}} SHOULD represent
+				the decimal codepoint in ASCII [[RFC20]][[US-ASCII]] or Windows
+				1252 [[WIN1252]], but MAY be drawn from a different appropriate
+				character set. Implementations that are unable to identify a key
+				use the key value KEYCAP{0}.
+
+				See [[#legacy-key-models]] for more details on how to determine
+				the values for {{KeyboardEvent/keyCode}}.
+			</dd>
+
+			<dt><code>KeyboardEvent . which</code></dt>
+			<dd>
+				<code>which</code> holds a system- and implementation-dependent
+				numerical code signifying the unmodified identifier associated
+				with the key pressed. In most cases, the value is identical to
+				{{KeyboardEvent/keyCode}}.
+			</dd>
+		</dl>
+
+	<h4 id="legacy-dictionary-KeyboardEventInit">Interface KeyboardEventInit (supplemental)</h4>
+
+		Browsers that include support for {{KeyboardEvent/keyCode}},
+		{{KeyboardEvent/charCode}}, and {{KeyboardEvent/which}} in
+		{{KeyboardEvent}} should also add the following members to the
+		{{KeyboardEventInit}} dictionary.
+
+		The partial {{KeyboardEventInit}} dictionary is an informative extension
+		of the {{KeyboardEventInit}} dictionary, which adds
+		{{KeyboardEvent/charCode}}, {{KeyboardEvent/keyCode}}, and
+		{{KeyboardEvent/which}} members to initialize the corresponding
+		{{KeyboardEvent}} attributes.
+
+		<pre class="idl-ignore" data-no-idl data-highlight="webidl">
+		partial dictionary KeyboardEventInit {
+		  // The following support legacy user agents
+		  unsigned long charCode = 0;
+		  unsigned long keyCode = 0;
+		  unsigned long which = 0;
+		};
+		</pre>
+
+		<dl>
+			<dt><code>KeyboardEventInit . charCode</code></dt>
+			<dd>
+				<p>Initializes the {{KeyboardEvent/charCode}} attribute of the
+					KeyboardEvent to the Unicode code point for the event's character.
+					</p>
+			</dd>
+
+			<dt><code>KeyboardEventInit . keyCode</code></dt>
+			<dd>
+				<p>Initializes the {{KeyboardEvent/keyCode}} attribute of the
+					KeyboardEvent to the system- and implementation-dependent
+					numerical code signifying the unmodified identifier associated with the key pressed.
+					</p>
+			</dd>
+
+			<dt><code>KeyboardEventInit . which</code></dt>
+			<dd>
+				<p>Initializes the <code>which</code> attribute of the KeyboardEvent
+					to the implementation-dependent numerical code
+					signifying the unmodified identifier associated with the key pressed.
+					In most cases, the value is identical to
+					{{KeyboardEvent/keyCode}}.
+					</p>
+			</dd>
+		</dl>
+
+<h3 id="legacy-key-models">Legacy key models</h3>
+
+	<em>This section is non-normative</em>
+
+	Implementations differ on which values are exposed on these attributes for
+	different event types. An implementation MAY choose to expose both virtual
+	key codes and character codes in the {{KeyboardEvent/keyCode}} property
+	(<em>conflated model</em>), or report separate {{KeyboardEvent/keyCode}} and
+	{{KeyboardEvent/charCode}} properties (<em>split model</em>).
+
+	<h4 id="determine-keydown-keyup-keyCode">How to determine {{KeyboardEvent/keyCode}} for EVENT{keydown} and EVENT{keyup} events</h4>
+
+		The {{KeyboardEvent/keyCode}} for
+		EVENT{keydown}
+		or EVENT{keyup} events is calculated
+		as follows:
+
+		*	Read the virtual key code from the operating system's event
+			information, if such information is available.
+		*	If an Input Method Editor is processing key input and the event is
+			EVENT{keydown}, return 229.
+		*	If input key when pressed without modifiers would insert a numerical
+			character (0-9), return the ASCII code of that numerical character.
+		*	If input key when pressed without modifiers would insert a lower
+			case character in the a-z alphabetical range, return the ASCII code
+			of the upper case equivalent.
+		*	If the implementation supports a key code conversion table for the
+			operating system and platform, look up the value. If the conversion
+			table specifies an alternate virtual key value for the given input,
+			return the specified value.
+		*	If the key's function, as determined in an implementation-specific
+			way, corresponds to one of the keys in the
+			[[#fixed-virtual-key-codes]] table, return the corresponding key
+			code.
+		*	Return the virtual key code from the operating system.
+		*	If no key code was found, return 0.
+
+	<h4 id="determine-keypress-keyCode">How to determine {{KeyboardEvent/keyCode}} for EVENT{keypress} events</h4>
+
+		The {{KeyboardEvent/keyCode}} for
+		EVENT{keypress} events is
+		calculated as follows:
+
+		*	If the implementation supports a <em>conflated model</em>, set
+			{{KeyboardEvent/keyCode}} to the Unicode code point of the character
+			being entered.
+		*	If the implementation supports a <em>split model</em>, set
+			{{KeyboardEvent/keyCode}} to 0.
+
+	<h4 id="fixed-virtual-key-codes">Fixed virtual key codes</h4>
+
+		The virtual key codes for the following keys do not usually change with
+		keyboard layouts on desktop systems:
+
+		++------------+-------------+-------+
+		=| Key        | Virtual Key | Notes |
+		 |            | <br/>Code   |       |
+		 +------------+-------------+-------+
+		+| Backspace  | 8           |       |
+		+| Tab        | 9           |       |
+		+| Enter      | 13          |       |
+		+| Shift      | 16          |       |
+		+| Control    | 17          |       |
+		+| Alt        | 18          |       |
+		+| CapsLock   | 20          |       |
+		+| Escape     | 27          | Esc   |
+		+| Space      | 32          |       |
+		+| PageUp     | 33          |       |
+		+| PageDown   | 34          |       |
+		+| End        | 35          |       |
+		+| Home       | 36          |       |
+		+| ArrowLeft  | 37          |       |
+		+| ArrowUp    | 38          |       |
+		+| ArrowRight | 39          |       |
+		+| ArrowDown  | 40          |       |
+		+| Delete     | 46          | Del   |
+		++------------+-------------+-------+
+
+	<h4 id="optionally-fixed-virtual-key-codes">Optionally fixed virtual key codes</h4>
+
+		The following punctuation characters MAY change virtual codes between
+		keyboard layouts, but reporting these values will likely be more
+		compatible with legacy content expecting US-English keyboard layout:
+
+		++------------------------+-----------------+-------------+
+		=| Key                    | Character       | Virtual Key |
+		 |                        |                 | <br/>Code   |
+		 +------------------------+-----------------+-------------+
+		+| Semicolon              | GLYPH{;}        | 186         |
+		+| Colon                  | GLYPH{:}        | 186         |
+		+| Equals sign            | GLYPH{=}        | 187         |
+		+| Plus                   | GLYPH{+}        | 187         |
+		+| Comma                  | GLYPH{,}        | 188         |
+		+| Less than sign         | GLYPH{&lt;}     | 188         |
+		+| Minus                  | GLYPH{-}        | 189         |
+		+| Underscore             | GLYPH{_}        | 189         |
+		+| Period                 | GLYPH{.}        | 190         |
+		+| Greater than sign      | GLYPH{&gt;}     | 190         |
+		+| Forward slash          | GLYPH{/}        | 191         |
+		+| Question mark          | GLYPH{?}        | 191         |
+		+| Backtick               | GLYPH{`}        | 192         |
+		+| Tilde                  | GLYPH{~}        | 192         |
+		+| Opening squace bracket | GLYPH{[}        | 219         |
+		+| Opening curly brace    | GLYPH{{}        | 219         |
+		+| Backslash              | GLYPH{\}        | 220         |
+		+| Pipe                   | GLYPH{&vert;}   | 220         |
+		+| Closing square bracket | GLYPH{]}        | 221         |
+		+| Closing curly brace    | GLYPH{&rbrace;} | 221         |
+		+| Single quote           | GLYPH{'}        | 222         |
+		+| Double quote           | GLYPH{"}        | 222         |
+		++------------------------+-----------------+-------------+
+
+
+</section>

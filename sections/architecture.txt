@@ -1,0 +1,514 @@
+<section>
+<h2 id="dom-event-architecture">DOM Event Architecture</h2>
+
+
+<em>This section is non-normative.</em>
+
+<h3 id="event-flow">Event dispatch and DOM event flow</h3>
+
+    This section defines the event <a>dispatch</a> mechanism of the event model
+    defined in this specification. Applications MAY dispatch event objects using
+    the {{EventTarget/dispatchEvent()}} method, and implementations MUST
+    dispatch event objects as if through this method. The behavior of this
+    method depends on the <em>event flow</em> associated with the underlying
+    object. An event flow describes how event objects <em>propagate</em> through
+    a data structure. As an example, when an event object is dispatched to an
+    element in an XML document, the object propagates through parts of the
+    document, as determined by the DOM event flow which is defined at the end of
+    this section.
+
+    <figure id="figure-dom-event-flow">
+        <img src='images/eventflow.svg' height="560" alt="Graphical representation of an event dispatched in a DOM tree using the DOM event flow"/>
+        <figcaption>Graphical representation of an event dispatched in a DOM tree using the DOM event flow</figcaption>
+    </figure>
+
+    Event objects are dispatched to an <a>event target</a>. At the beginning of
+    the dispatch, implementations MUST first determine the event object's
+    <a>propagation path</a>.
+
+    The propagation path MUST be an ordered list of <a>current event targets</a>
+    through which the event object MUST pass. For DOM implementations, the
+    propagation path MUST reflect the hierarchical tree structure of the
+    document. The last item in the list MUST be the <a>event target</a>. The
+    preceding items in the list are referred to as the <em>target's
+    ancestors</em>, and the immediately preceding item as the <em>target's
+    parent</em>. Once determined, the propagation path MUST NOT be changed. For
+    DOM implementations, this applies even if an element in the propagation path
+    is moved within the DOM or removed from the DOM.
+
+    <p class="example">
+    In the DOM event flow, event listeners might change the position of the
+    <a>event target</a> in the document while the event object is being
+    dispatched. Such changes do not affect the propagation path.
+    </p>
+
+    Note that event listeners are not copied over when <code>Node</code>s are
+    copied using methods such as <code>Node.cloneNode</code> or
+    <code>Range.cloneContents</code> [[DOM-Level-2-Traversal-Range]].
+
+    Exceptions thrown inside event listeners MUST NOT stop the propagation of
+    the event or affect the <a>propagation path</a>. The exception itself MUST
+    NOT propagate outside the scope of the event handler.
+
+    <div class="example">
+    In the following code, the exception thrown from the call to <code>throw
+    "Error"</code> does not propagate into the parent scope (which would prevent
+    the <code>console.log</code> statement from executing):
+    <pre>
+        var e = document.createEvent("Event");
+        e.initEvent("myevent", false, false);
+        var target = document.createElement("div");
+        target.addEventListener("myevent", function () {
+            throw "Error";
+        });
+        target.dispatchEvent(e); <span class="comment">// Causes the event listener to throw an exception...</span>
+        <span class="comment">// The previously thrown exception doesn't affect the code that follows:</span>
+        console.log("Exceptions? No problem");
+    </pre>
+    </div>
+
+    As the next step, the event object MUST complete one or more <a>event
+    phases</a>. This specification defines three event phases: <a>capture
+    phase</a>, <a>target phase</a> and <a>bubble phase</a>. Event objects
+    complete these phases in the specified order using the partial propagation
+    paths as defined below. A phase MUST be skipped if it is not supported, or
+    if the event object's propagation has been stopped. For example, if the
+    {{Event/bubbles}} attribute is set to false, the bubble phase will be
+    skipped, and if {{Event/stopPropagation()}} has been called prior to the
+    dispatch, all phases MUST be skipped.
+
+    *   The <strong>capture phase</strong>: The event object MUST propagate
+        through the target's ancestors from the <a>Window</a> to the target's
+        parent. This phase is also known as the <em>capturing phase</em>. Event
+        listeners registered for this phase MUST handle the event before it
+        reaches its target.
+
+    *   The <strong>target phase</strong>: The event object MUST arrive at
+        the event object's <a>event target</a>. This phase is also known as the
+        <em>at-target phase</em>. Event listeners registered for this phase MUST
+        handle the event once it has reached its target. If the <a>event
+        type</a> indicates that the event MUST NOT bubble, the event object MUST
+        halt after completion of this phase.
+
+    *   The <strong>bubble phase</strong>: The event object propagates
+        through the target's ancestors in reverse order, starting with the
+        target's parent and ending with the <a>Window</a>. This phase is also
+        known as the <em>bubbling phase</em>. Event listeners registered for
+        this phase MUST handle the event after it has reached its target.
+
+    Implementations MUST let event objects accomplish an event phase by applying
+    the following steps while there are pending event targets in the partial
+    propagation path for this phase and the event object's propagation has not
+    been stopped through {{Event/stopPropagation()}}.
+
+    First, the implementation MUST determine the <em>current target</em>. This
+    MUST be the next pending event target in the partial propagation path,
+    starting with the first. From the perspective of an event listener this MUST
+    be the event target the listener has been registered on.
+
+    Next, the implementation MUST determine the current target's <a>candidate
+    event listeners</a>. This MUST be the list of all event listeners that have
+    been registered on the current target in their order of registration.
+    [[!HTML5]] defines the ordering of listeners registered through event handler
+    attributes. Once determined, the candidate event listeners MUST NOT be
+    changed. Adding or removing listeners does not affect the current target's
+    candidate event listeners.
+
+    Finally, the implementation MUST process all candidate <a>event handlers</a>
+    in order and trigger each handler if all the following conditions are met:
+
+    *   The event object's immediate propagation has not been stopped.
+    *   The listener has been registered for this event phase.
+    *   The listener has been registered for this <a>event type</a>.
+
+    In the production of the <a>propagation path</a>, the event propagates from
+    the <a>Window</a> to the <code>document</code> object during the <a>capture
+    phase</a>, and from the <code>document</code> object to the <a>Window</a>
+    during the <a>bubble phase</a>.
+
+    After an event completes all the phases of its <a>propagation path</a>, its
+    {{Event/currentTarget}} MUST be set to <code>null</code> and the
+    {{Event/eventPhase}} MUST be set to <code>0</code> ({{Event/NONE}}). All
+    other attributes of the {{Event}} (or interface derived from {{Event}}) are
+    unchanged (including the {{Event/target}} attribute, which MUST continue to
+    reference the <a>event target</a>).
+
+    The model defined above MUST be applied regardless of the specific event
+    flow associated with an event target. Each event flow MUST define how the
+    propagation path MUST be determined and which event phases are supported.
+    The <em>DOM event flow</em> is an application of this model: the propagation
+    path for a <code>Node</code> object MUST be determined by its
+    <code>Node.parentNode</code> chain, and if applicable, the document's
+    containing <a>Window</a>. All events accomplish the capture and target
+    phases. Whether an event accomplishes the bubble phase MUST be defined
+    individually for each <a>event type</a>. An alternate application of this
+    model can be found in [[DOM-Level-3-LS]].
+
+    Implementations of the DOM event model MUST be reentrant. Event listeners
+    MAY perform actions that cause additional events to be dispatched. Such
+    events are handled in a synchronous manner, the event propagation that
+    causes the event listener to be triggered MUST resume only after the event
+    dispatch of the new event is completed.
+
+
+<h3 id="event-flow-default-cancel">Default actions and cancelable events</h3>
+
+    Events are typically dispatched by the implementation as a result of a user
+    action, in response to the completion of a task, or to signal progress
+    during asynchronous activity (such as a network request). Some events can be
+    used to control the behavior that the implementation MAY take next (or undo
+    an action that the implementation already took). Events in this category are
+    said to be <em>cancelable</em> and the behavior they cancel is called their
+    <em><a>default action</a></em>. Cancelable event objects can be associated
+    with one or more 'default actions'. To cancel an event, call the
+    {{Event/preventDefault()}} method.
+
+    <p class="example">
+    A EVENT{mousedown} event is dispatched immediately after the user presses
+    down a button on a pointing device (typically a mouse). One possible
+    <a>default action</a> taken by the implementation is to set up a state
+    machine that allows the user to drag images or select text. The <a>default
+    action</a> depends on what happens next &mdash; for example, if the user's
+    pointing device is over text, a text selection might begin. If the user's
+    pointing device is over an image, then an image-drag action could begin.
+    Preventing the <a>default action</a> of a EVENT{mousedown} event prevents
+    these actions from occurring.
+    </p>
+
+    <a>Default actions</a> SHOULD be performed after the event dispatch has been
+    completed, but in exceptional cases MAY also be performed immediately before
+    the event is dispatched.
+
+    <p class="example">
+    The default action associated with the EVENT{click} event on <code>&lt;input
+    type="checkbox"&gt;</code> elements toggles the <code>checked</code> IDL
+    attribute value of that element. If the EVENT{click} event's default action
+    is cancelled, then the value is restored to its former state.
+    </p>
+
+    When an event is canceled, then the conditional <a>default actions</a>
+    associated with the event MUST be skipped (or as mentioned above, if the
+    <a>default actions</a> are carried out before the dispatch, their effect
+    MUST be undone). Whether an event object is cancelable MUST be indicated by
+    the {{Event/cancelable}} attribute. {{Event/preventDefault()}} stops all
+    related <a>default actions</a> of an event object. The
+    {{Event/defaultPrevented}} attribute indicates whether an event has already
+    been canceled (e.g., by a prior event listener). If the <a>DOM
+    application</a> itself initiated the dispatch, then the return value of the
+    {{EventTarget/dispatchEvent()}} method indicates whether the event object
+    was cancelled.
+
+    <p class="note">Many implementations additionally interpret an event
+    listener's return value, such as the value <code>false</code>, to mean that
+    the <a>default action</a> of cancelable events will be cancelled (though
+    <code>window.onerror</code> handlers are cancelled by returning
+    <code>true</code>).
+    </p>
+
+    <p class="note">Some cancelable events might not have any observable
+    <a>default actions</a>. For example, the EVENT{mousemove} event.
+    </p>
+
+    This specification does not offer features to programatically query if an
+    event object has any <a>default action</a> associated with it, or to
+    associate new <a>default actions</a> with an event object. Other
+    specifications SHOULD define what default actions, if any, are associated
+    with certain event objects. Further, implementations MAY associate
+    <a>default actions</a> with events as necessary and appropriate for that
+    implementation.
+
+    <p class="example"> As an example, one implementation might scroll a
+    document view by a certain amount as the <a>default action</a> of a
+    EVENT{wheel} event, while another implementation might instead
+    zoom the document as its <a>default action</a>.
+    </p>
+
+
+<h3 id="sync-async">Synchronous and asynchronous events</h3>
+
+    Events MAY be dispatched either synchronously or asynchronously.
+
+    Events which are synchronous (<em><q>sync events</q></em>) MUST be treated
+    as if they are in a virtual queue in a first-in-first-out model, ordered by
+    sequence of temporal occurrence with respect to other events, to changes in
+    the DOM, and to user interaction.  Each event in this virtual queue MUST be
+    delayed until the previous event has completed its propagation behavior, or
+    been canceled.  Some sync events are driven by a specific device or process,
+    such as mouse button events. These events are governed by the <a>event
+    order</a> algorithms defined for that set of events, and a user agent MUST
+    dispatch these events in the defined order.
+
+    <p class="example">
+    A user double-clicks a passage of text to select a word, then presses
+    the KEYCAP{Delete} key to erase the word, triggering
+    the following synchronous sequence of events:
+        EVENT{mousedown},
+        EVENT{mouseup},
+        EVENT{click},
+        EVENT{mousedown},
+        EVENT{mouseup},
+        EVENT{click},
+        EVENT{dblclick},
+        EVENT{select},
+        EVENT{keydown},
+        EVENT{beforeinput},
+        EVENT{input},
+        EVENT{keyup}.
+    Each of these events are fired in the sequence initiated by the user's
+    actions.
+    </p>
+
+    Events which are asynchronous (<em><q>async events</q></em>) MAY be
+    dispatched as the results of the action are completed, with no relation to
+    other events, to other changes in the DOM, nor to user interaction.
+
+    <p class="example">
+    During loading of a document, an inline script element is parsed and
+    executed. The EVENT{load} event is queued to be fired
+    asynchronously at the script element. However, because it is an async event,
+    its order with relation to other synchronous events fired during document
+    load (such as the <code class="eventtype">DOMContentLoaded</code> event from
+    [[!HTML5]]) is not guaranteed.
+    </p>
+
+    <h4 id="event-order-event-loops">Event order and event loops</h4>
+
+        Most events take place in a sequential context.  [[!HTML5]] defines its
+        event operations in terms of an event loop mechanism, in which events of
+        all types are fed into different <em>task queues</em>.  This
+        specification does not define events in terms of this event loop
+        mechanism, but it is compatible with this mechanism.  Instead, this
+        specification defines several operation-specific <a>event orders</a>.
+
+        Using the terminology of HTML5, each independent device, such as a mouse
+        or keyboard, SHOULD be treated as a <em>task source</em> which feeds
+        into the appropriate <em>task queue</em>, in the order defined by the
+        <a>event order</a> associated with that device. Each operation, such as
+        a focus change or composition input, also acts as a <em>task source</em>
+        for the appropriate <em>task queue</em>.  The resolution of these event
+        loops is handled in a manner conforming to the <a>host language</a>,
+        such as HTML [[!HTML5]].
+
+        <p class="note">
+        Certain events, such as <q>hotkeys</q> or control keys pressed in a
+        certain sequence, can be <q>swallowed</q> by the operating system or the
+        application, interrupting the expected <a>event order</a>.
+        </p>
+
+<h3 id="trusted-events">Trusted events</h3>
+
+    Events that are generated by the user agent, either as a result of user
+    interaction, or as a direct result of changes to the DOM, are trusted by the
+    user agent with privileges that are not afforded to events generated by
+    script through the {{Document/createEvent()}} method, modified
+    using the {{Event/initEvent()}} method, or dispatched via the
+    {{EventTarget/dispatchEvent()}} method.  The {{Event/isTrusted}} attribute
+    of trusted events has a value of <code>true</code>, while untrusted events
+    have a {{Event/isTrusted}} attribute value of <code>false</code>.
+
+    Most untrusted events SHOULD NOT trigger <a>default actions</a>, with the
+    exception of the EVENT{click} event. This event always
+    triggers the <a>default action</a>, even if the {{Event/isTrusted}}
+    attribute is <code>false</code> (this behavior is retained for
+    backward-compatibility). All other untrusted events MUST behave as if the
+    {{Event/preventDefault()}} method had been called on that event.
+
+
+<h3 id="event-flow-activation">Activation triggers and behavior</h3>
+
+    Certain <a>event targets</a> (such as a link or button element) MAY have
+    associated <a>activation behavior</a> (such a following a link) that
+    implementations perform in response to an <em><a>activation
+    trigger</a></em> (such as clicking a link).
+
+    A <a>host language</a> SHOULD indicate which, if any, elements have
+    activation behavior, describe appropriate <a>activation triggers</a>, and
+    define the result of that activation behavior.  An implementation which
+    supports a <a>host language</a> SHOULD initiate these <a>activation
+    behavior</a> when the associated <a>activation trigger</a> occurs.
+
+    <p class="example" id="example-activation">
+    Both HTML and SVG have an <code>&lt;a&gt;</code> element which indicates a
+    link.  Relevant <a>activation triggers</a> for an <code>&lt;a&gt;</code>
+    element are a EVENT{click} event on the text or image content
+    of the <code>&lt;a&gt;</code> element, or a EVENT{keydown}
+    event with a {{KeyboardEvent/key}} attribute value of KEY{Enter} key when
+    the <code>&lt;a&gt;</code> element has focus.  The activation behavior for
+    an <code>&lt;a&gt;</code> element is normally to change the content of the
+    window to the content of the new document, in the case of external links,
+    or to reposition the current document relative to the new anchor, in the
+    case of internal links.
+    </p>
+
+    An <a>activation trigger</a> is a user action or an event which indicates
+    to the implementation that an activation behavior SHOULD be initiated.
+    User-initiated <a>activation triggers</a> include clicking a mouse button
+    on an activatable element, pressing the KEYCAP{Enter} key when an activatable
+    element has focus, or pressing a key that is somehow linked to an
+    activatable element (a <q>hotkey</q> or <q>access key</q>) even when that
+    element does not have focus.  Event-based <a>activation triggers</a> MAY
+    include timer-based events that activate an element at a certain clock time
+    or after a certain time period has elapsed, progress events after a certain
+    action has been completed, or many other condition-based or state-based
+    events.
+
+    In some cases, a <a>host language</a> MAY define attributes or even
+    attribute values which add to or change the native <a>activation trigger</a>
+    or <a>activation behavior</a> of an element. For example, ARIA [[wai-aria-20110118]]
+    defines values for the <code class="attr">role</code> attribute that add
+    semantics to the element to which it is applied, for purposes of enhanced
+    accessibility.  In such cases, if the <a>host language</a> does not
+    explicitly define the <a>activation trigger</a> or <a>activation
+    behavior</a>, the content author MUST provide the mechanics of the
+    <a>activation trigger</a> (via an event listener) or <a>activation
+    behavior</a> (such as calling an ECMAScript function) for that element
+    when applying that attribute or attribute value.
+
+    <h4 id="click-synthesis">Activation event synthesis</h4>
+
+        If the instance of the <a>activation trigger</a> is not an event of
+        <a>event type</a> EVENT{click} (that is, when it does not
+        result from a user's activation of a button or link using a mouse or
+        equivalent pointing device), the implementation MUST synthesize and
+        dispatch an event of <a>event type</a> EVENT{click} as one
+        of the <a>default actions</a> of that <a>activation trigger</a>. The
+        value of the {{Event/target}} MUST be set to the <a>event target</a>
+        (normally, the currently focused element), and the event MUST simulate
+        a <em>left click</em> (i.e., the {{MouseEvent/button}} attribute value
+        MUST be <code>0</code>, and the {{MouseEvent/buttons}} attribute value
+        MUST be <code>1</code>).  Other context information of such a simulated
+        EVENT{click} event is implementation dependent, but for
+        historical purposes, the interface for the EVENT{click}
+        event MUST be the {{MouseEvent}} interface, regardless
+        of the actual device used to activate the element.  Preventing the
+        <a>default action</a> of the <a>activation trigger</a>, such as with
+        {{Event/preventDefault()}}, MUST stop the initiation of the
+        <a>activation behavior</a>.
+
+        <p class="example">
+        When a user activates a hyperlink using a keyboard, such as by focusing
+        the hyperlink element and pressing the KEYCAP{Enter} or
+        KEYCAP{&nbsp;&nbsp;&nbsp;&nbsp;} (Spacebar) key, a
+        EVENT{click} event would be dispatched as the <a>default
+        action</a> of the respective EVENT{keydown} event.
+        </p>
+
+        Implementations MUST dispatch the synthesized EVENT{click}
+        event as described above even if they do not normally dispatch such an
+        event (e.g., when activation is requested by a voice command, since
+        this specification does not address <a>event types</a> for voice input).
+
+        <p class="note">
+        The activation of an event target is device dependent, but is also
+        application dependent, e.g., a link in a document can be activated
+        using a mouse click or a mouse double click.
+        </p>
+
+    <h4 id="events-activation-event-order">Activation event order</h4>
+
+        Activation triggers and behavior can be defined in part by the events
+        which are dispatched in a set order relative to one another.  The
+        following is the typical sequence of events for an element activated by
+        a pointing device (with only pertinent events listed):
+
+        ++---+------------+----------------------------------------------------+
+        =| # | Event Type | Notes                                              |
+         +---+------------+----------------------------------------------------+
+        +| 1 | click      |                                                    |
+        +|   |            | <em>All <a>default actions</a>, including the      |
+         |   |            | <a>activation behavior</a></em>                    |
+        ++---+------------+----------------------------------------------------+
+
+        The following is the typical sequence of events when a focused element
+        is activated by a key event (with only pertinent events listed):
+
+        ++---+------------+-------------------------------------------------------+
+        =| # | Event Type | Notes                                                 |
+         +---+------------+-------------------------------------------------------+
+        +| 1 | keydown    | MUST be a key which can activate the element, such as |
+         |   |            | the KEYCAP{Enter} or KEYCAP{&nbsp;&nbsp;&nbsp;&nbsp;} |
+         |   |            | (Spacebar) key, or the element is not activated       |
+        +| 2 | click      | <a>default action</a>; synthesized;                   |
+         |   |            | <code>isTrusted="true"</code>                         |
+        +|   |            | <em>All <a>default actions</a>, including the         |
+         |   |            | <a>activation behavior</a></em>                       |
+        ++---+------------+-------------------------------------------------------+
+
+
+<h3 id="event-exceptions">Event exceptions</h3>
+
+    <em>This section is non-normative.</em>
+
+    Event operations can throw a <code>DOMException</code> as specified in
+    their method descriptions.
+
+    <p class="note" id="note-eventexception-removed">
+    The exception <em>EventException</em> introduced in
+    <strong class="version">DOM Level 2</strong> is removed in this
+    specification as part of this specification's normative support of
+    [[WebIDL]]. <em>EventException</em> formerly defined an exception
+    code <code>UNSPECIFIED_EVENT_TYPE_ERR</code> which is replaced in this
+    specification by the use of a <code>DOMException</code> of type
+    <code>InvalidStateError</code>.
+
+    The following <code>DOMException</code> types are used in this
+    specification.
+
+    <table class="exceptiontable">
+        <tr>
+            <th>Type</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td><code>InvalidStateError</code></td>
+            <td>Thrown when the {{Event/type}} was not specified by initializing
+                the event before {{EventTarget/dispatchEvent()}} was called.
+                Also thrown when the {{Event}} object provided to
+                {{EventTarget/dispatchEvent()}} is already being dispatched.</td>
+        </tr>
+        <tr>
+            <td><code>NotSupportedError</code></td>
+            <td>Thrown when {{Document/createEvent()}} is passed an {{Event}}
+                interface that the implementation does not support.</td>
+        </tr>
+    </table>
+
+<h3 id="event-constructors">Constructing Mouse and Keyboard Events</h3>
+
+    Generally, when a constructor of an {{Event}} interface, or of an interface
+    inherited from the {{Event}} interface, is invoked, the steps described in
+    [[!DOM]] should be followed. However the {{KeyboardEvent}} and
+    {{MouseEvent}} interfaces provide additional dictionary members for
+    initializing the internal state of the {{Event}} object's key modifiers:
+    specifically, the internal state queried for using the
+    {{KeyboardEvent/getModifierState()}} and {{MouseEvent/getModifierState()}}
+    methods. This section supplements the DOM4 steps for intializing a new
+    {{Event}} object with these optional modifier states.
+
+    For the purposes of constructing a {{KeyboardEvent}}, {{MouseEvent}}, or
+    object derived from these objects using the algorithm below, all
+    {{KeyboardEvent}}, {{MouseEvent}}, and derived objects have
+    <dfn id="internal-key-modifier-state">internal key modifier state</dfn> which can be set and
+    retrieved using the <a href="#keys-modifiers">key modifier names</a>
+    described in the
+    <a href="http://www.w3.org/TR/uievents-key/#keys-modifier">Modifier Keys table</a>
+    in [[UIEvents-Key]].
+
+    The following steps supplement the algorithm defined for constructing
+    events in DOM4:
+
+    *   If the {{Event}} being constructed is a {{KeyboardEvent}} or
+        {{MouseEvent}} object or an object that derives from either of these,
+        and a {{EventModifierInit}} argument was provided to the constructor,
+        then run the following sub-steps:
+
+        *   For each {{EventModifierInit}} argument, if the dictionary member
+            begins with the string <code>"modifier"</code>, then let the
+            <dfn id="modifier-key-name">key modifier name</dfn> be the
+            dictionary member's name excluding the prefix
+            <code>"modifier"</code>, and set the {{Event}} object's
+            <a href="#internal-key-modifier-state">internal key modifier state</a>
+            that matches the <a href="#modifier-key-name">key modifier name</a>
+            to the corresponding value.
+
+</section>

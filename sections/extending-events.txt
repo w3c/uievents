@@ -1,0 +1,106 @@
+<section>
+<h2 id="extending-events">Extending Events</h2>
+
+
+<em>This section is non-normative</em>
+
+<h3 id="extending-events-intro">Introduction</h3>
+
+	This specification defines several interfaces and many events, however, this
+	is not an exhaustive set of events for all purposes. To allow content
+	authors and implementers to add desired functionality, this specification
+	provides two mechanisms for extend this set of interfaces and events without
+	creating conflicts: <a href="#extending-events-Custom_Events">custom
+	events</a> and <a
+	href="#extending-events-Impl_Extensions">implementation-specific
+	extensions</a>.
+
+<h3 id="extending-events-Custom_Events">Custom Events</h3>
+
+	A script author MAY wish to define an application in terms of functional
+	components, with event types that are meaningful to the application
+	architecture. The content author can use the {{CustomEvent}} interface to
+	create their own events appropriate to the level of abstraction they are
+	using.
+
+	<div class="example">
+		A content author might have created an application which features a
+		dynamically generated bar chart. This bar chart is meant to be updated every
+		5 minutes, or when a feed shows new information, or when the user refreshes
+		it manually by clicking a button. There are several handlers that have to be
+		called when the chart needs to be updated: the application has to fetch the
+		most recent data, show an icon to the user that the event is being updated,
+		and rebuild the chart. To manage this, the content author can choose to
+		create a custom <q>updateChart</q> event, which is fired whenever one of the
+		trigger conditions is met:
+
+		<pre><code>
+		var chartData = ...;
+		var evt = document.createEvent("CustomEvent");
+		evt.initCustomEvent( "updateChart", true, false, { data: chartData });
+		document.documentElement.dispatchEvent(evt);
+		</code></pre>
+	</div>
+
+<h3 id="extending-events-Impl_Extensions">Implementation-Specific Extensions</h3>
+
+	While a new event is being designed and prototyped, or when an event is
+	intended for implementation-specific functionality, it is desirable to
+	distinguish it from standardized events. Implementors SHOULD prefix event
+	types specific to their implementations with a short string to distinguish
+	it from the same event in other implementations and from standardized
+	events. This is similar to the
+	<a href="http://www.w3.org/TR/CSS21/syndata.html#vendor-keywords" title="CSS 2.1: Syntax and basic data types">vendor-specific keyword prefixes</a>
+	in CSS, though without the dashes (<code>"-"</code>) used in CSS, since that
+	can cause problems when used as an attribute name in Javascript.
+
+	<div class="example">
+		A particular browser vendor, <q>FooCorp</q>, might wish to introduce a
+		new event, <code class="eventtype">jump</code>. This vendor implements
+		<code class="eventtype">fooJump</code> in their browser, using their
+		vendor-specific prefix: <code>"foo"</code>. Early adopters start
+		experimenting with the event, using
+		<code>someElement.addEventListener("fooJump", doJump, false )</code>,
+		and provide feedback to FooCorp, who change the behavior of <code
+		class="eventtype">fooJump</code> accordingly.
+
+		After some time, another vendor, <q>BarOrg</q>, decides they also want
+		the functionality, but implement it slightly differently, so they use
+		their own vendor-specific prefix, <code>"bar"</code> in their event type
+		name: <code class="eventtype">barJump</code>. Content authors
+		experimenting with this version of the <code
+		class="eventtype">jump</code> event type register events with BarOrg's
+		event type name. Content authors who wish to write code that accounts
+		for both browsers can either register each event type separately with
+		specific handlers, or use the same handler and switch on the name of the
+		event type. Thus, early experiments in different codebases do not
+		conflict, and the early adopter is able to write easily-maintained code
+		for multiple implementations.
+
+		Eventually, as the feature matures, the behavior of both browsers
+		stabilizes and might converge due to content author and user feedback or
+		through formal standardization. As this stabilization occurs, and risk
+		of conflicts decrease, content authors can remove the forked code, and
+		use the <code class="eventtype">jump</code> event type name (even before
+		it is formally standardized) using the same event handler and the more
+		generic registration method <code>someElement.addEventListener( "jump",
+		doJump, false)</code>.
+	</div>
+
+	<h4 id="extending-events-prefixes">Known Implementation-Specific Prefixes</h4>
+
+		At the time of writing, the following event-type name prefixes are known to exist:
+
+		++---------------------+------------+-----------------------+
+		=| Prefix              | Web Engine | Organization          |
+		 +---------------------+------------+-----------------------+
+		+| <code>moz</code>,   | Gecko      | Mozilla               |
+		 | <code>Moz</code>    |            |                       |
+		+| <code>ms</code>,    | Trident    | Microsoft             |
+		 | <code>MS</code>     |            |                       |
+		+| <code>o</code>,     | Presto     | Opera Software        |
+		 | <code>O</code>      |            |                       |
+		+| <code>webkit</code> | WebKit     | Apple, Google, others |
+		++---------------------+------------+-----------------------+
+
+</section>

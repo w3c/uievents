@@ -1,0 +1,933 @@
+<section>
+<h2 id="keys">Keyboard events and key values</h2>
+
+
+This section contains necessary information regarding keyboard events:
+
+*	Explanation of keyboard layout, mapping, and key values.
+*	Relations between keys, such as <a>dead keys</a> or modifiers keys.
+*	Relations between keyboard events and their default actions.
+*	The set of <code>key</code> values, and guidelines on how to extend this set.
+
+<p class="note">
+This section uses Serbian and Kanji characters which could be misrepresented or
+unavailable in the PDF version or printed version of this specification.
+</p>
+
+<h3 id="keyboard-input">Keyboard Input</h3>
+
+	<em>This section is non-normative</em>
+
+	The relationship of each key to the complete keyboard has three separate
+	aspects, each of which vary among different models and configurations of
+	keyboards, particularly for locale-specific reasons:
+
+	*	<strong>Mechanical layout:</strong> the dimensions, size, and placement
+		of the physical keys on the keyboard
+	*	<strong>Visual markings:</strong> the labels (or <em>legends</em>) that
+		mark each key
+	*	<strong>Functional mapping:</strong> the abstract key-value association
+		of each key.
+
+	This specification only defines the functional mapping, in terms of
+	<a href="#keys-keyvalues"><code>key</code></a> values and
+	<a href="#keys-codevalues"><code>code</code></a> values,
+	but briefly describes <a href="#key-legends">key legends</a>
+	for background.
+
+	<h4 id="key-legends">Key Legends</h4>
+
+		<em>This section is informative</em>
+
+		The key legend is the visual marking that is printed or embossed on the
+		<em>key cap</em> (the rectangular "cap" that covers the mechanical
+		switch for the key). These markings normally consist of one or more
+		characters that a keystroke on that key will produce (such as GLYPH{F},
+		GLYPH{8}, or GLYPH{ш}), or names or symbols which indicate that key's
+		function (such as an upward-pointing arrow GLYPH{&#x21E7;} indicating
+		KEYCAP{Shift}, or the string <code>"Enter"</code>). Keys are often
+		referred to by this marking (e.g., <q>Press the <code>"Shift"</code> and
+		<code>"F"</code> keys.</q>). Note, however, that the visual appearance
+		of the key has no bearing on its digital representation, and in many
+		configurations may be completely inaccurate. Even the control and
+		function keys, such as <code>"Enter"</code>, MAY be mapped to different
+		functionality, or even mapped as character keys.
+
+		For historical reasons, the character keys are typically marked with the
+		capital-letter equivalents of the character value they produce, e.g.,
+		the <code>"F"</code> key (the key marked with the glyph GLYPH{F}), will
+		produce the character value <code class="char">"f"</code> when pressed
+		without an active modifier key (KEYCAP{Shift}) or modifier state
+		(KEYCAP{CapsLock}).
+
+		<p class="note">
+		Many keyboards contain keys that do not normally produce any characters,
+		even though the symbol might have a Unicode equivalent. For example, the
+		KEYCAP{Shift} key might bear the symbol GLYPH{&#x21E7;}, which has the
+		<a>Unicode code point</a> UNI{\u21E7}, but
+		pressing the KEYCAP{Shift} key will not produce this character value,
+		and there is no <a>Unicode code point</a> for KEYCAP{Shift}.
+		</p>
+
+<h3 id="keys-codevalues">Key codes</h3>
+
+	A key {{KeyboardEvent/code}} is an attribute of a keyboard event that can be
+	used to identify the physical key associated with the keyboard event. It is
+	similar to USB Usage IDs in that it provides a low-level value (similar to a
+	scancode) that is vendor-neutral.
+
+	The primary purpose of the {{KeyboardEvent/code}} attribute is to provide a
+	consistent and coherent way to identify keys based on their physical
+	location. In addition, it also provides a stable name (unaffected by the
+	current keyboard state) that uniquely identifies each key on the keyboard.
+
+	The list of valid {{KeyboardEvent/code}} values is defined in the
+	[[!UIEvents-Code]].
+
+	<h4 id="code-motivation">Motivation for the {{KeyboardEvent/code}} Attribute</h4>
+
+		The standard PC keyboard has a set of keys (which we refer to as
+		<em>writing system keys</em>) that generate different
+		{{KeyboardEvent/key}} values based on the current keyboard layout
+		selected by the user. This situation makes it difficult to write code
+		that detects keys based on their physical location since the code would
+		need to know which layout is in effect in order to know which
+		{{KeyboardEvent/key}} values to check for. A real-world example of this
+		is a game that wants to use the GLYPH{W}, GLYPH{A}, GLYPH{S} and
+		GLYPH{D} keys to control player movement. The {{KeyboardEvent/code}}
+		attribute solves this problem by providing a stable value to check that
+		is <em>not affected by the current keyboard layout</em>.
+
+		In addition, the values in the {{KeyboardEvent/key}} attribute depend as
+		well on the current keyboard state. Because of this, the order in which
+		keys are pressed and released in relation to modifier keys can affect
+		the values stored in the {{KeyboardEvent/key}} attribute. The
+		{{KeyboardEvent/code}} attribute solves this problem by providing a
+		stable value that is <em>not affected by the current keyboard state</em>.
+
+	<h4 id="relationship-between-key-code">The Relationship Between {{KeyboardEvent/key}} and {{KeyboardEvent/code}}</h4>
+
+		<dl>
+			<dt>{{KeyboardEvent/key}}</dt>
+			<dd>The {{KeyboardEvent/key}} attribute is intended for users who
+				are interested in the meaning of the key being pressed, taking
+				into account the current keyboard layout (and IME;
+				<a href="#keys-dead">dead keys</a> are given a unique
+				{{KeyboardEvent/key}} value). Example use case: Detecting
+				modified keys or bare modifier keys (e.g., to perform an action
+				in response to a keyboard shortcut).
+			</dd>
+
+			<dt>{{KeyboardEvent/code}}</dt>
+			<dd>The {{KeyboardEvent/code}} attribute is intended for users who
+				are interested in the key that was pressed by the user, without
+				any layout modifications applied. Example use case: Detecting
+				WASD keys (e.g., for movement controls in a game) or trapping
+				all keys (e.g., in a remote desktop client to send all keys to
+				the remote host).
+			</dd>
+		</dl>
+
+	<h4 id="code-examples"><code>code</code> Examples</h4>
+
+		<div class="example">
+			Handling the Left and Right Alt Keys
+
+			++----------+----------------------+----------------------+------------------------------------------+
+			=| Keyboard |{{KeyboardEvent}}<br/>|{{KeyboardEvent}}<br/>| Notes                                    |
+			 |  Layout  |{{KeyboardEvent/key}} |{{KeyboardEvent/code}}|                                          |
+			 +----------+----------------------+----------------------+------------------------------------------+
+			+| US       | KEY{Alt}             | CODE{AltLeft}        | {{KeyboardEvent/DOM_KEY_LOCATION_LEFT}}  |
+			+| French   | KEY{Alt}             | CODE{AltLeft}        | {{KeyboardEvent/DOM_KEY_LOCATION_LEFT}}  |
+			+| US       | KEY{Alt}             | CODE{AltRight}       | {{KeyboardEvent/DOM_KEY_LOCATION_RIGHT}} |
+			+| French   | KEY{AltGr}           | CODE{AltRight}       | {{KeyboardEvent/DOM_KEY_LOCATION_RIGHT}} |
+			++----------+----------------------+----------------------+------------------------------------------+
+
+			In this example, checking the {{KeyboardEvent/key}} attribute permits
+			matching KEYCAP{Alt} without worrying about which Alt key (left or
+			right) was pressed. Checking the {{KeyboardEvent/code}} attribute
+			permits matching the right Alt key (CODE{AltRight}) without worrying
+			about which layout is currently in effect.
+
+			Note that, in the French example, the KEYCAP{Alt} and KEYCAP{AltGr} keys
+			retain their left and right location, even though there is only one of
+			each key.
+		</div>  <!-- Handling Left and Right Alt Keys -->
+
+		<div class="example">
+			Handling the Single Quote Key
+
+			++----------+----------------------+----------------------+--------+
+			=| Keyboard |{{KeyboardEvent}}<br/>|{{KeyboardEvent}}<br/>| Notes  |
+			 |  Layout  |{{KeyboardEvent/key}} |{{KeyboardEvent/code}}|        |
+			 +----------+----------------------+----------------------+--------+
+			+| US       | KEY_NOLINK{'}        | CODE{Quote}          |        |
+			+| Japanese | KEY_NOLINK{:}        | CODE{Quote}          |        |
+			+| US Intl  | KEY{Dead}            | CODE{Quote}          |        |
+			++----------+----------------------+----------------------+--------+
+
+			This example shows how dead key values are encoded in the
+			attributes. The {{KeyboardEvent/key}} values vary based on the
+			current locale, whereas the {{KeyboardEvent/code}} attribute returns
+			a consistent value.
+		</div><!-- Handling the Single Quote Key -->
+
+		<div class="example" id="example-key-2">
+			Handling the GLYPH{2} Key (with and without Shift pressed) on
+			various keyboard layouts.
+
+			++----------+----------------------+----------------------+----------------------------+
+			=| Keyboard |{{KeyboardEvent}}<br/>|{{KeyboardEvent}}<br/>| Notes                      |
+			 |  Layout  |{{KeyboardEvent/key}} |{{KeyboardEvent/code}}|                            |
+			 +----------+----------------------+----------------------+----------------------------+
+			+| US       | KEY_NOLINK{2}        | CODE{Digit2}         |                            |
+			+| US       | KEY_NOLINK{@}        | CODE{Digit2}         | {{KeyboardEvent/shiftKey}} |
+			+| UK       | KEY_NOLINK{2}        | CODE{Digit2}         |                            |
+			+| UK       | KEY_NOLINK{"}        | CODE{Digit2}         | {{KeyboardEvent/shiftKey}} |
+			+| French   | KEY_NOLINK{é}        | CODE{Digit2}         |                            |
+			+| French   | KEY_NOLINK{2}        | CODE{Digit2}         | {{KeyboardEvent/shiftKey}} |
+			++----------+----------------------+----------------------+----------------------------+
+
+			Regardless of the current locale or the modifier key state, pressing
+			the key labelled GLYPH{2} on a US keyboard always results in
+			CODE{Digit2} in the {{KeyboardEvent/code}} attribute.
+
+		</div><!-- Handling the 2 Key -->
+
+		<div class="example" id="example-key-shift-2">
+			Sequence of Keyboard Events : KEYCAP{Shift} and KEYCAP{2}
+
+
+			Compare the attribute values in the following two key event
+			sequences. They both produce the GLYPH{@} character on a US
+			keyboard, but differ in the order in which the keys are released. In
+			the first sequence, the order is: KEYCAP{Shift} (down), KEYCAP{2}
+			(down), KEYCAP{2} (up), KEYCAP{Shift} (up).
+
+			++---+----------+----------------------+----------------------+-----------------------------------------+
+			=| # | Event    |{{KeyboardEvent}}<br/>|{{KeyboardEvent}}<br/>| Notes                                   |
+			 |   | Type     |{{KeyboardEvent/key}} |{{KeyboardEvent/code}}|                                         |
+			 +---+----------+----------------------+----------------------+-----------------------------------------+
+			+| 1 | keydown  | KEY{Shift}           | CODE{ShiftLeft}      | {{KeyboardEvent/DOM_KEY_LOCATION_LEFT}} |
+			+| 2 | keydown  | KEY_NOLINK{@}        | CODE{Digit2}         | {{KeyboardEvent/shiftKey}}              |
+			+| 3 | keypress | KEY_NOLINK{@}        | CODE{}               |                                         |
+			+| 4 | keyup    | KEY_NOLINK{@}        | CODE{Digit2}         | {{KeyboardEvent/shiftKey}}              |
+			+| 5 | keyup    | KEY{Shift}           | CODE{ShiftLeft}      | {{KeyboardEvent/DOM_KEY_LOCATION_LEFT}} |
+			++---+----------+----------------------+----------------------+-----------------------------------------+
+
+			In the second sequence, the Shift is released before the 2,
+			resulting in the following event order: KEYCAP{Shift} (down),
+			KEYCAP{2} (down), KEYCAP{Shift} (up), KEYCAP{2} (up).
+
+			++---+----------+----------------------+----------------------+-----------------------------------------+
+			=| # | Event    |{{KeyboardEvent}}<br/>|{{KeyboardEvent}}<br/>| Notes                                   |
+			 |   | Type     |{{KeyboardEvent/key}} |{{KeyboardEvent/code}}|                                         |
+			 +---+----------+----------------------+----------------------+-----------------------------------------+
+			+| 1 | keydown  | KEY{Shift}           | CODE{ShiftLeft}      | {{KeyboardEvent/DOM_KEY_LOCATION_LEFT}} |
+			+| 2 | keydown  | KEY_NOLINK{@}        | CODE{Digit2}         | {{KeyboardEvent/shiftKey}}              |
+			+| 3 | keypress | KEY_NOLINK{@}        | CODE{}               |                                         |
+			+| 4 | keyup    | KEY{Shift}           | CODE{ShiftLeft}      | {{KeyboardEvent/DOM_KEY_LOCATION_LEFT}} |
+			+| 5 | keyup    | KEY_NOLINK{2}        | CODE{Digit2}         |                                         |
+			++---+----------+----------------------+----------------------+-----------------------------------------+
+
+			Note that the values contained in the {{KeyboardEvent/key}}
+			attribute does not match between the keydown and keyup events for
+			the GLYPH{2} key. The {{KeyboardEvent/code}} attribute provides a
+			consistent value that is not affected by the current modifier state.
+
+		</div><!-- Sequence of Keyboard Events: Shift and 2 -->
+
+	<h4 id="code-virtual-keyboards">{{KeyboardEvent/code}} and Virtual Keyboards</h4>
+
+		The usefulness of the {{KeyboardEvent/code}} attribute is less obvious
+		for virtual keyboards (and also for remote controls and chording
+		keyboards). In general, if a virtual (or remote control) keyboard is
+		mimicking the layout and functionality of a standard keyboard, then it
+		MUST also set the {{KeyboardEvent/code}} attribute as appropriate. For
+		keyboards which are not mimicking the layout of a standard keyboard,
+		then the {{KeyboardEvent/code}} attribute MAY be set to the closest
+		match on a standard keyboard or it MAY be left undefined.
+
+		For virtual keyboards with keys that produce different values based on
+		some modifier state, the {{KeyboardEvent/code}} value should be the
+		{{KeyboardEvent/key}} value generated when the button is pressed while
+		the device is in its factory-reset state.
+
+<h3 id="keys-keyvalues">Keyboard Event <code>key</code> Values</h3>
+
+	A key value is a <code>DOMString</code> that can be used to indicate any
+	given key on a keyboard, regardless of position or state, by the value it
+	produces.  These key values MAY be used as return values for keyboard events
+	generated by the implementation, or as input values by the content author to
+	specify desired input (such as for keyboard shortcuts).
+
+	The list of valid <code>key</code> values is defined in [[!UIEvents-Key]].
+
+	Key values can be used to detect the value of a key which has been pressed,
+	using the {{KeyboardEvent/key}} attribute.  Content authors can retrieve the
+	<a>character value</a> of upper- or lower-case letters, number, symbols, or
+	other character-producing keys, and also the <a>key value</a> of control
+	keys, modifier keys, function keys, or other keys that do not generate
+	characters. These values can be used for monitoring particular input
+	strings, for detecting and acting on modifier key input in combination with
+	other inputs (such as a mouse), for creating virtual keyboards, or for any
+	number of other purposes.
+
+	Key values can also be used by content authors in string comparisons, as
+	values for markup attributes (such as the HTML <code>accesskey</code>) in
+	conforming <a>host languages</a>, or for other related purposes.   A
+	conforming <a>host language</a> SHOULD allow content authors to use either
+	of the two equivalent string values for a key value: the <a>character
+	value</a>, or the <a>key value</a>.
+
+	<p class="note">
+	While implementations will use the most relevant value for a key
+	independently of the platform or keyboard layout mappings, content authors
+	can not make assumptions on the ability of keyboard devices to generate
+	them.  When using keyboard events and key values for shortcut-key
+	combinations, content authors can <q>consider using numbers and function
+	keys (KEYCAP{F4}, KEYCAP{F5}, and so on) instead of letters</q> ([[DWW95]])
+	given that most keyboard layouts will provide keys for those.
+	</p>
+
+	A key value does not indicate a specific key on the physical keyboard, nor
+	does it reflect the character printed on the key. A key value indicates the
+	current value of the event with consideration to the current state of all
+	active keys and key input modes (including shift modes), as reflected in the
+	operating-system mapping of the keyboard and reported to the implementation.
+	In other words, the key value for the key marked GLYPH{O} on a
+	<a>QWERTY</a> keyboard has the key value KEY_NOLINK{o} in an unshifted state and
+	KEY_NOLINK{O} in a shifted state. Because a user can map their keyboard to an
+	arbitrary custom configuration, the content author is encouraged not to
+	assume that a relationship exists between the shifted and unshifted states
+	of a key and the majuscule form (uppercase or capital letters) and minuscule
+	form (lowercase or small letters) of a character representation, but is
+	encouraged instead to use the value of the {{KeyboardEvent/key}} attribute.
+	For example, the Standard "102" Keyboard layout depicted in [[UIEvents-Code]]
+	illustrates one possible set of <a>key mappings</a> on one possible keyboard
+	layout. Many others exist, both standard and idiosyncratic.
+
+	<p class="note">
+	To simplify <a>dead key</a> support, when the operating-system mapping of
+	the keyboard is handling a <a>dead key</a> state, the current state of the
+	dead key sequence is not reported via the {{KeyboardEvent/key}} attribute.
+	Rather, a key value of KEY{Dead} is reported. Instead, implementations
+	generate <a href="#events-compositionevents">composition events</a> which
+	contain the intermediate state of the dead key sequence reported via the
+	{{CompositionEvent/data}} attribute. As in the previous example, the key
+	value for the key marked KEYCAP{O} on a <a>QWERTY</a> keyboard has a
+	{{CompositionEvent/data}} value of <code class="char">'&#xF6;'</code> in an
+	unshifted state during a dead-key operation to add an umlaut diacritic, and
+	<code class="char">'&#xD6;'</code> in a shifted state during a dead-key
+	operation to add an umlaut diacritic.
+	</p>
+
+	It is also important to note that there is not a one-to-one relationship
+	between key event states and key values.  A particular key value might be
+	associated with multiple keys. For example, many standard keyboards contain
+	more than one key with the KEYCAP{Shift} key value (normally distinguished
+	by the {{KeyboardEvent/location}} values
+	{{KeyboardEvent/DOM_KEY_LOCATION_LEFT}} and
+	{{KeyboardEvent/DOM_KEY_LOCATION_RIGHT}}) or KEYCAP{8} key value (normally
+	distinguished by the {{KeyboardEvent/location}} values
+	{{KeyboardEvent/DOM_KEY_LOCATION_STANDARD}} and
+	{{KeyboardEvent/DOM_KEY_LOCATION_NUMPAD}}), and user-configured custom
+	keyboard layouts MAY duplicate any key value in multiple key-state scenarios
+	(note that {{KeyboardEvent/location}} is intended for standard keyboard
+	layouts, and cannot always indicate a meaningful distinction).
+
+	Finally, the meaning of any given character representation is
+	context-dependent and complex.  For example, in some contexts, the asterisk
+	(star) glyph (<code class="glyph">'*'</code>) represents a footnote or
+	emphasis (when bracketing a passage of text). However, in some documents or
+	executable programs it is equivalent to the mathematical multiplication
+	operation, while in other documents or executable programs, that function is
+	reserved for the multiplication symbol (GLYPH{&#xD7;}, Unicode value
+	UNI{\u00D7}) or the Latin small letter <code>'x'</code>
+	(due to the lack of a multiplication key on many keyboards and the
+	superficial resemblance of the glyphs GLYPH{&#xD7;} and GLYPH{x}).  Thus,
+	the semantic meaning or function of character representations is outside the
+	scope of this specification.
+
+	<h4 id="keys-unicode">Key Values and Unicode</h4>
+
+		The <a>character values</a> described in this specification are Unicode
+		[[Unicode]] codepoints, and as such, have certain advantages.
+
+		The most obvious advantage is that it allows the content author to use
+		the full range of internationalized language functionality available in
+		the implementation, regardless of the limitations of the text input
+		devices on the system.  This opens up possibilities for virtual
+		keyboards and Web-application-based <a>input method editors</a>.
+
+		Another benefit is that it allows the content author to utilize the
+		Unicode general category properties programmatically.
+
+		With legacy keyboard event attributes such as {{KeyboardEvent/keyCode}}
+		and {{KeyboardEvent/charCode}}, content authors are forced to filter key
+		input using cryptic, platform- and implementation-specific numeric
+		codes, with poor internationalization, such as the following pseudocode:
+
+		<div class="example">
+		<pre><code>
+			if ( ( event.charCode == 45 || event.charCode == 36 ) ||
+				 ( event.charCode &gt;= 48 &amp;&amp; event.charCode &lt;= 57 ) ||
+				 ( event.charCode &gt;= 96 &amp;&amp; event.charCode &lt;= 105 ) ) {
+			   <span class="comment">// minus sign, dollar sign, and numeric characters from keyboard and numpad</span>
+			   <span class="comment">// ...</span>
+			}
+			else if ( ( event.charCode &gt;= 65 &amp;&amp; event.charCode &lt;= 90 ) ||
+					  ( event.charCode &gt;= 97 &amp;&amp; event.charCode &lt;= 122 ) ) {
+			   <span class="comment">// alphabetic characters from Latin character set, A-Z, a-z</span>
+			   <span class="comment">// ...</span>
+			}
+			else {
+			   <span class="comment">// ...</span>
+			}
+		</code></pre>
+		</div>
+
+		<p>With key values and regular expressions, however, content authors can support selective and intuitive ranges for key-based input, in a cross-platform manner with
+			advanced internationalization support, such as the following pseudocode:</p>
+
+		<div class="example">
+		<pre><code>
+			if ( event.key == "-" || event.key.match("\p{Sc}") || event.key.match("\p{N}") ) {
+			   <span class="comment">// minus sign, any currency symbol, and numeric characters (regardless of key location)</span>
+			   <span class="comment">// ...</span>
+			}
+			else if ( event.key.match("\p{L}") ) {
+			   <span class="comment">// alphabetic characters from any language, upper and lower case</span>
+			   <span class="comment">// ...</span>
+			}
+			else {
+			   <span class="comment">// ...</span>
+			}
+		</code></pre>
+		</div>
+
+		In addition, because Unicode categorizes each assigned <a>code point</a>
+		into a group of code points used by a particular human writing system,
+		even more advanced capabilities are possible.
+
+		<div class="example">
+		A content author can match characters from a particular human script
+		(e.g., Tibetan) using a regular expression such as
+		<code>\p{Tibetan}</code>, to filter out other characters, or discover if
+		a <a>code point</a> is in a certain code block (range of code points),
+		using a regular expression like <code>\p{InCyrillic}</code>.
+		</div>
+
+		To facilitate this, implementations SHOULD support Unicode range
+		detection using regular expressions, in a manner such as the Perl
+		Compatible Regular Expressions (PCRE) [[PCRE]].
+
+	<h4 id="keys-modifiers">Modifier keys</h4>
+
+		Keyboard input uses modifier keys to change the normal behavior of a
+		key. Like other keys, modifier keys generate EVENT{keydown} and
+		EVENT{keyup} events, as shown in the example below. Some modifiers are
+		activated while the key is being pressed down or maintained pressed such
+		as KEYCAP{Alt}, KEYCAP{Control}, KEYCAP{Shift}, KEYCAP{AltGraph}, or
+		KEYCAP{Meta}. Others modifiers are activated depending on their state
+		such as KEYCAP{CapsLock}, KEYCAP{NumLock}, or KEYCAP{ScrollLock}. Change
+		in the state happens when the modifier key is being pressed down. The
+		{{KeyboardEvent}} interface provides convenient attributes for some
+		common modifiers keys: {{KeyboardEvent/ctrlKey}},
+		{{KeyboardEvent/shiftKey}}, {{KeyboardEvent/altKey}},
+		{{KeyboardEvent/metaKey}}. Some operating systems simulate the
+		KEYCAP{AltGraph} modifier key with the combination of the KEYCAP{Alt}
+		and KEYCAP{Control} modifier keys. Implementations are encouraged to use
+		the KEYCAP{AltGraph} modifier key.
+
+		<div class="example">
+			This example describes a possible sequence of events
+			associated with the generation of the Unicode character Q (Latin
+			Capital Letter Q, <a>Unicode code point</a> UNI{\u0051}) on a US
+			keyboard using a US mapping:</p>
+
+			++---+-------------+----------------------+----------------------------+------------------------+
+			=| # | Event Type  |{{KeyboardEvent}}<br/>| Modifiers                  | Notes                  |
+			 |   |             |{{KeyboardEvent/key}} |                            |                        |
+			 +---+-------------+----------------------+----------------------------+------------------------+
+			+| 1 | keydown     | KEY{Shift}           | {{KeyboardEvent/shiftKey}} |                        |
+			+| 2 | keydown     | KEY_NOLINK{Q}        | {{KeyboardEvent/shiftKey}} | Latin Capital Letter Q |
+			+| 3 | beforeinput |                      |                            |                        |
+			+| 4 | input       |                      |                            |                        |
+			+| 5 | keyup       | KEY_NOLINK{Q}        | {{KeyboardEvent/shiftKey}} |                        |
+			+| 6 | keyup       | KEY{Shift}           |                            |                        |
+			++---+-------------+----------------------+----------------------------+------------------------+
+		</div>
+
+		<div class="example">
+			Th example describes an alternate sequence of keys to the
+			example above, where the KEYCAP{Shift} key is released before the
+			KEYCAP{Q} key.  The key value for the KEYCAP{Q} key will revert to its
+			unshifted value for the EVENT{keyup} event:
+
+			++---+-------------+----------------------+----------------------------+------------------------+
+			=| # | Event Type  |{{KeyboardEvent}}<br/>| Modifiers                  | Notes                  |
+			 |   |             |{{KeyboardEvent/key}} |                            |                        |
+			 +---+-------------+----------------------+----------------------------+------------------------+
+			+| 1 | keydown     | KEY{Shift}           | {{KeyboardEvent/shiftKey}} |                        |
+			+| 2 | keydown     | KEY_NOLINK{Q}        | {{KeyboardEvent/shiftKey}} | Latin Capital Letter Q |
+			+| 3 | beforeinput |                      |                            |                        |
+			+| 4 | input       |                      |                            |                        |
+			+| 5 | keyup       | KEY{Shift}           |                            |                        |
+			+| 6 | keyup       | KEY_NOLINK{q}        |                            | Latin Small Letter Q   |
+			++---+-------------+----------------------+----------------------------+------------------------+
+		</div>
+
+		<div class="example">
+			The following example describes a possible sequence of keys that
+			does not generate a Unicode character (using the same configuration
+			as the previous example):
+
+			++---+-------------+----------------------+----------------------------+----------------------------+
+			=| # | Event Type  |{{KeyboardEvent}}<br/>| Modifiers                  | Notes                      |
+			 |   |             |{{KeyboardEvent/key}} |                            |                            |
+			 +---+-------------+----------------------+----------------------------+----------------------------+
+			+| 1 | keydown     | KEY{Control}         | {{KeyboardEvent/ctrlKey}}  |                            |
+			+| 2 | keydown     | KEY_NOLINK{v}        | {{KeyboardEvent/ctrlKey}}  | Latin Small Letter V       |
+			+|   |             |                      |                            | <em>No EVENT{beforeinput}  |
+			 |   |             |                      |                            | or EVENT{input} events are |
+			 |   |             |                      |                            | generated.</em>            |
+			+| 3 | keyup       | KEY_NOLINK{v}        | {{KeyboardEvent/ctrlKey}}  | Latin Small Letter V       |
+			+| 4 | keyup       | KEY{Control}         |                            |                            |
+			++---+-------------+----------------------+----------------------------+----------------------------+
+		</div>
+
+		<div class="example">
+			The following example shows the sequence of events when both KEYCAP{Shift} and
+			KEYCAP{Control} are pressed:
+
+			++---+-------------+----------------------+----------------------------+----------------------------+
+			=| # | Event Type  |{{KeyboardEvent}}<br/>| Modifiers                  | Notes                      |
+			 |   |             |{{KeyboardEvent/key}} |                            |                            |
+			 +---+-------------+----------------------+----------------------------+----------------------------+
+			+| 1 | keydown     | KEY{Control}         | {{KeyboardEvent/ctrlKey}}  |                            |
+			+| 2 | keydown     | KEY{Shift}           | {{KeyboardEvent/ctrlKey}}  |                            |
+			 |   |             |                      | {{KeyboardEvent/shiftKey}} |                            |
+			+| 3 | keydown     | KEY_NOLINK{V}        | {{KeyboardEvent/ctrlKey}}  | Latin Capital Letter V     |
+			 |   |             |                      | {{KeyboardEvent/shiftKey}} |                            |
+			+|   |             |                      |                            | <em>No EVENT{beforeinput}  |
+			 |   |             |                      |                            | or EVENT{input} events are |
+			 |   |             |                      |                            | generated.</em>            |
+			+| 4 | keyup       | KEY_NOLINK{V}        | {{KeyboardEvent/ctrlKey}}  | Latin Capital Letter V     |
+			 |   |             |                      | {{KeyboardEvent/shiftKey}} |                            |
+			+| 5 | keyup       | KEY{Shift}           | {{KeyboardEvent/ctrlKey}}  |                            |
+			+| 6 | keyup       | KEY{Control}         |                            |                            |
+			++---+-------------+----------------------+----------------------------+----------------------------+
+		</div>
+
+		<div class="example">
+			For non-US keyboard layouts, the sequence of events is the same, but
+			the value of the key is based on the current keyboard layout. This
+			example shows a sequence of events when an Arabic keyboard layout is
+			used:
+
+			++---+-------------+----------------------+----------------------------+----------------------------+
+			=| # | Event Type  |{{KeyboardEvent}}<br/>| Modifiers                  | Notes                      |
+			 |   |             |{{KeyboardEvent/key}} |                            |                            |
+			 +---+-------------+----------------------+----------------------------+----------------------------+
+			+| 1 | keydown     | KEY{Control}         | {{KeyboardEvent/ctrlKey}}  |                            |
+			+| 2 | keydown     | KEY_NOLINK{ر}        | {{KeyboardEvent/ctrlKey}}  | Arabic Letter Reh          |
+			+|   |             |                      |                            | <em>No EVENT{beforeinput}  |
+			 |   |             |                      |                            | or EVENT{input} events are |
+			 |   |             |                      |                            | generated.</em>            |
+			+| 3 | keyup       | KEY_NOLINK{ر}        | {{KeyboardEvent/ctrlKey}}  | Arabic Letter Reh          |
+			+| 4 | keyup       | KEY{Control}         |                            |                            |
+			++---+-------------+----------------------+----------------------------+----------------------------+
+		</div>
+
+		<p class="note">
+		The value in the keydown and keyup events varies based on the current
+		keyboard layout in effect when the key is pressed. This means that the
+		KEYCAP{v} key on a US layout and the KEYCAP{ر} key on an Arabic layout
+		will generate different events even though they are the same physical
+		key. To identify these events as coming from the same physical key, you
+		will need to make use of the {{KeyboardEvent/code}} attribute.
+		</p>
+
+		In some cases, modifier keys change the key value value for a key event.
+		For example, on some MacOS keyboards, the  key labeled "delete"
+		functions the same as the KEYCAP{Backspace} key on the Windows OS when
+		unmodified, but when modified by the KEYCAP{Fn} key, acts as the
+		KEYCAP{Delete} key, and the value of the key value will match the most
+		appropriate function of the key in its current modified state.
+
+	<h4 id="keys-dead">Dead keys</h4>
+
+		Some keyboard input uses <a>dead keys</a> for the input of composed
+		character sequences. Unlike the handwriting sequence, in which users
+		enter the base character first, keyboard input requires to enter a
+		special state when a <a>dead key</a> is pressed and emit the
+		character(s) only when one of a limited number of <q>legal</q> base
+		character is entered.
+
+		<p class="note">
+		The MacOS and Linux operating systems use input methods to process
+		<a>dead keys</a>.
+		</p>
+
+		The <a>dead keys</a> (across all keyboard layouts and mappings) are
+		represented by the key value KEYCAP{Dead}. In response to any dead key
+		press, <a href="#events-compositionevents"> composition events</a> must
+		be dispatched by the user agent and the EVENT{compositionupdate} event's
+		{{CompositionEvent/data}} value must be the character value of the
+		current state of the dead key combining sequence.
+
+		While Unicode combining characters always follow the handwriting
+		sequence, with the combining character trailing the corresponding
+		letter, typical dead key input MAY reverse the sequence, with the
+		combining character before the corresponding letter. For example, the
+		word <em>naïve</em>, using the combining diacritic <em>¨</em>, would be
+		represented sequentially in Unicode as <em>nai¨ve</em>, but MAY be typed
+		<em>na¨ive</em>. The sequence of keystrokes UNI{\u0302} (Combining
+		Circumflex Accent key) and UNI{\u0065} (key marked with the Latin Small
+		Letter E) will likely produce (on a French keyboard using a french
+		mapping and without any modifier activated) the Unicode character
+		GLYPH{&#xEA;} (Latin Small Letter E With Circumflex), as preferred by
+		the Unicode Normalization Form <em>NFC</em>.
+
+		<p class="note">
+		The EVENT{keydown} and EVENT{keyup} events shown in these examples would
+		normally be suppressed during the composition session. They are included
+		in these examples to make the user actions (pressing and releasing keys)
+		more apparent.
+		</p>
+
+		<div class="example">
+		++---+-------------------+----------------------+-----------------------------+-------------------------+----------------------+
+		=| # | Event Type        |{{KeyboardEvent}}<br/>|{{KeyboardEvent}}<br/>       |{{CompositionEvent}}<br/>| Notes                |
+		 |   |                   |{{KeyboardEvent/key}} |{{KeyboardEvent/isComposing}}|{{CompositionEvent/data}}|                      |
+		 +---+-------------------+----------------------+-----------------------------+-------------------------+----------------------+
+		+| 1 | keydown           | KEY{Dead}            | <code>false</code>          |                         | Combining Circumflex |
+		 |   |                   |                      |                             |                         | Accent (Dead Key)    |
+		+| 2 | compositionstart  |                      |                             | <code>""</code>         |                      |
+		+| 3 | compositionupdate |                      |                             | UNI{\u0302}             |                      |
+		+| 4 | keyup             | KEY{Dead}            | <code>true</code>           |                         |                      |
+		+| 5 | keydown           | KEY_NOLINK{ê}        | <code>true</code>           |                         |                      |
+		+| 6 | compositionupdate |                      |                             | GLYPH{ê}                |                      |
+		+| 7 | compositionend    |                      |                             | GLYPH{ê}                |                      |
+		+| 8 | keyup             | KEY_NOLINK{e}        | <code>false</code>          |                         | Latin Small Letter E |
+		++---+-------------------+----------------------+-----------------------------+-------------------------+----------------------+
+		</div>
+
+		<p class="note">
+		In the second EVENT{keydown} event (step 5), the key value (assuming the
+		event is not suppressed) will <em>not</em> be KEY_NOLINK{e} (Latin Small
+		Letter E key) under normal circumstances because the value delivered to
+		the user agent will already be modified by the dead key operation.
+		</p>
+
+		This process might be aborted when a user types an unsupported base
+		character (that is, a base character for which the which the active
+		diacritical mark is not available) after pressing a <a>dead key</a>:
+
+		<div class="example">
+		++---+-------------------+----------------------+-----------------------------+-------------------------+----------------------+
+		=| # | Event Type        |{{KeyboardEvent}}<br/>|{{KeyboardEvent}}<br/>       |{{CompositionEvent}}<br/>| Notes                |
+		 |   |                   |{{KeyboardEvent/key}} |{{KeyboardEvent/isComposing}}|{{CompositionEvent/data}}|                      |
+		 +---+-------------------+----------------------+-----------------------------+-------------------------+----------------------+
+		+| 1 | keydown           | KEY{Dead}            | <code>false</code>          |                         | Combining Circumflex |
+		 |   |                   |                      |                             |                         | Accent (Dead Key)    |
+		+| 2 | compositionstart  |                      |                             | <code>""</code>         |                      |
+		+| 3 | compositionupdate |                      |                             | UNI{\u0302}             |                      |
+		+| 4 | keyup             | KEY{Dead}            | <code>true</code>           |                         |                      |
+		+| 5 | keydown           | KEY_NOLINK{q}        | <code>true</code>           |                         | Latin Small Letter Q |
+		+| 6 | compositionupdate |                      |                             | <code>""</code>         |                      |
+		+| 7 | compositionend    |                      |                             | <code>""</code>         |                      |
+		+| 8 | keyup             | KEY_NOLINK{q}        | <code>false</code>          |                         |                      |
+		++---+-------------------+----------------------+-----------------------------+-------------------------+----------------------+
+		</div>
+
+	<h4 id="keys-IME">Input Method Editors</h4>
+
+		This specification includes a model for <a>input method editors</a>
+		(IMEs), through the {{CompositionEvent}} interface and events.
+		However, Composition Events and Keyboard Events do not necessarily map
+		as a one-to-one relationship.  As an example, receiving a EVENT{keydown}
+		for the KEYCAP{Accept} key value does not necessarily imply that the
+		text currently selected in the <a>IME</a> is being accepted, but
+		indicates only that a keystroke happened, disconnected from the
+		<a>IME</a> Accept functionality (which would normally result in a
+		EVENT{compositionend} event in most <a>IME</a> systems).  Keyboard
+		events cannot be used to determine the current state of the input method
+		editor, which can be obtained through the {{CompositionEvent/data}}
+		attribute of the {{CompositionEvent}} interface.  Additionally,
+		<a>IME</a> systems and devices vary in their functionality, and in which
+		keys are used for activating that functionality, such that the
+		KEYCAP{Convert} and KEYCAP{Accept} keys MAY be represented by other
+		available keys. Keyboard events correspond to the events generated by
+		the input device after the keyboard layout mapping.
+
+		<p class="note">
+		In some implementations or system configurations, some key events, or
+		their values, might be suppressed by the <a>IME</a> in use.
+		</p>
+
+		The following example describes a possible sequence of keys to generate
+		the Unicode character GLYPH{&#x5E02;} (Kanji character, part of CJK
+		Unified Ideographs) using Japanese input methods. This example assumes
+		that the input method editor is activated and in the Japanese-Romaji
+		input mode. The keys KEYCAP{Convert} and KEYCAP{Accept} MAY be replaced
+		by others depending on the input device in use and the configuration of
+		the IME, e.g., it can be respectively UNI{\u0020} (Space key) and
+		KEYCAP{Enter}.
+
+		<p class="note">
+		GLYPH{&#x8A69;} (<q>poem</q>) and GLYPH{&#x5E02;} (<q>city</q>) are
+		homophones, both pronounced &#x3057; (<q>shi</q>/<q>si</q>), so the user
+		needs to use the KEYCAP{Convert} key to select the proper option.
+		</p>
+
+		<div class="example">
+		++----+-------------------+----------------------+-----------------------------+-------------------------+----------------------+
+		=| #  | Event Type        |{{KeyboardEvent}}<br/>|{{KeyboardEvent}}<br/>       |{{CompositionEvent}}<br/>| Notes                |
+		 |    |                   |{{KeyboardEvent/key}} |{{KeyboardEvent/isComposing}}|{{CompositionEvent/data}}|                      |
+		 +----+-------------------+----------------------+-----------------------------+-------------------------+----------------------+
+		+|  1 | keydown           | KEY_NOLINK{s}        | <code>false</code>          |                         | Latin Small Letter S |
+		+|  2 | compositionstart  |                      |                             | GLYPH{}                 |                      |
+		+|  3 | beforeinput       |                      |                             |                         |                      |
+		+|  4 | compositionupdate |                      |                             | GLYPH{s}                |                      |
+		+|    |                   |                      |                             |                         | DOM is updated       |
+		+|  5 | input             |                      |                             |                         |                      |
+		+|  6 | keyup             | KEY_NOLINK{s}        | <code>true</code>           |                         |                      |
+		+|  7 | keydown           | KEY_NOLINK{i}        | <code>true</code>           |                         | Latin Small Letter I |
+		+|  8 | beforeinput       |                      |                             |                         |                      |
+		+|  9 | compositionupdate |                      |                             | GLYPH{&#x3057;}         | <em>shi</em>         |
+		+|    |                   |                      |                             |                         | DOM is updated       |
+		+| 10 | input             |                      |                             |                         |                      |
+		+| 11 | keyup             | KEY_NOLINK{i}        | <code>true</code>           |                         |                      |
+		+| 12 | keydown           | KEY{Convert}         | <code>true</code>           |                         | Convert              |
+		+| 13 | beforeinput       |                      |                             |                         |                      |
+		+| 14 | compositionupdate |                      |                             | GLYPH{&#x8A69;}         | "poem"               |
+		+|    |                   |                      |                             |                         | DOM is updated       |
+		+| 15 | input             |                      |                             |                         |                      |
+		+| 16 | keyup             | KEY{Convert}         | <code>true</code>           |                         |                      |
+		+| 17 | keydown           | KEY{Convert}         | <code>true</code>           |                         | Convert              |
+		+| 18 | beforeinput       |                      |                             |                         |                      |
+		+| 19 | compositionupdate |                      |                             | GLYPH{&#x5E02;}         | "city"               |
+		+|    |                   |                      |                             |                         | DOM is updated       |
+		+| 20 | input             |                      |                             |                         |                      |
+		+| 21 | keyup             | KEY{Convert}         | <code>true</code>           |                         |                      |
+		+| 22 | keydown           | KEY{Accept}          | <code>true</code>           |                         | Accept               |
+		+| 23 | compositionend    |                      |                             | GLYPH{&#x5E02;}         |                      |
+		+| 24 | keyup             | KEY{Accept}          | <code>false</code>          |                         |                      |
+		++----+-------------------+----------------------+-----------------------------+-------------------------+----------------------+
+		</div>
+
+		IME composition can also be canceled as in the following example, with
+		conditions identical to the previous example. The key KEYCAP{Cancel}
+		might also be replaced by others depending on the input device in use
+		and the configuration of the IME, e.g., it could be UNI{\u001B} (Escape
+		key).
+
+		<div class="example">
+		++----+-------------------+----------------------+-----------------------------+-------------------------+----------------------+
+		=| #  | Event Type        |{{KeyboardEvent}}<br/>|{{KeyboardEvent}}<br/>       |{{CompositionEvent}}<br/>| Notes                |
+		 |    |                   |{{KeyboardEvent/key}} |{{KeyboardEvent/isComposing}}|{{CompositionEvent/data}}|                      |
+		 +----+-------------------+----------------------+-----------------------------+-------------------------+----------------------+
+		+|  1 | keydown           | KEY_NOLINK{s}        | <code>false</code>          |                         | Latin Small Letter S |
+		+|  2 | compositionstart  |                      |                             | GLYPH{}                 |                      |
+		+|  3 | compositionupdate |                      |                             | GLYPH{s}                |                      |
+		+|  4 | keyup             | KEY_NOLINK{s}        | <code>true</code>           |                         |                      |
+		+|  5 | keydown           | KEY_NOLINK{i}        | <code>true</code>           |                         | Latin Small Letter I |
+		+|  6 | compositionupdate |                      |                             | GLYPH{&#x3057;}         | <em>shi</em>         |
+		+|  7 | keyup             | KEY_NOLINK{i}        | <code>true</code>           |                         |                      |
+		+|  8 | keydown           | KEY{Convert}         | <code>true</code>           |                         | Convert              |
+		+|  9 | compositionupdate |                      |                             | GLYPH{&#x8A69;}         | "poem"               |
+		+| 10 | keyup             | KEY{Convert}         | <code>true</code>           |                         |                      |
+		+| 11 | keydown           | KEY{Convert}         | <code>true</code>           |                         | Convert              |
+		+| 12 | compositionupdate |                      |                             | GLYPH{&#x5E02;}         | "city"               |
+		+| 13 | keyup             | KEY{Convert}         | <code>true</code>           |                         |                      |
+		+| 14 | keydown           | KEY{Cancel}          | <code>true</code>           |                         | Cancel               |
+		+| 15 | compositionupdate |                      |                             | GLYPH{}                 |                      |
+		+| 16 | compositionend    |                      |                             | GLYPH{}                 |                      |
+		+| 17 | keyup             | KEY{Cancel}          | <code>false</code>          |                         |                      |
+		++----+-------------------+----------------------+-----------------------------+-------------------------+----------------------+
+		</div>
+
+		<p class="note">
+		Some <a>input method editors</a> (such as on the MacOS operating system)
+		might set an <a>empty string</a> to the composition data attribute
+		before canceling a composition.
+		</p>
+
+		<h5 id="keys-IME-keys">Input Method Editor mode keys</h5>
+
+			Some keys on certain devices are intended to activate <a>input
+			method editor</a> functionality, or to change the mode of an active
+			<a>input method editor</a>.  Custom keys for this purpose can be
+			defined for different devices or language modes. The keys defined in
+			this specification for this purpose are: KEY{Alphanumeric},
+			KEY{CodeInput}, KEY{FinalMode}, KEY{HangulMode}, KEY{HanjaMode},
+			KEY{Hiragana}, KEY{JunjaMode}, KEY{KanaMode}, KEY{KanjiMode},
+			KEY{Katakana}, and KEY{RomanCharacters}.  When one of these keys is
+			pressed, and no <a>IME</a> is currently active, the appropriate
+			<a>IME</a> is expected to be activated in the mode indicated by the
+			key (if available). If an <a>IME</a> is already active when the key
+			is pressed, the active <a>IME</a> might change to the indicated
+			mode, or a different <a>IME</a> might be launched, or the might MAY
+			be ignored, on a device- and application-specific basis.
+
+			This specification also defines other keys which are intended for
+			operation specifically with <a>input method editors</a>:
+			KEY{Accept}, KEY{AllCandidates}, KEY{Cancel}, KEY{Convert},
+			KEY{Compose}, KEY{FullWidth}, KEY{HalfWidth}, KEY{NextCandidate},
+			KEY{Nonconvert}, and KEY{PreviousCandidate}.  The functions of these
+			keys are not defined in this specification &mdash; refer to other
+			resources for details on <a>input method editor</a> functionality.
+
+			<p class="note">
+			Keys with <a>input method editor</a> functions are not restricted to
+			that purpose, and can have other device- or implementation-specific
+			purposes.
+			</p>
+
+	<h4 id="keys-cancelable-keys">Default actions and cancelable keyboard events</h4>
+
+		Canceling the <a>default action</a> of a EVENT{keydown} event MUST NOT
+		affect its respective EVENT{keyup} event, but it MUST prevent the
+		respective EVENT{beforeinput} and EVENT{input} (and EVENT{keypress} if
+		supported) events from being generated. The following example describes
+		a possible sequence of keys to generate the Unicode character Q (Latin
+		Capital Letter Q) on a US keyboard using a US mapping:
+
+		<div class="example">
+		++---+-------------+----------------------+--------------------+----------------------------+-----------------------------------+
+		=| # | Event Type  |{{KeyboardEvent}}<br/>|{{InputEvent}}<br/> | Modifiers                  | Notes                             |
+		 |   |             |{{KeyboardEvent/key}} |{{InputEvent/data}} |                            |                                   |
+		 +---+-------------+----------------------+--------------------+----------------------------+-----------------------------------+
+		+| 1 | keydown     | KEY{Shift}           |                    | {{KeyboardEvent/shiftKey}} |                                   |
+		+| 2 | keydown     | KEY_NOLINK{Q}        |                    | {{KeyboardEvent/shiftKey}} | The <a>default action</a> is      |
+		 |   |             |                      |                    |                            | prevented, e.g., by invoking      |
+		 |   |             |                      |                    |                            | {{Event/preventDefault()}}.       |
+		+|   |             |                      |                    |                            | <em>No EVENT{beforeinput} or      |
+		 |   |             |                      |                    |                            | EVENT{input} (or EVENT{keypress}, |
+		 |   |             |                      |                    |                            | if supported) events are          |
+		 |   |             |                      |                    |                            | generated</em>                    |
+		+| 3 | keyup       | KEY_NOLINK{Q}        |                    | {{KeyboardEvent/shiftKey}} |                                   |
+		+| 4 | keyup       | KEY{Shift}           |                    |                            |                                   |
+		++---+-------------+----------------------+--------------------+----------------------------+-----------------------------------+
+		</div>
+
+		If the key is a modifier key, the keystroke MUST still be taken into
+		account for the modifiers states. The following example describes a
+		possible sequence of keys to generate the Unicode character Q (Latin
+		Capital Letter Q) on a US keyboard using a US mapping:
+
+		<div class="example">
+		++---+-------------+----------------------+--------------------+----------------------------+-----------------------------------+
+		=| # | Event Type  |{{KeyboardEvent}}<br/>|{{InputEvent}}<br/> | Modifiers                  | Notes                             |
+		 |   |             |{{KeyboardEvent/key}} |{{InputEvent/data}} |                            |                                   |
+		 +---+-------------+----------------------+--------------------+----------------------------+-----------------------------------+
+		+| 1 | keydown     | KEY{Shift}           |                    | {{KeyboardEvent/shiftKey}} | The <a>default action</a> is      |
+		 |   |             |                      |                    |                            | prevented, e.g., by invoking      |
+		 |   |             |                      |                    |                            | {{Event/preventDefault()}}.       |
+		+| 2 | keydown     | KEY_NOLINK{Q}        |                    | {{KeyboardEvent/shiftKey}} |                                   |
+		+| 3 | beforeinput |                      | GLYPH{Q}           |                            |                                   |
+		+| 4 | input       |                      |                    |                            |                                   |
+		+| 5 | keyup       | KEY_NOLINK{Q}        |                    | {{KeyboardEvent/shiftKey}} |                                   |
+		+| 6 | keyup       | KEY{Shift}           |                    |                            |                                   |
+		++---+-------------+----------------------+--------------------+----------------------------+-----------------------------------+
+		</div>
+
+		If the key is part of a sequence of several keystrokes, whether it is a
+		<a>dead key</a> or it is contributing to an Input Method Editor
+		sequence, the keystroke MUST be ignored (not taken into account) only if
+		the <a>default action</a> is canceled on the EVENT{keydown} event.
+		Canceling a <a>dead key</a> on a EVENT{keyup} event has no effect on
+		EVENT{beforeinput} or EVENT{input} events. The following example uses
+		the dead key KEY{Dead} (UNI{\u0302} Combining Circumflex Accent key) and
+		KEY_NOLINK{e} (UNI{\u0065}, Latin Small Letter E key) on a French
+		keyboard using a French mapping and without any modifier activated:
+
+		<div class="example">
+		++---+-------------+----------------------+--------------------+-----------------------------------+
+		=| # | Event Type  |{{KeyboardEvent}}<br/>|{{InputEvent}}<br/> | Notes                             |
+		 |   |             |{{KeyboardEvent/key}} |{{InputEvent/data}} |                                   |
+		 +---+-------------+----------------------+--------------------+-----------------------------------+
+		+| 1 | keydown     | KEY{Dead}            |                    | The <a>default action</a> is      |
+		 |   |             |                      |                    | prevented, e.g., by invoking      |
+		 |   |             |                      |                    | {{Event/preventDefault()}}.       |
+		+| 2 | keyup       | KEY{Dead}            |                    |                                   |
+		+| 3 | keydown     | KEY_NOLINK{e}        |                    |                                   |
+		+| 4 | beforeinput |                      | GLYPH{e}           |                                   |
+		+| 5 | input       |                      |                    |                                   |
+		+| 6 | keyup       | KEY_NOLINK{e}        |                    |                                   |
+		++---+-------------+----------------------+--------------------+-----------------------------------+
+		</div>
+
+
+	<h4 id="keys-guidelines">Guidelines for selecting key values</h4>
+
+		<strong>This section is normative.</strong>
+
+		To determine the appropriate key value for a key, use the following
+		algorithm:
+
+		<div id="key-algorithm">
+		*	If there exists an appropriate character in the
+			<a href="#keys-keyvalues">key values set</a>, then the
+			{{KeyboardEvent/key}} attribute MUST be a string consisting of the
+			<em>key value</em> of that character.
+
+		*	If the key generates a printable character, and there exists an
+			appropriate <a>Unicode code point</a>, then the
+			{{KeyboardEvent/key}} attribute MUST be a string consisting of the
+			<em>char value</em> of that character.
+
+		*	If more than one key is being pressed and the key combination
+			includes one or more modifier keys that result in the key no longer
+			producing a printable character (e.g., KEYCAP{Control} + KEYCAP{a}),
+			then the key value should be the printable key value that would have
+			been produced if the key had been typed with the default keyboard
+			layout with no modifier keys except for KEYCAP{Shift} and
+			KEYCAP{AltGr} applied.
+
+		*	Otherwise, the special value KEY{Unidentified} should be used.
+		</div>
+
+		<div class="example">
+		*	On a US keyboard with a right-handed single-hand Dvorak <a>key
+			mapping</a>, the key labeled KEYCAP{Q} maps to the key values
+			KEY_NOLINK{5} (unmodified) and KEY_NOLINK{%} (shifted). The primary
+			function of this key is to generate the character GLYPH{5}
+			(UNI{\u0035}). Since this character is a character (in Unicode
+			general category <abbr title="Number, Decimal Digit">Nd</abbr>), the
+			{{KeyboardEvent/key}} attribute value for the unmodified key will be
+			KEY_NOLINK{5}.
+
+		*	On the same US Dvorak keyboard layout as the previous example,
+			pressing KEYCAP{Control} and the key labeled KEYCAP{Q} will produce
+			a key value of KEY_NOLINK{q}.
+
+		*	On a French PC keyboard with a standard French mapping, the primary
+			function of the KEYCAP{^} key is to act as a <a>dead key</a> for the
+			combining circumflex diacritical mark. The value for this key is
+			KEY{Dead}.
+
+		*	Also on a French PC keyboard with a standard French mapping, the
+			KEYCAP{&#x00e9;} key (which corresponds to the KEYCAP{2} key on a US
+			keyboard) generates a key value of KEYCAP{&#x00e9;} (UNI{\u00e9}).
+
+		*	On a Korean PC keyboard with a standard Korean mapping, the primary
+			function of the KEYCAP{Ha/En} key is to switch between Hangul and
+			English input. The predefined key value list has an appropriate
+			entry for this key, KEY{HangulMode}, so this will be the key value.
+
+		*	On some mobile devices, there are special keys to launch specific
+			applications. For a standard application like Calendar, there is a
+			predefined key value of KEY{LaunchCalendar}.
+		</div>
+
+		While every attempt has been made to make this list of key values as
+		complete as possible, new key values will periodically need to be
+		defined as new input devices are introduced. Rather than allowing user
+		agents to define their own key values (which may not work across
+		multiple user agents), bugs should be filed so that this specification
+		can be updated.
+
+</section>

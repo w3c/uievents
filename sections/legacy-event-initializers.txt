@@ -1,0 +1,447 @@
+<section>
+<h2 id="legacy-event-initializers">Legacy Event Initializers</h2>
+
+<em>This section is normative.
+The following features are obsolete and should only be implemented by
+<a>user agents</a> that require compatibility with legacy software.</em>
+
+Early versions of this specification included an initialization method on
+the interface (for example <code>initMouseEvent</code>) that required a long
+list of parameters that, in most cases, did not fully initialize all
+attributes of the event object. Because of this, event interfaces which were
+derived from the basic {{Event}} interface required that the initializer of
+<em>each</em> of the derived interfaces be called explicitly in order to
+fully initialize an event.
+
+<div class="example">
+Initializing all the attributes of a MutationEvent requires calls to two
+initializer methods: <code>initEvent</code> and
+<code>initMutationEvent</code>.
+</div>
+
+Due in part to the length of time in the development of this standard, some
+implementations MAY have taken a dependency on these (now deprecated)
+initializer methods. For completeness, these legacy event initializers are
+described in this Appendix.
+
+<h3 id="legacy-event-initializer-interfaces">Legacy Event Initializer Interfaces</h3>
+
+	<em>This section is informative</em>
+
+	This section documents legacy initializer methods that were introduced
+	in earlier versions of this specification.
+
+	<h4 id="idl-interface-UIEvent-initializers">Initializers for interface UIEvent</h4>
+
+		<pre class="idl-ignore" data-no-idl data-highlight="webidl">
+		partial interface UIEvent {
+			// Deprecated in this specification
+			void initUIEvent();
+		};
+		</pre>
+
+		<dl>
+			<dt><code>UIEvent . initUIEvent()</code></dt>
+			<dd>
+				Initializes attributes of an {{UIEvent}} object.
+				This method has the same behavior as {{Event/initEvent()}}.
+
+				<p class="warning">
+				The <code>initUIEvent</code> method is deprecated, but
+				supported for backwards-compatibility with widely-deployed
+				implementations.
+				</p>
+
+				<dl class="parameters">
+					<dt>DOMString typeArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>boolean bubblesArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>boolean cancelableArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>Window? viewArg</dt>
+					<dd>
+						Specifies {{UIEvent/view}}. This value MAY be <code>null</code>.
+					</dd>
+
+					<dt>long detailArg</dt>
+					<dd>
+						Specifies {{UIEvent/detail}}.
+					</dd>
+				</dl>
+			</dd>
+		</dl>
+
+	<h4 id="idl-interface-MouseEvent-initializers">Initializers for interface MouseEvent</h4>
+
+		<pre class="idl-ignore" data-no-idl data-highlight="webidl">
+		partial interface MouseEvent {
+			// Deprecated in this specification
+			void initMouseEvent();
+		};
+		</pre>
+
+		<dl>
+			<dt><code>MouseEvent . initMouseEvent()</code></dt>
+			<dd>
+				Initializes attributes of a {{MouseEvent}} object. This
+				method has the same behavior as <code>UIEvent.initUIEvent()</code>.
+
+				<p class="warning">
+				The <code>initMouseEvent</code> method is deprecated, but
+				supported for backwards-compatibility with widely-deployed
+				implementations.
+				</p>
+
+				<dl class="parameters">
+					<dt>DOMString typeArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>boolean bubblesArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>boolean cancelableArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>Window? viewArg</dt>
+					<dd>
+						Specifies {{UIEvent/view}}. This value MAY be <code>null</code>.
+					</dd>
+
+					<dt>long detailArg</dt>
+					<dd>
+						Specifies {{UIEvent/detail}}.
+					</dd>
+
+					<dt>long screenXArg</dt>
+					<dd>
+						Specifies {{MouseEvent/screenX}}.
+					</dd>
+
+					<dt>long screenYArg</dt>
+					<dd>
+						Specifies {{MouseEvent/screenY}}.
+					</dd>
+
+					<dt>long clientXArg</dt>
+					<dd>
+						Specifies {{MouseEvent/clientX}}.
+					</dd>
+
+					<dt>long clientYArg</dt>
+					<dd>
+						Specifies {{MouseEvent/clientY}}.
+					</dd>
+
+					<dt>boolean ctrlKeyArg</dt>
+					<dd>
+						Specifies {{MouseEvent/ctrlKey}}.
+					</dd>
+
+					<dt>boolean altKeyArg</dt>
+					<dd>
+						Specifies {{MouseEvent/altKey}}.
+					</dd>
+
+					<dt>boolean shiftKeyArg</dt>
+					<dd>
+						Specifies {{MouseEvent/shiftKey}}.
+					</dd>
+
+					<dt>boolean metaKeyArg</dt>
+					<dd>
+						Specifies {{MouseEvent/metaKey}}.
+					</dd>
+
+					<dt>short buttonArg</dt>
+					<dd>
+						Specifies {{MouseEvent/button}}.
+					</dd>
+
+					<dt>EventTarget? relatedTargetArg</dt>
+					<dd>
+						Specifies {{MouseEvent/relatedTarget}}. This value MAY
+						be <code>null</code>.
+					</dd>
+				</dl>
+			</dd>
+		</dl>
+
+	<h4 id="idl-interface-WheelEvent-initializers">Initializers for interface WheelEvent</h4>
+
+		<pre class="idl-ignore" data-no-idl data-highlight="webidl">
+		partial interface WheelEvent {
+			// Originally introduced (and deprecated) in this specification
+			void initWheelEvent();
+		};
+		</pre>
+
+		<dl>
+			<dt>void initWheelEvent()</dt>
+			<dd>
+				Initializes attributes of a <code>WheelEvent</code> object. This
+				method has the same behavior as <code>MouseEvent.initMouseEvent()</code>.
+
+				<p class="warning">
+				The <code>initWheelEvent</code> method is deprecated.
+				</p>
+
+				<dl class="parameters">
+					<dt>DOMString typeArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>boolean bubblesArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>boolean cancelableArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>Window? viewArg</dt>
+					<dd>
+						Specifies {{UIEvent/view}}. This value MAY be <code>null</code>.
+					</dd>
+
+					<dt>long detailArg</dt>
+					<dd>
+						Specifies {{UIEvent/detail}}.
+					</dd>
+
+					<dt>long screenXArg</dt>
+					<dd>
+						Specifies {{MouseEvent/screenX}}.
+					</dd>
+
+					<dt>long screenYArg</dt>
+					<dd>
+						Specifies {{MouseEvent/screenY}}.
+					</dd>
+
+					<dt>long clientXArg</dt>
+					<dd>
+						Specifies {{MouseEvent/clientX}}.
+					</dd>
+
+					<dt>long clientYArg</dt>
+					<dd>
+						Specifies {{MouseEvent/clientY}}.
+					</dd>
+
+					<dt>short buttonArg</dt>
+					<dd>
+						Specifies {{MouseEvent/button}}.
+					</dd>
+
+					<dt>EventTarget? relatedTargetArg</dt>
+					<dd>
+						Specifies {{MouseEvent/relatedTarget}}. This value MAY
+						be <code>null</code>.
+					</dd>
+
+					<dt>DOMString modifiersListArg</dt>
+					<dd>
+						A <a class="normative"
+						href="http://www.w3.org/TR/2004/REC-xml-20040204/#NT-S">
+						<em>white space</em></a> separated list of modifier key
+						values to be activated on this object. As an example,
+						<code>"Control Shift"</code> marks the control and shift
+						modifiers as activated (the {{MouseEvent/ctrlKey}} and
+						{{MouseEvent/shiftKey}} inherited attributes will be
+						<code>true</code> on the initialized
+						{{WheelEvent}} object).
+					</dd>
+
+					<dt>double deltaXArg</dt>
+					<dd>
+						Specifies {{WheelEvent/deltaX}}.
+					</dd>
+
+					<dt>double deltaYArg</dt>
+					<dd>
+						Specifies {{WheelEvent/deltaY}}.
+					</dd>
+
+					<dt>double deltaZArg</dt>
+					<dd>
+						Specifies {{WheelEvent/deltaZ}}.
+					</dd>
+
+					<dt>unsigned long deltaMode</dt>
+					<dd>
+						Specifies {{WheelEvent/deltaMode}}.
+					</dd>
+				</dl>
+			</dd>
+		</dl>
+
+	<h4 id="idl-interface-KeyboardEvent-initializers">Initializers for interface KeyboardEvent</h4>
+
+		<p class="note">
+		The argument list to this legacy KeyboardEvent initializer does not
+		include the <code>detailArg</code> (present in other initializers) and
+		adds the <code>locale</code> argument (see [[#changes-drafts]]); it is
+		necessary to preserve this inconsistency for compatibility with existing
+		implementations.
+		</p>
+
+		<pre class="idl-ignore" data-no-idl data-highlight="webidl">
+		partial interface KeyboardEvent {
+			// Originally introduced (and deprecated) in this specification
+			void initKeyboardEvent();
+		};
+		</pre>
+
+		<dl>
+			<dt>void initKeyboardEvent()</dt>
+			<dd>
+				Initializes attributes of a {{KeyboardEvent}} object. This
+				method has the same behavior as <code>UIEvent.initUIEvent()</code>.
+				The value of {{UIEvent/detail}} remains undefined.
+
+				<p class="warning">
+				The <code>initKeyboardEvent</code> method is deprecated.
+				</p>
+
+				<dl class="parameters">
+					<dt>DOMString typeArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>boolean bubblesArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>boolean cancelableArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>Window? viewArg</dt>
+					<dd>
+						Specifies {{UIEvent/view}}. This value MAY be <code>null</code>.
+					</dd>
+
+					<dt>DOMString keyArg</dt>
+					<dd>
+						Specifies {{KeyboardEvent/key}}.
+					</dd>
+
+					<dt>unsigned long locationArg</dt>
+					<dd>
+						Specifies {{KeyboardEvent/location}}.
+					</dd>
+
+					<dt>DOMString modifiersListArg</dt>
+					<dd>
+						A <a class="normative" href="http://www.w3.org/TR/2004/REC-xml-20040204/#NT-S"><em>white space</em></a>
+						separated list of modifier key values to be activated on this object.
+						As an example, <code>"Control Alt"</code> marks the control and alt modifiers as activated.
+					</dd>
+
+					<dt>boolean repeat</dt>
+					<dd>
+						Specifies whether the key event is repeating. See {{KeyboardEvent/repeat}}.
+					</dd>
+
+					<dt>DOMString locale</dt>
+					<dd>
+						Specifies the <code>locale</code> attribute of the KeyboardEvent.
+
+						<p class="issue">
+							Should we include locale in this specification now?
+						</p>
+					</dd>
+				</dl>
+			</dd>
+		</dl>
+
+	<h4 id="idl-interface-CompositionEvent-initializers">Initializers for interface CompositionEvent</h4>
+
+		<p class="note">
+		The argument list to this legacy CompositionEvent initializer does not
+		include the <code>detailArg</code> (present in other initializers) and
+		adds the <code>locale</code> argument (see [[#changes-drafts]]); it is
+		necessary to preserve this inconsistency for compatibility with existing
+		implementations.
+		</p>
+
+		<pre class="idl-ignore" data-no-idl data-highlight="webidl">
+		partial interface CompositionEvent {
+			// Originally introduced (and deprecated) in this specification
+			void initKeyboardEvent();
+		};
+		</pre>
+
+		<dl>
+			<dt>void initCompositionEvent()</dt>
+			<dd>
+				Initializes attributes of a <code>CompositionEvent</code>
+				object. This method has the same behavior as
+				<code>UIEvent.initUIEvent()</code>. The value of {{UIEvent/detail}}
+				remains undefined.
+
+				<p class="warning">
+				The <code>initCompositionEvent</code> method is deprecated.
+				</p>
+
+				<dl class="parameters">
+					<dt>DOMString typeArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>boolean bubblesArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>boolean cancelableArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>Window? viewArg</dt>
+					<dd>
+						Specifies {{UIEvent/view}}. This value MAY be <code>null</code>.
+					</dd>
+
+					<dt>DOMString dataArg</dt>
+					<dd>
+						Specifies {{CompositionEvent/data}}.
+					</dd>
+
+					<dt>DOMString locale</dt>
+					<dd>
+						Specifies the <code>locale</code> attribute of the CompositionEvent.
+
+						<p class="issue">
+						Should we include locale in this specification now?
+						</p>
+					</dd>
+				</dl>
+			</dd>
+		</dl>
+
+</section>

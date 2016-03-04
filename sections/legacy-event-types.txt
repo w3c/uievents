@@ -1,0 +1,1194 @@
+<section>
+<h2 id="legacy-event-types">Legacy Event Types</h2>
+
+
+<em>This section is normative. The following event types are obsolete and should
+only be implemented by <a>user agents</a> that require compatibility with legacy
+software.</em>
+
+The purpose of this section is to document the current state of these features
+and their relation to normative events. For implementations which do support
+these events, it is suggested that the definitions provided in this section be
+used.
+
+The following table provides an informative summary of the event types which are
+deprecated in this specification. They are included here for reference and
+completeness.
+
+++-----------------------------+--------+----------+------------------------------------------+------------------+------------+------------------------------------------------+
+=|	  Event Type			   | Sync / | Bubbling | Trusted event							  |	 DOM Interface	 | Cancelable | Default Action								   |
+ |							   | Async	|  Phase   | target types							  |					 |			  |												   |
+ +-----------------------------+--------+----------+------------------------------------------+------------------+------------+------------------------------------------------+
++| DOMActivate				   | Sync	| Yes	   | <code>Element</code>					  | UIEvent			 | Yes		  | None										   |
++| DOMAttrModified			   | Sync	| Yes	   | <code>Element</code>					  | MutationEvent	 | No		  | None										   |
++| DOMCharacterDataModified	   | Sync	| Yes	   | <code>Text</code>,						  | MutationEvent	 | No		  | None										   |
+ |							   |		|		   | <code>Comment</code>,					  |					 |			  |												   |
+ |							   |		|		   | <code>ProcessingInstruction</code>		  |					 |			  |												   |
++| DOMFocusIn				   | Sync	| Yes	   | <a><code>Window</code></a>,			  | FocusEvent		 | No		  | None										   |
+ |							   |		|		   | <code>Element</code></td>				  |					 |			  |												   |
++| DOMFocusOut				   | Sync	| Yes	   | <a><code>Window</code></a>,			  | FocusEvent		 | No		  | None										   |
+ |							   |		|		   | <code>Element</code></td>				  |					 |			  |												   |
++| DOMNodeInserted			   | Sync	| Yes	   | <code>Element</code>, <code>Attr</code>, | MutationEvent	 | No		  | None										   |
+ |							   |		|		   | <code>Text</code>, <code>Comment</code>, |					 |			  |												   |
+ |							   |		|		   | <code>DocumentType</code>,				  |					 |			  |												   |
+ |							   |		|		   | <code>ProcessingInstruction</code>		  |					 |			  |												   |
++| DOMNodeInsertedIntoDocument | Sync	| No	   | <code>Element</code>, <code>Attr</code>, | MutationEvent	 | No		  | None										   |
+ |							   |		|		   | <code>Text</code>, <code>Comment</code>, |					 |			  |												   |
+ |							   |		|		   | <code>DocumentType</code>,				  |					 |			  |												   |
+ |							   |		|		   | <code>ProcessingInstruction</code>		  |					 |			  |												   |
++| DOMNodeRemoved			   | Sync	| Yes	   | <code>Element</code>, <code>Attr</code>, | MutationEvent	 | No		  | None										   |
+ |							   |		|		   | <code>Text</code>, <code>Comment</code>, |					 |			  |												   |
+ |							   |		|		   | <code>DocumentType</code>,				  |					 |			  |												   |
+ |							   |		|		   | <code>ProcessingInstruction</code>		  |					 |			  |												   |
++| DOMNodeRemovedFromDocument  | Sync	| No	   | <code>Element</code>, <code>Attr</code>, | MutationEvent	 | No		  | None										   |
+ |							   |		|		   | <code>Text</code>, <code>Comment</code>, |					 |			  |												   |
+ |							   |		|		   | <code>DocumentType</code>,				  |					 |			  |												   |
+ |							   |		|		   | <code>ProcessingInstruction</code>		  |					 |			  |												   |
++| DOMSubtreeModified		   | Sync	| Yes	   | <a><code>Window</code></a>,			  | MutationEvent	 | No		  | None										   |
+ |							   |		|		   | <code>Document</code>,					  |					 |			  |												   |
+ |							   |		|		   | <code>DocumentFragment</code>,			  |					 |			  |												   |
+ |							   |		|		   | <code>Element</code>, <code>Attr</code>  |					 |			  |												   |
++| keypress					   | Sync	| Yes	   | <code>Element</code>					  | KeyboardEvent	 | Yes		  | Varies: launch <a>text composition system</a>; |
+ |							   |		|		   |										  |					 |			  | EVENT{blur} and EVENT{focus} events;		   |
+ |							   |		|		   |										  |					 |			  | EVENT{DOMActivate} event; other event		   |
+++-----------------------------+--------+----------+------------------------------------------+------------------+------------+------------------------------------------------+
+
+
+<h3 id="legacy-uievent-events">Legacy {{UIEvent}} events</h3>
+
+	<h4 id="legacy-uievent-event-types">Legacy {{UIEvent}} event types</h4>
+
+		<h5 id="event-type-DOMActivate"><dfn>DOMActivate</dfn></h5>
+
+			<table class="event-definition">
+				<tr>
+					<th>Type</th>
+					<td><strong><code>DOMActivate</code></strong></td>
+				</tr>
+				<tr>
+					<th>Interface</th>
+					<td>{{UIEvent}}</td>
+				</tr>
+				<tr>
+					<th>Sync / Async</th>
+					<td>Sync</td>
+				</tr>
+				<tr>
+					<th>Bubbles</th>
+					<td>Yes</td>
+				</tr>
+				<tr>
+					<th>Trusted Targets</th>
+					<td><code>Element</code></td>
+				</tr>
+				<tr>
+					<th>Cancelable</th>
+					<td>Yes</td>
+				</tr>
+				<tr>
+					<th>Default action</th>
+					<td>None</td>
+				</tr>
+				<tr>
+					<th>Context<br/>(trusted events)</th>
+					<td>
+						<ul>
+							<li>{{Event}}.{{Event/target}} :
+								element being activated</li>
+							<li>{{UIEvent}}.{{UIEvent/view}} :
+								<a><code>Window</code></a></li>
+							<li>{{UIEvent}}.{{UIEvent/detail}} :
+								<code>0</code></li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+
+			A <a>user agent</a> MUST dispatch this event when a button, link, or
+			other state-changing element is activated.  Refer to
+			[[#event-flow-activation]] for more details.
+
+			<p class="warning" id="DOMActivate-deprecated">
+			The EVENT{DOMActivate} <a>event type</a> is defined in this
+			specification for reference and completeness, but this specification
+			<a>deprecates</a> the use of this event type in favor of the related
+			<a>event type</a> EVENT{click}.  Other specifications MAY define and
+			maintain their own EVENT{DOMActivate} <a>event type</a> for backwards
+			compatibility.
+			</p>
+
+			<p class="note" id="DOMActivate-click">
+			While EVENT{DOMActivate} and EVENT{click} are not completely equivalent,
+			implemented behavior for the EVENT{click} <a>event type</a> has
+			developed to encompass the most critical accessibility aspects for which
+			the EVENT{DOMActivate} <a>event type</a> was designed, and is more
+			widely implemented.  Content authors are encouraged to use the
+			EVENT{click} <a>event type</a> rather than the related EVENT{mousedown}
+			or EVENT{mouseup} <a>event type</a> to ensure maximum accessibility.
+			</p>
+
+		Implementations which support the EVENT{DOMActivate} <a>event type</a>
+		SHOULD also dispatch a EVENT{DOMActivate} event as a <a>default
+		action</a> of a EVENT{click} event which is associated with an
+		<a>activation trigger</a>. However, such implementations SHOULD only
+		initiate the associated <a>activation behavior</a> once for any given
+		occurrence of an <a>activation trigger</a>.
+
+		<div class="example">
+		<p>
+		The EVENT{DOMActivate} <a>event type</a> is REQUIRED to be supported for
+		XForms [[XFORMS]], which is intended for implementation within a <a>host
+		language</a>. In a scenario where a plugin or script-based
+		implementation of XForms is intended for installation in a native
+		implementation of this specification which does not support the
+		EVENT{DOMActivate} <a>event type</a>, the XForms <a>user agent</a> has
+		to synthesize and dispatch its own EVENT{DOMActivate} events based on
+		the appropriate <a>activation triggers</a>.
+		</p>
+
+		<p>
+		Thus, when a EVENT{click} event is dispatched by a <a>user agent</a>
+		conforming to UI Events, the XForms <a>user agent</a> has to determine
+		whether to synthesize a EVENT{DOMActivate} event with the same relevant
+		properties as a <a>default action</a> of that EVENT{click} event.
+		Appropriate cues might be whether the EVENT{click} event is <a
+		href="#trusted-events">trusted</a>, or whether its <a>event target</a>
+		has a EVENT{DOMActivate} event listener registered.
+		</p>
+		</div>
+
+		<p class="note">
+		Don't rely upon the interoperable support of EVENT{DOMActivate} in many
+		<a>user agents</a>. Instead, the EVENT{click} <a>event type</a> should
+		be used since it will provide more accessible behavior due to broader
+		implementation support.
+		</p>
+
+		<p class="warning">
+		The EVENT{DOMActivate} <a>event type</a> is deprecated in this
+		specification.
+		</p>
+
+	<h4 id="legacy-uievent-event-order">Activation event order</h4>
+
+		If the <code>DOMActivate</code> event is supported by the <a>user
+		agent</a>, then the events MUST be dispatched in a set order relative to
+		each other: (with only pertinent events listed):
+
+        ++---+-------------+---------------------------------------------------+
+        =| # | Event Type  | Notes                                             |
+         +---+-------------+---------------------------------------------------+
+        +| 1 | click       |                                                   |
+        +| 2 | DOMActivate | <a>default action</a>, if supported by the        |
+         |   |             | <a>user agent</a>; synthesized;                   |
+         |   |             | <code>isTrusted="true"</code>                     |
+        +| 3 |             | <em>All other <a>default actions</a>,             |
+		 |   |             | including the <a>activation behavior</a></em>     |
+        ++---+-------------+---------------------------------------------------+
+
+		If the focused element is activated by a key event, then the following
+		shows the typical sequence of events (with only pertinent events listed):
+
+        ++---+-------------+---------------------------------------------------+
+        =| # | Event Type  | Notes                                             |
+         +---+-------------+---------------------------------------------------+
+        +| 1 | keydown     | MUST be a key which can activate the element,     |
+         |   |             | such as the KEYCAP{Enter} or KEYCAP{&nbsp;&nbsp;} |
+         |   |             | (spacebar) key, or the element is not activated   |
+        +| 2 | click       | <a>default action</a>; synthesized;               |
+         |   |             | <code>isTrusted="true"</code>                     |
+        +| 3 | DOMActivate | <a>default action</a>, if supported by the        |
+         |   |             | <a>user agent</a>; synthesized;                   |
+         |   |             | <code>isTrusted="true"</code>                     |
+        +| 4 |             | <em>All other <a>default actions</a>,             |
+		 |   |             | including the <a>activation behavior</a></em>     |
+        ++---+-------------+---------------------------------------------------+
+
+<h3 id="legacy-focusevent-events">Legacy {{FocusEvent}} events</h3>
+
+	<h4 id="legacy-focusevent-event-types">Legacy {{FocusEvent}} event types</h4>
+
+		<h5 id="event-type-DOMFocusIn"><dfn>DOMFocusIn</dfn></h5>
+
+			<table class="event-definition">
+				<tr>
+					<th>Type</th>
+					<td><strong><code>DOMFocusIn</code></strong></td>
+				</tr>
+				<tr>
+					<th>Interface</th>
+					<td>{{FocusEvent}}</td>
+				</tr>
+				<tr>
+					<th>Sync / Async</th>
+					<td>Sync</td>
+				</tr>
+				<tr>
+					<th>Bubbles</th>
+					<td>Yes</td>
+				</tr>
+				<tr>
+					<th>Trusted Targets</th>
+					<td><a><code>Window</code></a>, <code>Element</code></td>
+				</tr>
+				<tr>
+					<th>Cancelable</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Default action</th>
+					<td>None</td>
+				</tr>
+				<tr>
+					<th>Context<br/>(trusted events)</th>
+					<td>
+						<ul>
+							<li>{{Event}}.{{Event/target}} :
+								<a>event target</a> receiving focus</li>
+							<li>{{UIEvent}}.{{UIEvent/view}} :
+								<a><code>Window</code></a></li>
+							<li>{{UIEvent}}.{{UIEvent/detail}} :
+								<code>0</code></li>
+							<li>{{FocusEvent}}.{{FocusEvent/relatedTarget}} :
+								<code>null</code></li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+
+			A <a>user agent</a> MUST dispatch this event when an <a>event
+			target</a> receives focus. The focus MUST be given to the
+			element before the dispatch of this event type. This event type
+			MUST be dispatched after the event type EVENT{focus}.
+
+			<p class="warning">
+			The EVENT{DOMFocusIn} event type is defined in this
+			specification for reference and completeness, but this
+			specification <a>deprecates</a> the use of this event type in
+			favor of the related event types EVENT{focus} and EVENT{focusin}.
+			</p>
+
+		<h5 id="event-type-DOMFocusOut"><dfn>DOMFocusOut</dfn></h5>
+
+			<table class="event-definition">
+				<tr>
+					<th>Type</th>
+					<td><strong><code>DOMFocusOut</code></strong></td>
+				</tr>
+				<tr>
+					<th>Interface</th>
+					<td>{{FocusEvent}}</td>
+				</tr>
+				<tr>
+					<th>Sync / Async</th>
+					<td>Sync</td>
+				</tr>
+				<tr>
+					<th>Bubbles</th>
+					<td>Yes</td>
+				</tr>
+				<tr>
+					<th>Trusted Targets</th>
+					<td><a><code>Window</code></a>, <code>Element</code></td>
+				</tr>
+				<tr>
+					<th>Cancelable</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Default action</th>
+					<td>None</td>
+				</tr>
+				<tr>
+					<th>Context<br/>(trusted events)</th>
+					<td>
+						<ul>
+							<li>{{Event}}.{{Event/target}} :
+								<a>event target</a> losing focus</li>
+							<li>{{UIEvent}}.{{UIEvent/view}} :
+								<a><code>Window</code></a></li>
+							<li>{{UIEvent}}.{{UIEvent/detail}} :
+								<code>0</code></li>
+							<li>{{FocusEvent}}.{{FocusEvent/relatedTarget}} :
+								<code>null</code></li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+
+			A <a>user agent</a> MUST dispatch this event when an <a>event
+			target</a> loses focus. The focus MUST be taken from the element
+			before the dispatch of this event type. This event type MUST be
+			dispatched after the event type EVENT{blur}.
+
+			<p class="warning">
+			The EVENT{DOMFocusOut} event type is defined in this
+			specification for reference and completeness, but this
+			specification <a>deprecates</a> the use of this event type in
+			favor of the related event types EVENT{blur} and EVENT{focusout}.
+			</p>
+
+	<h4 id="legacy-focusevent-event-order">Legacy FocusEvent event order</h4>
+
+		The following is the typical sequence of events when a focus is shifted
+		between elements, including the deprecated EVENT{DOMFocusIn} and
+		EVENT{DOMFocusOut} events. The order shown assumes that no element is
+		initially focused.
+
+        ++---+-------------+---------------------------------------------------+
+        =| # | Event Type  | Notes                                             |
+         +---+-------------+---------------------------------------------------+
+        +|   |             | <em>User shifts focus</em>                        |
+        +| 1 | focusin     | Sent before first target element receives focus   |
+        +| 2 | focus       | Sent after first target element receives focus    |
+        +| 3 | DOMFocusIn  | If supported                                      |
+        +|   |             | <em>User shifts focus</em>                        |
+        +| 4 | focusout    | Sent before first target element loses focus      |
+        +| 5 | focusin     | Sent before second target element receives focus  |
+        +| 6 | blur        | Sent after first target element loses focus       |
+        +| 7 | DOMFocusOut | If supported                                      |
+        +| 8 | focus       | Sent after second target element receives focus   |
+        +| 9 | DOMFocusIn  | If supported                                      |
+        ++---+-------------+---------------------------------------------------+
+
+<h3 id="legacy-keyboardevent-events">Legacy {{KeyboardEvent}} events</h3>
+
+	The EVENT{keypress} event is the traditional method for capturing key events
+	and processing them before the DOM is updated with the effects of the key
+	press. Code that makes use of the EVENT{keypress} event typically relies on
+	the legacy {{KeyboardEvent/charCode}}, {{KeyboardEvent/keyCode}}, and
+	{{KeyboardEvent/which}} attributes.
+
+	Note that the EVENT{keypress} event is specific to key events, and has been
+	replaced by the more general event sequence of EVENT{beforeinput} and
+	EVENT{input} events. These new <code>input</code> events are not specific to
+	keyboard actions and can be used to capture user input regardless of the
+	original source.
+
+	<h4 id="legacy-keyboardevent-event-types">Legacy {{KeyboardEvent}} event types</h4>
+
+		<h5 id="event-type-keypress"><dfn>keypress</dfn></h5>
+
+			<table class="event-definition">
+				<tr>
+					<th>Type</th>
+					<td><strong><code>keypress</code></strong></td>
+				</tr>
+				<tr>
+					<th>Interface</th>
+					<td>{{KeyboardEvent}}</td>
+				</tr>
+				<tr>
+					<th>Sync / Async</th>
+					<td>Sync</td>
+				</tr>
+				<tr>
+					<th>Bubbles</th>
+					<td>Yes</td>
+				</tr>
+				<tr>
+					<th>Trusted Targets</th>
+					<td><code>Element</code></td>
+				</tr>
+				<tr>
+					<th>Cancelable</th>
+					<td>Yes</td>
+				</tr>
+				<tr>
+					<th>Default action</th>
+					<td>Varies:
+						launch <a>text composition system</a>;
+						EVENT{blur} and EVENT{focus} events;
+						EVENT{DOMActivate} event;
+						other event</td>
+				</tr>
+				<tr>
+					<th>Context<br/>(trusted events)</th>
+					<td>
+						<ul>
+							<li>{{Event}}.{{Event/target}} :
+									focused element processing the key event or if no element focused, then the
+									<a>body element</a> if available, otherwise the
+									<a>root element</a></li>
+							<li>{{UIEvent}}.{{UIEvent/view}} :
+								<a><code>Window</code></a></li>
+							<li>{{UIEvent}}.{{UIEvent/detail}} :
+								<code>0</code></li>
+							<li>{{KeyboardEvent}}.{{KeyboardEvent/charCode}} :
+								legacy character value for this event</li>
+							<li>{{KeyboardEvent}}.{{KeyboardEvent/keyCode}} :
+								legacy numerical code for this key</li>
+							<li>{{KeyboardEvent}}.{{KeyboardEvent/which}} :
+								legacy numerical code for this key</li>
+							<li>{{KeyboardEvent}}.{{KeyboardEvent/key}} :
+								the key value of the key pressed.</li>
+							<li>{{KeyboardEvent}}.{{KeyboardEvent/code}} :
+								the code value associated with the key's physical placement on the keyboard.</li>
+							<li>{{KeyboardEvent}}.{{KeyboardEvent/location}} :
+								the location of the key on the device.</li>
+							<li>{{KeyboardEvent}}.{{KeyboardEvent/altKey}} :
+								<code>true</code> if KEYCAP{Alt} modifier was active, otherwise <code>false</code></li>
+							<li>{{KeyboardEvent}}.{{KeyboardEvent/shiftKey}} :
+								<code>true</code> if KEYCAP{Shift} modifier was active, otherwise <code>false</code></li>
+							<li>{{KeyboardEvent}}.{{KeyboardEvent/ctrlKey}} :
+								<code>true</code> if KEYCAP{Control} modifier was active, otherwise <code>false</code></li>
+							<li>{{KeyboardEvent}}.{{KeyboardEvent/metaKey}} :
+								<code>true</code> if KEYCAP{Meta} modifier was active, otherwise <code>false</code></li>
+							<li>{{KeyboardEvent}}.{{KeyboardEvent/repeat}} :
+								<code>false</code></li>
+							<li>{{KeyboardEvent}}.{{KeyboardEvent/isComposing}} :
+								<code>true</code> if the key event occurs as part of a composition session, otherwise <code>false</code></li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+
+			If supported by a <a>user agent</a>, this event MUST be dispatched
+			when a key is pressed down, if and only if that key normally
+			produces a <a>character value</a>. The EVENT{keypress} event type is
+			device dependent and relies on the capabilities of the input devices
+			and how they are mapped in the operating system.
+
+			This event type MUST be generated after the <a>key mapping</a>. It
+			MUST NOT be fired when using an <a>input method editor</a>.
+
+			If this event is canceled, it should prevent the EVENT{input} event
+			from firing, in addition to canceling the <a>default action</a>.
+
+			Authors SHOULD use the EVENT{beforeinput} event instead of the
+			EVENT{keypress} event.
+
+			<p class="note">
+			The EVENT{keypress} event is traditionally associated with detecting
+			a <a>character value</a> rather than a physical key, and might not
+			be available on all keys in some configurations.
+			</p>
+
+			<p class="warning">
+			The EVENT{keypress} event type is defined in this specification for
+			reference and completeness, but this specification <a>deprecates</a>
+			the use of this event type. When in editing contexts, authors can
+			subscribe to the EVENT{beforeinput} event instead.
+			</p>
+
+	<h4 id="keypress-event-order">EVENT{keypress} event order</h4>
+
+		The EVENT{keypress} event type MUST be dispatched after the
+		EVENT{keydown} event and before the EVENT{keyup} event associated with
+		the same key.
+
+		The EVENT{keypress} event type MUST be dispatched after the
+		EVENT{beforeinput} event and before the EVENT{input} event associated
+		with the same key.
+
+		The sequence of key events for user-agents the support the
+		EVENT{keypress} event is demonstrated in the following example:
+
+		<div class="example">
+		++---+-------------+------------------------+---------------------+--------------------------------+
+		=| # | Event Type  | {{KeyboardEvent}}<br/> | {{InputEvent}}<br/> | Notes                          |
+		 |   |             | {{KeyboardEvent/key}}  | {{InputEvent/data}} |                                |
+		 +---+-------------+------------------------+---------------------+--------------------------------+
+		+| 1 | keydown     | KEY_NOLINK{a}          |                     |                                |
+		+| 2 | beforeinput |                        | GLYPH{a}            |                                |
+		+| 3 | keypress    | KEY_NOLINK{a}          |                     |                                |
+		+|   |             |                        |                     | <em>Any <a>default actions</a> |
+		 |   |             |                        |                     | related to this key, such as   |
+		 |   |             |                        |                     | inserting a character in to    |
+		 |   |             |                        |                     | the DOM.</em>                  |
+		+| 4 | input       |                        |                     |                                |
+		+| 5 | keyup       | KEY_NOLINK{a}          |                     |                                |
+		++---+-------------+------------------------+---------------------+--------------------------------+
+		</div>
+
+<h3 id="legacy-mutationevent-events">Legacy {{MutationEvent}} events</h3>
+
+	The mutation and mutation name event modules are designed to allow
+	notification of any changes to the structure of a document, including
+	attribute, text, or name modifications.
+
+	<p class="note">
+	None of the event types associated with the {{MutationEvent}} interface are
+	designated as cancelable. This stems from the fact that it is very difficult
+	to make use of existing DOM interfaces which cause document modifications if
+	any change to the document might or might not take place due to cancelation
+	of the resulting event. Although this is still a desired capability, it was
+	decided that it would be better left until the addition of transactions into
+	the DOM.
+	</p>
+
+	Many single modifications of the tree can cause multiple mutation events to
+	be dispatched. Rather than attempt to specify the ordering of mutation
+	events due to every possible modification of the tree, the ordering of these
+	events is left to the implementation.
+
+	<div class="warning">
+	<p>
+	The {{MutationEvent}} interface was introduced in DOM Level 2 Events, but
+	has not yet been completely and interoperably implemented across <a>user
+	agents</a>. In addition, there have been critiques that the interface, as
+	designed, introduces a performance and implementation challenge.
+	</p>
+	<p>
+	DOM4 [[!DOM]] provides a new mechanism using a
+	<code>MutationObserver</code> interface which addresses the use cases that
+	mutation events solve, but in a more performant manner. Thus, this
+	specification describes mutation events for reference and completeness of
+	legacy behavior, but <a>deprecates</a> the use of the {{MutationEvent}}
+	interface.
+	</p>
+	</div>
+
+	<h4 id="interface-MutationEvent">Interface MutationEvent</h4>
+
+		<p class="intro-dom">Introduced in DOM Level 2, deprecated in this
+		specification</p>
+
+		The <code>MutationEvent</code> interface provides specific contextual
+		information associated with Mutation events.
+
+		To create an instance of the <code>MutationEvent</code> interface, use
+		the {{Document/createEvent()}} method call.
+
+		<pre class="idl-ignore" data-no-idl data-highlight="webidl">
+		interface MutationEvent : Event {
+		  // attrChangeType
+		  const unsigned short MODIFICATION = 1;
+		  const unsigned short ADDITION = 2;
+		  const unsigned short REMOVAL = 3;
+
+		  readonly attribute Node? relatedNode;
+		  readonly attribute DOMString prevValue;
+		  readonly attribute DOMString newValue;
+		  readonly attribute DOMString attrName;
+		  readonly attribute unsigned short attrChange;
+
+		  void initMutationEvent();
+		};
+		</pre>
+
+		<dl>
+			<dt><code>MutationEvent . MODIFICATION</code></dt>
+			<dd>
+				The <code>Attr</code> was modified in place.
+			</dd>
+
+			<dt><code>MutationEvent . ADDITION</code></dt>
+			<dd>
+				The <code>Attr</code> was just added.
+			</dd>
+
+			<dt><code>MutationEvent . REMOVAL</code></dt>
+			<dd>
+				The <code>Attr</code> was just removed.
+			</dd>
+
+			<dt><code>MutationEvent . relatedNode</code></dt>
+			<dd>
+				<code>relatedNode</code> MUST be used to identify a secondary
+				node related to a mutation event. For example, if a mutation
+				event is dispatched to a node indicating that its parent has
+				changed, the <code>relatedNode</code> will be the changed
+				parent. If an event is instead dispatched to a subtree
+				indicating a node was changed within it, the
+				<code>relatedNode</code> MUST be the changed node. In the case
+				of the EVENT{DOMAttrModified} event, it indicates the
+				<code>Attr</code> node which was modified, added, or removed.
+
+				The <a>un-initialized value</a> of this attribute MUST be
+				<code>null</code>.
+			</dd>
+
+			<dt><code>MutationEvent . prevValue</code></dt>
+			<dd>
+				<code>prevValue</code> indicates the previous value of the
+				<code>Attr</code> node in EVENT{DOMAttrModified} events, and of
+				the <code>CharacterData</code> node in
+				EVENT{DOMCharacterDataModified} events.
+
+				The <a>un-initialized value</a> of this attribute MUST be
+				<code>""</code> (the empty string).
+			</dd>
+
+			<dt><code>MutationEvent . newValue</code></dt>
+			<dd>
+				<code>newValue</code> indicates the new value of the
+				<code>Attr</code> node in EVENT{DOMAttrModified} events, and of
+				the <code>CharacterData</code> node in
+				EVENT{DOMCharacterDataModified} events.
+
+				The <a>un-initialized value</a> of this attribute MUST be
+				<code>""</code> (the empty string).
+			</dd>
+
+			<dt><code>MutationEvent . attrName</code></dt>
+			<dd>
+				<code>attrName</code> indicates the name of the changed
+				<code>Attr</code> node in a EVENT{DOMAttrModified} event.
+
+				The <a>un-initialized value</a> of this attribute MUST be
+				<code>""</code> (the empty string).
+			</dd>
+
+			<dt><code>MutationEvent . attrChange</code></dt>
+			<dd>
+				<code>attrChange</code> indicates the type of change which
+				triggered the EVENT{DOMAttrModified} event. The values can be
+				<code>MODIFICATION</code>, <code>ADDITION</code>, or
+				<code>REMOVAL</code>.
+
+				The <a>un-initialized value</a> of this attribute MUST be
+				<code>0</code>.
+
+				<p class="note">
+				There is no defined constant for the attrChange value of 0 (the
+				un-initialized value).
+				</p>
+			</dd>
+
+			<dt><code>MutationEvent . initMutationEvent()</code></dt>
+			<dd>
+				Initializes attributes of a <code>MutationEvent</code> object.
+				This method has the same behavior as {{Event/initEvent()}}.
+
+				<dl class="parameters">
+					<dt>DOMString typeArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>boolean bubblesArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>boolean cancelableArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>Node? relatedNodeArg</dt>
+					<dd>
+						Specifies {{MutationEvent}}.<code>relatedNode</code>.
+					</dd>
+
+					<dt>DOMString prevValueArg</dt>
+					<dd>
+						Specifies {{MutationEvent}}.<code>prevValue</code>. This value MAY be the <a>empty string</a>.
+					</dd>
+
+					<dt>DOMString newValueArg</dt>
+					<dd>
+						Specifies {{MutationEvent}}.<code>newValue</code>.
+						This value MAY be the <a>empty string</a>.
+					</dd>
+
+					<dt>DOMString attrNameArg</dt>
+					<dd>
+						Specifies {{MutationEvent}}.<code>attrName</code>.
+						This value MAY be the <a>empty string</a>.
+					</dd>
+
+					<dt>unsigned short attrChangeArg</dt>
+					<dd>
+						Specifies {{MutationEvent}}.<code>attrChange</code>.
+						This value MAY be <code>0</code>.
+					</dd>
+				</dl>
+			</dd>
+		</dl>
+
+	<h4 id="legacy-mutationevent-event-types">Legacy {{MutationEvent}} event types</h4>
+
+		The mutation event types are listed below.
+
+		<h5 id="event-type-DOMAttrModified"><dfn>DOMAttrModified</dfn></h5>
+
+			<table class="event-definition">
+				<tr>
+					<th>Type</th>
+					<td><strong><code>DOMAttrModified</code></strong></td>
+				</tr>
+				<tr>
+					<th>Interface</th>
+					<td>{{MutationEvent}}</td>
+				</tr>
+				<tr>
+					<th>Sync / Async</th>
+					<td>Sync</td>
+				</tr>
+				<tr>
+					<th>Bubbles</th>
+					<td>Yes</td>
+				</tr>
+				<tr>
+					<th>Trusted Targets</th>
+					<td><code>Element</code></td>
+				</tr>
+				<tr>
+					<th>Cancelable</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Default action</th>
+					<td>None</td>
+				</tr>
+				<tr>
+					<th>Context<br/>(trusted events)</th>
+					<td>
+						<ul>
+							<li>{{Event}}.{{Event/target}} :
+								element whose attribute is being modified</li>
+							<li>{{MutationEvent}}.<code>attrName</code> :
+								the name of the changed <code>Attr</code> node</li>
+							<li>{{MutationEvent}}.<code>attrChange</code> :
+								the numerical code corresponding to the most applicable <code>attrChangeType</code></li>
+							<li>{{MutationEvent}}.<code>relatedNode</code> :
+								the <code>Attr</code> node that has been modified, added, or removed.</li>
+							<li>{{MutationEvent}}.<code>newValue</code> :
+								new value of the attribute, if the <code>Attr</code> node has been added or modified</li>
+							<li>{{MutationEvent}}.<code>prevValue</code> :
+								previous value of the attribute, if the <code>Attr</code> node has been removed or modified</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+
+			A <a>user agent</a> MUST dispatch this event after an
+			<code>Attr.value</code> has been modified and after an
+			<code>Attr</code> node has been added to or removed from an
+			<code>Element</code>. The <a>event target</a> of this event MUST be
+			the <code>Element</code> node where the change occurred. It is
+			implementation dependent whether this event type occurs when the
+			children of the <code>Attr</code> node are changed in ways that do
+			not affect the value of <code>Attr.value</code>.
+
+			<p class="warning">
+			The EVENT{DOMAttrModified} event type is defined in this
+			specification for reference and completeness, but this specification
+			<a>deprecates</a> the use of this event type.
+			</p>
+
+		<h5 id="event-type-DOMCharacterDataModified"><dfn>DOMCharacterDataModified</dfn></h5>
+
+			<table class="event-definition">
+				<tr>
+					<th>Type</th>
+					<td><strong><code>DOMCharacterDataModified</code></strong></td>
+				</tr>
+				<tr>
+					<th>Interface</th>
+					<td>{{MutationEvent}}</td>
+				</tr>
+				<tr>
+					<th>Sync / Async</th>
+					<td>Sync</td>
+				</tr>
+				<tr>
+					<th>Bubbles</th>
+					<td>Yes</td>
+				</tr>
+				<tr>
+					<th>Trusted Targets</th>
+					<td><code>Text</code>, <code>Comment</code>, <code>ProcessingInstruction</code></td>
+				</tr>
+				<tr>
+					<th>Cancelable</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Default action</th>
+					<td>None</td>
+				</tr>
+				<tr>
+					<th>Context<br/>(trusted events)</th>
+					<td>
+						<ul>
+							<li>{{Event}}.{{Event/target}} :
+								object whose content is being modified</li>
+							<li>{{MutationEvent}}.<code>attrName</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>attrChange</code> :
+								<code>0</code></li>
+							<li>{{MutationEvent}}.<code>relatedNode</code> :
+								parent node of the object whose content is being modified</li>
+							<li>{{MutationEvent}}.<code>newValue</code> :
+								new value of the object</li>
+							<li>{{MutationEvent}}.<code>prevValue</code> :
+								previous value of the object</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+
+			A <a>user agent</a> MUST dispatch this event after
+			<code>CharacterData.data</code> or
+			<code>ProcessingInstruction.data</code> have been modified, but the
+			node itself has not been inserted or deleted. The <a>event
+			target</a> of this event MUST be the <code>CharacterData</code> node
+			or the <code>ProcessingInstruction</code> node.
+
+			<p class="warning">
+			The EVENT{DOMCharacterDataModified} event type is defined in this
+			specification for reference and completeness, but this specification
+			<a>deprecates</a> the use of this event type.
+			</p>
+
+		<h5 id="event-type-DOMNodeInserted"><dfn>DOMNodeInserted</dfn></h5>
+
+			<table class="event-definition">
+				<tr>
+					<th>Type</th>
+					<td><strong><code>DOMNodeInserted</code></strong></td>
+				</tr>
+				<tr>
+					<th>Interface</th>
+					<td>{{MutationEvent}}</td>
+				</tr>
+				<tr>
+					<th>Sync / Async</th>
+					<td>Sync</td>
+				</tr>
+				<tr>
+					<th>Bubbles</th>
+					<td>Yes</td>
+				</tr>
+				<tr>
+					<th>Trusted Targets</th>
+					<td><code>Element</code>, <code>Attr</code>, <code>Text</code>, <code>Comment</code>, <code>DocumentType</code>,
+						<code>ProcessingInstruction</code></td>
+				</tr>
+				<tr>
+					<th>Cancelable</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Default action</th>
+					<td>None</td>
+				</tr>
+				<tr>
+					<th>Context<br/>(trusted events)</th>
+					<td>
+						<ul>
+							<li>{{Event}}.{{Event/target}} :
+								element which is being inserted</li>
+							<li>{{MutationEvent}}.<code>attrName</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>attrChange</code> :
+								<code>0</code></li>
+							<li>{{MutationEvent}}.<code>relatedNode</code> :
+								parent node of the node that has been inserted, or the <code>ownerElement</code> in the case of <code>Attr</code> nodes</li>
+							<li>{{MutationEvent}}.<code>newValue</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>prevValue</code> :
+								the <a>empty string</a></li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+
+			A <a>user agent</a> MUST dispatch this event type when a node other
+			than an <code>Attr</code> node has been added as a child of another
+			node. A <a>user agent</a> MAY dispatch this event when an
+			<code>Attr</code> node has been added to an <code>Element</code>
+			node (see <a href="#DOMNodeInserted-attr">note</a> below). This
+			event MUST be dispatched after the insertion has taken place. The
+			<a>event target</a> of this event MUST be the node being inserted.
+
+			<p class="note" id="DOMNodeInserted-attr">
+			For detecting attribute insertion, use the EVENT{DOMAttrModified}
+			event type instead.
+			</p>
+
+			<p class="warning">
+			The EVENT{DOMNodeInserted} event type is defined in this
+			specification for reference and completeness, but this specification
+			<a>deprecates</a> the use of this event type.
+			</p>
+
+		<h5 id="event-type-DOMNodeInsertedIntoDocument"><dfn>DOMNodeInsertedIntoDocument</dfn></h5>
+
+			<table class="event-definition">
+				<tr>
+					<th>Type</th>
+					<td><strong><code>DOMNodeInsertedIntoDocument</code></strong></td>
+				</tr>
+				<tr>
+					<th>Interface</th>
+					<td>{{MutationEvent}}</td>
+				</tr>
+				<tr>
+					<th>Sync / Async</th>
+					<td>Sync</td>
+				</tr>
+				<tr>
+					<th>Bubbles</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Trusted Targets</th>
+					<td><code>Element</code>, <code>Attr</code>, <code>Text</code>, <code>Comment</code>, <code>DocumentType</code>,
+						<code>ProcessingInstruction</code></td>
+				</tr>
+				<tr>
+					<th>Cancelable</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Default action</th>
+					<td>None</td>
+				</tr>
+				<tr>
+					<th>Context<br/>(trusted events)</th>
+					<td>
+						<ul>
+							<li>{{Event}}.{{Event/target}} :
+								element which is being inserted</li>
+							<li>{{MutationEvent}}.<code>attrName</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>attrChange</code> :
+								<code>0</code></li>
+							<li>{{MutationEvent}}.<code>relatedNode</code> :
+								parent node of the node that has been inserted, or the <code>ownerElement</code> in the case of <code>Attr</code> nodes</li>
+							<li>{{MutationEvent}}.<code>newValue</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>prevValue</code> :
+								the <a>empty string</a></li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+
+			A <a>user agent</a> MUST dispatch this event when a node has been
+			inserted into a document, either through direct insertion of the
+			node or insertion of a subtree in which it is contained. A <a>user
+			agent</a> MAY  treat an <code>Attr</code> node as part of an
+			<code>Element</code>'s subtree. This event MUST be dispatched after
+			the insertion has taken place. The <a>event target</a> of this event
+			MUST be the node being inserted. If the node is being directly
+			inserted, the event type EVENT{DOMNodeInserted} MUST occur before
+			this event type.
+
+			<p class="warning">
+			The EVENT{DOMNodeInsertedIntoDocument} event type is defined in this
+			specification for reference and completeness, but this specification
+			<a>deprecates</a> the use of this event type.
+			</p>
+
+		<h5 id="event-type-DOMNodeRemoved"><dfn>DOMNodeRemoved</dfn></h5>
+
+			<table class="event-definition">
+				<tr>
+					<th>Type</th>
+					<td><strong><code>DOMNodeRemoved</code></strong></td>
+				</tr>
+				<tr>
+					<th>Interface</th>
+					<td>{{MutationEvent}}</td>
+				</tr>
+				<tr>
+					<th>Sync / Async</th>
+					<td>Sync</td>
+				</tr>
+				<tr>
+					<th>Bubbles</th>
+					<td>Yes</td>
+				</tr>
+				<tr>
+					<th>Trusted Targets</th>
+					<td><code>Element</code>, <code>Attr</code>, <code>Text</code>, <code>Comment</code>, <code>DocumentType</code>,
+						<code>ProcessingInstruction</code></td>
+				</tr>
+				<tr>
+					<th>Cancelable</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Default action</th>
+					<td>None</td>
+				</tr>
+				<tr>
+					<th>Context<br/>(trusted events)</th>
+					<td>
+						<ul>
+							<li>{{Event}}.{{Event/target}} :
+								element which is being removed</li>
+							<li>{{MutationEvent}}.<code>attrName</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>attrChange</code> :
+								<code>0</code></li>
+							<li>{{MutationEvent}}.<code>relatedNode</code> :
+								the parent node of the node being removed, or the <code>ownerElement</code> in the case of <code>Attr</code> nodes</li>
+							<li>{{MutationEvent}}.<code>newValue</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>prevValue</code> :
+								the <a>empty string</a></li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+
+			A <a>user agent</a> MUST dispatch this event when a node other than
+			an <code>Attr</code> node is being removed from its parent node. A
+			<a>user agent</a> MAY dispatch this event when an <code>Attr</code>
+			node is being removed from its <code>ownerElement</code> (see <a
+			href="#DOMNodeRemoved-attr">note</a> below). This event MUST be
+			dispatched before the removal takes place. The <a>event target</a>
+			of this event MUST be the node being removed.
+
+			<p class="note" id="DOMNodeRemoved-attr">
+			For reliably detecting attribute removal, use the
+			EVENT{DOMAttrModified} event type instead.
+			</p>
+
+			<p class="warning">
+			The EVENT{DOMNodeRemoved} event type is defined in this
+			specification for reference and completeness, but this specification
+			<a>deprecates</a> the use of this event type.
+			</p>
+
+		<h5 id="event-type-DOMNodeRemovedFromDocument"><dfn>DOMNodeRemovedFromDocument</dfn></h5>
+
+			<table class="event-definition">
+				<tr>
+					<th>Type</th>
+					<td><strong><code>DOMNodeRemovedFromDocument</code></strong></td>
+				</tr>
+				<tr>
+					<th>Interface</th>
+					<td>{{MutationEvent}}</td>
+				</tr>
+				<tr>
+					<th>Sync / Async</th>
+					<td>Sync</td>
+				</tr>
+				<tr>
+					<th>Bubbles</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Trusted Targets</th>
+					<td><code>Element</code>, <code>Attr</code>, <code>Text</code>, <code>Comment</code>, <code>DocumentType</code>,
+						<code>ProcessingInstruction</code></td>
+				</tr>
+				<tr>
+					<th>Cancelable</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Default action</th>
+					<td>None</td>
+				</tr>
+				<tr>
+					<th>Context<br/>(trusted events)</th>
+					<td>
+						<ul>
+							<li>{{Event}}.{{Event/target}} :
+								element which is being removed</li>
+							<li>{{MutationEvent}}.<code>attrName</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>attrChange</code> :
+								<code>0</code></li>
+							<li>{{MutationEvent}}.<code>relatedNode</code> :
+								the parent node of the node being removed, or the <code>ownerElement</code> in the case of <code>Attr</code> nodes</li>
+							<li>{{MutationEvent}}.<code>newValue</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>prevValue</code> :
+								the <a>empty string</a></li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+
+			A <a>user agent</a> MUST dispatch this event when a node is being
+			removed from a document, either through direct removal of the node
+			or removal of a subtree in which it is contained. A <a>user
+			agent</a> MAY treat an <code>Attr</code> node as part of an
+			<code>Element</code>'s subtree. This event MUST be dispatched before
+			the removal takes place. The <a>event target</a> of this event type
+			MUST be the node being removed. If the node is being directly
+			removed, the event type EVENT{DOMNodeRemoved} MUST occur before this
+			event type.
+
+			<p class="note">
+			For reliably detecting attribute removal, use the
+			EVENT{DOMAttrModified} event type instead.
+			</p>
+
+			<p class="warning">
+			The EVENT{DOMNodeRemovedFromDocument} event type is defined in this
+			specification for reference and completeness, but this specification
+			<a>deprecates</a> the use of this event type.
+			</p>
+
+		<h5 id="event-type-DOMSubtreeModified"><dfn>DOMSubtreeModified</dfn></h5>
+
+			<table class="event-definition">
+				<tr>
+					<th>Type</th>
+					<td><strong><code>DOMSubtreeModified</code></strong></td>
+				</tr>
+				<tr>
+					<th>Interface</th>
+					<td>{{MutationEvent}}</td>
+				</tr>
+				<tr>
+					<th>Sync / Async</th>
+					<td>Sync</td>
+				</tr>
+				<tr>
+					<th>Bubbles</th>
+					<td>Yes</td>
+				</tr>
+				<tr>
+					<th>Trusted Targets</th>
+					<td><a><code>Window</code></a>, <code>Document</code>, <code>DocumentFragment</code>, <code>Element</code>, <code>Attr</code>
+					</td>
+				</tr>
+				<tr>
+					<th>Cancelable</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Default action</th>
+					<td>None</td>
+				</tr>
+				<tr>
+					<th>Context<br/>(trusted events)</th>
+					<td>
+						<ul>
+							<li>{{Event}}.{{Event/target}} :
+								parent node of subtree being modified</li>
+							<li>{{MutationEvent}}.<code>attrName</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>attrChange</code> :
+								<code>0</code></li>
+							<li>{{MutationEvent}}.<code>relatedNode</code> :
+								<code>null</code></li>
+							<li>{{MutationEvent}}.<code>newValue</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>prevValue</code> :
+								the <a>empty string</a></li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+
+			This is a general event for notification of all changes to the
+			document. It can be used instead of the more specific mutation and
+			mutation name events. It MAY be dispatched after a single
+			modification to the document or, at the implementation's discretion,
+			after multiple changes have occurred. The latter case SHOULD
+			generally be used to accommodate multiple changes which occur either
+			simultaneously or in rapid succession. The target of this event MUST
+			be the lowest common parent of the changes which have taken place.
+			This event MUST be dispatched after any other events caused by the
+			mutation(s) have occurred.
+
+			<p class="warning">
+			The EVENT{DOMSubtreeModified} event type is defined in this
+			specification for reference and completeness, but this specification
+			<a>deprecates</a> the use of this event type.
+			</p>
+
+</section>

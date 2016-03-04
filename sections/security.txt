@@ -1,0 +1,41 @@
+<section>
+<h2 id="security-considerations">Security Considerations</h2>
+
+
+This appendix discusses security considerations for UI Events implementations.
+The discussion is limited to security issues that arise directly from
+implementation of the event model, APIs and events defined in this
+specification. Implementations typically support other features like scripting
+languages, other APIs and additional events not defined in this document. These
+features constitute an unknown factor and are out of scope of this document.
+Implementers SHOULD consult the specifications of such features for their
+respective security considerations.
+
+Many of the event types defined in this specification are dispatched in response
+to user actions. This allows malicious event listeners to gain access to
+information users would typically consider confidential, e.g., typos they might
+have made when filling out a form, if they reconsider their answer to a multiple
+choice question shortly before submitting a form, their typing rate or primary
+input mechanism. In the worst case, malicious event listeners could capture all
+user interactions and submit them to a third party through means (not defined in
+this specification) that are generally available in DOM implementations, such as
+the XMLHttpRequest interface.
+
+In DOM implementations that support facilities to load external data, events
+like the EVENT{error} event can provide access to sensitive information about
+the environment of the computer system or network. An example would be a
+malicious HTML document that attempts to embed a resource on the local network
+or the localhost on different ports. An embedded <a>DOM application</a> could
+then listen for EVENT{error} and EVENT{load} events to determine which other
+computers in a network are accessible from the local system or which ports are
+open on the system to prepare further attacks.
+
+An implementation of UI Events alone is generally insufficient to perform
+attacks of this kind and the security considerations of the facilities that
+possibly support such attacks apply. For conformance with this specification,
+DOM implementations MAY take reasonable steps to ensure that <a>DOM
+applications</a> do not get access to confidential or sensitive information. For
+example, they might choose not to dispatch EVENT{load} events to nodes that
+attempt to embed resources on the local network.
+
+</section>
