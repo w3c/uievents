@@ -141,7 +141,7 @@ function addInputEvent(etype, e) {
 	var eventinfo = {};
 	eventinfo["etype"] = calcRichString(etype, e.type, true);
 	eventinfo["isComposing"] = e.isComposing;
-	eventinfo["eventType"] = e.eventType;
+	eventinfo["inputType"] = e.inputType;
 	eventinfo["data"] = calcString(e.data);
 	addEvent(eventinfo);
 }
@@ -201,7 +201,7 @@ function addEvent(eventinfo) {
 	addTableCellText(row, eventinfo["location"], "uievents");
 	addTableCellBoolean(row, eventinfo["repeat"], "uievents");
 	addTableCellBoolean(row, eventinfo["isComposing"], "uievents");
-	addTableCell(row, eventinfo["eventType"], "uievents");
+	addTableCell(row, eventinfo["inputType"], "uievents");
 	addTableCellText(row, eventinfo["data"], "uievents");
 	addTableCellText(row, eventinfo["locale"], "uievents");
 	addInputCell(row);
@@ -388,7 +388,7 @@ function createTableHeader() {
 	addTableCellText(row2, "location", "uievents", ["uievents_header", "subheader"]);
 	addTableCellText(row2, "repeat", "uievents", ["uievents_header", "subheader"]);
 	addTableCellText(row2, "isComposing", "uievents", ["uievents_header", "subheader"]);
-	addTableCellText(row2, "eventType", "uievents", ["uievents_header", "subheader"]);
+	addTableCellText(row2, "inputType", "uievents", ["uievents_header", "subheader"]);
 	addTableCellText(row2, "data", "uievents", ["uievents_header", "subheader"]);
 	// KeyboardEvent - Proposed
 	addTableCellText(row1, "Proposed", "proposed", "proposed_header", 1);
