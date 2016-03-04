@@ -201,7 +201,7 @@ function addEvent(eventinfo) {
 	addTableCellText(row, eventinfo["location"], "uievents");
 	addTableCellBoolean(row, eventinfo["repeat"], "uievents");
 	addTableCellBoolean(row, eventinfo["isComposing"], "uievents");
-	addTableCell(row, eventinfo["inputType"], "uievents");
+	addTableCellText(row, eventinfo["inputType"], "uievents");
 	addTableCellText(row, eventinfo["data"], "uievents");
 	addTableCellText(row, eventinfo["locale"], "uievents");
 	addInputCell(row);
