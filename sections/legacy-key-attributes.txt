@@ -31,17 +31,17 @@ used.
 
 	<em>This section is non-informative</em>
 
-	Browser support for keyboards has traditionally relied on three ad-hoc attributes,
-	{{KeyboardEvent/keyCode}}, {{KeyboardEvent/charCode}},
-	and {{KeyboardEvent/which}}.
+	Browser support for keyboards has traditionally relied on three ad-hoc
+	attributes, {{KeyboardEvent/keyCode}}, {{KeyboardEvent/charCode}}, and
+	{{KeyboardEvent/which}}.
 
-	All three of these attributes return a numerical code that represents some aspect of the key pressed:
-	{{KeyboardEvent/keyCode}} is an index of the key itself.
-	{{KeyboardEvent/charCode}} is the ASCII value of the character keys.
-	{{KeyboardEvent/which}} is the character value where available and otherwise the key index.
-	The values for these attributes, and the availability of the attribute, is inconsistent across
-	platforms, keyboard languages and layouts, <a>user agents</a>,
-	versions, and even event types.
+	All three of these attributes return a numerical code that represents some
+	aspect of the key pressed: {{KeyboardEvent/keyCode}} is an index of the key
+	itself. {{KeyboardEvent/charCode}} is the ASCII value of the character keys.
+	{{KeyboardEvent/which}} is the character value where available and otherwise
+	the key index. The values for these attributes, and the availability of the
+	attribute, is inconsistent across platforms, keyboard languages and layouts,
+	<a>user agents</a>, versions, and even event types.
 
 	<h4 id="legacy-interface-KeyboardEvent">Interface KeyboardEvent (supplemental)</h4>
 
@@ -164,29 +164,34 @@ used.
 
 	<h4 id="determine-keydown-keyup-keyCode">How to determine {{KeyboardEvent/keyCode}} for EVENT{keydown} and EVENT{keyup} events</h4>
 
-		The {{KeyboardEvent/keyCode}} for
-		EVENT{keydown}
-		or EVENT{keyup} events is calculated
-		as follows:
+		The {{KeyboardEvent/keyCode}} for EVENT{keydown} or EVENT{keyup} events
+		is calculated as follows:
 
 		*	Read the virtual key code from the operating system's event
 			information, if such information is available.
+
 		*	If an Input Method Editor is processing key input and the event is
 			EVENT{keydown}, return 229.
+
 		*	If input key when pressed without modifiers would insert a numerical
 			character (0-9), return the ASCII code of that numerical character.
+
 		*	If input key when pressed without modifiers would insert a lower
 			case character in the a-z alphabetical range, return the ASCII code
 			of the upper case equivalent.
+
 		*	If the implementation supports a key code conversion table for the
 			operating system and platform, look up the value. If the conversion
 			table specifies an alternate virtual key value for the given input,
 			return the specified value.
+
 		*	If the key's function, as determined in an implementation-specific
 			way, corresponds to one of the keys in the
 			[[#fixed-virtual-key-codes]] table, return the corresponding key
 			code.
+
 		*	Return the virtual key code from the operating system.
+
 		*	If no key code was found, return 0.
 
 	<h4 id="determine-keypress-keyCode">How to determine {{KeyboardEvent/keyCode}} for EVENT{keypress} events</h4>
@@ -198,6 +203,7 @@ used.
 		*	If the implementation supports a <em>conflated model</em>, set
 			{{KeyboardEvent/keyCode}} to the Unicode code point of the character
 			being entered.
+
 		*	If the implementation supports a <em>split model</em>, set
 			{{KeyboardEvent/keyCode}} to 0.
 
