@@ -53,16 +53,17 @@ the definitions for more information.
 : <dfn>candidate event handlers</dfn>
 : <dfn>candidate event listeners</dfn>
 ::	The list of all <a>event listeners</a> that have been registered on the
-	target object in their order of registration. This list is captured or
-	<q>frozen</q> before event listeners on the target object are dispatched,
-	and released or <q>un-frozen</q> after this set of candidate event handlers
-	have been dispatched (allowing these event listeners to add or remove
-	additional listeners on other objects in an event's propagation chain, but
-	not affect the order of listeners that will be invoked on the target object).
+	target object in their order of registration. When an event is about to be
+	dispatched to a target object, the list of current listeners is captured
+	before any event listeners are dispatched on the target. Listeners which
+	are newly added after the event dispatch begins will not affect the order of
+	listeners in the captured list, although listeners which are removed after
+	dispatch begins will be removed.
 
 	<p class="note">
-	Initially capturing the candidate event handlers prevents infinite loops of
-	event listener dispatch on a given target object.
+	Initially capturing the candidate event handlers and not allowing new
+	listeners to be added prevents infinite loops of event listener dispatch on
+	a given target object.
 	</p>
 
 : <dfn>character value</dfn>
