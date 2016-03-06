@@ -3,7 +3,10 @@ var NUM_HEADER_ROWS = 2;
 var MAX_OUTPUT_ROWS = 100 + NUM_HEADER_ROWS;
 
 // Sequence ID for numbering events.
-var seqId = 1;
+var _seqId = 1;
+
+// True if the current row is a 'keydown' event.
+var _isKeydown = false;
 
 function clearChildren(e) {
 	while (e.firstChild !== null) {
@@ -50,7 +53,9 @@ function init() {
 }
 
 function onKeyDown(e) {
+    _isKeydown = true;
 	handleKeyEvent("keydown", e);
+    _isKeydown = false;
 }
 
 function onKeyPress(e) {
@@ -92,7 +97,11 @@ function addOutputRow() {
 		table.deleteRow(-1);
 	}
 	// Insert after the header rows.
-	return table.insertRow(NUM_HEADER_ROWS);
+	var row = table.insertRow(NUM_HEADER_ROWS);
+	if (_isKeydown && document.getElementById("hl_keydown").checked) {
+	    row.classList.add("keydown_row_hilight");
+	}
+	return row;
 }
 
 function handleInputEvent(etype, e) {
@@ -184,7 +193,7 @@ function addCompositionEvent(etype, e) {
 /* Create the event table row from the event info */
 function addEvent(eventinfo) {
 	var row = addOutputRow();
-	addTableCellText(row, seqId, "etype");
+	addTableCellText(row, _seqId, "etype");
 	addTableCell(row, eventinfo["etype"], "etype");
 	addTableCell(row, eventinfo["charCode"], "legacy");
 	addTableCell(row, eventinfo["keyCode"], "legacy");
@@ -292,7 +301,7 @@ function calcRichString(eventType, data, addArrow) {
 function resetTable() {
 	clearTable();
 	createTableHeader();
-	seqId = 1;
+	_seqId = 1;
 
 	var input = document.getElementById("input");
 	input.value = "";
@@ -306,7 +315,7 @@ function clearTable() {
 function addInputCell(row) {
 	var value = document.getElementById("input").value;
 	addTableCellText(row, "'" + value + "'", "inputbox", undefined, undefined, "left");
-	seqId++;
+	_seqId++;
 }
 
 function addTableCellBoolean(row, key, celltype) {
