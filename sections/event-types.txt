@@ -3609,99 +3609,28 @@ events.
 
 	<h4 id="events-composition-key-events">Key Events During Composition</h4>
 
-		During the composition session, all EVENT{keydown} and EVENT{keyup}
-		events MAY be suppressed.
+		During the composition session, EVENT{keydown} and EVENT{keyup} events
+		MUST still be sent, and these events MUST have the
+		{{KeyboardEvent/isComposing}} attribute set to <code>true</code>.
 
-		<h5 id="events-composition-event-including-key-events">Including Key Events During Composition</h5>
-
-			If a <a>user agent</a> does not suppress these events during
-			composition, then it MUST set the key event's
-			{{KeyboardEvent/isComposing}} attribute to <code>true</code> for any
-			events that occur during a composition session.
-
-			++---+-------------------+-------------------------------+------------------------------+
-			=| # | Event Type        | {{KeyboardEvent}}<br/>        | Notes                        |
-			 |   |                   | {{KeyboardEvent/isComposing}} |                              |
-			 +---+-------------------+-------------------------------+------------------------------+
-			+| 1 | keydown           | false                         | This is the key event that   |
-			 |   |                   |                               | initiates the composition.   |
-			+| 2 | compositionstart  |                               |                              |
-			+| 3 | compositionupdate |                               |                              |
-			+| 4 | keyup             | true                          |                              |
-			+|   | ...               |                               | Any key events sent during   |
-			 |   |                   |                               | the composition session MUST |
-			 |   |                   |                               | have <code>isComposing</code>|
-			 |   |                   |                               | set to <code>true</code>.    |
-			+| 5 | keydown           | true                          | This is the key event that   |
-			 |   |                   |                               | exits the composition.       |
-			+| 6 | compositionend    |                               |                              |
-			+| 7 | keyup             | false                         |                              |
-			++---+-------------------+-------------------------------+------------------------------+
-
-		<h5 id="events-composition-event-suppressing-key-events">Suppressing Key Events During Composition</h5>
-
-			If key events are suppressed between EVENT{compositionstart} and
-			EVENT{compositionend}, then the first or last key pressed might
-			result in unmatched EVENT{keydown} and EVENT{keyup} events. If a
-			<a>user agent</a> suppresses key events during composition, then it
-			MUST ensure that all EVENT{keydown} and EVENT{keyup} events occur in
-			matching pairs.
-
-			To ensure that the initial EVENT{keydown} has a matching
-			EVENT{keyup}, a <a>user agent</a> might insert an extra EVENT{keyup}
-			to match the EVENT{keydown} that initiated a composition session, as
-			shown in the following example:
-
-			++---+-------------------+-------------------------------+-----------------------------------------+
-			=| # | Event Type        | {{KeyboardEvent}}<br/>        | Notes                                   |
-			 |   |                   | {{KeyboardEvent/isComposing}} |                                         |
-			 +---+-------------------+-------------------------------+-----------------------------------------+
-			+| 1 | keydown           | false                         | This is the key event that initiates    |
-			 |   |                   |                               | the composition.                        |
-			+| 2 | compositionstart  |                               |                                         |
-			+| 3 | compositionupdate |                               |                                         |
-			+| 4 | keyup             | true                          | This event would normally be suppressed |
-			 |   |                   |                               | because of the ongoing composition      |
-			 |   |                   |                               | session, but it is sent to match the    |
-			 |   |                   |                               | previously sent EVENT{keydown} event.   |
-			+|   | ...               |                               | Any other key events that occur during  |
-			 |   |                   |                               | the composition session are suppressed. |
-			+| 5 | compositionend    |                               |                                         |
-			++---+-------------------+-------------------------------+-----------------------------------------+
-
-			To ensure that the composition session doesn't end with a dangling
-			EVENT{keyup} event, a <a>user agent</a> can choose either (A) to
-			suppress this EVENT{keyup} event, or (B) to insert an extra
-			EVENT{keydown} event.
-
-			An example event sequence where both the EVENT{keydown} and
-			EVENT{keyup} events have been suppressed:
-
-			++---+----------------+-------------------------------+-------------------------------------------------+
-			=| # | Event Type     | {{KeyboardEvent}}<br/>        | Notes                                           |
-			 |   |                | {{KeyboardEvent/isComposing}} |                                                 |
-			 +---+----------------+-------------------------------+-------------------------------------------------+
-			+|   |                |                               | <em>EVENT{keydown} for key that exits IME       |
-			 |   |                |                               | suppressed during composition session</em>      |
-			+| 1 | compositionend |                               |                                                 |
-			+|   |                |                               | <em>A EVENT{keyup} event would normally be sent |
-			 |   |                |                               | at this time, but it is suppressed to avoid     |
-			 |   |                |                               | generating an unmatched EVENT{keyup} event.</em>|
-			++---+----------------+-------------------------------+-------------------------------------------------+
-
-			An example event sequence where a EVENT{keydown} has been inserted:
-
-			++---+----------------+-------------------------------+-------------------------------------------------+
-			=| # | Event Type     | {{KeyboardEvent}}<br/>        | Notes                                           |
-			 |   |                | {{KeyboardEvent/isComposing}} |                                                 |
-			 +---+----------------+-------------------------------+-------------------------------------------------+
-			+|   |                |                               | <em>EVENT{keydown} for key that exits IME       |
-			 |   |                |                               | suppressed during composition session</em>      |
-			+| 1 | compositionend |                               |                                                 |
-			+| 2 | keydown        | false                         | This is key event that was suppressed earlier.  |
-			 |   |                |                               | It is sent now to match the upcoming EVENT{keyup}.|
-			+| 3 | keyup          | false                         |                                                 |
-			++---+----------------+-------------------------------+-------------------------------------------------+
+		++---+-------------------+-------------------------------+------------------------------+
+		=| # | Event Type        | {{KeyboardEvent}}<br/>        | Notes                        |
+		 |   |                   | {{KeyboardEvent/isComposing}} |                              |
+		 +-o-+o------------------+--------------o----------------+o-----------------------------+
+		+| 1 | keydown           | false                         | This is the key event that   |
+		 |   |                   |                               | initiates the composition.   |
+		+| 2 | compositionstart  |                               |                              |
+		+| 3 | compositionupdate |                               |                              |
+		+| 4 | keyup             | true                          |                              |
+		+|   | ...               |                               | Any key events sent during   |
+		 |   |                   |                               | the composition session MUST |
+		 |   |                   |                               | have <code>isComposing</code>|
+		 |   |                   |                               | set to <code>true</code>.    |
+		+| 5 | keydown           | true                          | This is the key event that   |
+		 |   |                   |                               | exits the composition.       |
+		+| 6 | compositionend    |                               |                              |
+		+| 7 | keyup             | false                         |                              |
+		++---+-------------------+-------------------------------+------------------------------+
 
 	<h4 id="events-composition-input-events">Input Events During Composition</h4>
 
@@ -3711,7 +3640,7 @@ events.
 
 		++---+-------------------+-----------------------------------------------+
 		=| # | Event Type        | Notes                                         |
-		+---+-------------------+-----------------------------------------------+
+		 +---+-------------------+-----------------------------------------------+
 		+| 1 | beforeinput       |                                               |
 		+| 2 | compositionupdate |                                               |
 		+|   |                   | <em>Any DOM updates occur at this point.</em> |
