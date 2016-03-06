@@ -3,10 +3,6 @@ import re
 import subprocess
 import sys
 
-def error(msg):
-	print 'Error: %s' % (msg)
-	sys.exit(1)
-
 class Parser():
 	"""Pre-bikeshed parser for uievents spec."""
 
@@ -19,12 +15,18 @@ class Parser():
 		self.in_table = False
 		self.table_type = ''
 		self.table_header_data = []
+		self.table_column_format = []
 		self.table_row_data = []
 		self.is_header_row = False
 
 		self.id = '0'
 		self.event = 'evy'
 		self.desc = 'desc'
+
+	def error(self, msg):
+		print self.curr_src, self.line
+		print 'Error: %s' % (msg)
+		sys.exit(1)
 
 	def event_type(self, type):
 		if type == '' or type == '...':
@@ -41,13 +43,19 @@ class Parser():
 		for i in range(0, len(self.table_row_data)):
 			data = self.table_row_data[i]
 			colname = self.table_header_data[i]
-			pre = '<td>'
+			align = self.table_column_format[i]
+			style = ''
+			if align == 'right':
+				style = ' style="text-align:right"'
+			elif align == 'center':
+				style = ' style="text-align:center"'
+			pre = '<td%s>' % style
 			post = '</td>'
 			if self.is_header_row:
-				pre = '<th>'
+				pre = '<th%s>' % style
 				post = '</th>'
 			if colname == '#':
-				pre = '<td class="cell-number">'
+				pre = '<td class="cell-number"%s>' % style
 				if self.is_header_row:
 					data = ''
 			if not self.is_header_row and data != '':
@@ -113,14 +121,14 @@ class Parser():
 
 	def process_line(self, line):
 		if self.in_table:
-			# Header rows begin with =
+			# Header rows begin with '=|'
 			m = re.match(r'^\s*\=\|(.*)\|$', line)
 			if m:
 				self.table_header_data = [x.strip() for x in m.group(1).split('|')]
 				self.is_header_row = True
 				return ''
 
-			# New data rows begin with =
+			# New data rows begin with '+|'
 			m = re.match(r'^\s*\+\|(.*)\|$', line)
 			if m:
 				result = self.table_row()
@@ -128,24 +136,41 @@ class Parser():
 				self.is_header_row = False
 				return result
 
-			# Separator lines: +---+----+-------+
-			m = re.match(r'^\s*\+--', line)
-			if m:
-				return ''
-
-			# Tables end with: ++---+----+-------+
+			# Tables end with: '++--'
 			m = re.match(r'^\s*\+\+--', line)
 			if m:
 				self.in_table = False
 				return self.table_row() + '</table>\n'
 
-			# Row continued from previous line.
+			# Separator lines begin with ' +' and end with '+'
+			# They may only contain '-', '+' and 'o'.
+			m = re.match(r'^\s* \+([\-\+o]+)\+', line)
+			if m:
+				# Separator lines may contain column formatting info.
+				num_columns = len(self.table_header_data)
+				format_data = [x.strip() for x in m.group(1).split('+')]
+				if len(format_data) != num_columns:
+					self.error('Unexpected number of columns (%d) in row (expected %d):\n%s'
+							% (len(format_data), num_columns, line))
+				for i in range(0, len(self.table_header_data)):
+					align = 'left'
+					if len(format_data[i]) != 0:
+						if format_data[i][0] == 'o':
+							align = 'left'
+						elif format_data[i][-1] == 'o':
+							align = 'right'
+						elif 'o' in format_data[i]:
+							align = 'center'
+					self.table_column_format.append(align)
+				return ''
+
+			# Row continued from previous line: ' |'
 			m = re.match(r'^\s*\|(.*)\|', line)
 			if m:
 				num_columns = len(self.table_header_data)
 				extra_data = [x.strip() for x in m.group(1).split('|')]
 				if len(extra_data) != num_columns:
-					error('Unexpected number of columns (%d) in row (expected %d):\n%s'
+					self.error('Unexpected number of columns (%d) in row (expected %d):\n%s'
 							% (len(extra_data), num_columns, line))
 				for i in range(0, len(self.table_header_data)):
 					if len(extra_data[i]) != 0:
@@ -155,7 +180,7 @@ class Parser():
 							self.table_row_data[i] += ' ' + extra_data[i]
 				return ''
 
-			error('Expected table line')
+			self.error('Expected table line: ' + line)
 			return('')
 
 		# Tables begin with: ++---+----+-------+
@@ -163,29 +188,34 @@ class Parser():
 		if m:
 			self.in_table = True
 			self.table_type = Parser.TABLE_TYPE_EVENT_SEQUENCE
+			self.table_header_data = []
+			self.table_column_format = []
 			self.table_row_data = []
 			return '<table class="event-sequence-table">\n'
 
 		return self.process_text(line)
 
 	def process(self, src, dst):
+		print 'Processing', src
 		self.curr_src = src
 		self.curr_dst = dst
 
 		if not os.path.isfile(src):
-			error('File "%s" doesn\'t exist' % src)
+			self.error('File "%s" doesn\'t exist' % src)
 
 		try:
 			infile = open(src, 'r')
 		except IOError as e:
-			error('Unable to open "%s" for reading: %s' % (src, e))
+			self.error('Unable to open "%s" for reading: %s' % (src, e))
 
 		try:
 			outfile = open(dst, 'w')
 		except IOError as e:
-			error('Unable to open "%s" for writing: %s' % (dst, e))
+			self.error('Unable to open "%s" for writing: %s' % (dst, e))
 
+		self.line = 0
 		for line in infile:
+			self.line += 1
 			new_line = self.process_line(line)
 			outfile.write(new_line)
 
@@ -220,6 +250,7 @@ def main():
 		parser = Parser()
 		parser.process(infilename, outfilename)
 
+	print 'Bikeshedding...'
 	subprocess.call(["bikeshed"])
 
 if __name__ == '__main__':
