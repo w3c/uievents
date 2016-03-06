@@ -1,8 +1,6 @@
-# uievents
+# UI Events
 
-## UI Events Specification
-
-This repository if for the [UI Events specification](https://w3c.github.io/uievents/) (formerly known as DOM 3 Events).
+This repository if for the [UI Events](https://w3c.github.io/uievents/) (formerly known as DOM 3 Events).
 
 ## Goals
 
@@ -65,6 +63,29 @@ Next call scheduled for Tuesday October 13th, 2015
 * [key Values Issues](https://github.com/w3c/uievents-key/issues)
 * [code Values Issues](https://github.com/w3c/uievents-code/issues)
 
+## Building
+
+This spec was created using [bikeshed](https://github.com/tabatkins/bikeshed).
+If you would like to contribute edits, please make sure that your changes
+build correctly.
+
+To **build** this spec:
+
+1. Clone this repo into a local directory.
+1. Install [bikeshed](https://github.com/tabatkins/bikeshed)
+1. Run `python build.py` in your local directory.
+
+To **make edits** to the spec:
+
+1. Edit the `index.bs` file or any of the `sections\*.txt` files.
+2. Build (as above). This will create a `sections\*.include` file for each
+    `*.txt` file and then create the `index.html`.
+
+When submitting pull requests, make sure you don't include any of the
+`sections\*.include` files in your changelist - they've all been added to the
+`.gitignore` file so that you don't include them accidentally. All changes
+should be made in the `sections\*.txt` files and `index.bs`.
+
 ## Testing
 
 * [Keyboard Event Viewer](https://cdn.rawgit.com/w3c/uievents/gh-pages/tools/key-event-viewer.html)
@@ -76,3 +97,10 @@ Next call scheduled for Tuesday October 13th, 2015
    * Tests are mirrored at w3c-test.org:
       * [uievents](http://w3c-test.org/uievents/)
       * [DOMEvents](http://w3c-test.org/DOMEvents/) - old
+
+## Recommendations
+
+If you enjoyed this spec, you might be interested in these other specs from the same publisher:
+
+* [UI Events KeyboardEvent code Values](https://w3c.github.io/uievents-code/)
+* [UI Events KeyboardEvent key Values](https://w3c.github.io/uievents-key/)
