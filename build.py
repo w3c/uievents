@@ -236,7 +236,6 @@ def main():
 		'legacy-event-types',
 		'extending-events',
 		'security',
-		'privacy',
 		'changes',
 		'acknowledgements',
 		'glossary',
