@@ -566,7 +566,6 @@ events.
 		never a part of the browser or operating system, even when switching
 		from one focus context to another.
 
-
 		Normally, a document always has a focused element (even if it is the
 		document element itself) and a persistent <a>focus ring</a>. When
 		switching between focus contexts, the document's currently focused
@@ -864,13 +863,17 @@ events.
 			readonly attribute long screenY;
 			readonly attribute long clientX;
 			readonly attribute long clientY;
+
 			readonly attribute boolean ctrlKey;
 			readonly attribute boolean shiftKey;
 			readonly attribute boolean altKey;
 			readonly attribute boolean metaKey;
+
 			readonly attribute short button;
-			readonly attribute EventTarget? relatedTarget;
 			readonly attribute unsigned short buttons;
+
+			readonly attribute EventTarget? relatedTarget;
+
 			boolean getModifierState(DOMString keyArg);
 		};
 		</pre>
@@ -983,13 +986,6 @@ events.
 				of this attribute MUST be <code>0</code>.
 			</dd>
 
-			<dt>MouseEvent . relatedTarget</dt>
-			<dd>
-				Used to identify a secondary {{EventTarget}} related to a UI event, depending on the type of event.
-
-				The <a>un-initialized value</a> of this attribute MUST be <code>null</code>.
-			</dd>
-
 			<dt>MouseEvent . buttons</dt>
 			<dd>
 				During any mouse events, <code>buttons</code> MUST be used to
@@ -998,7 +994,7 @@ events.
 
 				<p class="note">
 				Though similarly named, the values for the
-				{{MouseEvent/buttons}} attribute and the {{MouseEvent/button}
+				{{MouseEvent/buttons}} attribute and the {{MouseEvent/button}}
 				attribute are very different. The value of {{MouseEvent/button}}
 				is assumed to be valid during EVENT{mousedown} / EVENT{mouseup}
 				event handlers, whereas the {{MouseEvent/buttons}} attribute
@@ -1044,6 +1040,13 @@ events.
 				of this attribute MUST be <code>0</code>.
 			</dd>
 
+			<dt>MouseEvent . relatedTarget</dt>
+			<dd>
+				Used to identify a secondary {{EventTarget}} related to a UI event, depending on the type of event.
+
+				The <a>un-initialized value</a> of this attribute MUST be <code>null</code>.
+			</dd>
+
 			<dt>MouseEvent . getModifierState(keyArg)</dt>
 			<dd>
 				<p class="intro-dom">Introduced in this specification</p>
@@ -1071,6 +1074,7 @@ events.
 			long screenY = 0;
 			long clientX = 0;
 			long clientY = 0;
+
 			short button = 0;
 			unsigned short buttons = 0;
 			EventTarget? relatedTarget = null;
@@ -1186,6 +1190,7 @@ events.
 			boolean shiftKey = false;
 			boolean altKey = false;
 			boolean metaKey = false;
+
 			boolean modifierAltGraph = false;
 			boolean modifierCapsLock = false;
 			boolean modifierFn = false;
@@ -2393,6 +2398,7 @@ events.
 			const unsigned long DOM_DELTA_PIXEL = 0x00;
 			const unsigned long DOM_DELTA_LINE	= 0x01;
 			const unsigned long DOM_DELTA_PAGE	= 0x02;
+
 			readonly attribute double deltaX;
 			readonly attribute double deltaY;
 			readonly attribute double deltaZ;
@@ -2854,15 +2860,19 @@ events.
 			const unsigned long DOM_KEY_LOCATION_LEFT = 0x01;
 			const unsigned long DOM_KEY_LOCATION_RIGHT = 0x02;
 			const unsigned long DOM_KEY_LOCATION_NUMPAD = 0x03;
+
 			readonly attribute DOMString key;
 			readonly attribute DOMString code;
 			readonly attribute unsigned long location;
+
 			readonly attribute boolean ctrlKey;
 			readonly attribute boolean shiftKey;
 			readonly attribute boolean altKey;
 			readonly attribute boolean metaKey;
+
 			readonly attribute boolean repeat;
 			readonly attribute boolean isComposing;
+
 			boolean getModifierState(DOMString keyArg);
 		};
 		</pre>
