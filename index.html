@@ -2832,7 +2832,7 @@ portions of that content.</p>
     <p class="intro-dom">Introduced in DOM Level 3</p>
 <pre class="idl highlight def">[<dfn class="nv idl-code" data-dfn-for="InputEvent" data-dfn-type="constructor" data-export="" data-lt="InputEvent(type, eventInitDict)|InputEvent(type)" id="dom-inputevent-inputevent">Constructor<a class="self-link" href="#dom-inputevent-inputevent"></a></dfn>(<span class="kt">DOMString</span> <dfn class="nv idl-code" data-dfn-for="InputEvent/InputEvent(type, eventInitDict)" data-dfn-type="argument" data-export="" id="dom-inputevent-inputevent-type-eventinitdict-type">type<a class="self-link" href="#dom-inputevent-inputevent-type-eventinitdict-type"></a></dfn>, <span class="kt">optional</span> <a class="n" data-link-type="idl-name" href="#dictdef-inputeventinit" id="ref-for-dictdef-inputeventinit-1">InputEventInit</a> <dfn class="nv idl-code" data-dfn-for="InputEvent/InputEvent(type, eventInitDict)" data-dfn-type="argument" data-export="" id="dom-inputevent-inputevent-type-eventinitdict-eventinitdict">eventInitDict<a class="self-link" href="#dom-inputevent-inputevent-type-eventinitdict-eventinitdict"></a></dfn>)]
 <span class="kt">interface</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="interface" data-export="" id="inputevent">InputEvent</dfn> : <a class="n" data-link-type="idl-name" href="#uievent-uievent" id="ref-for-uievent-uievent-49">UIEvent</a> {
-  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">DOMString</span> <dfn class="nv dfn-paneled idl-code" data-dfn-for="InputEvent" data-dfn-type="attribute" data-export="" data-readonly="" data-type="DOMString" id="dom-inputevent-data">data</dfn>;
+  <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">DOMString</span>? <dfn class="nv dfn-paneled idl-code" data-dfn-for="InputEvent" data-dfn-type="attribute" data-export="" data-readonly="" data-type="DOMString?" id="dom-inputevent-data">data</dfn>;
   <span class="kt">readonly</span> <span class="kt">attribute</span> <span class="kt">boolean</span> <dfn class="nv dfn-paneled idl-code" data-dfn-for="InputEvent" data-dfn-type="attribute" data-export="" data-readonly="" data-type="boolean" id="dom-inputevent-iscomposing">isComposing</dfn>;
 };
 </pre>
@@ -2845,14 +2845,14 @@ portions of that content.</p>
 				SHOULD be normalized as defined by the Unicode normalization
 				form <em>NFC</em>, defined in <a data-link-type="biblio" href="#biblio-uax15">[UAX15]</a>.
 				This attribute MAY contain the <a data-link-type="dfn" href="#empty-string" id="ref-for-empty-string-1">empty string</a>. 
-      <p>The <a data-link-type="dfn" href="#un-initialized-value" id="ref-for-un-initialized-value-20">un-initialized value</a> of this attribute MUST be <code>""</code> (the empty string).</p>
+      <p>The <a data-link-type="dfn" href="#un-initialized-value" id="ref-for-un-initialized-value-20">un-initialized value</a> of this attribute MUST be <code>null</code>.</p>
      <dt><code>InputEvent . isComposing</code>
      <dd> <code>true</code> if the input event occurs as part of a
 				composition session, i.e., after a <a data-link-type="dfn" href="#compositionstart" id="ref-for-compositionstart-1"><code>compositionstart</code></a> event				and before the corresponding <a data-link-type="dfn" href="#compositionend" id="ref-for-compositionend-1"><code>compositionend</code></a> event.
 				The <a data-link-type="dfn" href="#un-initialized-value" id="ref-for-un-initialized-value-21">un-initialized value</a> of this attribute MUST be <code>false</code>. 
     </dl>
 <pre class="idl highlight def"><span class="kt">dictionary</span> <dfn class="nv dfn-paneled idl-code" data-dfn-type="dictionary" data-export="" id="dictdef-inputeventinit">InputEventInit</dfn> : <a class="n" data-link-type="idl-name" href="#dictdef-uieventinit-uieventinit" id="ref-for-dictdef-uieventinit-uieventinit-5">UIEventInit</a> {
-  <span class="kt">DOMString</span> <dfn class="nv idl-code" data-default="&quot;&quot;" data-dfn-for="InputEventInit" data-dfn-type="dict-member" data-export="" data-type="DOMString " id="dom-inputeventinit-data">data<a class="self-link" href="#dom-inputeventinit-data"></a></dfn> = "";
+  <span class="kt">DOMString</span>? <dfn class="nv idl-code" data-default="null" data-dfn-for="InputEventInit" data-dfn-type="dict-member" data-export="" data-type="DOMString?" id="dom-inputeventinit-data">data<a class="self-link" href="#dom-inputeventinit-data"></a></dfn> = <span class="kt">null</span>;
   <span class="kt">boolean</span> <dfn class="nv idl-code" data-default="false" data-dfn-for="InputEventInit" data-dfn-type="dict-member" data-export="" data-type="boolean " id="dom-inputeventinit-iscomposing">isComposing<a class="self-link" href="#dom-inputeventinit-iscomposing"></a></dfn> = <span class="kt">false</span>;
 };
 </pre>
@@ -2921,7 +2921,7 @@ portions of that content.</p>
          <li><code class="idl"><a data-link-type="idl" href="#uievent-uievent" id="ref-for-uievent-uievent-51">UIEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-uievent-detail" id="ref-for-dom-uievent-detail-21">detail</a></code> : <code>0</code>
          <li><code class="idl"><a data-link-type="idl" href="#inputevent" id="ref-for-inputevent-2">InputEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-inputevent-data" id="ref-for-dom-inputevent-data-1">data</a></code> :
 								the string containing the data that will be added to the element,
-								which MAY be the <a data-link-type="dfn" href="#empty-string" id="ref-for-empty-string-2">empty string</a> if the content has been deleted
+								which MAY be <code>null</code> if the content has been deleted
          <li><code class="idl"><a data-link-type="idl" href="#inputevent" id="ref-for-inputevent-3">InputEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-inputevent-iscomposing" id="ref-for-dom-inputevent-iscomposing-1">isComposing</a></code> : <code>true</code> if this event is dispatched during a <a href="#keys-dead">dead key</a> sequence or while an <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-1">input method editor</a> is active (such that <a href="#events-compositionevents">composition events</a> are being dispatched); <code>false</code> otherwise.
         </ul>
     </table>
@@ -2963,7 +2963,7 @@ portions of that content.</p>
          <li><code class="idl"><a data-link-type="idl" href="#uievent-uievent" id="ref-for-uievent-uievent-53">UIEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-uievent-detail" id="ref-for-dom-uievent-detail-22">detail</a></code> : <code>0</code>
          <li><code class="idl"><a data-link-type="idl" href="#inputevent" id="ref-for-inputevent-5">InputEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-inputevent-data" id="ref-for-dom-inputevent-data-2">data</a></code> :
 								the string containing the data that was added to the element,
-								which MAY be the <a data-link-type="dfn" href="#empty-string" id="ref-for-empty-string-3">empty string</a> if the content has been deleted
+								which MAY be <code>null</code> if the content has been deleted
          <li><code class="idl"><a data-link-type="idl" href="#inputevent" id="ref-for-inputevent-6">InputEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-inputevent-iscomposing" id="ref-for-dom-inputevent-iscomposing-2">isComposing</a></code> : <code>true</code> if this event is dispatched during a <a href="#keys-dead">dead key</a> sequence or while an <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-2">input method editor</a> is active (such that <a href="#events-compositionevents">composition events</a> are being dispatched); <code>false</code> otherwise.
         </ul>
     </table>
