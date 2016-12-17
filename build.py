@@ -115,6 +115,8 @@ class Parser():
 			pre = self.process_text(m.group(1))
 			name = m.group(2)
 			post = self.process_text(m.group(3))
+			if name[0:2] != 'U+':
+				self.error('Invalid Unicode value (expected U+xxxx): %s\n' % name)
 			desc = pre + '<code class="unicode">' + name + '</code>' + post
 
 		return desc
@@ -201,17 +203,17 @@ class Parser():
 		self.curr_dst = dst
 
 		if not os.path.isfile(src):
-			self.error('File "%s" doesn\'t exist' % src)
+			self.error('File "%s" doesn\'t exist\n' % src)
 
 		try:
 			infile = open(src, 'r')
 		except IOError as e:
-			self.error('Unable to open "%s" for reading: %s' % (src, e))
+			self.error('Unable to open "%s" for reading: %s\n' % (src, e))
 
 		try:
 			outfile = open(dst, 'w')
 		except IOError as e:
-			self.error('Unable to open "%s" for writing: %s' % (dst, e))
+			self.error('Unable to open "%s" for writing: %s\n' % (dst, e))
 
 		self.line = 0
 		for line in infile:
