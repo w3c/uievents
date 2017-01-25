@@ -3,6 +3,8 @@ import re
 import subprocess
 import sys
 
+DEBUG = False
+
 class Parser():
 	"""Pre-bikeshed parser for uievents spec."""
 
@@ -252,7 +254,10 @@ def main():
 		parser.process(infilename, outfilename)
 
 	print 'Bikeshedding...'
-	subprocess.call(["bikeshed"])
+	cmd = ["bikeshed", "spec"]
+	if DEBUG:
+		cmd.append('--line-numbers')
+	subprocess.call(cmd)
 
 if __name__ == '__main__':
 	main()
