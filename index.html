@@ -464,16 +464,15 @@ user agents for handling user interaction such as mouse and keyboard input.</p>
       <li>
        <a href="#keys-keyvalues"><span class="secno">5.3</span> <span class="content">Keyboard Event <code>key</code> Values</span></a>
        <ol class="toc">
-        <li><a href="#keys-unicode"><span class="secno">5.3.1</span> <span class="content">Key Values and Unicode</span></a>
-        <li><a href="#keys-modifiers"><span class="secno">5.3.2</span> <span class="content">Modifier keys</span></a>
-        <li><a href="#keys-dead"><span class="secno">5.3.3</span> <span class="content">Dead keys</span></a>
+        <li><a href="#keys-modifiers"><span class="secno">5.3.1</span> <span class="content">Modifier keys</span></a>
+        <li><a href="#keys-dead"><span class="secno">5.3.2</span> <span class="content">Dead keys</span></a>
         <li>
-         <a href="#keys-IME"><span class="secno">5.3.4</span> <span class="content">Input Method Editors</span></a>
+         <a href="#keys-IME"><span class="secno">5.3.3</span> <span class="content">Input Method Editors</span></a>
          <ol class="toc">
-          <li><a href="#keys-IME-keys"><span class="secno">5.3.4.1</span> <span class="content">Input Method Editor mode keys</span></a>
+          <li><a href="#keys-IME-keys"><span class="secno">5.3.3.1</span> <span class="content">Input Method Editor mode keys</span></a>
          </ol>
-        <li><a href="#keys-cancelable-keys"><span class="secno">5.3.5</span> <span class="content">Default actions and cancelable keyboard events</span></a>
-        <li><a href="#keys-guidelines"><span class="secno">5.3.6</span> <span class="content">Guidelines for selecting key values</span></a>
+        <li><a href="#keys-cancelable-keys"><span class="secno">5.3.4</span> <span class="content">Default actions and cancelable keyboard events</span></a>
+        <li><a href="#keys-guidelines"><span class="secno">5.3.5</span> <span class="content">Guidelines for selecting key values</span></a>
        </ol>
      </ol>
     <li>
@@ -1595,7 +1594,7 @@ used to activate a user interface control or select text).</p>
      <dd>
       <p class="intro-dom">Introduced in this specification</p>
       <p>Queries the state of a modifier using a key value.
-				See <a href="#keys-modifiers">§5.3.2 Modifier keys</a> for a list of valid (case-sensitive)
+				See <a href="#keys-modifiers">§5.3.1 Modifier keys</a> for a list of valid (case-sensitive)
 				arguments to this method.</p>
       <p>Returns <code>true</code> if it is a modifier key and the
 				modifier is activated, <code>false</code> otherwise.</p>
@@ -4193,65 +4192,7 @@ of each key.</p>
 	reserved for the multiplication symbol (<code class="glyph">"×"</code>, Unicode value <code class="unicode">U+00D7</code>) or the Latin small letter <code><a class="property" data-link-type="propdesc" href="https://www.w3.org/TR/svg2/geometry.html#XProperty">x</a></code> (due to the lack of a multiplication key on many keyboards and the
 	superficial resemblance of the glyphs <code class="glyph">"×"</code> and <code class="glyph">"x"</code>).  Thus,	the semantic meaning or function of character representations is outside the
 	scope of this specification.</p>
-    <h4 class="heading settled" data-level="5.3.1" id="keys-unicode"><span class="secno">5.3.1. </span><span class="content">Key Values and Unicode</span><a class="self-link" href="#keys-unicode"></a></h4>
-    <p>The <a data-link-type="dfn" href="#character-value" id="ref-for-character-value-8">character values</a> described in this specification are Unicode <a data-link-type="biblio" href="#biblio-unicode">[Unicode]</a> codepoints, and as such, have certain advantages.</p>
-    <p>The most obvious advantage is that it allows the content author to use
-		the full range of internationalized language functionality available in
-		the implementation, regardless of the limitations of the text input
-		devices on the system.  This opens up possibilities for virtual
-		keyboards and Web-application-based <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-3">input method editors</a>.</p>
-    <p>Another benefit is that it allows the content author to utilize the
-		Unicode general category properties programmatically.</p>
-    <p>With legacy keyboard event attributes such as <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-1">keyCode</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-1">charCode</a></code>, content authors are forced to filter key
-		input using cryptic, platform- and implementation-specific numeric
-		codes, with poor internationalization, such as the following pseudocode:</p>
-    <div class="example" id="example-4b0df828">
-     <a class="self-link" href="#example-4b0df828"></a> 
-<pre><code>if ( ( event.charCode == 45 || event.charCode == 36 ) ||
-   ( event.charCode >= 48 &amp;&amp; event.charCode &lt;= 57 ) ||
-   ( event.charCode >= 96 &amp;&amp; event.charCode &lt;= 105 ) ) {
-   <span class="comment">// minus sign, dollar sign, and numeric characters from keyboard and numpad</span>
-   <span class="comment">// ...</span>
-}
-else if ( ( event.charCode >= 65 &amp;&amp; event.charCode &lt;= 90 ) ||
-      ( event.charCode >= 97 &amp;&amp; event.charCode &lt;= 122 ) ) {
-   <span class="comment">// alphabetic characters from Latin character set, A-Z, a-z</span>
-   <span class="comment">// ...</span>
-}
-else {
-   <span class="comment">// ...</span>
-}
-</code></pre>
-    </div>
-    <p> With key values and regular expressions, however, content authors can
-		support selective and intuitive ranges for key-based input, in a
-		cross-platform manner with advanced internationalization support, such
-		as the following pseudocode: </p>
-    <div class="example" id="example-c59d7171">
-     <a class="self-link" href="#example-c59d7171"></a> 
-<pre><code>if ( event.key == "-" || event.key.match("\p{Sc}") || event.key.match("\p{N}") ) {
-   <span class="comment">// minus sign, any currency symbol, and numeric characters (regardless of key location)</span>
-   <span class="comment">// ...</span>
-}
-else if ( event.key.match("\p{L}") ) {
-   <span class="comment">// alphabetic characters from any language, upper and lower case</span>
-   <span class="comment">// ...</span>
-}
-else {
-   <span class="comment">// ...</span>
-}
-</code></pre>
-    </div>
-    <p>In addition, because Unicode <a href="unicode-character-categories">categorizes</a> each assigned <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#code-point">code point</a> into a group of code points used by a particular human
-		writing system, even more advanced capabilities are possible.</p>
-    <div class="example" id="example-f64923ae"><a class="self-link" href="#example-f64923ae"></a> A content author can match characters from a particular human script
-		(e.g., Tibetan) using a regular expression such as <code>\p{Tibetan}</code>, to filter out other characters, or discover if
-		a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#code-point">code point</a> is in a certain code block (range of code points),
-		using a regular expression like <code>\p{InCyrillic}</code>. </div>
-    <p>To facilitate this, implementations SHOULD support Unicode range
-		detection using regular expressions, in a manner such as the Perl
-		Compatible Regular Expressions (PCRE) <a data-link-type="biblio" href="#biblio-pcre">[PCRE]</a>.</p>
-    <h4 class="heading settled" data-level="5.3.2" id="keys-modifiers"><span class="secno">5.3.2. </span><span class="content">Modifier keys</span><a class="self-link" href="#keys-modifiers"></a></h4>
+    <h4 class="heading settled" data-level="5.3.1" id="keys-modifiers"><span class="secno">5.3.1. </span><span class="content">Modifier keys</span><a class="self-link" href="#keys-modifiers"></a></h4>
     <p>Keyboard input uses modifier keys to change the normal behavior of a
 		key. Like other keys, modifier keys generate <a data-link-type="dfn" href="#keydown" id="ref-for-keydown-23"><code>keydown</code></a> and <a data-link-type="dfn" href="#keyup" id="ref-for-keyup-18"><code>keyup</code></a> events, as shown in the example below. Some modifiers are		activated while the key is being pressed down or maintained pressed such
 		as <code class="keycap">Alt</code>, <code class="keycap">Control</code>, <code class="keycap">Shift</code>, <code class="keycap">AltGraph</code>, or <code class="keycap">Meta</code>. Others modifiers are activated depending on their state		such as <code class="keycap">CapsLock</code>, <code class="keycap">NumLock</code>, or <code class="keycap">ScrollLock</code>. Change		in the state happens when the modifier key is being pressed down. The <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-51">KeyboardEvent</a></code> interface provides convenient attributes for some
@@ -4505,7 +4446,7 @@ else {
     <p>In some cases, <a data-link-type="dfn" href="#modifier-key" id="ref-for-modifier-key-1">modifier keys</a> change the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-key" id="ref-for-dom-keyboardevent-key-34">key</a></code> value for a key event. For example, on some MacOS keyboards, the  key
 		labeled "delete" functions the same as the <code class="keycap">Backspace</code> key on the		Windows OS when unmodified, but when modified by the <code class="keycap">Fn</code> key,		acts as the <code class="keycap">Delete</code> key, and the value of <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-key" id="ref-for-dom-keyboardevent-key-35">key</a></code> will match the most appropriate function of the key in its current
 		modified state.</p>
-    <h4 class="heading settled" data-level="5.3.3" id="keys-dead"><span class="secno">5.3.3. </span><span class="content">Dead keys</span><a class="self-link" href="#keys-dead"></a></h4>
+    <h4 class="heading settled" data-level="5.3.2" id="keys-dead"><span class="secno">5.3.2. </span><span class="content">Dead keys</span><a class="self-link" href="#keys-dead"></a></h4>
     <p>Some keyboard input uses <a data-link-type="dfn" href="#dead-key" id="ref-for-dead-key-4">dead keys</a> for the input of composed
 		character sequences. Unlike the handwriting sequence, in which users
 		enter the base character first, keyboard input requires to enter a
@@ -4667,8 +4608,8 @@ else {
         <td>
      </table>
     </div>
-    <h4 class="heading settled" data-level="5.3.4" id="keys-IME"><span class="secno">5.3.4. </span><span class="content">Input Method Editors</span><a class="self-link" href="#keys-IME"></a></h4>
-    <p>This specification includes a model for <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-4">input method editors</a> (IMEs), through the <code class="idl"><a data-link-type="idl" href="#compositionevent" id="ref-for-compositionevent-13">CompositionEvent</a></code> interface and events.
+    <h4 class="heading settled" data-level="5.3.3" id="keys-IME"><span class="secno">5.3.3. </span><span class="content">Input Method Editors</span><a class="self-link" href="#keys-IME"></a></h4>
+    <p>This specification includes a model for <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-3">input method editors</a> (IMEs), through the <code class="idl"><a data-link-type="idl" href="#compositionevent" id="ref-for-compositionevent-13">CompositionEvent</a></code> interface and events.
 		However, Composition Events and Keyboard Events do not necessarily map
 		as a one-to-one relationship.  As an example, receiving a <a data-link-type="dfn" href="#keydown" id="ref-for-keydown-41"><code>keydown</code></a> for the <code class="keycap">Accept</code> key value does not necessarily imply that the		text currently selected in the <a data-link-type="dfn" href="#ime" id="ref-for-ime-5">IME</a> is being accepted, but
 		indicates only that a keystroke happened, disconnected from the <a data-link-type="dfn" href="#ime" id="ref-for-ime-6">IME</a> Accept functionality (which would normally result in a <a data-link-type="dfn" href="#compositionend" id="ref-for-compositionend-15"><code>compositionend</code></a> event in most <a data-link-type="dfn" href="#ime" id="ref-for-ime-7">IME</a> systems).  Keyboard		events cannot be used to determine the current state of the input method
@@ -5028,12 +4969,12 @@ else {
         <td>
      </table>
     </div>
-    <p class="note" role="note"> Some <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-5">input method editors</a> (such as on the MacOS operating system)
+    <p class="note" role="note"> Some <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-4">input method editors</a> (such as on the MacOS operating system)
 		might set an <a data-link-type="dfn" href="#empty-string" id="ref-for-empty-string-11">empty string</a> to the composition data attribute
 		before canceling a composition. </p>
-    <h5 class="heading settled" data-level="5.3.4.1" id="keys-IME-keys"><span class="secno">5.3.4.1. </span><span class="content">Input Method Editor mode keys</span><a class="self-link" href="#keys-IME-keys"></a></h5>
-    <p>Some keys on certain devices are intended to activate <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-6">input
-			method editor</a> functionality, or to change the mode of an active <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-7">input method editor</a>.  Custom keys for this purpose can be
+    <h5 class="heading settled" data-level="5.3.3.1" id="keys-IME-keys"><span class="secno">5.3.3.1. </span><span class="content">Input Method Editor mode keys</span><a class="self-link" href="#keys-IME-keys"></a></h5>
+    <p>Some keys on certain devices are intended to activate <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-5">input
+			method editor</a> functionality, or to change the mode of an active <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-6">input method editor</a>.  Custom keys for this purpose can be
 			defined for different devices or language modes. The keys defined in
 			this specification for this purpose are: <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-Alphanumeric">Alphanumeric</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-CodeInput">CodeInput</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-FinalMode">FinalMode</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-HangulMode">HangulMode</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-HanjaMode">HanjaMode</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-Hiragana">Hiragana</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-JunjaMode">JunjaMode</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-KanaMode">KanaMode</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-KanjiMode">KanjiMode</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-Katakana">Katakana</a>"</code>, and <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-RomanCharacters">RomanCharacters</a>"</code>.  When one of these keys is			pressed, and no <a data-link-type="dfn" href="#ime" id="ref-for-ime-10">IME</a> is currently active, the appropriate <a data-link-type="dfn" href="#ime" id="ref-for-ime-11">IME</a> is expected to be activated in the mode indicated by the
 			key (if available). If an <a data-link-type="dfn" href="#ime" id="ref-for-ime-12">IME</a> is already active when the key
@@ -5041,12 +4982,12 @@ else {
 			mode, or a different <a data-link-type="dfn" href="#ime" id="ref-for-ime-14">IME</a> might be launched, or the might MAY
 			be ignored, on a device- and application-specific basis.</p>
     <p>This specification also defines other keys which are intended for
-			operation specifically with <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-8">input method editors</a>: <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-Accept">Accept</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-AllCandidates">AllCandidates</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-Cancel">Cancel</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-Convert">Convert</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-Compose">Compose</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-FullWidth">FullWidth</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-HalfWidth">HalfWidth</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-NextCandidate">NextCandidate</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-Nonconvert">Nonconvert</a>"</code>, and <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-PreviousCandidate">PreviousCandidate</a>"</code>.  The functions of these			keys are not defined in this specification — refer to other
-			resources for details on <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-9">input method editor</a> functionality.</p>
-    <p class="note" role="note"> Keys with <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-10">input method editor</a> functions are not restricted to
+			operation specifically with <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-7">input method editors</a>: <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-Accept">Accept</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-AllCandidates">AllCandidates</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-Cancel">Cancel</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-Convert">Convert</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-Compose">Compose</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-FullWidth">FullWidth</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-HalfWidth">HalfWidth</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-NextCandidate">NextCandidate</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-Nonconvert">Nonconvert</a>"</code>, and <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-PreviousCandidate">PreviousCandidate</a>"</code>.  The functions of these			keys are not defined in this specification — refer to other
+			resources for details on <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-8">input method editor</a> functionality.</p>
+    <p class="note" role="note"> Keys with <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-9">input method editor</a> functions are not restricted to
 			that purpose, and can have other device- or implementation-specific
 			purposes. </p>
-    <h4 class="heading settled" data-level="5.3.5" id="keys-cancelable-keys"><span class="secno">5.3.5. </span><span class="content">Default actions and cancelable keyboard events</span><a class="self-link" href="#keys-cancelable-keys"></a></h4>
+    <h4 class="heading settled" data-level="5.3.4" id="keys-cancelable-keys"><span class="secno">5.3.4. </span><span class="content">Default actions and cancelable keyboard events</span><a class="self-link" href="#keys-cancelable-keys"></a></h4>
     <p>Canceling the <a data-link-type="dfn" href="#default-action" id="ref-for-default-action-28">default action</a> of a <a data-link-type="dfn" href="#keydown" id="ref-for-keydown-52"><code>keydown</code></a> event MUST NOT		affect its respective <a data-link-type="dfn" href="#keyup" id="ref-for-keyup-46"><code>keyup</code></a> event, but it MUST prevent the		respective <a data-link-type="dfn" href="#beforeinput" id="ref-for-beforeinput-24"><code>beforeinput</code></a> and <a data-link-type="dfn" href="#input" id="ref-for-input-25"><code>input</code></a> (and <a data-link-type="dfn" href="#keypress" id="ref-for-keypress-4"><code>keypress</code></a> if		supported) events from being generated. The following example describes
 		a possible sequence of keys to generate the Unicode character Q (Latin
 		Capital Letter Q) on a US keyboard using a US mapping:</p>
@@ -5208,7 +5149,7 @@ else {
         <td>
      </table>
     </div>
-    <h4 class="heading settled" data-level="5.3.6" id="keys-guidelines"><span class="secno">5.3.6. </span><span class="content">Guidelines for selecting key values</span><a class="self-link" href="#keys-guidelines"></a></h4>
+    <h4 class="heading settled" data-level="5.3.5" id="keys-guidelines"><span class="secno">5.3.5. </span><span class="content">Guidelines for selecting key values</span><a class="self-link" href="#keys-guidelines"></a></h4>
     <p><strong>This section is normative.</strong></p>
     <p>To determine the appropriate key value for a key, use the following
 		algorithm:</p>
@@ -5495,7 +5436,7 @@ they address accessibility concerns.</p>
     <p>Therefore, this specification does not normatively define the events and
 attributes commonly employed for handling keyboard input, though they MAY be
 present in <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-41">user agents</a> for compatibility with legacy content. Authors
-SHOULD use the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-key" id="ref-for-dom-keyboardevent-key-47">key</a></code> attribute instead of the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-2">charCode</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-2">keyCode</a></code> attributes.</p>
+SHOULD use the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-key" id="ref-for-dom-keyboardevent-key-47">key</a></code> attribute instead of the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-1">charCode</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-1">keyCode</a></code> attributes.</p>
     <p>However, for the purpose of documenting the current state of these features and
 their relation to normative events and attributes, this section provides an
 informative description. For implementations which do support these attributes
@@ -5504,16 +5445,16 @@ used.</p>
     <h3 class="heading settled" data-level="7.1" id="legacy-KeyboardEvent"><span class="secno">7.1. </span><span class="content">Legacy <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-69">KeyboardEvent</a></code> supplemental interface</span><a class="self-link" href="#legacy-KeyboardEvent"></a></h3>
     <p><em>This section is non-informative</em></p>
     <p>Browser support for keyboards has traditionally relied on three ad-hoc
-	attributes, <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-3">keyCode</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-3">charCode</a></code>, and <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-which" id="ref-for-dom-keyboardevent-which-1">which</a></code>.</p>
+	attributes, <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-2">keyCode</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-2">charCode</a></code>, and <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-which" id="ref-for-dom-keyboardevent-which-1">which</a></code>.</p>
     <p>All three of these attributes return a numerical code that represents some
-	aspect of the key pressed: <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-4">keyCode</a></code> is an index of the key
-	itself. <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-4">charCode</a></code> is the ASCII value of the character keys. <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-which" id="ref-for-dom-keyboardevent-which-2">which</a></code> is the character value where available and otherwise
+	aspect of the key pressed: <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-3">keyCode</a></code> is an index of the key
+	itself. <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-3">charCode</a></code> is the ASCII value of the character keys. <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-which" id="ref-for-dom-keyboardevent-which-2">which</a></code> is the character value where available and otherwise
 	the key index. The values for these attributes, and the availability of the
 	attribute, is inconsistent across platforms, keyboard languages and layouts, <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-42">user agents</a>, versions, and even event types.</p>
     <h4 class="heading settled" data-level="7.1.1" id="legacy-interface-KeyboardEvent"><span class="secno">7.1.1. </span><span class="content">Interface KeyboardEvent (supplemental)</span><a class="self-link" href="#legacy-interface-KeyboardEvent"></a></h4>
     <p class="intro-dom">Introduced in this specification</p>
     <p>The partial <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-70">KeyboardEvent</a></code> interface is an informative extension of
-		the <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-71">KeyboardEvent</a></code> interface, which adds the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-5">charCode</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-5">keyCode</a></code>, and <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-which" id="ref-for-dom-keyboardevent-which-3">which</a></code> attributes.</p>
+		the <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-71">KeyboardEvent</a></code> interface, which adds the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-4">charCode</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-4">keyCode</a></code>, and <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-which" id="ref-for-dom-keyboardevent-which-3">which</a></code> attributes.</p>
     <p>The partial <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-72">KeyboardEvent</a></code> interface can be obtained by using the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-document-createevent">createEvent()</a></code> method call in
 		implementations that support this extension.</p>
 <pre class="idl highlight def"><span class="kt">partial</span> <span class="kt">interface</span> <a class="nv idl-code" data-link-type="interface" href="#keyboardevent" id="ref-for-keyboardevent-73">KeyboardEvent</a> {
@@ -5525,31 +5466,31 @@ used.</p>
 </pre>
     <dl>
      <dt><code>KeyboardEvent . charCode</code>
-     <dd> <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-6">charCode</a></code> holds a character value, for <a data-link-type="dfn" href="#keypress" id="ref-for-keypress-6"><code>keypress</code></a> events which generate character input. The value				is the Unicode reference number (code point) of that character
+     <dd> <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-5">charCode</a></code> holds a character value, for <a data-link-type="dfn" href="#keypress" id="ref-for-keypress-6"><code>keypress</code></a> events which generate character input. The value				is the Unicode reference number (code point) of that character
 				(e.g. <code>event.charCode = event.key.charCodeAt(0)</code> for
-				printable characters). For <a data-link-type="dfn" href="#keydown" id="ref-for-keydown-60"><code>keydown</code></a> or <a data-link-type="dfn" href="#keyup" id="ref-for-keyup-54"><code>keyup</code></a> events, the value of <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-7">charCode</a></code> is <code>0</code>. 
+				printable characters). For <a data-link-type="dfn" href="#keydown" id="ref-for-keydown-60"><code>keydown</code></a> or <a data-link-type="dfn" href="#keyup" id="ref-for-keyup-54"><code>keyup</code></a> events, the value of <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-6">charCode</a></code> is <code>0</code>. 
      <dt><code>KeyboardEvent . keyCode</code>
-     <dd> <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-6">keyCode</a></code> holds a system- and
+     <dd> <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-5">keyCode</a></code> holds a system- and
 				implementation-dependent numerical code signifying the
 				unmodified identifier associated with the key pressed. Unlike
 				the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-key" id="ref-for-dom-keyboardevent-key-48">key</a></code> attribute, the set of possible values
 				are not normatively defined in this specification. Typically,
-				these value of the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-7">keyCode</a></code> SHOULD represent
+				these value of the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-6">keyCode</a></code> SHOULD represent
 				the decimal codepoint in ASCII <a data-link-type="biblio" href="#biblio-rfc20">[RFC20]</a><a data-link-type="biblio" href="#biblio-us-ascii">[US-ASCII]</a> or Windows
 				1252 <a data-link-type="biblio" href="#biblio-win1252">[WIN1252]</a>, but MAY be drawn from a different appropriate
 				character set. Implementations that are unable to identify a key
 				use the key value <code class="keycap">0</code>.
 				See <a href="#legacy-key-models">§7.2 Legacy key models</a> for more details on how to determine
-				the values for <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-8">keyCode</a></code>. 
+				the values for <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-7">keyCode</a></code>. 
      <dt><code>KeyboardEvent . which</code>
      <dd> <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-which" id="ref-for-dom-keyboardevent-which-4">which</a></code> holds a system- and implementation-dependent
 				numerical code signifying the unmodified identifier associated
-				with the key pressed. In most cases, the value is identical to <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-9">keyCode</a></code>. 
+				with the key pressed. In most cases, the value is identical to <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-8">keyCode</a></code>. 
     </dl>
     <h4 class="heading settled" data-level="7.1.2" id="legacy-dictionary-KeyboardEventInit"><span class="secno">7.1.2. </span><span class="content">Interface KeyboardEventInit (supplemental)</span><a class="self-link" href="#legacy-dictionary-KeyboardEventInit"></a></h4>
-    <p>Browsers that include support for <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-10">keyCode</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-8">charCode</a></code>, and <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-which" id="ref-for-dom-keyboardevent-which-5">which</a></code> in <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-74">KeyboardEvent</a></code> should also add the following members to the <code class="idl"><a data-link-type="idl" href="#dictdef-keyboardeventinit" id="ref-for-dictdef-keyboardeventinit-3">KeyboardEventInit</a></code> dictionary.</p>
+    <p>Browsers that include support for <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-9">keyCode</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-7">charCode</a></code>, and <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-which" id="ref-for-dom-keyboardevent-which-5">which</a></code> in <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-74">KeyboardEvent</a></code> should also add the following members to the <code class="idl"><a data-link-type="idl" href="#dictdef-keyboardeventinit" id="ref-for-dictdef-keyboardeventinit-3">KeyboardEventInit</a></code> dictionary.</p>
     <p>The partial <code class="idl"><a data-link-type="idl" href="#dictdef-keyboardeventinit" id="ref-for-dictdef-keyboardeventinit-4">KeyboardEventInit</a></code> dictionary is an informative extension
-		of the <code class="idl"><a data-link-type="idl" href="#dictdef-keyboardeventinit" id="ref-for-dictdef-keyboardeventinit-5">KeyboardEventInit</a></code> dictionary, which adds <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-9">charCode</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-11">keyCode</a></code>, and <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-which" id="ref-for-dom-keyboardevent-which-6">which</a></code> members to initialize the corresponding <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-75">KeyboardEvent</a></code> attributes.</p>
+		of the <code class="idl"><a data-link-type="idl" href="#dictdef-keyboardeventinit" id="ref-for-dictdef-keyboardeventinit-5">KeyboardEventInit</a></code> dictionary, which adds <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-8">charCode</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-10">keyCode</a></code>, and <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-which" id="ref-for-dom-keyboardevent-which-6">which</a></code> members to initialize the corresponding <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-75">KeyboardEvent</a></code> attributes.</p>
 <pre class="idl-ignore" data-highlight="webidl" data-no-idl="">partial dictionary KeyboardEventInit {
   // The following support legacy user agents
   unsigned long charCode = 0;
@@ -5559,25 +5500,25 @@ used.</p>
 </pre>
     <dl>
      <dt><code>KeyboardEventInit . charCode</code>
-     <dd> Initializes the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-10">charCode</a></code> attribute of the <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-76">KeyboardEvent</a></code> to the Unicode code point for the event’s
+     <dd> Initializes the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-9">charCode</a></code> attribute of the <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-76">KeyboardEvent</a></code> to the Unicode code point for the event’s
 				character. 
      <dt><code>KeyboardEventInit . keyCode</code>
-     <dd> Initializes the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-12">keyCode</a></code> attribute of the <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-77">KeyboardEvent</a></code> to the system- and implementation-dependent
+     <dd> Initializes the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-11">keyCode</a></code> attribute of the <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-77">KeyboardEvent</a></code> to the system- and implementation-dependent
 				numerical code signifying the unmodified identifier associated
 				with the key pressed. 
      <dt><code>KeyboardEventInit . which</code>
      <dd> Initializes the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-which" id="ref-for-dom-keyboardevent-which-7">which</a></code> attribute of the <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-78">KeyboardEvent</a></code> to the implementation-dependent numerical code
 				signifying the unmodified identifier associated with the key
-				pressed. In most cases, the value is identical to <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-13">keyCode</a></code>. 
+				pressed. In most cases, the value is identical to <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-12">keyCode</a></code>. 
     </dl>
     <h3 class="heading settled" data-level="7.2" id="legacy-key-models"><span class="secno">7.2. </span><span class="content">Legacy key models</span><a class="self-link" href="#legacy-key-models"></a></h3>
     <p><em>This section is non-normative</em></p>
     <p>Implementations differ on which values are exposed on these attributes for
 	different event types. An implementation MAY choose to expose both virtual
-	key codes and character codes in the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-14">keyCode</a></code> property
-	(<em>conflated model</em>), or report separate <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-15">keyCode</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-11">charCode</a></code> properties (<em>split model</em>).</p>
-    <h4 class="heading settled" data-level="7.2.1" id="determine-keydown-keyup-keyCode"><span class="secno">7.2.1. </span><span class="content">How to determine <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-16">keyCode</a></code> for <a data-link-type="dfn" href="#keydown" id="ref-for-keydown-61"><code>keydown</code></a> and <a data-link-type="dfn" href="#keyup" id="ref-for-keyup-55"><code>keyup</code></a> events</span><a class="self-link" href="#determine-keydown-keyup-keyCode"></a></h4>
-     The <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-17">keyCode</a></code> for <a data-link-type="dfn" href="#keydown" id="ref-for-keydown-62"><code>keydown</code></a> or <a data-link-type="dfn" href="#keyup" id="ref-for-keyup-56"><code>keyup</code></a> events		is calculated as follows: 
+	key codes and character codes in the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-13">keyCode</a></code> property
+	(<em>conflated model</em>), or report separate <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-14">keyCode</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-10">charCode</a></code> properties (<em>split model</em>).</p>
+    <h4 class="heading settled" data-level="7.2.1" id="determine-keydown-keyup-keyCode"><span class="secno">7.2.1. </span><span class="content">How to determine <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-15">keyCode</a></code> for <a data-link-type="dfn" href="#keydown" id="ref-for-keydown-61"><code>keydown</code></a> and <a data-link-type="dfn" href="#keyup" id="ref-for-keyup-55"><code>keyup</code></a> events</span><a class="self-link" href="#determine-keydown-keyup-keyCode"></a></h4>
+     The <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-16">keyCode</a></code> for <a data-link-type="dfn" href="#keydown" id="ref-for-keydown-62"><code>keydown</code></a> or <a data-link-type="dfn" href="#keyup" id="ref-for-keyup-56"><code>keyup</code></a> events		is calculated as follows: 
     <ul>
      <li data-md="">
       <p>Read the virtual key code from the operating system’s event
@@ -5605,14 +5546,14 @@ code.</p>
      <li data-md="">
       <p>If no key code was found, return 0.</p>
     </ul>
-    <h4 class="heading settled" data-level="7.2.2" id="determine-keypress-keyCode"><span class="secno">7.2.2. </span><span class="content">How to determine <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-18">keyCode</a></code> for <a data-link-type="dfn" href="#keypress" id="ref-for-keypress-7"><code>keypress</code></a> events</span><a class="self-link" href="#determine-keypress-keyCode"></a></h4>
-     The <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-19">keyCode</a></code> for <a data-link-type="dfn" href="#keypress" id="ref-for-keypress-8"><code>keypress</code></a> events is calculated		as follows: 
+    <h4 class="heading settled" data-level="7.2.2" id="determine-keypress-keyCode"><span class="secno">7.2.2. </span><span class="content">How to determine <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-17">keyCode</a></code> for <a data-link-type="dfn" href="#keypress" id="ref-for-keypress-7"><code>keypress</code></a> events</span><a class="self-link" href="#determine-keypress-keyCode"></a></h4>
+     The <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-18">keyCode</a></code> for <a data-link-type="dfn" href="#keypress" id="ref-for-keypress-8"><code>keypress</code></a> events is calculated		as follows: 
     <ul>
      <li data-md="">
-      <p>If the implementation supports a <em>conflated model</em>, set <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-20">keyCode</a></code> to the Unicode code point of the character
+      <p>If the implementation supports a <em>conflated model</em>, set <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-19">keyCode</a></code> to the Unicode code point of the character
 being entered.</p>
      <li data-md="">
-      <p>If the implementation supports a <em>split model</em>, set <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-21">keyCode</a></code> to 0.</p>
+      <p>If the implementation supports a <em>split model</em>, set <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-20">keyCode</a></code> to 0.</p>
     </ul>
     <h4 class="heading settled" data-level="7.2.3" id="fixed-virtual-key-codes"><span class="secno">7.2.3. </span><span class="content">Fixed virtual key codes</span><a class="self-link" href="#fixed-virtual-key-codes"></a></h4>
     <p>The virtual key codes for the following keys do not usually change with
@@ -6172,7 +6113,7 @@ completeness.</p>
     </table>
     <h3 class="heading settled" data-level="8.3" id="legacy-keyboardevent-events"><span class="secno">8.3. </span><span class="content">Legacy <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-80">KeyboardEvent</a></code> events</span><a class="self-link" href="#legacy-keyboardevent-events"></a></h3>
     <p>The <a data-link-type="dfn" href="#keypress" id="ref-for-keypress-10"><code>keypress</code></a> event is the traditional method for capturing key events	and processing them before the DOM is updated with the effects of the key
-	press. Code that makes use of the <a data-link-type="dfn" href="#keypress" id="ref-for-keypress-11"><code>keypress</code></a> event typically relies on	the legacy <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-12">charCode</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-22">keyCode</a></code>, and <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-which" id="ref-for-dom-keyboardevent-which-8">which</a></code> attributes.</p>
+	press. Code that makes use of the <a data-link-type="dfn" href="#keypress" id="ref-for-keypress-11"><code>keypress</code></a> event typically relies on	the legacy <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-11">charCode</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-21">keyCode</a></code>, and <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-which" id="ref-for-dom-keyboardevent-which-8">which</a></code> attributes.</p>
     <p>Note that the <a data-link-type="dfn" href="#keypress" id="ref-for-keypress-12"><code>keypress</code></a> event is specific to key events, and has been	replaced by the more general event sequence of <a data-link-type="dfn" href="#beforeinput" id="ref-for-beforeinput-29"><code>beforeinput</code></a> and <a data-link-type="dfn" href="#input" id="ref-for-input-30"><code>input</code></a> events. These new <code>input</code> events are not specific to	keyboard actions and can be used to capture user input regardless of the
 	original source.</p>
     <h4 class="heading settled" data-level="8.3.1" id="legacy-keyboardevent-event-types"><span class="secno">8.3.1. </span><span class="content">Legacy <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-81">KeyboardEvent</a></code> event types</span><a class="self-link" href="#legacy-keyboardevent-event-types"></a></h4>
@@ -6212,9 +6153,9 @@ completeness.</p>
 									focused element processing the key event or if no element focused, then the <a data-link-type="dfn" href="#body-element" id="ref-for-body-element-5">body element</a> if available, otherwise the <a data-link-type="dfn" href="#root-element" id="ref-for-root-element-6">root element</a>
          <li><code class="idl"><a data-link-type="idl" href="#uievent" id="ref-for-uievent-77">UIEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-uievent-view" id="ref-for-dom-uievent-view-35">view</a></code> : <a data-link-type="dfn" href="#window" id="ref-for-window-46"><code>Window</code></a>
          <li><code class="idl"><a data-link-type="idl" href="#uievent" id="ref-for-uievent-78">UIEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-uievent-detail" id="ref-for-dom-uievent-detail-36">detail</a></code> : <code>0</code>
-         <li><code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-83">KeyboardEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-13">charCode</a></code> :
+         <li><code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-83">KeyboardEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-12">charCode</a></code> :
 								legacy character value for this event
-         <li><code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-84">KeyboardEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-23">keyCode</a></code> :
+         <li><code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-84">KeyboardEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-22">keyCode</a></code> :
 								legacy numerical code for this key
          <li><code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-85">KeyboardEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-which" id="ref-for-dom-keyboardevent-which-9">which</a></code> :
 								legacy numerical code for this key
@@ -6234,13 +6175,13 @@ completeness.</p>
     </table>
     <p>If supported by a <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-54">user agent</a>, this event MUST be dispatched
 			when a key is pressed down, if and only if that key normally
-			produces a <a data-link-type="dfn" href="#character-value" id="ref-for-character-value-9">character value</a>. The <a data-link-type="dfn" href="#keypress" id="ref-for-keypress-13"><code>keypress</code></a> event type is			device dependent and relies on the capabilities of the input devices
+			produces a <a data-link-type="dfn" href="#character-value" id="ref-for-character-value-8">character value</a>. The <a data-link-type="dfn" href="#keypress" id="ref-for-keypress-13"><code>keypress</code></a> event type is			device dependent and relies on the capabilities of the input devices
 			and how they are mapped in the operating system.</p>
     <p>This event type MUST be generated after the <a data-link-type="dfn" href="#key-mapping" id="ref-for-key-mapping-5">key mapping</a>. It
-			MUST NOT be fired when using an <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-11">input method editor</a>.</p>
+			MUST NOT be fired when using an <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-10">input method editor</a>.</p>
     <p>If this event is canceled, it should prevent the <a data-link-type="dfn" href="#input" id="ref-for-input-31"><code>input</code></a> event			from firing, in addition to canceling the <a data-link-type="dfn" href="#default-action" id="ref-for-default-action-40">default action</a>.</p>
     <p>Authors SHOULD use the <a data-link-type="dfn" href="#beforeinput" id="ref-for-beforeinput-30"><code>beforeinput</code></a> event instead of the <a data-link-type="dfn" href="#keypress" id="ref-for-keypress-14"><code>keypress</code></a> event.</p>
-    <p class="note" role="note"> The <a data-link-type="dfn" href="#keypress" id="ref-for-keypress-15"><code>keypress</code></a> event is traditionally associated with detecting			a <a data-link-type="dfn" href="#character-value" id="ref-for-character-value-10">character value</a> rather than a physical key, and might not
+    <p class="note" role="note"> The <a data-link-type="dfn" href="#keypress" id="ref-for-keypress-15"><code>keypress</code></a> event is traditionally associated with detecting			a <a data-link-type="dfn" href="#character-value" id="ref-for-character-value-9">character value</a> rather than a physical key, and might not
 			be available on all keys in some configurations. </p>
     <p class="warning"> The <a data-link-type="dfn" href="#keypress" id="ref-for-keypress-16"><code>keypress</code></a> event type is defined in this specification for			reference and completeness, but this specification <a data-link-type="dfn" href="#deprecates" id="ref-for-deprecates-9">deprecates</a> the use of this event type. When in editing contexts, authors can
 			subscribe to the <a data-link-type="dfn" href="#beforeinput" id="ref-for-beforeinput-31"><code>beforeinput</code></a> event instead. </p>
@@ -7421,7 +7362,7 @@ processor</em>, is an application that performs the conversion between
 keystrokes and ideographs or other characters, usually by user-guided
 dictionary lookup, often used in East Asian languages (e.g., Chinese,
 Japanese, Korean).  An <a data-link-type="dfn" href="#ime" id="ref-for-ime-15">IME</a> MAY also be used for dictionary-based word
-completion, such as on mobile devices.  See <a href="#keys-IME">§5.3.4 Input Method Editors</a> for treatment of
+completion, such as on mobile devices.  See <a href="#keys-IME">§5.3.3 Input Method Editors</a> for treatment of
 IMEs in this specification.  See also <a data-link-type="dfn" href="#text-composition-system" id="ref-for-text-composition-system-17">text composition system</a>.</p>
      <dt data-md="">
       <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="key-mapping">key mapping</dfn></p>
@@ -7434,7 +7375,7 @@ key</a> (<code class="keycap">Shift</code>, <code class="keycap">Alt</code>, et 
      <dt data-md="">
       <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="key-value">key value</dfn></p>
      <dd data-md="">
-      <p>A key value is a <a data-link-type="dfn" href="#character-value" id="ref-for-character-value-11">character value</a> or multi-character string (such as <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-Enter">Enter</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-Tab">Tab</a>"</code>, or <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-MediaTrackNext">MediaTrackNext</a>"</code>) associated with a key in a	particular state. Every key has a key value, whether or not it has a <a data-link-type="dfn" href="#character-value" id="ref-for-character-value-12">character value</a>. This includes control keys, function keys, <a data-link-type="dfn" href="#modifier-key" id="ref-for-modifier-key-3">modifier keys</a>, <a data-link-type="dfn" href="#dead-key" id="ref-for-dead-key-13">dead keys</a>, and any other key. The key value of
+      <p>A key value is a <a data-link-type="dfn" href="#character-value" id="ref-for-character-value-10">character value</a> or multi-character string (such as <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-Enter">Enter</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-Tab">Tab</a>"</code>, or <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-MediaTrackNext">MediaTrackNext</a>"</code>) associated with a key in a	particular state. Every key has a key value, whether or not it has a <a data-link-type="dfn" href="#character-value" id="ref-for-character-value-11">character value</a>. This includes control keys, function keys, <a data-link-type="dfn" href="#modifier-key" id="ref-for-modifier-key-3">modifier keys</a>, <a data-link-type="dfn" href="#dead-key" id="ref-for-dead-key-13">dead keys</a>, and any other key. The key value of
 any given key at any given time depends upon the <a data-link-type="dfn" href="#key-mapping" id="ref-for-key-mapping-6">key mapping</a>.</p>
      <dt data-md="">
       <p><dfn data-dfn-type="dfn" data-noexport="" id="local-name">local name<a class="self-link" href="#local-name"></a></dfn></p>
@@ -7444,7 +7385,7 @@ any given key at any given time depends upon the <a data-link-type="dfn" href="#
       <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="modifier-key">modifier key</dfn></p>
      <dd data-md="">
       <p>A modifier key changes the normal behavior of a key, such as to produce a
-character of a different case (as with the <code class="keycap">Shift</code> key), or to alter	what functionality the key triggers (as with the <code class="keycap">Fn</code> or <code class="keycap">Alt</code> keys). Refer to <a href="#keys-modifiers">§5.3.2 Modifier keys</a> for a list of modifier keys.</p>
+character of a different case (as with the <code class="keycap">Shift</code> key), or to alter	what functionality the key triggers (as with the <code class="keycap">Fn</code> or <code class="keycap">Alt</code> keys). Refer to <a href="#keys-modifiers">§5.3.1 Modifier keys</a> for a list of modifier keys.</p>
      <dt data-md="">
       <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="namespace URIs" data-noexport="" id="namespace-uris">namespace URI</dfn></p>
      <dd data-md="">
@@ -7493,7 +7434,7 @@ event flow for more details.</p>
      <dt data-md="">
       <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="text-composition-system">text composition system</dfn></p>
      <dd data-md="">
-      <p>A software component that interprets some form of alternate input (such as a <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-12">input method editor</a>, a speech processor, or a handwriting recognition
+      <p>A software component that interprets some form of alternate input (such as a <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-11">input method editor</a>, a speech processor, or a handwriting recognition
 system) and converts it to text.</p>
      <dt data-md="">
       <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="topmost-event-target">topmost event target</dfn></p>
@@ -7881,11 +7822,6 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
      <li><a href="https://html.spec.whatwg.org/multipage/forms.html#the-textarea-element">textarea</a>
     </ul>
    <li>
-    <a data-link-type="biblio">[INFRA]</a> defines the following terms:
-    <ul>
-     <li><a href="https://infra.spec.whatwg.org/#code-point">code point</a>
-    </ul>
-   <li>
     <a data-link-type="biblio">[SVG2]</a> defines the following terms:
     <ul>
      <li><a href="https://www.w3.org/TR/svg2/geometry.html#XProperty">x</a>
@@ -7904,8 +7840,6 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-html5">[HTML5]
    <dd>Ian Hickson; et al. <a href="https://www.w3.org/TR/html5/">HTML5</a>. 28 October 2014. REC. URL: <a href="https://www.w3.org/TR/html5/">https://www.w3.org/TR/html5/</a>
-   <dt id="biblio-infra">[INFRA]
-   <dd>Anne van Kesteren; Domenic Denicola. <a href="https://infra.spec.whatwg.org/">Infra Standard</a>. Living Standard. URL: <a href="https://infra.spec.whatwg.org/">https://infra.spec.whatwg.org/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
    <dt id="biblio-svg2">[SVG2]
@@ -7925,8 +7859,6 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
    <dd>A. Gregor. <a href="https://dvcs.w3.org/hg/editing/raw-file/tip/editing.html">HTML Editing APIs</a>. URL: <a href="https://dvcs.w3.org/hg/editing/raw-file/tip/editing.html">https://dvcs.w3.org/hg/editing/raw-file/tip/editing.html</a>
    <dt id="biblio-html40">[HTML40]
    <dd>Dave Raggett; Arnaud Le Hors; Ian Jacobs. <a href="https://www.w3.org/TR/html40">HTML 4.0 Recommendation</a>. 24 April 1998. REC. URL: <a href="https://www.w3.org/TR/html40">https://www.w3.org/TR/html40</a>
-   <dt id="biblio-pcre">[PCRE]
-   <dd><a href="http://www.pcre.org/">Perl Compatible Regular Expressions library</a>. URL: <a href="http://www.pcre.org/">http://www.pcre.org/</a>
    <dt id="biblio-rfc20">[RFC20]
    <dd>V.G. Cerf. <a href="https://tools.ietf.org/html/rfc20">ASCII format for network interchange</a>. October 1969. Internet Standard. URL: <a href="https://tools.ietf.org/html/rfc20">https://tools.ietf.org/html/rfc20</a>
    <dt id="biblio-uaag20">[UAAG20]
@@ -8761,7 +8693,7 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-inputevent-1">4.5.3.1. beforeinput</a> <a href="#ref-for-inputevent-2">(2)</a> <a href="#ref-for-inputevent-3">(3)</a>
     <li><a href="#ref-for-inputevent-4">4.5.3.2. input</a> <a href="#ref-for-inputevent-5">(2)</a> <a href="#ref-for-inputevent-6">(3)</a>
     <li><a href="#ref-for-inputevent-7">4.6. Keyboard Events</a>
-    <li><a href="#ref-for-inputevent-8">5.3.5. Default actions and cancelable keyboard events</a> <a href="#ref-for-inputevent-9">(2)</a> <a href="#ref-for-inputevent-10">(3)</a>
+    <li><a href="#ref-for-inputevent-8">5.3.4. Default actions and cancelable keyboard events</a> <a href="#ref-for-inputevent-9">(2)</a> <a href="#ref-for-inputevent-10">(3)</a>
     <li><a href="#ref-for-inputevent-11">8.3.2. keypress event order</a>
    </ul>
   </aside>
@@ -8770,7 +8702,7 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
    <ul>
     <li><a href="#ref-for-dom-inputevent-data-1">4.5.3.1. beforeinput</a>
     <li><a href="#ref-for-dom-inputevent-data-2">4.5.3.2. input</a>
-    <li><a href="#ref-for-dom-inputevent-data-3">5.3.5. Default actions and cancelable keyboard events</a> <a href="#ref-for-dom-inputevent-data-4">(2)</a> <a href="#ref-for-dom-inputevent-data-5">(3)</a>
+    <li><a href="#ref-for-dom-inputevent-data-3">5.3.4. Default actions and cancelable keyboard events</a> <a href="#ref-for-dom-inputevent-data-4">(2)</a> <a href="#ref-for-dom-inputevent-data-5">(3)</a>
     <li><a href="#ref-for-dom-inputevent-data-6">8.3.2. keypress event order</a>
    </ul>
   </aside>
@@ -8796,9 +8728,9 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-beforeinput-5">4.6.4.1. keydown</a> <a href="#ref-for-beforeinput-6">(2)</a> <a href="#ref-for-beforeinput-7">(3)</a> <a href="#ref-for-beforeinput-8">(4)</a>
     <li><a href="#ref-for-beforeinput-9">4.6.4.2. keyup</a>
     <li><a href="#ref-for-beforeinput-10">4.7.6. Input Events During Composition</a> <a href="#ref-for-beforeinput-11">(2)</a> <a href="#ref-for-beforeinput-12">(3)</a> <a href="#ref-for-beforeinput-13">(4)</a> <a href="#ref-for-beforeinput-14">(5)</a>
-    <li><a href="#ref-for-beforeinput-15">5.3.2. Modifier keys</a> <a href="#ref-for-beforeinput-16">(2)</a> <a href="#ref-for-beforeinput-17">(3)</a> <a href="#ref-for-beforeinput-18">(4)</a> <a href="#ref-for-beforeinput-19">(5)</a>
-    <li><a href="#ref-for-beforeinput-20">5.3.4. Input Method Editors</a> <a href="#ref-for-beforeinput-21">(2)</a> <a href="#ref-for-beforeinput-22">(3)</a> <a href="#ref-for-beforeinput-23">(4)</a>
-    <li><a href="#ref-for-beforeinput-24">5.3.5. Default actions and cancelable keyboard events</a> <a href="#ref-for-beforeinput-25">(2)</a> <a href="#ref-for-beforeinput-26">(3)</a> <a href="#ref-for-beforeinput-27">(4)</a> <a href="#ref-for-beforeinput-28">(5)</a>
+    <li><a href="#ref-for-beforeinput-15">5.3.1. Modifier keys</a> <a href="#ref-for-beforeinput-16">(2)</a> <a href="#ref-for-beforeinput-17">(3)</a> <a href="#ref-for-beforeinput-18">(4)</a> <a href="#ref-for-beforeinput-19">(5)</a>
+    <li><a href="#ref-for-beforeinput-20">5.3.3. Input Method Editors</a> <a href="#ref-for-beforeinput-21">(2)</a> <a href="#ref-for-beforeinput-22">(3)</a> <a href="#ref-for-beforeinput-23">(4)</a>
+    <li><a href="#ref-for-beforeinput-24">5.3.4. Default actions and cancelable keyboard events</a> <a href="#ref-for-beforeinput-25">(2)</a> <a href="#ref-for-beforeinput-26">(3)</a> <a href="#ref-for-beforeinput-27">(4)</a> <a href="#ref-for-beforeinput-28">(5)</a>
     <li><a href="#ref-for-beforeinput-29">8.3. Legacy KeyboardEvent events</a>
     <li><a href="#ref-for-beforeinput-30">8.3.1.1. keypress</a> <a href="#ref-for-beforeinput-31">(2)</a>
     <li><a href="#ref-for-beforeinput-32">8.3.2. keypress event order</a> <a href="#ref-for-beforeinput-33">(2)</a>
@@ -8814,9 +8746,9 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-input-5">4.6.4.1. keydown</a> <a href="#ref-for-input-6">(2)</a> <a href="#ref-for-input-7">(3)</a> <a href="#ref-for-input-8">(4)</a>
     <li><a href="#ref-for-input-9">4.6.4.2. keyup</a>
     <li><a href="#ref-for-input-10">4.7.6. Input Events During Composition</a> <a href="#ref-for-input-11">(2)</a> <a href="#ref-for-input-12">(3)</a> <a href="#ref-for-input-13">(4)</a> <a href="#ref-for-input-14">(5)</a> <a href="#ref-for-input-15">(6)</a>
-    <li><a href="#ref-for-input-16">5.3.2. Modifier keys</a> <a href="#ref-for-input-17">(2)</a> <a href="#ref-for-input-18">(3)</a> <a href="#ref-for-input-19">(4)</a> <a href="#ref-for-input-20">(5)</a>
-    <li><a href="#ref-for-input-21">5.3.4. Input Method Editors</a> <a href="#ref-for-input-22">(2)</a> <a href="#ref-for-input-23">(3)</a> <a href="#ref-for-input-24">(4)</a>
-    <li><a href="#ref-for-input-25">5.3.5. Default actions and cancelable keyboard events</a> <a href="#ref-for-input-26">(2)</a> <a href="#ref-for-input-27">(3)</a> <a href="#ref-for-input-28">(4)</a> <a href="#ref-for-input-29">(5)</a>
+    <li><a href="#ref-for-input-16">5.3.1. Modifier keys</a> <a href="#ref-for-input-17">(2)</a> <a href="#ref-for-input-18">(3)</a> <a href="#ref-for-input-19">(4)</a> <a href="#ref-for-input-20">(5)</a>
+    <li><a href="#ref-for-input-21">5.3.3. Input Method Editors</a> <a href="#ref-for-input-22">(2)</a> <a href="#ref-for-input-23">(3)</a> <a href="#ref-for-input-24">(4)</a>
+    <li><a href="#ref-for-input-25">5.3.4. Default actions and cancelable keyboard events</a> <a href="#ref-for-input-26">(2)</a> <a href="#ref-for-input-27">(3)</a> <a href="#ref-for-input-28">(4)</a> <a href="#ref-for-input-29">(5)</a>
     <li><a href="#ref-for-input-30">8.3. Legacy KeyboardEvent events</a>
     <li><a href="#ref-for-input-31">8.3.1.1. keypress</a>
     <li><a href="#ref-for-input-32">8.3.2. keypress event order</a> <a href="#ref-for-input-33">(2)</a>
@@ -8836,10 +8768,10 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-keyboardevent-30">4.6.4.2. keyup</a> <a href="#ref-for-keyboardevent-31">(2)</a> <a href="#ref-for-keyboardevent-32">(3)</a> <a href="#ref-for-keyboardevent-33">(4)</a> <a href="#ref-for-keyboardevent-34">(5)</a> <a href="#ref-for-keyboardevent-35">(6)</a> <a href="#ref-for-keyboardevent-36">(7)</a> <a href="#ref-for-keyboardevent-37">(8)</a> <a href="#ref-for-keyboardevent-38">(9)</a> <a href="#ref-for-keyboardevent-39">(10)</a>
     <li><a href="#ref-for-keyboardevent-40">4.7.5. Key Events During Composition</a>
     <li><a href="#ref-for-keyboardevent-41">5.2.3. code Examples</a> <a href="#ref-for-keyboardevent-42">(2)</a> <a href="#ref-for-keyboardevent-43">(3)</a> <a href="#ref-for-keyboardevent-44">(4)</a> <a href="#ref-for-keyboardevent-45">(5)</a> <a href="#ref-for-keyboardevent-46">(6)</a> <a href="#ref-for-keyboardevent-47">(7)</a> <a href="#ref-for-keyboardevent-48">(8)</a> <a href="#ref-for-keyboardevent-49">(9)</a> <a href="#ref-for-keyboardevent-50">(10)</a>
-    <li><a href="#ref-for-keyboardevent-51">5.3.2. Modifier keys</a> <a href="#ref-for-keyboardevent-52">(2)</a> <a href="#ref-for-keyboardevent-53">(3)</a> <a href="#ref-for-keyboardevent-54">(4)</a> <a href="#ref-for-keyboardevent-55">(5)</a> <a href="#ref-for-keyboardevent-56">(6)</a>
-    <li><a href="#ref-for-keyboardevent-57">5.3.3. Dead keys</a> <a href="#ref-for-keyboardevent-58">(2)</a> <a href="#ref-for-keyboardevent-59">(3)</a> <a href="#ref-for-keyboardevent-60">(4)</a>
-    <li><a href="#ref-for-keyboardevent-61">5.3.4. Input Method Editors</a> <a href="#ref-for-keyboardevent-62">(2)</a> <a href="#ref-for-keyboardevent-63">(3)</a> <a href="#ref-for-keyboardevent-64">(4)</a>
-    <li><a href="#ref-for-keyboardevent-65">5.3.5. Default actions and cancelable keyboard events</a> <a href="#ref-for-keyboardevent-66">(2)</a> <a href="#ref-for-keyboardevent-67">(3)</a>
+    <li><a href="#ref-for-keyboardevent-51">5.3.1. Modifier keys</a> <a href="#ref-for-keyboardevent-52">(2)</a> <a href="#ref-for-keyboardevent-53">(3)</a> <a href="#ref-for-keyboardevent-54">(4)</a> <a href="#ref-for-keyboardevent-55">(5)</a> <a href="#ref-for-keyboardevent-56">(6)</a>
+    <li><a href="#ref-for-keyboardevent-57">5.3.2. Dead keys</a> <a href="#ref-for-keyboardevent-58">(2)</a> <a href="#ref-for-keyboardevent-59">(3)</a> <a href="#ref-for-keyboardevent-60">(4)</a>
+    <li><a href="#ref-for-keyboardevent-61">5.3.3. Input Method Editors</a> <a href="#ref-for-keyboardevent-62">(2)</a> <a href="#ref-for-keyboardevent-63">(3)</a> <a href="#ref-for-keyboardevent-64">(4)</a>
+    <li><a href="#ref-for-keyboardevent-65">5.3.4. Default actions and cancelable keyboard events</a> <a href="#ref-for-keyboardevent-66">(2)</a> <a href="#ref-for-keyboardevent-67">(3)</a>
     <li><a href="#ref-for-keyboardevent-68">6.1.4. Initializers for interface KeyboardEvent</a>
     <li><a href="#ref-for-keyboardevent-69">7.1. Legacy KeyboardEvent supplemental interface</a>
     <li><a href="#ref-for-keyboardevent-70">7.1.1. Interface KeyboardEvent (supplemental)</a> <a href="#ref-for-keyboardevent-71">(2)</a> <a href="#ref-for-keyboardevent-72">(3)</a> <a href="#ref-for-keyboardevent-73">(4)</a>
@@ -8901,11 +8833,11 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-dom-keyboardevent-key-17">5.2.3. code Examples</a> <a href="#ref-for-dom-keyboardevent-key-18">(2)</a> <a href="#ref-for-dom-keyboardevent-key-19">(3)</a> <a href="#ref-for-dom-keyboardevent-key-20">(4)</a> <a href="#ref-for-dom-keyboardevent-key-21">(5)</a> <a href="#ref-for-dom-keyboardevent-key-22">(6)</a> <a href="#ref-for-dom-keyboardevent-key-23">(7)</a> <a href="#ref-for-dom-keyboardevent-key-24">(8)</a>
     <li><a href="#ref-for-dom-keyboardevent-key-25">5.2.4. code and Virtual Keyboards</a>
     <li><a href="#ref-for-dom-keyboardevent-key-26">5.3. Keyboard Event key Values</a> <a href="#ref-for-dom-keyboardevent-key-27">(2)</a> <a href="#ref-for-dom-keyboardevent-key-28">(3)</a>
-    <li><a href="#ref-for-dom-keyboardevent-key-29">5.3.2. Modifier keys</a> <a href="#ref-for-dom-keyboardevent-key-30">(2)</a> <a href="#ref-for-dom-keyboardevent-key-31">(3)</a> <a href="#ref-for-dom-keyboardevent-key-32">(4)</a> <a href="#ref-for-dom-keyboardevent-key-33">(5)</a> <a href="#ref-for-dom-keyboardevent-key-34">(6)</a> <a href="#ref-for-dom-keyboardevent-key-35">(7)</a>
-    <li><a href="#ref-for-dom-keyboardevent-key-36">5.3.3. Dead keys</a> <a href="#ref-for-dom-keyboardevent-key-37">(2)</a>
-    <li><a href="#ref-for-dom-keyboardevent-key-38">5.3.4. Input Method Editors</a> <a href="#ref-for-dom-keyboardevent-key-39">(2)</a>
-    <li><a href="#ref-for-dom-keyboardevent-key-40">5.3.5. Default actions and cancelable keyboard events</a> <a href="#ref-for-dom-keyboardevent-key-41">(2)</a> <a href="#ref-for-dom-keyboardevent-key-42">(3)</a>
-    <li><a href="#ref-for-dom-keyboardevent-key-43">5.3.6. Guidelines for selecting key values</a> <a href="#ref-for-dom-keyboardevent-key-44">(2)</a> <a href="#ref-for-dom-keyboardevent-key-45">(3)</a>
+    <li><a href="#ref-for-dom-keyboardevent-key-29">5.3.1. Modifier keys</a> <a href="#ref-for-dom-keyboardevent-key-30">(2)</a> <a href="#ref-for-dom-keyboardevent-key-31">(3)</a> <a href="#ref-for-dom-keyboardevent-key-32">(4)</a> <a href="#ref-for-dom-keyboardevent-key-33">(5)</a> <a href="#ref-for-dom-keyboardevent-key-34">(6)</a> <a href="#ref-for-dom-keyboardevent-key-35">(7)</a>
+    <li><a href="#ref-for-dom-keyboardevent-key-36">5.3.2. Dead keys</a> <a href="#ref-for-dom-keyboardevent-key-37">(2)</a>
+    <li><a href="#ref-for-dom-keyboardevent-key-38">5.3.3. Input Method Editors</a> <a href="#ref-for-dom-keyboardevent-key-39">(2)</a>
+    <li><a href="#ref-for-dom-keyboardevent-key-40">5.3.4. Default actions and cancelable keyboard events</a> <a href="#ref-for-dom-keyboardevent-key-41">(2)</a> <a href="#ref-for-dom-keyboardevent-key-42">(3)</a>
+    <li><a href="#ref-for-dom-keyboardevent-key-43">5.3.5. Guidelines for selecting key values</a> <a href="#ref-for-dom-keyboardevent-key-44">(2)</a> <a href="#ref-for-dom-keyboardevent-key-45">(3)</a>
     <li><a href="#ref-for-dom-keyboardevent-key-46">6.1.4. Initializers for interface KeyboardEvent</a>
     <li><a href="#ref-for-dom-keyboardevent-key-47">7. Legacy Key Attributes</a>
     <li><a href="#ref-for-dom-keyboardevent-key-48">7.1.1. Interface KeyboardEvent (supplemental)</a>
@@ -8926,7 +8858,7 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-dom-keyboardevent-code-12">5.2.2. The Relationship Between key and code</a> <a href="#ref-for-dom-keyboardevent-code-13">(2)</a> <a href="#ref-for-dom-keyboardevent-code-14">(3)</a>
     <li><a href="#ref-for-dom-keyboardevent-code-15">5.2.3. code Examples</a> <a href="#ref-for-dom-keyboardevent-code-16">(2)</a> <a href="#ref-for-dom-keyboardevent-code-17">(3)</a> <a href="#ref-for-dom-keyboardevent-code-18">(4)</a> <a href="#ref-for-dom-keyboardevent-code-19">(5)</a> <a href="#ref-for-dom-keyboardevent-code-20">(6)</a> <a href="#ref-for-dom-keyboardevent-code-21">(7)</a> <a href="#ref-for-dom-keyboardevent-code-22">(8)</a> <a href="#ref-for-dom-keyboardevent-code-23">(9)</a>
     <li><a href="#ref-for-dom-keyboardevent-code-24">5.2.4. code and Virtual Keyboards</a> <a href="#ref-for-dom-keyboardevent-code-25">(2)</a> <a href="#ref-for-dom-keyboardevent-code-26">(3)</a> <a href="#ref-for-dom-keyboardevent-code-27">(4)</a> <a href="#ref-for-dom-keyboardevent-code-28">(5)</a>
-    <li><a href="#ref-for-dom-keyboardevent-code-29">5.3.2. Modifier keys</a>
+    <li><a href="#ref-for-dom-keyboardevent-code-29">5.3.1. Modifier keys</a>
     <li><a href="#ref-for-dom-keyboardevent-code-30">8.3.1.1. keypress</a>
    </ul>
   </aside>
@@ -8950,7 +8882,7 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-dom-keyboardevent-ctrlkey-2">4.6.1. Interface KeyboardEvent</a>
     <li><a href="#ref-for-dom-keyboardevent-ctrlkey-3">4.6.4.1. keydown</a>
     <li><a href="#ref-for-dom-keyboardevent-ctrlkey-4">4.6.4.2. keyup</a>
-    <li><a href="#ref-for-dom-keyboardevent-ctrlkey-5">5.3.2. Modifier keys</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-6">(2)</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-7">(3)</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-8">(4)</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-9">(5)</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-10">(6)</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-11">(7)</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-12">(8)</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-13">(9)</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-14">(10)</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-15">(11)</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-16">(12)</a>
+    <li><a href="#ref-for-dom-keyboardevent-ctrlkey-5">5.3.1. Modifier keys</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-6">(2)</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-7">(3)</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-8">(4)</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-9">(5)</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-10">(6)</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-11">(7)</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-12">(8)</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-13">(9)</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-14">(10)</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-15">(11)</a> <a href="#ref-for-dom-keyboardevent-ctrlkey-16">(12)</a>
     <li><a href="#ref-for-dom-keyboardevent-ctrlkey-17">8.3.1.1. keypress</a>
    </ul>
   </aside>
@@ -8962,8 +8894,8 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-dom-keyboardevent-shiftkey-3">4.6.4.1. keydown</a>
     <li><a href="#ref-for-dom-keyboardevent-shiftkey-4">4.6.4.2. keyup</a>
     <li><a href="#ref-for-dom-keyboardevent-shiftkey-5">5.2.3. code Examples</a> <a href="#ref-for-dom-keyboardevent-shiftkey-6">(2)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-7">(3)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-8">(4)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-9">(5)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-10">(6)</a>
-    <li><a href="#ref-for-dom-keyboardevent-shiftkey-11">5.3.2. Modifier keys</a> <a href="#ref-for-dom-keyboardevent-shiftkey-12">(2)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-13">(3)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-14">(4)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-15">(5)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-16">(6)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-17">(7)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-18">(8)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-19">(9)</a>
-    <li><a href="#ref-for-dom-keyboardevent-shiftkey-20">5.3.5. Default actions and cancelable keyboard events</a> <a href="#ref-for-dom-keyboardevent-shiftkey-21">(2)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-22">(3)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-23">(4)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-24">(5)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-25">(6)</a>
+    <li><a href="#ref-for-dom-keyboardevent-shiftkey-11">5.3.1. Modifier keys</a> <a href="#ref-for-dom-keyboardevent-shiftkey-12">(2)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-13">(3)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-14">(4)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-15">(5)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-16">(6)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-17">(7)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-18">(8)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-19">(9)</a>
+    <li><a href="#ref-for-dom-keyboardevent-shiftkey-20">5.3.4. Default actions and cancelable keyboard events</a> <a href="#ref-for-dom-keyboardevent-shiftkey-21">(2)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-22">(3)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-23">(4)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-24">(5)</a> <a href="#ref-for-dom-keyboardevent-shiftkey-25">(6)</a>
     <li><a href="#ref-for-dom-keyboardevent-shiftkey-26">8.3.1.1. keypress</a>
    </ul>
   </aside>
@@ -8974,7 +8906,7 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-dom-keyboardevent-altkey-2">4.6.1. Interface KeyboardEvent</a>
     <li><a href="#ref-for-dom-keyboardevent-altkey-3">4.6.4.1. keydown</a>
     <li><a href="#ref-for-dom-keyboardevent-altkey-4">4.6.4.2. keyup</a>
-    <li><a href="#ref-for-dom-keyboardevent-altkey-5">5.3.2. Modifier keys</a>
+    <li><a href="#ref-for-dom-keyboardevent-altkey-5">5.3.1. Modifier keys</a>
     <li><a href="#ref-for-dom-keyboardevent-altkey-6">8.3.1.1. keypress</a>
    </ul>
   </aside>
@@ -8985,7 +8917,7 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-dom-keyboardevent-metakey-2">4.6.1. Interface KeyboardEvent</a>
     <li><a href="#ref-for-dom-keyboardevent-metakey-3">4.6.4.1. keydown</a>
     <li><a href="#ref-for-dom-keyboardevent-metakey-4">4.6.4.2. keyup</a>
-    <li><a href="#ref-for-dom-keyboardevent-metakey-5">5.3.2. Modifier keys</a>
+    <li><a href="#ref-for-dom-keyboardevent-metakey-5">5.3.1. Modifier keys</a>
     <li><a href="#ref-for-dom-keyboardevent-metakey-6">8.3.1.1. keypress</a>
    </ul>
   </aside>
@@ -9006,8 +8938,8 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-dom-keyboardevent-iscomposing-1">4.6.4.1. keydown</a>
     <li><a href="#ref-for-dom-keyboardevent-iscomposing-2">4.6.4.2. keyup</a>
     <li><a href="#ref-for-dom-keyboardevent-iscomposing-3">4.7.5. Key Events During Composition</a> <a href="#ref-for-dom-keyboardevent-iscomposing-4">(2)</a>
-    <li><a href="#ref-for-dom-keyboardevent-iscomposing-5">5.3.3. Dead keys</a> <a href="#ref-for-dom-keyboardevent-iscomposing-6">(2)</a>
-    <li><a href="#ref-for-dom-keyboardevent-iscomposing-7">5.3.4. Input Method Editors</a> <a href="#ref-for-dom-keyboardevent-iscomposing-8">(2)</a>
+    <li><a href="#ref-for-dom-keyboardevent-iscomposing-5">5.3.2. Dead keys</a> <a href="#ref-for-dom-keyboardevent-iscomposing-6">(2)</a>
+    <li><a href="#ref-for-dom-keyboardevent-iscomposing-7">5.3.3. Input Method Editors</a> <a href="#ref-for-dom-keyboardevent-iscomposing-8">(2)</a>
     <li><a href="#ref-for-dom-keyboardevent-iscomposing-9">8.3.1.1. keypress</a>
    </ul>
   </aside>
@@ -9039,10 +8971,10 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-keydown-15">4.7.5. Key Events During Composition</a> <a href="#ref-for-keydown-16">(2)</a> <a href="#ref-for-keydown-17">(3)</a>
     <li><a href="#ref-for-keydown-18">4.7.7.1. compositionstart</a>
     <li><a href="#ref-for-keydown-19">5.2.3. code Examples</a> <a href="#ref-for-keydown-20">(2)</a> <a href="#ref-for-keydown-21">(3)</a> <a href="#ref-for-keydown-22">(4)</a>
-    <li><a href="#ref-for-keydown-23">5.3.2. Modifier keys</a> <a href="#ref-for-keydown-24">(2)</a> <a href="#ref-for-keydown-25">(3)</a> <a href="#ref-for-keydown-26">(4)</a> <a href="#ref-for-keydown-27">(5)</a> <a href="#ref-for-keydown-28">(6)</a> <a href="#ref-for-keydown-29">(7)</a> <a href="#ref-for-keydown-30">(8)</a> <a href="#ref-for-keydown-31">(9)</a> <a href="#ref-for-keydown-32">(10)</a> <a href="#ref-for-keydown-33">(11)</a> <a href="#ref-for-keydown-34">(12)</a> <a href="#ref-for-keydown-35">(13)</a>
-    <li><a href="#ref-for-keydown-36">5.3.3. Dead keys</a> <a href="#ref-for-keydown-37">(2)</a> <a href="#ref-for-keydown-38">(3)</a> <a href="#ref-for-keydown-39">(4)</a> <a href="#ref-for-keydown-40">(5)</a>
-    <li><a href="#ref-for-keydown-41">5.3.4. Input Method Editors</a> <a href="#ref-for-keydown-42">(2)</a> <a href="#ref-for-keydown-43">(3)</a> <a href="#ref-for-keydown-44">(4)</a> <a href="#ref-for-keydown-45">(5)</a> <a href="#ref-for-keydown-46">(6)</a> <a href="#ref-for-keydown-47">(7)</a> <a href="#ref-for-keydown-48">(8)</a> <a href="#ref-for-keydown-49">(9)</a> <a href="#ref-for-keydown-50">(10)</a> <a href="#ref-for-keydown-51">(11)</a>
-    <li><a href="#ref-for-keydown-52">5.3.5. Default actions and cancelable keyboard events</a> <a href="#ref-for-keydown-53">(2)</a> <a href="#ref-for-keydown-54">(3)</a> <a href="#ref-for-keydown-55">(4)</a> <a href="#ref-for-keydown-56">(5)</a> <a href="#ref-for-keydown-57">(6)</a> <a href="#ref-for-keydown-58">(7)</a> <a href="#ref-for-keydown-59">(8)</a>
+    <li><a href="#ref-for-keydown-23">5.3.1. Modifier keys</a> <a href="#ref-for-keydown-24">(2)</a> <a href="#ref-for-keydown-25">(3)</a> <a href="#ref-for-keydown-26">(4)</a> <a href="#ref-for-keydown-27">(5)</a> <a href="#ref-for-keydown-28">(6)</a> <a href="#ref-for-keydown-29">(7)</a> <a href="#ref-for-keydown-30">(8)</a> <a href="#ref-for-keydown-31">(9)</a> <a href="#ref-for-keydown-32">(10)</a> <a href="#ref-for-keydown-33">(11)</a> <a href="#ref-for-keydown-34">(12)</a> <a href="#ref-for-keydown-35">(13)</a>
+    <li><a href="#ref-for-keydown-36">5.3.2. Dead keys</a> <a href="#ref-for-keydown-37">(2)</a> <a href="#ref-for-keydown-38">(3)</a> <a href="#ref-for-keydown-39">(4)</a> <a href="#ref-for-keydown-40">(5)</a>
+    <li><a href="#ref-for-keydown-41">5.3.3. Input Method Editors</a> <a href="#ref-for-keydown-42">(2)</a> <a href="#ref-for-keydown-43">(3)</a> <a href="#ref-for-keydown-44">(4)</a> <a href="#ref-for-keydown-45">(5)</a> <a href="#ref-for-keydown-46">(6)</a> <a href="#ref-for-keydown-47">(7)</a> <a href="#ref-for-keydown-48">(8)</a> <a href="#ref-for-keydown-49">(9)</a> <a href="#ref-for-keydown-50">(10)</a> <a href="#ref-for-keydown-51">(11)</a>
+    <li><a href="#ref-for-keydown-52">5.3.4. Default actions and cancelable keyboard events</a> <a href="#ref-for-keydown-53">(2)</a> <a href="#ref-for-keydown-54">(3)</a> <a href="#ref-for-keydown-55">(4)</a> <a href="#ref-for-keydown-56">(5)</a> <a href="#ref-for-keydown-57">(6)</a> <a href="#ref-for-keydown-58">(7)</a> <a href="#ref-for-keydown-59">(8)</a>
     <li><a href="#ref-for-keydown-60">7.1.1. Interface KeyboardEvent (supplemental)</a>
     <li><a href="#ref-for-keydown-61">7.2.1. How to determine keyCode for keydown and keyup events</a> <a href="#ref-for-keydown-62">(2)</a> <a href="#ref-for-keydown-63">(3)</a>
     <li><a href="#ref-for-keydown-64">8.1.2. Activation event order</a>
@@ -9059,10 +8991,10 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-keyup-9">4.7.4. Canceling Composition Events</a> <a href="#ref-for-keyup-10">(2)</a>
     <li><a href="#ref-for-keyup-11">4.7.5. Key Events During Composition</a> <a href="#ref-for-keyup-12">(2)</a> <a href="#ref-for-keyup-13">(3)</a>
     <li><a href="#ref-for-keyup-14">5.2.3. code Examples</a> <a href="#ref-for-keyup-15">(2)</a> <a href="#ref-for-keyup-16">(3)</a> <a href="#ref-for-keyup-17">(4)</a>
-    <li><a href="#ref-for-keyup-18">5.3.2. Modifier keys</a> <a href="#ref-for-keyup-19">(2)</a> <a href="#ref-for-keyup-20">(3)</a> <a href="#ref-for-keyup-21">(4)</a> <a href="#ref-for-keyup-22">(5)</a> <a href="#ref-for-keyup-23">(6)</a> <a href="#ref-for-keyup-24">(7)</a> <a href="#ref-for-keyup-25">(8)</a> <a href="#ref-for-keyup-26">(9)</a> <a href="#ref-for-keyup-27">(10)</a> <a href="#ref-for-keyup-28">(11)</a> <a href="#ref-for-keyup-29">(12)</a> <a href="#ref-for-keyup-30">(13)</a> <a href="#ref-for-keyup-31">(14)</a>
-    <li><a href="#ref-for-keyup-32">5.3.3. Dead keys</a> <a href="#ref-for-keyup-33">(2)</a> <a href="#ref-for-keyup-34">(3)</a> <a href="#ref-for-keyup-35">(4)</a>
-    <li><a href="#ref-for-keyup-36">5.3.4. Input Method Editors</a> <a href="#ref-for-keyup-37">(2)</a> <a href="#ref-for-keyup-38">(3)</a> <a href="#ref-for-keyup-39">(4)</a> <a href="#ref-for-keyup-40">(5)</a> <a href="#ref-for-keyup-41">(6)</a> <a href="#ref-for-keyup-42">(7)</a> <a href="#ref-for-keyup-43">(8)</a> <a href="#ref-for-keyup-44">(9)</a> <a href="#ref-for-keyup-45">(10)</a>
-    <li><a href="#ref-for-keyup-46">5.3.5. Default actions and cancelable keyboard events</a> <a href="#ref-for-keyup-47">(2)</a> <a href="#ref-for-keyup-48">(3)</a> <a href="#ref-for-keyup-49">(4)</a> <a href="#ref-for-keyup-50">(5)</a> <a href="#ref-for-keyup-51">(6)</a> <a href="#ref-for-keyup-52">(7)</a> <a href="#ref-for-keyup-53">(8)</a>
+    <li><a href="#ref-for-keyup-18">5.3.1. Modifier keys</a> <a href="#ref-for-keyup-19">(2)</a> <a href="#ref-for-keyup-20">(3)</a> <a href="#ref-for-keyup-21">(4)</a> <a href="#ref-for-keyup-22">(5)</a> <a href="#ref-for-keyup-23">(6)</a> <a href="#ref-for-keyup-24">(7)</a> <a href="#ref-for-keyup-25">(8)</a> <a href="#ref-for-keyup-26">(9)</a> <a href="#ref-for-keyup-27">(10)</a> <a href="#ref-for-keyup-28">(11)</a> <a href="#ref-for-keyup-29">(12)</a> <a href="#ref-for-keyup-30">(13)</a> <a href="#ref-for-keyup-31">(14)</a>
+    <li><a href="#ref-for-keyup-32">5.3.2. Dead keys</a> <a href="#ref-for-keyup-33">(2)</a> <a href="#ref-for-keyup-34">(3)</a> <a href="#ref-for-keyup-35">(4)</a>
+    <li><a href="#ref-for-keyup-36">5.3.3. Input Method Editors</a> <a href="#ref-for-keyup-37">(2)</a> <a href="#ref-for-keyup-38">(3)</a> <a href="#ref-for-keyup-39">(4)</a> <a href="#ref-for-keyup-40">(5)</a> <a href="#ref-for-keyup-41">(6)</a> <a href="#ref-for-keyup-42">(7)</a> <a href="#ref-for-keyup-43">(8)</a> <a href="#ref-for-keyup-44">(9)</a> <a href="#ref-for-keyup-45">(10)</a>
+    <li><a href="#ref-for-keyup-46">5.3.4. Default actions and cancelable keyboard events</a> <a href="#ref-for-keyup-47">(2)</a> <a href="#ref-for-keyup-48">(3)</a> <a href="#ref-for-keyup-49">(4)</a> <a href="#ref-for-keyup-50">(5)</a> <a href="#ref-for-keyup-51">(6)</a> <a href="#ref-for-keyup-52">(7)</a> <a href="#ref-for-keyup-53">(8)</a>
     <li><a href="#ref-for-keyup-54">7.1.1. Interface KeyboardEvent (supplemental)</a>
     <li><a href="#ref-for-keyup-55">7.2.1. How to determine keyCode for keydown and keyup events</a> <a href="#ref-for-keyup-56">(2)</a>
     <li><a href="#ref-for-keyup-57">8.3.2. keypress event order</a> <a href="#ref-for-keyup-58">(2)</a>
@@ -9076,8 +9008,8 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-compositionevent-5">4.7.7.1. compositionstart</a> <a href="#ref-for-compositionevent-6">(2)</a>
     <li><a href="#ref-for-compositionevent-7">4.7.7.2. compositionupdate</a> <a href="#ref-for-compositionevent-8">(2)</a>
     <li><a href="#ref-for-compositionevent-9">4.7.7.3. compositionend</a> <a href="#ref-for-compositionevent-10">(2)</a>
-    <li><a href="#ref-for-compositionevent-11">5.3.3. Dead keys</a> <a href="#ref-for-compositionevent-12">(2)</a>
-    <li><a href="#ref-for-compositionevent-13">5.3.4. Input Method Editors</a> <a href="#ref-for-compositionevent-14">(2)</a> <a href="#ref-for-compositionevent-15">(3)</a> <a href="#ref-for-compositionevent-16">(4)</a>
+    <li><a href="#ref-for-compositionevent-11">5.3.2. Dead keys</a> <a href="#ref-for-compositionevent-12">(2)</a>
+    <li><a href="#ref-for-compositionevent-13">5.3.3. Input Method Editors</a> <a href="#ref-for-compositionevent-14">(2)</a> <a href="#ref-for-compositionevent-15">(3)</a> <a href="#ref-for-compositionevent-16">(4)</a>
     <li><a href="#ref-for-compositionevent-17">11.1.4. New Interfaces</a>
     <li><a href="#ref-for-compositionevent-18">11.2. Changes between different drafts of UI Events</a>
    </ul>
@@ -9091,8 +9023,8 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-dom-compositionevent-data-6">4.7.7.2. compositionupdate</a> <a href="#ref-for-dom-compositionevent-data-7">(2)</a> <a href="#ref-for-dom-compositionevent-data-8">(3)</a>
     <li><a href="#ref-for-dom-compositionevent-data-9">4.7.7.3. compositionend</a>
     <li><a href="#ref-for-dom-compositionevent-data-10">5.3. Keyboard Event key Values</a> <a href="#ref-for-dom-compositionevent-data-11">(2)</a>
-    <li><a href="#ref-for-dom-compositionevent-data-12">5.3.3. Dead keys</a> <a href="#ref-for-dom-compositionevent-data-13">(2)</a> <a href="#ref-for-dom-compositionevent-data-14">(3)</a>
-    <li><a href="#ref-for-dom-compositionevent-data-15">5.3.4. Input Method Editors</a> <a href="#ref-for-dom-compositionevent-data-16">(2)</a> <a href="#ref-for-dom-compositionevent-data-17">(3)</a>
+    <li><a href="#ref-for-dom-compositionevent-data-12">5.3.2. Dead keys</a> <a href="#ref-for-dom-compositionevent-data-13">(2)</a> <a href="#ref-for-dom-compositionevent-data-14">(3)</a>
+    <li><a href="#ref-for-dom-compositionevent-data-15">5.3.3. Input Method Editors</a> <a href="#ref-for-dom-compositionevent-data-16">(2)</a> <a href="#ref-for-dom-compositionevent-data-17">(3)</a>
     <li><a href="#ref-for-dom-compositionevent-data-18">6.1.5. Initializers for interface CompositionEvent</a>
    </ul>
   </aside>
@@ -9113,8 +9045,8 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-compositionstart-7">4.7.4. Canceling Composition Events</a> <a href="#ref-for-compositionstart-8">(2)</a>
     <li><a href="#ref-for-compositionstart-9">4.7.5. Key Events During Composition</a>
     <li><a href="#ref-for-compositionstart-10">4.7.7.1. compositionstart</a> <a href="#ref-for-compositionstart-11">(2)</a>
-    <li><a href="#ref-for-compositionstart-12">5.3.3. Dead keys</a> <a href="#ref-for-compositionstart-13">(2)</a>
-    <li><a href="#ref-for-compositionstart-14">5.3.4. Input Method Editors</a> <a href="#ref-for-compositionstart-15">(2)</a>
+    <li><a href="#ref-for-compositionstart-12">5.3.2. Dead keys</a> <a href="#ref-for-compositionstart-13">(2)</a>
+    <li><a href="#ref-for-compositionstart-14">5.3.3. Input Method Editors</a> <a href="#ref-for-compositionstart-15">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="compositionupdate">
@@ -9126,8 +9058,8 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-compositionupdate-5">4.7.5. Key Events During Composition</a>
     <li><a href="#ref-for-compositionupdate-6">4.7.6. Input Events During Composition</a> <a href="#ref-for-compositionupdate-7">(2)</a> <a href="#ref-for-compositionupdate-8">(3)</a> <a href="#ref-for-compositionupdate-9">(4)</a>
     <li><a href="#ref-for-compositionupdate-10">4.7.7.2. compositionupdate</a>
-    <li><a href="#ref-for-compositionupdate-11">5.3.3. Dead keys</a> <a href="#ref-for-compositionupdate-12">(2)</a> <a href="#ref-for-compositionupdate-13">(3)</a> <a href="#ref-for-compositionupdate-14">(4)</a> <a href="#ref-for-compositionupdate-15">(5)</a>
-    <li><a href="#ref-for-compositionupdate-16">5.3.4. Input Method Editors</a> <a href="#ref-for-compositionupdate-17">(2)</a> <a href="#ref-for-compositionupdate-18">(3)</a> <a href="#ref-for-compositionupdate-19">(4)</a> <a href="#ref-for-compositionupdate-20">(5)</a> <a href="#ref-for-compositionupdate-21">(6)</a> <a href="#ref-for-compositionupdate-22">(7)</a> <a href="#ref-for-compositionupdate-23">(8)</a> <a href="#ref-for-compositionupdate-24">(9)</a>
+    <li><a href="#ref-for-compositionupdate-11">5.3.2. Dead keys</a> <a href="#ref-for-compositionupdate-12">(2)</a> <a href="#ref-for-compositionupdate-13">(3)</a> <a href="#ref-for-compositionupdate-14">(4)</a> <a href="#ref-for-compositionupdate-15">(5)</a>
+    <li><a href="#ref-for-compositionupdate-16">5.3.3. Input Method Editors</a> <a href="#ref-for-compositionupdate-17">(2)</a> <a href="#ref-for-compositionupdate-18">(3)</a> <a href="#ref-for-compositionupdate-19">(4)</a> <a href="#ref-for-compositionupdate-20">(5)</a> <a href="#ref-for-compositionupdate-21">(6)</a> <a href="#ref-for-compositionupdate-22">(7)</a> <a href="#ref-for-compositionupdate-23">(8)</a> <a href="#ref-for-compositionupdate-24">(9)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="compositionend">
@@ -9143,36 +9075,34 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-compositionend-9">4.7.6. Input Events During Composition</a> <a href="#ref-for-compositionend-10">(2)</a>
     <li><a href="#ref-for-compositionend-11">4.7.7.2. compositionupdate</a>
     <li><a href="#ref-for-compositionend-12">4.7.7.3. compositionend</a>
-    <li><a href="#ref-for-compositionend-13">5.3.3. Dead keys</a> <a href="#ref-for-compositionend-14">(2)</a>
-    <li><a href="#ref-for-compositionend-15">5.3.4. Input Method Editors</a> <a href="#ref-for-compositionend-16">(2)</a> <a href="#ref-for-compositionend-17">(3)</a>
+    <li><a href="#ref-for-compositionend-13">5.3.2. Dead keys</a> <a href="#ref-for-compositionend-14">(2)</a>
+    <li><a href="#ref-for-compositionend-15">5.3.3. Input Method Editors</a> <a href="#ref-for-compositionend-16">(2)</a> <a href="#ref-for-compositionend-17">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-keyboardevent-charcode">
    <b><a href="#dom-keyboardevent-charcode">#dom-keyboardevent-charcode</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-keyboardevent-charcode-1">5.3.1. Key Values and Unicode</a>
-    <li><a href="#ref-for-dom-keyboardevent-charcode-2">7. Legacy Key Attributes</a>
-    <li><a href="#ref-for-dom-keyboardevent-charcode-3">7.1. Legacy KeyboardEvent supplemental interface</a> <a href="#ref-for-dom-keyboardevent-charcode-4">(2)</a>
-    <li><a href="#ref-for-dom-keyboardevent-charcode-5">7.1.1. Interface KeyboardEvent (supplemental)</a> <a href="#ref-for-dom-keyboardevent-charcode-6">(2)</a> <a href="#ref-for-dom-keyboardevent-charcode-7">(3)</a>
-    <li><a href="#ref-for-dom-keyboardevent-charcode-8">7.1.2. Interface KeyboardEventInit (supplemental)</a> <a href="#ref-for-dom-keyboardevent-charcode-9">(2)</a> <a href="#ref-for-dom-keyboardevent-charcode-10">(3)</a>
-    <li><a href="#ref-for-dom-keyboardevent-charcode-11">7.2. Legacy key models</a>
-    <li><a href="#ref-for-dom-keyboardevent-charcode-12">8.3. Legacy KeyboardEvent events</a>
-    <li><a href="#ref-for-dom-keyboardevent-charcode-13">8.3.1.1. keypress</a>
+    <li><a href="#ref-for-dom-keyboardevent-charcode-1">7. Legacy Key Attributes</a>
+    <li><a href="#ref-for-dom-keyboardevent-charcode-2">7.1. Legacy KeyboardEvent supplemental interface</a> <a href="#ref-for-dom-keyboardevent-charcode-3">(2)</a>
+    <li><a href="#ref-for-dom-keyboardevent-charcode-4">7.1.1. Interface KeyboardEvent (supplemental)</a> <a href="#ref-for-dom-keyboardevent-charcode-5">(2)</a> <a href="#ref-for-dom-keyboardevent-charcode-6">(3)</a>
+    <li><a href="#ref-for-dom-keyboardevent-charcode-7">7.1.2. Interface KeyboardEventInit (supplemental)</a> <a href="#ref-for-dom-keyboardevent-charcode-8">(2)</a> <a href="#ref-for-dom-keyboardevent-charcode-9">(3)</a>
+    <li><a href="#ref-for-dom-keyboardevent-charcode-10">7.2. Legacy key models</a>
+    <li><a href="#ref-for-dom-keyboardevent-charcode-11">8.3. Legacy KeyboardEvent events</a>
+    <li><a href="#ref-for-dom-keyboardevent-charcode-12">8.3.1.1. keypress</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-keyboardevent-keycode">
    <b><a href="#dom-keyboardevent-keycode">#dom-keyboardevent-keycode</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-keyboardevent-keycode-1">5.3.1. Key Values and Unicode</a>
-    <li><a href="#ref-for-dom-keyboardevent-keycode-2">7. Legacy Key Attributes</a>
-    <li><a href="#ref-for-dom-keyboardevent-keycode-3">7.1. Legacy KeyboardEvent supplemental interface</a> <a href="#ref-for-dom-keyboardevent-keycode-4">(2)</a>
-    <li><a href="#ref-for-dom-keyboardevent-keycode-5">7.1.1. Interface KeyboardEvent (supplemental)</a> <a href="#ref-for-dom-keyboardevent-keycode-6">(2)</a> <a href="#ref-for-dom-keyboardevent-keycode-7">(3)</a> <a href="#ref-for-dom-keyboardevent-keycode-8">(4)</a> <a href="#ref-for-dom-keyboardevent-keycode-9">(5)</a>
-    <li><a href="#ref-for-dom-keyboardevent-keycode-10">7.1.2. Interface KeyboardEventInit (supplemental)</a> <a href="#ref-for-dom-keyboardevent-keycode-11">(2)</a> <a href="#ref-for-dom-keyboardevent-keycode-12">(3)</a> <a href="#ref-for-dom-keyboardevent-keycode-13">(4)</a>
-    <li><a href="#ref-for-dom-keyboardevent-keycode-14">7.2. Legacy key models</a> <a href="#ref-for-dom-keyboardevent-keycode-15">(2)</a>
-    <li><a href="#ref-for-dom-keyboardevent-keycode-16">7.2.1. How to determine keyCode for keydown and keyup events</a> <a href="#ref-for-dom-keyboardevent-keycode-17">(2)</a>
-    <li><a href="#ref-for-dom-keyboardevent-keycode-18">7.2.2. How to determine keyCode for keypress events</a> <a href="#ref-for-dom-keyboardevent-keycode-19">(2)</a> <a href="#ref-for-dom-keyboardevent-keycode-20">(3)</a> <a href="#ref-for-dom-keyboardevent-keycode-21">(4)</a>
-    <li><a href="#ref-for-dom-keyboardevent-keycode-22">8.3. Legacy KeyboardEvent events</a>
-    <li><a href="#ref-for-dom-keyboardevent-keycode-23">8.3.1.1. keypress</a>
+    <li><a href="#ref-for-dom-keyboardevent-keycode-1">7. Legacy Key Attributes</a>
+    <li><a href="#ref-for-dom-keyboardevent-keycode-2">7.1. Legacy KeyboardEvent supplemental interface</a> <a href="#ref-for-dom-keyboardevent-keycode-3">(2)</a>
+    <li><a href="#ref-for-dom-keyboardevent-keycode-4">7.1.1. Interface KeyboardEvent (supplemental)</a> <a href="#ref-for-dom-keyboardevent-keycode-5">(2)</a> <a href="#ref-for-dom-keyboardevent-keycode-6">(3)</a> <a href="#ref-for-dom-keyboardevent-keycode-7">(4)</a> <a href="#ref-for-dom-keyboardevent-keycode-8">(5)</a>
+    <li><a href="#ref-for-dom-keyboardevent-keycode-9">7.1.2. Interface KeyboardEventInit (supplemental)</a> <a href="#ref-for-dom-keyboardevent-keycode-10">(2)</a> <a href="#ref-for-dom-keyboardevent-keycode-11">(3)</a> <a href="#ref-for-dom-keyboardevent-keycode-12">(4)</a>
+    <li><a href="#ref-for-dom-keyboardevent-keycode-13">7.2. Legacy key models</a> <a href="#ref-for-dom-keyboardevent-keycode-14">(2)</a>
+    <li><a href="#ref-for-dom-keyboardevent-keycode-15">7.2.1. How to determine keyCode for keydown and keyup events</a> <a href="#ref-for-dom-keyboardevent-keycode-16">(2)</a>
+    <li><a href="#ref-for-dom-keyboardevent-keycode-17">7.2.2. How to determine keyCode for keypress events</a> <a href="#ref-for-dom-keyboardevent-keycode-18">(2)</a> <a href="#ref-for-dom-keyboardevent-keycode-19">(3)</a> <a href="#ref-for-dom-keyboardevent-keycode-20">(4)</a>
+    <li><a href="#ref-for-dom-keyboardevent-keycode-21">8.3. Legacy KeyboardEvent events</a>
+    <li><a href="#ref-for-dom-keyboardevent-keycode-22">8.3.1.1. keypress</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-keyboardevent-which">
@@ -9216,7 +9146,7 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
    <ul>
     <li><a href="#ref-for-keypress-1">4.6.4.1. keydown</a>
     <li><a href="#ref-for-keypress-2">5.2.3. code Examples</a> <a href="#ref-for-keypress-3">(2)</a>
-    <li><a href="#ref-for-keypress-4">5.3.5. Default actions and cancelable keyboard events</a> <a href="#ref-for-keypress-5">(2)</a>
+    <li><a href="#ref-for-keypress-4">5.3.4. Default actions and cancelable keyboard events</a> <a href="#ref-for-keypress-5">(2)</a>
     <li><a href="#ref-for-keypress-6">7.1.1. Interface KeyboardEvent (supplemental)</a>
     <li><a href="#ref-for-keypress-7">7.2.2. How to determine keyCode for keypress events</a> <a href="#ref-for-keypress-8">(2)</a>
     <li><a href="#ref-for-keypress-9">8. Legacy Event Types</a>
@@ -9334,9 +9264,8 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-character-value-4">4.6.4.1. keydown</a>
     <li><a href="#ref-for-character-value-5">4.6.4.2. keyup</a>
     <li><a href="#ref-for-character-value-6">5.3. Keyboard Event key Values</a> <a href="#ref-for-character-value-7">(2)</a>
-    <li><a href="#ref-for-character-value-8">5.3.1. Key Values and Unicode</a>
-    <li><a href="#ref-for-character-value-9">8.3.1.1. keypress</a> <a href="#ref-for-character-value-10">(2)</a>
-    <li><a href="#ref-for-character-value-11">13. Glossary</a> <a href="#ref-for-character-value-12">(2)</a>
+    <li><a href="#ref-for-character-value-8">8.3.1.1. keypress</a> <a href="#ref-for-character-value-9">(2)</a>
+    <li><a href="#ref-for-character-value-10">13. Glossary</a> <a href="#ref-for-character-value-11">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="current-event-target">
@@ -9351,9 +9280,9 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
    <ul>
     <li><a href="#ref-for-dead-key-1">5. Keyboard events and key values</a>
     <li><a href="#ref-for-dead-key-2">5.3. Keyboard Event key Values</a> <a href="#ref-for-dead-key-3">(2)</a>
-    <li><a href="#ref-for-dead-key-4">5.3.3. Dead keys</a> <a href="#ref-for-dead-key-5">(2)</a> <a href="#ref-for-dead-key-6">(3)</a> <a href="#ref-for-dead-key-7">(4)</a> <a href="#ref-for-dead-key-8">(5)</a>
-    <li><a href="#ref-for-dead-key-9">5.3.5. Default actions and cancelable keyboard events</a> <a href="#ref-for-dead-key-10">(2)</a>
-    <li><a href="#ref-for-dead-key-11">5.3.6. Guidelines for selecting key values</a>
+    <li><a href="#ref-for-dead-key-4">5.3.2. Dead keys</a> <a href="#ref-for-dead-key-5">(2)</a> <a href="#ref-for-dead-key-6">(3)</a> <a href="#ref-for-dead-key-7">(4)</a> <a href="#ref-for-dead-key-8">(5)</a>
+    <li><a href="#ref-for-dead-key-9">5.3.4. Default actions and cancelable keyboard events</a> <a href="#ref-for-dead-key-10">(2)</a>
+    <li><a href="#ref-for-dead-key-11">5.3.5. Guidelines for selecting key values</a>
     <li><a href="#ref-for-dead-key-12">13. Glossary</a> <a href="#ref-for-dead-key-13">(2)</a>
    </ul>
   </aside>
@@ -9369,7 +9298,7 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-default-action-22">4.4.2.1. wheel</a>
     <li><a href="#ref-for-default-action-23">4.6.3. Keyboard Event Order</a> <a href="#ref-for-default-action-24">(2)</a> <a href="#ref-for-default-action-25">(3)</a>
     <li><a href="#ref-for-default-action-26">4.7.4. Canceling Composition Events</a> <a href="#ref-for-default-action-27">(2)</a>
-    <li><a href="#ref-for-default-action-28">5.3.5. Default actions and cancelable keyboard events</a> <a href="#ref-for-default-action-29">(2)</a> <a href="#ref-for-default-action-30">(3)</a> <a href="#ref-for-default-action-31">(4)</a> <a href="#ref-for-default-action-32">(5)</a>
+    <li><a href="#ref-for-default-action-28">5.3.4. Default actions and cancelable keyboard events</a> <a href="#ref-for-default-action-29">(2)</a> <a href="#ref-for-default-action-30">(3)</a> <a href="#ref-for-default-action-31">(4)</a> <a href="#ref-for-default-action-32">(5)</a>
     <li><a href="#ref-for-default-action-33">8.1.1.1. DOMActivate</a> <a href="#ref-for-default-action-34">(2)</a>
     <li><a href="#ref-for-default-action-35">8.1.2. Activation event order</a> <a href="#ref-for-default-action-36">(2)</a> <a href="#ref-for-default-action-37">(3)</a> <a href="#ref-for-default-action-38">(4)</a> <a href="#ref-for-default-action-39">(5)</a>
     <li><a href="#ref-for-default-action-40">8.3.1.1. keypress</a>
@@ -9439,7 +9368,7 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-empty-string-6">4.7.7.1. compositionstart</a> <a href="#ref-for-empty-string-7">(2)</a>
     <li><a href="#ref-for-empty-string-8">4.7.7.2. compositionupdate</a> <a href="#ref-for-empty-string-9">(2)</a>
     <li><a href="#ref-for-empty-string-10">4.7.7.3. compositionend</a>
-    <li><a href="#ref-for-empty-string-11">5.3.4. Input Method Editors</a>
+    <li><a href="#ref-for-empty-string-11">5.3.3. Input Method Editors</a>
     <li><a href="#ref-for-empty-string-12">8.4.1. Interface MutationEvent</a> <a href="#ref-for-empty-string-13">(2)</a> <a href="#ref-for-empty-string-14">(3)</a>
     <li><a href="#ref-for-empty-string-15">8.4.2.2. DOMCharacterDataModified</a>
     <li><a href="#ref-for-empty-string-16">8.4.2.3. DOMNodeInserted</a> <a href="#ref-for-empty-string-17">(2)</a> <a href="#ref-for-empty-string-18">(3)</a>
@@ -9571,8 +9500,8 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-ime-2">4.7. Composition Events</a>
     <li><a href="#ref-for-ime-3">4.7.7.1. compositionstart</a>
     <li><a href="#ref-for-ime-4">4.7.7.3. compositionend</a>
-    <li><a href="#ref-for-ime-5">5.3.4. Input Method Editors</a> <a href="#ref-for-ime-6">(2)</a> <a href="#ref-for-ime-7">(3)</a> <a href="#ref-for-ime-8">(4)</a> <a href="#ref-for-ime-9">(5)</a>
-    <li><a href="#ref-for-ime-10">5.3.4.1. Input Method Editor mode keys</a> <a href="#ref-for-ime-11">(2)</a> <a href="#ref-for-ime-12">(3)</a> <a href="#ref-for-ime-13">(4)</a> <a href="#ref-for-ime-14">(5)</a>
+    <li><a href="#ref-for-ime-5">5.3.3. Input Method Editors</a> <a href="#ref-for-ime-6">(2)</a> <a href="#ref-for-ime-7">(3)</a> <a href="#ref-for-ime-8">(4)</a> <a href="#ref-for-ime-9">(5)</a>
+    <li><a href="#ref-for-ime-10">5.3.3.1. Input Method Editor mode keys</a> <a href="#ref-for-ime-11">(2)</a> <a href="#ref-for-ime-12">(3)</a> <a href="#ref-for-ime-13">(4)</a> <a href="#ref-for-ime-14">(5)</a>
     <li><a href="#ref-for-ime-15">13. Glossary</a>
    </ul>
   </aside>
@@ -9581,11 +9510,10 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
    <ul>
     <li><a href="#ref-for-input-method-editor-1">4.5.3.1. beforeinput</a>
     <li><a href="#ref-for-input-method-editor-2">4.5.3.2. input</a>
-    <li><a href="#ref-for-input-method-editor-3">5.3.1. Key Values and Unicode</a>
-    <li><a href="#ref-for-input-method-editor-4">5.3.4. Input Method Editors</a> <a href="#ref-for-input-method-editor-5">(2)</a>
-    <li><a href="#ref-for-input-method-editor-6">5.3.4.1. Input Method Editor mode keys</a> <a href="#ref-for-input-method-editor-7">(2)</a> <a href="#ref-for-input-method-editor-8">(3)</a> <a href="#ref-for-input-method-editor-9">(4)</a> <a href="#ref-for-input-method-editor-10">(5)</a>
-    <li><a href="#ref-for-input-method-editor-11">8.3.1.1. keypress</a>
-    <li><a href="#ref-for-input-method-editor-12">13. Glossary</a>
+    <li><a href="#ref-for-input-method-editor-3">5.3.3. Input Method Editors</a> <a href="#ref-for-input-method-editor-4">(2)</a>
+    <li><a href="#ref-for-input-method-editor-5">5.3.3.1. Input Method Editor mode keys</a> <a href="#ref-for-input-method-editor-6">(2)</a> <a href="#ref-for-input-method-editor-7">(3)</a> <a href="#ref-for-input-method-editor-8">(4)</a> <a href="#ref-for-input-method-editor-9">(5)</a>
+    <li><a href="#ref-for-input-method-editor-10">8.3.1.1. keypress</a>
+    <li><a href="#ref-for-input-method-editor-11">13. Glossary</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="key-mapping">
@@ -9594,7 +9522,7 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-key-mapping-1">4.6.4.1. keydown</a>
     <li><a href="#ref-for-key-mapping-2">4.6.4.2. keyup</a>
     <li><a href="#ref-for-key-mapping-3">5.3. Keyboard Event key Values</a>
-    <li><a href="#ref-for-key-mapping-4">5.3.6. Guidelines for selecting key values</a>
+    <li><a href="#ref-for-key-mapping-4">5.3.5. Guidelines for selecting key values</a>
     <li><a href="#ref-for-key-mapping-5">8.3.1.1. keypress</a>
     <li><a href="#ref-for-key-mapping-6">13. Glossary</a>
    </ul>
@@ -9608,7 +9536,7 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
   <aside class="dfn-panel" data-for="modifier-key">
    <b><a href="#modifier-key">#modifier-key</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-modifier-key-1">5.3.2. Modifier keys</a>
+    <li><a href="#ref-for-modifier-key-1">5.3.1. Modifier keys</a>
     <li><a href="#ref-for-modifier-key-2">13. Glossary</a> <a href="#ref-for-modifier-key-3">(2)</a>
    </ul>
   </aside>
