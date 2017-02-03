@@ -9,6 +9,7 @@ class Parser():
 	"""Pre-bikeshed parser for uievents spec."""
 
 	TABLE_TYPE_EVENT_SEQUENCE = 'event-sequence'
+	TABLE_TYPE_EVENT_DEFINITION = 'event-definition'
 
 	def __init__(self):
 		self.curr_src = ''
@@ -36,11 +37,15 @@ class Parser():
 		return '<a><code>' + type + '</code></a>'
 
 	def table_row(self):
+		# Don't print header row for event-definition.
+		if self.is_header_row and self.table_type == Parser.TABLE_TYPE_EVENT_DEFINITION:
+			return ''
+			
 		if self.is_header_row:
 			self.table_row_data = self.table_header_data
 
 		if len(self.table_row_data) == 0:
-			return '';
+			return ''
 		row = '<tr>'
 		for i in range(0, len(self.table_row_data)):
 			data = self.table_row_data[i]
@@ -53,7 +58,7 @@ class Parser():
 				style = ' style="text-align:center"'
 			pre = '<td%s>' % style
 			post = '</td>'
-			if self.is_header_row:
+			if self.is_header_row or colname == '%':
 				pre = '<th%s>' % style
 				post = '</th>'
 			if colname == '#':
@@ -188,14 +193,21 @@ class Parser():
 			return('')
 
 		# Tables begin with: ++---+----+-------+
-		m = re.match(r'^\s*\+\+--', line)
+		m = re.match(r'^\s*\+\+--[\-\+]*\+(?P<class> [\-a-z]+)?$', line)
 		if m:
+			table_class = m.group('class')
+			if table_class == None:
+				table_class = 'event-sequence-table'
+				self.table_type = Parser.TABLE_TYPE_EVENT_SEQUENCE
+			else:
+				table_class = table_class[1:]
+				self.table_type = Parser.TABLE_TYPE_EVENT_DEFINITION
 			self.in_table = True
-			self.table_type = Parser.TABLE_TYPE_EVENT_SEQUENCE
+			#self.table_type = Parser.TABLE_TYPE_EVENT_SEQUENCE
 			self.table_header_data = []
 			self.table_column_format = []
 			self.table_row_data = []
-			return '<table class="event-sequence-table">\n'
+			return '<table class="%s">\n' % table_class
 
 		return self.process_text(line)
 
