@@ -155,6 +155,24 @@ function addInputEvent(etype, e) {
 	addEvent(eventinfo);
 }
 
+function getModifierState(e) {
+	Modifiers = ["Alt", "AltGraph", "Control", "Shift", "Meta", "CapsLock", "NumLock", "ScrollLock", "Symbol", "SymbolLock", "Hyper", "Super", "Fn", "FnLock"];
+	mods = undefined;
+	for (var mod of Modifiers) {
+		console.log(mod);
+		if (e.getModifierState(mod)) {
+			if (!mods) {
+				mods = mod;
+				console.log(mods);
+			} else {
+				mods += ", " + mod;
+				console.log(mods);
+			}
+		}
+	}
+	return mods;
+}
+
 function addKeyEvent(etype, e) {
 	if (!e) {
 		e = window.event;
@@ -164,6 +182,7 @@ function addKeyEvent(etype, e) {
 	eventinfo["charCode"] = calcRichKeyVal(etype, "charCode", e.charCode);
 	eventinfo["keyCode"] = calcRichKeyVal(etype, "keyCode", e.keyCode);
 	eventinfo["which"] = e.which;
+	eventinfo["getModifierState"] = getModifierState(e);
 	eventinfo["shift"] = e.shiftKey;
 	eventinfo["ctrl"] = e.ctrlKey;
 	eventinfo["alt"] = e.altKey;
@@ -198,6 +217,7 @@ function addEvent(eventinfo) {
 	addTableCell(row, eventinfo["charCode"], "legacy");
 	addTableCell(row, eventinfo["keyCode"], "legacy");
 	addTableCellText(row, eventinfo["which"], "legacy");
+	addTableCellText(row, eventinfo["getModifierState"], "modifiers");
 	addTableCellBoolean(row, eventinfo["shift"], "modifiers");
 	addTableCellBoolean(row, eventinfo["ctrl"], "modifiers");
 	addTableCellBoolean(row, eventinfo["alt"], "modifiers");
@@ -380,7 +400,8 @@ function createTableHeader() {
 	addTableCellText(row2, "keyCode", "legacy", ["legacy_header", "subheader"]);
 	addTableCellText(row2, "which", "legacy", ["legacy_header", "subheader"]);
 	// KeyboardEvent - Modifiers
-	addTableCellText(row1, "Modifiers", "modifiers", "modifiers_header", 4);
+	addTableCellText(row1, "Modifiers", "modifiers", "modifiers_header", 5);
+	addTableCellText(row2, "getModifierState()", "modifiers", ["modifiers_header", "subheader"]);
 	addTableCellText(row2, "shift", "modifiers", ["modifiers_header", "subheader"]);
 	addTableCellText(row2, "ctrl", "modifiers", ["modifiers_header", "subheader"]);
 	addTableCellText(row2, "alt", "modifiers", ["modifiers_header", "subheader"]);
