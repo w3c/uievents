@@ -156,7 +156,17 @@ function addInputEvent(etype, e) {
 }
 
 function getModifierState(e) {
-	Modifiers = ["Alt", "AltGraph", "Control", "Shift", "Meta", "CapsLock", "NumLock", "ScrollLock", "Symbol", "SymbolLock", "Hyper", "Super", "Fn", "FnLock"];
+	Modifiers = [
+		"Alt", "AltGraph", "Control", "Shift", "Meta",
+		// Locking keys
+		"CapsLock", "NumLock", "ScrollLock",
+		// Linux
+		"Hyper", "Super",
+		// Virtual keyboards
+		"Symbol", "SymbolLock",
+		// Not valid, but check anyway
+		"Fn", "FnLock",
+		];
 	mods = undefined;
 	for (var mod of Modifiers) {
 		console.log(mod);
