@@ -24,57 +24,61 @@ events.
 		To create an instance of the {{UIEvent}} interface, use the UIEvent
 		constructor, passing an optional {{UIEventInit}} dictionary.
 
-		<pre class="idl">
-		[Constructor(DOMString type, optional UIEventInit eventInitDict)]
-		interface UIEvent : Event {
-			readonly attribute Window? view;
-			readonly attribute long detail;
-		};
-		</pre>
+		<h5 id="idl-uievent">UIEvent</h5>
 
-		<dl>
-			<dt><code>UIEvent . view</code></dt>
-			<dd>
-				The <code>view</code> attribute identifies the
-				<code>Window</code> from which the event was generated.
+			<pre class="idl">
+			[Constructor(DOMString type, optional UIEventInit eventInitDict)]
+			interface UIEvent : Event {
+				readonly attribute Window? view;
+				readonly attribute long detail;
+			};
+			</pre>
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>null</code>.
-			</dd>
+			<dl>
+				<dt><code>UIEvent . view</code></dt>
+				<dd>
+					The <code>view</code> attribute identifies the
+					<code>Window</code> from which the event was generated.
 
-			<dt><code>UIEvent . detail</code></dt>
-			<dd>
-				Specifies some detail information about the {{Event}}, depending
-				on the type of event.
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>null</code>.
+				</dd>
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>0</code>.
-			</dd>
-		</dl>
+				<dt><code>UIEvent . detail</code></dt>
+				<dd>
+					Specifies some detail information about the {{Event}}, depending
+					on the type of event.
 
-		<pre class="idl">
-		dictionary UIEventInit : EventInit {
-			Window? view = null;
-			long detail = 0;
-		};
-		</pre>
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>0</code>.
+				</dd>
+			</dl>
 
-		<dl>
-			<dt><code>UIEventInit . view</code></dt>
-			<dd>
-				Should be initialized to the Window object of the global
-				environment in which this event will be dispatched. If this
-				event will be dispatched to an element, the view property should
-				be set to the Window object containing the element's
-				<code>ownerDocument</code>.
-			</dd>
+		<h5 id="idl-uieventinit">UIEventInit</h5>
 
-			<dt><code>UIEventInit . detail</code></dt>
-			<dd>
-				This value is initialized to a number that is
-				application-specific.
-			</dd>
-		</dl>
+			<pre class="idl">
+			dictionary UIEventInit : EventInit {
+				Window? view = null;
+				long detail = 0;
+			};
+			</pre>
+
+			<dl>
+				<dt><code>UIEventInit . view</code></dt>
+				<dd>
+					Should be initialized to the Window object of the global
+					environment in which this event will be dispatched. If this
+					event will be dispatched to an element, the view property should
+					be set to the Window object containing the element's
+					<code>ownerDocument</code>.
+				</dd>
+
+				<dt><code>UIEventInit . detail</code></dt>
+				<dd>
+					This value is initialized to a number that is
+					application-specific.
+				</dd>
+			</dl>
 
 	<h4 id="events-uievent-types">UI Event Types</h4>
 
@@ -398,43 +402,47 @@ events.
 		To create an instance of the {{FocusEvent}} interface, use the
 		FocusEvent constructor, passing an optional {{FocusEventInit}} dictionary.
 
-		<pre class="idl">
-		[Constructor(DOMString type, optional FocusEventInit eventInitDict)]
-		interface FocusEvent : UIEvent {
-			readonly attribute EventTarget? relatedTarget;
-		};
-		</pre>
+		<h5 id="idl-focusevent">FocusEvent</h5>
 
-		<dl>
-			<dt><code>FocusEvent . relatedTarget</code></dt>
-			<dd>
-				Used to identify a secondary {{EventTarget}}
-				related to a Focus event, depending on the type of event.
+			<pre class="idl">
+			[Constructor(DOMString type, optional FocusEventInit eventInitDict)]
+			interface FocusEvent : UIEvent {
+				readonly attribute EventTarget? relatedTarget;
+			};
+			</pre>
 
-				For security reasons with nested browsing contexts, when tabbing
-				into or out of a nested context, the relevant {{EventTarget}}
-				SHOULD be <code>null</code>.
+			<dl>
+				<dt><code>FocusEvent . relatedTarget</code></dt>
+				<dd>
+					Used to identify a secondary {{EventTarget}}
+					related to a Focus event, depending on the type of event.
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>null</code>.
-			</dd>
-		</dl>
+					For security reasons with nested browsing contexts, when tabbing
+					into or out of a nested context, the relevant {{EventTarget}}
+					SHOULD be <code>null</code>.
 
-		<pre class="idl">
-		dictionary FocusEventInit : UIEventInit {
-			EventTarget? relatedTarget = null;
-		};
-		</pre>
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>null</code>.
+				</dd>
+			</dl>
 
-		<dl>
-			<dt><code>FocusEventInit . relatedTarget</code></dt>
-			<dd>
-				The {{FocusEventInit/relatedTarget}} should be initialized to the element
-				losing focus (in the case of a EVENT{focus} or EVENT{focusin}
-				event) or the element gaining focus (in the case of a EVENT{blur}
-				or EVENT{focusout} event).
-			</dd>
-		</dl>
+		<h5 id="idl-focuseventinit">FocusEventInit</h5>
+
+			<pre class="idl">
+			dictionary FocusEventInit : UIEventInit {
+				EventTarget? relatedTarget = null;
+			};
+			</pre>
+
+			<dl>
+				<dt><code>FocusEventInit . relatedTarget</code></dt>
+				<dd>
+					The {{FocusEventInit/relatedTarget}} should be initialized to the element
+					losing focus (in the case of a EVENT{focus} or EVENT{focusin}
+					event) or the element gaining focus (in the case of a EVENT{blur}
+					or EVENT{focusout} event).
+				</dd>
+			</dl>
 
 	<h4 id="events-focusevent-event-order">Focus Event Order</h4>
 
@@ -795,325 +803,329 @@ events.
 		other proprietary attributes, e.g., <code>pageX</code>).
 		</p>
 
-		<pre class="idl">
-		[Constructor(DOMString type, optional MouseEventInit eventInitDict)]
-		interface MouseEvent : UIEvent {
-			readonly attribute long screenX;
-			readonly attribute long screenY;
-			readonly attribute long clientX;
-			readonly attribute long clientY;
+		<h5 id="idl-mouseevent">MouseEvent</h5>
 
-			readonly attribute boolean ctrlKey;
-			readonly attribute boolean shiftKey;
-			readonly attribute boolean altKey;
-			readonly attribute boolean metaKey;
+			<pre class="idl">
+			[Constructor(DOMString type, optional MouseEventInit eventInitDict)]
+			interface MouseEvent : UIEvent {
+				readonly attribute long screenX;
+				readonly attribute long screenY;
+				readonly attribute long clientX;
+				readonly attribute long clientY;
 
-			readonly attribute short button;
-			readonly attribute unsigned short buttons;
+				readonly attribute boolean ctrlKey;
+				readonly attribute boolean shiftKey;
+				readonly attribute boolean altKey;
+				readonly attribute boolean metaKey;
 
-			readonly attribute EventTarget? relatedTarget;
+				readonly attribute short button;
+				readonly attribute unsigned short buttons;
 
-			boolean getModifierState(DOMString keyArg);
-		};
-		</pre>
+				readonly attribute EventTarget? relatedTarget;
 
-		<dl dfn-for="MouseEvent">
-			<dt><dfn attribute>screenX</dfn></dt>
-			<dd>
-				The horizontal coordinate at which the event occurred relative
-				to the origin of the screen coordinate system.
+				boolean getModifierState(DOMString keyArg);
+			};
+			</pre>
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>0</code>.
-			</dd>
+			<dl dfn-for="MouseEvent">
+				<dt><dfn attribute>screenX</dfn></dt>
+				<dd>
+					The horizontal coordinate at which the event occurred relative
+					to the origin of the screen coordinate system.
 
-			<dt><dfn attribute>screenY</dfn></dt>
-			<dd>
-				The vertical coordinate at which the event occurred relative to
-				the origin of the screen coordinate system.
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>0</code>.
+				</dd>
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>0</code>.
-			</dd>
+				<dt><dfn attribute>screenY</dfn></dt>
+				<dd>
+					The vertical coordinate at which the event occurred relative to
+					the origin of the screen coordinate system.
 
-			<dt><dfn attribute>clientX</dfn></dt>
-			<dd>
-				The horizontal coordinate at which the event occurred relative
-				to the viewport associated with the event.
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>0</code>.
+				</dd>
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>0</code>.
-			</dd>
+				<dt><dfn attribute>clientX</dfn></dt>
+				<dd>
+					The horizontal coordinate at which the event occurred relative
+					to the viewport associated with the event.
 
-			<dt><dfn attribute>clientY</dfn></dt>
-			<dd>
-				The vertical coordinate at which the event occurred relative
-				to the viewport associated with the event.
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>0</code>.
+				</dd>
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>0</code>.
-			</dd>
+				<dt><dfn attribute>clientY</dfn></dt>
+				<dd>
+					The vertical coordinate at which the event occurred relative
+					to the viewport associated with the event.
 
-			<dt><dfn attribute>ctrlKey</dfn></dt>
-			<dd>
-				Refer to the {{KeyboardEvent}}'s {{KeyboardEvent/ctrlKey}} attribute.
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>0</code>.
+				</dd>
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>false</code>.
-			</dd>
+				<dt><dfn attribute>ctrlKey</dfn></dt>
+				<dd>
+					Refer to the {{KeyboardEvent}}'s {{KeyboardEvent/ctrlKey}} attribute.
 
-			<dt><dfn attribute>shiftKey</dfn></dt>
-			<dd>
-				Refer to the {{KeyboardEvent}}'s {{KeyboardEvent/shiftKey}} attribute.
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>false</code>.
+				</dd>
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>false</code>.
-			</dd>
+				<dt><dfn attribute>shiftKey</dfn></dt>
+				<dd>
+					Refer to the {{KeyboardEvent}}'s {{KeyboardEvent/shiftKey}} attribute.
 
-			<dt><dfn attribute>altKey</dfn></dt>
-			<dd>
-				Refer to the {{KeyboardEvent}}'s {{KeyboardEvent/altKey}} attribute.
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>false</code>.
+				</dd>
 
-				The <a>un-initialized value</a>
-				of this attribute MUST be <code>false</code>.
-			</dd>
+				<dt><dfn attribute>altKey</dfn></dt>
+				<dd>
+					Refer to the {{KeyboardEvent}}'s {{KeyboardEvent/altKey}} attribute.
 
-			<dt><dfn attribute>metaKey</dfn></dt>
-			<dd>
-				Refer to the {{KeyboardEvent}}'s {{KeyboardEvent/metaKey}} attribute.
+					The <a>un-initialized value</a>
+					of this attribute MUST be <code>false</code>.
+				</dd>
 
-				The <a>un-initialized value</a>
-				of this attribute MUST be <code>false</code>.
-			</dd>
+				<dt><dfn attribute>metaKey</dfn></dt>
+				<dd>
+					Refer to the {{KeyboardEvent}}'s {{KeyboardEvent/metaKey}} attribute.
 
-			<dt><dfn attribute>button</dfn></dt>
-			<dd>
-				During mouse events caused by the depression or release of a mouse button,
-				{{MouseEvent/button}} MUST be used to indicate which pointer device button
-				changed state.
+					The <a>un-initialized value</a>
+					of this attribute MUST be <code>false</code>.
+				</dd>
 
-				The value of the {{MouseEvent/button}}
-				attribute MUST be as follows:
+				<dt><dfn attribute>button</dfn></dt>
+				<dd>
+					During mouse events caused by the depression or release of a mouse button,
+					{{MouseEvent/button}} MUST be used to indicate which pointer device button
+					changed state.
 
-				*	<code>0</code> MUST indicate the primary button of the device
-					(in general, the left button  or the only button on single-button devices,
-					used to activate a user interface control or select text) or the
-					un-initialized value.
-				*	<code>1</code> MUST indicate the auxiliary button
-					(in general, the middle button, often combined with a mouse wheel).
-				*	<code>2</code> MUST indicate the secondary button
-					(in general, the right button, often used to display a context menu).
+					The value of the {{MouseEvent/button}}
+					attribute MUST be as follows:
 
-				Some pointing devices provide or simulate more button states, and values higher than
-				<code>2</code> or lower than <code>0</code> MAY be used to represent such buttons.
+					*	<code>0</code> MUST indicate the primary button of the device
+						(in general, the left button  or the only button on single-button devices,
+						used to activate a user interface control or select text) or the
+						un-initialized value.
+					*	<code>1</code> MUST indicate the auxiliary button
+						(in general, the middle button, often combined with a mouse wheel).
+					*	<code>2</code> MUST indicate the secondary button
+						(in general, the right button, often used to display a context menu).
 
-				<p class="note">
-				The value of {{MouseEvent/button}} is not updated for events not caused by the
-				depression/release of a mouse button.
-				In these scenarios, take care not to interpret the value <code>0</code> as the
-				left button, but rather as the <a>un-initialized value</a>.
-				</p>
+					Some pointing devices provide or simulate more button states, and values higher than
+					<code>2</code> or lower than <code>0</code> MAY be used to represent such buttons.
 
-				<p class="note">
-				Some <a>default actions</a> related
-				to events such as EVENT{mousedown} and
-				EVENT{mouseup} depend on the specific mouse
-				button in use.
-				</p>
+					<p class="note">
+					The value of {{MouseEvent/button}} is not updated for events not caused by the
+					depression/release of a mouse button.
+					In these scenarios, take care not to interpret the value <code>0</code> as the
+					left button, but rather as the <a>un-initialized value</a>.
+					</p>
 
-				The <a>un-initialized value</a>
-				of this attribute MUST be <code>0</code>.
-			</dd>
+					<p class="note">
+					Some <a>default actions</a> related
+					to events such as EVENT{mousedown} and
+					EVENT{mouseup} depend on the specific mouse
+					button in use.
+					</p>
 
-			<dt><dfn attribute>buttons</dfn></dt>
-			<dd>
-				During any mouse events, {{MouseEvent/buttons}} MUST be used to
-				indicate which combination of mouse buttons are currently being
-				pressed, expressed as a bitmask.
+					The <a>un-initialized value</a>
+					of this attribute MUST be <code>0</code>.
+				</dd>
 
-				<p class="note">
-				Though similarly named, the values for the
-				{{MouseEvent/buttons}} attribute and the {{MouseEvent/button}}
-				attribute are very different. The value of {{MouseEvent/button}}
-				is assumed to be valid during EVENT{mousedown} / EVENT{mouseup}
-				event handlers, whereas the {{MouseEvent/buttons}} attribute
-				reflects the state of the mouse's buttons for any trusted
-				{{MouseEvent}} object (while it is being dispatched), because it
-				can represent the "no button currently active" state (0).
-				</p>
+				<dt><dfn attribute>buttons</dfn></dt>
+				<dd>
+					During any mouse events, {{MouseEvent/buttons}} MUST be used to
+					indicate which combination of mouse buttons are currently being
+					pressed, expressed as a bitmask.
 
-				The value of the {{MouseEvent/buttons}}
-				attribute MUST be as follows:
+					<p class="note">
+					Though similarly named, the values for the
+					{{MouseEvent/buttons}} attribute and the {{MouseEvent/button}}
+					attribute are very different. The value of {{MouseEvent/button}}
+					is assumed to be valid during EVENT{mousedown} / EVENT{mouseup}
+					event handlers, whereas the {{MouseEvent/buttons}} attribute
+					reflects the state of the mouse's buttons for any trusted
+					{{MouseEvent}} object (while it is being dispatched), because it
+					can represent the "no button currently active" state (0).
+					</p>
 
-				*	<code>0</code> MUST indicate no button is currently active.
-				*	<code>1</code> MUST indicate the primary button of the device
-					(in general, the left button or the only button on single-button devices,
-					used to activate a user interface control or select text).
-				*	<code>2</code> MUST indicate the secondary button
-					(in general, the right button, often used to display a context menu), if present.
-				*	<code>4</code> MUST indicate the auxiliary button
-					(in general, the middle button, often combined with a mouse wheel).
+					The value of the {{MouseEvent/buttons}}
+					attribute MUST be as follows:
 
-				Some pointing devices provide or simulate more buttons. To
-				represent such buttons, the value MUST be doubled for each
-				successive button (in the binary series <code>8</code>,
-				<code>16</code>, <code>32</code>, ... ).
+					*	<code>0</code> MUST indicate no button is currently active.
+					*	<code>1</code> MUST indicate the primary button of the device
+						(in general, the left button or the only button on single-button devices,
+						used to activate a user interface control or select text).
+					*	<code>2</code> MUST indicate the secondary button
+						(in general, the right button, often used to display a context menu), if present.
+					*	<code>4</code> MUST indicate the auxiliary button
+						(in general, the middle button, often combined with a mouse wheel).
 
-				<p class="note">
-				Because the sum of any set of button values is a unique number,
-				a content author can use a bitwise operation to determine how
-				many buttons are currently being pressed and which buttons they
-				are, for an arbitrary number of mouse buttons on a device. For
-				example, the value <code>3</code> indicates that the left and
-				right button are currently both pressed, while the value
-				<code>5</code> indicates that the left and middle button are
-				currently both pressed.
+					Some pointing devices provide or simulate more buttons. To
+					represent such buttons, the value MUST be doubled for each
+					successive button (in the binary series <code>8</code>,
+					<code>16</code>, <code>32</code>, ... ).
 
-				<p class="note">
-				Some <a>default actions</a> related to events such as
-				EVENT{mousedown} and EVENT{mouseup} depend on the specific mouse
-				button in use.
-				</p>
+					<p class="note">
+					Because the sum of any set of button values is a unique number,
+					a content author can use a bitwise operation to determine how
+					many buttons are currently being pressed and which buttons they
+					are, for an arbitrary number of mouse buttons on a device. For
+					example, the value <code>3</code> indicates that the left and
+					right button are currently both pressed, while the value
+					<code>5</code> indicates that the left and middle button are
+					currently both pressed.
 
-				The <a>un-initialized value</a>
-				of this attribute MUST be <code>0</code>.
-			</dd>
+					<p class="note">
+					Some <a>default actions</a> related to events such as
+					EVENT{mousedown} and EVENT{mouseup} depend on the specific mouse
+					button in use.
+					</p>
 
-			<dt><dfn attribute>relatedTarget</dfn></dt>
-			<dd>
-				Used to identify a secondary {{EventTarget}} related to a UI event, depending on the type of event.
+					The <a>un-initialized value</a>
+					of this attribute MUST be <code>0</code>.
+				</dd>
 
-				The <a>un-initialized value</a> of this attribute MUST be <code>null</code>.
-			</dd>
+				<dt><dfn attribute>relatedTarget</dfn></dt>
+				<dd>
+					Used to identify a secondary {{EventTarget}} related to a UI event, depending on the type of event.
 
-			<dt><dfn method>getModifierState(keyArg)</dfn></dt>
-			<dd>
-				<p class="intro-dom">Introduced in this specification</p>
+					The <a>un-initialized value</a> of this attribute MUST be <code>null</code>.
+				</dd>
 
-				Queries the state of a modifier using a key value.
-				See [[#keys-modifiers]] for a list of valid (case-sensitive)
-				arguments to this method.
+				<dt><dfn method>getModifierState(keyArg)</dfn></dt>
+				<dd>
+					<p class="intro-dom">Introduced in this specification</p>
 
-				Returns <code>true</code> if it is a modifier key and the
-				modifier is activated, <code>false</code> otherwise.
+					Queries the state of a modifier using a key value.
+					See [[#keys-modifiers]] for a list of valid (case-sensitive)
+					arguments to this method.
 
-				<dl class="parameters">
-					<dt>DOMString keyArg</dt>
-					<dd>
-						Refer to the {{KeyboardEvent}}'s {{KeyboardEvent/getModifierState()}}
-						method for a description of this parameter.
-					</dd>
-				</dl>
-			</dd>
-		</dl>
+					Returns <code>true</code> if it is a modifier key and the
+					modifier is activated, <code>false</code> otherwise.
 
-		<pre class="idl">
-		dictionary MouseEventInit : EventModifierInit {
-			long screenX = 0;
-			long screenY = 0;
-			long clientX = 0;
-			long clientY = 0;
+					<dl class="parameters">
+						<dt>DOMString keyArg</dt>
+						<dd>
+							Refer to the {{KeyboardEvent}}'s {{KeyboardEvent/getModifierState()}}
+							method for a description of this parameter.
+						</dd>
+					</dl>
+				</dd>
+			</dl>
 
-			short button = 0;
-			unsigned short buttons = 0;
-			EventTarget? relatedTarget = null;
-		};
-		</pre>
+		<h5 id="idl-mouseeventinit">MouseEventInit</h5>
 
-		<dl dfn-for="MouseEventInit">
-			<dt><dfn dict-member>screenX</dfn></dt>
-			<dd>
-				Initializes the {{MouseEvent/screenX}} attribute of the {{MouseEvent}}
-				object to the desired horizontal relative position of the mouse
-				pointer on the user's screen.
+			<pre class="idl">
+			dictionary MouseEventInit : EventModifierInit {
+				long screenX = 0;
+				long screenY = 0;
+				long clientX = 0;
+				long clientY = 0;
 
-				Initializing the event object to the given mouse position must
-				not move the user's mouse pointer to the initialized position.
-			</dd>
+				short button = 0;
+				unsigned short buttons = 0;
+				EventTarget? relatedTarget = null;
+			};
+			</pre>
 
-			<dt><dfn dict-member>screenY</dfn></dt>
-			<dd>
-				Initializes the {{MouseEvent/screenY}} attribute of the {{MouseEvent}}
-				object to the desired vertical relative position of the mouse
-				pointer on the user's screen.
+			<dl dfn-for="MouseEventInit">
+				<dt><dfn dict-member>screenX</dfn></dt>
+				<dd>
+					Initializes the {{MouseEvent/screenX}} attribute of the {{MouseEvent}}
+					object to the desired horizontal relative position of the mouse
+					pointer on the user's screen.
 
-				Initializing the event object to the given mouse position must
-				not move the user's mouse pointer to the initialized position.
-			</dd>
+					Initializing the event object to the given mouse position must
+					not move the user's mouse pointer to the initialized position.
+				</dd>
 
-			<dt><dfn dict-member>clientX</dfn></dt>
-			<dd>
-				Initializes the {{MouseEvent/clientX}} attribute of the {{MouseEvent}}
-				object to the desired horizontal position of the mouse pointer
-				relative to the client window of the user's browser.
+				<dt><dfn dict-member>screenY</dfn></dt>
+				<dd>
+					Initializes the {{MouseEvent/screenY}} attribute of the {{MouseEvent}}
+					object to the desired vertical relative position of the mouse
+					pointer on the user's screen.
 
-				Initializing the event object to the given mouse position must
-				not move the user's mouse pointer to the initialized position.
-			</dd>
+					Initializing the event object to the given mouse position must
+					not move the user's mouse pointer to the initialized position.
+				</dd>
 
-			<dt><dfn dict-member>clientY</dfn></dt>
-			<dd>
-				Initializes the {{MouseEvent/clientY}} attribute of the {{MouseEvent}}
-				object to the desired vertical position of the mouse pointer
-				relative to the client window of the user's browser.
+				<dt><dfn dict-member>clientX</dfn></dt>
+				<dd>
+					Initializes the {{MouseEvent/clientX}} attribute of the {{MouseEvent}}
+					object to the desired horizontal position of the mouse pointer
+					relative to the client window of the user's browser.
 
-				Initializing the event object to the given mouse position must
-				not move the user's mouse pointer to the initialized position.
-			</dd>
+					Initializing the event object to the given mouse position must
+					not move the user's mouse pointer to the initialized position.
+				</dd>
 
-			<dt><dfn dict-member>button</dfn></dt>
-			<dd>
-				Initializes the {{MouseEvent/button}} attribute of the {{MouseEvent}}
-				object to a number representing the desired state of the button(s)
-				of the mouse.
+				<dt><dfn dict-member>clientY</dfn></dt>
+				<dd>
+					Initializes the {{MouseEvent/clientY}} attribute of the {{MouseEvent}}
+					object to the desired vertical position of the mouse pointer
+					relative to the client window of the user's browser.
 
-				<p class="note">
-				The value 0 is used to represent
-				the primary mouse button, 1 is used to represent the auxiliary/middle
-				mouse button, and 2 to represent the right mouse button.
-				Numbers greater than 2 are also possible, but are not specified
-				in this document.
-				</p>
-			</dd>
+					Initializing the event object to the given mouse position must
+					not move the user's mouse pointer to the initialized position.
+				</dd>
 
-			<dt><dfn dict-member>buttons</dfn></dt>
-			<dd>
-				Initializes the {{MouseEvent/buttons}} attribute of the {{MouseEvent}}
-				object to a number representing one <em>or more</em> of the button(s) of the mouse
-				that are to be considered active.
+				<dt><dfn dict-member>button</dfn></dt>
+				<dd>
+					Initializes the {{MouseEvent/button}} attribute of the {{MouseEvent}}
+					object to a number representing the desired state of the button(s)
+					of the mouse.
 
-				<p class="note">
-				The {{MouseEvent/buttons}}
-				attribute is a bit-field. If a mask value of 1 is true when applied to
-				the value of the bit field, then the primary mouse button is down. If a
-				mask value of 2 is true when applied to the value of the bit field, then
-				the right mouse button is down. If a mask value of 4 is true when applied
-				to the value of the bit field, then the auxiliary/middle button is down.
-				</p>
+					<p class="note">
+					The value 0 is used to represent
+					the primary mouse button, 1 is used to represent the auxiliary/middle
+					mouse button, and 2 to represent the right mouse button.
+					Numbers greater than 2 are also possible, but are not specified
+					in this document.
+					</p>
+				</dd>
 
-				<p class="example">
-				In JavaScript, to initialize the
-				{{MouseEvent/buttons}} attribute as if the right (2) and middle
-				button (4) were being pressed simultaneously, the buttons value
-				can be assigned as either:<br/>
-				<code>&nbsp;&nbsp;{ buttons: 2 | 4 }</code></br/>
-				or:<br/>
-				<code>&nbsp;&nbsp;{ buttons: 6 }</code>
-				</p>
-			</dd>
+				<dt><dfn dict-member>buttons</dfn></dt>
+				<dd>
+					Initializes the {{MouseEvent/buttons}} attribute of the {{MouseEvent}}
+					object to a number representing one <em>or more</em> of the button(s) of the mouse
+					that are to be considered active.
 
-			<dt><dfn dict-member>relatedTarget</dfn></dt>
-			<dd>
-				The <code>relatedTarget</code> should be initialized to the element
-				whose bounds the mouse pointer just left (in the case of a
-				<em>mouseover</em> or <em>mouseenter</em> event) or the element
-				whose bounds the mouse pointer is entering (in the case of a
-				<em>mouseout</em> or <em>mouseleave</em>
-				or <em>focusout</em> event). For other events, this value need not
-				be assigned (and will default to null).
-			</dd>
+					<p class="note">
+					The {{MouseEvent/buttons}}
+					attribute is a bit-field. If a mask value of 1 is true when applied to
+					the value of the bit field, then the primary mouse button is down. If a
+					mask value of 2 is true when applied to the value of the bit field, then
+					the right mouse button is down. If a mask value of 4 is true when applied
+					to the value of the bit field, then the auxiliary/middle button is down.
+					</p>
 
-		</dl>
+					<p class="example">
+					In JavaScript, to initialize the
+					{{MouseEvent/buttons}} attribute as if the right (2) and middle
+					button (4) were being pressed simultaneously, the buttons value
+					can be assigned as either:<br/>
+					<code>&nbsp;&nbsp;{ buttons: 2 | 4 }</code></br/>
+					or:<br/>
+					<code>&nbsp;&nbsp;{ buttons: 6 }</code>
+					</p>
+				</dd>
+
+				<dt><dfn dict-member>relatedTarget</dfn></dt>
+				<dd>
+					The <code>relatedTarget</code> should be initialized to the element
+					whose bounds the mouse pointer just left (in the case of a
+					<em>mouseover</em> or <em>mouseenter</em> event) or the element
+					whose bounds the mouse pointer is entering (in the case of a
+					<em>mouseout</em> or <em>mouseleave</em>
+					or <em>focusout</em> event). For other events, this value need not
+					be assigned (and will default to null).
+				</dd>
+
+			</dl>
 
 	<p id="current-click-count">Implementations MUST maintain the <em>current
 	click count</em> when generating mouse events. This MUST be a non-negative
@@ -2376,135 +2388,139 @@ events.
 		To create an instance of the {{WheelEvent}} interface, use the {{WheelEvent}} constructor,
 		passing an optional {{WheelEventInit}} dictionary.
 
-		<pre class="idl">
-		[Constructor(DOMString type, optional WheelEventInit eventInitDict)]
-		interface WheelEvent : MouseEvent {
-			// DeltaModeCode
-			const unsigned long DOM_DELTA_PIXEL = 0x00;
-			const unsigned long DOM_DELTA_LINE	= 0x01;
-			const unsigned long DOM_DELTA_PAGE	= 0x02;
+		<h5 id="idl-wheelevent">WheelEvent</h5>
 
-			readonly attribute double deltaX;
-			readonly attribute double deltaY;
-			readonly attribute double deltaZ;
-			readonly attribute unsigned long deltaMode;
-		};
-		</pre>
+			<pre class="idl">
+			[Constructor(DOMString type, optional WheelEventInit eventInitDict)]
+			interface WheelEvent : MouseEvent {
+				// DeltaModeCode
+				const unsigned long DOM_DELTA_PIXEL = 0x00;
+				const unsigned long DOM_DELTA_LINE	= 0x01;
+				const unsigned long DOM_DELTA_PAGE	= 0x02;
 
-		<dl dfn-for="WheelEvent">
-			<dt><dfn const>DOM_DELTA_PIXEL</dfn></dt>
-			<dd>
-				The units of measurement for the <a>delta</a> MUST be pixels.
-				This is the most typical case in most operating system and
-				implementation configurations.
-			</dd>
+				readonly attribute double deltaX;
+				readonly attribute double deltaY;
+				readonly attribute double deltaZ;
+				readonly attribute unsigned long deltaMode;
+			};
+			</pre>
 
-			<dt><dfn const>DOM_DELTA_LINE</dfn></dt>
-			<dd>
-				The units of measurement for the <a>delta</a> MUST be individual
-				lines of text.  This is the case for many form controls.
-			</dd>
+			<dl dfn-for="WheelEvent">
+				<dt><dfn const>DOM_DELTA_PIXEL</dfn></dt>
+				<dd>
+					The units of measurement for the <a>delta</a> MUST be pixels.
+					This is the most typical case in most operating system and
+					implementation configurations.
+				</dd>
 
-			<dt><dfn const>DOM_DELTA_PAGE</dfn></dt>
-			<dd>
-				The units of measurement for the <a>delta</a> MUST be pages,
-				either defined as a single screen or as a demarcated page.
-			</dd>
+				<dt><dfn const>DOM_DELTA_LINE</dfn></dt>
+				<dd>
+					The units of measurement for the <a>delta</a> MUST be individual
+					lines of text.  This is the case for many form controls.
+				</dd>
 
-			<dt><dfn attribute>deltaX</dfn></dt>
-			<dd>
-				In user agents where the default action of the EVENT{wheel}
-				event is to scroll, the value MUST be the measurement along the
-				x-axis (in pixels, lines, or pages) to be scrolled in the case
-				where the event is not cancelled. Otherwise, this is an
-				implementation-specific measurement (in pixels, lines, or pages)
-				of the movement of a wheel device around the x-axis.
+				<dt><dfn const>DOM_DELTA_PAGE</dfn></dt>
+				<dd>
+					The units of measurement for the <a>delta</a> MUST be pages,
+					either defined as a single screen or as a demarcated page.
+				</dd>
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>0.0</code>.
-			</dd>
+				<dt><dfn attribute>deltaX</dfn></dt>
+				<dd>
+					In user agents where the default action of the EVENT{wheel}
+					event is to scroll, the value MUST be the measurement along the
+					x-axis (in pixels, lines, or pages) to be scrolled in the case
+					where the event is not cancelled. Otherwise, this is an
+					implementation-specific measurement (in pixels, lines, or pages)
+					of the movement of a wheel device around the x-axis.
 
-			<dt><dfn attribute>deltaY</dfn></dt>
-			<dd>
-				In user agents where the default action of the EVENT{wheel}
-				event is to scroll, the value MUST be the measurement along the
-				y-axis (in pixels, lines, or pages) to be scrolled in the case
-				where the event is not cancelled. Otherwise, this is an
-				implementation-specific measurement (in pixels, lines, or pages)
-				of the movement of a wheel device around the y-axis.
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>0.0</code>.
+				</dd>
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>0.0</code>.
-			</dd>
+				<dt><dfn attribute>deltaY</dfn></dt>
+				<dd>
+					In user agents where the default action of the EVENT{wheel}
+					event is to scroll, the value MUST be the measurement along the
+					y-axis (in pixels, lines, or pages) to be scrolled in the case
+					where the event is not cancelled. Otherwise, this is an
+					implementation-specific measurement (in pixels, lines, or pages)
+					of the movement of a wheel device around the y-axis.
 
-			<dt><dfn attribute>deltaZ</dfn></dt>
-			<dd>
-				In user agents where the default action of the EVENT{wheel}
-				event is to scroll, the value MUST be the measurement along the
-				z-axis (in pixels, lines, or pages) to be scrolled in the case
-				where the event is not cancelled. Otherwise, this is an
-				implementation-specific measurement (in pixels, lines, or pages)
-				of the movement of a wheel device around the z-axis.
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>0.0</code>.
+				</dd>
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>0.0</code>.
-			</dd>
+				<dt><dfn attribute>deltaZ</dfn></dt>
+				<dd>
+					In user agents where the default action of the EVENT{wheel}
+					event is to scroll, the value MUST be the measurement along the
+					z-axis (in pixels, lines, or pages) to be scrolled in the case
+					where the event is not cancelled. Otherwise, this is an
+					implementation-specific measurement (in pixels, lines, or pages)
+					of the movement of a wheel device around the z-axis.
 
-			<dt><dfn attribute>deltaMode</dfn></dt>
-			<dd>
-				The <code>deltaMode</code> attribute contains an indication of
-				the units of measurement for the <a>delta</a> values. The
-				default value is {{WheelEvent/DOM_DELTA_PIXEL}} (pixels).
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>0.0</code>.
+				</dd>
 
-				This attribute MUST be set to one of the DOM_DELTA constants to
-				indicate the units of measurement for the <a>delta</a> values.
-				The precise measurement is specific to device, operating system,
-				and application configurations.
+				<dt><dfn attribute>deltaMode</dfn></dt>
+				<dd>
+					The <code>deltaMode</code> attribute contains an indication of
+					the units of measurement for the <a>delta</a> values. The
+					default value is {{WheelEvent/DOM_DELTA_PIXEL}} (pixels).
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>0</code>.
-			</dd>
-		</dl>
+					This attribute MUST be set to one of the DOM_DELTA constants to
+					indicate the units of measurement for the <a>delta</a> values.
+					The precise measurement is specific to device, operating system,
+					and application configurations.
 
-		<pre class="idl">
-		dictionary WheelEventInit : MouseEventInit {
-			double deltaX = 0.0;
-			double deltaY = 0.0;
-			double deltaZ = 0.0;
-			unsigned long deltaMode = 0;
-		};
-		</pre>
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>0</code>.
+				</dd>
+			</dl>
 
-		<dl dfn-for="WheelEventInit">
-			<dt><dfn dict-member>deltaX</dfn></dt>
-			<dd>See <code>deltaZ</code> attribute.</dd>
+		<h5 id="idl-wheeleventinit">WheelEventInit</h5>
 
-			<dt><dfn dict-member>deltaY</dfn></dt>
-			<dd>See <code>deltaZ</code> attribute.</dd>
+			<pre class="idl">
+			dictionary WheelEventInit : MouseEventInit {
+				double deltaX = 0.0;
+				double deltaY = 0.0;
+				double deltaZ = 0.0;
+				unsigned long deltaMode = 0;
+			};
+			</pre>
 
-			<dt><dfn dict-member>deltaZ</dfn></dt>
-			<dd>
-				Initializes the {{WheelEvent/deltaZ}} attribute of the {{WheelEvent}}
-				object. Relative positive values for this attribute (as well as
-				the {{WheelEvent/deltaX}} and {{WheelEvent/deltaY}} attributes) are
-				given by a right-hand coordinate system where the X, Y, and Z
-				axes are directed towards the right-most edge, bottom-most edge,
-				and farthest depth (away from the user) of the document,
-				respectively. Negative relative values are in the respective
-				opposite directions.
-			</dd>
+			<dl dfn-for="WheelEventInit">
+				<dt><dfn dict-member>deltaX</dfn></dt>
+				<dd>See <code>deltaZ</code> attribute.</dd>
 
-			<dt><dfn dict-member>deltaMode</dfn></dt>
-			<dd>
-				Initializes the {{WheelEvent/deltaMode}} attribute on the
-				{{WheelEvent}} object to the enumerated values 0, 1, or 2, which
-				represent the amount of pixels scrolled
-				({{WheelEvent/DOM_DELTA_PIXEL}}), lines scrolled
-				({{WheelEvent/DOM_DELTA_LINE}}), or pages scrolled
-				({{WheelEvent/DOM_DELTA_PAGE}}) if the <a>rotation</a> of the
-				wheel would have resulted in scrolling.
-			</dd>
-		</dl>
+				<dt><dfn dict-member>deltaY</dfn></dt>
+				<dd>See <code>deltaZ</code> attribute.</dd>
+
+				<dt><dfn dict-member>deltaZ</dfn></dt>
+				<dd>
+					Initializes the {{WheelEvent/deltaZ}} attribute of the {{WheelEvent}}
+					object. Relative positive values for this attribute (as well as
+					the {{WheelEvent/deltaX}} and {{WheelEvent/deltaY}} attributes) are
+					given by a right-hand coordinate system where the X, Y, and Z
+					axes are directed towards the right-most edge, bottom-most edge,
+					and farthest depth (away from the user) of the document,
+					respectively. Negative relative values are in the respective
+					opposite directions.
+				</dd>
+
+				<dt><dfn dict-member>deltaMode</dfn></dt>
+				<dd>
+					Initializes the {{WheelEvent/deltaMode}} attribute on the
+					{{WheelEvent}} object to the enumerated values 0, 1, or 2, which
+					represent the amount of pixels scrolled
+					({{WheelEvent/DOM_DELTA_PIXEL}}), lines scrolled
+					({{WheelEvent/DOM_DELTA_LINE}}), or pages scrolled
+					({{WheelEvent/DOM_DELTA_PAGE}}) if the <a>rotation</a> of the
+					wheel would have resulted in scrolling.
+				</dd>
+			</dl>
 
 	<h4 id="events-wheel-types">Wheel Event Types</h4>
 
@@ -2622,59 +2638,63 @@ events.
 
 	<h4 id="interface-inputevent">Interface InputEvent</h4>
 
-		<p class="intro-dom">Introduced in DOM Level 3</p>
+		<h5 id="idl-inputevent">InputEvent</h5>
 
-		<pre class="idl">
-		[Constructor(DOMString type, optional InputEventInit eventInitDict)]
-		interface InputEvent : UIEvent {
-			readonly attribute DOMString? data;
-			readonly attribute boolean isComposing;
-		};
-		</pre>
+			<p class="intro-dom">Introduced in DOM Level 3</p>
 
-		<dl dfn-for="InputEvent">
-			<dt><dfn attribute>data</dfn></dt>
-			<dd>
-				<code>data</code> holds the value of the characters generated by
-				an input method. This MAY be a single Unicode character or a
-				non-empty sequence of Unicode characters [[Unicode]]. Characters
-				SHOULD be normalized as defined by the Unicode normalization
-				form <em>NFC</em>, defined in [[UAX15]].
-				This attribute MAY contain the <a>empty string</a>.
+			<pre class="idl">
+			[Constructor(DOMString type, optional InputEventInit eventInitDict)]
+			interface InputEvent : UIEvent {
+				readonly attribute DOMString? data;
+				readonly attribute boolean isComposing;
+			};
+			</pre>
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>null</code>.
-			</dd>
+			<dl dfn-for="InputEvent">
+				<dt><dfn attribute>data</dfn></dt>
+				<dd>
+					<code>data</code> holds the value of the characters generated by
+					an input method. This MAY be a single Unicode character or a
+					non-empty sequence of Unicode characters [[Unicode]]. Characters
+					SHOULD be normalized as defined by the Unicode normalization
+					form <em>NFC</em>, defined in [[UAX15]].
+					This attribute MAY contain the <a>empty string</a>.
 
-			<dt><dfn attribute>isComposing</dfn></dt>
-			<dd>
-				<code>true</code> if the input event occurs as part of a
-				composition session, i.e., after a EVENT{compositionstart} event
-				and before the corresponding EVENT{compositionend} event.
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>null</code>.
+				</dd>
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>false</code>.
-			</dd>
-		</dl>
+				<dt><dfn attribute>isComposing</dfn></dt>
+				<dd>
+					<code>true</code> if the input event occurs as part of a
+					composition session, i.e., after a EVENT{compositionstart} event
+					and before the corresponding EVENT{compositionend} event.
 
-		<pre class="idl">
-		dictionary InputEventInit : UIEventInit {
-			DOMString? data = "";
-			boolean isComposing = false;
-		};
-		</pre>
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>false</code>.
+				</dd>
+			</dl>
 
-		<dl dfn-for="InputEventInit">
-			<dt><dfn dict-member>data</dfn></dt>
-			<dd>
-				Initializes the <code>data</code> attribute of the InputEvent object.
-			</dd>
+		<h5 id="idl-inputeventinit">InputEventInit</h5>
 
-			<dt><dfn dict-member>isComposing</dfn></dt>
-			<dd>
-				Initializes the <code>isComposing</code> attribute of the InputEvent object.
-			</dd>
-		</dl>
+			<pre class="idl">
+			dictionary InputEventInit : UIEventInit {
+				DOMString? data = "";
+				boolean isComposing = false;
+			};
+			</pre>
+
+			<dl dfn-for="InputEventInit">
+				<dt><dfn dict-member>data</dfn></dt>
+				<dd>
+					Initializes the <code>data</code> attribute of the InputEvent object.
+				</dd>
+
+				<dt><dfn dict-member>isComposing</dfn></dt>
+				<dd>
+					Initializes the <code>isComposing</code> attribute of the InputEvent object.
+				</dd>
+			</dl>
 
 	<h4 id="events-inputevent-event-order">Input Event Order</h4>
 
@@ -2849,285 +2869,289 @@ events.
 		{{KeyboardEvent}} constructor, passing an optional
 		{{KeyboardEventInit}} dictionary.
 
-		<pre class="idl" data-highlight="webidl">
-		[Constructor(DOMString type, optional KeyboardEventInit eventInitDict)]
-		interface KeyboardEvent : UIEvent {
-			// KeyLocationCode
-			const unsigned long DOM_KEY_LOCATION_STANDARD = 0x00;
-			const unsigned long DOM_KEY_LOCATION_LEFT = 0x01;
-			const unsigned long DOM_KEY_LOCATION_RIGHT = 0x02;
-			const unsigned long DOM_KEY_LOCATION_NUMPAD = 0x03;
+		<h5 id="idl-keyboardevent">KeyboardEvent</h5>
 
-			readonly attribute DOMString key;
-			readonly attribute DOMString code;
-			readonly attribute unsigned long location;
+			<pre class="idl" data-highlight="webidl">
+			[Constructor(DOMString type, optional KeyboardEventInit eventInitDict)]
+			interface KeyboardEvent : UIEvent {
+				// KeyLocationCode
+				const unsigned long DOM_KEY_LOCATION_STANDARD = 0x00;
+				const unsigned long DOM_KEY_LOCATION_LEFT = 0x01;
+				const unsigned long DOM_KEY_LOCATION_RIGHT = 0x02;
+				const unsigned long DOM_KEY_LOCATION_NUMPAD = 0x03;
 
-			readonly attribute boolean ctrlKey;
-			readonly attribute boolean shiftKey;
-			readonly attribute boolean altKey;
-			readonly attribute boolean metaKey;
+				readonly attribute DOMString key;
+				readonly attribute DOMString code;
+				readonly attribute unsigned long location;
 
-			readonly attribute boolean repeat;
-			readonly attribute boolean isComposing;
+				readonly attribute boolean ctrlKey;
+				readonly attribute boolean shiftKey;
+				readonly attribute boolean altKey;
+				readonly attribute boolean metaKey;
 
-			boolean getModifierState(DOMString keyArg);
-		};
-		</pre>
+				readonly attribute boolean repeat;
+				readonly attribute boolean isComposing;
 
-		<dl dfn-for="KeyboardEvent">
-			<dt><dfn const>DOM_KEY_LOCATION_STANDARD</dfn></dt>
-			<dd>
-				The key activation MUST NOT be distinguished as the left or
-				right version of the key, and (other than the KEYCAP{NumLock}
-				key) did not originate from the numeric keypad (or did not
-				originate with a virtual key corresponding to the numeric
-				keypad).
+				boolean getModifierState(DOMString keyArg);
+			};
+			</pre>
 
-				<p class="example">
-				The KEYCAP{Q} key on a PC 101 Key US keyboard.<br/>
-				The KEYCAP{NumLock} key on a PC 101 Key US keyboard.<br/>
-				The KEYCAP{1} key on a PC 101 Key US keyboard located in the
-				main section of the keyboard.
-				</p>
-			</dd>
+			<dl dfn-for="KeyboardEvent">
+				<dt><dfn const>DOM_KEY_LOCATION_STANDARD</dfn></dt>
+				<dd>
+					The key activation MUST NOT be distinguished as the left or
+					right version of the key, and (other than the KEYCAP{NumLock}
+					key) did not originate from the numeric keypad (or did not
+					originate with a virtual key corresponding to the numeric
+					keypad).
 
-			<dt><dfn const>DOM_KEY_LOCATION_LEFT</dfn></dt>
-			<dd>
-				The key activated originated from the left key location (when
-				there is more than one possible location for this key).
+					<p class="example">
+					The KEYCAP{Q} key on a PC 101 Key US keyboard.<br/>
+					The KEYCAP{NumLock} key on a PC 101 Key US keyboard.<br/>
+					The KEYCAP{1} key on a PC 101 Key US keyboard located in the
+					main section of the keyboard.
+					</p>
+				</dd>
 
-				<p class="example">
-				The left KEYCAP{Control} key on a PC 101 Key US keyboard.
-				</p>
-			</dd>
+				<dt><dfn const>DOM_KEY_LOCATION_LEFT</dfn></dt>
+				<dd>
+					The key activated originated from the left key location (when
+					there is more than one possible location for this key).
 
-			<dt><dfn const>DOM_KEY_LOCATION_RIGHT</dfn></dt>
-			<dd>
-				The key activation originated from the right key location (when
-				there is more than one possible location for this key).
+					<p class="example">
+					The left KEYCAP{Control} key on a PC 101 Key US keyboard.
+					</p>
+				</dd>
 
-				<p class="example">
-				The right KEYCAP{Shift} key on a PC 101 Key US keyboard.
-				</p>
-			</dd>
+				<dt><dfn const>DOM_KEY_LOCATION_RIGHT</dfn></dt>
+				<dd>
+					The key activation originated from the right key location (when
+					there is more than one possible location for this key).
 
-			<dt><dfn const>DOM_KEY_LOCATION_NUMPAD</dfn></dt>
-			<dd>
-				The key activation originated on the numeric keypad or with a
-				virtual key corresponding to the numeric keypad (when there is
-				more than one possible location for this key). Note that the
-				KEYCAP{NumLock} key should always be encoded with a
-				{{KeyboardEvent/location}} of
-				{{KeyboardEvent/DOM_KEY_LOCATION_STANDARD}}.
+					<p class="example">
+					The right KEYCAP{Shift} key on a PC 101 Key US keyboard.
+					</p>
+				</dd>
 
-				<p class="example">
-				The KEYCAP{1} key on a PC 101 Key US keyboard located on the
-				numeric pad.
-				</p>
-			</dd>
+				<dt><dfn const>DOM_KEY_LOCATION_NUMPAD</dfn></dt>
+				<dd>
+					The key activation originated on the numeric keypad or with a
+					virtual key corresponding to the numeric keypad (when there is
+					more than one possible location for this key). Note that the
+					KEYCAP{NumLock} key should always be encoded with a
+					{{KeyboardEvent/location}} of
+					{{KeyboardEvent/DOM_KEY_LOCATION_STANDARD}}.
 
-			<dt><dfn attribute>key</dfn></dt>
-			<dd>
-				<code>key</code> holds a [=key attribute value=] corresponding to
-				the key pressed.
+					<p class="example">
+					The KEYCAP{1} key on a PC 101 Key US keyboard located on the
+					numeric pad.
+					</p>
+				</dd>
+
+				<dt><dfn attribute>key</dfn></dt>
+				<dd>
+					<code>key</code> holds a [=key attribute value=] corresponding to
+					the key pressed.
 				
-				<p class="note">
-				The <code>key</code> attribute is not related to the legacy
-				<code>keyCode</code> attribute and does not have the same set of
-				values.
-				</p>
+					<p class="note">
+					The <code>key</code> attribute is not related to the legacy
+					<code>keyCode</code> attribute and does not have the same set of
+					values.
+					</p>
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>""</code> (the empty string).
-			</dd>
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>""</code> (the empty string).
+				</dd>
 
-			<dt><dfn attribute>code</dfn></dt>
-			<dd>
-				<code>code</code> holds a string that identifies the physical
-				key being pressed. The value is not affected by the current
-				keyboard layout or modifier state, so a particular key will
-				always return the same value.
+				<dt><dfn attribute>code</dfn></dt>
+				<dd>
+					<code>code</code> holds a string that identifies the physical
+					key being pressed. The value is not affected by the current
+					keyboard layout or modifier state, so a particular key will
+					always return the same value.
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>""</code> (the empty string).
-			</dd>
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>""</code> (the empty string).
+				</dd>
 
-			<dt><dfn attribute>location</dfn></dt>
-			<dd>
-				The {{KeyboardEvent/location}} attribute contains an indication
-				of the logical location of the key on the device.
+				<dt><dfn attribute>location</dfn></dt>
+				<dd>
+					The {{KeyboardEvent/location}} attribute contains an indication
+					of the logical location of the key on the device.
 
-				This attribute MUST be set to one of the DOM_KEY_LOCATION
-				constants to indicate the location of a key on the device.
+					This attribute MUST be set to one of the DOM_KEY_LOCATION
+					constants to indicate the location of a key on the device.
 
-				If a <a>user agent</a> allows keys to be remapped, then the
-				{{KeyboardEvent/location}} value for a remapped key MUST be set
-				to a value which is appropriate for the new key. For example, if
-				the CODE{ControlLeft} key is mapped to the CODE{KeyQ} key, then
-				the {{KeyboardEvent/location}} attribute MUST be set to
-				{{KeyboardEvent/DOM_KEY_LOCATION_STANDARD}}. Conversely, if the
-				CODE{KeyQ} key is remapped to one of the KEYCAP{Control} keys,
-				then the {{KeyboardEvent/location}} attribute MUST be set to
-				either {{KeyboardEvent/DOM_KEY_LOCATION_LEFT}} or
-				{{KeyboardEvent/DOM_KEY_LOCATION_RIGHT}}.
+					If a <a>user agent</a> allows keys to be remapped, then the
+					{{KeyboardEvent/location}} value for a remapped key MUST be set
+					to a value which is appropriate for the new key. For example, if
+					the CODE{ControlLeft} key is mapped to the CODE{KeyQ} key, then
+					the {{KeyboardEvent/location}} attribute MUST be set to
+					{{KeyboardEvent/DOM_KEY_LOCATION_STANDARD}}. Conversely, if the
+					CODE{KeyQ} key is remapped to one of the KEYCAP{Control} keys,
+					then the {{KeyboardEvent/location}} attribute MUST be set to
+					either {{KeyboardEvent/DOM_KEY_LOCATION_LEFT}} or
+					{{KeyboardEvent/DOM_KEY_LOCATION_RIGHT}}.
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>0</code>.
-			</dd>
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>0</code>.
+				</dd>
 
-			<dt><dfn attribute>ctrlKey</dfn></dt>
-			<dd>
-				<code>true</code> if the KEYCAP{Control} (control) key modifier
-				was active.
+				<dt><dfn attribute>ctrlKey</dfn></dt>
+				<dd>
+					<code>true</code> if the KEYCAP{Control} (control) key modifier
+					was active.
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>false</code>.
-			</dd>
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>false</code>.
+				</dd>
 
-			<dt><dfn attribute>shiftKey</dfn></dt>
-			<dd>
-				<code>true</code> if the shift (KEYCAP{Shift}) key modifier was
-				active.
+				<dt><dfn attribute>shiftKey</dfn></dt>
+				<dd>
+					<code>true</code> if the shift (KEYCAP{Shift}) key modifier was
+					active.
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>false</code>.
-			</dd>
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>false</code>.
+				</dd>
 
-			<dt><dfn attribute>altKey</dfn></dt>
-			<dd>
-				<code>true</code> if the KEYCAP{Alt} (alternative) (or
-				GLYPH{Option}) key modifier was active.
+				<dt><dfn attribute>altKey</dfn></dt>
+				<dd>
+					<code>true</code> if the KEYCAP{Alt} (alternative) (or
+					GLYPH{Option}) key modifier was active.
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>false</code>.
-			</dd>
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>false</code>.
+				</dd>
 
-			<dt><dfn attribute>metaKey</dfn></dt>
-			<dd>
-				<code>true</code> if the meta (KEYCAP{Meta}) key modifier was
-				active.
+				<dt><dfn attribute>metaKey</dfn></dt>
+				<dd>
+					<code>true</code> if the meta (KEYCAP{Meta}) key modifier was
+					active.
 
-				<p class="note">
-				The GLYPH{Command} (GLYPH{&#x2318;}) key modifier on Macintosh
-				systems is represented using this key modifier.
-				</p>
+					<p class="note">
+					The GLYPH{Command} (GLYPH{&#x2318;}) key modifier on Macintosh
+					systems is represented using this key modifier.
+					</p>
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>false</code>.
-			</dd>
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>false</code>.
+				</dd>
 
-			<dt><dfn attribute>repeat</dfn></dt>
-			<dd>
-				<code>true</code> if the key has been pressed in a sustained
-				manner.  Holding down a key MUST result in the repeating the
-				events EVENT{keydown}, EVENT{beforeinput}, EVENT{input} in this
-				order, at a rate determined by the system configuration. For
-				mobile devices which have <em>long-key-press</em> behavior, the
-				first key event with a {{KeyboardEvent/repeat}} attribute value
-				of <code>true</code> MUST serve as an indication of a
-				<em>long-key-press</em>. The length of time that the key MUST be
-				pressed in order to begin repeating is configuration-dependent.
+				<dt><dfn attribute>repeat</dfn></dt>
+				<dd>
+					<code>true</code> if the key has been pressed in a sustained
+					manner.  Holding down a key MUST result in the repeating the
+					events EVENT{keydown}, EVENT{beforeinput}, EVENT{input} in this
+					order, at a rate determined by the system configuration. For
+					mobile devices which have <em>long-key-press</em> behavior, the
+					first key event with a {{KeyboardEvent/repeat}} attribute value
+					of <code>true</code> MUST serve as an indication of a
+					<em>long-key-press</em>. The length of time that the key MUST be
+					pressed in order to begin repeating is configuration-dependent.
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>false</code>.
-			</dd>
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>false</code>.
+				</dd>
 
-			<dt><dfn attribute>isComposing</dfn></dt>
-			<dd>
-				<code>true</code> if the key event occurs as part of a
-				composition session, i.e., after a EVENT{compositionstart} event
-				and before the corresponding EVENT{compositionend} event.
+				<dt><dfn attribute>isComposing</dfn></dt>
+				<dd>
+					<code>true</code> if the key event occurs as part of a
+					composition session, i.e., after a EVENT{compositionstart} event
+					and before the corresponding EVENT{compositionend} event.
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>false</code>.
-			</dd>
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>false</code>.
+				</dd>
 
-			<dt><dfn method>getModifierState(keyArg)</dfn></dt>
-			<dd>
-				Queries the state of a modifier using a key value. See <a
-				href="#keys-modifiers">Modifier keys</a> for a list of valid
-				(case-sensitive) arguments to this method.
+				<dt><dfn method>getModifierState(keyArg)</dfn></dt>
+				<dd>
+					Queries the state of a modifier using a key value. See <a
+					href="#keys-modifiers">Modifier keys</a> for a list of valid
+					(case-sensitive) arguments to this method.
 
-				<dl class="parameters">
-					<dt>DOMString keyArg</dt>
-					<dd>
-						A modifier key value.  Valid modifier keys are defined
-						in the <a
-						href="DOM3Events-key.html#keys-modifier">Modifier
-						Keys</a> table in [[UIEvents-Key]].
+					<dl class="parameters">
+						<dt>DOMString keyArg</dt>
+						<dd>
+							A modifier key value.  Valid modifier keys are defined
+							in the <a
+							href="DOM3Events-key.html#keys-modifier">Modifier
+							Keys</a> table in [[UIEvents-Key]].
 
-						Returns <code>true</code> if it is a modifier key and
-						the modifier is activated, <code>false</code> otherwise.
+							Returns <code>true</code> if it is a modifier key and
+							the modifier is activated, <code>false</code> otherwise.
 
-						<p class="note">
-						If an application wishes to distinguish between right
-						and left modifiers, this information could be deduced
-						using keyboard events and {{KeyboardEvent/location}}.
-						</p>
-					</dd>
-				</dl>
-			</dd>
-		</dl>
+							<p class="note">
+							If an application wishes to distinguish between right
+							and left modifiers, this information could be deduced
+							using keyboard events and {{KeyboardEvent/location}}.
+							</p>
+						</dd>
+					</dl>
+				</dd>
+			</dl>
 
-		<pre class="idl">
-		dictionary KeyboardEventInit : EventModifierInit {
-			DOMString key = "";
-			DOMString code = "";
-			unsigned long location = 0;
-			boolean repeat = false;
-			boolean isComposing = false;
-		};
-		</pre>
+		<h5 id="idl-keyboardeventinit">KeyboardEventInit</h5>
 
-		<dl dfn-for="KeyboardEventInit">
-			<dt><dfn dict-member>key</dfn></dt>
-			<dd>
-				Initializes the <code>key</code> attribute of the KeyboardEvent
-				object to the unicode character string representing the meaning
-				of a key after taking into account all keyboard modifiers
-				(such as shift-state). This value is the final effective value
-				of the key. If the key is not a printable character, then it
-				should be one of the key values defined in [[UIEvents-Key]].
-			</dd>
+			<pre class="idl">
+			dictionary KeyboardEventInit : EventModifierInit {
+				DOMString key = "";
+				DOMString code = "";
+				unsigned long location = 0;
+				boolean repeat = false;
+				boolean isComposing = false;
+			};
+			</pre>
 
-			<dt><dfn dict-member>code</dfn></dt>
-			<dd>
-				Initializes the <code>code</code> attribute of the KeyboardEvent
-				object to the unicode character string representing the key that
-				was pressed, ignoring any keyboard modifications such as
-				keyboard layout. This value should be one of the code values
-				defined in [UIEvents-Code]].
-			</dd>
+			<dl dfn-for="KeyboardEventInit">
+				<dt><dfn dict-member>key</dfn></dt>
+				<dd>
+					Initializes the <code>key</code> attribute of the KeyboardEvent
+					object to the unicode character string representing the meaning
+					of a key after taking into account all keyboard modifiers
+					(such as shift-state). This value is the final effective value
+					of the key. If the key is not a printable character, then it
+					should be one of the key values defined in [[UIEvents-Key]].
+				</dd>
 
-			<dt><dfn dict-member>location</dfn></dt>
-			<dd>
-				Initializes the {{KeyboardEvent/location}} attribute of the
-				KeyboardEvent object to one of the following location numerical
-				constants:
+				<dt><dfn dict-member>code</dfn></dt>
+				<dd>
+					Initializes the <code>code</code> attribute of the KeyboardEvent
+					object to the unicode character string representing the key that
+					was pressed, ignoring any keyboard modifications such as
+					keyboard layout. This value should be one of the code values
+					defined in [UIEvents-Code]].
+				</dd>
 
-				*	{{KeyboardEvent/DOM_KEY_LOCATION_STANDARD}} (numerical value 0)</li>
-				*	{{KeyboardEvent/DOM_KEY_LOCATION_LEFT}} (numerical value 1)</li>
-				*	{{KeyboardEvent/DOM_KEY_LOCATION_RIGHT}} (numerical value 2)</li>
-				*	{{KeyboardEvent/DOM_KEY_LOCATION_NUMPAD}} (numerical value 3)</li>
-			</dd>
+				<dt><dfn dict-member>location</dfn></dt>
+				<dd>
+					Initializes the {{KeyboardEvent/location}} attribute of the
+					KeyboardEvent object to one of the following location numerical
+					constants:
 
-			<dt><dfn dict-member>repeat</dfn></dt>
-			<dd>
-				Initializes the <code>repeat</code> attribute of the
-				KeyboardEvent object. This attribute should be set to
-				<code>true</code> if the the current KeyboardEvent is considered
-				part of a repeating sequence of similar events caused by the
-				long depression of any single key, <code>false</code> otherwise.
-			</dd>
+					*	{{KeyboardEvent/DOM_KEY_LOCATION_STANDARD}} (numerical value 0)</li>
+					*	{{KeyboardEvent/DOM_KEY_LOCATION_LEFT}} (numerical value 1)</li>
+					*	{{KeyboardEvent/DOM_KEY_LOCATION_RIGHT}} (numerical value 2)</li>
+					*	{{KeyboardEvent/DOM_KEY_LOCATION_NUMPAD}} (numerical value 3)</li>
+				</dd>
 
-			<dt><dfn dict-member>isComposing</dfn></dt>
-			<dd>
-				Initializes the <code>isComposing</code> attribute of the
-				KeyboardEvent object. This attribute should be set to
-				<code>true</code> if the event being constructed occurs as part
-				of a composition sequence, <code>false</code> otherwise.
-			</dd>
-		</dl>
+				<dt><dfn dict-member>repeat</dfn></dt>
+				<dd>
+					Initializes the <code>repeat</code> attribute of the
+					KeyboardEvent object. This attribute should be set to
+					<code>true</code> if the the current KeyboardEvent is considered
+					part of a repeating sequence of similar events caused by the
+					long depression of any single key, <code>false</code> otherwise.
+				</dd>
+
+				<dt><dfn dict-member>isComposing</dfn></dt>
+				<dd>
+					Initializes the <code>isComposing</code> attribute of the
+					KeyboardEvent object. This attribute should be set to
+					<code>true</code> if the event being constructed occurs as part
+					of a composition sequence, <code>false</code> otherwise.
+				</dd>
+			</dl>
 
 	<div class="warning">
 	Legacy keyboard event implementations include three additional attributes,
@@ -3506,42 +3530,46 @@ events.
 		use the {{CompositionEvent}} constructor, passing an optional
 		{{CompositionEventInit}} dictionary.
 
-		<pre class="idl">
-		[Constructor(DOMString type, optional CompositionEventInit eventInitDict)]
-		interface CompositionEvent : UIEvent {
-			readonly attribute DOMString data;
-		};
-		</pre>
+		<h5 id="idl-compositionevent">CompositionEvent</h5>
 
-		<dl dfn-for="CompositionEvent">
-			<dt><dfn attribute>data</dfn></dt>
-			<dd>
-				<code>data</code> holds the value of the characters generated by
-				an input method. This MAY be a single Unicode character or a
-				non-empty sequence of Unicode characters [[Unicode]]. Characters
-				SHOULD be normalized as defined by the Unicode normalization
-				form <em>NFC</em>, defined in [[UAX15]]. This
-				attribute MAY be the <a>empty string</a>.
+			<pre class="idl">
+			[Constructor(DOMString type, optional CompositionEventInit eventInitDict)]
+			interface CompositionEvent : UIEvent {
+				readonly attribute DOMString data;
+			};
+			</pre>
 
-				The <a>un-initialized value</a> of this attribute MUST be
-				<code>""</code> (the empty string).
-			</dd>
-		</dl>
+			<dl dfn-for="CompositionEvent">
+				<dt><dfn attribute>data</dfn></dt>
+				<dd>
+					<code>data</code> holds the value of the characters generated by
+					an input method. This MAY be a single Unicode character or a
+					non-empty sequence of Unicode characters [[Unicode]]. Characters
+					SHOULD be normalized as defined by the Unicode normalization
+					form <em>NFC</em>, defined in [[UAX15]]. This
+					attribute MAY be the <a>empty string</a>.
 
-		<pre class="idl">
-		dictionary CompositionEventInit : UIEventInit {
-			DOMString data = "";
-		};
-		</pre>
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>""</code> (the empty string).
+				</dd>
+			</dl>
 
-		<dl dfn-for="CompositionEventInit">
-			<dt><dfn dict-member>data</dfn></dt>
-			<dd>
-				Initializes the <code>data</code> attribute of the
-				CompositionEvent object to the characters generated by the IME
-				composition.
-			</dd>
-		</dl>
+		<h5 id="idl-compositioneventinit">CompositionEventInit</h5>
+
+			<pre class="idl">
+			dictionary CompositionEventInit : UIEventInit {
+				DOMString data = "";
+			};
+			</pre>
+
+			<dl dfn-for="CompositionEventInit">
+				<dt><dfn dict-member>data</dfn></dt>
+				<dd>
+					Initializes the <code>data</code> attribute of the
+					CompositionEvent object to the characters generated by the IME
+					composition.
+				</dd>
+			</dl>
 
 	<h4 id="events-composition-order">Composition Event Order</h4>
 
