@@ -1,5 +1,5 @@
 <section>
-<h2 id="legacy-key-attributes">Legacy Key Attributes</h2>
+<h2 id="legacy-key-attributes">Legacy Key &amp; Mouse Event Attributes</h2>
 
 
 <em>This section is non-normative. The following attributes are obsolete and should
@@ -27,30 +27,90 @@ and events, it is suggested that the definitions provided in this section be
 used.
 
 
+<h3 id="legacy-UIEvent">Legacy {{UIEvent}} supplemental interface</h3>
+
+	<em>This section is non-normative</em>
+
+	[=User agents=] have traditionally included a {{UIEvent/which}} attribute so that
+	{{KeyboardEvent}}s and {{MouseEvent}}s could record supplemental event info.
+	
+	<p class="note">
+	Previous versions of this specification defined separate {{UIEvent/which}} attributes
+	directly on {{KeyboardEvent}} and {{MouseEvent}} rather than having a shared
+	{{UIEvent/which}} attribute defined on {{UIEvent}}.
+	</p>
+
+	<h4 id="legacy-interface-UIEvent">Interface UIEvent (supplemental)</h4>
+
+		The partial {{UIEvent}} interface is an informative extension of the {{UIEvent}}
+		interface, which adds the {{UIEvent/which}} attribute.
+
+		<pre class="idl">
+		partial interface UIEvent {
+		  // The following support legacy user agents
+		  readonly attribute unsigned long which;
+		};
+		</pre>
+
+		<dl dfn-for="UIEvent">
+			<dt><dfn attribute>which</dfn></dt>
+			<dd>
+				For {{MouseEvent}}s, this contains a value equal to the value stored in
+				{{MouseEvent/button}}+1.
+				For {{KeyboardEvent}}s, this holds a system- and implementation-dependent
+				numerical code signifying the unmodified identifier associated
+				with the key pressed. In most cases, the value is identical to
+				{{KeyboardEvent/keyCode}}.
+			</dd>
+		</dl>
+
+	<h4 id="legacy-dictionary-UIEventInit">Interface UIEventInit (supplemental)</h4>
+
+		Browsers that include support for {{UIEvent/which}} in
+		{{UIEvent}} should also add the following members to the
+		{{UIEventInit}} dictionary.
+
+		The partial {{UIEventInit}} dictionary is an informative extension
+		of the {{UIEventInit}} dictionary, which adds the
+		{{UIEvent/which}} member to initialize the corresponding
+		{{UIEvent}} attributes.
+
+		<pre class="idl-ignore" data-no-idl data-highlight="webidl">
+		partial dictionary UIEventInit {
+		  unsigned long which = 0;
+		};
+		</pre>
+
+		<dl dfn-for="UIEventInit">
+			<dt><dfn unknown>which</dfn></dt>
+			<dd>
+				Initializes the {{UIEvent/which}} attribute of the
+				{{UIEvent}}.
+			</dd>
+		</dl>
+
+
 <h3 id="legacy-KeyboardEvent">Legacy {{KeyboardEvent}} supplemental interface</h3>
 
-	<em>This section is non-informative</em>
+	<em>This section is non-normative</em>
 
 	Browser support for keyboards has traditionally relied on three ad-hoc
 	attributes, {{KeyboardEvent/keyCode}}, {{KeyboardEvent/charCode}}, and
-	{{KeyboardEvent/which}}.
+	{{UIEvent}}'s {{UIEvent/which}}.
 
 	All three of these attributes return a numerical code that represents some
 	aspect of the key pressed: {{KeyboardEvent/keyCode}} is an index of the key
 	itself. {{KeyboardEvent/charCode}} is the ASCII value of the character keys.
-	{{KeyboardEvent/which}} is the character value where available and otherwise
+	{{UIEvent/which}} is the character value where available and otherwise
 	the key index. The values for these attributes, and the availability of the
 	attribute, is inconsistent across platforms, keyboard languages and layouts,
 	<a>user agents</a>, versions, and even event types.
 
 	<h4 id="legacy-interface-KeyboardEvent">Interface KeyboardEvent (supplemental)</h4>
 
-		<p class="intro-dom">Introduced in this specification</p>
-
 		The partial {{KeyboardEvent}} interface is an informative extension of
 		the {{KeyboardEvent}} interface, which adds the
-		{{KeyboardEvent/charCode}}, {{KeyboardEvent/keyCode}}, and
-		{{KeyboardEvent/which}} attributes.
+		{{KeyboardEvent/charCode}} and {{KeyboardEvent/keyCode}} attributes.
 
 		The partial {{KeyboardEvent}} interface can be obtained by using the
 		{{Document/createEvent()}} method call in
@@ -61,7 +121,6 @@ used.
 		  // The following support legacy user agents
 		  readonly attribute unsigned long charCode;
 		  readonly attribute unsigned long keyCode;
-		  readonly attribute unsigned long which;
 		};
 		</pre>
 
@@ -93,14 +152,6 @@ used.
 				See [[#legacy-key-models]] for more details on how to determine
 				the values for {{KeyboardEvent/keyCode}}.
 			</dd>
-
-			<dt><dfn attribute>which</dfn></dt>
-			<dd>
-				{{KeyboardEvent/which}} holds a system- and implementation-dependent
-				numerical code signifying the unmodified identifier associated
-				with the key pressed. In most cases, the value is identical to
-				{{KeyboardEvent/keyCode}}.
-			</dd>
 		</dl>
 
 	<h4 id="legacy-dictionary-KeyboardEventInit">Interface KeyboardEventInit (supplemental)</h4>
@@ -121,7 +172,6 @@ used.
 		  // The following support legacy user agents
 		  unsigned long charCode = 0;
 		  unsigned long keyCode = 0;
-		  unsigned long which = 0;
 		};
 		</pre>
 
@@ -139,15 +189,6 @@ used.
 				{{KeyboardEvent}} to the system- and implementation-dependent
 				numerical code signifying the unmodified identifier associated
 				with the key pressed.
-			</dd>
-
-			<dt><dfn unknown>which</dfn></dt>
-			<dd>
-				Initializes the {{KeyboardEvent/which}} attribute of the
-				{{KeyboardEvent}} to the implementation-dependent numerical code
-				signifying the unmodified identifier associated with the key
-				pressed. In most cases, the value is identical to
-				{{KeyboardEvent/keyCode}}.
 			</dd>
 		</dl>
 
