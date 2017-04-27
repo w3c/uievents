@@ -1224,6 +1224,122 @@ events.
 		Ancestors of the targeted element MAY use bubbling to obtain
 		notification of mouse events which occur within its descendent elements.
 
+		<h5 id="event-type-auxclick"><dfn>auxclick</dfn></h5>
+
+			++------------------+--------------------------------------------------------------------------------------+ event-definition
+			=| %                |                                                                                      |
+			 +------------------+--------------------------------------------------------------------------------------+
+			+| Type             | <strong><code>auxclick</code></strong>                                               |
+			+| Interface        | {{MouseEvent}}                                                                       |
+			+| Sync / Async     | Sync                                                                                 |
+			+| Bubbles          | Yes                                                                                  |
+			+| Trusted Targets  | <code>Element</code>                                                                 |
+			+| Cancelable       | Yes                                                                                  |
+			+| Composed         | Yes                                                                                  |
+			+| Default action   | Varies                                                                               |
+			+| Context<br/>     | <ul>                                                                                 |
+			 | (trusted events) | <li>{{Event}}.{{Event/target}} : <a>topmost event target</a></li>                    |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/view}} : <a><code>Window</code></a></li>                   |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/detail}} : indicates the                                   |
+			 |                  |     <a href="#current-click-count">current click count</a>; the attribute value MUST |
+			 |                  |     be <code>1</code> when the user begins this action and increments by             |
+			 |                  |     <code>1</code> for each click.</li>                                              |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/screenX}} : value based on the pointer position on   |
+			 |                  |     the screen</li>                                                                  |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/screenY}} : value based on the pointer position on   |
+			 |                  |     the screen</li>                                                                  |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/clientX}} : value based on the pointer position      |
+			 |                  |     within the viewport</li>                                                         |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/clientY}} : value based on the pointer position      |
+			 |                  |     within the viewport</li>                                                         |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/altKey}} : <code>true</code> if KEYCAP{Alt}          |
+			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}     |
+			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/shiftKey}} : <code>true</code> if KEYCAP{Shift}      |
+			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/metaKey}} : <code>true</code> if KEYCAP{Meta}        |
+			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/button}} : value based on current button pressed</li>|
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/buttons}} : value based on all buttons currently     |
+			 |                  |     depressed, <code>0</code> if no buttons pressed</li>                             |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/relatedTarget}} : <code>null</code></li>             |
+			 |                  | </ul>                                                                                |
+			++------------------+--------------------------------------------------------------------------------------+
+
+			The EVENT{auxclick} event type MUST be dispatched on the <a>topmost
+			event target</a> indicated by the pointer, when the user presses
+			down and releases the non-primary pointer button, or otherwise activates
+			the pointer in a manner that simulates such an action. The actuation
+			method of the mouse button depends upon the pointer device and the
+			environment configuration, e.g., it MAY depend on the screen
+			location or the delay between the press and release of the pointing
+			device button.
+
+			The EVENT{auxclick} event should only be fired for the non-primary pointer
+			buttons (i.e., when {{MouseEvent/button}} value is not <code>0</code>,
+			{{MouseEvent/buttons}} value is greater than <code>1</code>). The primary button
+			(like the left button on a standard mouse) MUST NOT fire
+			EVENT{auxclick} events. See EVENT{click} for a corresponding event that
+			is associated with the primary button.
+
+			The EVENT{auxclick} event MAY be preceded by the EVENT{mousedown} and
+			EVENT{mouseup} events on the same element, disregarding changes
+			between other node types (e.g., text nodes).  Depending upon the
+			environment configuration, the EVENT{auxclick} event MAY be dispatched
+			if one or more of the event types EVENT{mouseover},
+			EVENT{mousemove}, and EVENT{mouseout} occur between the press and
+			release of the pointing device button.
+			
+			The <a>default action</a> of the EVENT{auxclick} event type varies
+			based on the <a>event target</a> of the event and the value of the
+			{{MouseEvent/button}} or {{MouseEvent/buttons}} attributes. Typical
+			<a>default actions</a> of the EVENT{auxclick} event type are as follows:
+
+			*	If the <a>event target</a> has associated activation behavior,
+				the <a>default action</a> MUST be to execute that activation
+				behavior (see [[#event-flow-activation]]).
+
+			<p class="example">
+			Receiving and handling auxclick for the middle button.<br/>
+<code class="pre">myLink.addEventListener("auxclick", function(e) {
+  if (e.button === 1) {
+    // This would prevent the default behavior which is for example
+    // opening a new tab when middle clicking on a link.
+    e.preventDefault();
+    // Do something else to handle middle button click like taking
+    // care of opening link or non-link buttons in new tabs in a way
+    // that fits the app. Other actions like closing a tab in a tab-strip
+    // which should be done on the click action can be done here too.
+  }
+});
+</code>
+			</p>
+
+			<p class="note">
+			In the case of right button, the EVENT{auxclick} event is dispatched after
+			any EVENT{contextmenu} event. Note that some user agents swallow all input
+			events while a context menu is being displayed, so auxclick may not be
+			available to applications in such scenarios.
+			See <a href="#example-auxclick-right">this example</a> for more clarification.
+			</p>
+
+			<p id="example-auxclick-right" class="example">
+			Receiving and handling auxlick for the right button<br/>
+<code class="pre">myDiv.addEventListener("contextmenu", function(e) {
+  // This call makes sure no context menu is shown
+  // to interfere with page receiving the events.
+  e.preventDefault();
+});
+myDiv.addEventListener("auxclick", function(e) {
+  if (e.button === 2) {
+    // Do something else to handle right button click like opening a
+    // customized context menu inside the app.
+  }
+});
+</code>
+			</p>
+			
 		<h5 id="event-type-click"><dfn>click</dfn></h5>
 
 			++------------------+--------------------------------------------------------------------------------------+ event-definition
@@ -1280,7 +1396,8 @@ events.
 			button (i.e., when {{MouseEvent/button}} value is <code>0</code>,
 			{{MouseEvent/buttons}} value is <code>1</code>). Secondary buttons
 			(like the middle or right button on a standard mouse) MUST NOT fire
-			EVENT{click} events.
+			EVENT{click} events. See EVENT{auxclick} for a corresponding event that
+			is associated with the non-primary buttons.
 
 			The EVENT{click} event MAY be preceded by the EVENT{mousedown} and
 			EVENT{mouseup} events on the same element, disregarding changes
