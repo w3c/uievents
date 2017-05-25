@@ -169,14 +169,11 @@ function getModifierState(e) {
 		];
 	mods = undefined;
 	for (var mod of Modifiers) {
-		console.log(mod);
 		if (e.getModifierState(mod)) {
 			if (!mods) {
 				mods = mod;
-				console.log(mods);
 			} else {
 				mods += ", " + mod;
-				console.log(mods);
 			}
 		}
 	}
@@ -309,7 +306,6 @@ function calcString(data) {
 	return "'" + data + "'";
 }
 
-
 function calcRichString(eventType, data, addArrow) {
 	if (data === undefined) {
 		return null;
@@ -328,14 +324,32 @@ function calcRichString(eventType, data, addArrow) {
 	return keySpan;
 }
 
+/* Set the focus to the input box. */
+function setInputFocus(resetData=false) {
+	var input = document.getElementById("input");
+	if (resetData) {
+		input.value = "";
+	}
+	input.focus();
+}
+
+function toggleReadonly() {
+	var cbReadonly = document.getElementById("readonlyToggle");
+	var input = document.getElementById("input");
+	if (cbReadonly.checked) {
+		input.setAttribute('readonly', true);
+	} else {
+		input.removeAttribute('readonly');
+	}
+	setInputFocus();
+}
+
 function resetTable() {
 	clearTable();
 	createTableHeader();
 	_seqId = 1;
 
-	var input = document.getElementById("input");
-	input.value = "";
-	input.focus();
+	setInputFocus(true);
 }
 
 function clearTable() {
@@ -439,7 +453,7 @@ function createTableHeader() {
 }
 
 function toggleOptions() {
-	var link = document.getElementById("optionstoggle");
+	var link = document.getElementById("optionsToggle");
 	var options = document.getElementById("options");
 	clearChildren(link);
 	if (options.style.display == "block") {
@@ -450,6 +464,7 @@ function toggleOptions() {
 		options.style.display = "block";
 		link.appendChild(document.createTextNode("Hide Options"));
 	}
+	setInputFocus();
 }
 
 function showFieldClick(cb) {
