@@ -2121,7 +2121,7 @@ myDiv.addEventListener("auxclick", function(e) {
 			+| Sync / Async     | Async                                                                                |
 			+| Bubbles          | Yes                                                                                  |
 			+| Trusted Targets  | <code>Element</code>                                                                 |
-			+| Cancelable       | Yes                                                                                  |
+			+| Cancelable       | <a href="#cancelability-of-wheel-events">Varies</a>                                                  |
 			+| Composed         | Yes                                                                                  |
 			+| Default action   | Scroll (or zoom) the document                                                        |
 			+| Context<br/>     | <ul>                                                                                 |
@@ -2188,6 +2188,17 @@ myDiv.addEventListener("auxclick", function(e) {
 			In some <a>user agents</a>, or with some input devices, the speed
 			that the wheel has been turned can affect the <a>delta</a> values,
 			with a faster speed producing a higher <a>delta</a> value.
+			</p>
+			
+		<h5 id="cancelability-of-wheel-events">cancelability of wheel events</h5>
+			<p>
+			Calling <code>preventDefault</code> on a wheel event can prevent
+			or otherwise interrupt scrolling. For maximum scroll performance, a
+			user agent may not wait for each wheel event associated with the scroll
+			to be processed to see if it will be canceled. In such cases it is
+			possible that only the first wheel event of a scrolling sequence is
+			cancelable. For the rest of the wheel events the user agent should
+			set their <code>cancelable</code> property to <code>false</code>.
 			</p>
 
 <h3 id="events-inputevents">Input Events</h3>
