@@ -256,12 +256,12 @@ pre.idl.highlight { color: #708090; }
    <header>
     <p data-fill-with="logo"><a href="http://www.w3.org/"><img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"></a></p>
     <h1>UI Events</h1>
-    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">W3C Working Draft, <time class="dt-updated" datetime="2017-10-17">17 October 2017</time></span></h2>
+    <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">W3C Working Draft, <time class="dt-updated" datetime="2017-11-28">28 November 2017</time></span></h2>
    </header>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
-     <dd><a class="u-url" href="https://www.w3.org/TR/2017/WD-uievents-20171017/">https://www.w3.org/TR/2017/WD-uievents-20171017/</a>
+     <dd><a class="u-url" href="https://www.w3.org/TR/2017/WD-uievents-20171128/">https://www.w3.org/TR/2017/WD-uievents-20171128/</a>
      <dt>Latest published version:
      <dd><a href="http://www.w3.org/TR/uievents/">http://www.w3.org/TR/uievents/</a>
      <dt>Editor's Draft:
@@ -423,6 +423,7 @@ user agents for handling user interaction such as mouse and keyboard input.</p>
          <a href="#events-wheel-types"><span class="secno">4.4.2</span> <span class="content">Wheel Event Types</span></a>
          <ol class="toc">
           <li><a href="#event-type-wheel"><span class="secno">4.4.2.1</span> <span class="content"><span>wheel</span></span></a>
+          <li><a href="#cancelability-of-wheel-events"><span class="secno">4.4.2.2</span> <span class="content">cancelability of wheel events</span></a>
          </ol>
        </ol>
       <li>
@@ -2413,7 +2414,9 @@ portions of that content.</p>
     </table>
     <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-20">user agent</a> MUST dispatch this event when a pointing device
 			is moved onto the boundaries of an element or one of its descendent
-			elements.  This event type is similar to <a data-link-type="dfn" href="#mouseover" id="ref-for-mouseover-9"><code>mouseover</code></a>, but			differs in that it does not bubble, and MUST NOT be dispatched when
+			elements.  A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-21">user agent</a> MUST also dispatch this event when the
+			element or one of its descendants moves to be underneath the primary
+			pointing device. This event type is similar to <a data-link-type="dfn" href="#mouseover" id="ref-for-mouseover-9"><code>mouseover</code></a>, but			differs in that it does not bubble, and MUST NOT be dispatched when
 			the pointer device moves from an element onto the boundaries of one
 			of its descendent elements.</p>
     <p class="note" role="note"> There are similarities between this event type and the CSS <a href="http://www.w3.org/TR/CSS2/selector.html#dynamic-pseudo-classes" title="Selectors"><code>:hover</code> pseudo-class</a> <a data-link-type="biblio" href="#biblio-css2">[CSS2]</a>.
@@ -2465,9 +2468,11 @@ portions of that content.</p>
          <li><code class="idl"><a data-link-type="idl" href="#mouseevent" id="ref-for-mouseevent-93">MouseEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-relatedtarget" id="ref-for-dom-mouseevent-relatedtarget-7">relatedTarget</a></code> : indicates the <a data-link-type="dfn" href="#event-target" id="ref-for-event-target-30">event target</a> a pointing device is exiting, if any.
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-21">user agent</a> MUST dispatch this event when a pointing device
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-22">user agent</a> MUST dispatch this event when a pointing device
 			is moved off of the boundaries of an element and all of its
-			descendent elements.  This event type is similar to <a data-link-type="dfn" href="#mouseout" id="ref-for-mouseout-10"><code>mouseout</code></a>,			but differs in that does not bubble, and that it MUST NOT be
+			descendent elements.  A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-23">user agent</a> MUST also dispatch this event
+			when the element or one of its descendants moves to be no longer underneath
+			the primary pointing device. This event type is similar to <a data-link-type="dfn" href="#mouseout" id="ref-for-mouseout-10"><code>mouseout</code></a>,			but differs in that does not bubble, and that it MUST NOT be
 			dispatched until the pointing device has left the boundaries of the
 			element and the boundaries of all of its children.</p>
     <p class="note" role="note"> There are similarities between this event type and the CSS <a href="http://www.w3.org/TR/CSS2/selector.html#dynamic-pseudo-classes" title="Selectors"><code>:hover</code> pseudo-class</a> <a data-link-type="biblio" href="#biblio-css2">[CSS2]</a>.
@@ -2519,7 +2524,7 @@ portions of that content.</p>
          <li><code class="idl"><a data-link-type="idl" href="#mouseevent" id="ref-for-mouseevent-105">MouseEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-relatedtarget" id="ref-for-dom-mouseevent-relatedtarget-8">relatedTarget</a></code> : <code>null</code>
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-22">user agent</a> MUST dispatch this event when a pointing device
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-24">user agent</a> MUST dispatch this event when a pointing device
 			is moved while it is over an element.  The frequency rate of events
 			while the pointing device is moved is implementation-, device-, and
 			platform-specific, but multiple consecutive <a data-link-type="dfn" href="#mousemove" id="ref-for-mousemove-20"><code>mousemove</code></a> events			SHOULD be fired for sustained pointer-device movement, rather than a
@@ -2578,10 +2583,11 @@ portions of that content.</p>
          <li><code class="idl"><a data-link-type="idl" href="#mouseevent" id="ref-for-mouseevent-117">MouseEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-relatedtarget" id="ref-for-dom-mouseevent-relatedtarget-9">relatedTarget</a></code> : indicates the <a data-link-type="dfn" href="#event-target" id="ref-for-event-target-31">event target</a> a pointing device is entering, if any.
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-23">user agent</a> MUST dispatch this event when a pointing device
-			is moved off of the boundaries of an element.  This event type is
-			similar to <a data-link-type="dfn" href="#mouseleave" id="ref-for-mouseleave-10"><code>mouseleave</code></a>, but differs in that does bubble, and			that it MUST be dispatched when the pointer device moves from an
-			element onto the boundaries of one of its descendent elements.</p>
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-25">user agent</a> MUST dispatch this event when a pointing device
+			is moved off of the boundaries of an element or when the element is
+			moved to be no longer underneath the primary pointing device.
+			This event type is similar to <a data-link-type="dfn" href="#mouseleave" id="ref-for-mouseleave-10"><code>mouseleave</code></a>, but differs in that			does bubble, and that it MUST be dispatched when the pointer device
+			moves from an element onto the boundaries of one of its descendent elements.</p>
     <p class="note" role="note"> See also the <a data-link-type="dfn" href="#mouseover" id="ref-for-mouseover-10"><code>mouseover</code></a> event type. </p>
     <h5 class="heading settled" data-level="4.3.4.9" id="event-type-mouseover"><span class="secno">4.3.4.9. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="mouseover">mouseover</dfn></span><a class="self-link" href="#event-type-mouseover"></a></h5>
     <table class="event-definition">
@@ -2630,9 +2636,10 @@ portions of that content.</p>
          <li><code class="idl"><a data-link-type="idl" href="#mouseevent" id="ref-for-mouseevent-129">MouseEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-relatedtarget" id="ref-for-dom-mouseevent-relatedtarget-10">relatedTarget</a></code> : indicates the <a data-link-type="dfn" href="#event-target" id="ref-for-event-target-32">event target</a> a pointing device is entering, if any.
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-24">user agent</a> MUST dispatch this event when a pointing device
-			is moved onto the boundaries of an element.  This event type is
-			similar to <a data-link-type="dfn" href="#mouseenter" id="ref-for-mouseenter-9"><code>mouseenter</code></a>, but differs in that it bubbles, and			that it MUST be dispatched when the pointer device moves onto the
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-26">user agent</a> MUST dispatch this event when a pointing device
+			is moved onto the boundaries of an element or when the element is
+			moved to be underneath the primary pointing device.
+			This event type is similar to <a data-link-type="dfn" href="#mouseenter" id="ref-for-mouseenter-9"><code>mouseenter</code></a>, but differs in			that it bubbles, and that it MUST be dispatched when the pointer device moves onto the
 			boundaries of an element whose ancestor element is the <a data-link-type="dfn" href="#event-target" id="ref-for-event-target-33">event
 			target</a> for the same event listener instance.</p>
     <p class="note" role="note"> See also the <a data-link-type="dfn" href="#mouseout" id="ref-for-mouseout-11"><code>mouseout</code></a> event type. </p>
@@ -2683,7 +2690,7 @@ portions of that content.</p>
          <li><code class="idl"><a data-link-type="idl" href="#mouseevent" id="ref-for-mouseevent-141">MouseEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-relatedtarget" id="ref-for-dom-mouseevent-relatedtarget-11">relatedTarget</a></code> : <code>null</code>
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-25">user agent</a> MUST dispatch this event when a pointing device
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-27">user agent</a> MUST dispatch this event when a pointing device
 			button is released over an element.</p>
     <p class="note" role="note"> Many implementations will invoke a context menu as the default
 			action of this event if the right mouse button is being released. </p>
@@ -2838,7 +2845,7 @@ portions of that content.</p>
        <td><code>Element</code>
       <tr>
        <th>Cancelable
-       <td>Yes
+       <td><a href="#cancelability-of-wheel-events">Varies</a>
       <tr>
        <th>Composed
        <td>Yes
@@ -2869,7 +2876,7 @@ portions of that content.</p>
          <li><code class="idl"><a data-link-type="idl" href="#wheelevent" id="ref-for-wheelevent-11">WheelEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-wheelevent-deltamode" id="ref-for-dom-wheelevent-deltamode-3">deltaMode</a></code> : unit indicator (pixels, lines, or pages) for the deltaX, deltaY, and deltaZ attributes
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-26">user agent</a> MUST dispatch this event when a mouse wheel has
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-28">user agent</a> MUST dispatch this event when a mouse wheel has
 			been rotated around any axis, or when an equivalent input device
 			(such as a mouse-ball, certain tablets or touchpads, etc.) has
 			emulated such an action. Depending on the platform and input device,
@@ -2879,9 +2886,17 @@ portions of that content.</p>
 			scroll or zoom the document (or perform whatever other
 			implementation-specific default action is associated with this event
 			type).</p>
-    <p class="note" role="note"> In some <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-27">user agents</a>, or with some input devices, the speed
+    <p class="note" role="note"> In some <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-29">user agents</a>, or with some input devices, the speed
 			that the wheel has been turned can affect the <a data-link-type="dfn" href="#delta" id="ref-for-delta-10">delta</a> values,
 			with a faster speed producing a higher <a data-link-type="dfn" href="#delta" id="ref-for-delta-11">delta</a> value. </p>
+    <h5 class="heading settled" data-level="4.4.2.2" id="cancelability-of-wheel-events"><span class="secno">4.4.2.2. </span><span class="content">cancelability of wheel events</span><a class="self-link" href="#cancelability-of-wheel-events"></a></h5>
+    <p> Calling <code>preventDefault</code> on a wheel event can prevent
+			or otherwise interrupt scrolling. For maximum scroll performance, a
+			user agent may not wait for each wheel event associated with the scroll
+			to be processed to see if it will be canceled. In such cases it is
+			possible that only the first wheel event of a scrolling sequence is
+			cancelable. For the rest of the wheel events the user agent should
+			set their <code>cancelable</code> property to <code>false</code>. </p>
     <h3 class="heading settled" data-level="4.5" id="events-inputevents"><span class="secno">4.5. </span><span class="content">Input Events</span><a class="self-link" href="#events-inputevents"></a></h3>
     <p>Input events are sent as notifications whenever the DOM is being updated (or about
 	to be updated) as a direct result of a user action (e.g., keyboard input in an editable
@@ -2983,7 +2998,7 @@ portions of that content.</p>
          <li><code class="idl"><a data-link-type="idl" href="#inputevent" id="ref-for-inputevent-3">InputEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-inputevent-iscomposing" id="ref-for-dom-inputevent-iscomposing-2">isComposing</a></code> : <code>true</code> if this event is dispatched during a <a href="#keys-dead">dead key</a> sequence or while an <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-1">input method editor</a> is active (such that <a href="#events-compositionevents">composition events</a> are being dispatched); <code>false</code> otherwise.
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-28">user agent</a> MUST dispatch this event when the DOM is about
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-30">user agent</a> MUST dispatch this event when the DOM is about
 			to be updated.</p>
     <h5 class="heading settled" data-level="4.5.3.2" id="event-type-input"><span class="secno">4.5.3.2. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="input">input</dfn></span><a class="self-link" href="#event-type-input"></a></h5>
     <table class="event-definition">
@@ -3023,7 +3038,7 @@ portions of that content.</p>
          <li><code class="idl"><a data-link-type="idl" href="#inputevent" id="ref-for-inputevent-6">InputEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-inputevent-iscomposing" id="ref-for-dom-inputevent-iscomposing-3">isComposing</a></code> : <code>true</code> if this event is dispatched during a <a href="#keys-dead">dead key</a> sequence or while an <a data-link-type="dfn" href="#input-method-editor" id="ref-for-input-method-editor-2">input method editor</a> is active (such that <a href="#events-compositionevents">composition events</a> are being dispatched); <code>false</code> otherwise.
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-29">user agent</a> MUST dispatch this event immediately after the
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-31">user agent</a> MUST dispatch this event immediately after the
 			DOM has been updated.</p>
     <h3 class="heading settled" data-level="4.6" id="events-keyboardevents"><span class="secno">4.6. </span><span class="content">Keyboard Events</span><a class="self-link" href="#events-keyboardevents"></a></h3>
     <p>Keyboard events are device dependent, i.e., they rely on the capabilities of
@@ -3112,7 +3127,7 @@ portions of that content.</p>
 					of the logical location of the key on the device. 
       <p>This attribute MUST be set to one of the DOM_KEY_LOCATION
 					constants to indicate the location of a key on the device.</p>
-      <p>If a <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-30">user agent</a> allows keys to be remapped, then the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-location" id="ref-for-dom-keyboardevent-location-4">location</a></code> value for a remapped key MUST be set
+      <p>If a <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-32">user agent</a> allows keys to be remapped, then the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-location" id="ref-for-dom-keyboardevent-location-4">location</a></code> value for a remapped key MUST be set
 					to a value which is appropriate for the new key. For example, if
 					the <code class="code">"<a href="http://www.w3.org/TR/uievents-code/#code-ControlLeft">ControlLeft</a>"</code> key is mapped to the <code class="code">"<a href="http://www.w3.org/TR/uievents-code/#code-KeyQ">KeyQ</a>"</code> key, then					the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-location" id="ref-for-dom-keyboardevent-location-5">location</a></code> attribute MUST be set to <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-dom_key_location_standard" id="ref-for-dom-keyboardevent-dom_key_location_standard-3">DOM_KEY_LOCATION_STANDARD</a></code>. Conversely, if the <code class="code">"<a href="http://www.w3.org/TR/uievents-code/#code-KeyQ">KeyQ</a>"</code> key is remapped to one of the <code class="keycap">Control</code> keys,					then the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-location" id="ref-for-dom-keyboardevent-location-6">location</a></code> attribute MUST be set to
 					either <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-dom_key_location_left" id="ref-for-dom-keyboardevent-dom_key_location_left-2">DOM_KEY_LOCATION_LEFT</a></code> or <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-dom_key_location_right" id="ref-for-dom-keyboardevent-dom_key_location_right-2">DOM_KEY_LOCATION_RIGHT</a></code>.</p>
@@ -3376,7 +3391,7 @@ portions of that content.</p>
          <li><code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-33">KeyboardEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-iscomposing" id="ref-for-dom-keyboardevent-iscomposing-2">isComposing</a></code> : <code>true</code> if the key event occurs as part of a composition session, otherwise <code>false</code>
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-31">user agent</a> MUST dispatch this event when a key is pressed
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-33">user agent</a> MUST dispatch this event when a key is pressed
 			down. The <a data-link-type="dfn" href="#keydown" id="ref-for-keydown-6"><code>keydown</code></a> event type is device dependent and relies			on the capabilities of the input devices and how they are mapped in
 			the operating system. This event type MUST be generated after the <a data-link-type="dfn" href="#key-mapping" id="ref-for-key-mapping-1">key mapping</a>. This event type MUST be dispatched before the <a data-link-type="dfn" href="#beforeinput" id="ref-for-beforeinput-6"><code>beforeinput</code></a>, <a data-link-type="dfn" href="#input" id="ref-for-input-6"><code>input</code></a>, and <a data-link-type="dfn" href="#keyup" id="ref-for-keyup-5"><code>keyup</code></a> events associated			with the same key.</p>
     <p>The default action of the <a data-link-type="dfn" href="#keydown" id="ref-for-keydown-7"><code>keydown</code></a> event depends upon the key:</p>
@@ -3394,7 +3409,7 @@ the default action MUST be to launch that system</p>
 (if any) to the new focused element, as described in <a href="#events-focusevent">Focus Event Types</a></p>
      <li data-md="">
       <p>If the key is the <code class="keycap">Enter</code> or <code class="keycap"> </code> key and the				current focus is on a state-changing element, the default action
-MUST be to dispatch a <a data-link-type="dfn" href="#click" id="ref-for-click-32"><code>click</code></a> event, and a <a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate-1"><code>DOMActivate</code></a> event if that event type is supported by the <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-32">user agent</a> (refer to <a href="#event-flow-activation">§3.5 Activation triggers and behavior</a> for more
+MUST be to dispatch a <a data-link-type="dfn" href="#click" id="ref-for-click-32"><code>click</code></a> event, and a <a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate-1"><code>DOMActivate</code></a> event if that event type is supported by the <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-34">user agent</a> (refer to <a href="#event-flow-activation">§3.5 Activation triggers and behavior</a> for more
 details)</p>
     </ul>
     <p>If this event is canceled, the associated event types MUST NOT be
@@ -3445,7 +3460,7 @@ details)</p>
          <li><code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-43">KeyboardEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-iscomposing" id="ref-for-dom-keyboardevent-iscomposing-3">isComposing</a></code> : <code>true</code> if the key event occurs as part of a composition session, otherwise <code>false</code>
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-33">user agent</a> MUST dispatch this event when a key is released.
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-35">user agent</a> MUST dispatch this event when a key is released.
 			The <a data-link-type="dfn" href="#keyup" id="ref-for-keyup-7"><code>keyup</code></a> event type is device dependent and relies on the			capabilities of the input devices and how they are mapped in the
 			operating system. This event type MUST be generated after the <a data-link-type="dfn" href="#key-mapping" id="ref-for-key-mapping-2">key
 			mapping</a>. This event type MUST be dispatched after the <a data-link-type="dfn" href="#keydown" id="ref-for-keydown-9"><code>keydown</code></a>, <a data-link-type="dfn" href="#beforeinput" id="ref-for-beforeinput-9"><code>beforeinput</code></a>, and <a data-link-type="dfn" href="#input" id="ref-for-input-9"><code>input</code></a> events			associated with the same key.</p>
@@ -3758,7 +3773,7 @@ details)</p>
          <li><code class="idl"><a data-link-type="idl" href="#compositionevent" id="ref-for-compositionevent-6">CompositionEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-compositionevent-data" id="ref-for-dom-compositionevent-data-4">data</a></code> : the original string being edited, otherwise the <a data-link-type="dfn" href="#empty-string" id="ref-for-empty-string-5">empty string</a>
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-34">user agent</a> MUST dispatch this event when a <a data-link-type="dfn" href="#text-composition-system" id="ref-for-text-composition-system-4">text
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-36">user agent</a> MUST dispatch this event when a <a data-link-type="dfn" href="#text-composition-system" id="ref-for-text-composition-system-4">text
 			composition system</a> is enabled and a new composition session is
 			about to begin (or has begun, depending on the <a data-link-type="dfn" href="#text-composition-system" id="ref-for-text-composition-system-5">text composition
 			system</a>) in preparation for composing a passage of text. This
@@ -3817,7 +3832,7 @@ details)</p>
          <li><code class="idl"><a data-link-type="idl" href="#compositionevent" id="ref-for-compositionevent-8">CompositionEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-compositionevent-data" id="ref-for-dom-compositionevent-data-7">data</a></code> : the string comprising the current results of the composition session, which MAY be the <a data-link-type="dfn" href="#empty-string" id="ref-for-empty-string-7">empty string</a> if the content has been deleted
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-35">user agent</a> SHOULD dispatch this event during a composition
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-37">user agent</a> SHOULD dispatch this event during a composition
 			session when a <a data-link-type="dfn" href="#text-composition-system" id="ref-for-text-composition-system-10">text composition system</a> updates its active
 			text passage with a new character, which is reflected in the string
 			in <code class="idl"><a data-link-type="idl" href="#dom-compositionevent-data" id="ref-for-dom-compositionevent-data-8">data</a></code>.</p>
@@ -3866,12 +3881,12 @@ details)</p>
          <li><code class="idl"><a data-link-type="idl" href="#compositionevent" id="ref-for-compositionevent-10">CompositionEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-compositionevent-data" id="ref-for-dom-compositionevent-data-10">data</a></code> : the string comprising the final result of the composition session, which MAY be the <a data-link-type="dfn" href="#empty-string" id="ref-for-empty-string-9">empty string</a> if the content has been deleted or if the composition process has been canceled
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-36">user agent</a> MUST dispatch this event when a <a data-link-type="dfn" href="#text-composition-system" id="ref-for-text-composition-system-13">text
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-38">user agent</a> MUST dispatch this event when a <a data-link-type="dfn" href="#text-composition-system" id="ref-for-text-composition-system-13">text
 			composition system</a> completes or cancels the current composition
 			session, and the <a data-link-type="dfn" href="#compositionend" id="ref-for-compositionend-12"><code>compositionend</code></a> event MUST be dispatched			after the control is updated.</p>
     <p>This event is dispatched immediately after the <a data-link-type="dfn" href="#text-composition-system" id="ref-for-text-composition-system-14">text composition
 			system</a> completes the composition session (e.g., the <a data-link-type="dfn" href="#ime" id="ref-for-ime-4">IME</a> is closed, minimized, switched out of focus, or otherwise dismissed,
-			and the focus switched back to the <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-37">user agent</a>).</p>
+			and the focus switched back to the <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-39">user agent</a>).</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="5" id="keys"><span class="secno">5. </span><span class="content">Keyboard events and key values</span><a class="self-link" href="#keys"></a></h2>
@@ -5187,7 +5202,7 @@ of each key.</p>
    <section>
     <h2 class="heading settled" data-level="6" id="legacy-event-initializers"><span class="secno">6. </span><span class="content">Legacy Event Initializers</span><a class="self-link" href="#legacy-event-initializers"></a></h2>
     <p><em>This section is normative.
-The following features are obsolete and should only be implemented by <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-38">user agents</a> that require compatibility with legacy software.</em></p>
+The following features are obsolete and should only be implemented by <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-40">user agents</a> that require compatibility with legacy software.</em></p>
     <p>Early versions of this specification included an initialization method on
 the interface (for example <code>initMouseEvent</code>) that required a long
 list of parameters that, in most cases, did not fully initialize all
@@ -5414,18 +5429,18 @@ described in this Appendix.</p>
    <section>
     <h2 class="heading settled" data-level="7" id="legacy-key-attributes"><span class="secno">7. </span><span class="content">Legacy Key &amp; Mouse Event Attributes</span><a class="self-link" href="#legacy-key-attributes"></a></h2>
     <p><em>This section is non-normative. The following attributes are obsolete and should
-only be implemented by <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-39">user agents</a> that require compatibility with legacy
+only be implemented by <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-41">user agents</a> that require compatibility with legacy
 software that requires these keyboard events.</em></p>
     <p>These features were never formally specified and the current browser
 implementations vary in significant ways. The large amount of legacy content,
-including script libraries, that relies upon detecting the <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-40">user agent</a> and
+including script libraries, that relies upon detecting the <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-42">user agent</a> and
 acting accordingly means that any attempt to formalize these legacy attributes
 and events would risk breaking as much content as it would fix or enable.
 Additionally, these attributes are not suitable for international usage, nor do
 they address accessibility concerns.</p>
     <p>Therefore, this specification does not normatively define the events and
 attributes commonly employed for handling keyboard input, though they MAY be
-present in <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-41">user agents</a> for compatibility with legacy content. Authors
+present in <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-43">user agents</a> for compatibility with legacy content. Authors
 SHOULD use the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-key" id="ref-for-dom-keyboardevent-key-45">key</a></code> attribute instead of the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-1">charCode</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-1">keyCode</a></code> attributes.</p>
     <p>However, for the purpose of documenting the current state of these features and
 their relation to normative events and attributes, this section provides an
@@ -5434,7 +5449,7 @@ and events, it is suggested that the definitions provided in this section be
 used.</p>
     <h3 class="heading settled" data-level="7.1" id="legacy-UIEvent"><span class="secno">7.1. </span><span class="content">Legacy <code class="idl"><a data-link-type="idl" href="#uievent" id="ref-for-uievent-69">UIEvent</a></code> supplemental interface</span><a class="self-link" href="#legacy-UIEvent"></a></h3>
     <p><em>This section is non-normative</em></p>
-    <p><a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-42">User agents</a> have traditionally included a <code class="idl"><a data-link-type="idl" href="#dom-uievent-which" id="ref-for-dom-uievent-which-1">which</a></code> attribute so that <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-73">KeyboardEvent</a></code>s and <code class="idl"><a data-link-type="idl" href="#mouseevent" id="ref-for-mouseevent-155">MouseEvent</a></code>s could record supplemental event info.</p>
+    <p><a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-44">User agents</a> have traditionally included a <code class="idl"><a data-link-type="idl" href="#dom-uievent-which" id="ref-for-dom-uievent-which-1">which</a></code> attribute so that <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-73">KeyboardEvent</a></code>s and <code class="idl"><a data-link-type="idl" href="#mouseevent" id="ref-for-mouseevent-155">MouseEvent</a></code>s could record supplemental event info.</p>
     <p class="note" role="note"> Previous versions of this specification defined separate <code class="idl"><a data-link-type="idl" href="#dom-uievent-which" id="ref-for-dom-uievent-which-2">which</a></code> attributes
 	directly on <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-74">KeyboardEvent</a></code> and <code class="idl"><a data-link-type="idl" href="#mouseevent" id="ref-for-mouseevent-156">MouseEvent</a></code> rather than having a shared <code class="idl"><a data-link-type="idl" href="#dom-uievent-which" id="ref-for-dom-uievent-which-3">which</a></code> attribute defined on <code class="idl"><a data-link-type="idl" href="#uievent" id="ref-for-uievent-70">UIEvent</a></code>. </p>
     <h4 class="heading settled" data-level="7.1.1" id="legacy-interface-UIEvent"><span class="secno">7.1.1. </span><span class="content">Interface UIEvent (supplemental)</span><a class="self-link" href="#legacy-interface-UIEvent"></a></h4>
@@ -5471,7 +5486,7 @@ used.</p>
 	aspect of the key pressed: <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-4">keyCode</a></code> is an index of the key
 	itself. <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-3">charCode</a></code> is the ASCII value of the character keys. <code class="idl"><a data-link-type="idl" href="#dom-uievent-which" id="ref-for-dom-uievent-which-10">which</a></code> is the character value where available and otherwise
 	the key index. The values for these attributes, and the availability of the
-	attribute, is inconsistent across platforms, keyboard languages and layouts, <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-43">user agents</a>, versions, and even event types.</p>
+	attribute, is inconsistent across platforms, keyboard languages and layouts, <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-45">user agents</a>, versions, and even event types.</p>
     <h4 class="heading settled" data-level="7.2.1" id="legacy-interface-KeyboardEvent"><span class="secno">7.2.1. </span><span class="content">Interface KeyboardEvent (supplemental)</span><a class="self-link" href="#legacy-interface-KeyboardEvent"></a></h4>
     <p>The partial <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-77">KeyboardEvent</a></code> interface is an informative extension of
 		the <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-78">KeyboardEvent</a></code> interface, which adds the <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode-4">charCode</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode-5">keyCode</a></code> attributes.</p>
@@ -5750,7 +5765,7 @@ being entered.</p>
    <section>
     <h2 class="heading settled" data-level="8" id="legacy-event-types"><span class="secno">8. </span><span class="content">Legacy Event Types</span><a class="self-link" href="#legacy-event-types"></a></h2>
     <p><em>This section is normative. The following event types are obsolete and should
-only be implemented by <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-44">user agents</a> that require compatibility with legacy
+only be implemented by <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-46">user agents</a> that require compatibility with legacy
 software.</em></p>
     <p>The purpose of this section is to document the current state of these features
 and their relation to normative events. For implementations which do support
@@ -5909,7 +5924,7 @@ completeness.</p>
          <li><code class="idl"><a data-link-type="idl" href="#uievent" id="ref-for-uievent-83">UIEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-uievent-detail" id="ref-for-dom-uievent-detail-34">detail</a></code> : <code>0</code>
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-45">user agent</a> MUST dispatch this event when a button, link, or
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-47">user agent</a> MUST dispatch this event when a button, link, or
 			other state-changing element is activated.  Refer to <a href="#event-flow-activation">§3.5 Activation triggers and behavior</a> for more details.</p>
     <p class="warning" id="DOMActivate-deprecated"> The <a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate-4"><code>DOMActivate</code></a> <a data-link-type="dfn" href="#event-type" id="ref-for-event-type-14">event type</a> is defined in this			specification for reference and completeness, but this specification <a data-link-type="dfn" href="#deprecates" id="ref-for-deprecates-6">deprecates</a> the use of this event type in favor of the related <a data-link-type="dfn" href="#event-type" id="ref-for-event-type-15">event type</a> <a data-link-type="dfn" href="#click" id="ref-for-click-33"><code>click</code></a>.  Other specifications MAY define and			maintain their own <a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate-5"><code>DOMActivate</code></a> <a data-link-type="dfn" href="#event-type" id="ref-for-event-type-16">event type</a> for backwards			compatibility. </p>
     <p class="note" id="DOMActivate-click" role="note"><a class="self-link" href="#DOMActivate-click"></a> While <a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate-6"><code>DOMActivate</code></a> and <a data-link-type="dfn" href="#click" id="ref-for-click-34"><code>click</code></a> are not completely equivalent,			implemented behavior for the <a data-link-type="dfn" href="#click" id="ref-for-click-35"><code>click</code></a> <a data-link-type="dfn" href="#event-type" id="ref-for-event-type-17">event type</a> has			developed to encompass the most critical accessibility aspects for which
@@ -5922,15 +5937,15 @@ completeness.</p>
      <p> The <a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate-10"><code>DOMActivate</code></a> <a data-link-type="dfn" href="#event-type" id="ref-for-event-type-22">event type</a> is REQUIRED to be supported for		XForms <a data-link-type="biblio" href="#biblio-xforms11">[XFORMS11]</a>, which is intended for implementation within a <a data-link-type="dfn" href="#host-language" id="ref-for-host-language-11">host
 		language</a>. In a scenario where a plugin or script-based
 		implementation of XForms is intended for installation in a native
-		implementation of this specification which does not support the <a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate-11"><code>DOMActivate</code></a> <a data-link-type="dfn" href="#event-type" id="ref-for-event-type-23">event type</a>, the XForms <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-46">user agent</a> has		to synthesize and dispatch its own <a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate-12"><code>DOMActivate</code></a> events based on		the appropriate <a data-link-type="dfn" href="#activation-trigger" id="ref-for-activation-trigger-8">activation triggers</a>. </p>
-     <p> Thus, when a <a data-link-type="dfn" href="#click" id="ref-for-click-38"><code>click</code></a> event is dispatched by a <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-47">user agent</a> conforming to UI Events, the XForms <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-48">user agent</a> has to determine
+		implementation of this specification which does not support the <a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate-11"><code>DOMActivate</code></a> <a data-link-type="dfn" href="#event-type" id="ref-for-event-type-23">event type</a>, the XForms <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-48">user agent</a> has		to synthesize and dispatch its own <a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate-12"><code>DOMActivate</code></a> events based on		the appropriate <a data-link-type="dfn" href="#activation-trigger" id="ref-for-activation-trigger-8">activation triggers</a>. </p>
+     <p> Thus, when a <a data-link-type="dfn" href="#click" id="ref-for-click-38"><code>click</code></a> event is dispatched by a <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-49">user agent</a> conforming to UI Events, the XForms <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-50">user agent</a> has to determine
 		whether to synthesize a <a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate-13"><code>DOMActivate</code></a> event with the same relevant		properties as a <a data-link-type="dfn" href="#default-action" id="ref-for-default-action-37">default action</a> of that <a data-link-type="dfn" href="#click" id="ref-for-click-39"><code>click</code></a> event.		Appropriate cues might be whether the <a data-link-type="dfn" href="#click" id="ref-for-click-40"><code>click</code></a> event is <a href="#trusted-events">trusted</a>, or whether its <a data-link-type="dfn" href="#event-target" id="ref-for-event-target-40">event target</a> has a <a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate-14"><code>DOMActivate</code></a> event listener registered. </p>
     </div>
-    <p class="note" role="note"> Don’t rely upon the interoperable support of <a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate-15"><code>DOMActivate</code></a> in many <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-49">user agents</a>. Instead, the <a data-link-type="dfn" href="#click" id="ref-for-click-41"><code>click</code></a> <a data-link-type="dfn" href="#event-type" id="ref-for-event-type-24">event type</a> should		be used since it will provide more accessible behavior due to broader
+    <p class="note" role="note"> Don’t rely upon the interoperable support of <a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate-15"><code>DOMActivate</code></a> in many <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-51">user agents</a>. Instead, the <a data-link-type="dfn" href="#click" id="ref-for-click-41"><code>click</code></a> <a data-link-type="dfn" href="#event-type" id="ref-for-event-type-24">event type</a> should		be used since it will provide more accessible behavior due to broader
 		implementation support. </p>
     <p class="warning"> The <a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate-16"><code>DOMActivate</code></a> <a data-link-type="dfn" href="#event-type" id="ref-for-event-type-25">event type</a> is deprecated in this		specification. </p>
     <h4 class="heading settled" data-level="8.1.2" id="legacy-uievent-event-order"><span class="secno">8.1.2. </span><span class="content">Activation event order</span><a class="self-link" href="#legacy-uievent-event-order"></a></h4>
-    <p>If the <code>DOMActivate</code> event is supported by the <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-50">user
+    <p>If the <code>DOMActivate</code> event is supported by the <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-52">user
 		agent</a>, then the events MUST be dispatched in a set order relative to
 		each other: (with only pertinent events listed):</p>
     <table class="event-sequence-table">
@@ -5946,7 +5961,7 @@ completeness.</p>
       <tr>
        <td class="cell-number">2
        <td><a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate-17"><code>DOMActivate</code></a>
-       <td><a data-link-type="dfn" href="#default-action" id="ref-for-default-action-38">default action</a>, if supported by the <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-51">user agent</a>; synthesized; <code>isTrusted="true"</code>
+       <td><a data-link-type="dfn" href="#default-action" id="ref-for-default-action-38">default action</a>, if supported by the <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-53">user agent</a>; synthesized; <code>isTrusted="true"</code>
       <tr>
        <td class="cell-number">3
        <td>
@@ -5971,7 +5986,7 @@ completeness.</p>
       <tr>
        <td class="cell-number">3
        <td><a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate-18"><code>DOMActivate</code></a>
-       <td><a data-link-type="dfn" href="#default-action" id="ref-for-default-action-41">default action</a>, if supported by the <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-52">user agent</a>; synthesized; <code>isTrusted="true"</code>
+       <td><a data-link-type="dfn" href="#default-action" id="ref-for-default-action-41">default action</a>, if supported by the <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-54">user agent</a>; synthesized; <code>isTrusted="true"</code>
       <tr>
        <td class="cell-number">4
        <td>
@@ -6016,7 +6031,7 @@ completeness.</p>
          <li><code class="idl"><a data-link-type="idl" href="#focusevent" id="ref-for-focusevent-16">FocusEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-focusevent-relatedtarget" id="ref-for-dom-focusevent-relatedtarget-6">relatedTarget</a></code> : <code>null</code>
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-53">user agent</a> MUST dispatch this event when an <a data-link-type="dfn" href="#event-target" id="ref-for-event-target-42">event
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-55">user agent</a> MUST dispatch this event when an <a data-link-type="dfn" href="#event-target" id="ref-for-event-target-42">event
 			target</a> receives focus. The focus MUST be given to the
 			element before the dispatch of this event type. This event type
 			MUST be dispatched after the event type <a data-link-type="dfn" href="#focus" id="ref-for-focus-8"><code>focus</code></a>.</p>
@@ -6060,7 +6075,7 @@ completeness.</p>
          <li><code class="idl"><a data-link-type="idl" href="#focusevent" id="ref-for-focusevent-18">FocusEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-focusevent-relatedtarget" id="ref-for-dom-focusevent-relatedtarget-7">relatedTarget</a></code> : <code>null</code>
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-54">user agent</a> MUST dispatch this event when an <a data-link-type="dfn" href="#event-target" id="ref-for-event-target-44">event
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-56">user agent</a> MUST dispatch this event when an <a data-link-type="dfn" href="#event-target" id="ref-for-event-target-44">event
 			target</a> loses focus. The focus MUST be taken from the element
 			before the dispatch of this event type. This event type MUST be
 			dispatched after the event type <a data-link-type="dfn" href="#blur" id="ref-for-blur-7"><code>blur</code></a>.</p>
@@ -6183,7 +6198,7 @@ completeness.</p>
          <li><code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent-100">KeyboardEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-iscomposing" id="ref-for-dom-keyboardevent-iscomposing-10">isComposing</a></code> : <code>true</code> if the key event occurs as part of a composition session, otherwise <code>false</code>
         </ul>
     </table>
-    <p>If supported by a <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-55">user agent</a>, this event MUST be dispatched
+    <p>If supported by a <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-57">user agent</a>, this event MUST be dispatched
 			when a key is pressed down, if and only if that key normally
 			produces a <a data-link-type="dfn" href="#character-value" id="ref-for-character-value-8">character value</a>. The <a data-link-type="dfn" href="#keypress" id="ref-for-keypress-13"><code>keypress</code></a> event type is			device dependent and relies on the capabilities of the input devices
 			and how they are mapped in the operating system.</p>
@@ -6264,7 +6279,7 @@ completeness.</p>
 	events is left to the implementation.</p>
     <div class="warning">
      <p> The <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#mutationevent">MutationEvent</a></code> interface was introduced in DOM Level 2 Events, but
-	has not yet been completely and interoperably implemented across <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-56">user
+	has not yet been completely and interoperably implemented across <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-58">user
 	agents</a>. In addition, there have been critiques that the interface, as
 	designed, introduces a performance and implementation challenge. </p>
      <p> DOM4 <a data-link-type="biblio" href="#biblio-dom">[DOM]</a> provides a new mechanism using a <code>MutationObserver</code> interface which addresses the use cases that
@@ -6400,7 +6415,7 @@ completeness.</p>
 								previous value of the attribute, if the <code>Attr</code> node has been removed or modified
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-57">user agent</a> MUST dispatch this event after an <code>Attr.value</code> has been modified and after an <code>Attr</code> node has been added to or removed from an <code>Element</code>. The <a data-link-type="dfn" href="#event-target" id="ref-for-event-target-45">event target</a> of this event MUST be
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-59">user agent</a> MUST dispatch this event after an <code>Attr.value</code> has been modified and after an <code>Attr</code> node has been added to or removed from an <code>Element</code>. The <a data-link-type="dfn" href="#event-target" id="ref-for-event-target-45">event target</a> of this event MUST be
 			the <code>Element</code> node where the change occurred. It is
 			implementation dependent whether this event type occurs when the
 			children of the <code>Attr</code> node are changed in ways that do
@@ -6450,7 +6465,7 @@ completeness.</p>
 								previous value of the object
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-58">user agent</a> MUST dispatch this event after <code>CharacterData.data</code> or <code>ProcessingInstruction.data</code> have been modified, but the
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-60">user agent</a> MUST dispatch this event after <code>CharacterData.data</code> or <code>ProcessingInstruction.data</code> have been modified, but the
 			node itself has not been inserted or deleted. The <a data-link-type="dfn" href="#event-target" id="ref-for-event-target-46">event
 			target</a> of this event MUST be the <code>CharacterData</code> node
 			or the <code>ProcessingInstruction</code> node.</p>
@@ -6499,9 +6514,9 @@ completeness.</p>
 								the <a data-link-type="dfn" href="#empty-string" id="ref-for-empty-string-17">empty string</a>
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-59">user agent</a> MUST dispatch this event type when a node other
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-61">user agent</a> MUST dispatch this event type when a node other
 			than an <code>Attr</code> node has been added as a child of another
-			node. A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-60">user agent</a> MAY dispatch this event when an <code>Attr</code> node has been added to an <code>Element</code> node (see <a href="#DOMNodeInserted-attr">note</a> below). This
+			node. A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-62">user agent</a> MAY dispatch this event when an <code>Attr</code> node has been added to an <code>Element</code> node (see <a href="#DOMNodeInserted-attr">note</a> below). This
 			event MUST be dispatched after the insertion has taken place. The <a data-link-type="dfn" href="#event-target" id="ref-for-event-target-47">event target</a> of this event MUST be the node being inserted.</p>
     <p class="note" id="DOMNodeInserted-attr" role="note"><a class="self-link" href="#DOMNodeInserted-attr"></a> For detecting attribute insertion, use the <a data-link-type="dfn" href="#domattrmodified" id="ref-for-domattrmodified-8"><code>DOMAttrModified</code></a> event type instead. </p>
     <p class="warning"> The <a data-link-type="dfn" href="#domnodeinserted" id="ref-for-domnodeinserted-2"><code>DOMNodeInserted</code></a> event type is defined in this			specification for reference and completeness, but this specification <a data-link-type="dfn" href="#deprecates" id="ref-for-deprecates-13">deprecates</a> the use of this event type. </p>
@@ -6549,9 +6564,9 @@ completeness.</p>
 								the <a data-link-type="dfn" href="#empty-string" id="ref-for-empty-string-20">empty string</a>
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-61">user agent</a> MUST dispatch this event when a node has been
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-63">user agent</a> MUST dispatch this event when a node has been
 			inserted into a document, either through direct insertion of the
-			node or insertion of a subtree in which it is contained. A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-62">user
+			node or insertion of a subtree in which it is contained. A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-64">user
 			agent</a> MAY  treat an <code>Attr</code> node as part of an <code>Element</code>’s subtree. This event MUST be dispatched after
 			the insertion has taken place. The <a data-link-type="dfn" href="#event-target" id="ref-for-event-target-48">event target</a> of this event
 			MUST be the node being inserted. If the node is being directly
@@ -6601,8 +6616,8 @@ completeness.</p>
 								the <a data-link-type="dfn" href="#empty-string" id="ref-for-empty-string-23">empty string</a>
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-63">user agent</a> MUST dispatch this event when a node other than
-			an <code>Attr</code> node is being removed from its parent node. A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-64">user agent</a> MAY dispatch this event when an <code>Attr</code> node is being removed from its <code>ownerElement</code> (see <a href="#DOMNodeRemoved-attr">note</a> below). This event MUST be
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-65">user agent</a> MUST dispatch this event when a node other than
+			an <code>Attr</code> node is being removed from its parent node. A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-66">user agent</a> MAY dispatch this event when an <code>Attr</code> node is being removed from its <code>ownerElement</code> (see <a href="#DOMNodeRemoved-attr">note</a> below). This event MUST be
 			dispatched before the removal takes place. The <a data-link-type="dfn" href="#event-target" id="ref-for-event-target-49">event target</a> of this event MUST be the node being removed.</p>
     <p class="note" id="DOMNodeRemoved-attr" role="note"><a class="self-link" href="#DOMNodeRemoved-attr"></a> For reliably detecting attribute removal, use the <a data-link-type="dfn" href="#domattrmodified" id="ref-for-domattrmodified-9"><code>DOMAttrModified</code></a> event type instead. </p>
     <p class="warning"> The <a data-link-type="dfn" href="#domnoderemoved" id="ref-for-domnoderemoved-2"><code>DOMNodeRemoved</code></a> event type is defined in this			specification for reference and completeness, but this specification <a data-link-type="dfn" href="#deprecates" id="ref-for-deprecates-15">deprecates</a> the use of this event type. </p>
@@ -6650,9 +6665,9 @@ completeness.</p>
 								the <a data-link-type="dfn" href="#empty-string" id="ref-for-empty-string-26">empty string</a>
         </ul>
     </table>
-    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-65">user agent</a> MUST dispatch this event when a node is being
+    <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-67">user agent</a> MUST dispatch this event when a node is being
 			removed from a document, either through direct removal of the node
-			or removal of a subtree in which it is contained. A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-66">user
+			or removal of a subtree in which it is contained. A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-68">user
 			agent</a> MAY treat an <code>Attr</code> node as part of an <code>Element</code>’s subtree. This event MUST be dispatched before
 			the removal takes place. The <a data-link-type="dfn" href="#event-target" id="ref-for-event-target-50">event target</a> of this event type
 			MUST be the node being removed. If the node is being directly
@@ -7120,7 +7135,7 @@ be defined for that element by the <a data-link-type="dfn" href="#host-language"
 author-defined variables, or both.  The default task for any given element
 MAY be a generic action, or MAY be unique to that element.  For example, the
 activation behavior of an HTML or SVG <code>&lt;a></code> element is to
-cause the <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-67">user agent</a> to traverse the link specified in the <code>href</code> attribute, with the further optional parameter of
+cause the <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-69">user agent</a> to traverse the link specified in the <code>href</code> attribute, with the further optional parameter of
 specifying the browsing context for the traversal (such as the current
 window or tab, a named window, or a new window). The activation behavior of
 an HTML <code>&lt;input></code> element with the <code>type</code> attribute value <code>submit</code> is be to send the values of the form
@@ -7253,7 +7268,7 @@ data.</p>
 automatically generated, which takes advantage of the interfaces, methods,
 attributes, events, and other features described in this specification in
 order to make dynamic or interactive content, such as Web applications,
-exposed to users in a <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-68">user agent</a>.</p>
+exposed to users in a <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent-70">user agent</a>.</p>
      <dt data-md="">
       <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport="" id="dom-level-0">DOM Level 0</dfn></p>
      <dd data-md="">
@@ -10008,39 +10023,39 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-user-agent-17">4.2.4.4. focusout</a>
     <li><a href="#ref-for-user-agent-18">4.3.4.3. dblclick</a>
     <li><a href="#ref-for-user-agent-19">4.3.4.4. mousedown</a>
-    <li><a href="#ref-for-user-agent-20">4.3.4.5. mouseenter</a>
-    <li><a href="#ref-for-user-agent-21">4.3.4.6. mouseleave</a>
-    <li><a href="#ref-for-user-agent-22">4.3.4.7. mousemove</a>
-    <li><a href="#ref-for-user-agent-23">4.3.4.8. mouseout</a>
-    <li><a href="#ref-for-user-agent-24">4.3.4.9. mouseover</a>
-    <li><a href="#ref-for-user-agent-25">4.3.4.10. mouseup</a>
-    <li><a href="#ref-for-user-agent-26">4.4.2.1. wheel</a> <a href="#ref-for-user-agent-27">(2)</a>
-    <li><a href="#ref-for-user-agent-28">4.5.3.1. beforeinput</a>
-    <li><a href="#ref-for-user-agent-29">4.5.3.2. input</a>
-    <li><a href="#ref-for-user-agent-30">4.6.1.1. KeyboardEvent</a>
-    <li><a href="#ref-for-user-agent-31">4.6.4.1. keydown</a> <a href="#ref-for-user-agent-32">(2)</a>
-    <li><a href="#ref-for-user-agent-33">4.6.4.2. keyup</a>
-    <li><a href="#ref-for-user-agent-34">4.7.7.1. compositionstart</a>
-    <li><a href="#ref-for-user-agent-35">4.7.7.2. compositionupdate</a>
-    <li><a href="#ref-for-user-agent-36">4.7.7.3. compositionend</a> <a href="#ref-for-user-agent-37">(2)</a>
-    <li><a href="#ref-for-user-agent-38">6. Legacy Event Initializers</a>
-    <li><a href="#ref-for-user-agent-39">7. Legacy Key &amp; Mouse Event Attributes</a> <a href="#ref-for-user-agent-40">(2)</a> <a href="#ref-for-user-agent-41">(3)</a>
-    <li><a href="#ref-for-user-agent-42">7.1. Legacy UIEvent supplemental interface</a>
-    <li><a href="#ref-for-user-agent-43">7.2. Legacy KeyboardEvent supplemental interface</a>
-    <li><a href="#ref-for-user-agent-44">8. Legacy Event Types</a>
-    <li><a href="#ref-for-user-agent-45">8.1.1.1. DOMActivate</a> <a href="#ref-for-user-agent-46">(2)</a> <a href="#ref-for-user-agent-47">(3)</a> <a href="#ref-for-user-agent-48">(4)</a> <a href="#ref-for-user-agent-49">(5)</a>
-    <li><a href="#ref-for-user-agent-50">8.1.2. Activation event order</a> <a href="#ref-for-user-agent-51">(2)</a> <a href="#ref-for-user-agent-52">(3)</a>
-    <li><a href="#ref-for-user-agent-53">8.2.1.1. DOMFocusIn</a>
-    <li><a href="#ref-for-user-agent-54">8.2.1.2. DOMFocusOut</a>
-    <li><a href="#ref-for-user-agent-55">8.3.1.1. keypress</a>
-    <li><a href="#ref-for-user-agent-56">8.4. Legacy MutationEvent events</a>
-    <li><a href="#ref-for-user-agent-57">8.4.2.1. DOMAttrModified</a>
-    <li><a href="#ref-for-user-agent-58">8.4.2.2. DOMCharacterDataModified</a>
-    <li><a href="#ref-for-user-agent-59">8.4.2.3. DOMNodeInserted</a> <a href="#ref-for-user-agent-60">(2)</a>
-    <li><a href="#ref-for-user-agent-61">8.4.2.4. DOMNodeInsertedIntoDocument</a> <a href="#ref-for-user-agent-62">(2)</a>
-    <li><a href="#ref-for-user-agent-63">8.4.2.5. DOMNodeRemoved</a> <a href="#ref-for-user-agent-64">(2)</a>
-    <li><a href="#ref-for-user-agent-65">8.4.2.6. DOMNodeRemovedFromDocument</a> <a href="#ref-for-user-agent-66">(2)</a>
-    <li><a href="#ref-for-user-agent-67">13. Glossary</a> <a href="#ref-for-user-agent-68">(2)</a>
+    <li><a href="#ref-for-user-agent-20">4.3.4.5. mouseenter</a> <a href="#ref-for-user-agent-21">(2)</a>
+    <li><a href="#ref-for-user-agent-22">4.3.4.6. mouseleave</a> <a href="#ref-for-user-agent-23">(2)</a>
+    <li><a href="#ref-for-user-agent-24">4.3.4.7. mousemove</a>
+    <li><a href="#ref-for-user-agent-25">4.3.4.8. mouseout</a>
+    <li><a href="#ref-for-user-agent-26">4.3.4.9. mouseover</a>
+    <li><a href="#ref-for-user-agent-27">4.3.4.10. mouseup</a>
+    <li><a href="#ref-for-user-agent-28">4.4.2.1. wheel</a> <a href="#ref-for-user-agent-29">(2)</a>
+    <li><a href="#ref-for-user-agent-30">4.5.3.1. beforeinput</a>
+    <li><a href="#ref-for-user-agent-31">4.5.3.2. input</a>
+    <li><a href="#ref-for-user-agent-32">4.6.1.1. KeyboardEvent</a>
+    <li><a href="#ref-for-user-agent-33">4.6.4.1. keydown</a> <a href="#ref-for-user-agent-34">(2)</a>
+    <li><a href="#ref-for-user-agent-35">4.6.4.2. keyup</a>
+    <li><a href="#ref-for-user-agent-36">4.7.7.1. compositionstart</a>
+    <li><a href="#ref-for-user-agent-37">4.7.7.2. compositionupdate</a>
+    <li><a href="#ref-for-user-agent-38">4.7.7.3. compositionend</a> <a href="#ref-for-user-agent-39">(2)</a>
+    <li><a href="#ref-for-user-agent-40">6. Legacy Event Initializers</a>
+    <li><a href="#ref-for-user-agent-41">7. Legacy Key &amp; Mouse Event Attributes</a> <a href="#ref-for-user-agent-42">(2)</a> <a href="#ref-for-user-agent-43">(3)</a>
+    <li><a href="#ref-for-user-agent-44">7.1. Legacy UIEvent supplemental interface</a>
+    <li><a href="#ref-for-user-agent-45">7.2. Legacy KeyboardEvent supplemental interface</a>
+    <li><a href="#ref-for-user-agent-46">8. Legacy Event Types</a>
+    <li><a href="#ref-for-user-agent-47">8.1.1.1. DOMActivate</a> <a href="#ref-for-user-agent-48">(2)</a> <a href="#ref-for-user-agent-49">(3)</a> <a href="#ref-for-user-agent-50">(4)</a> <a href="#ref-for-user-agent-51">(5)</a>
+    <li><a href="#ref-for-user-agent-52">8.1.2. Activation event order</a> <a href="#ref-for-user-agent-53">(2)</a> <a href="#ref-for-user-agent-54">(3)</a>
+    <li><a href="#ref-for-user-agent-55">8.2.1.1. DOMFocusIn</a>
+    <li><a href="#ref-for-user-agent-56">8.2.1.2. DOMFocusOut</a>
+    <li><a href="#ref-for-user-agent-57">8.3.1.1. keypress</a>
+    <li><a href="#ref-for-user-agent-58">8.4. Legacy MutationEvent events</a>
+    <li><a href="#ref-for-user-agent-59">8.4.2.1. DOMAttrModified</a>
+    <li><a href="#ref-for-user-agent-60">8.4.2.2. DOMCharacterDataModified</a>
+    <li><a href="#ref-for-user-agent-61">8.4.2.3. DOMNodeInserted</a> <a href="#ref-for-user-agent-62">(2)</a>
+    <li><a href="#ref-for-user-agent-63">8.4.2.4. DOMNodeInsertedIntoDocument</a> <a href="#ref-for-user-agent-64">(2)</a>
+    <li><a href="#ref-for-user-agent-65">8.4.2.5. DOMNodeRemoved</a> <a href="#ref-for-user-agent-66">(2)</a>
+    <li><a href="#ref-for-user-agent-67">8.4.2.6. DOMNodeRemovedFromDocument</a> <a href="#ref-for-user-agent-68">(2)</a>
+    <li><a href="#ref-for-user-agent-69">13. Glossary</a> <a href="#ref-for-user-agent-70">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="window">
