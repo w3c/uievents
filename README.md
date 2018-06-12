@@ -93,7 +93,7 @@ should be made in the `sections\*.txt` files and `index.bs`.
    * [English 101 en-US](https://cdn.rawgit.com/w3c/uievents/gh-pages/tests/key-mtest-101en-us.html)
    * [French 102 fr-FR](https://cdn.rawgit.com/w3c/uievents/gh-pages/tests/key-mtest-102fr-fr.html)
 * Web Platform Tests
-   * [Github w3c/web-platform-tests uievents](https://github.com/w3c/web-platform-tests/tree/master/uievents)
+   * [Github web-platform-tests/wpt uievents](https://github.com/web-platform-tests/wpt/tree/master/uievents)
    * Tests are mirrored at w3c-test.org:
       * [uievents](http://w3c-test.org/uievents/)
       * [DOMEvents](http://w3c-test.org/DOMEvents/) - old
