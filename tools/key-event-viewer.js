@@ -6,16 +6,57 @@
 // highlighted.
 var _isKeydown = false;
 
-function clearChildren(e) {
-	while (e.firstChild !== null) {
-		e.removeChild(e.firstChild);
-	}
-}
+var _key_table_info = [
+	// Unlabeled group
+	["", "empty", [
+		["#", "etype", "text"],
+		["Event type", "etype", "html"],
+	]],
+	
+	// KeyboardEvent - Legacy
+	["Legacy", "legacy", [
+		["charCode", "legacy", "html"],
+		["keyCode", "legacy", "html"],
+		["which", "legacy", "text"],
+	]],
 
-function setText(e, text) {
-	clearChildren(e);
-	e.appendChild(document.createTextNode(text));
-}
+	// KeyboardEvent - Modifiers
+	["Modifiers", "modifiers", [
+		["getModifierState", "modifiers", "text"],
+		["shift", "modifiers", "bool"],
+		["ctrl", "modifiers", "bool"],
+		["alt", "modifiers", "bool"],
+		["meta", "modifiers", "bool"],
+	]],
+
+	// KeyboardEvent - Old DOM3
+	["Old DOM3", "olddom3", [
+		["keyIdentifier", "olddom3", "text"],
+		["keyLocation", "olddom3", "text"],
+		["char", "olddom3", "text"],
+	]],
+
+	// KeyboardEvent - UI Events
+	["UI Events", "uievents", [
+		["key", "uievents", "html"],
+		["code", "uievents", "text"],
+		["location", "uievents", "text"],
+		["repeat", "uievents", "bool"],
+		["isComposing", "uievents", "bool"],
+		["inputType", "uievents", "text"],
+		["data", "uievents", "text"],
+	]],
+
+	// KeyboardEvent - Proposed
+	["Proposed", "proposed", [
+		["locale", "proposed", "text"],
+	]],
+
+	// Input
+	["", "empty", [
+		["Input field", "inputbox", "text", {'align': 'left'}],
+	]],
+];
 
 function setUserAgentText() {
 	var userAgent = navigator.userAgent;
@@ -23,14 +64,11 @@ function setUserAgentText() {
 	setText(uaDiv, userAgent);
 }
 
-function addEventListener(obj, etype, handler) {
-	if (obj.addEventListener) {
-		obj.addEventListener(etype, handler, false);
-	} else if (obj.attachEvent) {
-		obj.attachEvent("on" + etype, handler);
-	} else {
-		obj["on" + etype] = handler;
-	}
+function resetTable() {
+	clearTable();
+	initOutputTable(_key_table_info);
+
+	setInputFocus(true);
 }
 
 function init() {
@@ -50,6 +88,10 @@ function init() {
 	addEventListener(input, "compositionend", onCompositionEnd);
 }
 
+// =====
+// Key events: keydown, keypress, keyup
+// =====
+
 function onKeyDown(e) {
     _isKeydown = true;
 	handleKeyEvent("keydown", e);
@@ -64,105 +106,12 @@ function onKeyUp(e) {
 	handleKeyEvent("keyup", e);
 }
 
-function onTextInput(e) {
-	handleInputEvent("textinput", e);
-}
-
-function onBeforeInput(e) {
-	handleInputEvent("beforeinput", e);
-}
-
-function onInput(e) {
-	handleInputEvent("input", e);
-}
-
-function onCompositionStart(e) {
-	handleCompositionEvent("compositionstart", e);
-}
-
-function onCompositionUpdate(e) {
-	handleCompositionEvent("compositionupdate", e);
-}
-
-function onCompositionEnd(e) {
-	handleCompositionEvent("compositionend", e);
-}
-
-function handleInputEvent(etype, e) {
-	var show = document.getElementById("show_" + etype);
-	if (show.checked) {
-		addInputEvent(etype, e);
-	}
-	handleDefaultPropagation(etype, e);
-}
-
 function handleKeyEvent(etype, e) {
 	var show = document.getElementById("show_" + etype);
 	if (show.checked) {
 		addKeyEvent(etype, e);
 	}
 	handleDefaultPropagation(etype, e);
-}
-
-function handleCompositionEvent(etype, e) {
-	var show = document.getElementById("show_"+etype);
-	if (show.checked) {
-		addCompositionEvent(etype, e);
-	}
-	handleDefaultPropagation(etype, e);
-}
-
-function handleDefaultPropagation(etype, e) {
-	var preventDefault = document.getElementById("pd_" + etype);
-	if (preventDefault.checked && e.preventDefault) {
-		e.preventDefault();
-	}
-	var stopPropagation = document.getElementById("sp_" + etype);
-	if (stopPropagation.checked && e.stopPropagation) {
-		e.stopPropagation();
-	}
-	// Always prevent default for Tab.
-	if (e.keyCode == 9 || e.code == "Tab") {
-		e.preventDefault();
-	}
-}
-
-function addInputEvent(etype, e) {
-	if (!e) {
-		e = window.event;
-	}
-	var eventinfo = {};
-	eventinfo["Event type"] = calcHilightString(etype, e.type, true);
-	eventinfo["isComposing"] = e.isComposing;
-	eventinfo["inputType"] = e.inputType;
-	eventinfo["data"] = calcString(e.data);
-	eventinfo["Input field"] = calcInput();
-	addEventToOutput(eventinfo);
-}
-
-function getModifierState(e) {
-	Modifiers = [
-		"Alt", "AltGraph", "Control", "Shift", "Meta",
-		// Locking keys
-		"CapsLock", "NumLock", "ScrollLock",
-		// Linux
-		"Hyper", "Super",
-		// Virtual keyboards
-		"Symbol", "SymbolLock",
-		// Not valid, but check anyway
-		"Fn", "FnLock",
-		];
-	mods = undefined;
-	for (var mod of Modifiers) {
-		if (e.getModifierState(mod)) {
-			if (!mods) {
-				mods = mod;
-			} else {
-				mods += ", " + mod;
-			}
-		}
-	}
-	return mods;
 }
 
 function addKeyEvent(etype, e) {
@@ -196,6 +145,67 @@ function addKeyEvent(etype, e) {
 	addEventToOutput(eventinfo, extra_class);
 }
 
+// =====
+// Input events: textinput, beforeinput, input
+// =====
+
+function onTextInput(e) {
+	handleInputEvent("textinput", e);
+}
+
+function onBeforeInput(e) {
+	handleInputEvent("beforeinput", e);
+}
+
+function onInput(e) {
+	handleInputEvent("input", e);
+}
+
+function handleInputEvent(etype, e) {
+	var show = document.getElementById("show_" + etype);
+	if (show.checked) {
+		addInputEvent(etype, e);
+	}
+	handleDefaultPropagation(etype, e);
+}
+
+function addInputEvent(etype, e) {
+	if (!e) {
+		e = window.event;
+	}
+	var eventinfo = {};
+	eventinfo["Event type"] = calcHilightString(etype, e.type, true);
+	eventinfo["isComposing"] = e.isComposing;
+	eventinfo["inputType"] = e.inputType;
+	eventinfo["data"] = calcString(e.data);
+	eventinfo["Input field"] = calcInput();
+	addEventToOutput(eventinfo);
+}
+
+// =====
+// Composition events: compositionstart, compositionupdate, compositionend
+// =====
+
+function onCompositionStart(e) {
+	handleCompositionEvent("compositionstart", e);
+}
+
+function onCompositionUpdate(e) {
+	handleCompositionEvent("compositionupdate", e);
+}
+
+function onCompositionEnd(e) {
+	handleCompositionEvent("compositionend", e);
+}
+
+function handleCompositionEvent(etype, e) {
+	var show = document.getElementById("show_"+etype);
+	if (show.checked) {
+		addCompositionEvent(etype, e);
+	}
+	handleDefaultPropagation(etype, e);
+}
+
 function addCompositionEvent(etype, e) {
 	if (!e) {
 		e = window.event;
@@ -206,6 +216,36 @@ function addCompositionEvent(etype, e) {
 	eventinfo["data"] = calcString(e.data);
 	eventinfo["Input field"] = calcInput();
 	addEventToOutput(eventinfo);
+}
+
+// =====
+// Helper functions
+// =====
+
+
+function getModifierState(e) {
+	Modifiers = [
+		"Alt", "AltGraph", "Control", "Shift", "Meta",
+		// Locking keys
+		"CapsLock", "NumLock", "ScrollLock",
+		// Linux
+		"Hyper", "Super",
+		// Virtual keyboards
+		"Symbol", "SymbolLock",
+		// Not valid, but check anyway
+		"Fn", "FnLock",
+		];
+	mods = undefined;
+	for (var mod of Modifiers) {
+		if (e.getModifierState(mod)) {
+			if (!mods) {
+				mods = mod;
+			} else {
+				mods += ", " + mod;
+			}
+		}
+	}
+	return mods;
 }
 
 function calcInput() {
@@ -265,10 +305,6 @@ function calcRichKeyVal(eventType, attrName, key) {
 	return document.createTextNode(key);
 }
 
-function calcBoolean(key) {
-	return key ? "✓" : "✗";
-}
-
 function calcString(data) {
 	if (data === undefined) {
 		return data;
@@ -303,6 +339,21 @@ function setInputFocus(resetData=false) {
 	input.focus();
 }
 
+function handleDefaultPropagation(etype, e) {
+	var preventDefault = document.getElementById("pd_" + etype);
+	if (preventDefault.checked && e.preventDefault) {
+		e.preventDefault();
+	}
+	var stopPropagation = document.getElementById("sp_" + etype);
+	if (stopPropagation.checked && e.stopPropagation) {
+		e.stopPropagation();
+	}
+	// Always prevent default for Tab.
+	if (e.keyCode == 9 || e.code == "Tab") {
+		e.preventDefault();
+	}
+}
+
 function toggleReadonly() {
 	var cbReadonly = document.getElementById("readonlyToggle");
 	var input = document.getElementById("input");
@@ -312,18 +363,6 @@ function toggleReadonly() {
 		input.removeAttribute('readonly');
 	}
 	setInputFocus();
-}
-
-function resetTable() {
-	clearTable();
-	initOutputTable(_key_table_info);
-
-	setInputFocus(true);
-}
-
-function addInputCell(row) {
-	var value = document.getElementById("input").value;
-	addTableCellText(row, "'" + value + "'", "inputbox", undefined, undefined, "left");
 }
 
 function toggleOptions() {
@@ -358,64 +397,3 @@ function showFieldClick(cb) {
 		}
 	}
 }
-
-var _key_table_info = [
-	// Format:
-	// array of <group-info>
-	// <group-info> : [ <group-title>, <group-type>, <styles>, <num-cols>, <columns> ]
-	//   <group-title> : 
-	//   <group-type> : cell type for style
-	//   <styles> : additional styles (may be string or array of strings)
-	//   <columns> : an array of <col-info>
-	// <col-info> : [ <title>, <cell-type>, <styles> ]
-
-	// Unlabeled group
-	["", "empty", [
-		["#", "etype"],
-		["Event type", "etype"],
-	]],
-	
-	// KeyboardEvent - Legacy
-	["Legacy", "legacy", [
-		["charCode", "legacy"],
-		["keyCode", "legacy"],
-		["which", "legacy"],
-	]],
-
-	// KeyboardEvent - Modifiers
-	["Modifiers", "modifiers", [
-		["getModifierState()", "modifiers"],
-		["shift", "modifiers"],
-		["ctrl", "modifiers"],
-		["alt", "modifiers"],
-		["meta", "modifiers"],
-	]],
-
-	// KeyboardEvent - Old DOM3
-	["Old DOM3", "olddom3", [
-		["keyIdentifier", "olddom3"],
-		["keyLocation", "olddom3"],
-		["char", "olddom3"],
-	]],
-
-	// KeyboardEvent - UI Events
-	["UI Events", "uievents", [
-		["key", "uievents"],
-		["code", "uievents"],
-		["location", "uievents"],
-		["repeat", "uievents"],
-		["isComposing", "uievents"],
-		["inputType", "uievents"],
-		["data", "uievents"],
-	]],
-
-	// KeyboardEvent - Proposed
-	["Proposed", "proposed", [
-		["locale", "proposed"],
-	]],
-
-	// Input
-	["", "empty", [
-		["Input field", "inputbox"],
-	]],
-];

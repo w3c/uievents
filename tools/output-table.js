@@ -16,11 +16,22 @@ var MAX_OUTPUT_ROWS = 100 + NUM_HEADER_ROWS;
 // Sequence ID for numbering events.
 var _seqId = 1;
 
+
+// Output table info
+// Format:
+// array of <group-info>
+// <group-info> : [ <group-title>, <group-type>, <styles>, <num-cols>, <columns> ]
+//   <group-title> : 
+//   <group-type> : cell type for style
+//   <columns> : an array of <col-info>
+// <col-info> : [ <title>, <cell-type>, <options> ]
+// <options> : dict of options:
+//   'align': left
 var _table_info;
 
 function initOutputTable(table_info) {
 	_table_info = table_info;
-	createTableHeader(table_info);
+	createTableHeader();
 	_seqId = 1;
 }
 
@@ -30,11 +41,11 @@ function createTableHeader(table_info) {
 	var row1 = head.insertRow(-1);  // For column group names
 	var row2 = head.insertRow(-1);  // For column names
 
-	for (var group of table_info) {
+	for (var group of _table_info) {
 		var group_title = group[0]
 		var group_type = group[1]
 		var group_style = group_type + '_header'
-		var columns = group[2	]
+		var columns = group[2];
 		addTableCellText(row1, group_title, group_type, group_style, columns.length);
 
 		for (var col of columns) {
@@ -53,28 +64,36 @@ function clearTable() {
 /* Create the event table row from the event info */
 function addEventToOutput(eventinfo, extra_class) {
 	var row = addOutputRow(extra_class);
-	addTableCellText(row, _seqId, "etype");
-	addTableCell(row, eventinfo["Event type"], "etype");
-	addTableCell(row, eventinfo["charCode"], "legacy");
-	addTableCell(row, eventinfo["keyCode"], "legacy");
-	addTableCellText(row, eventinfo["which"], "legacy");
-	addTableCellText(row, eventinfo["getModifierState"], "modifiers");
-	addTableCellBoolean(row, eventinfo["shift"], "modifiers");
-	addTableCellBoolean(row, eventinfo["ctrl"], "modifiers");
-	addTableCellBoolean(row, eventinfo["alt"], "modifiers");
-	addTableCellBoolean(row, eventinfo["meta"], "modifiers");
-	addTableCellText(row, eventinfo["keyIdentifier"], "olddom3");
-	addTableCellText(row, eventinfo["keyLocation"], "olddom3");
-	addTableCellText(row, eventinfo["char"], "olddom3");
-	addTableCell(row, eventinfo["key"], "uievents");
-	addTableCellText(row, eventinfo["code"], "uievents");
-	addTableCellText(row, eventinfo["location"], "uievents");
-	addTableCellBoolean(row, eventinfo["repeat"], "uievents");
-	addTableCellBoolean(row, eventinfo["isComposing"], "uievents");
-	addTableCellText(row, eventinfo["inputType"], "uievents");
-	addTableCellText(row, eventinfo["data"], "uievents");
-	addTableCellText(row, eventinfo["locale"], "proposed");
-	addTableCellText(row, eventinfo["Input field"], "inputbox");
+
+	for (var group of _table_info) {
+		var columns = group[2];
+		for (var col of columns) {
+			var title = col[0];
+			var type = col[1];
+			var format = col[2];
+			var options = col[3];
+			
+			var val = eventinfo[title];
+			if (title == '#') {
+				val = _seqId;
+			}
+			
+			var style;
+			var align;
+			if (options) {
+				style = options['style'];
+				align = options['align'];
+			}
+			
+			if (format == 'text')
+				addTableCellText(row, val, type, style, undefined, align);
+			else if (format == 'bool')
+				addTableCellBoolean(row, val, type, style, undefined, align);
+			else
+				addTableCell(row, val, type, style, undefined, align);
+		}
+	}
+
 	_seqId++;
 }
 
@@ -96,6 +115,10 @@ function addOutputRow(extra_class) {
 function addTableCellBoolean(row, key, celltype) {
 	var modstyle = key ? "modOn" : "modOff";
 	addTableCellText(row, calcBoolean(key), celltype, modstyle);
+}
+
+function calcBoolean(key) {
+	return key ? "✓" : "✗";
 }
 
 function addTableCellText(row, textdata, celltype, style, span, align) {
@@ -138,5 +161,28 @@ function addTableCell(row, data, celltype, style, span, align) {
 	var show = document.getElementById("show_" + celltype).checked;
 	if (!show) {
 		cell.style.display = "none";
+	}
+}
+
+// =========
+
+function clearChildren(e) {
+	while (e.firstChild !== null) {
+		e.removeChild(e.firstChild);
+	}
+}
+
+function setText(e, text) {
+	clearChildren(e);
+	e.appendChild(document.createTextNode(text));
+}
+
+function addEventListener(obj, etype, handler) {
+	if (obj.addEventListener) {
+		obj.addEventListener(etype, handler, false);
+	} else if (obj.attachEvent) {
+		obj.attachEvent("on" + etype, handler);
+	} else {
+		obj["on" + etype] = handler;
 	}
 }
