@@ -239,7 +239,7 @@ function addEvent(eventinfo) {
 	addTableCellBoolean(row, eventinfo["isComposing"], "uievents");
 	addTableCellText(row, eventinfo["inputType"], "uievents");
 	addTableCellText(row, eventinfo["data"], "uievents");
-	addTableCellText(row, eventinfo["locale"], "uievents");
+	addTableCellText(row, eventinfo["locale"], "proposed");
 	addInputCell(row);
 }
 
