@@ -6,6 +6,8 @@ var MAX_OUTPUT_ROWS = 100 + NUM_HEADER_ROWS;
 var _seqId = 1;
 
 // True if the current row is a 'keydown' event.
+// This is used to set the background for the entire row when 'keydown' events are
+// highlighted.
 var _isKeydown = false;
 
 function clearChildren(e) {
@@ -19,7 +21,7 @@ function setText(e, text) {
 	e.appendChild(document.createTextNode(text));
 }
 
-function setUserAgent() {
+function setUserAgentText() {
 	var userAgent = navigator.userAgent;
 	uaDiv = document.getElementById("useragent");
 	setText(uaDiv, userAgent);
@@ -36,7 +38,7 @@ function addEventListener(obj, etype, handler) {
 }
 
 function init() {
-	setUserAgent();
+	setUserAgentText();
 	resetTable();
 
 	var input = document.getElementById("input");
@@ -148,7 +150,7 @@ function addInputEvent(etype, e) {
 		e = window.event;
 	}
 	var eventinfo = {};
-	eventinfo["etype"] = calcRichString(etype, e.type, true);
+	eventinfo["etype"] = calcHilightString(etype, e.type, true);
 	eventinfo["isComposing"] = e.isComposing;
 	eventinfo["inputType"] = e.inputType;
 	eventinfo["data"] = calcString(e.data);
@@ -185,7 +187,7 @@ function addKeyEvent(etype, e) {
 		e = window.event;
 	}
 	var eventinfo = {};
-	eventinfo["etype"] = calcRichString(etype, e.type, true);
+	eventinfo["etype"] = calcHilightString(etype, e.type, true);
 	eventinfo["charCode"] = calcRichKeyVal(etype, "charCode", e.charCode);
 	eventinfo["keyCode"] = calcRichKeyVal(etype, "keyCode", e.keyCode);
 	eventinfo["which"] = e.which;
@@ -197,7 +199,7 @@ function addKeyEvent(etype, e) {
 	eventinfo["keyIdentifier"] = e.keyIdentifier;
 	eventinfo["keyLocation"] = calcLocation(e.keyLocation);
 	eventinfo["char"] = calcString(e.char);
-	eventinfo["key"] = calcRichString(etype, e.key, false);
+	eventinfo["key"] = calcHilightString(etype, e.key, false);
 	eventinfo["code"] = e.code;
 	eventinfo["location"] = calcLocation(e.location);
 	eventinfo["repeat"] = e.repeat;
@@ -210,7 +212,7 @@ function addCompositionEvent(etype, e) {
 		e = window.event;
 	}
 	var eventinfo = {};
-	eventinfo["etype"] = calcRichString(etype, e.type, true);
+	eventinfo["etype"] = calcHilightString(etype, e.type, true);
 	eventinfo["isComposing"] = e.isComposing;
 	eventinfo["data"] = calcString(e.data);
 	addEvent(eventinfo);
@@ -306,7 +308,7 @@ function calcString(data) {
 	return "'" + data + "'";
 }
 
-function calcRichString(eventType, data, addArrow) {
+function calcHilightString(eventType, data, addArrow) {
 	if (data === undefined) {
 		return null;
 	}
@@ -410,46 +412,87 @@ function addTableCell(row, data, celltype, style, span, align) {
 	}
 }
 
+var _table_columns = [
+	// Format:
+	// array of <group-info>
+	// <group-info> : [ <group-title>, <cell-type>, <styles>, <num-cols>, <columns> ]
+	//   <group-title> : 
+	//   <cell-type> : cell type for style
+	//   <styles> : additional styles (may be string or array of strings)
+	//   <columns> : an array of <col-info>
+	// <col-info> : [ <title>, <cell-type>, <styles> ]
+
+	// Unlabeled group
+	["", "empty", undefined, [
+		["#", "etype", "etype_header"],
+		["Event type", "etype", ["etype_header", "subheader"]],
+	]],
+	
+	// KeyboardEvent - Legacy
+	["Legacy", "legacy", "legacy_header", [
+		["charCode", "legacy", ["legacy_header", "subheader"]],
+		["keyCode", "legacy", ["legacy_header", "subheader"]],
+		["which", "legacy", ["legacy_header", "subheader"]],
+	]],
+
+	// KeyboardEvent - Modifiers
+	["Modifiers", "modifiers", "modifiers_header", [
+		["getModifierState()", "modifiers", ["modifiers_header", "subheader"]],
+		["shift", "modifiers", ["modifiers_header", "subheader"]],
+		["ctrl", "modifiers", ["modifiers_header", "subheader"]],
+		["alt", "modifiers", ["modifiers_header", "subheader"]],
+		["meta", "modifiers", ["modifiers_header", "subheader"]],
+	]],
+
+	// KeyboardEvent - Old DOM3
+	["Old DOM3", "olddom3", "olddom3_header", [
+		["keyIdentifier", "olddom3", ["olddom3_header", "subheader"]],
+		["keyLocation", "olddom3", ["olddom3_header", "subheader"]],
+		["char", "olddom3", ["olddom3_header", "subheader"]],
+	]],
+
+	// KeyboardEvent - UI Events
+	["UI Events", "uievents", "uievents_header", [
+		["key", "uievents", ["uievents_header", "subheader"]],
+		["code", "uievents", ["uievents_header", "subheader"]],
+		["location", "uievents", ["uievents_header", "subheader"]],
+		["repeat", "uievents", ["uievents_header", "subheader"]],
+		["isComposing", "uievents", ["uievents_header", "subheader"]],
+		["inputType", "uievents", ["uievents_header", "subheader"]],
+		["data", "uievents", ["uievents_header", "subheader"]],
+	]],
+
+	// KeyboardEvent - Proposed
+	["Proposed", "proposed", "proposed_header", [
+		["locale", "proposed", ["proposed_header", "subheader"]],
+	]],
+
+	// Input
+	["", "inputbox", "empty", [
+		["Input field", "inputbox", ["inputbox_header", "subheader"]],
+	]],
+];
+
 function createTableHeader() {
 	var table = document.getElementById("output");
 	var head = table.createTHead();
-	var row1 = head.insertRow(-1);
-	var row2 = head.insertRow(-1);
-	addTableCellText(row1, "", "empty", undefined, 2);
-	addTableCellText(row2, "#", "etype", "etype_header");
-	addTableCellText(row2, "Event type", "etype", ["etype_header", "subheader"]);
-	// KeyboardEvent - Legacy
-	addTableCellText(row1, "Legacy", "legacy", "legacy_header", 3);
-	addTableCellText(row2, "charCode", "legacy", ["legacy_header", "subheader"]);
-	addTableCellText(row2, "keyCode", "legacy", ["legacy_header", "subheader"]);
-	addTableCellText(row2, "which", "legacy", ["legacy_header", "subheader"]);
-	// KeyboardEvent - Modifiers
-	addTableCellText(row1, "Modifiers", "modifiers", "modifiers_header", 5);
-	addTableCellText(row2, "getModifierState()", "modifiers", ["modifiers_header", "subheader"]);
-	addTableCellText(row2, "shift", "modifiers", ["modifiers_header", "subheader"]);
-	addTableCellText(row2, "ctrl", "modifiers", ["modifiers_header", "subheader"]);
-	addTableCellText(row2, "alt", "modifiers", ["modifiers_header", "subheader"]);
-	addTableCellText(row2, "meta", "modifiers", ["modifiers_header", "subheader"]);
-	// KeyboardEvent - Old DOM3
-	addTableCellText(row1, "Old DOM3", "olddom3", "olddom3_header", 3);
-	addTableCellText(row2, "keyIdentifier", "olddom3", ["olddom3_header", "subheader"]);
-	addTableCellText(row2, "keyLocation", "olddom3", ["olddom3_header", "subheader"]);
-	addTableCellText(row2, "char", "olddom3", ["olddom3_header", "subheader"]);
-	// KeyboardEvent - UI Events
-	addTableCellText(row1, "UI Events", "uievents", "uievents_header", 7);
-	addTableCellText(row2, "key", "uievents", ["uievents_header", "subheader"]);
-	addTableCellText(row2, "code", "uievents", ["uievents_header", "subheader"]);
-	addTableCellText(row2, "location", "uievents", ["uievents_header", "subheader"]);
-	addTableCellText(row2, "repeat", "uievents", ["uievents_header", "subheader"]);
-	addTableCellText(row2, "isComposing", "uievents", ["uievents_header", "subheader"]);
-	addTableCellText(row2, "inputType", "uievents", ["uievents_header", "subheader"]);
-	addTableCellText(row2, "data", "uievents", ["uievents_header", "subheader"]);
-	// KeyboardEvent - Proposed
-	addTableCellText(row1, "Proposed", "proposed", "proposed_header", 1);
-	addTableCellText(row2, "locale", "proposed", ["proposed_header", "subheader"]);
+	var row1 = head.insertRow(-1);  // For column group names
+	var row2 = head.insertRow(-1);  // For column names
 
-	addTableCellText(row1, "", "inputbox", "empty");
-	addTableCellText(row2, "Input field", "inputbox", ["inputbox_header", "subheader"]);
+	for (var group of _table_columns) {
+		var group_title = group[0]
+		var group_type = group[1]
+		var group_style = group[2]
+		var columns = group[3]
+		addTableCellText(row1, group_title, group_type, group_style, columns.length);
+
+		for (var col of columns) {
+			var title = col[0];
+			var type = col[1]
+			var style = col[2]
+			addTableCellText(row2, title, type, style);
+		}
+	}
 }
 
 function toggleOptions() {
