@@ -465,7 +465,7 @@ function createBody(title, keytable) {
     var helpToggle = document.createElement('a');
     helpToggle.id = "helptoggle";
     helpToggle.href = "javascript:toggleHelp()";
-    helpToggle.textContent = "Show Help";
+    helpToggle.textContent = "Hide Help";
     p.appendChild(helpToggle);
     body.appendChild(p);
 
@@ -691,7 +691,7 @@ function addHelpText(div, text) {
 function createHelp(body) {
     var help = document.createElement('div');
     help.id = "help";
-    help.style.display = "none";
+    help.style.display = "block";
 
     addHelpText(help, "Click on the \"Start Test\" button to begin testing.");
     addHelpText(help, "Press the hilighted key to test it.");
