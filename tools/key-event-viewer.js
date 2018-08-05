@@ -64,16 +64,16 @@ function setUserAgentText() {
 	setText(uaDiv, userAgent);
 }
 
-function resetTable() {
+function resetTable(resetData=true) {
 	clearTable();
 	initOutputTable(_key_table_info);
 
-	setInputFocus(true);
+	setInputFocus(resetData);
 }
 
 function init() {
 	setUserAgentText();
-	resetTable();
+	resetTable(false);
 
 	var input = document.getElementById("input");
 	addEventListener(input, "keydown", onKeyDown);
@@ -223,8 +223,46 @@ function addCompositionEvent(etype, e) {
 // =====
 
 function calcInput() {
-	var value = document.getElementById("input").value;
+	var el = document.getElementById("input");
+	var value = "";
+	if (el.tagName == "DIV") {
+		// <div contenteditable>
+		value = el.innerText;
+	} else {
+		// <input>
+		value = el.value;
+	}
 	return "'" + value + "'";
+}
+
+/* Set the focus to the input box. */
+function setInputFocus(resetData) {
+	var input = document.getElementById("input");
+	
+	if (resetData) {
+		if (input.tagName == "DIV") {
+			// <div contenteditable>
+			clearChildren(input);
+		} else {
+			// <input>
+			input.value = "";
+		}
+	}
+
+	// Set focus.
+	if (input.tagName == "DIV") {
+		// <div contenteditable>
+		var sel = window.getSelection();
+		var range = document.createRange();
+		//range.setStart(input, 0);
+		//range.setEnd(input, 0);
+		range.selectNodeContents(input);
+		sel.removeAllRanges();
+		sel.addRange(range);
+	} else {
+		// <input>
+		input.focus();
+	}
 }
 
 function calcLocation(loc) {
@@ -297,15 +335,6 @@ function calcHilightString(eventType, data, addArrow) {
 	return keySpan;
 }
 
-/* Set the focus to the input box. */
-function setInputFocus(resetData=false) {
-	var input = document.getElementById("input");
-	if (resetData) {
-		input.value = "";
-	}
-	input.focus();
-}
-
 function toggleReadonly() {
 	var cbReadonly = document.getElementById("readonlyToggle");
 	var input = document.getElementById("input");
@@ -314,7 +343,7 @@ function toggleReadonly() {
 	} else {
 		input.removeAttribute('readonly');
 	}
-	setInputFocus();
+	setInputFocus(false);
 }
 
 function toggleOptions() {
@@ -329,5 +358,5 @@ function toggleOptions() {
 		options.style.display = "block";
 		link.appendChild(document.createTextNode("Hide Options"));
 	}
-	setInputFocus();
+	setInputFocus(false);
 }
