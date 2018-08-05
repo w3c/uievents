@@ -1,11 +1,6 @@
 // Keyboard event viewer
 // Gary Kacmarcik - garykac@{gmail|google}.com
 
-// True if the current row is a 'keydown' event.
-// This is used to set the background for the entire row when 'keydown' events are
-// highlighted.
-var _isKeydown = false;
-
 var _key_table_info = [
 	// Unlabeled group
 	["", "empty", [
@@ -57,6 +52,11 @@ var _key_table_info = [
 		["Input field", "inputbox", "text", {'align': 'left'}],
 	]],
 ];
+
+// True if the current row is a 'keydown' event.
+// This is used to set the background for the entire row when 'keydown' events are
+// highlighted.
+var _isKeydown = false;
 
 function setUserAgentText() {
 	var userAgent = navigator.userAgent;
@@ -222,32 +222,6 @@ function addCompositionEvent(etype, e) {
 // Helper functions
 // =====
 
-
-function getModifierState(e) {
-	Modifiers = [
-		"Alt", "AltGraph", "Control", "Shift", "Meta",
-		// Locking keys
-		"CapsLock", "NumLock", "ScrollLock",
-		// Linux
-		"Hyper", "Super",
-		// Virtual keyboards
-		"Symbol", "SymbolLock",
-		// Not valid, but check anyway
-		"Fn", "FnLock",
-		];
-	mods = undefined;
-	for (var mod of Modifiers) {
-		if (e.getModifierState(mod)) {
-			if (!mods) {
-				mods = mod;
-			} else {
-				mods += ", " + mod;
-			}
-		}
-	}
-	return mods;
-}
-
 function calcInput() {
 	var value = document.getElementById("input").value;
 	return "'" + value + "'";
@@ -305,13 +279,6 @@ function calcRichKeyVal(eventType, attrName, key) {
 	return document.createTextNode(key);
 }
 
-function calcString(data) {
-	if (data === undefined) {
-		return data;
-	}
-	return "'" + data + "'";
-}
-
 function calcHilightString(eventType, data, addArrow) {
 	if (data === undefined) {
 		return null;
@@ -339,21 +306,6 @@ function setInputFocus(resetData=false) {
 	input.focus();
 }
 
-function handleDefaultPropagation(etype, e) {
-	var preventDefault = document.getElementById("pd_" + etype);
-	if (preventDefault.checked && e.preventDefault) {
-		e.preventDefault();
-	}
-	var stopPropagation = document.getElementById("sp_" + etype);
-	if (stopPropagation.checked && e.stopPropagation) {
-		e.stopPropagation();
-	}
-	// Always prevent default for Tab.
-	if (e.keyCode == 9 || e.code == "Tab") {
-		e.preventDefault();
-	}
-}
-
 function toggleReadonly() {
 	var cbReadonly = document.getElementById("readonlyToggle");
 	var input = document.getElementById("input");
@@ -378,22 +330,4 @@ function toggleOptions() {
 		link.appendChild(document.createTextNode("Hide Options"));
 	}
 	setInputFocus();
-}
-
-function showFieldClick(cb) {
-	var celltype = cb.id.split('_')[1];
-	var show = cb.checked;
-
-	var table = document.getElementById("output");
-	for (var ir = 0, row; row = table.rows[ir]; ir++) {
-		for (var ic = 0, cell; cell = row.cells[ic]; ic++) {
-			if (cell.classList.contains(celltype)) {
-				if (show) {
-					cell.style.display = "";
-				} else {
-					cell.style.display = "none";
-				}
-			}
-		}
-	}
 }

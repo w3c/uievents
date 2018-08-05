@@ -42,16 +42,23 @@ function createTableHeader(table_info) {
 	var row2 = head.insertRow(-1);  // For column names
 
 	for (var group of _table_info) {
-		var group_title = group[0]
-		var group_type = group[1]
-		var group_style = group_type + '_header'
+		var group_title = group[0];
+		var group_type = group[1];
+		var group_style = group_type + '_header';
 		var columns = group[2];
 		addTableCellText(row1, group_title, group_type, group_style, columns.length);
 
 		for (var col of columns) {
 			var title = col[0];
-			var type = col[1]
-			var style = [type + '_header', 'subheader']
+			var type = col[1];
+			var format = col[2];
+			var options = col[3];
+
+			var style = [type + '_header', 'subheader'];
+			if (options && options['style']) {
+				style.push(options['style']);
+			}
+
 			addTableCellText(row2, title, type, style);
 		}
 	}
@@ -78,9 +85,9 @@ function addEventToOutput(eventinfo, extra_class) {
 				val = _seqId;
 			}
 			
-			var style;
-			var align;
-			if (options) {
+			var style = undefined;
+			var align = undefined;
+			if (options && val != "") {
 				style = options['style'];
 				align = options['align'];
 			}
@@ -95,6 +102,12 @@ function addEventToOutput(eventinfo, extra_class) {
 	}
 
 	_seqId++;
+}
+
+// Delete the most recent output row.
+function deleteLastOutputRow() {
+	var table = document.getElementById("output");
+	table.deleteRow(NUM_HEADER_ROWS);
 }
 
 // extra_class: Additional CSS class to add to this row.
@@ -164,7 +177,9 @@ function addTableCell(row, data, celltype, style, span, align) {
 	}
 }
 
-// =========
+// =====
+// Helper functions
+// =====
 
 function clearChildren(e) {
 	while (e.firstChild !== null) {
@@ -186,3 +201,75 @@ function addEventListener(obj, etype, handler) {
 		obj["on" + etype] = handler;
 	}
 }
+
+function handleDefaultPropagation(etype, e) {
+	var preventDefault = document.getElementById("pd_" + etype);
+	if (preventDefault.checked && e.preventDefault) {
+		e.preventDefault();
+	}
+	var stopPropagation = document.getElementById("sp_" + etype);
+	if (stopPropagation.checked && e.stopPropagation) {
+		e.stopPropagation();
+	}
+	// Always prevent default for Tab.
+	if (e.keyCode == 9 || e.code == "Tab") {
+		e.preventDefault();
+	}
+}
+
+function getModifierState(e) {
+	Modifiers = [
+		"Alt", "AltGraph", "Control", "Shift", "Meta",
+		// Locking keys
+		"CapsLock", "NumLock", "ScrollLock",
+		// Linux
+		"Hyper", "Super",
+		// Virtual keyboards
+		"Symbol", "SymbolLock",
+		// Not valid, but check anyway
+		"Fn", "FnLock",
+		];
+
+	// Safari doesn't define getModifierState for mouse events.
+	if (e.getModifierState === undefined) {
+		return "Undefined";
+	}
+
+	mods = undefined;
+	for (var mod of Modifiers) {
+		if (e.getModifierState(mod)) {
+			if (!mods) {
+				mods = mod;
+			} else {
+				mods += ", " + mod;
+			}
+		}
+	}
+	return mods;
+}
+
+function calcString(data) {
+	if (data === undefined) {
+		return data;
+	}
+	return "'" + data + "'";
+}
+
+function showFieldClick(cb) {
+	var celltype = cb.id.split('_')[1];
+	var show = cb.checked;
+
+	var table = document.getElementById("output");
+	for (var ir = 0, row; row = table.rows[ir]; ir++) {
+		for (var ic = 0, cell; cell = row.cells[ic]; ic++) {
+			if (cell.classList.contains(celltype)) {
+				if (show) {
+					cell.style.display = "";
+				} else {
+					cell.style.display = "none";
+				}
+			}
+		}
+	}
+}
+
