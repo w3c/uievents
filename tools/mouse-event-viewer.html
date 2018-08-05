@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<title>Mouse Event Viewer</title>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<script type="text/javascript" src="output-table.js" ></script>
+<script type="text/javascript" src="mouse-event-viewer.js" ></script>
+<link rel="stylesheet" type="text/css" href="mouse-event-viewer.css" />
+
+</head>
+
+<body id="body">
+
+<h1>Mouse Event Viewer</h1><p>
+
+<p>UserAgent: <span id="useragent"></span>
+</p>
+
+<div id="div_a"> A <div id="div_b"> B <div id="div_c"> C </div> </div> </div>
+
+<p>
+Press 'c' to Clear Table.
+<input id="resetTable" type="button" onclick="resetTable();return false" value="Clear Table"/>
+<a id="optionsToggle" href="javascript:toggleOptions()">Show Options</a>
+</p>
+
+<div id="options">
+<table class="opttable"><tr>
+<td class="optcell">
+	<span class="opttitle">preventDefault</span><br/>
+	<label><input type="checkbox" id="pd_mousedown" /> mousedown</label><br/>
+	<label><input type="checkbox" id="pd_mouseenter" /> mouseenter</label><br/>
+	<label><input type="checkbox" id="pd_mouseleave" /> mouseleave</label><br/>
+	<label><input type="checkbox" id="pd_mousemove" /> mousemove</label><br/>
+	<label><input type="checkbox" id="pd_mouseout" /> mouseout</label><br/>
+	<label><input type="checkbox" id="pd_mouseover" /> mouseover</label><br/>
+	<label><input type="checkbox" id="pd_mouseup" /> mouseup</label><br/>
+</td><td class="optcell">
+	<span class="opttitle">stopPropagation</span><br/>
+	<label><input type="checkbox" id="sp_mousedown" checked /> mousedown</label><br/>
+	<input type="checkbox" id="sp_mouseenter" disabled /> <label for="sp_mouseenter">mouseenter</label><br/>
+	<input type="checkbox" id="sp_mouseleave" disabled /> <label for="sp_mouseleave">mouseleave</label><br/>
+	<label><input type="checkbox" id="sp_mousemove" checked /> mousemove</label><br/>
+	<label><input type="checkbox" id="sp_mouseout" checked /> mouseout</label><br/>
+	<label><input type="checkbox" id="sp_mouseover" checked /> mouseover</label><br/>
+	<label><input type="checkbox" id="sp_mouseup" checked /> mouseup</label><br/>
+</td><td class="optcell">
+	<span class="opttitle">Show Events</span><br/>
+	<label><input type="checkbox" id="show_mousedown" checked /> mousedown</label><br/>
+	<label><input type="checkbox" id="show_mouseenter" checked /> mouseenter</label><br/>
+	<label><input type="checkbox" id="show_mouseleave" checked /> mouseleave</label><br/>
+	<label><input type="checkbox" id="show_mousemove" checked /> mousemove</label><br/>
+	<label><input type="checkbox" id="show_mouseout" checked /> mouseout</label><br/>
+	<label><input type="checkbox" id="show_mouseover" checked /> mouseover</label><br/>
+	<label><input type="checkbox" id="show_mouseup" checked /> mouseup</label><br/>
+	<i>Applies only to<br/>new events</i>
+</td><td class="optcell">
+	<span class="opttitle">Highlight</span><br/>
+	<label><input type="checkbox" id="hl_mousedown" checked />
+		<span class="mouseevent_hilight mousedown_hilight">mousedown</span>
+	</label><br/>
+	<label><input type="checkbox" id="hl_mouseenter" checked />
+		<span class="mouseevent_hilight mouseenter_hilight">mouseenter</span>
+	</label><br/>
+	<label><input type="checkbox" id="hl_mouseleave" checked />
+		<span class="mouseevent_hilight mouseleave_hilight">mouseleave</span>
+	</label><br/>
+	<label><input type="checkbox" id="hl_mousemove" />
+		<span class="mouseevent_hilight mousemove_hilight">mousemove</span>
+	</label><br/>
+	<label><input type="checkbox" id="hl_mouseout" />
+		<span class="mouseevent_hilight mouseout_hilight">mouseout</span>
+	</label><br/>
+	<label><input type="checkbox" id="hl_mouseover" />
+		<span class="mouseevent_hilight mouseover_hilight">mouseover</span>
+	</label><br/>
+	<label><input type="checkbox" id="hl_mouseup" checked />
+		<span class="mouseevent_hilight mouseup_hilight">mouseup</span>
+	</label><br/>
+</td><td class="optcell">
+	<span class="opttitle">Show Fields</span><br/>
+	<label><input type="checkbox" onclick="showFieldClick(this)" id="show_target" checked />
+		<span class="target_header showfieldoption">Target</span>
+	</label><br/>
+	<label><input type="checkbox" onclick="showFieldClick(this)" id="show_handler" checked />
+		<span class="handler_header showfieldoption">Handler</span>
+	</label><br/>
+	<label><input type="checkbox" onclick="showFieldClick(this)" id="show_coords" checked />
+		<span class="coords_header showfieldoption">Coords</span>
+	</label><br/>
+	<label><input type="checkbox" onclick="showFieldClick(this)" id="show_buttons" checked />
+		<span class="buttons_header showfieldoption">Buttons</span>
+	</label><br/>
+	<label><input type="checkbox" onclick="showFieldClick(this)" id="show_modifiers" checked />
+		<span class="modifiers_header showfieldoption">Modifiers</span>
+	</label><br/>
+</td><td class="optcell">
+	<span class="opttitle">Misc</span><br/>
+	<label><input type="checkbox" id="combine_mousemove" checked /> Combine mousemove<br/>events to same target</label><br/>
+</td>
+</tr></table>
+</div>
+
+<table id="output">
+</table>
+
+<script language="javascript">
+init();
+</script>
+
+</body>
+</html>
