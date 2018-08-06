@@ -24,11 +24,27 @@ var _mouse_table_info = [
 	]],
 
 	// MouseEvent - UI Events
-	["Coords", "coords", [
-		["screenX", "coords", "text"],
-		["screenY", "coords", "text"],
-		["clientX", "coords", "text"],
-		["clientY", "coords", "text"],
+	["UIEvents", "uievents", [
+		["screenX", "uievents", "text"],
+		["screenY", "uievents", "text"],
+		["clientX", "uievents", "text"],
+		["clientY", "uievents", "text"],
+	]],
+
+	// PointerLock
+	["PointerLock", "plock", [
+		["movementX", "plock", "text"],
+		["movementY", "plock", "text"],
+	]],
+
+	// CSSOM
+	["CSSOM", "cssom", [
+		["offsetX", "cssom", "text"],
+		["offsetY", "cssom", "text"],
+		["pageX", "cssom", "text"],
+		["pageY", "cssom", "text"],
+		["x", "cssom", "text"],
+		["y", "cssom", "text"],
 	]],
 
 	// MouseEvent - UI Events
@@ -168,6 +184,16 @@ function addMouseEvent(etype, handler, e) {
 	eventinfo["screenY"] = e.screenY;
 	eventinfo["clientX"] = e.clientX;
 	eventinfo["clientY"] = e.clientY;
+
+	eventinfo["movementX"] = e.movementX;
+	eventinfo["movementY"] = e.movementY;
+
+	eventinfo["offsetX"] = e.offsetX;
+	eventinfo["offsetY"] = e.offsetY;
+	eventinfo["pageX"] = e.pageX;
+	eventinfo["pageY"] = e.pageY;
+	eventinfo["x"] = e.x;
+	eventinfo["y"] = e.y;
 
 	var button = "-";
 	if (etype == "mousedown" || etype == "mouseup") {
