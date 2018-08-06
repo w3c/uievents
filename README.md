@@ -42,8 +42,6 @@ See our [bi-weekly meetings](https://github.com/w3c/uievents/wiki/Meeting-Notes)
 * Minutes: meeting minutes are distributed on the [www-dom](http://lists.w3.org/Archives/Public/www-dom/) list.
 * Please submit agenda topics to www-dom mailing list.
 
-Next call scheduled for Tuesday October 13th, 2015
-
 ## Documents
 
 * Published Documents
@@ -88,10 +86,7 @@ should be made in the `sections\*.txt` files and `index.bs`.
 
 ## Testing
 
-* [Keyboard Event Viewer](https://w3c.github.io/uievents/tools/key-event-viewer.html)
-* Manual Keyboard Tests
-   * [English 101 en-US](https://cdn.rawgit.com/w3c/uievents/gh-pages/tests/key-mtest-101en-us.html)
-   * [French 102 fr-FR](https://cdn.rawgit.com/w3c/uievents/gh-pages/tests/key-mtest-102fr-fr.html)
+* [UI Events Testing Tools](https://w3c.github.io/uievents/tools/main.html)
 * Web Platform Tests
    * [Github web-platform-tests/wpt uievents](https://github.com/web-platform-tests/wpt/tree/master/uievents)
    * Tests are mirrored at w3c-test.org:
