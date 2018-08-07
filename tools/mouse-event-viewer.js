@@ -63,6 +63,58 @@ var _mouse_table_info = [
 	]],
 ];
 
+var _mouse_event_info = [
+	["mousedown", {
+		'preventDefault': {'enabled': true, 'checked': false},
+		'stopPropagation': {'enabled': true, 'checked': true},
+		'ShowEvents': {'enabled': true, 'checked': true},
+		'Highlight': {'enabled': true, 'checked': true, 'class': "mouseevent_hilight mousedown_hilight"},
+		},
+		"#e0e0e0"],
+	["mouseenter", {
+		'preventDefault': {'enabled': true, 'checked': false},
+		'stopPropagation': {'enabled': false, 'checked': false},
+		'ShowEvents': {'enabled': true, 'checked': true},
+		'Highlight': {'enabled': true, 'checked': true, 'class': "mouseevent_hilight mouseenter_hilight"},
+		},
+		"#ccffcc"],
+	["mouseleave", {
+		'preventDefault': {'enabled': true, 'checked': false},
+		'stopPropagation': {'enabled': false, 'checked': false},
+		'ShowEvents': {'enabled': true, 'checked': true},
+		'Highlight': {'enabled': true, 'checked': true, 'class': "mouseevent_hilight mouseleave_hilight"},
+		},
+		"#ffcccc"],
+	["mousemove", {
+		'preventDefault': {'enabled': true, 'checked': false},
+		'stopPropagation': {'enabled': true, 'checked': true},
+		'ShowEvents': {'enabled': true, 'checked': true},
+		'Highlight': {'enabled': true, 'checked': false, 'class': "mouseevent_hilight mousemove_hilight"},
+		},
+		"#ffffff"],
+	["mouseout", {
+		'preventDefault': {'enabled': true, 'checked': false},
+		'stopPropagation': {'enabled': true, 'checked': true},
+		'ShowEvents': {'enabled': true, 'checked': true},
+		'Highlight': {'enabled': true, 'checked': false, 'class': "mouseevent_hilight mouseout_hilight"},
+		},
+		"repeating-linear-gradient(-45deg, #fcc, #fcc 8px, #fff 8px, #fff 16px)"],
+	["mouseover", {
+		'preventDefault': {'enabled': true, 'checked': false},
+		'stopPropagation': {'enabled': true, 'checked': true},
+		'ShowEvents': {'enabled': true, 'checked': true},
+		'Highlight': {'enabled': true, 'checked': false, 'class': "mouseevent_hilight mouseover_hilight"},
+		},
+		"repeating-linear-gradient(-45deg, #cfc, #cfc 8px, #fff 8px, #fff 16px)"],
+	["mouseup", {
+		'preventDefault': {'enabled': true, 'checked': false},
+		'stopPropagation': {'enabled': true, 'checked': true},
+		'ShowEvents': {'enabled': true, 'checked': true},
+		'Highlight': {'enabled': true, 'checked': true, 'class': "mouseevent_hilight mouseup_hilight"},
+		},
+		"#e0e0e0"],
+];
+
 var _lastMouseMoveTarget = "";
 var _mouseMoveCount = 0;
 
@@ -79,6 +131,7 @@ function resetTable() {
 
 function init() {
 	setUserAgentText();
+	createOptions(document.getElementById("options2"), _mouse_event_info, _mouse_table_info);
 	resetTable();
 
 	var div_a = document.getElementById("div_a");
