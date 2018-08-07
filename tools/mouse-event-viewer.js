@@ -131,7 +131,7 @@ function resetTable() {
 
 function init() {
 	setUserAgentText();
-	createOptions(document.getElementById("options2"), _mouse_event_info, _mouse_table_info);
+	//createOptions(document.getElementById("options2"), _mouse_event_info, _mouse_table_info);
 	resetTable();
 
 	var div_a = document.getElementById("div_a");
