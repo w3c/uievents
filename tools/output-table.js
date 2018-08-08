@@ -46,6 +46,11 @@ function createTableHeader(table_info) {
 		var group_type = group[1];
 		var group_style = group_type + '_header';
 		var columns = group[2];
+		var options = group[3];
+		if (options.grouplabel != undefined && !options.grouplabel) {
+			group_title = "";
+			group_style = "";
+		}
 		addTableCellText(row1, group_title, group_type, group_style, columns.length);
 
 		for (var col of columns) {
@@ -158,7 +163,7 @@ function addTableCell(row, data, celltype, style, span, align) {
 	}
 	cell.classList.add("keycell");
 	cell.classList.add(celltype);
-	if (style !== undefined) {
+	if (style !== undefined && style != "") {
 		if (style instanceof Array) {
 			for (var i = 0; i < style.length; i++) {
 				cell.classList.add(style[i]);
@@ -167,7 +172,7 @@ function addTableCell(row, data, celltype, style, span, align) {
 			cell.classList.add(style);
 		}
 	}
-	if (celltype == "etype" || celltype == "empty") {
+	if (celltype == "etype") {
 		return;
 	}
 	// Hide this cell if it belongs to a hidden celltype.
@@ -253,23 +258,5 @@ function calcString(data) {
 		return data;
 	}
 	return "'" + data + "'";
-}
-
-function showFieldClick(cb) {
-	var celltype = cb.id.split('_')[1];
-	var show = cb.checked;
-
-	var table = document.getElementById("output");
-	for (var ir = 0, row; row = table.rows[ir]; ir++) {
-		for (var ic = 0, cell; cell = row.cells[ic]; ic++) {
-			if (cell.classList.contains(celltype)) {
-				if (show) {
-					cell.style.display = "";
-				} else {
-					cell.style.display = "none";
-				}
-			}
-		}
-	}
 }
 

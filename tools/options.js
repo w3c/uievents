@@ -1,3 +1,5 @@
+// Event test options block
+// Gary Kacmarcik - garykac@{gmail|google}.com
 
 _column_info = [
 	["preventDefault", "pd_"],
@@ -6,7 +8,7 @@ _column_info = [
 	["Highlight", "hl_"],
 ];
 
-function createOptions(options_div, event_info, table_info) {
+function createOptions(options_div, event_info, table_info, extra) {
 	var table = document.createElement('table');
 	var row, cell;
 
@@ -34,25 +36,45 @@ function createOptions(options_div, event_info, table_info) {
 	for (var group of table_info) {
 		var name = group[0];
 		var type = group[1];
-		var options = {
-			"checked": true,
-			"class": type + "_header showfieldoption",
-		};
+		var options = group[3];
+		options.enabled = true;
+		options.class = type + "_header showfieldoption";
+		options.onclick = 'showFieldClick(this)';
 		if (name != "") {
-			addOptionCheckbox(cell, "show_" + name, name, options);
+			addOptionCheckbox(cell, "show_" + type, name, options);
 		}
 	}
 	row.appendChild(cell);
 	table.appendChild(row);
 
-	row = document.createElement('tr');
-	cell = document.createElement('td');
-	cell.classList.add("optcell");
-	cell.setAttribute("colspan", "5");
-	addOptionTitle(cell, "General Options");
-	addOptionCheckbox(cell, "combine_mousemove", "Combine mousemove events with same target", {"checked": true});
-	row.appendChild(cell);
-	table.appendChild(row);
+	if (extra != undefined && extra.length != 0) {
+		var addTitle = true;
+		for (var opt of extra) {
+			row = document.createElement('tr');
+			cell = document.createElement('td');
+			cell.classList.add("optcell");
+			cell.setAttribute("colspan", "5");
+
+			if (addTitle) {
+				addOptionTitle(cell, "General Options");
+				addTitle = false;
+			}
+
+			var type = opt[0];
+			if (type == "checkbox") {
+				var name = opt[1];
+				var label = opt[2];
+				var options = opt[3];
+				addOptionCheckbox(cell, name, label, options);
+			} else if (type == "text") {
+				var text = opt[1];
+				cell.appendChild(document.createTextNode(text));
+			}
+
+			row.appendChild(cell);
+			table.appendChild(row);
+		}
+	}
 
 	options_div.appendChild(table);
 }
@@ -66,22 +88,30 @@ function addOptionTitle(cell, title) {
 }
 
 function addOptionCheckbox(cell, id, text, options) {
-    var label = document.createElement("label");
+	if (options.enabled === undefined)
+		options.enabled = true;
+	if (options.checked === undefined)
+		options.checked = true;
 
     var input = document.createElement("input");
     input.type = "checkbox";
     input.id = id;
     input.checked = options.checked;
-    input.disabled = options.disabled;
-    label.appendChild(input);
+    input.disabled = !options.enabled;
+    if (options.onclick != undefined && options.onclick != "") {
+    	input.setAttribute("onclick", options.onclick);
+    }
+    cell.appendChild(input);
 
+    var label = document.createElement("label");
+    label.setAttribute("for", id);
     var span = document.createElement('span');
     if (options.class !== undefined) {
 	    for (var c of options.class.split(' ')) {
 		    span.classList.add(c);
 		}
 	}
-    span.appendChild(document.createTextNode(" " + text));
+    span.appendChild(document.createTextNode(text));
     label.appendChild(span);
     cell.appendChild(label);
 
@@ -102,3 +132,36 @@ function addOptionText(cell, prefix, id, text) {
     cell.appendChild(span1);
     cell.appendChild(document.createElement("br"));
 }
+
+function toggleOptions() {
+	var link = document.getElementById("optionsToggle");
+	var options = document.getElementById("options");
+	clearChildren(link);
+	if (options.style.display == "block") {
+		options.style.display = "none";
+		link.appendChild(document.createTextNode("Show Options"));
+	}
+	else {
+		options.style.display = "block";
+		link.appendChild(document.createTextNode("Hide Options"));
+	}
+}
+
+function showFieldClick(cb) {
+	var celltype = cb.id.split('_')[1];
+	var show = cb.checked;
+
+	var table = document.getElementById("output");
+	for (var ir = 0, row; row = table.rows[ir]; ir++) {
+		for (var ic = 0, cell; cell = row.cells[ic]; ic++) {
+			if (cell.classList.contains(celltype)) {
+				if (show) {
+					cell.style.display = "";
+				} else {
+					cell.style.display = "none";
+				}
+			}
+		}
+	}
+}
+

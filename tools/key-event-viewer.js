@@ -3,17 +3,17 @@
 
 var _key_table_info = [
 	// Unlabeled group
-	["", "empty", [
+	["", "etype", [
 		["#", "etype", "text"],
 		["Event type", "etype", "html"],
-	]],
+	], {'grouplabel': false}],
 	
 	// KeyboardEvent - Legacy
 	["Legacy", "legacy", [
 		["charCode", "legacy", "html"],
 		["keyCode", "legacy", "html"],
 		["which", "legacy", "text"],
-	]],
+	], {'checked': true}],
 
 	// KeyboardEvent - Modifiers
 	["Modifiers", "modifiers", [
@@ -22,14 +22,14 @@ var _key_table_info = [
 		["ctrl", "modifiers", "bool"],
 		["alt", "modifiers", "bool"],
 		["meta", "modifiers", "bool"],
-	]],
+	], {'checked': true}],
 
 	// KeyboardEvent - Old DOM3
 	["Old DOM3", "olddom3", [
 		["keyIdentifier", "olddom3", "text"],
 		["keyLocation", "olddom3", "text"],
 		["char", "olddom3", "text"],
-	]],
+	], {'checked': false}],
 
 	// KeyboardEvent - UI Events
 	["UI Events", "uievents", [
@@ -40,18 +40,85 @@ var _key_table_info = [
 		["isComposing", "uievents", "bool"],
 		["inputType", "uievents", "text"],
 		["data", "uievents", "text"],
-	]],
+	], {'checked': true}],
 
 	// KeyboardEvent - Proposed
 	["Proposed", "proposed", [
 		["locale", "proposed", "text"],
-	]],
+	], {'checked': false}],
 
 	// Input
-	["", "empty", [
+	["Input", "inputbox", [
 		["Input field", "inputbox", "text", {'align': 'left'}],
-	]],
+	], {'checked': true, 'grouplabel': false}],
 ];
+
+var _key_event_info = [
+	["keydown", {
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'class': "keyevent_hilight keydown_hilight keydown_arrow"},
+		},
+		"#e0e0e0"],
+	["keypress", {
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'checked': false, 'class': "keyevent_hilight keypress_hilight"},
+		},
+		"#ccffcc"],
+	["keyup", {
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'class': "keyevent_hilight keyup_hilight keyup_arrow"},
+		},
+		"#ffcccc"],
+	["textinput", {
+		'preventDefault': {'checked': false},
+		'stopPropagation': {'checked': false},
+		'ShowEvents': {'checked': false},
+		'Highlight': {'enabled': false, 'checked': false},
+		},
+		"#ffffff"],
+	["beforeinput", {
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'enabled': false, 'checked': false},
+		},
+		"repeating-linear-gradient(-45deg, #fcc, #fcc 8px, #fff 8px, #fff 16px)"],
+	["input", {
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'enabled': false, 'checked': false},
+		},
+		"repeating-linear-gradient(-45deg, #cfc, #cfc 8px, #fff 8px, #fff 16px)"],
+	["compositionstart", {
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'enabled': false, 'checked': false},
+		},
+		"#e0e0e0"],
+	["compositionupdate", {
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'enabled': false, 'checked': false},
+		},
+		"#e0e0e0"],
+	["compositionend", {
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'enabled': false, 'checked': false},
+		},
+		"#e0e0e0"],
+];
+
 
 // True if the current row is a 'keydown' event.
 // This is used to set the background for the entire row when 'keydown' events are
@@ -73,6 +140,21 @@ function resetTable(resetData=true) {
 
 function init() {
 	setUserAgentText();
+	var extra_options = [
+		["checkbox", "readonlyToggle", "Read only <input>", {
+			'onclick': "toggleReadonly()",
+			'checked': false,
+		}],
+		["text", "Note: Options apply to new events only."],
+	];
+
+	// Remove read-only option for contenteditable.
+	var el = document.getElementById("input");
+	if (el.tagName == "DIV") {
+		extra_options.shift();
+	}
+
+	createOptions(document.getElementById("options"), _key_event_info, _key_table_info, extra_options);
 	resetTable(false);
 
 	var input = document.getElementById("input");
@@ -342,21 +424,6 @@ function toggleReadonly() {
 		input.setAttribute('readonly', true);
 	} else {
 		input.removeAttribute('readonly');
-	}
-	setInputFocus(false);
-}
-
-function toggleOptions() {
-	var link = document.getElementById("optionsToggle");
-	var options = document.getElementById("options");
-	clearChildren(link);
-	if (options.style.display == "block") {
-		options.style.display = "none";
-		link.appendChild(document.createTextNode("Show Options"));
-	}
-	else {
-		options.style.display = "block";
-		link.appendChild(document.createTextNode("Hide Options"));
 	}
 	setInputFocus(false);
 }

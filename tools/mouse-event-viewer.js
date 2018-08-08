@@ -3,25 +3,25 @@
 
 var _mouse_table_info = [
 	// Unlabeled group
-	["", "empty", [
+	["", "etype", [
 		["#", "etype", "text"],
 		["Event type", "etype", "html"],
 		["Count", "etype", "text"],
-	]],
+	], {'grouplabel': false}],
 	
 	// MouseEvent - Target
 	["Target", "target", [
 		["A", "target", "text", {'style': 'hilite_div_a'}],
 		["B", "target", "text", {'style': 'hilite_div_b'}],
 		["C", "target", "text", {'style': 'hilite_div_c'}],
-	]],
+	], {'checked': true}],
 
 	// MouseEvent - Handler
 	["Handler", "handler", [
 		["hA", "handler", "text", {'style': 'hilite_handler_a'}],
 		["hB", "handler", "text", {'style': 'hilite_handler_b'}],
 		["hC", "handler", "text", {'style': 'hilite_handler_c'}],
-	]],
+	], {'checked': false}],
 
 	// MouseEvent - UI Events
 	["UIEvents", "uievents", [
@@ -29,13 +29,13 @@ var _mouse_table_info = [
 		["screenY", "uievents", "text"],
 		["clientX", "uievents", "text"],
 		["clientY", "uievents", "text"],
-	]],
+	], {'checked': true}],
 
 	// PointerLock
 	["PointerLock", "plock", [
 		["movementX", "plock", "text"],
 		["movementY", "plock", "text"],
-	]],
+	], {'checked': true}],
 
 	// CSSOM
 	["CSSOM", "cssom", [
@@ -45,13 +45,13 @@ var _mouse_table_info = [
 		["pageY", "cssom", "text"],
 		["x", "cssom", "text"],
 		["y", "cssom", "text"],
-	]],
+	], {'checked': true}],
 
 	// MouseEvent - UI Events
 	["Buttons", "buttons", [
 		["button", "buttons", "text"],
 		["buttons", "buttons", "text"],
-	]],
+	], {'checked': true}],
 
 	// KeyboardEvent - Modifiers
 	["Modifiers", "modifiers", [
@@ -60,57 +60,57 @@ var _mouse_table_info = [
 		["ctrl", "modifiers", "bool"],
 		["alt", "modifiers", "bool"],
 		["meta", "modifiers", "bool"],
-	]],
+	], {'checked': true}],
 ];
 
 var _mouse_event_info = [
 	["mousedown", {
-		'preventDefault': {'enabled': true, 'checked': false},
-		'stopPropagation': {'enabled': true, 'checked': true},
-		'ShowEvents': {'enabled': true, 'checked': true},
-		'Highlight': {'enabled': true, 'checked': true, 'class': "mouseevent_hilight mousedown_hilight"},
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'class': "mouseevent_hilight mousedown_hilight"},
 		},
 		"#e0e0e0"],
 	["mouseenter", {
-		'preventDefault': {'enabled': true, 'checked': false},
+		'preventDefault': {'checked': false},
 		'stopPropagation': {'enabled': false, 'checked': false},
-		'ShowEvents': {'enabled': true, 'checked': true},
-		'Highlight': {'enabled': true, 'checked': true, 'class': "mouseevent_hilight mouseenter_hilight"},
+		'ShowEvents': {},
+		'Highlight': {'class': "mouseevent_hilight mouseenter_hilight"},
 		},
 		"#ccffcc"],
 	["mouseleave", {
-		'preventDefault': {'enabled': true, 'checked': false},
+		'preventDefault': {'checked': false},
 		'stopPropagation': {'enabled': false, 'checked': false},
-		'ShowEvents': {'enabled': true, 'checked': true},
-		'Highlight': {'enabled': true, 'checked': true, 'class': "mouseevent_hilight mouseleave_hilight"},
+		'ShowEvents': {},
+		'Highlight': {'class': "mouseevent_hilight mouseleave_hilight"},
 		},
 		"#ffcccc"],
 	["mousemove", {
-		'preventDefault': {'enabled': true, 'checked': false},
-		'stopPropagation': {'enabled': true, 'checked': true},
-		'ShowEvents': {'enabled': true, 'checked': true},
-		'Highlight': {'enabled': true, 'checked': false, 'class': "mouseevent_hilight mousemove_hilight"},
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'checked': false, 'class': "mouseevent_hilight mousemove_hilight"},
 		},
 		"#ffffff"],
 	["mouseout", {
-		'preventDefault': {'enabled': true, 'checked': false},
-		'stopPropagation': {'enabled': true, 'checked': true},
-		'ShowEvents': {'enabled': true, 'checked': true},
-		'Highlight': {'enabled': true, 'checked': false, 'class': "mouseevent_hilight mouseout_hilight"},
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'checked': false, 'class': "mouseevent_hilight mouseout_hilight"},
 		},
 		"repeating-linear-gradient(-45deg, #fcc, #fcc 8px, #fff 8px, #fff 16px)"],
 	["mouseover", {
-		'preventDefault': {'enabled': true, 'checked': false},
-		'stopPropagation': {'enabled': true, 'checked': true},
-		'ShowEvents': {'enabled': true, 'checked': true},
-		'Highlight': {'enabled': true, 'checked': false, 'class': "mouseevent_hilight mouseover_hilight"},
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'checked': false, 'class': "mouseevent_hilight mouseover_hilight"},
 		},
 		"repeating-linear-gradient(-45deg, #cfc, #cfc 8px, #fff 8px, #fff 16px)"],
 	["mouseup", {
-		'preventDefault': {'enabled': true, 'checked': false},
-		'stopPropagation': {'enabled': true, 'checked': true},
-		'ShowEvents': {'enabled': true, 'checked': true},
-		'Highlight': {'enabled': true, 'checked': true, 'class': "mouseevent_hilight mouseup_hilight"},
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'class': "mouseevent_hilight mouseup_hilight"},
 		},
 		"#e0e0e0"],
 ];
@@ -131,7 +131,12 @@ function resetTable() {
 
 function init() {
 	setUserAgentText();
-	//createOptions(document.getElementById("options2"), _mouse_event_info, _mouse_table_info);
+	var extra_options = [
+		["checkbox", "combine_mousemove", "Combine mousemove events with same target", {}],
+		["text", "Note: Options apply to new events only."],
+		["text", "Press 'c' to Clear Table."],
+	];
+	createOptions(document.getElementById("options"), _mouse_event_info, _mouse_table_info, extra_options);
 	resetTable();
 
 	var div_a = document.getElementById("div_a");
@@ -281,19 +286,5 @@ function calcHilightString(eventType, data) {
 	}
 	keySpan.textContent = data;
 	return keySpan;
-}
-
-function toggleOptions() {
-	var link = document.getElementById("optionsToggle");
-	var options = document.getElementById("options");
-	clearChildren(link);
-	if (options.style.display == "block") {
-		options.style.display = "none";
-		link.appendChild(document.createTextNode("Show Options"));
-	}
-	else {
-		options.style.display = "block";
-		link.appendChild(document.createTextNode("Hide Options"));
-	}
 }
 
