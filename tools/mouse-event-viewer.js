@@ -23,12 +23,29 @@ var _mouse_table_info = [
 		["hC", "handler", "text", {'style': 'hilite_handler_c'}],
 	], {'checked': false}],
 
+	// Event
+	["Event", "event", [
+		["eventPhase", "event", "text"],
+		["bubbles", "event", "bool"],
+		["cancelable", "event", "bool"],
+		["defaultPrevented", "event", "bool"],
+		["composed", "event", "bool"],
+		["isTrusted", "event", "bool"],
+		["timeStamp", "event", "text"],
+	], {'checked': false}],
+
+	// UIEvent
+	["UIEvent", "uievent", [
+		["view", "uievent", "text"],
+		["detail", "uievent", "text"],
+	], {'checked': false}],
+
 	// MouseEvent - UI Events
-	["UIEvents", "uievents", [
-		["screenX", "uievents", "text"],
-		["screenY", "uievents", "text"],
-		["clientX", "uievents", "text"],
-		["clientY", "uievents", "text"],
+	["MouseEvent", "mouseevent", [
+		["screenX", "mouseevent", "text"],
+		["screenY", "mouseevent", "text"],
+		["clientX", "mouseevent", "text"],
+		["clientY", "mouseevent", "text"],
 	], {'checked': true}],
 
 	// PointerLock
@@ -237,6 +254,17 @@ function addMouseEvent(etype, handler, e) {
 	eventinfo["hA"] = (handler == "div_a" ? (handler == target ? "-" : "A") : "");
 	eventinfo["hB"] = (handler == "div_b" ? (handler == target ? "-" : "B") : "");
 	eventinfo["hC"] = (handler == "div_c" ? (handler == target ? "-" : "C") : "");
+
+	eventinfo["eventPhase"] = getEventPhase(e);
+	eventinfo["bubbles"] = e.bubbles;
+	eventinfo["cancelable"] = e.cancelable;
+	eventinfo["defaultPrevented"] = e.defaultPrevented;
+	eventinfo["composed"] = e.composed;
+	eventinfo["isTrusted"] = e.isTrusted;
+	eventinfo["timeStamp"] = e.timeStamp;
+
+	eventinfo["view"] = calcString(e.view !== null ? e.view.name : "null");
+	eventinfo["detail"] = e.detail;
 
 	eventinfo["screenX"] = e.screenX;
 	eventinfo["screenY"] = e.screenY;

@@ -253,10 +253,23 @@ function getModifierState(e) {
 	return mods;
 }
 
+function getEventPhase(e) {
+	var p = e.eventPhase;
+	var phase = '?';
+	if (p == 0)
+		phase = 'None';
+	else if (p == 1)
+		phase = 'Capturing';
+	else if (p == 2)
+		phase = 'AtTarget';
+	else if (p == 3)
+		phase = 'Bubbling';
+	return phase;
+}
+
 function calcString(data) {
 	if (data === undefined) {
 		return data;
 	}
 	return "'" + data + "'";
 }
-
