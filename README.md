@@ -1,6 +1,6 @@
 # UI Events
 
-This repository if for the [UI Events](https://w3c.github.io/uievents/) (formerly known as DOM 3 Events).
+This repository is for the [UI Events specification](https://w3c.github.io/uievents/) (formerly known as DOM 3 Events).
 
 ## Goals
 
@@ -80,7 +80,7 @@ To **make edits** to the spec:
     `*.txt` file and then create the `index.html`.
 
 When submitting pull requests, make sure you don't include any of the
-`sections\*.include` files in your changelist - they've all been added to the
+`sections\*.include` files in your changelist — they've all been added to the
 `.gitignore` file so that you don't include them accidentally. All changes
 should be made in the `sections\*.txt` files and `index.bs`.
 
@@ -88,7 +88,7 @@ should be made in the `sections\*.txt` files and `index.bs`.
 
 * [UI Events Testing Tools](https://w3c.github.io/uievents/tools/main.html)
 * Web Platform Tests
-   * [Github web-platform-tests/wpt uievents](https://github.com/web-platform-tests/wpt/tree/master/uievents)
+   * [GitHub web-platform-tests/wpt uievents](https://github.com/web-platform-tests/wpt/tree/master/uievents)
    * Tests are mirrored at w3c-test.org:
       * [uievents](http://w3c-test.org/uievents/)
       * [DOMEvents](http://w3c-test.org/DOMEvents/) - old
@@ -97,5 +97,5 @@ should be made in the `sections\*.txt` files and `index.bs`.
 
 If you enjoyed this spec, you might be interested in these other specs from the same publisher:
 
-* UI Events KeyboardEvent code Values : [Github project](https://github.com/w3c/uievents-code/), [Link to spec](https://w3c.github.io/uievents-code/)
-* UI Events KeyboardEvent key Values : [Github project](https://github.com/w3c/uievents-key/), [Link to spec](https://w3c.github.io/uievents-key/)
+* UI Events KeyboardEvent code Values: [GitHub project](https://github.com/w3c/uievents-code/), [Link to spec](https://w3c.github.io/uievents-code/)
+* UI Events KeyboardEvent key Values: [GitHub project](https://github.com/w3c/uievents-key/), [Link to spec](https://w3c.github.io/uievents-key/)
