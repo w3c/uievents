@@ -4,43 +4,14 @@ This repository is for the [UI Events specification](https://w3c.github.io/uieve
 
 ## Goals
 
-The goal of the UI/DOM3 Events sub-group, part of the Web Platform Working Group, is to complete the
+The goal of the UI/DOM Events sub-group, part of the Web Applications Working Group, is to complete the
 UI Events specification according to market needs, to drive its adoption and implementation, to provide
 a comprehensive test suite (for implementability at least, and hopefully for interoperability, too),
 and to move it along the Recommendation Track to W3C Recommendation status.
 
 ## Communication
 
-For discussion of matters related to DOM3 Events, the group uses the www-dom@w3.org mailing list ([archive](http://lists.w3.org/Archives/Public/www-dom/)).
-
-## Meetings
-
-See our [bi-weekly meetings](https://github.com/w3c/uievents/wiki/Meeting-Notes) for detailed status and progress toward getting this spec finished and ready for CR.
-
-* Day + Time:
-    * Tuesday 17:00 PST/PDT
-    * During Summer (PDT - Mar to Oct)
-        * Wednesday 00:00 UTC
-        * Wednesday 09:00 JST (Tokyo)
-    * During Winter (PST - Nov to Feb)
-        * Wednesday 01:00 UTC
-        * Wednesday 10:00 JST (Tokyo)
-* Duration = 60 minutes
-* Join [WebEx](https://mit.webex.com/mit/j.php?MTID=mc9358fc4e591abf50362b027b189ce48) meeting
-    * Meeting number: 643 784 215
-    * Meeting password: _Send an email to www-dom for password_
-    * https://mit.webex.com/mit/j.php?MTID=mc9358fc4e591abf50362b027b189ce48;
-* Join by phone
-    * +1-617-324-0000 US Toll Number
-    * Access code: 643 784 215
-    * Mobile Auto Dial: +1-617-324-0000,,,643784215#
-* Web interface
-    * [IRC Web Interface](http://irc.w3.org/)
-    * Note: you must have a Member or Invited Expert account to use this.
-* [Add](https://mit.webex.com/mit/j.php?MTID=me1eaed87cdc049944b01363dd20cc4bf) this meeting to your calendar.
-* Agendas: a draft agenda is sent to the [www-dom](http://lists.w3.org/Archives/Public/www-dom/) list at least 24 hours before
-* Minutes: meeting minutes are distributed on the [www-dom](http://lists.w3.org/Archives/Public/www-dom/) list.
-* Please submit agenda topics to www-dom mailing list.
+For discussion of matters related to DOM Events, the group uses the www-dom@w3.org mailing list ([archive](http://lists.w3.org/Archives/Public/www-dom/)).
 
 ## Documents
 
