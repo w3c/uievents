@@ -209,7 +209,7 @@ class Parser():
 			self.table_row_data = []
 			return '<table class="%s">\n' % table_class
 
-		return self.process_text(line)
+		return self.process_text(line.rstrip()) + '\n'
 
 	def process(self, src, dst):
 		print 'Processing', src

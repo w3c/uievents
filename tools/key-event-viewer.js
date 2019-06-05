@@ -1,43 +1,161 @@
+// Keyboard event viewer
+// Gary Kacmarcik - garykac@{gmail|google}.com
 
-var NUM_HEADER_ROWS = 2;
-var MAX_OUTPUT_ROWS = 100 + NUM_HEADER_ROWS;
+var _key_table_info = [
+	// Unlabeled group
+	["", "etype", [
+		["#", "etype", "text"],
+		["Event type", "etype", "html"],
+	], {'grouplabel': false}],
+	
+	// KeyboardEvent - Legacy
+	["Legacy", "legacy", [
+		["charCode", "legacy", "html"],
+		["keyCode", "legacy", "html"],
+		["which", "legacy", "text"],
+	], {'checked': true}],
 
-// Sequence ID for numbering events.
-var _seqId = 1;
+	// KeyboardEvent - Modifiers
+	["Modifiers", "modifiers", [
+		["getModifierState", "modifiers", "text"],
+		["shift", "modifiers", "bool"],
+		["ctrl", "modifiers", "bool"],
+		["alt", "modifiers", "bool"],
+		["meta", "modifiers", "bool"],
+	], {'checked': true}],
+
+	// KeyboardEvent - Old DOM3
+	["Old DOM3", "olddom3", [
+		["keyIdentifier", "olddom3", "text"],
+		["keyLocation", "olddom3", "text"],
+		["char", "olddom3", "text"],
+	], {'checked': false}],
+
+	// KeyboardEvent - UI Events
+	["UI Events", "uievents", [
+		["key", "uievents", "html"],
+		["code", "uievents", "text"],
+		["location", "uievents", "text"],
+		["repeat", "uievents", "bool"],
+		["isComposing", "uievents", "bool"],
+		["inputType", "uievents", "text"],
+		["data", "uievents", "text"],
+	], {'checked': true}],
+
+	// KeyboardEvent - Proposed
+	["Proposed", "proposed", [
+		["locale", "proposed", "text"],
+	], {'checked': false}],
+
+	// Input
+	["Input", "inputbox", [
+		["Input field", "inputbox", "text", {'align': 'left'}],
+	], {'checked': true, 'grouplabel': false}],
+];
+
+var _key_event_info = [
+	["keydown", {
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'class': "keyevent_hilight keydown_hilight keydown_arrow"},
+		},
+		"#e0e0e0"],
+	["keypress", {
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'checked': false, 'class': "keyevent_hilight keypress_hilight"},
+		},
+		"#ccffcc"],
+	["keyup", {
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'class': "keyevent_hilight keyup_hilight keyup_arrow"},
+		},
+		"#ffcccc"],
+	["textinput", {
+		'preventDefault': {'checked': false},
+		'stopPropagation': {'checked': false},
+		'ShowEvents': {'checked': false},
+		'Highlight': {'enabled': false, 'checked': false},
+		},
+		"#ffffff"],
+	["beforeinput", {
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'enabled': false, 'checked': false},
+		},
+		"repeating-linear-gradient(-45deg, #fcc, #fcc 8px, #fff 8px, #fff 16px)"],
+	["input", {
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'enabled': false, 'checked': false},
+		},
+		"repeating-linear-gradient(-45deg, #cfc, #cfc 8px, #fff 8px, #fff 16px)"],
+	["compositionstart", {
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'enabled': false, 'checked': false},
+		},
+		"#e0e0e0"],
+	["compositionupdate", {
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'enabled': false, 'checked': false},
+		},
+		"#e0e0e0"],
+	["compositionend", {
+		'preventDefault': {'checked': false},
+		'stopPropagation': {},
+		'ShowEvents': {},
+		'Highlight': {'enabled': false, 'checked': false},
+		},
+		"#e0e0e0"],
+];
+
 
 // True if the current row is a 'keydown' event.
+// This is used to set the background for the entire row when 'keydown' events are
+// highlighted.
 var _isKeydown = false;
 
-function clearChildren(e) {
-	while (e.firstChild !== null) {
-		e.removeChild(e.firstChild);
-	}
-}
-
-function setText(e, text) {
-	clearChildren(e);
-	e.appendChild(document.createTextNode(text));
-}
-
-function setUserAgent() {
+function setUserAgentText() {
 	var userAgent = navigator.userAgent;
 	uaDiv = document.getElementById("useragent");
 	setText(uaDiv, userAgent);
 }
 
-function addEventListener(obj, etype, handler) {
-	if (obj.addEventListener) {
-		obj.addEventListener(etype, handler, false);
-	} else if (obj.attachEvent) {
-		obj.attachEvent("on" + etype, handler);
-	} else {
-		obj["on" + etype] = handler;
-	}
+function resetTable(resetData=true) {
+	clearTable();
+	initOutputTable(_key_table_info);
+
+	setInputFocus(resetData);
 }
 
 function init() {
-	setUserAgent();
-	resetTable();
+	setUserAgentText();
+	var extra_options = [
+		["checkbox", "readonlyToggle", "Read only <input>", {
+			'onclick': "toggleReadonly()",
+			'checked': false,
+		}],
+		["text", "Note: Options apply to new events only."],
+	];
+
+	// Remove read-only option for contenteditable.
+	var el = document.getElementById("input");
+	if (el.tagName == "DIV") {
+		extra_options.shift();
+	}
+
+	createOptions(document.getElementById("options"), _key_event_info, _key_table_info, extra_options);
+	resetTable(false);
 
 	var input = document.getElementById("input");
 	addEventListener(input, "keydown", onKeyDown);
@@ -51,6 +169,10 @@ function init() {
 	addEventListener(input, "compositionupdate", onCompositionUpdate);
 	addEventListener(input, "compositionend", onCompositionEnd);
 }
+
+// =====
+// Key events: keydown, keypress, keyup
+// =====
 
 function onKeyDown(e) {
     _isKeydown = true;
@@ -66,6 +188,49 @@ function onKeyUp(e) {
 	handleKeyEvent("keyup", e);
 }
 
+function handleKeyEvent(etype, e) {
+	var show = document.getElementById("show_" + etype);
+	if (show.checked) {
+		addKeyEvent(etype, e);
+	}
+	handleDefaultPropagation(etype, e);
+}
+
+function addKeyEvent(etype, e) {
+	if (!e) {
+		e = window.event;
+	}
+	var eventinfo = {};
+	eventinfo["Event type"] = calcHilightString(etype, e.type, true);
+	eventinfo["charCode"] = calcRichKeyVal(etype, "charCode", e.charCode);
+	eventinfo["keyCode"] = calcRichKeyVal(etype, "keyCode", e.keyCode);
+	eventinfo["which"] = e.which;
+	eventinfo["getModifierState"] = getModifierState(e);
+	eventinfo["shift"] = e.shiftKey;
+	eventinfo["ctrl"] = e.ctrlKey;
+	eventinfo["alt"] = e.altKey;
+	eventinfo["meta"] = e.metaKey;
+	eventinfo["keyIdentifier"] = e.keyIdentifier;
+	eventinfo["keyLocation"] = calcLocation(e.keyLocation);
+	eventinfo["char"] = calcString(e.char);
+	eventinfo["key"] = calcHilightString(etype, e.key, false);
+	eventinfo["code"] = e.code;
+	eventinfo["location"] = calcLocation(e.location);
+	eventinfo["repeat"] = e.repeat;
+	eventinfo["isComposing"] = e.isComposing;
+	eventinfo["Input field"] = calcInput();
+
+	extra_class = undefined;
+	if (_isKeydown && document.getElementById("hl_keydown").checked) {
+		extra_class = "keydown_row_hilight";
+	}
+	addEventToOutput(eventinfo, extra_class);
+}
+
+// =====
+// Input events: textinput, beforeinput, input
+// =====
+
 function onTextInput(e) {
 	handleInputEvent("textinput", e);
 }
@@ -77,6 +242,31 @@ function onBeforeInput(e) {
 function onInput(e) {
 	handleInputEvent("input", e);
 }
+
+function handleInputEvent(etype, e) {
+	var show = document.getElementById("show_" + etype);
+	if (show.checked) {
+		addInputEvent(etype, e);
+	}
+	handleDefaultPropagation(etype, e);
+}
+
+function addInputEvent(etype, e) {
+	if (!e) {
+		e = window.event;
+	}
+	var eventinfo = {};
+	eventinfo["Event type"] = calcHilightString(etype, e.type, true);
+	eventinfo["isComposing"] = e.isComposing;
+	eventinfo["inputType"] = e.inputType;
+	eventinfo["data"] = calcString(e.data);
+	eventinfo["Input field"] = calcInput();
+	addEventToOutput(eventinfo);
+}
+
+// =====
+// Composition events: compositionstart, compositionupdate, compositionend
+// =====
 
 function onCompositionStart(e) {
 	handleCompositionEvent("compositionstart", e);
@@ -90,36 +280,6 @@ function onCompositionEnd(e) {
 	handleCompositionEvent("compositionend", e);
 }
 
-function addOutputRow() {
-	var table = document.getElementById("output");
-
-	while (table.rows.length >= MAX_OUTPUT_ROWS) {
-		table.deleteRow(-1);
-	}
-	// Insert after the header rows.
-	var row = table.insertRow(NUM_HEADER_ROWS);
-	if (_isKeydown && document.getElementById("hl_keydown").checked) {
-	    row.classList.add("keydown_row_hilight");
-	}
-	return row;
-}
-
-function handleInputEvent(etype, e) {
-	var show = document.getElementById("show_" + etype);
-	if (show.checked) {
-		addInputEvent(etype, e);
-	}
-	handleDefaultPropagation(etype, e);
-}
-
-function handleKeyEvent(etype, e) {
-	var show = document.getElementById("show_" + etype);
-	if (show.checked) {
-		addKeyEvent(etype, e);
-	}
-	handleDefaultPropagation(etype, e);
-}
-
 function handleCompositionEvent(etype, e) {
 	var show = document.getElementById("show_"+etype);
 	if (show.checked) {
@@ -128,119 +288,63 @@ function handleCompositionEvent(etype, e) {
 	handleDefaultPropagation(etype, e);
 }
 
-function handleDefaultPropagation(etype, e) {
-	var preventDefault = document.getElementById("pd_" + etype);
-	if (preventDefault.checked && e.preventDefault) {
-		e.preventDefault();
-	}
-	var stopPropagation = document.getElementById("sp_" + etype);
-	if (stopPropagation.checked && e.stopPropagation) {
-		e.stopPropagation();
-	}
-	// Always prevent default for Tab.
-	if (e.keyCode == 9 || e.code == "Tab") {
-		e.preventDefault();
-	}
-}
-
-function addInputEvent(etype, e) {
-	if (!e) {
-		e = window.event;
-	}
-	var eventinfo = {};
-	eventinfo["etype"] = calcRichString(etype, e.type, true);
-	eventinfo["isComposing"] = e.isComposing;
-	eventinfo["inputType"] = e.inputType;
-	eventinfo["data"] = calcString(e.data);
-	addEvent(eventinfo);
-}
-
-function getModifierState(e) {
-	Modifiers = [
-		"Alt", "AltGraph", "Control", "Shift", "Meta",
-		// Locking keys
-		"CapsLock", "NumLock", "ScrollLock",
-		// Linux
-		"Hyper", "Super",
-		// Virtual keyboards
-		"Symbol", "SymbolLock",
-		// Not valid, but check anyway
-		"Fn", "FnLock",
-		];
-	mods = undefined;
-	for (var mod of Modifiers) {
-		if (e.getModifierState(mod)) {
-			if (!mods) {
-				mods = mod;
-			} else {
-				mods += ", " + mod;
-			}
-		}
-	}
-	return mods;
-}
-
-function addKeyEvent(etype, e) {
-	if (!e) {
-		e = window.event;
-	}
-	var eventinfo = {};
-	eventinfo["etype"] = calcRichString(etype, e.type, true);
-	eventinfo["charCode"] = calcRichKeyVal(etype, "charCode", e.charCode);
-	eventinfo["keyCode"] = calcRichKeyVal(etype, "keyCode", e.keyCode);
-	eventinfo["which"] = e.which;
-	eventinfo["getModifierState"] = getModifierState(e);
-	eventinfo["shift"] = e.shiftKey;
-	eventinfo["ctrl"] = e.ctrlKey;
-	eventinfo["alt"] = e.altKey;
-	eventinfo["meta"] = e.metaKey;
-	eventinfo["keyIdentifier"] = e.keyIdentifier;
-	eventinfo["keyLocation"] = calcLocation(e.keyLocation);
-	eventinfo["char"] = calcString(e.char);
-	eventinfo["key"] = calcRichString(etype, e.key, false);
-	eventinfo["code"] = e.code;
-	eventinfo["location"] = calcLocation(e.location);
-	eventinfo["repeat"] = e.repeat;
-	eventinfo["isComposing"] = e.isComposing;
-	addEvent(eventinfo);
-}
-
 function addCompositionEvent(etype, e) {
 	if (!e) {
 		e = window.event;
 	}
 	var eventinfo = {};
-	eventinfo["etype"] = calcRichString(etype, e.type, true);
+	eventinfo["Event type"] = calcHilightString(etype, e.type, true);
 	eventinfo["isComposing"] = e.isComposing;
 	eventinfo["data"] = calcString(e.data);
-	addEvent(eventinfo);
+	eventinfo["Input field"] = calcInput();
+	addEventToOutput(eventinfo);
 }
 
-/* Create the event table row from the event info */
-function addEvent(eventinfo) {
-	var row = addOutputRow();
-	addTableCellText(row, _seqId, "etype");
-	addTableCell(row, eventinfo["etype"], "etype");
-	addTableCell(row, eventinfo["charCode"], "legacy");
-	addTableCell(row, eventinfo["keyCode"], "legacy");
-	addTableCellText(row, eventinfo["which"], "legacy");
-	addTableCellText(row, eventinfo["getModifierState"], "modifiers");
-	addTableCellBoolean(row, eventinfo["shift"], "modifiers");
-	addTableCellBoolean(row, eventinfo["ctrl"], "modifiers");
-	addTableCellBoolean(row, eventinfo["alt"], "modifiers");
-	addTableCellBoolean(row, eventinfo["meta"], "modifiers");
-	addTableCellText(row, eventinfo["keyIdentifier"], "olddom3");
-	addTableCellText(row, eventinfo["keyLocation"], "olddom3");
-	addTableCellText(row, eventinfo["char"], "olddom3");
-	addTableCell(row, eventinfo["key"], "uievents");
-	addTableCellText(row, eventinfo["code"], "uievents");
-	addTableCellText(row, eventinfo["location"], "uievents");
-	addTableCellBoolean(row, eventinfo["repeat"], "uievents");
-	addTableCellBoolean(row, eventinfo["isComposing"], "uievents");
-	addTableCellText(row, eventinfo["inputType"], "uievents");
-	addTableCellText(row, eventinfo["data"], "uievents");
-	addTableCellText(row, eventinfo["locale"], "uievents");
-	addInputCell(row);
+// =====
+// Helper functions
+// =====
+
+function calcInput() {
+	var el = document.getElementById("input");
+	var value = "";
+	if (el.tagName == "DIV") {
+		// <div contenteditable>
+		value = el.innerText;
+	} else {
+		// <input>
+		value = el.value;
+	}
+	return "'" + value + "'";
+}
+
+/* Set the focus to the input box. */
+function setInputFocus(resetData) {
+	var input = document.getElementById("input");
+	
+	if (resetData) {
+		if (input.tagName == "DIV") {
+			// <div contenteditable>
+			clearChildren(input);
+		} else {
+			// <input>
+			input.value = "";
+		}
+	}
+
+	// Set focus.
+	if (input.tagName == "DIV") {
+		// <div contenteditable>
+		var sel = window.getSelection();
+		var range = document.createRange();
+		//range.setStart(input, 0);
+		//range.setEnd(input, 0);
+		range.selectNodeContents(input);
+		sel.removeAllRanges();
+		sel.addRange(range);
+	} else {
+		// <input>
+		input.focus();
+	}
 }
 
 function calcLocation(loc) {
@@ -295,18 +399,7 @@ function calcRichKeyVal(eventType, attrName, key) {
 	return document.createTextNode(key);
 }
 
-function calcBoolean(key) {
-	return key ? "✓" : "✗";
-}
-
-function calcString(data) {
-	if (data === undefined) {
-		return data;
-	}
-	return "'" + data + "'";
-}
-
-function calcRichString(eventType, data, addArrow) {
+function calcHilightString(eventType, data, addArrow) {
 	if (data === undefined) {
 		return null;
 	}
@@ -324,15 +417,6 @@ function calcRichString(eventType, data, addArrow) {
 	return keySpan;
 }
 
-/* Set the focus to the input box. */
-function setInputFocus(resetData=false) {
-	var input = document.getElementById("input");
-	if (resetData) {
-		input.value = "";
-	}
-	input.focus();
-}
-
 function toggleReadonly() {
 	var cbReadonly = document.getElementById("readonlyToggle");
 	var input = document.getElementById("input");
@@ -341,146 +425,5 @@ function toggleReadonly() {
 	} else {
 		input.removeAttribute('readonly');
 	}
-	setInputFocus();
-}
-
-function resetTable() {
-	clearTable();
-	createTableHeader();
-	_seqId = 1;
-
-	setInputFocus(true);
-}
-
-function clearTable() {
-	clearChildren(document.getElementById("output"));
-}
-
-function addInputCell(row) {
-	var value = document.getElementById("input").value;
-	addTableCellText(row, "'" + value + "'", "inputbox", undefined, undefined, "left");
-	_seqId++;
-}
-
-function addTableCellBoolean(row, key, celltype) {
-	var modstyle = key ? "modOn" : "modOff";
-	addTableCellText(row, calcBoolean(key), celltype, modstyle);
-}
-
-function addTableCellText(row, textdata, celltype, style, span, align) {
-	var data = null;
-	if (textdata !== undefined) {
-		data = document.createTextNode(textdata);
-	}
-	addTableCell(row, data, celltype, style, span, align);
-}
-
-function addTableCell(row, data, celltype, style, span, align) {
-	var cell = row.insertCell(-1);
-	if (data === undefined || data == null) {
-		data = document.createTextNode("-");
-		style = "undef";
-	}
-	cell.appendChild(data);
-	if (align === undefined) {
-		align = "center";
-	}
-	cell.setAttribute("align", align);
-	if (span !== undefined) {
-		cell.setAttribute("colspan", span);
-	}
-	cell.classList.add("keycell");
-	cell.classList.add(celltype);
-	if (style !== undefined) {
-		if (style instanceof Array) {
-			for (var i = 0; i < style.length; i++) {
-				cell.classList.add(style[i]);
-			}
-		} else {
-			cell.classList.add(style);
-		}
-	}
-	if (celltype == "etype" || celltype == "empty") {
-		return;
-	}
-	// Hide this cell if it belongs to a hidden celltype.
-	var show = document.getElementById("show_" + celltype).checked;
-	if (!show) {
-		cell.style.display = "none";
-	}
-}
-
-function createTableHeader() {
-	var table = document.getElementById("output");
-	var head = table.createTHead();
-	var row1 = head.insertRow(-1);
-	var row2 = head.insertRow(-1);
-	addTableCellText(row1, "", "empty", undefined, 2);
-	addTableCellText(row2, "#", "etype", "etype_header");
-	addTableCellText(row2, "Event type", "etype", ["etype_header", "subheader"]);
-	// KeyboardEvent - Legacy
-	addTableCellText(row1, "Legacy", "legacy", "legacy_header", 3);
-	addTableCellText(row2, "charCode", "legacy", ["legacy_header", "subheader"]);
-	addTableCellText(row2, "keyCode", "legacy", ["legacy_header", "subheader"]);
-	addTableCellText(row2, "which", "legacy", ["legacy_header", "subheader"]);
-	// KeyboardEvent - Modifiers
-	addTableCellText(row1, "Modifiers", "modifiers", "modifiers_header", 5);
-	addTableCellText(row2, "getModifierState()", "modifiers", ["modifiers_header", "subheader"]);
-	addTableCellText(row2, "shift", "modifiers", ["modifiers_header", "subheader"]);
-	addTableCellText(row2, "ctrl", "modifiers", ["modifiers_header", "subheader"]);
-	addTableCellText(row2, "alt", "modifiers", ["modifiers_header", "subheader"]);
-	addTableCellText(row2, "meta", "modifiers", ["modifiers_header", "subheader"]);
-	// KeyboardEvent - Old DOM3
-	addTableCellText(row1, "Old DOM3", "olddom3", "olddom3_header", 3);
-	addTableCellText(row2, "keyIdentifier", "olddom3", ["olddom3_header", "subheader"]);
-	addTableCellText(row2, "keyLocation", "olddom3", ["olddom3_header", "subheader"]);
-	addTableCellText(row2, "char", "olddom3", ["olddom3_header", "subheader"]);
-	// KeyboardEvent - UI Events
-	addTableCellText(row1, "UI Events", "uievents", "uievents_header", 7);
-	addTableCellText(row2, "key", "uievents", ["uievents_header", "subheader"]);
-	addTableCellText(row2, "code", "uievents", ["uievents_header", "subheader"]);
-	addTableCellText(row2, "location", "uievents", ["uievents_header", "subheader"]);
-	addTableCellText(row2, "repeat", "uievents", ["uievents_header", "subheader"]);
-	addTableCellText(row2, "isComposing", "uievents", ["uievents_header", "subheader"]);
-	addTableCellText(row2, "inputType", "uievents", ["uievents_header", "subheader"]);
-	addTableCellText(row2, "data", "uievents", ["uievents_header", "subheader"]);
-	// KeyboardEvent - Proposed
-	addTableCellText(row1, "Proposed", "proposed", "proposed_header", 1);
-	addTableCellText(row2, "locale", "proposed", ["proposed_header", "subheader"]);
-
-	addTableCellText(row1, "", "inputbox", "empty");
-	addTableCellText(row2, "Input field", "inputbox", ["inputbox_header", "subheader"]);
-}
-
-function toggleOptions() {
-	var link = document.getElementById("optionsToggle");
-	var options = document.getElementById("options");
-	clearChildren(link);
-	if (options.style.display == "block") {
-		options.style.display = "none";
-		link.appendChild(document.createTextNode("Show Options"));
-	}
-	else {
-		options.style.display = "block";
-		link.appendChild(document.createTextNode("Hide Options"));
-	}
-	setInputFocus();
-}
-
-function showFieldClick(cb) {
-	var celltype = cb.id.split('_')[1];
-	var show = cb.checked;
-
-	var table = document.getElementById("output");
-	for (var ir = 0, row; row = table.rows[ir]; ir++) {
-		for (var ic = 0, cell; cell = row.cells[ic]; ic++) {
-			if (cell.classList.contains(celltype)) {
-				if (show) {
-					cell.style.display = "";
-				} else {
-					cell.style.display = "none";
-				}
-			}
-		}
-	}
+	setInputFocus(false);
 }

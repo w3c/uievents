@@ -24,6 +24,12 @@ events.
 		To create an instance of the {{UIEvent}} interface, use the UIEvent
 		constructor, passing an optional {{UIEventInit}} dictionary.
 
+		<p class="note">
+		For newly defined events, you don't have to inherit {{UIEvent}} interface just
+		because they are related to user interface.  Inherit only when members of
+		{{UIEventInit}} make sense to those events.
+		</p>
+
 		<h5 id="idl-uievent">UIEvent</h5>
 
 			<pre class="idl">
@@ -659,6 +665,8 @@ events.
 						(in general, the middle button, often combined with a mouse wheel).
 					*	<code>2</code> MUST indicate the secondary button
 						(in general, the right button, often used to display a context menu).
+					*	<code>3</code> MUST indicate the X1 (back) button.
+					*	<code>4</code> MUST indicate the X2 (forward) button.
 
 					Some pointing devices provide or simulate more button states, and values higher than
 					<code>2</code> or lower than <code>0</code> MAY be used to represent such buttons.
@@ -1588,7 +1596,7 @@ myDiv.addEventListener("auxclick", function(e) {
 			+| Bubbles          | No                                                                                   |
 			+| Trusted Targets  | <code>Element</code>                                                                 |
 			+| Cancelable       | No                                                                                   |
-			+| Composed         | Yes                                                                                  |
+			+| Composed         | No                                                                                   |
 			+| Default action   | None                                                                                 |
 			+| Context<br/>     | <ul>                                                                                 |
 			 | (trusted events) | <li>{{Event}}.{{Event/target}} : <a>topmost event target</a></li>                    |
@@ -1645,7 +1653,7 @@ myDiv.addEventListener("auxclick", function(e) {
 			+| Bubbles          | No                                                                                   |
 			+| Trusted Targets  | <code>Element</code>                                                                 |
 			+| Cancelable       | No                                                                                   |
-			+| Composed         | Yes                                                                                  |
+			+| Composed         | No                                                                                   |
 			+| Default action   | None                                                                                 |
 			+| Context<br/>     | <ul>                                                                                 |
 			 | (trusted events) | <li>{{Event}}.{{Event/target}} : <a>topmost event target</a></li>                    |
@@ -2218,6 +2226,7 @@ myDiv.addEventListener("auxclick", function(e) {
 			interface InputEvent : UIEvent {
 				readonly attribute DOMString? data;
 				readonly attribute boolean isComposing;
+				readonly attribute DOMString inputType;
 			};
 			</pre>
 
@@ -2244,6 +2253,18 @@ myDiv.addEventListener("auxclick", function(e) {
 					The <a>un-initialized value</a> of this attribute MUST be
 					<code>false</code>.
 				</dd>
+
+				<dt><dfn attribute>inputType</dfn></dt>
+				<dd>
+					<code>inputType</code> contains a string that identifies the type
+					of input associated with the event.
+					
+					For a list of valid values for this attribute, refer to the
+					[[Input-Events]] specification.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					the empty string <code>""</code>.
+				</dd>
 			</dl>
 
 		<h5 id="idl-inputeventinit">InputEventInit</h5>
@@ -2252,6 +2273,7 @@ myDiv.addEventListener("auxclick", function(e) {
 			dictionary InputEventInit : UIEventInit {
 				DOMString? data = "";
 				boolean isComposing = false;
+				DOMString inputType = "";
 			};
 			</pre>
 
@@ -2264,6 +2286,11 @@ myDiv.addEventListener("auxclick", function(e) {
 				<dt><dfn dict-member>isComposing</dfn></dt>
 				<dd>
 					Initializes the <code>isComposing</code> attribute of the InputEvent object.
+				</dd>
+
+				<dt><dfn dict-member>inputType</dfn></dt>
+				<dd>
+					Initializes the <code>inputType</code> attribute of the InputEvent object.
 				</dd>
 			</dl>
 

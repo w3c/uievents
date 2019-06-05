@@ -298,7 +298,8 @@ function resetTest() {
     _keysTotal = 0;
     _keysGood = 0;
     _keysBad = 0;
-
+	_keysSkipped = 0;
+	
     _currKey = -1;
     nextKey();
 
@@ -428,8 +429,14 @@ function createBody(title, keytable) {
     var p;
     var span;
 
+	var main_link = document.createElement('a');
+    main_link.textContent = "UI Events Testing Tools";
+    main_link.classList.add("main_link");
+    main_link.href = "../tools/main.html";
+    body.appendChild(main_link);
+
     var h1 = document.createElement('h1');
-    h1.textContent = "Keyboard Event Manual Test - " + title;
+    h1.textContent = "Keyboard Layout Manual Test - " + title;
     body.appendChild(h1);
 
     // Display useragent.
@@ -465,7 +472,7 @@ function createBody(title, keytable) {
     var helpToggle = document.createElement('a');
     helpToggle.id = "helptoggle";
     helpToggle.href = "javascript:toggleHelp()";
-    helpToggle.textContent = "Show Help";
+    helpToggle.textContent = "Hide Help";
     p.appendChild(helpToggle);
     body.appendChild(p);
 
@@ -691,7 +698,7 @@ function addHelpText(div, text) {
 function createHelp(body) {
     var help = document.createElement('div');
     help.id = "help";
-    help.style.display = "none";
+    help.style.display = "block";
 
     addHelpText(help, "Click on the \"Start Test\" button to begin testing.");
     addHelpText(help, "Press the hilighted key to test it.");
