@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+
+"""Script to build the spec."""
+
+from __future__ import print_function
+
 import os.path
 import re
 import subprocess
@@ -27,8 +33,8 @@ class Parser():
 		self.desc = 'desc'
 
 	def error(self, msg):
-		print self.curr_src, self.line
-		print 'Error: %s' % (msg)
+		print(self.curr_src, self.line)
+		print('Error: %s' % (msg))
 		sys.exit(1)
 
 	def event_type(self, type):
@@ -212,7 +218,7 @@ class Parser():
 		return self.process_text(line.rstrip()) + '\n'
 
 	def process(self, src, dst):
-		print 'Processing', src
+		print('Processing', src)
 		self.curr_src = src
 		self.curr_dst = dst
 
@@ -265,7 +271,7 @@ def main():
 		parser = Parser()
 		parser.process(infilename, outfilename)
 
-	print 'Bikeshedding...'
+	print('Bikeshedding...')
 	cmd = ["bikeshed", "spec"]
 	if DEBUG:
 		cmd.append('--line-numbers')
