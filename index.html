@@ -6,7 +6,7 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet">
   <meta content="Bikeshed version 087ea90e1ebd0321c20373d89950d1c6b73d5df1" name="generator">
   <link href="http://www.w3.org/TR/uievents/" rel="canonical">
-  <meta content="52951b59cda198080c6e66b3d29553afb49114bb" name="document-revision">
+  <meta content="ac9ff006398387857a1a2e619e95975748481a81" name="document-revision">
 <style>/* style-md-lists */
 
 /* This is a weird hack for me not yet following the commonmark spec
@@ -253,7 +253,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1>UI Events</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-01-03">3 January 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="2020-01-17">17 January 2020</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
@@ -644,7 +644,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     <h2 class="heading settled" data-level="1" id="ui-events-intro"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#ui-events-intro"></a></h2>
     <h3 class="heading settled" data-level="1.1" id="ui-events-overview"><span class="secno">1.1. </span><span class="content">Overview</span><a class="self-link" href="#ui-events-overview"></a></h3>
     <p>UI Events is designed with two main goals. The first goal is the design of
-    an <a data-link-type="dfn" href="#event" id="ref-for-event">event</a> system which allows registration of event listeners and
+    an <a data-link-type="dfn" href="#event" id="ref-for-event">event</a> system which allows registration of <a data-link-type="dfn" href="#event-listener" id="ref-for-event-listener">event listeners</a> and
     describes event flow through a tree structure. Additionally, the
     specification will provide standard modules of events for user interface
     control and document mutation notifications, including defined contextual
@@ -727,7 +727,7 @@ platform availability), and</p>
     <p>A conforming content authoring tool SHOULD provide to the content author
         a means to use all <a data-link-type="dfn" href="#event-type" id="ref-for-event-type⑤">event types</a> and interfaces appropriate to all <a data-link-type="dfn" href="#host-language" id="ref-for-host-language">host languages</a> in the content document being produced.</p>
     <h4 class="heading settled" data-level="1.2.3" id="conf-authors"><span class="secno">1.2.3. </span><span class="content">Content authors and content</span><a class="self-link" href="#conf-authors"></a></h4>
-    <p>A content author creates conforming UI Events content if that
+    <p>A content <a data-link-type="dfn" href="#author" id="ref-for-author">author</a> creates conforming UI Events content if that
             content uses the <a data-link-type="dfn" href="#event-type" id="ref-for-event-type⑥">event types</a> and <a href="#event-flow">§ 3.1 Event dispatch and DOM event flow</a> model,
             consistent in a manner as defined in this specification.</p>
     <p>A content author SHOULD NOT use features of this specification
@@ -861,11 +861,11 @@ the <em>bubbling phase</em>.</p>
     is undone). Whether an event object is cancelable is indicated by
     the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-cancelable" id="ref-for-dom-event-cancelable">cancelable</a></code> attribute. Calling <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-preventdefault" id="ref-for-dom-event-preventdefault①">preventDefault()</a></code> stops all
     related <a data-link-type="dfn" href="#default-action" id="ref-for-default-action⑦">default actions</a> of an event object. The <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-defaultprevented" id="ref-for-dom-event-defaultprevented">defaultPrevented</a></code> attribute indicates whether an event has already
-    been canceled (e.g., by a prior event listener). If the <a data-link-type="dfn" href="#dom-application" id="ref-for-dom-application">DOM
+    been canceled (e.g., by a prior <a data-link-type="dfn" href="#event-listener" id="ref-for-event-listener①">event listener</a>). If the <a data-link-type="dfn" href="#dom-application" id="ref-for-dom-application">DOM
     application</a> itself initiated the dispatch, then the return value of the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-eventtarget-dispatchevent" id="ref-for-dom-eventtarget-dispatchevent①">dispatchEvent()</a></code> method indicates whether the event object
     was cancelled.</p>
-    <p class="note" role="note">Many implementations additionally interpret an event
-    listener’s return value, such as the value <code>false</code>, to mean that
+    <p class="note" role="note">Many implementations additionally interpret an <a data-link-type="dfn" href="#event-listener" id="ref-for-event-listener②">event
+    listener</a>’s return value, such as the value <code>false</code>, to mean that
     the <a data-link-type="dfn" href="#default-action" id="ref-for-default-action⑧">default action</a> of cancelable events will be cancelled (though <code>window.onerror</code> handlers are cancelled by returning <code>true</code>). </p>
     <h3 class="heading settled" data-level="3.3" id="sync-async"><span class="secno">3.3. </span><span class="content">Synchronous and asynchronous events</span><a class="self-link" href="#sync-async"></a></h3>
     <p>Events may be dispatched either synchronously or asynchronously.</p>
@@ -1254,11 +1254,11 @@ inherit all of the attributes, methods, and constants of the interfaces they der
     </table>
     <p>For a list of events which are deprecated in this specification, see the <a href="#legacy-event-types">Legacy Event Types</a> appendix at the end
     of this document.</p>
-    <p class="example" id="example-b517ed94"><a class="self-link" href="#example-b517ed94"></a> The following is one way to interpret the above tables: the <a data-link-type="dfn" href="#load" id="ref-for-load②"><code>load</code></a> event will trigger event listeners attached on <code>Element</code> nodes
+    <p class="example" id="example-b517ed94"><a class="self-link" href="#example-b517ed94"></a> The following is one way to interpret the above tables: the <a data-link-type="dfn" href="#load" id="ref-for-load②"><code>load</code></a> event will trigger <a data-link-type="dfn" href="#event-listener" id="ref-for-event-listener③">event listeners</a> attached on <code>Element</code> nodes
     for that event and on the capture and target phases. This event is not
-    cancelable. If an event listener for the <a data-link-type="dfn" href="#load" id="ref-for-load③"><code>load</code></a> event is attached to
+    cancelable. If an <a data-link-type="dfn" href="#event-listener" id="ref-for-event-listener④">event listener</a> for the <a data-link-type="dfn" href="#load" id="ref-for-load③"><code>load</code></a> event is attached to
     a node other than <a data-link-type="dfn" href="#window" id="ref-for-window①⓪">Window</a>, <code>Document</code>, or <code>Element</code> nodes, or if it is attached to the bubbling phase
-    only, this event listener would not be triggered. </p>
+    only, this <a data-link-type="dfn" href="#event-listener" id="ref-for-event-listener⑤">event listener</a> would not be triggered. </p>
     <p class="note" role="note"> Don’t interpret the above tables as definitive for the listed event types.
     For example, the <a data-link-type="dfn" href="#load" id="ref-for-load④"><code>load</code></a> event is used in other specifications, for
     example, in XMLHttpRequest. Similarly, <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-eventtarget-dispatchevent" id="ref-for-dom-eventtarget-dispatchevent④">dispatchEvent()</a></code> can
@@ -3049,7 +3049,7 @@ portions of that content.</p>
 			This event type is similar to <a data-link-type="dfn" href="#mouseenter" id="ref-for-mouseenter⑨"><code>mouseenter</code></a>, but differs in
 			that it bubbles, and that it MUST be dispatched when the pointer device moves onto the
 			boundaries of an element whose ancestor element is the <a data-link-type="dfn" href="#event-target" id="ref-for-event-target③⑧">event
-			target</a> for the same event listener instance.</p>
+			target</a> for the same <a data-link-type="dfn" href="#event-listener" id="ref-for-event-listener⑥">event listener</a> instance.</p>
     <p class="note" role="note"> See also the <a data-link-type="dfn" href="#mouseout" id="ref-for-mouseout①①"><code>mouseout</code></a> event type. </p>
     <h5 class="heading settled" data-level="5.3.4.10" id="event-type-mouseup"><span class="secno">5.3.4.10. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="mouseup">mouseup</dfn></span><a class="self-link" href="#event-type-mouseup"></a></h5>
     <table class="event-definition">
@@ -6034,9 +6034,9 @@ used.</p>
 				the values for <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode⑧">keyCode</a></code>.</p>
     </dl>
     <h4 class="heading settled" data-level="8.2.2" id="legacy-dictionary-KeyboardEventInit"><span class="secno">8.2.2. </span><span class="content">Interface KeyboardEventInit (supplemental)</span><a class="self-link" href="#legacy-dictionary-KeyboardEventInit"></a></h4>
-    <p>Browsers that include support for <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode⑨">keyCode</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode⑦">charCode</a></code>, and <code class="idl"><a data-link-type="idl" href="#dom-uievent-which" id="ref-for-dom-uievent-which①⓪">which</a></code> in <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent⑧②">KeyboardEvent</a></code> should also add the following members to the <code class="idl"><a data-link-type="idl" href="#dictdef-keyboardeventinit" id="ref-for-dictdef-keyboardeventinit②">KeyboardEventInit</a></code> dictionary.</p>
+    <p>Browsers that include support for <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode⑨">keyCode</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode⑦">charCode</a></code> in <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent⑧②">KeyboardEvent</a></code> should also add the following members to the <code class="idl"><a data-link-type="idl" href="#dictdef-keyboardeventinit" id="ref-for-dictdef-keyboardeventinit②">KeyboardEventInit</a></code> dictionary.</p>
     <p>The partial <code class="idl"><a data-link-type="idl" href="#dictdef-keyboardeventinit" id="ref-for-dictdef-keyboardeventinit③">KeyboardEventInit</a></code> dictionary is an informative extension
-		of the <code class="idl"><a data-link-type="idl" href="#dictdef-keyboardeventinit" id="ref-for-dictdef-keyboardeventinit④">KeyboardEventInit</a></code> dictionary, which adds <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode⑧">charCode</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode①⓪">keyCode</a></code>, and <code class="idl"><a data-link-type="idl" href="#dom-uievent-which" id="ref-for-dom-uievent-which①①">which</a></code> members to initialize the corresponding <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent⑧③">KeyboardEvent</a></code> attributes.</p>
+		of the <code class="idl"><a data-link-type="idl" href="#dictdef-keyboardeventinit" id="ref-for-dictdef-keyboardeventinit④">KeyboardEventInit</a></code> dictionary, which adds <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode⑧">charCode</a></code> and <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode①⓪">keyCode</a></code> members to initialize the corresponding <code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent⑧③">KeyboardEvent</a></code> attributes.</p>
 <pre class="idl-ignore" data-highlight="webidl" data-no-idl>partial dictionary KeyboardEventInit {
   // The following support legacy user agents
   unsigned long charCode = 0;
@@ -6469,7 +6469,7 @@ completeness.</p>
      <p> Thus, when a <a data-link-type="dfn" href="#click" id="ref-for-click③⑧"><code>click</code></a> event is dispatched by a <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent④⑧">user agent</a> conforming to UI Events, the XForms <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent④⑨">user agent</a> has to determine
 		whether to synthesize a <a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate①②"><code>DOMActivate</code></a> event with the same relevant
 		properties as a <a data-link-type="dfn" href="#default-action" id="ref-for-default-action③⑥">default action</a> of that <a data-link-type="dfn" href="#click" id="ref-for-click③⑨"><code>click</code></a> event.
-		Appropriate cues might be whether the <a data-link-type="dfn" href="#click" id="ref-for-click④⓪"><code>click</code></a> event is <a href="#trusted-events">trusted</a>, or whether its <a data-link-type="dfn" href="#event-target" id="ref-for-event-target④⑤">event target</a> has a <a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate①③"><code>DOMActivate</code></a> event listener registered. </p>
+		Appropriate cues might be whether the <a data-link-type="dfn" href="#click" id="ref-for-click④⓪"><code>click</code></a> event is <a href="#trusted-events">trusted</a>, or whether its <a data-link-type="dfn" href="#event-target" id="ref-for-event-target④⑤">event target</a> has a <a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate①③"><code>DOMActivate</code></a> <a data-link-type="dfn" href="#event-listener" id="ref-for-event-listener⑦">event listener</a> registered. </p>
     </div>
     <p class="note" role="note"> Don’t rely upon the interoperable support of <a data-link-type="dfn" href="#domactivate" id="ref-for-domactivate①④"><code>DOMActivate</code></a> in many <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent⑤⓪">user agents</a>. Instead, the <a data-link-type="dfn" href="#click" id="ref-for-click④①"><code>click</code></a> <a data-link-type="dfn" href="#event-type" id="ref-for-event-type②③">event type</a> should
 		be used since it will provide more accessible behavior due to broader
@@ -6675,7 +6675,7 @@ completeness.</p>
     <p>The <a data-link-type="dfn" href="#keypress" id="ref-for-keypress①⓪"><code>keypress</code></a> event is the traditional method for capturing key events
 	and processing them before the DOM is updated with the effects of the key
 	press. Code that makes use of the <a data-link-type="dfn" href="#keypress" id="ref-for-keypress①①"><code>keypress</code></a> event typically relies on
-	the legacy <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode①①">charCode</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode②⓪">keyCode</a></code>, and <code class="idl"><a data-link-type="idl" href="#dom-uievent-which" id="ref-for-dom-uievent-which①②">which</a></code> attributes.</p>
+	the legacy <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode①①">charCode</a></code>, <code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-keycode" id="ref-for-dom-keyboardevent-keycode②⓪">keyCode</a></code>, and <code class="idl"><a data-link-type="idl" href="#dom-uievent-which" id="ref-for-dom-uievent-which①⓪">which</a></code> attributes.</p>
     <p>Note that the <a data-link-type="dfn" href="#keypress" id="ref-for-keypress①②"><code>keypress</code></a> event is specific to key events, and has been
 	replaced by the more general event sequence of <a data-link-type="dfn" href="#beforeinput" id="ref-for-beforeinput③⓪"><code>beforeinput</code></a> and <a data-link-type="dfn" href="#input" id="ref-for-input③①"><code>input</code></a> events. These new <code>input</code> events are not specific to
 	keyboard actions and can be used to capture user input regardless of the
@@ -6718,7 +6718,7 @@ completeness.</p>
 									focused element processing the key event or if no element focused, then the <a data-link-type="dfn" href="#body-element" id="ref-for-body-element④">body element</a> if available, otherwise the <a data-link-type="dfn" href="#root-element" id="ref-for-root-element⑤">root element</a>
          <li><code class="idl"><a data-link-type="idl" href="#uievent" id="ref-for-uievent⑧⑧">UIEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-uievent-view" id="ref-for-dom-uievent-view③⑤">view</a></code> : <a data-link-type="dfn" href="#window" id="ref-for-window⑤⑦"><code>Window</code></a>
          <li><code class="idl"><a data-link-type="idl" href="#uievent" id="ref-for-uievent⑧⑨">UIEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-uievent-detail" id="ref-for-dom-uievent-detail③⑥">detail</a></code> : <code>0</code>
-         <li><code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent⑨⓪">KeyboardEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-uievent-which" id="ref-for-dom-uievent-which①③">which</a></code> :
+         <li><code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent⑨⓪">KeyboardEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-uievent-which" id="ref-for-dom-uievent-which①①">which</a></code> :
 								legacy numerical code for this key
          <li><code class="idl"><a data-link-type="idl" href="#keyboardevent" id="ref-for-keyboardevent⑨①">KeyboardEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-keyboardevent-charcode" id="ref-for-dom-keyboardevent-charcode①②">charCode</a></code> :
 								legacy character value for this event
@@ -6856,11 +6856,11 @@ completeness.</p>
 };
 </pre>
     <dl>
-     <dt><dfn class="idl-code" data-dfn-for="MutationEvent" data-dfn-type="const" data-export id="dom-mutationevent-modification"><code>MODIFICATION</code><a class="self-link" href="#dom-mutationevent-modification"></a></dfn>
+     <dt><dfn class="idl-code" data-dfn-for="MutationEvent" data-dfn-type="const" data-noexport id="dom-mutationevent-modification"><code>MODIFICATION</code><a class="self-link" href="#dom-mutationevent-modification"></a></dfn>
      <dd> The <code>Attr</code> was modified in place. 
-     <dt><dfn class="idl-code" data-dfn-for="MutationEvent" data-dfn-type="const" data-export id="dom-mutationevent-addition"><code>ADDITION</code><a class="self-link" href="#dom-mutationevent-addition"></a></dfn>
+     <dt><dfn class="idl-code" data-dfn-for="MutationEvent" data-dfn-type="const" data-noexport id="dom-mutationevent-addition"><code>ADDITION</code><a class="self-link" href="#dom-mutationevent-addition"></a></dfn>
      <dd> The <code>Attr</code> was just added. 
-     <dt><dfn class="idl-code" data-dfn-for="MutationEvent" data-dfn-type="const" data-export id="dom-mutationevent-removal"><code>REMOVAL</code><a class="self-link" href="#dom-mutationevent-removal"></a></dfn>
+     <dt><dfn class="idl-code" data-dfn-for="MutationEvent" data-dfn-type="const" data-noexport id="dom-mutationevent-removal"><code>REMOVAL</code><a class="self-link" href="#dom-mutationevent-removal"></a></dfn>
      <dd> The <code>Attr</code> was just removed. 
      <dt><dfn data-dfn-for="MutationEvent" data-dfn-type="dfn" data-noexport id="mutationevent-relatednode" unknown>relatedNode<a class="self-link" href="#mutationevent-relatednode"></a></dfn>
      <dd>
@@ -6893,7 +6893,7 @@ completeness.</p>
       <p>The <a data-link-type="dfn" href="#un-initialized-value" id="ref-for-un-initialized-value③⑥">un-initialized value</a> of this attribute MUST be <code>0</code>.</p>
       <p class="note" role="note"> There is no defined constant for the attrChange value of 0 (the
 				un-initialized value). </p>
-     <dt><dfn class="idl-code" data-dfn-for="MutationEvent" data-dfn-type="method" data-export id="dom-mutationevent-initmutationevent"><code>initMutationEvent()</code><a class="self-link" href="#dom-mutationevent-initmutationevent"></a></dfn>
+     <dt><dfn class="idl-code" data-dfn-for="MutationEvent" data-dfn-type="method" data-noexport id="dom-mutationevent-initmutationevent"><code>initMutationEvent()</code><a class="self-link" href="#dom-mutationevent-initmutationevent"></a></dfn>
      <dd>
        Initializes attributes of a <code>MutationEvent</code> object.
 				This method has the same behavior as <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-initevent" id="ref-for-dom-event-initevent①⑧">initEvent()</a></code>. 
@@ -7393,11 +7393,11 @@ features constitute an unknown factor and are out of scope of this document.
 Implementers SHOULD consult the specifications of such features for their
 respective security considerations.</p>
     <p>Many of the event types defined in this specification are dispatched in response
-to user actions. This allows malicious event listeners to gain access to
+to user actions. This allows malicious <a data-link-type="dfn" href="#event-listener" id="ref-for-event-listener⑧">event listeners</a> to gain access to
 information users would typically consider confidential, e.g., typos they might
 have made when filling out a form, if they reconsider their answer to a multiple
 choice question shortly before submitting a form, their typing rate or primary
-input mechanism. In the worst case, malicious event listeners could capture all
+input mechanism. In the worst case, malicious <a data-link-type="dfn" href="#event-listener" id="ref-for-event-listener⑨">event listeners</a> could capture all
 user interactions and submit them to a third party through means (not defined in
 this specification) that are generally available in DOM implementations, such as
 the XMLHttpRequest interface.</p>
@@ -7429,7 +7429,7 @@ attempt to embed resources on the local network.</p>
         event flow:</p>
     <ul>
      <li data-md>
-      <p>Event listeners are now ordered. In DOM Level 2, the event ordering
+      <p><a data-link-type="dfn" href="#event-listener" id="ref-for-event-listener①⓪">Event listeners</a> are now ordered. In DOM Level 2, the event ordering
 was unspecified.</p>
      <li data-md>
       <p>The event flow now includes the <a data-link-type="dfn" href="#window" id="ref-for-window⑤⑨"><code>Window</code></a>, to
@@ -7708,7 +7708,7 @@ elements to an author-defined IRI by the author-defined HTTP method.  See <a hre
      <dd data-md>
       <p>An event which is defined to initiate an <a data-link-type="dfn" href="#activation-behavior" id="ref-for-activation-behavior⑧">activation behavior</a>.  Refer
 to <a href="#event-flow-activation">§ 3.5 Activation triggers and behavior</a> for more details.</p>
-     <dt data-md><dfn data-dfn-type="dfn" data-noexport id="author">author<a class="self-link" href="#author"></a></dfn>
+     <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="author">author</dfn>
      <dd data-md>
       <p>In the context of this specification, an <em>author</em>, <em>content
 author</em>, or <em>script author</em> is a person who writes script or
@@ -7717,7 +7717,7 @@ defined in this specification. See <a href="#conf-authors">§ 1.2.3 Content au
 for more details.</p>
      <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="body-element">body element</dfn>
      <dd data-md>
-      <p>In HTML or XHTML documents, the body element represents the contents of the
+      <p>In HTML or XHTML <a data-link-type="dfn" href="#document" id="ref-for-document①">documents</a>, the body element represents the contents of the
 document. In a well-formed HTML document, the body element is a first
 descendant of the <a data-link-type="dfn" href="#root-element" id="ref-for-root-element⑥">root element</a>.</p>
      <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="bubble phase|bubbling phase" data-noexport id="bubble-phase">bubbling phase</dfn>
@@ -7732,23 +7732,11 @@ details.</p>
 ancestors <em>before</em> being handled by the <a data-link-type="dfn" href="#event-target" id="ref-for-event-target⑤⑦">event target</a>. See the
 description of the <a href="#capture-phase" id="ref-for-capture-phase②">capture phase</a> in the context
 of event flow for more details.</p>
-     <dt data-md><dfn data-dfn-type="dfn" data-noexport id="candidate-event-handlers">candidate event handlers<a class="self-link" href="#candidate-event-handlers"></a></dfn>
-     <dt data-md><dfn data-dfn-type="dfn" data-noexport id="candidate-event-listeners">candidate event listeners<a class="self-link" href="#candidate-event-listeners"></a></dfn>
-     <dd data-md>
-      <p>The list of all <a data-link-type="dfn" href="#event-listener" id="ref-for-event-listener">event listeners</a> that have been registered on the
-target object in their order of registration. When an event is about to be
-dispatched to a target object, the list of current listeners is captured
-before any event listeners are dispatched on the target. Listeners which
-are newly added after the event dispatch begins will not affect the order of
-listeners in the captured list, although listeners which are removed after
-dispatch begins will be removed.</p>
-      <p class="note" role="note"> Initially capturing the candidate event handlers and not allowing new
-listeners to be added prevents infinite loops of event listener dispatch on
-a given target object. </p>
      <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="character-value">character value</dfn>
      <dd data-md>
       <p>In the context of key values, a character value is a string representing one
-or more Unicode characters, such as a letter or symbol, or a set of letters.
+or more Unicode characters, such as a letter or symbol, or a set of letters, each
+belonging to the set of valid <a data-link-type="dfn" href="#unicode-character-categories" id="ref-for-unicode-character-categories">Unicode character categories</a>.
 In this specification, character values are denoted as a unicode string
 (e.g., <code class="unicode">U+0020</code>) or a glyph representation of the same code point (e.g., <code class="glyph">" "</code>), and are color coded to help distinguish these two representations.</p>
       <p class="note" role="note"> In source code, some key values, such as non-graphic characters, can be
@@ -7784,7 +7772,7 @@ movement of a wheel (or other device) and whether the <a data-link-type="dfn" hr
 positive or negative is environment and device dependent. However, if a user
 agent scrolls as the <a data-link-type="dfn" href="#default-action" id="ref-for-default-action④⑧">default action</a> then the sign of the <a data-link-type="dfn" href="#delta" id="ref-for-delta①③">delta</a> is given by a right-hand coordinate system where positive X,Y, and Z axes
 are directed towards the right-most edge, bottom-most edge, and farthest
-depth (away from the user) of the document, respectively.</p>
+depth (away from the user) of the <a data-link-type="dfn" href="#document" id="ref-for-document②">document</a>, respectively.</p>
      <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="deprecates|deprecated" data-noexport id="deprecates">deprecated</dfn>
      <dd data-md>
       <p>Features marked as deprecated are included in the specification as reference
@@ -7804,9 +7792,9 @@ future specifications.</p>
       <p>To create an event with attributes and methods appropriate to its type and
 context, and propagate it through the DOM tree in the specified manner.
 Interchangeable with the term <q><a data-link-type="dfn" href="#fire" id="ref-for-fire">fire</a></q>, e.g., <q>fire a <a data-link-type="dfn" href="#click" id="ref-for-click④④"><code>click</code></a> event</q> or <q>dispatch a <a data-link-type="dfn" href="#load" id="ref-for-load⑧"><code>load</code></a> event</q>.</p>
-     <dt data-md><dfn data-dfn-type="dfn" data-noexport id="document">document<a class="self-link" href="#document"></a></dfn>
+     <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="document">document</dfn>
      <dd data-md>
-      <p>An object instantiating the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document①">Document</a></code> interface <a data-link-type="biblio" href="#biblio-dom-level-3-core">[DOM-Level-3-Core]</a>,
+      <p>An object instantiating the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document③">Document</a></code> interface <a data-link-type="biblio" href="#biblio-dom-level-3-core">[DOM-Level-3-Core]</a>,
 representing the entire HTML or XML text document.  Conceptually, it is the
 root of the document tree, and provides the primary access to the document’s
 data.</p>
@@ -7819,7 +7807,7 @@ order to make dynamic or interactive content, such as Web applications,
 exposed to users in a <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent⑥⑨">user agent</a>.</p>
      <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="dom-level-0">DOM Level 0</dfn>
      <dd data-md>
-      <p>The term <q>DOM Level 0</q> refers to a mix of HTML document functionalities,
+      <p>The term <q>DOM Level 0</q> refers to a mix of HTML <a data-link-type="dfn" href="#document" id="ref-for-document④">document</a> functionalities,
 often not formally specified but traditionally supported as de facto
 standards, implemented originally by Netscape Navigator version 3.0 or
 Microsoft Internet Explorer version 3.0.  In many cases, attributes or
@@ -7839,15 +7827,14 @@ type</a>.</p>
      <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="event-focus">event focus</dfn>
      <dd data-md>
       <p>Event focus is a special state of receptivity and concentration on a
-particular element or other <a data-link-type="dfn" href="#event-target" id="ref-for-event-target⑥⓪">event target</a> within a document.  Each
+particular element or other <a data-link-type="dfn" href="#event-target" id="ref-for-event-target⑥⓪">event target</a> within a <a data-link-type="dfn" href="#document" id="ref-for-document⑤">document</a>.  Each
 element has different behavior when focused, depending on its functionality,
 such as priming the element for activation (as for a button or hyperlink) or
 toggling state (as for a checkbox), receiving text input (as for a text form
 field), or copying selected text.  For more details, see <a href="#events-focusevent-doc-focus">§ 5.2.3 Document Focus and Focus Context</a>.</p>
      <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="focus ring" data-noexport id="focus-ring">event focus ring</dfn>
      <dd data-md>
-      <p>An event focus ring is an ordered set of <a data-link-type="dfn" href="#event-focus" id="ref-for-event-focus">event focus</a> targets within a
-document.  A <a data-link-type="dfn" href="#host-language" id="ref-for-host-language①②">host language</a> MAY define one or more ways to determine
+      <p>An event focus ring is an ordered set of <a data-link-type="dfn" href="#event-focus" id="ref-for-event-focus">event focus</a> targets within a <a data-link-type="dfn" href="#document" id="ref-for-document⑥">document</a>.  A <a data-link-type="dfn" href="#host-language" id="ref-for-host-language①②">host language</a> MAY define one or more ways to determine
 the order of targets, such as document order, a numerical index defined per
 focus target, explicit pointers between focus targets, or a hybrid of
 different models.  Each document MAY contain multiple focus rings, or
@@ -7937,9 +7924,6 @@ key</a> (<code class="keycap">Shift</code>, <code class="keycap">Alt</code>, et 
       <p>A key value is a <a data-link-type="dfn" href="#character-value" id="ref-for-character-value⑨">character value</a> or multi-character string (such as <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-Enter">Enter</a>"</code>, <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-Tab">Tab</a>"</code>, or <code class="key">"<a href="http://www.w3.org/TR/uievents-key/#key-MediaTrackNext">MediaTrackNext</a>"</code>) associated with a key in a
 particular state. Every key has a key value, whether or not it has a <a data-link-type="dfn" href="#character-value" id="ref-for-character-value①⓪">character value</a>. This includes control keys, function keys, <a data-link-type="dfn" href="#modifier-key" id="ref-for-modifier-key③">modifier keys</a>, <a data-link-type="dfn" href="#dead-key" id="ref-for-dead-key①①">dead keys</a>, and any other key. The key value of
 any given key at any given time depends upon the <a data-link-type="dfn" href="#key-mapping" id="ref-for-key-mapping④">key mapping</a>.</p>
-     <dt data-md><dfn data-dfn-type="dfn" data-noexport id="local-name">local name<a class="self-link" href="#local-name"></a></dfn>
-     <dd data-md>
-      <p>See local name in <a data-link-type="biblio" href="#biblio-xml-names11">[XML-Names11]</a>.</p>
      <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="modifier-key">modifier key</dfn>
      <dd data-md>
       <p>A modifier key changes the normal behavior of a key, such as to produce a
@@ -7954,7 +7938,7 @@ called the namespace name in <a data-link-type="biblio" href="#biblio-xml-names1
      <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="phase">phase</dfn>
      <dd data-md>
       <p>In the context of <a data-link-type="dfn" href="#event" id="ref-for-event⑥⑧">events</a>, a phase is set of logical traversals from
-node to node along the DOM tree, from the <a data-link-type="dfn" href="#window" id="ref-for-window⑥⓪">Window</a> to the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document②">Document</a></code> object, <a data-link-type="dfn" href="#root-element" id="ref-for-root-element⑦">root element</a>, and down to the <a data-link-type="dfn" href="#event-target" id="ref-for-event-target⑥①">event target</a> (<a data-link-type="dfn" href="#capture-phase" id="ref-for-capture-phase①">capture
+node to node along the DOM tree, from the <a data-link-type="dfn" href="#window" id="ref-for-window⑥⓪">Window</a> to the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#document" id="ref-for-document⑦">Document</a></code> object, <a data-link-type="dfn" href="#root-element" id="ref-for-root-element⑦">root element</a>, and down to the <a data-link-type="dfn" href="#event-target" id="ref-for-event-target⑥①">event target</a> (<a data-link-type="dfn" href="#capture-phase" id="ref-for-capture-phase①">capture
 phase</a>), at the <a data-link-type="dfn" href="#event-target" id="ref-for-event-target⑥②">event target</a> itself (<a data-link-type="dfn" href="#target-phase" id="ref-for-target-phase①">target phase</a>), and
 back up the same chain (<a data-link-type="dfn" href="#bubble-phase" id="ref-for-bubble-phase②">bubbling phase</a>).</p>
      <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="propagation-path">propagation path</dfn>
@@ -7973,7 +7957,7 @@ are Q, W, E, R, T, and Y.  There are many other popular keyboard layouts
 or ergonomics.</p>
      <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="root-element">root element</dfn>
      <dd data-md>
-      <p>The first element node of a document, of which all other elements are
+      <p>The first element node of a <a data-link-type="dfn" href="#document" id="ref-for-document⑧">document</a>, of which all other elements are
 children. The document element.</p>
      <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="rotation">rotation</dfn>
      <dd data-md>
@@ -7996,15 +7980,7 @@ order which is capable of being an <a data-link-type="dfn" href="#event-target" 
 interfaces this is the element under the user’s pointing device. A user
 interface’s <q>hit testing</q> facility is used to determine the target. For
 specific details regarding hit testing and stacking order, refer to the <a data-link-type="dfn" href="#host-language" id="ref-for-host-language①③">host language</a>.</p>
-     <dt data-md><dfn data-dfn-type="dfn" data-noexport id="tree">tree<a class="self-link" href="#tree"></a></dfn>
-     <dd data-md>
-      <p>A data structure that represents a document as a hierarchical set of nodes
-with child-parent-sibling relationships, i.e., each node having one or more
-possible ancestors (nodes higher in the hierarchy in a direct lineage), one
-or more possible descendants (nodes lower in the hierarchy in a direct
-lineage), and one or more possible peers (nodes of the same level in the
-hierarchy, with the same immediate ancestor).</p>
-     <dt data-md><dfn data-dfn-type="dfn" data-noexport id="unicode-character-categories">Unicode character categories<a class="self-link" href="#unicode-character-categories"></a></dfn>
+     <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="unicode-character-categories">Unicode character categories</dfn>
      <dd data-md>
       <p>A subset of the General Category values that are defined for each Unicode
 code point. This subset contains all the
@@ -8027,7 +8003,7 @@ the <a href="#conf-interactive-ua">§ 1.2.1 Web browsers and other dynamic or 
 requirements for a <em>conforming</em> user agent.</p>
      <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="window">Window</dfn>
      <dd data-md>
-      <p>The <code>Window</code> is the object referred to by the current document’s
+      <p>The <code>Window</code> is the object referred to by the current <a data-link-type="dfn" href="#document" id="ref-for-document⑨">document</a>’s
 browsing context’s Window Proxy object as defined in <a href="http://dev.w3.org/html5/spec/single-page.html#windowproxy" title="HTML5 WindowProxy description">HTML5</a> <a data-link-type="biblio" href="#biblio-html5">[HTML5]</a>.</p>
     </dl>
    </section>
@@ -8103,8 +8079,6 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
      <li><a href="#dom-mouseevent-buttons">attribute for MouseEvent</a><span>, in §5.3.1.1</span>
      <li><a href="#dom-mouseeventinit-buttons">dict-member for MouseEventInit</a><span>, in §5.3.1.2</span>
     </ul>
-   <li><a href="#candidate-event-handlers">candidate event handlers</a><span>, in §14</span>
-   <li><a href="#candidate-event-listeners">candidate event listeners</a><span>, in §14</span>
    <li><a href="#capture-phase">capture phase</a><span>, in §14</span>
    <li><a href="#character-value">character value</a><span>, in §14</span>
    <li>
@@ -8291,7 +8265,6 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
    <li><a href="#keyup">keyup</a><span>, in §5.6.4.2</span>
    <li><a href="#key-value">key value</a><span>, in §14</span>
    <li><a href="#load">load</a><span>, in §5.1.2.1</span>
-   <li><a href="#local-name">local name</a><span>, in §14</span>
    <li>
     location
     <ul>
@@ -8375,7 +8348,6 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
    <li><a href="#target-phase">target phase</a><span>, in §14</span>
    <li><a href="#text-composition-system">text composition system</a><span>, in §14</span>
    <li><a href="#topmost-event-target">topmost event target</a><span>, in §14</span>
-   <li><a href="#tree">tree</a><span>, in §14</span>
    <li><a href="#uievent">UIEvent</a><span>, in §5.1.1.1</span>
    <li><a href="#dictdef-uieventinit">UIEventInit</a><span>, in §5.1.1.2</span>
    <li><a href="#dom-uievent-uievent">UIEvent(type)</a><span>, in §5.1.1.1</span>
@@ -8433,7 +8405,7 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
    <a href="https://dom.spec.whatwg.org/#document">https://dom.spec.whatwg.org/#document</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-document">4. Basic Event Interfaces</a>
-    <li><a href="#ref-for-document①">14. Glossary</a> <a href="#ref-for-document②">(2)</a>
+    <li><a href="#ref-for-document③">14. Glossary</a> <a href="#ref-for-document⑦">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-event">
@@ -10540,9 +10512,8 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-dom-uievent-which③">8.1.1. Interface UIEvent (supplemental)</a> <a href="#ref-for-dom-uievent-which④">(2)</a>
     <li><a href="#ref-for-dom-uievent-which⑤">8.1.2. Interface UIEventInit (supplemental)</a> <a href="#ref-for-dom-uievent-which⑥">(2)</a> <a href="#ref-for-dom-uievent-which⑦">(3)</a>
     <li><a href="#ref-for-dom-uievent-which⑧">8.2. Legacy KeyboardEvent supplemental interface</a> <a href="#ref-for-dom-uievent-which⑨">(2)</a>
-    <li><a href="#ref-for-dom-uievent-which①⓪">8.2.2. Interface KeyboardEventInit (supplemental)</a> <a href="#ref-for-dom-uievent-which①①">(2)</a>
-    <li><a href="#ref-for-dom-uievent-which①②">9.3. Legacy KeyboardEvent events</a>
-    <li><a href="#ref-for-dom-uievent-which①③">9.3.1.1. keypress</a>
+    <li><a href="#ref-for-dom-uievent-which①⓪">9.3. Legacy KeyboardEvent events</a>
+    <li><a href="#ref-for-dom-uievent-which①①">9.3.1.1. keypress</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-keyboardevent-charcode">
@@ -10691,6 +10662,12 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-activation-trigger⑧">14. Glossary</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="author">
+   <b><a href="#author">#author</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-author">1.2.3. Content authors and content</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="body-element">
    <b><a href="#body-element">#body-element</a></b><b>Referenced in:</b>
    <ul>
@@ -10803,6 +10780,12 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-dispatch②">14. Glossary</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="document">
+   <b><a href="#document">#document</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-document①">14. Glossary</a> <a href="#ref-for-document②">(2)</a> <a href="#ref-for-document④">(3)</a> <a href="#ref-for-document⑤">(4)</a> <a href="#ref-for-document⑥">(5)</a> <a href="#ref-for-document⑧">(6)</a> <a href="#ref-for-document⑨">(7)</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="dom-application">
    <b><a href="#dom-application">#dom-application</a></b><b>Referenced in:</b>
    <ul>
@@ -10864,7 +10847,13 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
   <aside class="dfn-panel" data-for="event-listener">
    <b><a href="#event-listener">#event-listener</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-event-listener">14. Glossary</a>
+    <li><a href="#ref-for-event-listener">1.1. Overview</a>
+    <li><a href="#ref-for-event-listener①">3.2. Default actions and cancelable events</a> <a href="#ref-for-event-listener②">(2)</a>
+    <li><a href="#ref-for-event-listener③">4.1. List of Event Types</a> <a href="#ref-for-event-listener④">(2)</a> <a href="#ref-for-event-listener⑤">(3)</a>
+    <li><a href="#ref-for-event-listener⑥">5.3.4.9. mouseover</a>
+    <li><a href="#ref-for-event-listener⑦">9.1.1.1. DOMActivate</a>
+    <li><a href="#ref-for-event-listener⑧">11. Security Considerations</a> <a href="#ref-for-event-listener⑨">(2)</a>
+    <li><a href="#ref-for-event-listener①⓪">12.1.1. Changes to DOM Level 2 event flow</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="event-order">
@@ -11078,6 +11067,12 @@ browsing context’s Window Proxy object as defined in <a href="http://dev.w3.or
     <li><a href="#ref-for-topmost-event-target①①">5.3.4.10. mouseup</a>
     <li><a href="#ref-for-topmost-event-target①②">5.4.2.1. wheel</a>
     <li><a href="#ref-for-topmost-event-target①③">14. Glossary</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="unicode-character-categories">
+   <b><a href="#unicode-character-categories">#unicode-character-categories</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-unicode-character-categories">14. Glossary</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="un-initialized-value">
