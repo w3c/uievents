@@ -1,0 +1,1893 @@
+<h1>UI Events Algorithms</h1>
+
+<pre class="metadata">
+Shortname: uievents-algo
+Level:
+Group: 
+Status: DREAM
+Editor: Gary Kacmarcik, Google, garykac@google.com
+Abstract:
+	This document attempts to describe, in an algorithmic manner, how UIEvents
+        should be handled by User Agents. Because this functionality has been shipping
+        in UAs for many years, the primary goal is to document the existing behaviors
+        and identify areas where implementations disagree. The intent is to fold this
+        information into the main UIEvents spec (and other specs) once there is
+        consensus that this process described here is adequate.
+</pre>
+
+<pre class="anchors">
+urlPrefix: https://www.w3.org/TR/uievents/#; type: dfn; spec: uievents;
+    text: compositionend
+    text: compositionstart
+urlPrefix: https://html.spec.whatwg.org/#; type: dfn; spec: html;
+    text: click focusable
+    text: focusable area
+    text: focusing steps
+
+url: https://www.w3.org/TR/uievents-key/#keys-modifier; type: dfn; spec: uievents-key;
+    text: modifier key
+url: https://www.w3.org/TR/CSS2/visuren.html#viewport; type: dfn; spec: css2;
+    text: viewport
+url: https://www.w3.org/TR/cssom-view-1/#dom-document-elementfrompoint; type: dfn; spec: cssom-view;
+    text: elementFromPoint
+    text: elementsFromPoint
+url: https://dom.spec.whatwg.org/#concept-event-dispatch; type: dfn; spec: html;
+    text: dispatch
+</pre>
+
+<pre class="link-defaults">
+spec:cssom-view; type:attribute; for:MouseEvent; text:x
+spec:cssom-view; type:attribute; for:MouseEvent; text:y
+spec:dom; type:attribute; for:Event; text:bubbles
+spec:dom; type:attribute; for:Event; text:cancelable
+spec:dom; type:attribute; for:Event; text:composed
+spec:dom; type:attribute; for:Event; text:target
+spec:dom; type:attribute; for:Event; text:type
+spec:dom; type:const; text:NONE
+spec:ui-events; type:attribute; for:InputEvent; text:inputType
+spec:ui-events; type:attribute; for:KeyboardEvent; text:code
+spec:ui-events; type:attribute; for:MouseEvent; text:button
+spec:ui-events; type:attribute; for:MouseEvent; text:buttons
+spec:ui-events; type:attribute; for:MouseEvent; text:clientX
+spec:ui-events; type:attribute; for:MouseEvent; text:clientY
+spec:ui-events; type:attribute; for:MouseEvent; text:screenX
+spec:ui-events; type:attribute; for:MouseEvent; text:screenY
+spec:ui-events; type:attribute; for:UIEvent; text:detail
+spec:ui-events; type:attribute; for:UIEvent; text:view
+spec:ui-events; type:attribute; for:UIEvent; text:which
+</pre>
+
+<section>
+<h2 id="intro">Why?</h2>
+
+The description of events in the current UIEvents spec is woefully underspecified.
+This has led to different User Agents (UAs) implementing the same feature with
+different behaviors.
+
+The intent with this document is to:
+
+* Describe the current behaviors that are shared by existing UAs
+* Identify behaviors where they differ
+* Initiate discussions to resolve the differences
+
+Part of this process will necessarily require that we describe processes that
+rightfully belong in other specifications (e.g., Pointer Events or Input Events).
+The intent is to eventually move those portions into their appropriate home,
+but they are kept here while drafting this document to make it easier to discuss.
+
+</section>
+
+<section>
+<h2 id="native-os">Native OS Requirements</h2>
+
+The following is the set of assumptions that this specification makes about the
+underlying native operating system. It is expected that the native OS will
+provide these basic services for the UA.
+
+In the event that the native OS does not provide these services, then the
+UA will need to implement them.
+
+<h3 id="req-mouse">MouseEvent Requirements</h3>
+
+The native OS will provide:
+
+* An event when the mouse is moved
+* An event when a mouse button is pressed
+* An event when a mouse button is released
+* A way to identify when a mouse button press should be interpreted as a "click"
+    * For example, as a flag or as a separate event
+    * If a separate "click" event is fired, then the native OS will fire it
+        immediately after the corresponding "mouse up" event, with no
+        intervening mouse-related events
+* A way to identify when a mouse click is a "double click"
+
+For these events, the OS will be able to provide the following info:
+
+* The x,y mouse coordinates relative to the native OS desktop
+* The x,y mouse coordinates relative to the UA's window viewport
+* Which keyboard modifiers are currently being held
+
+<h3 id="req-keyboard">KeyboardEvent Requirements</h3>
+
+Issue: Define requirements.
+Support platforms that generate CHAR events (like Windows) and those that don't (macOS).
+
+<h3 id="req-ime">IME Requirements</h3>
+
+Issue: IMEs differ wildly on different platforms, and often have different capabilities
+(such as whether or not they can be "canceled") even on the same platform.
+What is the common set of requirements that we can rely on?
+
+<h3 id="native-entry-points">Native Entry Points</h3>
+
+* <a>handle native mouse down</a>
+* <a>handle native mouse up</a>
+* <a>handle native mouse click</a>
+* <a>handle native mouse double click</a>
+* <a>handle native mouse move</a>
+
+* <a>handle native key down</a>
+* <a>handle native key up</a>
+
+* <a>handle native cut</a>
+* <a>handle native copy</a>
+* <a>handle native paste</a>
+
+</section>
+
+<!--
+      CCC    OOO   RRRR   EEEEE      DDDD    OOO   M   M
+     C   C  O   O  R   R  E          D   D  O   O  MM MM
+     C      O   O  RRRR   EEE        D   D  O   O  M M M
+     C   C  O   O  R  R   E          D   D  O   O  M   M
+      CCC    OOO   R   R  EEEEE      DDDD    OOO   M   M
+ -->
+
+<section>
+<h2 id="core dom">Core DOM</h2>
+
+Issue: These definitions probably belong in another spec.
+
+<div class="algorithm" data-algorithm="hit-test">
+<h3 id="hit test"><dfn>hit test</dfn></h3>
+
+    : Input
+    :: |pos|, the x,y coordinates relative to the viewport
+
+    : Output
+    :: The frontmost DOM element at |pos|
+
+    Issue: To account for
+    <a href="https://html.spec.whatwg.org/#inert">inert</a> or
+    <a href="https://html.spec.whatwg.org/#concept-fe-disabled">disabled</a>
+    elements. this should call <a>elementsFromPoint</a> and reject
+    invalid elements
+    
+    1. Return [[CSSOM-View]]'s <a>elementFromPoint</a> with |pos|
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="calculate-dom-path">
+<h3 id="calculate dom path"><dfn>calculate DOM path</dfn></h3>
+
+    : Input
+    :: |element|, the starting element
+
+    : Output
+    :: The list of ancestor elements for the given element
+
+    1. Let |path| = A list that contains |element|
+
+       Issue: This needs a proper definition to add ancestors to |path|.
+    
+    1. Return |path|
+
+</div><!-- algorithm -->
+
+<h3 id="event-interface">Event Interface</h3>
+
+A {{Event}} has the following additional internal state:
+
+<dl dfn-for="UIEvent">
+    <li><dfn>due to user interaction flag</dfn>
+
+    Issue: This is a proposal.
+    See <a href="https://github.com/w3c/uievents/issues/270">uievents/270</a>
+    </li>
+</dl>
+
+<div class="algorithm" data-algorithm="initialize-an-event">
+<h3 id="initialize an event"><dfn>initialize an Event</dfn></h3>
+
+    : Input
+    :: |event|, the {{Event}} to initialize
+    :: |eventType|, a DOMString containing the event type
+    :: |eventTarget|, the {{EventTarget}} of the event
+
+    : Output
+    :: None
+
+    Issue: Move to/merge with [[DOM]] spec {{Event}} interface.
+    For reference, see
+    <a href="https://dom.spec.whatwg.org/#concept-event-initialize">initialize an event</a>,
+    <a href="https://dom.spec.whatwg.org/#stop-propagation-flag">list of event flags</a>.
+
+    1. Initialize the following public attributes
+
+        1. Set |event|.{{type}} = |eventType|
+        1. Set |event|.{{target}} = |eventTarget|
+        1. Set |event|.{{currentTarget}} = null (This will be set appropriately during dispatch)
+        1. Set |event|.{{eventPhase}} = {{NONE}}  (This will be set appropriately during dispatch)
+        1. Set |event|.{{bubbles}} = true
+        1. Set |event|.{{cancelable}} = true
+        1. Set |event|.{{defaultPrevented}} = false
+        1. Set |event|.{{composed}} = false  // See COMPAT note for mouseenter and mouseleave
+        1. Set |event|.{{isTrusted}} = false
+        1. Set |event|.{{timeStamp}} = Number of milliseconds relative to the time origin
+
+    1. Initialize the following historical attributes
+    
+        1. Set |event|.srcElement = |eventTarget|
+        1. Set |event|.cancelBubble = alias for stopPropagation
+        1. Set |event|.returnValue = alias for !canceled_flag
+
+    1. Initialize the following internal state
+
+        1. Unset |event|'s <a>stop propagation flag</a>
+        1. Unset |event|'s <a>stop immediate propagation flag</a>
+        1. Unset |event|'s <a>canceled flag</a>
+        1. Unset |event|'s <a>in passive listener flag</a>
+        1. Unset |event|'s <a>composed flag</a>
+        1. Unset |event|'s <a>initialized flag</a>
+        1. Unset |event|'s <a>dispatch flag</a>
+
+    1. Initialize the following proposed internal state
+
+        1. Unset |event|'s <a>due to user interaction flag</a>
+
+</div><!-- algorithm -->
+
+<!--
+     U   U  IIIII  EEEEE  V   V  EEEEE  N   N  TTTTT
+     U   U    I    E      V   V  E      NN  N    T
+     U   U    I    EEE     V V   EEE    N N N    T
+     U   U    I    E       V V   E      N  NN    T
+      UUU   IIIII  EEEEE    V    EEEEE  N   N    T
+ -->
+
+<section>
+<h2 id="ui event">UI Event</h2>
+
+<h3 id="uievent-interface">UIEvent Interface</h3>
+
+A {{UIEvent}} has the following:
+
+<dl dfn-for="UIEvent">
+    <li><dfn attribute>view</dfn></li>
+    <li><dfn attribute>detail</dfn></li>
+</dl>
+
+Along with the following historical attribute:
+
+<dl dfn-for="KeyboardEvent">
+    <li><dfn attribute>which</dfn></li>
+</dl>
+
+<div class="algorithm" data-algorithm="initialize-a-uievent">
+<h3 id="initialize a uievent"><dfn>initialize a UIEvent</dfn></h3>
+
+    : Input
+    :: |event|, the {{UIEvent}} to initialize
+    :: |eventType|, a DOMString containing the event type
+    :: |eventTarget|, the {{EventTarget}} of the event
+
+    : Output
+    :: None
+
+    1. <a>Initialize an Event</a> with |event|, |eventType| and |eventTarget|
+
+    1. Initialize the following public attributes
+
+        1. Set |event|.{{view}} = the |eventTarget|'s <a>node document</a>'s {{Window}} object
+        1. Set |event|.{{detail}} = 0
+
+    1. Initialize the following historical attributes
+
+        1. Set |event|.{{which}} = 0  (used by both {{MouseEvent}} and {{KeyboardEvent}})
+
+    1. If this event is the result of user interaction, then
+
+        1. Set |event|'s <a>due to user interaction flag</a>
+        
+            Note: See <a href="https://github.com/w3c/uievents/issues/270">uievents/270</a>
+            
+        1. Set |event|.{{isTrusted}} = false
+
+</div><!-- algorithm -->
+
+</section>
+
+<!--
+     M   M   OOO   U   U   SSSS  EEEEE  EEEEE  V   V  EEEEE  N   N  TTTTT
+     MM MM  O   O  U   U  S      E      E      V   V  E      NN  N    T
+     M M M  O   O  U   U   SSS   EEE    EEE     V V   EEE    N N N    T
+     M   M  O   O  U   U      S  E      E       V V   E      N  NN    T
+     M   M   OOO    UUU   SSSS   EEEEE  EEEEE    V    EEEEE  N   N    T
+ -->
+
+<section>
+<h2 id="mouse event">Mouse Event</h2>
+
+<h3 id="mouseevent-interface">MouseEvent Interface</h3>
+
+A {{MouseEvent}} has the following:
+
+<dl dfn-for="MouseEvent">
+    <li><dfn attribute>screenX</dfn></li>
+    <li><dfn attribute>screenY</dfn></li>
+    <li><dfn attribute>clientX</dfn></li>
+    <li><dfn attribute>clientY</dfn></li>
+    <li><dfn attribute>ctrlKey</dfn></li>
+    <li><dfn attribute>shiftKey</dfn></li>
+    <li><dfn attribute>altKey</dfn></li>
+    <li><dfn attribute>metaKey</dfn></li>
+    <li><dfn attribute>button</dfn></li>
+    <li><dfn attribute>buttons</dfn></li>
+    <li><dfn attribute>relatedTarget</dfn></li>
+    <li>getModifierState(keyArg)</li>
+</dl>
+
+<h3 id="mouseevent-global-state">Global State for MouseEvent</h3>
+
+<h4 id="mouseevent-global-ua">User Agent-Level State</h4>
+
+    The UA must maintain the following values that are shared for the entire
+    User Agent.
+
+    A <dfn>mouse button bitmask</dfn> that tracks the current state of the
+    mouse buttons.
+
+<h4 id="mouseevent-global-window">Window-Level State</h4>
+
+    The UA must maintain the following values that are shared for the Window.
+
+    A <dfn>last mouse element</dfn> value (initially undefined) that keeps track
+    of the last {{Element}} that we sent a MouseEvent to.
+
+    A <dfn>last mouse DOM path</dfn> value (initially empty) that contains a snapshot
+    of the ancestors {{Element}}s of the <a>last mouse element</a> when the most recent mouse
+    event was sent.
+
+<div class="algorithm" data-algorithm="initialize-a-mouseevent">
+<h3 id="initialize a mouseevent"><dfn>initialize a MouseEvent</dfn></h3>
+
+    : Input
+    :: |event|, the {{MouseEvent}} to initialize
+    :: |eventType|, a DOMString containing the event type
+    :: |eventTarget|, the {{EventTarget}} of the event
+
+    : Output
+    :: None
+
+    1. <a>Initialize a UIEvent</a> with |event|, |eventType| and |eventTarget|
+
+    2. Initialize the following public attributes
+
+        1. Set |event|.{{screenX}} = the x-coordinate of the position where the event occurred
+            relative to the origin of the desktop
+        1. Set |event|.{{screenY}} = the y-coordinate of the position where the event occurred
+            relative to the origin of the desktop
+        1. Set |event|.{{clientX}} = the x-coordinate of the position where the event occurred
+            relative to the origin of the viewport
+        1. Set |event|.{{clientY}} = the y-coordinate of the position where the event occurred
+            relative to the origin of the <a>viewport</a>
+
+        1. <a>Set event modifiers</a> with |event|
+
+        1. Set |event|.{{button}} = 0
+        1. Set |event|.{{buttons}} = <a>mouse button bitmask</a>
+
+    1. <a>Initialize PointerLock attributes for MouseEvent</a> with |event|
+    
+    1. <a>Initialize CSSOM attributes for MouseEvent</a> with |event|
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="create-a-mouseevent">
+<h3 id="create a mouseevent"><dfn>create a MouseEvent</dfn></h3>
+
+    : Input
+    :: |eventType|, a DOMString containing the event type
+    :: |eventTarget|, the {{EventTarget}} of the event
+
+    : Output
+    :: None
+
+    1. Let |event| = the result of
+        <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new MouseEvent</a>
+    1. <a>Initialize a MouseEvent</a> with |event|, |eventType| and |eventTarget|
+    1. Return |event|
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="calculate-mouseevent-button-attribute">
+<h3 id="calculate mouseevent button attribute"><dfn>calculate MouseEvent button attribute</dfn></h3>
+
+    : Input
+    :: |mbutton|, an ID that identifies a mouse button
+
+    : Output
+    :: A button ID suitable for storing in the {{MouseEvent}}'s {{button}} attribute
+
+    1. If |mbutton| is the primary mouse button, then return 0
+    1. If |mbutton| is the auxiliary (middle)  mouse button, then return 1
+    1. If |mbutton| is the secondary mouse button, then return 2
+    1. If |mbutton| is the X1 (back) button, then return 3
+    1. If |mbutton| is the X2 (forward) button, then return 4
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="set-mouseevent-attributes-from-native">
+<h3 id="set mouseevent attributes from native"><dfn>set MouseEvent attributes from native</dfn></h3>
+
+    : Input
+    :: |event|, the {{MouseEvent}} to initialize
+    :: |native|, the native mouse event
+
+    : Output
+    :: None
+
+    Issue: TODO
+
+    1. Let |mbutton| be an ID from |native| that identifies which mouse button was pressed
+
+    1. Let |type| = |event|.{{type}}
+    1. If |type| is one of [ mousedown, mouseup ], then 
+        1. Set |event|.{{button}} = <a>calculate MouseEvent button attribute</a> with |mbutton|
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="handle-native-mouse-down">
+<h3 id="handle native mouse down"><dfn>handle native mouse down</dfn></h3>
+
+    : Input
+    :: |native|, the native mousedown
+
+    : Output
+    :: None
+
+    1. Let |mbutton| be an ID from |native| that identifies which mouse button was pressed
+
+    1. Update the <a>mouse button bitmask</a> as follows:
+        1. If |mbutton| is the primary mouse button, then set the 0x01 bit
+        1. If |mbutton| is the secondary mouse button, then set the 0x02 bit
+        1. If |mbutton| is the auxiliary (middle) mouse button, then set the 0x04 bit
+
+        Issue: Other buttons can be added starting with 0x08
+
+    1. Let |target| = <a>hit test</a> with viewport-relative coordinates from |native|
+    1. Let |event| = <a>create a MouseEvent</a> with "mousedown", |target|
+    1. <a>Set MouseEvent attributes from native</a> with |native|
+
+    1. <a>Send pointerdown event</a> with |event|
+
+        Issue: Unlike mousedown events,
+        <a href="https://w3c.github.io/pointerevents/#the-pointerdown-event">pointerdown></a>
+        events are not nested when multiple buttons are pressed.
+        This logic should be in the PointerEvents spec.
+        The MouseEvent is passed so that the fields can be copied into the PointerEvent.
+        TODO: Need definition to call in PointerEvent spec.
+
+    1. Let |result| = <a>dispatch</a> |event| at |target| 
+
+    1. If |result| is true and |target| is a <a>focusable area</a> that is <a>click focusable</a>, then
+
+        1. Run the <a>focusing steps</a> at |target|
+
+    1. if |mbutton| is the secondary mouse button, then
+
+        1. Let |menuevent| = <a>create a MouseEvent</a> with "contextmenu", |target|
+        1. Let |result| = <a>dispatch</a> |menuevent| at |target|
+        1. If |result| is true, then show the UA context menu
+   
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="handle-native-mouse-up">
+<h3 id="handle native mouse up"><dfn>handle native mouse up</dfn></h3>
+
+    : Input
+    :: |native|, the native mouseup
+
+    : Output
+    :: None
+
+    Note: Other mouse events can occur between the mousedown and mouseup.
+    
+    1. Let |mbutton| be an ID from |native| that identifies which mouse button was pressed
+
+    1. Update the <a>mouse button bitmask</a> as follows:
+        1. If |mbutton| is the primary mouse button, then clear the 0x01 bit
+        1. If |mbutton| is the secondary mouse button, then clear the 0x02 bit
+        1. If |mbutton| is the auxiliary (middle) mouse button, then clear the 0x04 bit
+
+    1. Let |target| = <a>hit test</a> with viewport-relative coordinates from |native|
+    1. Let |event| = <a>create a MouseEvent</a> with "mouseup", |target|
+    1. <a>Set MouseEvent attributes from native</a> with |native|
+
+    1. <a>Send pointerup event</a> with |event|
+
+        Issue: Unlike mousedown events,
+        <a href="https://w3c.github.io/pointerevents/#the-pointerup-event">pointerup</a>
+        events are not nested when multiple buttons are pressed.
+        This logic should be in the PointerEvents spec.
+        The MouseEvent is passed so that the fields can be copied into the PointerEvent.
+        TODO: Need definition to call in PointerEvent spec.
+
+    1. <a>dispatch</a> |event| at |target| 
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="handle-native-mouse-click">
+<h3 id="handle native mouse click"><dfn>handle native mouse click</dfn></h3>
+
+    : Input
+    :: |native|, the native mouse click
+
+    : Output
+    :: None
+
+    Note: This should be called immediately after <a>handle native mouse up</a> for
+    mouseups that generate clicks.
+    
+    1. Let |mbutton| be an ID from |native| that identifies which mouse button was pressed
+
+    1. Let |target| = <a>hit test</a> with viewport-relative coordinates from |native|
+
+    1. Let |eventType| = "auxclick"
+    1. If |mbutton| is the primary mouse button, then
+        1. Set |eventType| = "click"
+
+    1. Let |event| = <a>create a MouseEvent</a> with |eventType| and |target|
+    1. <a>Set MouseEvent attributes from native</a> with |native|
+
+    1. <a>dispatch</a> |event| at |target| 
+
+    Note: Any "default action" is handled during dispatch by triggering the
+    <a href="https://dom.spec.whatwg.org/#eventtarget-activation-behavior">activation behavior</a>
+    algorithm for the target. So there is no need for handle that here.
+    However, need to verify that the existing spec handles disabled/css-pointer-events/inert/...
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="handle-native-mouse-double-click">
+<h3 id="handle native mouse double click"><dfn>handle native mouse double click</dfn></h3>
+
+    : Input
+    :: |native|, the native mouse double click
+
+    : Output
+    :: None
+
+    Note: This should be called immediately after handle native mouse click for
+    mouse clicks that generate double clicks.
+    
+    1. Let |mbutton| be an ID from |native| that identifies which mouse button was pressed
+
+    1. If |mbutton| is not the primary mouse button, then return
+    
+    1. Let |target| = <a>hit test</a> with viewport-relative coordinates from |native|
+
+    1. Let |event| = <a>create a MouseEvent</a> with "dblclick" and |target|
+    1. <a>Set MouseEvent attributes from native</a> with |native|
+
+    1. <a>dispatch</a> |event| at |target| 
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="handle-native-mouse-move">
+<h3 id="handle native mouse move"><dfn>handle native mouse move</dfn></h3>
+
+    : Input
+    :: |native|, the native mouse move
+
+    : Output
+    :: None
+
+    1. Let |target| = <a>hit test</a> with viewport-relative coordinates from |native|
+
+    1. Let |targetDomPath| = <a>calculate DOM path</a>
+
+    Issue: This algorithm makes assumptions about the dispatch of PointerEvents because they
+    are not currently specified explicitly. Once
+    <a href="https://github.com/w3c/pointerevents/issues/285">pointerevents/285</a> is resolved
+    this may need to be updated.
+    
+    1. Generate events for leaving the current element:
+
+        1. If <a>last mouse element</a> is defined and not equal to |target|, then
+        
+            1. Let |mouseout| = <a>create a MouseEvent</a> with "mouseout" and <a>last mouse element</a>
+
+            Issue: Set |mouseout| attributes from |native|. +CSSOM attributes
+            
+            1. <a>Send pointerout event</a> with |mouseout|
+
+            1. <a>Dispatch</a> |mouseout| at |target|
+            
+                Issue: Verify behavior when canceled (appears to have no effect).
+
+            1. Let |leaveElements| be a copy of <a>last mouse DOM path</a> with all
+                elements common to |targetDomPath| removed.
+
+            1. For each |element| in |leaveElements|, do
+            
+                1. Let |mouseleave| = <a>create a MouseEvent</a> with "mouseleave" and |element|
+                1. Set |mouseleave|.{{bubbles}} = false
+                1. Set |mouseleave|.{{cancelable}} = false
+
+                Issue: Compat: Value of event.composed. Spec says false.
+                Chrome/Linux = true
+                Firefox/Linux = false
+
+                1. <a>Send pointerleave event</a> with |mouseleave|
+            
+                1. Let |result| = <a>dispatch</a> |mouseleave| at |element|
+
+    1. Generate events for entering the new element:
+
+        1. If |target| is not <a>last mouse element</a>, then
+        
+            1. Let |mouseover| = <a>create a MouseEvent</a> with "mouseover" and |target|
+
+            Issue: Set |mouseout| attributes from |native|. +CSSOM attributes
+            
+            1. <a>Send pointerover event</a> with |mouseover|
+
+            1. <a>Dispatch</a> |mouseout| at |target|
+            
+                Issue: Verify behavior when canceled (appears to have no effect).
+
+            1. Let |enterElements| be a copy of |targetDomPath| with all
+                elements common to <a>last mouse DOM path</a> removed.
+
+            1. For each |element| in |enterElements|, do
+            
+                1. Let |mouseenter| = <a>create a MouseEvent</a> with "mouseenter" and |element|
+                1. Set |mouseenter|.{{bubbles}} = false
+                1. Set |mouseenter|.{{cancelable}} = false
+
+                Issue: Compat: Value of event.composed. Spec says false.
+                Chrome/Linux = true
+                Firefox/Linux = false
+
+                1. <a>Send pointerenter event</a> with |mouseenter|
+            
+                Issue: Compat for shadow DOM elements
+                Chrome/Linux fires this event at the element and the shadow root
+                
+                1. Let |result| = <a>dispatch</a> |mouseenter| at |element|
+
+            1. Set <a>last mouse element</a> to |target|
+            1. Set <a>last mouse DOM path</a> to |targetDomPath|
+
+    1. Let |mousemove| = <a>create a MouseEvent</a> with "mousemove" and |element|
+
+    1. <a>Set PointerLock attributes for mousemove</a>
+
+    1. <a>Send pointermove event</a> with |mousemove|
+    
+    1. <a>Dispatch</a> |mousemove| at |element|
+
+</div><!-- algorithm -->
+
+</section>
+
+<!--
+     K   K  EEEEE  Y   Y  BBBB    OOO    AAA   RRRR   DDDD   EEEEE  V   V  EEEEE  N   N  TTTTT
+     K  K   E       Y Y   B   B  O   O  A   A  R   R  D   D  E      V   V  E      NN  N    T
+     KKK    EEE      Y    BBBB   O   O  AAAAA  RRRR   D   D  EEE     V V   EEE    N N N    T
+     K  K   E        Y    B   B  O   O  A   A  R  R   D   D  E       V V   E      N  NN    T
+     K   K  EEEEE    Y    BBBB    OOO   A   A  R   R  DDDD   EEEEE    V    EEEEE  N   N    T
+ -->
+
+<section>
+<h2 id="keyboard event">Keyboard Event</h2>
+
+<h3 id="keyboardevent-interface">KeyboardEvent Interface</h3>
+
+A {{KeyboardEvent}} has the following:
+
+<dl dfn-for="KeyboardEvent">
+    <li><dfn const>DOM_KEY_LOCATION_STANDARD</dfn></li>
+    <li><dfn const>DOM_KEY_LOCATION_LEFT</dfn></li>
+    <li><dfn const>DOM_KEY_LOCATION_RIGHT</dfn></li>
+    <li><dfn const>DOM_KEY_LOCATION_NUMPAD</dfn></li>
+    <li><dfn attribute>key</dfn></li>
+    <li><dfn attribute>code</dfn></li>
+    <li><dfn attribute>location</dfn></li>
+    <li><dfn attribute>ctrlKey</dfn></li>
+    <li><dfn attribute>shiftKey</dfn></li>
+    <li><dfn attribute>altKey</dfn></li>
+    <li><dfn attribute>metaKey</dfn></li>
+    <li><dfn attribute>repeat</dfn></li>
+    <li><dfn attribute>isComposing</dfn></li>
+    <li>getModifierState(keyArg) - handled by <a>get modifier state</a></li>
+</dl>
+
+Along with the following historical attributes:
+
+<dl dfn-for="KeyboardEvent">
+    <li><dfn attribute>keyCode</dfn></li>
+    <li><dfn attribute>keyChar</dfn></li>
+</dl>
+
+And the following internal state:
+
+<dl dfn-for="KeyboardEvent">
+    <li><dfn>shift flag</dfn></li>
+    <li><dfn>control flag</dfn></li>
+    <li><dfn>alt flag</dfn></li>
+    <li><dfn>altgraph flag</dfn></li>
+    <li><dfn>meta flag</dfn></li>
+    <li><dfn>capslock flag</dfn></li>
+    <li><dfn>numlock flag</dfn></li>
+</dl>
+
+<h3 id="keyboardevent-global-state">Global State for KeyboardEvent</h3>
+
+<h4 id="keyboardevent-global-ua">User Agent-Level State</h4>
+
+    The UA must maintain the following values that are shared for the entire
+    User Agent.
+
+    A <dfn>key modifier state</dfn> that keeps track of the current
+    state of each <a>modifier key</a> available on the system.
+
+<h4 id="keyboardevent-global-window">Window-Level State</h4>
+
+    The UA must maintain the following values that are shared for the Window.
+
+    A <dfn>suppress key input events flag</dfn> (initially false) that is used to suppress
+    input events when the initial keydown event is canceled.
+
+<div class="algorithm" data-algorithm="initialize-a-keyboardevent">
+<h3 id="initialize a keyboardevent"><dfn>initialize a KeyboardEvent</dfn></h3>
+
+    : Input
+    :: |event|, the {{KeyboardEvent}} to initialize
+    :: |eventType|, a DOMString containing the event type
+    :: |eventTarget|, the {{EventTarget}} of the event
+
+    : Output
+    :: None
+
+    1. <a>Initialize a UIEvent</a> with |event|, |eventType| and |eventTarget|
+
+    1. Initialize the following public attributes
+
+        1. Set |event|.{{key}} = ""
+        1. Set |event|.{{code}} = ""
+        1. Set |event|.{{location}} = {{DOM_KEY_LOCATION_STANDARD}}
+
+        1. Set |event|.{{KeyboardEvent/shiftKey}} = false
+        1. Set |event|.{{KeyboardEvent/ctrlKey}} = false
+        1. Set |event|.{{KeyboardEvent/altKey}} = false
+        1. Set |event|.{{KeyboardEvent/metaKey}} = false
+
+        1. Set |event|.{{repeat}} = false
+        1. Set |event|.{{isComposing}} = false
+
+    1. Initialize the following historical attributes
+    
+        1. Set |event|.{{keyCode}} = 0
+        1. Set |event|.{{charCode}} = 0
+
+    1. Initialize the following internal state
+
+        Issue: Need to review: ScrollLock, Hyper, Super, and (for virtual keyboards) Symbol, SymbolLock
+
+        1. Unset |event|'s <a>shift flag</a>
+        1. Unset |event|'s <a>control flag</a>
+        1. Unset |event|'s <a>alt flag</a>
+        1. Unset |event|'s <a>altgraph flag</a>
+        1. Unset |event|'s <a>meta flag</a>
+        1. Unset |event|'s <a>capslock flag</a>
+        1. Unset |event|'s <a>numlock flag</a>
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="create-a-keyboardevent">
+<h3 id="create a keyboardevent"><dfn>create a KeyboardEvent</dfn></h3>
+
+    : Input
+    :: |eventType|, a DOMString containing the event type
+    :: |eventTarget|, the {{EventTarget}} of the event
+
+    : Output
+    :: None
+
+    1. Let |e| = the result of
+        <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new KeyboardEvent</a>
+    1. <a>Initialize a KeyboardEvent</a> with |e|, |eventType| and |eventTarget|
+
+    1. Return |e|
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="set-event-modifiers">
+<h3 id="set event modifiers"><dfn>set event modifiers</dfn></h3>
+
+    : Input
+    :: |event|, the {{KeyboardEvent}} or {{MouseEvent}} to update
+
+    : Output
+    :: None
+
+    Issue: eval: ScrollLock, Hyper, Super, and (for virtual keyboards) Symbol, SymbolLock
+
+    1. Set |event|'s <a>shift flag</a> if <a>key modifier state</a> includes "Shift", unset it otherwise
+    1. Set |event|'s <a>control flag</a> if <a>key modifier state</a> includes "Control", unset it otherwise
+    1. Set |event|'s <a>alt flag</a> if <a>key modifier state</a> includes "Alt", unset it otherwise
+    1. Set |event|'s <a>altgraph flag</a> if <a>key modifier state</a> includes "AltGraph", unset it otherwise
+    1. Set |event|'s <a>meta flag</a> if <a>key modifier state</a> includes "Meta", unset it otherwise
+    1. Set |event|'s <a>capslock flag</a> if <a>key modifier state</a> includes "CapsLock", unset it otherwise
+    1. Set |event|'s <a>numlock flag</a> if <a>key modifier state</a> includes "NumLock", unset it otherwise
+
+    1. Set |event|.{{KeyboardEvent/shiftKey}} = true if the event's <a>shift flag</a> is set, false otherwise
+    1. Set |event|.{{KeyboardEvent/ctrlKey}} = true if the event's <a>control flag</a> is set, false otherwise
+    1. Set |event|.{{KeyboardEvent/altKey}} = true if the event's <a>alt flag</a> or <a>altgraph flag</a> is set, false otherwise
+    1. Set |event|.{{KeyboardEvent/metaKey}} = true if the event's <a>meta flag</a> is set, false otherwise
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="set-keyboardevent-attributes">
+<h3 id="set keyboardevent attributes"><dfn>set KeyboardEvent attributes</dfn></h3>
+
+    : Input
+    :: |event|, the {{KeyboardEvent}} to initialize
+    :: |nativeKey|, native key info
+
+    : Output
+    :: None
+
+    1. Set the following public attributes
+
+        1. Set |event|.{{key}} = the key attribute value for this key press
+
+            Issue: Needs more formal description of non-printable characters
+
+        1. Set |event|.{{code}} = the key code attribute value corresponding to the physical
+            key that was pressed.
+           
+        1. Set |event|.{{location}} = the result of <a>calculate key location</a> with |event|.code
+
+        1. if |nativeKey| indicates that this is a repeat key event
+
+            1. Set |event|.{{repeat}}
+
+        1. <a>set event modifiers</a> with |event|
+
+    1. Set the following historical attributes
+    
+        1. Set |event|.{{keyCode}} = ???
+        1. Set |event|.{{charCode}} = ???
+        1. Set |event|.{{which}} = ???
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="calculate-key-location">
+<h3 id="calculate key locationinitialize a keyboardevent"><dfn>calculate key location</dfn></h3>
+
+    : Input
+    :: |code|, the {{code}} for the key
+
+    : Output
+    :: The DOM key location for the specified key
+
+    1. If |code| is any of [ "AltLeft", "ControlLeft", "MetaLeft", "ShiftLeft"], then
+        1. return {{DOM_KEY_LOCATION_LEFT}}
+    1. If |code| is any of [ "AltRight", "ControlRight", "MetaRight", "ShiftRight"], then
+	1. return {{DOM_KEY_LOCATION_RIGHT}}
+    1. If |code| matches any of the values in the
+        <a href="https://www.w3.org/TR/uievents-code/#key-numpad-section">numpad section</a>, then
+	1. return {{DOM_KEY_LOCATION_NUMPAD}}
+    1. return {{DOM_KEY_LOCATION_STANDARD}}
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="get-modifier-state">
+<h3 id="get modifier state"><dfn>get modifier state</dfn></h3>
+
+    : Input
+    :: |event|, the {{KeyboardEvent}} to initialize
+    :: |modifier|, a DOMString containing the name of the modifier key
+
+    : Output
+    :: True if the modifier is currently set, false otherwise
+
+    1. If |modifier| is "Shift", then return true if |event|'s <a>shift flag</a> is set
+    1. If |modifier| is "Control", then return true if |event|'s <a>control flag</a> is set
+    1. If |modifier| is "Alt", then return true if |event|'s <a>alt flag</a> is set
+    1. If |modifier| is "AltGraph", then return true if |event|'s <a>altgraph flag</a> is set
+    1. If |modifier| is "Meta", then return true if |event|'s <a>meta flag</a> is set
+    1. If |modifier| is "CapsLock", then return true if |event|'s <a>capslock flag</a> is set
+    1. If |modifier| is "NumLock", then return true if |event|'s <a>numlock flag</a> is set
+    1. return false
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="handle-pre-browser-key">
+<h3 id="handle pre browser key"><dfn>handle pre browser key</dfn></h3>
+
+    : Input
+    :: |key|, basic info about the key
+
+    : Output
+    :: True is the User Agent has already handled this key
+
+    1. If <a>Keyboard Lock is enabled</a>, then return false
+
+       Note: Keyboard Lock is not an official standard. This is demonstrating
+       how it might be integrated.
+
+    Issue: these key shortcuts are defined by the User Agent  (e.g., Cmd-T on Mac).
+    They should be defined in such a way that the UA is in control.
+
+    Issue: Need a more complete list of these pre-keydown browser keys, or a better description
+    of the sort of keys the UA handles.
+
+    1. If |key| is the shortcut to create a new tab, then
+       1. Create a new tab
+       1. Return true
+       
+    1. If |key| is the shortcut to close a window, then
+       1. Close the current tab
+       1. Return true
+    
+    Issue: IME is often provided by the native OS. So the requirements need to be
+    defined and added to the <a href="#req-ime">IME Requirements</a> section.
+
+    Issue: For example, on Windows, Win+'.' opens an emoji window that will generate
+    composition events. But there is not indication from the OS that composition
+    is about to take place. A similar problem exists with "shape writing" using the
+    virtual keyboard.
+    
+    Issue: How should IME keys be represented. We need the native OS to call
+    <a>enter composition mode</a> and <a>exit composition mode</a>
+
+    Issue: When should <a>begin composition</a> be called? How should that be hooked with
+    the native IME calls.
+
+    1. Return false
+    
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="handle-post-browser-key">
+<h3 id="handle post browser key"><dfn>handle post browser key</dfn></h3>
+
+    : Input
+    :: |key|, basic info about the key
+
+    : Output
+    :: True is the User Agent has already handled this key
+
+    1. If <a>Keyboard Lock is enabled</a>, then return false
+
+       Issue: Placeholder until there's an actual agred-upon definition for Keyboard Lock.
+
+    1. If |key| is:
+    
+       Issue: Need more complete set of post-keydown browser keys.
+       
+       1. The shortcut to cut (e.g., ctrl-x), then <a>Handle native cut</a>
+       1. The shortcut to copy (e.g., ctrl-c), then <a>Handle native copy</a>
+       1. The shortcut to paste (e.g., ctrl-v), then <a>Handle native paste</a>
+       1. And then return true
+       
+    1. Return false
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="handle-native-key-down">
+<h3 id="handle native key down"><dfn>handle native key down</dfn></h3>
+
+    : Input
+    :: |nativeKey|, native key info
+
+    : Output
+    :: None
+
+    1. Update global modifier key state
+       1. If |nativKey| is left or right Shift key, then add "Shift" to <a>key modifier state</a>
+       1. If |nativKey| is left or right Control key, then add "Control" to <a>key modifier state</a>
+       1. If |nativKey| is left or right Alt key, then add "Alt" to <a>key modifier state</a>
+       1. If |nativKey| is AltGraph key, then add "AltGraph" to <a>key modifier state</a>
+       1. If |nativKey| is left or right Meta key, then add "Meta" to <a>key modifier state</a>
+
+    1. If <a>handle pre browser key</a> with |nativeKey|, then
+
+        Note: Chrome/Firefox handle some BrowserKeys before generating keydown events.
+        Tested with ctrl-t (to create new tab)
+
+        1. exit
+
+    1. Let target =
+        <a href="https://html.spec.whatwg.org/#currently-focused-area-of-a-top-level-browsing-context">currently focused area of a top-level browsing context</a>
+    1. Let |event| = result of <a>create a KeyboardEvent</a> with "keydown", |target|
+    1. <a>set KeyboardEvent attributes</a> with |event|, |nativeKey|
+    1. Let |result| = <a>dispatch</a> |event| at |target|
+
+    Note: when in composition, canceling the keydown has no effect (tested: macOS Chrome; TODO: test other configs)
+    
+    1. If the <a>in composition flag</a> is set, then
+        1. <a>handle composition key</a> and exit
+
+    1. Unset the <a>suppress key input events flag</a>
+    1. If |result| = false, then
+        1. Set the <a>suppress key input events flag</a>
+
+    Issue: Is this check necessary? Can native CHAR events be ignored or do they contain useful data?
+    
+    1. If native platform has separate CHAR event, then
+        1. exit  (because CHAR event will trigger <a>handle native key press</a>
+
+   1. Call <a>handle native key press</a> with |nativeKey|
+
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="handle-native-key-up">
+<h3 id="handle native key up"><dfn>handle native key up</dfn></h3>
+
+    : Input
+    :: |nativeKey|, native key info
+
+    : Output
+    :: None
+
+    1. Update global modifier key state
+        1. If |nativKey| is left or right Shift key, then remove "Shift" to <a>key modifier state</a>
+        1. If |nativKey| is left or right Control key, then remove "Control" to <a>key modifier state</a>
+        1. If |nativKey| is left or right Alt key, then remove "Alt" to <a>key modifier state</a>
+        1. If |nativKey| is AltGraph key, then remove "AltGraph" to <a>key modifier state</a>
+        1. If |nativKey| is left or right Meta key, then remove "Meta" to <a>key modifier state</a>
+
+    1. Let target =
+        <a href="https://html.spec.whatwg.org/#currently-focused-area-of-a-top-level-browsing-context">currently focused area of a top-level browsing context</a>
+    1. Let |event| = result of <a>create a KeyboardEvent</a> with "keyup", |target|
+    1. <a>set KeyboardEvent attributes</a> with |event|, |nativeKey|
+    1. <a>dispatch</a> |event| at |target|
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="handle-native-key-press">
+<h3 id="handle native key press"><dfn>handle native key press</dfn></h3>
+
+    : Input
+    :: |nativeKey|, native key info
+
+    : Output
+    :: None
+
+    Note: This may be called directly if the native platform generates CHAR events that
+    are separate from keydown events. Or it may be called from <a>handle native key down</a>.
+
+    1. If <a>composition mode flag</a> is set, then
+        1. <a>Handle composition key</a> with |nativeKey|
+        1. Exit
+
+    1. If <a>handle post browser key</a>, then exit
+
+    Issue: What should happen if the event focus has changed since the keydown event?
+    What is the appropriate target for the keyup? The current focus or the previous?
+    Are there security issues (e.g., if it's not safe to edit the current focus)?
+    
+    1. Let |target| =
+        <a href="https://html.spec.whatwg.org/#currently-focused-area-of-a-top-level-browsing-context">currently focused area of a top-level browsing context</a>
+    1. Let |key| = extract info from |nativeKey|
+    1. <a>Fire key input events</a> with |key| and |target|
+
+</div><!-- algorithm -->
+
+</section>
+
+<!--
+     IIIII  N   N  PPPP   U   U  TTTTT  EEEEE  V   V  EEEEE  N   N  TTTTT
+       I    NN  N  P   P  U   U    T    E      V   V  E      NN  N    T
+       I    N N N  PPPP   U   U    T    EEE     V V   EEE    N N N    T
+       I    N  NN  P      U   U    T    E       V V   E      N  NN    T
+     IIIII  N   N  P       UUU     T    EEEEE    V    EEEEE  N   N    T
+ -->
+
+<section>
+<h2 id="input event">Input Event</h2>
+
+<div class="algorithm" data-algorithm="initialize-an-inputevent">
+<h3 id="initialize an Inputevent"><dfn>initialize an InputEvent</dfn></h3>
+
+    : Input
+    :: |e|, the {{Event}} to initialize
+    :: |eventType|, a DOMString containing the event type
+    :: |eventTarget|, the {{EventTarget}} of the event
+
+    : Output
+    :: None
+
+    1. <a>Initialize a UIEvent</a> with |e|, |eventType| and |eventTarget|
+
+    1. Initialize the following public attributes
+
+        1. Set event.data = null
+        1. Set event.isComposing = false
+        1. Set event.inputType = ""
+
+        1. Set event.composed = true
+
+            Note: Setting composed to true matches current UA behavior, but it makes more sense
+            for this to be false.
+            See <a href="https://github.com/whatwg/html/issues/5453">whatwg/html/5453</a>
+            for discussion.
+
+        Issue: Move the following into InputEvents spec
+        (<a href="https://www.w3.org/TR/input-events-1/">level 1</a>
+        or
+        <a href="https://www.w3.org/TR/input-events-2/">level 2</a>)
+
+        1. Set |e|.dataTransfer = false
+        1. Set |e|.targetRanges = []
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="create-an-inputevent">
+<h3 id="create an inputevent"><dfn>create an InputEvent</dfn></h3>
+
+    : Input
+    :: |eventType|, a DOMString containing the event type
+    :: |eventTarget|, the {{EventTarget}} of the event
+
+    : Output
+    :: None
+
+    1. Let |e| = the result of
+        <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new InputEvent</a>
+    1. <a>Initialize an InputEvent</a> with |e|, |eventType| and |eventTarget|
+
+    1. Return |e|
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="fire-key-input-events">
+<h3 id="fire key input events"><dfn>fire key input events</dfn></h3>
+
+    : Input
+    :: |key|, a DOMString containing the string corresponding to the key
+    :: |target|, the {{EventTarget}} of the event
+
+    : Output
+    :: None
+
+    1. If <a>suppress key input events flag</a> is set, then
+        1. Exit (since the keydown was canceled) 
+
+    Issue: Handle historical keypress event here
+
+    1. Let |inputType| = null
+    1. Let |data| = null
+
+    Issue: How much of this can be moved into the [[Input Events]] spec?
+    Issue: List more keys here
+
+    1. If |key| is "Backspace", then |inputType| = "deleteContentBackward"
+    1. If |key| is "Delete", then |inputType| = "deleteContentForward"
+    1. Otherwise,
+        1. |inputType| = "insertText"
+        1. |data| = |key|
+
+    1. If |inputType| is not null, then
+
+        Note: Need to verify Firefox behavior.
+        Can be enabled by changing the "dom.input_events.beforeinput_enabled" pref in "about:config"
+
+        1. Let |result| = <a>fire an InputEvent</a> with "beforeinput", |inputType| and |data|
+        1. If |result| is true
+
+            Note: Perform DOM update here. Insert key into |target| element
+
+            Note: Compat:
+            For insertFromPaste, Chrome has data = null, Firefox has data = same as beforeinput.
+
+            <a>Fire an InputEvent</a> with "input", |inputType| and |data|
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="fire-an-inputevent">
+<h3 id="fire an inputevent"><dfn>fire an InputEvent</dfn></h3>
+
+    : Input
+    :: |eventType|, a DOMString containing the event type
+    :: |inputType|, a DOMString containing the input event type
+    :: |data|, a DOMString containing event data
+
+    : Output
+    :: None
+
+    Issue: What about target ranges? Need to add support here.
+
+    Issue: The target for input events should consider focus, but should also ensure that
+    the element is editable and being modified.
+    Compare: <a>fire a compositionevent</a>
+
+    1. Let target =
+        <a href="https://html.spec.whatwg.org/#currently-focused-area-of-a-top-level-browsing-context">currently focused area of a top-level browsing context</a>
+    1. Let |event| = result of <a>create an InputEvent</a> with |eventType|, |target|
+    1. Set |event|.{{inputType}} = |inputType|
+    1. Set |event|.{{InputEvent/data}} = |data|
+    1. Return the result of <a>dispatch</a> |event| at |target|
+
+</div><!-- algorithm -->
+
+
+</section>
+
+<!--
+      CCC    OOO   M   M  PPPP    OOO    SSSS  IIIII  TTTTT  IIIII   OOO   N   N
+     C   C  O   O  MM MM  P   P  O   O  S        I      T      I    O   O  NN  N
+     C      O   O  M M M  PPPP   O   O   SSS     I      T      I    O   O  N N N
+     C   C  O   O  M   M  P      O   O      S    I      T      I    O   O  N  NN
+      CCC    OOO   M   M  P       OOO   SSSS   IIIII    T    IIIII   OOO   N   N
+ -->
+
+<section>
+<h2 id="composition event">Composition Event</h2>
+
+<h3 id="compositionevent-global-state">Global State for CompositionEvent</h3>
+
+<h4 id="compositionevent-global-window">Window-Level State</h4>
+
+    The UA must maintain the following values that are shared for the Window.
+
+    A <dfn>composition mode flag</dfn> (initially false) that is set if the native
+    IME is enabled and the next key press will trigger compositionstart.
+    
+    An <dfn>in composition flag</dfn> (initially false) that tracks if the system is currently
+    in the middle of input composition (i.e., after <a>compositionstart</a> but before
+    <a>compositionend</a>).
+
+<div class="algorithm" data-algorithm="initialize-a-compositionevent">
+<h3 id="initialize a compositionevent"><dfn>initialize a CompositionEvent</dfn></h3>
+
+    : Input
+    :: |e|, the {{Event}} to initialize
+    :: |eventType|, a DOMString containing the event type
+    :: |eventTarget|, the {{EventTarget}} of the event
+
+    : Output
+    :: None
+
+    1. <a>Initialize a UIEvent</a> with |e|, |eventType| and |eventTarget|
+
+    1. Initialize the following public attributes
+
+        1. Set event.data = ""
+
+            Note: that this is the same name as the attribute in InputEvent.
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="create-a-compositionevent">
+<h3 id="create a compositionevent"><dfn>create a CompositionEvent</dfn></h3>
+
+    : Input
+    :: |eventType|, a DOMString containing the event type
+    :: |eventTarget|, the {{EventTarget}} of the event
+
+    : Output
+    :: None
+
+    1. Let |e| = the result of
+        <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new CompositionEvent</a>
+    1. <a>Initialize a CompositionEvent</a> with |e|, |eventType| and |eventTarget|
+
+    1. Return |e|
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="fire-a-compositionevent">
+<h3 id="fire a compositionevent"><dfn>fire a CompositionEvent</dfn></h3>
+
+    : Input
+    :: |eventType|, a DOMString containing the event type
+    :: |data|, a DOMString containing event data
+
+    : Output
+    :: None
+
+    Issue: The target for compositionstart should be determined by the element with
+    focus, but subsequent composition events should be fired on that same element.
+    Need to test what happens when focus changes during composition.
+    On the Mac, if you change focus, the composition target changes.
+    On Windows, behavior depends on the IME.
+
+    1. Let target =
+        <a href="https://html.spec.whatwg.org/#currently-focused-area-of-a-top-level-browsing-context">currently focused area of a top-level browsing context</a>
+    1. Let |event| = result of <a>create a CompositionEvent</a> with |eventType|, |target|
+    1. Set |event|.{{CompositionEvent/data}} = |data|
+    1. Return the result of <a>dispatch</a> |event| at |target|
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="enter-composition-mode">
+<h3 id="enter composition mode"><dfn>enter composition mode</dfn></h3>
+
+    : Input
+    :: None
+
+    : Output
+    :: None
+
+    Issue: This is an oversimplification. We need to native OS to call then when the user
+    enters composition mode.
+    
+    1. Set the <a>composition mode flag</a>
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="exit-composition-mode">
+<h3 id="exit composition mode"><dfn>exit composition mode</dfn></h3>
+
+    : Input
+    :: None
+
+    : Output
+    :: None
+
+    1. <a>End composition</a>
+    1. Unset the <a>composition mode flag</a>
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="handle-composition-key">
+<h3 id="handle composition key"><dfn>handle composition key</dfn></h3>
+
+    : Input
+    :: None
+
+    : Output
+    :: None
+
+    Note: This is called when a key is added to the composition buffer, or when the
+    user navigates between composition options.
+
+    Note: This is where the IME handles the UI part to navigate the candidates or accept
+    all or part of the text.
+    Not sure how much (if any) of this makes sense to "specify" here since it is controlled by the IME.
+
+    1. If special IME key, then
+	1. If arrow, then select new candidate
+	1. If enter, then accept the current candidate, run <a>end composition</a> and exit
+        1. ...
+
+    Issue: Need agreement on event order for compositionupdate and beforeinput
+    Chrome currently does bi -> cu, whereas Safari does cu -> bi.
+    Firefox doesn't yet produce bi, but prefers cu -> bi.
+    See <a href="https://github.com/w3c/input-events/issues/49">input-events/49</a>
+    and <a href="https://github.com/w3c/uievents/issues/66">uievents/66</a>
+
+    1. Let |data| = the current composition candidate string
+    1. <a>Fire a CompositionEvent</a> with "compositionupdate" and |data|
+
+    Issue: Verify compositionupdate cannot be canceled
+
+    1. Let |result| = <a>fire an InputEvent</a> with "beforeinput", "insertCompositionText" and |data|
+    
+    Issue: Not all beforeinput events can be canceled - need to encode that here
+
+    1. If |result| is true, then
+
+        1. Update the DOM with the composition text
+
+        1. <a>Fire an InputEvent</a> with "input", "insertCompositionText" and |data|
+
+        Note: Not cancelable
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="begin-composition">
+<h3 id="begin composition"><dfn>begin composition</dfn></h3>
+
+    : Input
+    :: None
+
+    : Output
+    :: None
+
+    1. If <a>in composition flag</a>, then exit
+
+    1. Let |data| = currently selected text
+    1. Let |result| = <a>fire a CompositionEvent</a> with "compositionstart" and |data|
+
+    Issue: Document what happens when |result| is not true (event canceled)
+
+    1. Set <a>in composition flag</a>
+
+    1. <a>Handle composition key</a>
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="end-composition">
+<h3 id="end composition"><dfn>end composition</dfn></h3>
+
+    : Input
+    :: None
+
+    : Output
+    :: None
+
+    1. If <a>in composition flag</a> is not set, then exit
+
+    Issue: Compat: Chrome sends out beforeinput/compositionupdate/input sequence before
+    compositionend (tested on macOS). Compare with Firefox.
+
+    1. Let |data| = the current composition candidate string
+    1. <a>fire a CompositionEvent</a> with "compositionend" and |data|
+
+        Issue: Document what to do with result
+
+    Issue: Compat: Firefox sends input events after compositionend. Not sure when the
+    DOM is updated relative to compositionend (tested on macOS)
+
+    1. If Firefox:
+        1. <a>Fire an InputEvent</a> with "input", "insertCompositionText" and |data|
+
+    1. Unset the <a>in composition flag</a>
+
+</div><!-- algorithm -->
+
+</section>
+
+<!--
+     PPPP    OOO   IIIII  N   N  TTTTT  EEEEE  RRRR   EEEEE  V   V  EEEEE  N   N  TTTTT
+     P   P  O   O    I    NN  N    T    E      R   R  E      V   V  E      NN  N    T
+     PPPP   O   O    I    N N N    T    EEE    RRRR   EEE     V V   EEE    N N N    T
+     P      O   O    I    N  NN    T    E      R  R   E       V V   E      N  NN    T
+     P       OOO   IIIII  N   N    T    EEEEE  R   R  EEEEE    V    EEEEE  N   N    T
+ -->
+
+<h3 id="pointerevent-global-state">Global State for PointerEvent</h3>
+
+<section>
+<h2 id="pointer event">Pointer Event</h2>
+
+Issue: The contents of this section should eventually be moved into the PointerEvent spec.
+
+<div class="algorithm" data-algorithm="initialize-a-pointerevent">
+<h3 id="initialize a pointerevent"><dfn>initialize a PointerEvent</dfn></h3>
+
+    : Input
+    :: |event|, the {{PointerEvent}} to initialize
+    :: |eventType|, a DOMString containing the event type
+    :: |eventTarget|, the {{EventTarget}} of the event
+
+    : Output
+    :: None
+
+    1. <a>Initialize a MouseEvent</a> with |event|, |eventType| and |eventTarget|
+
+    Issue: TODO - initialize the pointerevent attributes
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="create-pointerevent-from-mouseevent">
+<h3 id="create pointerevent from mouseevent"><dfn>create PointerEvent from MouseEvent</dfn></h3>
+
+    : Input
+    :: |eventType|, a DOMString containing the event type
+    :: |mouseevent|, the corresponding {{MouseEvent}}
+
+    : Output
+    :: None
+
+    1. Let |event| = the result of
+        <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new PointerEvent</a>
+        
+    1. Let |target| = |mouseevent|.{{target}}
+    
+    1. <a>Initialize a PointerEvent</a> with |event|, |eventType| and |target|
+    
+    1. Copy MouseEvent attributes from |mouseevent| into |event|
+    
+    1. Return |event|
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="send-pointerout-event">
+<h3 id="send pointerout event"><dfn>send pointerout event</dfn></h3>
+
+    : Input
+    :: |mouseout|, the corresponding mouseout {{MouseEvent}}
+
+    : Output
+    :: None
+
+    1. Let |pointerout| = <a>create PointerEvent from MouseEvent</a> with "pointerout" and |mouseout|
+
+    1. Set pointerevent attributes
+
+       Issue: TODO
+
+    1. Let |target| = |mouseout|.{{target}}
+    1. <a>dispatch</a> |pointerout| at |target| 
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="send-pointerleave-event">
+<h3 id="send pointerleave event"><dfn>send pointerleave event</dfn></h3>
+
+    : Input
+    :: |mouseout|, the corresponding mouseout {{MouseEvent}}
+
+    : Output
+    :: None
+
+    1. Let |pointerout| = <a>create PointerEvent from MouseEvent</a> with "pointerout" and |mouseout|
+
+    1. Set pointerevent attributes
+
+       Issue: TODO
+
+    1. Let |target| = |mouseout|.{{target}}
+    1. <a>dispatch</a> |pointerout| at |target| 
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="send-pointerover-event">
+<h3 id="send pointerover event"><dfn>send pointerover event</dfn></h3>
+
+    : Input
+    :: |mouseout|, the corresponding mouseout {{MouseEvent}}
+
+    : Output
+    :: None
+
+    1. Let |pointerout| = <a>create PointerEvent from MouseEvent</a> with "pointerout" and |mouseout|
+
+    1. Set pointerevent attributes
+
+       Issue: TODO
+
+    1. Let |target| = |mouseout|.{{target}}
+    1. <a>dispatch</a> |pointerout| at |target| 
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="send-pointerenter-event">
+<h3 id="send pointerenter event"><dfn>send pointerenter event</dfn></h3>
+
+    : Input
+    :: |mouseout|, the corresponding mouseout {{MouseEvent}}
+
+    : Output
+    :: None
+
+    1. Let |pointerout| = <a>create PointerEvent from MouseEvent</a> with "pointerout" and |mouseout|
+
+    1. Set pointerevent attributes
+
+       Issue: TODO
+
+    1. Let |target| = |mouseout|.{{target}}
+    1. <a>dispatch</a> |pointerout| at |target| 
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="send-pointermove-event">
+<h3 id="send pointermove event"><dfn>send pointermove event</dfn></h3>
+
+    : Input
+    :: |mouseout|, the corresponding mouseout {{MouseEvent}}
+
+    : Output
+    :: None
+
+    Issue: Can this send pointermove and pointerrawupdate? Or do we need 2 methods?
+
+    Issue: What is needed to support coalesced pointermove events?
+    
+    1. Let |pointerout| = <a>create PointerEvent from MouseEvent</a> with "pointerout" and |mouseout|
+
+    1. Set pointerevent attributes
+
+       Issue: TODO
+
+    1. Let |target| = |mouseout|.{{target}}
+    1. <a>dispatch</a> |pointerout| at |target| 
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="send-pointerdown-event">
+<h3 id="send pointerdown event"><dfn>send pointerdown event</dfn></h3>
+
+    : Input
+    :: |mouseout|, the corresponding mouseout {{MouseEvent}}
+
+    : Output
+    :: None
+
+    1. Let |pointerout| = <a>create PointerEvent from MouseEvent</a> with "pointerout" and |mouseout|
+
+    1. Set pointerevent attributes
+
+       Issue: TODO
+
+    1. Let |target| = |mouseout|.{{target}}
+    1. <a>dispatch</a> |pointerout| at |target| 
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="send-pointerup-event">
+<h3 id="send pointerup event"><dfn>send pointerup event</dfn></h3>
+
+    : Input
+    :: |mouseout|, the corresponding mouseout {{MouseEvent}}
+
+    : Output
+    :: None
+
+    1. Let |pointerout| = <a>create PointerEvent from MouseEvent</a> with "pointerout" and |mouseout|
+
+    1. Set pointerevent attributes
+
+       Issue: TODO
+
+    1. Let |target| = |mouseout|.{{target}}
+    1. <a>dispatch</a> |pointerout| at |target| 
+
+</div><!-- algorithm -->
+
+</section>
+
+<!--
+     PPPP    OOO   IIIII  N   N  TTTTT  EEEEE  RRRR   L       OOO    CCC   K   K
+     P   P  O   O    I    NN  N    T    E      R   R  L      O   O  C   C  K  K
+     PPPP   O   O    I    N N N    T    EEE    RRRR   L      O   O  C      KKK
+     P      O   O    I    N  NN    T    E      R  R   L      O   O  C   C  K  K
+     P       OOO   IIIII  N   N    T    EEEEE  R   R  LLLLL   OOO    CCC   K   K
+ -->
+
+<section>
+<h2 id="pointer lock">Pointer Lock</h2>
+
+Issue: The contents of this section should eventually be moved into the [[PointerLock]] spec
+
+Note: The algorithms here are an oversimplification since they don't account for the lock/unlock
+state the or the pointer leaving and re-entering the UA screen boundaries.
+That should be fixed as part of moving this section to the PointerLock spec.
+
+<h3 id="pointerlock-interface">MouseEvent Interface Extension</h3>
+
+A {{MouseEvent}} has the following:
+
+<dl dfn-for="MouseEvent">
+    <li><dfn attribute>movementX</dfn></li>
+    <li><dfn attribute>movementY</dfn></li>
+</dl>
+
+<h3 id="pointer-lock-global-state">Global State for PointerLock</h3>
+
+<h4 id="pointer-lock-global-window">Window-Level State</h4>
+
+    The UA must maintain the following values that are shared for the Window.
+
+    A <dfn>last mouse move</dfn> value (initially undefined) that records the position of the
+    last mousemove event.
+
+<div class="algorithm" data-algorithm="initialize-pointerlock-attributes-for-mouseevent">
+<h3 id="initialize pointerlock attributes for mouseevent"><dfn>initialize PointerLock attributes for MouseEvent</dfn></h3>
+
+    : Input
+    :: |event|, a {{MouseEvent}}
+
+    : Output
+    :: None
+
+    1. Set |event|.{{movementX}} = 0
+    1. Set |event|.{{movementY}} = 0
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="set-pointerlock-attributes-for-mousemove">
+<h3 id="set pointerlock attributes for mousemove"><dfn>set PointerLock attributes for mousemove</dfn></h3>
+
+    : Input
+    :: |event|, a {{MouseEvent}}
+
+    : Output
+    :: None
+
+    1. If |event|.{{type}} is not "mousemove", then exit
+
+    1. If <a>last mouse move</a> is not defined, then 
+        1. Set |event|.{{movementX}} = 0
+        1. Set |event|.{{movementY}} = 0
+    1. Otherwise,
+        1. Set |event|.{{movementX}} = |event|.{{screenX}} - <a>last mouse move</a>'s x-coordinate
+        1. Set |event|.{{movementY}} = |event|.{{screenX}} - <a>last mouse move</a>'s y-coordinate
+
+    1. Set <a>last mouse move</a> = ( |event|.{{screenX}}, |event|.{{screenY}} )
+
+</div><!-- algorithm -->
+
+</section>
+
+<!--
+     K   K  EEEEE  Y   Y  BBBB    OOO    AAA   RRRR   DDDD   L       OOO    CCC   K   K
+     K  K   E       Y Y   B   B  O   O  A   A  R   R  D   D  L      O   O  C   C  K  K
+     KKK    EEE      Y    BBBB   O   O  AAAAA  RRRR   D   D  L      O   O  C      KKK
+     K  K   E        Y    B   B  O   O  A   A  R  R   D   D  L      O   O  C   C  K  K
+     K   K  EEEEE    Y    BBBB    OOO   A   A  R   R  DDDD   LLLLL   OOO    CCC   K   K
+ -->
+
+<section>
+<h2 id="keyboard lock">Keyboard Lock</h2>
+
+Issue: KeyboardLock is not yet an accepted standard and is included here as a placeholder
+to explore how it might be integrated.
+
+Issue: The contents of this section should eventually be moved into the [[WICG Keyboard Lock]] spec
+
+<h3 id="keyboard-lock-global-state">Global State for Keyboard Lock</h3>
+
+<h4 id="keyboard-lock-global-ua">User Agent-Level State</h4>
+
+    The UA must maintain the following values that are shared for the entire
+    User Agent.
+
+    Issue: TODO
+
+<h4 id="keyboard-lock-global-window">Window-Level State</h4>
+
+    The UA must maintain the following values that are shared for the Window.
+
+    A <dfn>keyboard lock enable flag</dfn> (initially false) that tracks whether Keyboard
+    Lock is currently enabled.
+
+<div class="algorithm" data-algorithm="keyboard-lock-is-enabled">
+<h3 id="keyboard lock is enabled"><dfn>Keyboard Lock is enabled</dfn></h3>
+
+    : Input
+    :: None
+
+    : Output
+    :: True if keyboard lock is enabled.
+
+    1. Return <a>keyboard lock enable flag</a>
+
+</section>
+
+<!--
+      CCC    SSSS   SSSS   OOO   M   M
+     C   C  S      S      O   O  MM MM
+     C       SSS    SSS   O   O  M M M
+     C   C      S      S  O   O  M   M
+      CCC   SSSS   SSSS    OOO   M   M
+ -->
+
+<section>
+<h2 id="cssom">CSSOM</h2>
+
+Issue: The contents of this section should eventually be moved into the [[CSSOM]] spec
+
+<div class="algorithm" data-algorithm="initialize-cssom-attributes-for-mouseevent">
+<h3 id="initialize cssom attributes for mouseevent"><dfn>initialize CSSOM attributes for MouseEvent</dfn></h3>
+
+    : Input
+    :: |event|, a {{MouseEvent}}
+
+    : Output
+    :: None
+
+    1. Set |event|.{{pageX}} according to
+        <a href="https://www.w3.org/TR/cssom-view-1/#dom-mouseevent-pagex">pageX</a>
+    1. Set |event|.{{pageY}} according to
+        <a href="https://www.w3.org/TR/cssom-view-1/#dom-mouseevent-pagey">pageY</a>
+    1. Set |event|.{{x}} according to
+        <a href="https://www.w3.org/TR/cssom-view-1/#dom-mouseevent-x">x</a>
+    1. Set |event|.{{y}} according to
+        <a href="https://www.w3.org/TR/cssom-view-1/#dom-mouseevent-y">y</a>
+    1. Set |event|.{{offsetX}} according to
+        <a href="https://www.w3.org/TR/cssom-view-1/#dom-mouseevent-offsetx">offsetX</a>
+    1. Set |event|.{{offsetY}} according to
+        <a href="https://www.w3.org/TR/cssom-view-1/#dom-mouseevent-offsety">offsetY</a>
+
+</div><!-- algorithm -->
+
+</section>
+
+<!--
+      CCC   L      IIIII  PPPP   BBBB    OOO    AAA   RRRR   DDDD
+     C   C  L        I    P   P  B   B  O   O  A   A  R   R  D   D
+     C      L        I    PPPP   BBBB   O   O  AAAAA  RRRR   D   D
+     C   C  L        I    P      B   B  O   O  A   A  R  R   D   D
+      CCC   LLLLL  IIIII  P      BBBB    OOO   A   A  R   R  DDDD
+ -->
+
+<section>
+<h2 id="clipboard">Clipboard</h2>
+
+Issue: Should these be moved into the Clipboard spec?
+
+<div class="algorithm" data-algorithm="handle-native-cut">
+<h3 id="handle native cut"><dfn>handle native cut</dfn></h3>
+
+    : Input
+    :: None
+
+    : Output
+    :: None
+
+    Issue: Define when the "cut" event is fired.
+
+    1. Let |data| = null
+    1. Let |result| = <a>fire an InputEvent</a> with "beforeinput", "deleteByCut" and |data|
+    
+    1. If |result| is true, then
+
+       1. Copy selected text to clipboard
+       1. Remove selected text from DOM target element
+       1. <a>Fire an InputEvent</a> with "input", "deleteByCut" and |data|
+
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="handle-native-copy">
+<h3 id="handle native copy"><dfn>handle native copy</dfn></h3>
+
+    : Input
+    :: None
+
+    : Output
+    :: None
+
+    Note: No input events fired
+
+    Issue: Define when "copy" event is fired. Should that be in the Clipboard Spec?
+
+    1. Update clipboard with current selection
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="handle-native-paste">
+<h3 id="handle native paste"><dfn>handle native paste</dfn></h3>
+
+    : Input
+    :: None
+
+    : Output
+    :: None
+
+    Note: This is intended to be called when the UA triggers a paste action (via user action)
+
+    Issue: Define when the "paste" event is fired.
+
+    1. Let |data| = the text on the clipboard being pasted
+    1. Let |result| = <a>fire an InputEvent</a> with "beforeinput", "insertFromPaste" and |data|
+
+    1. If |result| is true, then
+
+       1. Paste clipboard contents into DOM target element
+       1. <a>Fire an InputEvent</a> with "input", "insertFromPaste" and |data|
+
+</div><!-- algorithm -->
+
+</section>
+
+<section>
+<h2 id="acknowledgementsclipboard">Acknowledgements</h2>
+
+Thanks for the following for there contributions to this document:
+
+    * Anupam Snigdha
+    * Domenic Denicola
+    * Masayuki Nakano
+
+</section>
