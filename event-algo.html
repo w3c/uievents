@@ -1222,7 +1222,7 @@ Possible extra rowspan handling
 	}
 </style>
   <meta content="Bikeshed version 6cf40e14, updated Fri Aug 14 17:42:41 2020 -0700" name="generator">
-  <meta content="88a593326ac6e80412cd622fec0d8cfcaa26313c" name="document-revision">
+  <meta content="19c38ab0683c0f2adc2ce006349b62bf7308d6a5" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -2591,9 +2591,9 @@ key that was pressed.</p>
       <ol>
        <li data-md>
         <p>If <a data-link-type="dfn" href="#keyboard-lock-is-enabled" id="ref-for-keyboard-lock-is-enabled">Keyboard Lock is enabled</a>, then return false</p>
+        <p class="note" role="note"><span>Note:</span> Keyboard Lock is not an official standard. This is demonstrating
+how it might be integrated.</p>
       </ol>
-      <p class="note" role="note"><span>Note:</span> Keyboard Lock is not an official standard. This is demonstrating
-       how it might be integrated.</p>
       <p class="issue" id="issue-2490ec9d"><a class="self-link" href="#issue-2490ec9d"></a> these key shortcuts are defined by the User Agent  (e.g., Cmd-T on Mac).
     They should be defined in such a way that the UA is in control.</p>
       <p class="issue" id="issue-ab1accc3"><a class="self-link" href="#issue-ab1accc3"></a> Need a more complete list of these pre-keydown browser keys, or a better description
@@ -2601,16 +2601,20 @@ key that was pressed.</p>
       <ol>
        <li data-md>
         <p>If <var>key</var> is the shortcut to create a new tab, then</p>
-       <li data-md>
-        <p>Create a new tab</p>
-       <li data-md>
-        <p>Return true</p>
+        <ol>
+         <li data-md>
+          <p>Create a new tab</p>
+         <li data-md>
+          <p>Return true</p>
+        </ol>
        <li data-md>
         <p>If <var>key</var> is the shortcut to close a window, then</p>
-       <li data-md>
-        <p>Close the current tab</p>
-       <li data-md>
-        <p>Return true</p>
+        <ol>
+         <li data-md>
+          <p>Close the current tab</p>
+         <li data-md>
+          <p>Return true</p>
+        </ol>
       </ol>
       <p class="issue" id="issue-3845ba6b"><a class="self-link" href="#issue-3845ba6b"></a> IME is often provided by the native OS. So the requirements need to be
     defined and added to the <a href="#req-ime">IME Requirements</a> section.</p>
@@ -2639,22 +2643,22 @@ key that was pressed.</p>
       <ol>
        <li data-md>
         <p>If <a data-link-type="dfn" href="#keyboard-lock-is-enabled" id="ref-for-keyboard-lock-is-enabled①">Keyboard Lock is enabled</a>, then return false</p>
-      </ol>
-      <p class="issue" id="issue-b08ce5da"><a class="self-link" href="#issue-b08ce5da"></a> Placeholder until there’s an actual agred-upon definition for Keyboard Lock.</p>
-      <ol>
+        <p class="issue" id="issue-b08ce5da"><a class="self-link" href="#issue-b08ce5da"></a> Placeholder until there’s an actual agred-upon definition for Keyboard Lock.</p>
        <li data-md>
         <p>If <var>key</var> is:</p>
-      </ol>
-      <p class="issue" id="issue-031c714a"><a class="self-link" href="#issue-031c714a"></a> Need more complete set of post-keydown browser keys.</p>
-      <ol>
-       <li data-md>
-        <p>The shortcut to cut (e.g., ctrl-x), then <a data-link-type="dfn" href="#handle-native-cut" id="ref-for-handle-native-cut①">Handle native cut</a></p>
-       <li data-md>
-        <p>The shortcut to copy (e.g., ctrl-c), then <a data-link-type="dfn" href="#handle-native-copy" id="ref-for-handle-native-copy①">Handle native copy</a></p>
-       <li data-md>
-        <p>The shortcut to paste (e.g., ctrl-v), then <a data-link-type="dfn" href="#handle-native-paste" id="ref-for-handle-native-paste①">Handle native paste</a></p>
-       <li data-md>
-        <p>And then return true</p>
+        <ol>
+         <li data-md>
+          <p>The shortcut to cut (e.g., ctrl-x), then <a data-link-type="dfn" href="#handle-native-cut" id="ref-for-handle-native-cut①">Handle native cut</a></p>
+         <li data-md>
+          <p>The shortcut to copy (e.g., ctrl-c), then <a data-link-type="dfn" href="#handle-native-copy" id="ref-for-handle-native-copy①">Handle native copy</a></p>
+         <li data-md>
+          <p>The shortcut to paste (e.g., ctrl-v), then <a data-link-type="dfn" href="#handle-native-paste" id="ref-for-handle-native-paste①">Handle native paste</a></p>
+        </ol>
+        <p class="issue" id="issue-031c714a"><a class="self-link" href="#issue-031c714a"></a> Need more complete set of post-keydown browser keys.</p>
+        <ol>
+         <li data-md>
+          <p>And then return true</p>
+        </ol>
        <li data-md>
         <p>Return false</p>
       </ol>
@@ -2715,14 +2719,13 @@ Tested with ctrl-t (to create new tab)</p>
          <li data-md>
           <p>Set the <a data-link-type="dfn" href="#suppress-key-input-events-flag" id="ref-for-suppress-key-input-events-flag①">suppress key input events flag</a></p>
         </ol>
-      </ol>
-      <p class="issue" id="issue-664dfd84"><a class="self-link" href="#issue-664dfd84"></a> Is this check necessary? Can native CHAR events be ignored or do they contain useful data?</p>
-      <ol>
        <li data-md>
         <p>If native platform has separate CHAR event, then</p>
+        <p class="issue" id="issue-41fee8f3"><a class="self-link" href="#issue-41fee8f3"></a> Is this check necessary?
+Can native CHAR events be ignored or do they contain needed info?</p>
         <ol>
          <li data-md>
-          <p>exit  (because CHAR event will trigger <a data-link-type="dfn" href="#handle-native-key-press" id="ref-for-handle-native-key-press">handle native key press</a></p>
+          <p>Exit  (because CHAR event will trigger <a data-link-type="dfn" href="#handle-native-key-press" id="ref-for-handle-native-key-press">handle native key press</a>)</p>
         </ol>
       </ol>
       <ol>
@@ -2745,15 +2748,15 @@ Tested with ctrl-t (to create new tab)</p>
         <p>Update global modifier key state</p>
         <ol>
          <li data-md>
-          <p>If <var>nativKey</var> is left or right Shift key, then remove "Shift" to <a data-link-type="dfn" href="#key-modifier-state" id="ref-for-key-modifier-state①②">key modifier state</a></p>
+          <p>If <var>nativeKey</var> is left or right Shift key, then remove "Shift" to <a data-link-type="dfn" href="#key-modifier-state" id="ref-for-key-modifier-state①②">key modifier state</a></p>
          <li data-md>
-          <p>If <var>nativKey</var> is left or right Control key, then remove "Control" to <a data-link-type="dfn" href="#key-modifier-state" id="ref-for-key-modifier-state①③">key modifier state</a></p>
+          <p>If <var>nativeKey</var> is left or right Control key, then remove "Control" to <a data-link-type="dfn" href="#key-modifier-state" id="ref-for-key-modifier-state①③">key modifier state</a></p>
          <li data-md>
-          <p>If <var>nativKey</var> is left or right Alt key, then remove "Alt" to <a data-link-type="dfn" href="#key-modifier-state" id="ref-for-key-modifier-state①④">key modifier state</a></p>
+          <p>If <var>nativeKey</var> is left or right Alt key, then remove "Alt" to <a data-link-type="dfn" href="#key-modifier-state" id="ref-for-key-modifier-state①④">key modifier state</a></p>
          <li data-md>
-          <p>If <var>nativKey</var> is AltGraph key, then remove "AltGraph" to <a data-link-type="dfn" href="#key-modifier-state" id="ref-for-key-modifier-state①⑤">key modifier state</a></p>
+          <p>If <var>nativeKey</var> is AltGraph key, then remove "AltGraph" to <a data-link-type="dfn" href="#key-modifier-state" id="ref-for-key-modifier-state①⑤">key modifier state</a></p>
          <li data-md>
-          <p>If <var>nativKey</var> is left or right Meta key, then remove "Meta" to <a data-link-type="dfn" href="#key-modifier-state" id="ref-for-key-modifier-state①⑥">key modifier state</a></p>
+          <p>If <var>nativeKey</var> is left or right Meta key, then remove "Meta" to <a data-link-type="dfn" href="#key-modifier-state" id="ref-for-key-modifier-state①⑥">key modifier state</a></p>
         </ol>
        <li data-md>
         <p>Let target = <a href="https://html.spec.whatwg.org/#currently-focused-area-of-a-top-level-browsing-context">currently focused area of a top-level browsing context</a></p>
@@ -3614,7 +3617,7 @@ to explore how it might be integrated.</p>
     </section>
     <section>
      <h2 class="heading settled" data-level="14" id="acknowledgementsclipboard"><span class="secno">14. </span><span class="content">Acknowledgements</span><a class="self-link" href="#acknowledgementsclipboard"></a></h2>
-     <p>Thanks for the following for there contributions to this document:</p>
+     <p>Thanks for the following for their contributions to this document:</p>
      <ul>
       <li data-md>
        <p>Anupam Snigdha</p>
@@ -4396,7 +4399,8 @@ Chrome/Linux fires this event at the element and the shadow root<a href="#issue-
     the native IME calls.<a href="#issue-d744c6c4"> ↵ </a></div>
    <div class="issue"> Placeholder until there’s an actual agred-upon definition for Keyboard Lock.<a href="#issue-b08ce5da"> ↵ </a></div>
    <div class="issue"> Need more complete set of post-keydown browser keys.<a href="#issue-031c714a"> ↵ </a></div>
-   <div class="issue"> Is this check necessary? Can native CHAR events be ignored or do they contain useful data?<a href="#issue-664dfd84"> ↵ </a></div>
+   <div class="issue"> Is this check necessary?
+Can native CHAR events be ignored or do they contain needed info?<a href="#issue-41fee8f3"> ↵ </a></div>
    <div class="issue"> What should happen if the event focus has changed since the keydown event?
     What is the appropriate target for the keyup? The current focus or the previous?
     Are there security issues (e.g., if it’s not safe to edit the current focus)?<a href="#issue-beb23471"> ↵ </a></div>
