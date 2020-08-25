@@ -1222,7 +1222,7 @@ Possible extra rowspan handling
 	}
 </style>
   <meta content="Bikeshed version 6cf40e14, updated Fri Aug 14 17:42:41 2020 -0700" name="generator">
-  <meta content="14599fc6515a80b48e0592a45989d1a95191d455" name="document-revision">
+  <meta content="210791793be3e6680cbe86593e871600706c42b9" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
@@ -2254,6 +2254,10 @@ relative to the origin of the <a data-link-type="dfn" href="https://www.w3.org/T
 elements common to <var>targetDomPath</var> removed.</p>
           <li data-md>
            <p>For each <var>element</var> in <var>leaveElements</var>, do</p>
+           <p class="issue" id="issue-c3b2625c"><a class="self-link" href="#issue-c3b2625c"></a> Handle case where <var>element</var> has been deleted.
+Also case where it has been moved: Should the DOM mutation have triggered
+a mouseleave event? Should we sent it now? Should it be dropped?
+Need to verify what current browsers do.</p>
            <ol>
             <li data-md>
              <p>Let <var>mouseleave</var> = <a data-link-type="dfn" href="#create-a-mouseevent" id="ref-for-create-a-mouseevent⑥">create a MouseEvent</a> with "mouseleave" and <var>element</var></p>
@@ -2294,6 +2298,7 @@ Firefox/Linux = false</p>
 elements common to <a data-link-type="dfn" href="#last-mouse-dom-path" id="ref-for-last-mouse-dom-path①">last mouse DOM path</a> removed.</p>
           <li data-md>
            <p>For each <var>element</var> in <var>enterElements</var>, do</p>
+           <p class="issue" id="issue-9fc42a9a"><a class="self-link" href="#issue-9fc42a9a"></a> Handle case where <var>element</var> has been deleted or moved.</p>
            <ol>
             <li data-md>
              <p>Let <var>mouseenter</var> = <a data-link-type="dfn" href="#create-a-mouseevent" id="ref-for-create-a-mouseevent⑧">create a MouseEvent</a> with "mouseenter" and <var>element</var></p>
@@ -4424,11 +4429,16 @@ or are they handled elsewhere already?<a href="#issue-af4b830f"> ↵ </a></div>
     this may need to be updated.<a href="#issue-5a61aefb"> ↵ </a></div>
    <div class="issue"> TODO: Set <var>mouseout</var> attributes from <var>native</var>. +CSSOM attributes<a href="#issue-6c6e5fe0"> ↵ </a></div>
    <div class="issue"> Verify behavior when canceled (appears to have no effect).<a href="#issue-f864a356"> ↵ </a></div>
+   <div class="issue"> Handle case where <var>element</var> has been deleted.
+Also case where it has been moved: Should the DOM mutation have triggered
+a mouseleave event? Should we sent it now? Should it be dropped?
+Need to verify what current browsers do.<a href="#issue-c3b2625c"> ↵ </a></div>
    <div class="issue"> Compat: Value of event.composed. Spec says false.
 Chrome/Linux = true
 Firefox/Linux = false<a href="#issue-ab0000b0"> ↵ </a></div>
    <div class="issue"> TODO: Set <var>mouseout</var> attributes from <var>native</var>. +CSSOM attributes<a href="#issue-6c6e5fe0①"> ↵ </a></div>
    <div class="issue"> Verify behavior when canceled (appears to have no effect).<a href="#issue-f864a356①"> ↵ </a></div>
+   <div class="issue"> Handle case where <var>element</var> has been deleted or moved.<a href="#issue-9fc42a9a"> ↵ </a></div>
    <div class="issue"> Compat: Value of event.composed. Spec says false.
 Chrome/Linux = true
 Firefox/Linux = false<a href="#issue-ab0000b0①"> ↵ </a></div>

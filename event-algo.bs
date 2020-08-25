@@ -648,7 +648,12 @@ A {{MouseEvent}} has the following:
                 elements common to |targetDomPath| removed.
 
             1. For each |element| in |leaveElements|, do
-            
+
+                Issue: Handle case where |element| has been deleted.
+                Also case where it has been moved: Should the DOM mutation have triggered
+                a mouseleave event? Should we sent it now? Should it be dropped?
+                Need to verify what current browsers do.
+                
                 1. Let |mouseleave| = <a>create a MouseEvent</a> with "mouseleave" and |element|
                 1. Set |mouseleave|.{{bubbles}} = false
                 1. Set |mouseleave|.{{cancelable}} = false
@@ -680,6 +685,8 @@ A {{MouseEvent}} has the following:
 
             1. For each |element| in |enterElements|, do
             
+                Issue: Handle case where |element| has been deleted or moved.
+                
                 1. Let |mouseenter| = <a>create a MouseEvent</a> with "mouseenter" and |element|
                 1. Set |mouseenter|.{{bubbles}} = false
                 1. Set |mouseenter|.{{cancelable}} = false
