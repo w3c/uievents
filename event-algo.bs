@@ -77,6 +77,14 @@ but they are kept here while drafting this document to make it easier to discuss
 
 </section>
 
+<!--
+     N   N   AAA   TTTTT  IIIII  V   V  EEEEE
+     NN  N  A   A    T      I    V   V  E
+     N N N  AAAAA    T      I     V V   EEE
+     N  NN  A   A    T      I     V V   E
+     N   N  A   A    T    IIIII    V    EEEEE
+ -->
+
 <section>
 <h2 id="native-os">Native OS Requirements</h2>
 
@@ -89,7 +97,7 @@ UA will need to implement them.
 
 <h3 id="req-mouse">MouseEvent Requirements</h3>
 
-The native OS will provide:
+The native OS platform will provide:
 
 * An event when the mouse is moved
 * An event when a mouse button is pressed
@@ -109,8 +117,47 @@ For these events, the OS will be able to provide the following info:
 
 <h3 id="req-keyboard">KeyboardEvent Requirements</h3>
 
-Issue: Define requirements.
-Support platforms that generate CHAR events (like Windows) and those that don't (macOS).
+The native OS platform will provide:
+
+* An event when a key is pressed
+
+    Note: On Windows: WM_KEYDOWN, WM_SYSKEYDOWN
+
+    Note: On macOS: NSKeyDown, NSFlagsChanged (for modifiers without other keys)
+
+* An event when a key is released
+
+    Note: On Windows: WM_KEYUP, WM_SYSKEYUP
+    
+    Note: On macOS: NSKeyUp, NSFlagsChanged (for modifiers without other keys)
+
+* An event when a character should be generated as a result of a keypress
+    * This may be a separate event, or it may be combined with the keydown event
+        * If a separate event, then there are no intervening key events between keydown and char
+        
+    Note: On Windows: WM_CHAR, WM_SYSCHAR
+
+    Note: On macOS: Combined with keydown
+
+* An event when text should be inserted
+    * These are commonly used for alternate input devices like chordal keyboards or speech input
+    * This may be the same event as for when a key is pressed
+    
+    Note: On Windows: WM_CHAR (without associated keydown/keyup)
+    
+    Note: On macOS: NSTextInputClient with insertText
+    
+* A way to identify key events that are "repeat"s from the key being held down
+    * The platform will maintain a key repeat threshold
+    
+* A way to identify the modifier keys that are held in combination with a key press
+    * Either via flags in the messages, or via a separate call
+    
+    Note: On Windows: included with WM_ messages
+    
+    Note: On macOS: included with NSKey messages and NSFlagChanged
+    
+    Note: On Linux (GTK): not provided with messages. need to request separately
 
 <h3 id="req-ime">IME Requirements</h3>
 
@@ -118,7 +165,14 @@ Issue: IMEs differ wildly on different platforms, and often have different capab
 (such as whether or not they can be "canceled") even on the same platform.
 What is the common set of requirements that we can rely on?
 
+Issue: For example, on Windows, Win+'.' opens an emoji window that will generate
+composition events. But there is not indication from the OS that composition
+is about to take place. A similar problem exists with "shape writing" using the
+virtual keyboard.
+    
 <h3 id="native-entry-points">Native Entry Points</h3>
+
+<h4 id="native-mouse">Mouse</h4>
 
 * <a>handle native mouse down</a>
 * <a>handle native mouse up</a>
@@ -126,8 +180,13 @@ What is the common set of requirements that we can rely on?
 * <a>handle native mouse double click</a>
 * <a>handle native mouse move</a>
 
+<h4 id="native-keyboard">Keyboard</h4>
+
 * <a>handle native key down</a>
+* <a>handle native key press</a>
 * <a>handle native key up</a>
+
+<h4 id="native-clipboard">Clipboard</h4>
 
 * <a>handle native cut</a>
 * <a>handle native copy</a>
@@ -136,53 +195,17 @@ What is the common set of requirements that we can rely on?
 </section>
 
 <!--
-      CCC    OOO   RRRR   EEEEE      DDDD    OOO   M   M
-     C   C  O   O  R   R  E          D   D  O   O  MM MM
-     C      O   O  RRRR   EEE        D   D  O   O  M M M
-     C   C  O   O  R  R   E          D   D  O   O  M   M
-      CCC    OOO   R   R  EEEEE      DDDD    OOO   M   M
+     EEEEE  V   V  EEEEE  N   N  TTTTT
+     E      V   V  E      NN  N    T
+     EEE     V V   EEE    N N N    T
+     E       V V   E      N  NN    T
+     EEEEE    V    EEEEE  N   N    T
  -->
 
 <section>
-<h2 id="core dom">Core DOM</h2>
+<h2 id="event">Event</h2>
 
-Issue: These definitions probably belong in another spec.
-
-<div class="algorithm" data-algorithm="hit-test">
-<h3 id="hit test"><dfn>hit test</dfn></h3>
-
-    : Input
-    :: |pos|, the x,y coordinates relative to the viewport
-
-    : Output
-    :: The frontmost DOM element at |pos|
-
-    Issue: To account for
-    <a href="https://html.spec.whatwg.org/#inert">inert</a> or
-    <a href="https://html.spec.whatwg.org/#concept-fe-disabled">disabled</a>
-    elements. this should call <a>elementsFromPoint</a> and reject
-    invalid elements
-    
-    1. Return [[CSSOM-View]]'s <a>elementFromPoint</a> with |pos|
-
-</div><!-- algorithm -->
-
-<div class="algorithm" data-algorithm="calculate-dom-path">
-<h3 id="calculate dom path"><dfn>calculate DOM path</dfn></h3>
-
-    : Input
-    :: |element|, the starting element
-
-    : Output
-    :: The list of ancestor elements for the given element
-
-    1. Let |path| = A list that contains |element|
-
-       Issue: This needs a proper definition to add ancestors to |path|.
-    
-    1. Return |path|
-
-</div><!-- algorithm -->
+Issue: Move to/merge with [[DOM]] spec {{Event}} interface.
 
 <h3 id="event-interface">Event Interface</h3>
 
@@ -207,7 +230,6 @@ A {{Event}} has the following additional internal state:
     : Output
     :: None
 
-    Issue: Move to/merge with [[DOM]] spec {{Event}} interface.
     For reference, see
     <a href="https://dom.spec.whatwg.org/#concept-event-initialize">initialize an event</a>,
     <a href="https://dom.spec.whatwg.org/#stop-propagation-flag">list of event flags</a>.
@@ -246,6 +268,8 @@ A {{Event}} has the following additional internal state:
         1. Unset |event|'s <a>due to user interaction flag</a>
 
 </div><!-- algorithm -->
+
+</section>
 
 <!--
      U   U  IIIII  EEEEE  V   V  EEEEE  N   N  TTTTT
@@ -439,10 +463,8 @@ A {{MouseEvent}} has the following:
 
     Issue: TODO
 
-    1. Let |mbutton| be an ID from |native| that identifies which mouse button was pressed
-
-    1. Let |type| = |event|.{{type}}
-    1. If |type| is one of [ mousedown, mouseup ], then 
+    1. If |event|.{{type}} is one of [ mousedown, mouseup ], then
+        1. Let |mbutton| be an ID from |native| that identifies which mouse button was pressed
         1. Set |event|.{{button}} = <a>calculate MouseEvent button attribute</a> with |mbutton|
 
 </div><!-- algorithm -->
@@ -469,14 +491,7 @@ A {{MouseEvent}} has the following:
     1. Let |event| = <a>create a MouseEvent</a> with "mousedown", |target|
     1. <a>Set MouseEvent attributes from native</a> with |native|
 
-    1. <a>Send pointerdown event</a> with |event|
-
-        Issue: Unlike mousedown events,
-        <a href="https://w3c.github.io/pointerevents/#the-pointerdown-event">pointerdown></a>
-        events are not nested when multiple buttons are pressed.
-        This logic should be in the PointerEvents spec.
-        The MouseEvent is passed so that the fields can be copied into the PointerEvent.
-        TODO: Need definition to call in PointerEvent spec.
+    1. <a>Maybe send pointerdown event</a> with |event|
 
     1. Let |result| = <a>dispatch</a> |event| at |target| 
 
@@ -514,14 +529,7 @@ A {{MouseEvent}} has the following:
     1. Let |event| = <a>create a MouseEvent</a> with "mouseup", |target|
     1. <a>Set MouseEvent attributes from native</a> with |native|
 
-    1. <a>Send pointerup event</a> with |event|
-
-        Issue: Unlike mousedown events,
-        <a href="https://w3c.github.io/pointerevents/#the-pointerup-event">pointerup</a>
-        events are not nested when multiple buttons are pressed.
-        This logic should be in the PointerEvents spec.
-        The MouseEvent is passed so that the fields can be copied into the PointerEvent.
-        TODO: Need definition to call in PointerEvent spec.
+    1. <a>Maybe send pointerup event</a> with |event|
 
     1. <a>dispatch</a> |event| at |target| 
 
@@ -536,7 +544,7 @@ A {{MouseEvent}} has the following:
     : Output
     :: None
 
-    Note: This should be called immediately after <a>handle native mouse up</a> for
+    Note: The platform should call this immediately after <a>handle native mouse up</a> for
     mouseups that generate clicks.
     
     1. Let |mbutton| be an ID from |native| that identifies which mouse button was pressed
@@ -593,24 +601,24 @@ A {{MouseEvent}} has the following:
     : Output
     :: None
 
-    1. Let |target| = <a>hit test</a> with viewport-relative coordinates from |native|
-
-    1. Let |targetDomPath| = <a>calculate DOM path</a>
-
     Issue: This algorithm makes assumptions about the dispatch of PointerEvents because they
     are not currently specified explicitly. Once
     <a href="https://github.com/w3c/pointerevents/issues/285">pointerevents/285</a> is resolved
     this may need to be updated.
     
+    1. Let |target| = <a>hit test</a> with viewport-relative coordinates from |native|
+
+    1. Let |targetDomPath| = <a>calculate DOM path</a>
+
     1. Generate events for leaving the current element:
 
         1. If <a>last mouse element</a> is defined and not equal to |target|, then
         
             1. Let |mouseout| = <a>create a MouseEvent</a> with "mouseout" and <a>last mouse element</a>
 
-            Issue: Set |mouseout| attributes from |native|. +CSSOM attributes
+            Issue: TODO: Set |mouseout| attributes from |native|. +CSSOM attributes
             
-            1. <a>Send pointerout event</a> with |mouseout|
+            1. <a>Maybe send pointerout event</a> with |mouseout|
 
             1. <a>Dispatch</a> |mouseout| at |target|
             
@@ -629,7 +637,7 @@ A {{MouseEvent}} has the following:
                 Chrome/Linux = true
                 Firefox/Linux = false
 
-                1. <a>Send pointerleave event</a> with |mouseleave|
+                1. <a>Maybe send pointerleave event</a> with |mouseleave|
             
                 1. Let |result| = <a>dispatch</a> |mouseleave| at |element|
 
@@ -639,9 +647,9 @@ A {{MouseEvent}} has the following:
         
             1. Let |mouseover| = <a>create a MouseEvent</a> with "mouseover" and |target|
 
-            Issue: Set |mouseout| attributes from |native|. +CSSOM attributes
+            Issue: TODO: Set |mouseout| attributes from |native|. +CSSOM attributes
             
-            1. <a>Send pointerover event</a> with |mouseover|
+            1. <a>Maybe send pointerover event</a> with |mouseover|
 
             1. <a>Dispatch</a> |mouseout| at |target|
             
@@ -660,7 +668,7 @@ A {{MouseEvent}} has the following:
                 Chrome/Linux = true
                 Firefox/Linux = false
 
-                1. <a>Send pointerenter event</a> with |mouseenter|
+                1. <a>Maybe send pointerenter event</a> with |mouseenter|
             
                 Issue: Compat for shadow DOM elements
                 Chrome/Linux fires this event at the element and the shadow root
@@ -674,7 +682,7 @@ A {{MouseEvent}} has the following:
 
     1. <a>Set PointerLock attributes for mousemove</a>
 
-    1. <a>Send pointermove event</a> with |mousemove|
+    1. <a>Maybe send pointermove event</a> with |mousemove|
     
     1. <a>Dispatch</a> |mousemove| at |element|
 
@@ -740,7 +748,7 @@ And the following internal state:
     The UA must maintain the following values that are shared for the entire
     User Agent.
 
-    A <dfn>key modifier state</dfn> that keeps track of the current
+    A <dfn>key modifier state</dfn> (initially empty) that keeps track of the current
     state of each <a>modifier key</a> available on the system.
 
 <h4 id="keyboardevent-global-window">Window-Level State</h4>
@@ -856,6 +864,9 @@ And the following internal state:
 
             Issue: Needs more formal description of non-printable characters
 
+            Issue: Need to include description of how AltGraph should be handled.
+            See <a href="https://github.com/w3c/uievents/issues/147">uievents/147</a>
+
         1. Set |event|.{{code}} = the key code attribute value corresponding to the physical
             key that was pressed.
            
@@ -868,6 +879,9 @@ And the following internal state:
         1. <a>set event modifiers</a> with |event|
 
     1. Set the following historical attributes
+    
+        Issue: TODO: For historical reasons, we can't have a formal description of these
+        fields without recognizing that certain UAs produce different values.
     
         1. Set |event|.{{keyCode}} = ???
         1. Set |event|.{{charCode}} = ???
@@ -887,10 +901,10 @@ And the following internal state:
     1. If |code| is any of [ "AltLeft", "ControlLeft", "MetaLeft", "ShiftLeft"], then
         1. return {{DOM_KEY_LOCATION_LEFT}}
     1. If |code| is any of [ "AltRight", "ControlRight", "MetaRight", "ShiftRight"], then
-	1. return {{DOM_KEY_LOCATION_RIGHT}}
+        1. return {{DOM_KEY_LOCATION_RIGHT}}
     1. If |code| matches any of the values in the
         <a href="https://www.w3.org/TR/uievents-code/#key-numpad-section">numpad section</a>, then
-	1. return {{DOM_KEY_LOCATION_NUMPAD}}
+        1. return {{DOM_KEY_LOCATION_NUMPAD}}
     1. return {{DOM_KEY_LOCATION_STANDARD}}
 
 </div><!-- algorithm -->
@@ -912,7 +926,7 @@ And the following internal state:
     1. If |modifier| is "Meta", then return true if |event|'s <a>meta flag</a> is set
     1. If |modifier| is "CapsLock", then return true if |event|'s <a>capslock flag</a> is set
     1. If |modifier| is "NumLock", then return true if |event|'s <a>numlock flag</a> is set
-    1. return false
+    1. Return false
 
 </div><!-- algorithm -->
 
@@ -930,7 +944,7 @@ And the following internal state:
         Note: Keyboard Lock is not an official standard. This is demonstrating
         how it might be integrated.
 
-    Issue: these key shortcuts are defined by the User Agent  (e.g., Cmd-T on Mac).
+    Issue: These key shortcuts are defined by the User Agent  (e.g., Cmd-T on Mac).
     They should be defined in such a way that the UA is in control.
 
     Issue: Need a more complete list of these pre-keydown browser keys, or a better description
@@ -947,11 +961,6 @@ And the following internal state:
     Issue: IME is often provided by the native OS. So the requirements need to be
     defined and added to the <a href="#req-ime">IME Requirements</a> section.
 
-    Issue: For example, on Windows, Win+'.' opens an emoji window that will generate
-    composition events. But there is not indication from the OS that composition
-    is about to take place. A similar problem exists with "shape writing" using the
-    virtual keyboard.
-    
     Issue: How should IME keys be represented. We need the native OS to call
     <a>enter composition mode</a> and <a>exit composition mode</a>
 
@@ -973,7 +982,7 @@ And the following internal state:
 
     1. If <a>Keyboard Lock is enabled</a>, then return false
 
-        Issue: Placeholder until there's an actual agred-upon definition for Keyboard Lock.
+        Issue: Placeholder until there's an actual agreed-upon definition for Keyboard Lock.
 
     1. If |key| is:
     
@@ -981,7 +990,8 @@ And the following internal state:
         1. The shortcut to copy (e.g., ctrl-c), then <a>Handle native copy</a>
         1. The shortcut to paste (e.g., ctrl-v), then <a>Handle native paste</a>
         
-        Issue: Need more complete set of post-keydown browser keys.
+            Issue: Need more complete set of post-keydown browser keys. Perhaps define
+            a set of common browser keys (clipboard, open/close tabs, quit).
 
         1. And then return true
        
@@ -1018,7 +1028,8 @@ And the following internal state:
     1. <a>set KeyboardEvent attributes</a> with |event|, |nativeKey|
     1. Let |result| = <a>dispatch</a> |event| at |target|
 
-    Note: when in composition, canceling the keydown has no effect (tested: macOS Chrome; TODO: test other configs)
+        Note: when in composition, canceling the keydown has no effect
+        (tested: macOS Chrome; TODO: test other configs)
     
     1. If the <a>in composition flag</a> is set, then
         1. <a>handle composition key</a> and exit
@@ -1081,12 +1092,14 @@ And the following internal state:
 
     1. If <a>handle post browser key</a>, then exit
 
-    Issue: What should happen if the event focus has changed since the keydown event?
-    What is the appropriate target for the keyup? The current focus or the previous?
-    Are there security issues (e.g., if it's not safe to edit the current focus)?
-    
     1. Let |target| =
         <a href="https://html.spec.whatwg.org/#currently-focused-area-of-a-top-level-browsing-context">currently focused area of a top-level browsing context</a>
+        
+        Issue: What should happen if the event focus has changed since the keydown event?
+        What is the appropriate target for the keyup? The current focus or the previous?
+        Are there security issues (e.g., if it's not safe to edit the current focus)?
+    
+
     1. Let |key| = extract info from |nativeKey|
     1. <a>Fire key input events</a> with |key| and |target|
 
@@ -1131,10 +1144,13 @@ And the following internal state:
             See <a href="https://github.com/whatwg/html/issues/5453">whatwg/html/5453</a>
             for discussion.
 
+    1. Initialize the additional editing attributes from [[Input Events]]
+    
         Issue: Move the following into InputEvents spec
         (<a href="https://www.w3.org/TR/input-events-1/">level 1</a>
         or
         <a href="https://www.w3.org/TR/input-events-2/">level 2</a>)
+        since that's where these attributes are defined.
 
         1. Set |e|.dataTransfer = false
         1. Set |e|.targetRanges = []
@@ -1199,7 +1215,7 @@ And the following internal state:
             Note: Compat:
             For insertFromPaste, Chrome has data = null, Firefox has data = same as beforeinput.
 
-            <a>Fire an InputEvent</a> with "input", |inputType| and |data|
+        1. <a>Fire an InputEvent</a> with "input", |inputType| and |data|
 
 </div><!-- algorithm -->
 
@@ -1273,7 +1289,7 @@ And the following internal state:
 
         1. Set event.data = ""
 
-            Note: that this is the same name as the attribute in InputEvent.
+            Note: This attribute has the same name as an attribute in InputEvent.
 
 </div><!-- algorithm -->
 
@@ -1305,14 +1321,16 @@ And the following internal state:
     : Output
     :: None
 
-    Issue: The target for compositionstart should be determined by the element with
-    focus, but subsequent composition events should be fired on that same element.
-    Need to test what happens when focus changes during composition.
-    On the Mac, if you change focus, the composition target changes.
-    On Windows, behavior depends on the IME.
-
     1. Let target =
         <a href="https://html.spec.whatwg.org/#currently-focused-area-of-a-top-level-browsing-context">currently focused area of a top-level browsing context</a>
+
+        Issue: The target for compositionstart should be determined by the element with
+        focus, but subsequent composition events should be fired on that same element.
+        Need to test what happens when focus changes during composition.
+        On the Mac, if you change focus, the composition target changes.
+        On Windows, behavior depends on the IME.
+
+
     1. Let |event| = result of <a>create a CompositionEvent</a> with |eventType|, |target|
     1. Set |event|.{{CompositionEvent/data}} = |data|
     1. Return the result of <a>dispatch</a> |event| at |target|
@@ -1370,7 +1388,7 @@ And the following internal state:
 	1. If enter, then accept the current candidate, run <a>end composition</a> and exit
         1. ...
 
-    Issue: Need agreement on event order for compositionupdate and beforeinput
+    Issue: Need agreement on event order for compositionupdate and beforeinput.
     Chrome currently does bi -> cu, whereas Safari does cu -> bi.
     Firefox doesn't yet produce bi, but prefers cu -> bi.
     See <a href="https://github.com/w3c/input-events/issues/49">input-events/49</a>
@@ -1379,11 +1397,11 @@ And the following internal state:
     1. Let |data| = the current composition candidate string
     1. <a>Fire a CompositionEvent</a> with "compositionupdate" and |data|
 
-    Issue: Verify compositionupdate cannot be canceled
+        Issue: Verify compositionupdate cannot be canceled
 
     1. Let |result| = <a>fire an InputEvent</a> with "beforeinput", "insertCompositionText" and |data|
     
-    Issue: Not all beforeinput events can be canceled - need to encode that here
+        Issue: Not all beforeinput events can be canceled - need to encode that here
 
     1. If |result| is true, then
 
@@ -1391,7 +1409,7 @@ And the following internal state:
 
         1. <a>Fire an InputEvent</a> with "input", "insertCompositionText" and |data|
 
-        Note: Not cancelable
+            Note: Not cancelable
 
 </div><!-- algorithm -->
 
@@ -1409,7 +1427,7 @@ And the following internal state:
     1. Let |data| = currently selected text
     1. Let |result| = <a>fire a CompositionEvent</a> with "compositionstart" and |data|
 
-    Issue: Document what happens when |result| is not true (event canceled)
+        Issue: Document what happens when |result| is not true (event canceled)
 
     1. Set <a>in composition flag</a>
 
@@ -1436,10 +1454,11 @@ And the following internal state:
 
         Issue: Document what to do with result
 
-    Issue: Compat: Firefox sends input events after compositionend. Not sure when the
-    DOM is updated relative to compositionend (tested on macOS)
-
     1. If Firefox:
+    
+        Issue: Compat: Firefox sends input events after compositionend. Not sure when the
+        DOM is updated relative to compositionend (tested on macOS). Need to resolve this.
+
         1. <a>Fire an InputEvent</a> with "input", "insertCompositionText" and |data|
 
     1. Unset the <a>in composition flag</a>
@@ -1503,8 +1522,8 @@ Issue: The contents of this section should eventually be moved into the PointerE
 
 </div><!-- algorithm -->
 
-<div class="algorithm" data-algorithm="send-pointerout-event">
-<h3 id="send pointerout event"><dfn>send pointerout event</dfn></h3>
+<div class="algorithm" data-algorithm="maybe-send-pointerout-event">
+<h3 id="maybe send pointerout event"><dfn>maybe send pointerout event</dfn></h3>
 
     : Input
     :: |mouseout|, the corresponding mouseout {{MouseEvent}}
@@ -1516,15 +1535,15 @@ Issue: The contents of this section should eventually be moved into the PointerE
 
     1. Set pointerevent attributes
 
-       Issue: TODO
+        Issue: TODO
 
     1. Let |target| = |mouseout|.{{target}}
     1. <a>dispatch</a> |pointerout| at |target| 
 
 </div><!-- algorithm -->
 
-<div class="algorithm" data-algorithm="send-pointerleave-event">
-<h3 id="send pointerleave event"><dfn>send pointerleave event</dfn></h3>
+<div class="algorithm" data-algorithm="maybe-send-pointerleave-event">
+<h3 id="maybe send pointerleave event"><dfn>maybe send pointerleave event</dfn></h3>
 
     : Input
     :: |mouseout|, the corresponding mouseout {{MouseEvent}}
@@ -1536,15 +1555,15 @@ Issue: The contents of this section should eventually be moved into the PointerE
 
     1. Set pointerevent attributes
 
-       Issue: TODO
+        Issue: TODO
 
     1. Let |target| = |mouseout|.{{target}}
     1. <a>dispatch</a> |pointerout| at |target| 
 
 </div><!-- algorithm -->
 
-<div class="algorithm" data-algorithm="send-pointerover-event">
-<h3 id="send pointerover event"><dfn>send pointerover event</dfn></h3>
+<div class="algorithm" data-algorithm="maybe-send-pointerover-event">
+<h3 id="maybe send pointerover event"><dfn>maybe send pointerover event</dfn></h3>
 
     : Input
     :: |mouseout|, the corresponding mouseout {{MouseEvent}}
@@ -1556,15 +1575,15 @@ Issue: The contents of this section should eventually be moved into the PointerE
 
     1. Set pointerevent attributes
 
-       Issue: TODO
+        Issue: TODO
 
     1. Let |target| = |mouseout|.{{target}}
     1. <a>dispatch</a> |pointerout| at |target| 
 
 </div><!-- algorithm -->
 
-<div class="algorithm" data-algorithm="send-pointerenter-event">
-<h3 id="send pointerenter event"><dfn>send pointerenter event</dfn></h3>
+<div class="algorithm" data-algorithm="maybe-send-pointerenter-event">
+<h3 id="maybe send pointerenter event"><dfn>maybe send pointerenter event</dfn></h3>
 
     : Input
     :: |mouseout|, the corresponding mouseout {{MouseEvent}}
@@ -1576,15 +1595,15 @@ Issue: The contents of this section should eventually be moved into the PointerE
 
     1. Set pointerevent attributes
 
-       Issue: TODO
+        Issue: TODO
 
     1. Let |target| = |mouseout|.{{target}}
     1. <a>dispatch</a> |pointerout| at |target| 
 
 </div><!-- algorithm -->
 
-<div class="algorithm" data-algorithm="send-pointermove-event">
-<h3 id="send pointermove event"><dfn>send pointermove event</dfn></h3>
+<div class="algorithm" data-algorithm="maybe-send-pointermove-event">
+<h3 id="maybe send pointermove event"><dfn>maybe send pointermove event</dfn></h3>
 
     : Input
     :: |mouseout|, the corresponding mouseout {{MouseEvent}}
@@ -1594,21 +1613,21 @@ Issue: The contents of this section should eventually be moved into the PointerE
 
     Issue: Can this send pointermove and pointerrawupdate? Or do we need 2 methods?
 
-    Issue: What is needed to support coalesced pointermove events?
+    Issue: What is needed to properly define how pointermove events are coalesced?
     
     1. Let |pointerout| = <a>create PointerEvent from MouseEvent</a> with "pointerout" and |mouseout|
 
     1. Set pointerevent attributes
 
-       Issue: TODO
+        Issue: TODO
 
     1. Let |target| = |mouseout|.{{target}}
     1. <a>dispatch</a> |pointerout| at |target| 
 
 </div><!-- algorithm -->
 
-<div class="algorithm" data-algorithm="send-pointerdown-event">
-<h3 id="send pointerdown event"><dfn>send pointerdown event</dfn></h3>
+<div class="algorithm" data-algorithm="maybe-send-pointerdown-event">
+<h3 id="maybe send pointerdown event"><dfn>maybe send pointerdown event</dfn></h3>
 
     : Input
     :: |mouseout|, the corresponding mouseout {{MouseEvent}}
@@ -1616,19 +1635,24 @@ Issue: The contents of this section should eventually be moved into the PointerE
     : Output
     :: None
 
+    Issue: Unlike mousedown events,
+    <a href="https://w3c.github.io/pointerevents/#the-pointerdown-event">pointerdown</a>
+    events are not nested when multiple buttons are pressed.
+    The MouseEvent is passed so that the fields can be copied into the PointerEvent.
+
     1. Let |pointerout| = <a>create PointerEvent from MouseEvent</a> with "pointerout" and |mouseout|
 
     1. Set pointerevent attributes
 
-       Issue: TODO
+        Issue: TODO
 
     1. Let |target| = |mouseout|.{{target}}
     1. <a>dispatch</a> |pointerout| at |target| 
 
 </div><!-- algorithm -->
 
-<div class="algorithm" data-algorithm="send-pointerup-event">
-<h3 id="send pointerup event"><dfn>send pointerup event</dfn></h3>
+<div class="algorithm" data-algorithm="maybe-send-pointerup-event">
+<h3 id="maybe send pointerup event"><dfn>maybe send pointerup event</dfn></h3>
 
     : Input
     :: |mouseout|, the corresponding mouseout {{MouseEvent}}
@@ -1636,11 +1660,16 @@ Issue: The contents of this section should eventually be moved into the PointerE
     : Output
     :: None
 
+    Issue: Unlike mouseup events,
+    <a href="https://w3c.github.io/pointerevents/#the-pointerup-event">pointerup</a>
+    events are not nested when multiple buttons are pressed.
+    The MouseEvent is passed so that the fields can be copied into the PointerEvent.
+
     1. Let |pointerout| = <a>create PointerEvent from MouseEvent</a> with "pointerout" and |mouseout|
 
     1. Set pointerevent attributes
 
-       Issue: TODO
+        Issue: TODO
 
     1. Let |target| = |mouseout|.{{target}}
     1. <a>dispatch</a> |pointerout| at |target| 
@@ -1768,6 +1797,57 @@ Issue: The contents of this section should eventually be moved into the [[WICG K
 </section>
 
 <!--
+      CCC    OOO   RRRR   EEEEE      DDDD    OOO   M   M
+     C   C  O   O  R   R  E          D   D  O   O  MM MM
+     C      O   O  RRRR   EEE        D   D  O   O  M M M
+     C   C  O   O  R  R   E          D   D  O   O  M   M
+      CCC    OOO   R   R  EEEEE      DDDD    OOO   M   M
+ -->
+
+<section>
+<h2 id="core dom">Core DOM</h2>
+
+Issue: These definitions probably belong in another spec.
+
+<div class="algorithm" data-algorithm="hit-test">
+<h3 id="hit test"><dfn>hit test</dfn></h3>
+
+    : Input
+    :: |pos|, the x,y coordinates relative to the viewport
+
+    : Output
+    :: The frontmost DOM element at |pos|
+
+    Issue: To account for
+    <a href="https://html.spec.whatwg.org/#inert">inert</a> or
+    <a href="https://html.spec.whatwg.org/#concept-fe-disabled">disabled</a>
+    elements. this should call <a>elementsFromPoint</a> and reject
+    invalid elements
+    
+    1. Return [[CSSOM-View]]'s <a>elementFromPoint</a> with |pos|
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="calculate-dom-path">
+<h3 id="calculate dom path"><dfn>calculate DOM path</dfn></h3>
+
+    : Input
+    :: |element|, the starting element
+
+    : Output
+    :: The list of ancestor elements for the given element
+
+    1. Let |path| = A list that contains |element|
+
+       Issue: This needs a proper definition to add ancestors to |path|.
+    
+    1. Return |path|
+
+</div><!-- algorithm -->
+
+</section>
+
+<!--
       CCC    SSSS   SSSS   OOO   M   M
      C   C  S      S      O   O  MM MM
      C       SSS    SSS   O   O  M M M
@@ -1887,7 +1967,7 @@ Issue: Should these be moved into the Clipboard spec?
 <section>
 <h2 id="acknowledgementsclipboard">Acknowledgements</h2>
 
-Thanks for the following for their contributions to this document:
+Thanks to the following for their contributions to this document:
 
     * Anupam Snigdha
     * Domenic Denicola
