@@ -297,6 +297,8 @@ Along with the following historical attribute:
     <li><dfn attribute>which</dfn></li>
 </dl>
 
+Issue: Add definition for UIEventInit
+
 <div class="algorithm" data-algorithm="initialize-a-uievent">
 <h3 id="initialize a uievent"><dfn>initialize a UIEvent</dfn></h3>
 
@@ -328,6 +330,24 @@ Along with the following historical attribute:
         1. Set |event|.{{isTrusted}} = false
 
 </div><!-- algorithm -->
+
+Issue: Event firing for load, unload, abort, error, select. Should those be covered here
+or are they handled elsewhere already?
+
+</section>
+
+<!--
+     FFFFF   OOO    CCC   U   U   SSSS  EEEEE  V   V  EEEEE  N   N  TTTTT
+     F      O   O  C   C  U   U  S      E      V   V  E      NN  N    T
+     FFFF   O   O  C      U   U   SSS   EEE     V V   EEE    N N N    T
+     F      O   O  C   C  U   U      S  E       V V   E      N  NN    T
+     F       OOO    CCC    UUU   SSSS   EEEEE    V    EEEEE  N   N    T
+ -->
+
+<section>
+<h2 id="focus event">Focus Event</h2>
+
+Issue: TODO
 
 </section>
 
@@ -685,6 +705,161 @@ A {{MouseEvent}} has the following:
     1. <a>Maybe send pointermove event</a> with |mousemove|
     
     1. <a>Dispatch</a> |mousemove| at |element|
+
+</div><!-- algorithm -->
+
+</section>
+
+<!--
+     W   W  H   H  EEEEE  EEEEE  L      EEEEE  V   V  EEEEE  N   N  TTTTT
+     W   W  H   H  E      E      L      E      V   V  E      NN  N    T
+     W W W  HHHHH  EEEE   EEEE   L      EEE     V V   EEE    N N N    T
+     WW WW  H   H  E      E      L      E       V V   E      N  NN    T
+     W   W  H   H  EEEEE  EEEEE  LLLLL  EEEEE    V    EEEEE  N   N    T
+ -->
+
+<section>
+<h2 id="wheel event">Wheel Event</h2>
+
+Issue: TODO
+
+</section>
+
+<!--
+     IIIII  N   N  PPPP   U   U  TTTTT  EEEEE  V   V  EEEEE  N   N  TTTTT
+       I    NN  N  P   P  U   U    T    E      V   V  E      NN  N    T
+       I    N N N  PPPP   U   U    T    EEE     V V   EEE    N N N    T
+       I    N  NN  P      U   U    T    E       V V   E      N  NN    T
+     IIIII  N   N  P       UUU     T    EEEEE    V    EEEEE  N   N    T
+ -->
+
+<section>
+<h2 id="input event">Input Event</h2>
+
+<div class="algorithm" data-algorithm="initialize-an-inputevent">
+<h3 id="initialize an Inputevent"><dfn>initialize an InputEvent</dfn></h3>
+
+    : Input
+    :: |e|, the {{Event}} to initialize
+    :: |eventType|, a DOMString containing the event type
+    :: |eventTarget|, the {{EventTarget}} of the event
+
+    : Output
+    :: None
+
+    1. <a>Initialize a UIEvent</a> with |e|, |eventType| and |eventTarget|
+
+    1. Initialize the following public attributes
+
+        1. Set event.data = null
+        1. Set event.isComposing = false
+        1. Set event.inputType = ""
+
+        1. Set event.composed = true
+
+            Note: Setting composed to true matches current UA behavior, but it makes more sense
+            for this to be false.
+            See <a href="https://github.com/whatwg/html/issues/5453">whatwg/html/5453</a>
+            for discussion.
+
+    1. Initialize the additional editing attributes from [[Input Events]]
+    
+        Issue: Move the following into InputEvents spec
+        (<a href="https://www.w3.org/TR/input-events-1/">level 1</a>
+        or
+        <a href="https://www.w3.org/TR/input-events-2/">level 2</a>)
+        since that's where these attributes are defined.
+
+        1. Set |e|.dataTransfer = false
+        1. Set |e|.targetRanges = []
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="create-an-inputevent">
+<h3 id="create an inputevent"><dfn>create an InputEvent</dfn></h3>
+
+    : Input
+    :: |eventType|, a DOMString containing the event type
+    :: |eventTarget|, the {{EventTarget}} of the event
+
+    : Output
+    :: None
+
+    1. Let |e| = the result of
+        <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new InputEvent</a>
+    1. <a>Initialize an InputEvent</a> with |e|, |eventType| and |eventTarget|
+
+    1. Return |e|
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="fire-key-input-events">
+<h3 id="fire key input events"><dfn>fire key input events</dfn></h3>
+
+    : Input
+    :: |key|, a DOMString containing the string corresponding to the key
+    :: |target|, the {{EventTarget}} of the event
+
+    : Output
+    :: None
+
+    1. If <a>suppress key input events flag</a> is set, then
+        1. Exit (since the keydown was canceled) 
+
+    Issue: Handle historical keypress event here
+
+    1. Let |inputType| = null
+    1. Let |data| = null
+
+    Issue: How much of this can be moved into the [[Input Events]] spec?
+    Issue: List more keys here
+
+    1. If |key| is "Backspace", then |inputType| = "deleteContentBackward"
+    1. If |key| is "Delete", then |inputType| = "deleteContentForward"
+    1. Otherwise,
+        1. |inputType| = "insertText"
+        1. |data| = |key|
+
+    1. If |inputType| is not null, then
+
+        Note: Need to verify Firefox behavior.
+        Can be enabled by changing the "dom.input_events.beforeinput_enabled" pref in "about:config"
+
+        1. Let |result| = <a>fire an InputEvent</a> with "beforeinput", |inputType| and |data|
+        1. If |result| is true
+
+            Note: Perform DOM update here. Insert key into |target| element
+
+            Note: Compat:
+            For insertFromPaste, Chrome has data = null, Firefox has data = same as beforeinput.
+
+        1. <a>Fire an InputEvent</a> with "input", |inputType| and |data|
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="fire-an-inputevent">
+<h3 id="fire an inputevent"><dfn>fire an InputEvent</dfn></h3>
+
+    : Input
+    :: |eventType|, a DOMString containing the event type
+    :: |inputType|, a DOMString containing the input event type
+    :: |data|, a DOMString containing event data
+
+    : Output
+    :: None
+
+    Issue: What about target ranges? Need to add support here.
+
+    Issue: The target for input events should consider focus, but should also ensure that
+    the element is editable and being modified.
+    Compare: <a>fire a compositionevent</a>
+
+    1. Let target =
+        <a href="https://html.spec.whatwg.org/#currently-focused-area-of-a-top-level-browsing-context">currently focused area of a top-level browsing context</a>
+    1. Let |event| = result of <a>create an InputEvent</a> with |eventType|, |target|
+    1. Set |event|.{{inputType}} = |inputType|
+    1. Set |event|.{{InputEvent/data}} = |data|
+    1. Return the result of <a>dispatch</a> |event| at |target|
 
 </div><!-- algorithm -->
 
@@ -1104,147 +1279,6 @@ And the following internal state:
     1. <a>Fire key input events</a> with |key| and |target|
 
 </div><!-- algorithm -->
-
-</section>
-
-<!--
-     IIIII  N   N  PPPP   U   U  TTTTT  EEEEE  V   V  EEEEE  N   N  TTTTT
-       I    NN  N  P   P  U   U    T    E      V   V  E      NN  N    T
-       I    N N N  PPPP   U   U    T    EEE     V V   EEE    N N N    T
-       I    N  NN  P      U   U    T    E       V V   E      N  NN    T
-     IIIII  N   N  P       UUU     T    EEEEE    V    EEEEE  N   N    T
- -->
-
-<section>
-<h2 id="input event">Input Event</h2>
-
-<div class="algorithm" data-algorithm="initialize-an-inputevent">
-<h3 id="initialize an Inputevent"><dfn>initialize an InputEvent</dfn></h3>
-
-    : Input
-    :: |e|, the {{Event}} to initialize
-    :: |eventType|, a DOMString containing the event type
-    :: |eventTarget|, the {{EventTarget}} of the event
-
-    : Output
-    :: None
-
-    1. <a>Initialize a UIEvent</a> with |e|, |eventType| and |eventTarget|
-
-    1. Initialize the following public attributes
-
-        1. Set event.data = null
-        1. Set event.isComposing = false
-        1. Set event.inputType = ""
-
-        1. Set event.composed = true
-
-            Note: Setting composed to true matches current UA behavior, but it makes more sense
-            for this to be false.
-            See <a href="https://github.com/whatwg/html/issues/5453">whatwg/html/5453</a>
-            for discussion.
-
-    1. Initialize the additional editing attributes from [[Input Events]]
-    
-        Issue: Move the following into InputEvents spec
-        (<a href="https://www.w3.org/TR/input-events-1/">level 1</a>
-        or
-        <a href="https://www.w3.org/TR/input-events-2/">level 2</a>)
-        since that's where these attributes are defined.
-
-        1. Set |e|.dataTransfer = false
-        1. Set |e|.targetRanges = []
-
-</div><!-- algorithm -->
-
-<div class="algorithm" data-algorithm="create-an-inputevent">
-<h3 id="create an inputevent"><dfn>create an InputEvent</dfn></h3>
-
-    : Input
-    :: |eventType|, a DOMString containing the event type
-    :: |eventTarget|, the {{EventTarget}} of the event
-
-    : Output
-    :: None
-
-    1. Let |e| = the result of
-        <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new InputEvent</a>
-    1. <a>Initialize an InputEvent</a> with |e|, |eventType| and |eventTarget|
-
-    1. Return |e|
-
-</div><!-- algorithm -->
-
-<div class="algorithm" data-algorithm="fire-key-input-events">
-<h3 id="fire key input events"><dfn>fire key input events</dfn></h3>
-
-    : Input
-    :: |key|, a DOMString containing the string corresponding to the key
-    :: |target|, the {{EventTarget}} of the event
-
-    : Output
-    :: None
-
-    1. If <a>suppress key input events flag</a> is set, then
-        1. Exit (since the keydown was canceled) 
-
-    Issue: Handle historical keypress event here
-
-    1. Let |inputType| = null
-    1. Let |data| = null
-
-    Issue: How much of this can be moved into the [[Input Events]] spec?
-    Issue: List more keys here
-
-    1. If |key| is "Backspace", then |inputType| = "deleteContentBackward"
-    1. If |key| is "Delete", then |inputType| = "deleteContentForward"
-    1. Otherwise,
-        1. |inputType| = "insertText"
-        1. |data| = |key|
-
-    1. If |inputType| is not null, then
-
-        Note: Need to verify Firefox behavior.
-        Can be enabled by changing the "dom.input_events.beforeinput_enabled" pref in "about:config"
-
-        1. Let |result| = <a>fire an InputEvent</a> with "beforeinput", |inputType| and |data|
-        1. If |result| is true
-
-            Note: Perform DOM update here. Insert key into |target| element
-
-            Note: Compat:
-            For insertFromPaste, Chrome has data = null, Firefox has data = same as beforeinput.
-
-        1. <a>Fire an InputEvent</a> with "input", |inputType| and |data|
-
-</div><!-- algorithm -->
-
-<div class="algorithm" data-algorithm="fire-an-inputevent">
-<h3 id="fire an inputevent"><dfn>fire an InputEvent</dfn></h3>
-
-    : Input
-    :: |eventType|, a DOMString containing the event type
-    :: |inputType|, a DOMString containing the input event type
-    :: |data|, a DOMString containing event data
-
-    : Output
-    :: None
-
-    Issue: What about target ranges? Need to add support here.
-
-    Issue: The target for input events should consider focus, but should also ensure that
-    the element is editable and being modified.
-    Compare: <a>fire a compositionevent</a>
-
-    1. Let target =
-        <a href="https://html.spec.whatwg.org/#currently-focused-area-of-a-top-level-browsing-context">currently focused area of a top-level browsing context</a>
-    1. Let |event| = result of <a>create an InputEvent</a> with |eventType|, |target|
-    1. Set |event|.{{inputType}} = |inputType|
-    1. Set |event|.{{InputEvent/data}} = |data|
-    1. Return the result of <a>dispatch</a> |event| at |target|
-
-</div><!-- algorithm -->
-
 
 </section>
 
