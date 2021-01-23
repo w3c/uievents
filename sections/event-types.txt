@@ -329,13 +329,13 @@ events.
 		=| # | Event Type | Notes                                              |
 		 +---+------------+----------------------------------------------------+
 		+|   |            | <em>User shifts focus</em>                         |
-		+| 1 | focusin    | Sent before first target element receives focus    |
-		+| 2 | focus      | Sent after first target element receives focus     |
+		+| 1 | focus      | Sent after first target element receives focus     |
+		+| 2 | focusin    | Follows the focus event                            |
 		+|   |            | <em>User shifts focus</em>                         |
-		+| 3 | focusout   | Sent before first target element loses focus       |
-		+| 4 | focusin    | Sent before second target element receives focus   |
-		+| 5 | blur       | Sent after first target element loses focus        |
-		+| 6 | focus      | Sent after second target element receives focus    |
+		+| 3 | blur       | Sent after first target element loses focus        |
+		+| 4 | focusout   | Follows the blur event                             |
+		+| 5 | focus      | Sent after second target element receives focus    |
+		+| 6 | focusin    | Follows the focus event                            |
 		++---+------------+----------------------------------------------------+
 
 		<p class="note">
@@ -419,9 +419,8 @@ events.
 
 			A <a>user agent</a> MUST dispatch this event when an <a>event
 			target</a> loses focus. The focus MUST be taken from the element
-			before the dispatch of this event type.  This event type is similar
-			to EVENT{focusout}, but is dispatched after focus is shifted, and
-			does not bubble.
+			before the dispatch of this event type. This event type is similar
+			to [=focusout=], but does not bubble.
 
 		<h5 id="event-type-focus"><dfn>focus</dfn></h5>
 
@@ -447,9 +446,8 @@ events.
 
 			A <a>user agent</a> MUST dispatch this event when an <a>event
 			target</a> receives focus. The focus MUST be given to the element
-			before the dispatch of this event type.  This event type is similar
-			to EVENT{focusin}, but is dispatched after focus is shifted, and
-			does not bubble.
+			before the dispatch of this event type. This event type is similar
+			to [=focusin=], but does not bubble.
 
 		<h5 id="event-type-focusin"><dfn>focusin</dfn></h5>
 
@@ -473,22 +471,11 @@ events.
 			 |                  | </ul>                                                                                |
 			++------------------+--------------------------------------------------------------------------------------+
 
-			A <a>user agent</a> MUST dispatch this event when an <a>event
-			target</a> is about to receive focus. This event type MUST be
-			dispatched before the element is given focus.  The <a>event
-			target</a> MUST be the element which is about to receive focus.
-			This event type is similar to EVENT{focus}, but is dispatched
-			before focus is shifted, and does bubble.
-
-			<p class="note">
-			When using this event type, the content author can use the event's
-			{{FocusEvent/relatedTarget}} attribute (or a host-language-specific
-			method or means) to get the currently focused element before the
-			focus shifts to the next focus <a>event target</a>, thus having
-			access to both the element losing focus and the element gaining
-			focus without the use of the EVENT{blur} or EVENT{focusout} event
-			types.
-			</p>
+			A <a>user agent</a> MUST dispatch this event when an <a>event target</a>
+			receives focus. The <a>event target</a> MUST be the element which
+			received focus. The [=focus=] event MUST fire before the dispatch of
+			this event type. This event type is similar to [=focus=], but does
+			not bubble.
 
 		<h5 id="event-type-focusout"><dfn>focusout</dfn></h5>
 
@@ -512,12 +499,10 @@ events.
 			 |                  | </ul>                                                                                |
 			++------------------+--------------------------------------------------------------------------------------+
 
-			A <a>user agent</a> MUST dispatch this event when an <a>event
-			target</a> is about to lose focus. This event type MUST be
-			dispatched before the element loses focus.  The <a>event target</a>
-			MUST be the element which is about to lose focus.  This event type
-			is similar to EVENT{blur}, but is dispatched before focus is
-			shifted, and does bubble.
+			A <a>user agent</a> MUST dispatch this event when an <a>event target</a>
+			loses focus. The <a>event target</a> MUST be the element which lost
+			focus. The [=blur=] event MUST fire before the dispatch of this event
+			type. This event type is similar to [=blur=], but does not bubble.
 
 <h3 id="events-mouseevents">Mouse Events</h3>
 
