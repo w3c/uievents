@@ -329,13 +329,13 @@ events.
 		=| # | Event Type | Notes                                              |
 		 +---+------------+----------------------------------------------------+
 		+|   |            | <em>User shifts focus</em>                         |
-		+| 1 | focusin    | Sent before first target element receives focus    |
-		+| 2 | focus      | Sent after first target element receives focus     |
+		+| 1 | focus      | Sent after first target element receives focus     |
+		+| 2 | focusin    | Follows the focus event                            |
 		+|   |            | <em>User shifts focus</em>                         |
-		+| 3 | focusout   | Sent before first target element loses focus       |
-		+| 4 | focusin    | Sent before second target element receives focus   |
-		+| 5 | blur       | Sent after first target element loses focus        |
-		+| 6 | focus      | Sent after second target element receives focus    |
+		+| 3 | blur       | Sent after first target element loses focus        |
+		+| 4 | focusout   | Follows the blur event                             |
+		+| 5 | focus      | Sent after second target element receives focus    |
+		+| 6 | focusin    | Follows the focus event                            |
 		++---+------------+----------------------------------------------------+
 
 		<p class="note">
@@ -419,9 +419,8 @@ events.
 
 			A <a>user agent</a> MUST dispatch this event when an <a>event
 			target</a> loses focus. The focus MUST be taken from the element
-			before the dispatch of this event type.  This event type is similar
-			to EVENT{focusout}, but is dispatched after focus is shifted, and
-			does not bubble.
+			before the dispatch of this event type. This event type is similar
+			to [=focusout=], but does not bubble.
 
 		<h5 id="event-type-focus"><dfn>focus</dfn></h5>
 
@@ -447,9 +446,8 @@ events.
 
 			A <a>user agent</a> MUST dispatch this event when an <a>event
 			target</a> receives focus. The focus MUST be given to the element
-			before the dispatch of this event type.  This event type is similar
-			to EVENT{focusin}, but is dispatched after focus is shifted, and
-			does not bubble.
+			before the dispatch of this event type. This event type is similar
+			to [=focusin=], but does not bubble.
 
 		<h5 id="event-type-focusin"><dfn>focusin</dfn></h5>
 
@@ -473,22 +471,11 @@ events.
 			 |                  | </ul>                                                                                |
 			++------------------+--------------------------------------------------------------------------------------+
 
-			A <a>user agent</a> MUST dispatch this event when an <a>event
-			target</a> is about to receive focus. This event type MUST be
-			dispatched before the element is given focus.  The <a>event
-			target</a> MUST be the element which is about to receive focus.
-			This event type is similar to EVENT{focus}, but is dispatched
-			before focus is shifted, and does bubble.
-
-			<p class="note">
-			When using this event type, the content author can use the event's
-			{{FocusEvent/relatedTarget}} attribute (or a host-language-specific
-			method or means) to get the currently focused element before the
-			focus shifts to the next focus <a>event target</a>, thus having
-			access to both the element losing focus and the element gaining
-			focus without the use of the EVENT{blur} or EVENT{focusout} event
-			types.
-			</p>
+			A <a>user agent</a> MUST dispatch this event when an <a>event target</a>
+			receives focus. The <a>event target</a> MUST be the element which
+			received focus. The [=focus=] event MUST fire before the dispatch of
+			this event type. This event type is similar to [=focus=], but does
+			not bubble.
 
 		<h5 id="event-type-focusout"><dfn>focusout</dfn></h5>
 
@@ -512,12 +499,10 @@ events.
 			 |                  | </ul>                                                                                |
 			++------------------+--------------------------------------------------------------------------------------+
 
-			A <a>user agent</a> MUST dispatch this event when an <a>event
-			target</a> is about to lose focus. This event type MUST be
-			dispatched before the element loses focus.  The <a>event target</a>
-			MUST be the element which is about to lose focus.  This event type
-			is similar to EVENT{blur}, but is dispatched before focus is
-			shifted, and does bubble.
+			A <a>user agent</a> MUST dispatch this event when an <a>event target</a>
+			loses focus. The <a>event target</a> MUST be the element which lost
+			focus. The [=blur=] event MUST fire before the dispatch of this event
+			type. This event type is similar to [=blur=], but does not bubble.
 
 <h3 id="events-mouseevents">Mouse Events</h3>
 
@@ -1300,7 +1285,7 @@ events.
 			if one or more of the event types EVENT{mouseover},
 			EVENT{mousemove}, and EVENT{mouseout} occur between the press and
 			release of the pointing device button.
-			
+
 			The <a>default action</a> of the EVENT{auxclick} event type varies
 			based on the <a>event target</a> of the event and the value of the
 			{{MouseEvent/button}} or {{MouseEvent/buttons}} attributes. Typical
@@ -1349,7 +1334,7 @@ myDiv.addEventListener("auxclick", function(e) {
 });
 </code>
 			</p>
-			
+
 		<h5 id="event-type-click"><dfn>click</dfn></h5>
 
 			++------------------+--------------------------------------------------------------------------------------+ event-definition
@@ -1762,8 +1747,8 @@ myDiv.addEventListener("auxclick", function(e) {
 
 			<p class="note" id="mousemove-now-cancelable">
 			This event was formerly specified to be non-cancelable in DOM Level
-			2 Events [[!DOM-Level-2-Events]], but was changed to reflect existing
-			interoperability between user agents.
+			2 Events, but was changed to reflect existing interoperability between
+			user agents.
 			</p>
 
 		<h5 id="event-type-mouseout"><dfn>mouseout</dfn></h5>
@@ -2203,7 +2188,7 @@ myDiv.addEventListener("auxclick", function(e) {
 			that the wheel has been turned can affect the <a>delta</a> values,
 			with a faster speed producing a higher <a>delta</a> value.
 			</p>
-			
+
 		<h5 id="cancelability-of-wheel-events">cancelability of wheel events</h5>
 			<p>
 			Calling <code>preventDefault</code> on a wheel event can prevent
@@ -2265,7 +2250,7 @@ myDiv.addEventListener("auxclick", function(e) {
 				<dd>
 					<code>inputType</code> contains a string that identifies the type
 					of input associated with the event.
-					
+
 					For a list of valid values for this attribute, refer to the
 					[[Input-Events]] specification.
 
@@ -2502,7 +2487,7 @@ myDiv.addEventListener("auxclick", function(e) {
 				<dd>
 					<code>key</code> holds a [=key attribute value=] corresponding to
 					the key pressed.
-				
+
 					<p class="note">
 					The <code>key</code> attribute is not related to the legacy
 					<code>keyCode</code> attribute and does not have the same set of
@@ -2860,7 +2845,7 @@ myDiv.addEventListener("auxclick", function(e) {
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
 			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/shiftKey}} : <code>true</code> if KEYCAP{Shift}|
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
-			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}| 
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}|
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
 			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/metaKey}} : <code>true</code> if KEYCAP{Meta}  |
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
@@ -2941,7 +2926,7 @@ myDiv.addEventListener("auxclick", function(e) {
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
 			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/shiftKey}} : <code>true</code> if KEYCAP{Shift}|
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
-			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}| 
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}|
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
 			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/metaKey}} : <code>true</code> if KEYCAP{Meta}  |
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
