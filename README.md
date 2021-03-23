@@ -60,9 +60,7 @@ should be made in the `sections\*.txt` files and `index.bs`.
 * [UI Events Testing Tools](https://w3c.github.io/uievents/tools/main.html)
 * Web Platform Tests
    * [GitHub web-platform-tests/wpt uievents](https://github.com/web-platform-tests/wpt/tree/master/uievents)
-   * Tests are mirrored at w3c-test.org:
-      * [uievents](http://w3c-test.org/uievents/)
-      * [DOMEvents](http://w3c-test.org/DOMEvents/) - old
+   * Tests are mirrored on [wpt.live/uievents/](https://wpt.live/uievents/)
 
 ## Recommendations
 
