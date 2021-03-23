@@ -46,7 +46,7 @@ class Parser():
 		# Don't print header row for event-definition.
 		if self.is_header_row and self.table_type == Parser.TABLE_TYPE_EVENT_DEFINITION:
 			return ''
-			
+
 		if self.is_header_row:
 			self.table_row_data = self.table_header_data
 
@@ -271,11 +271,14 @@ def main():
 		parser = Parser()
 		parser.process(infilename, outfilename)
 
-	print('Bikeshedding...')
-	cmd = ["bikeshed", "spec"]
-	if DEBUG:
-		cmd.append('--line-numbers')
-	subprocess.call(cmd)
+	if '--includes-only' in sys.argv:
+		print('Skipped bikeshedding because of --includes-only.')
+	else:
+		print('Bikeshedding...')
+		cmd = ["bikeshed", "spec"]
+		if DEBUG:
+			cmd.append('--line-numbers')
+		subprocess.call(cmd)
 
 if __name__ == '__main__':
 	main()
