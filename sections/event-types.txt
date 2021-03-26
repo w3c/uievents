@@ -24,11 +24,18 @@ events.
 		To create an instance of the {{UIEvent}} interface, use the UIEvent
 		constructor, passing an optional {{UIEventInit}} dictionary.
 
+		<p class="note">
+		For newly defined events, you don't have to inherit {{UIEvent}} interface just
+		because they are related to user interface.  Inherit only when members of
+		{{UIEventInit}} make sense to those events.
+		</p>
+
 		<h5 id="idl-uievent">UIEvent</h5>
 
 			<pre class="idl">
-			[Constructor(DOMString type, optional UIEventInit eventInitDict)]
+			[Exposed=Window]
 			interface UIEvent : Event {
+				constructor(DOMString type, optional UIEventInit eventInitDict = {});
 				readonly attribute Window? view;
 				readonly attribute long detail;
 			};
@@ -271,8 +278,9 @@ events.
 		<h5 id="idl-focusevent">FocusEvent</h5>
 
 			<pre class="idl">
-			[Constructor(DOMString type, optional FocusEventInit eventInitDict)]
+			[Exposed=Window]
 			interface FocusEvent : UIEvent {
+				constructor(DOMString type, optional FocusEventInit eventInitDict = {});
 				readonly attribute EventTarget? relatedTarget;
 			};
 			</pre>
@@ -513,7 +521,7 @@ events.
 
 <h3 id="events-mouseevents">Mouse Events</h3>
 
-	The mouse event module originates from the [[HTML40]] <code>onclick</code>,
+	The mouse event module originates from the [[HTML401]] <code>onclick</code>,
 	<code>ondblclick</code>, <code>onmousedown</code>, <code>onmouseup</code>,
 	<code>onmouseover</code>, <code>onmousemove</code>, and
 	<code>onmouseout</code> attributes. This event module is specifically
@@ -552,8 +560,9 @@ events.
 		<h5 id="idl-mouseevent">MouseEvent</h5>
 
 			<pre class="idl">
-			[Constructor(DOMString type, optional MouseEventInit eventInitDict)]
+			[Exposed=Window]
 			interface MouseEvent : UIEvent {
+				constructor(DOMString type, optional MouseEventInit eventInitDict = {});
 				readonly attribute long screenX;
 				readonly attribute long screenY;
 				readonly attribute long clientX;
@@ -659,6 +668,8 @@ events.
 						(in general, the middle button, often combined with a mouse wheel).
 					*	<code>2</code> MUST indicate the secondary button
 						(in general, the right button, often used to display a context menu).
+					*	<code>3</code> MUST indicate the X1 (back) button.
+					*	<code>4</code> MUST indicate the X2 (forward) button.
 
 					Some pointing devices provide or simulate more button states, and values higher than
 					<code>2</code> or lower than <code>0</code> MAY be used to represent such buttons.
@@ -747,8 +758,6 @@ events.
 					<p class="intro-dom">Introduced in this specification</p>
 
 					Queries the state of a modifier using a key value.
-					See [[#keys-modifiers]] for a list of valid (case-sensitive)
-					arguments to this method.
 
 					Returns <code>true</code> if it is a modifier key and the
 					modifier is activated, <code>false</code> otherwise.
@@ -1230,7 +1239,7 @@ events.
 			=| %                |                                                                                      |
 			 +------------------+--------------------------------------------------------------------------------------+
 			+| Type             | <strong><code>auxclick</code></strong>                                               |
-			+| Interface        | {{MouseEvent}}                                                                       |
+			+| Interface        | {{PointerEvent}}                                                                     |
 			+| Sync / Async     | Sync                                                                                 |
 			+| Bubbles          | Yes                                                                                  |
 			+| Trusted Targets  | <code>Element</code>                                                                 |
@@ -1264,6 +1273,7 @@ events.
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/buttons}} : value based on all buttons currently     |
 			 |                  |     depressed, <code>0</code> if no buttons pressed</li>                             |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/relatedTarget}} : <code>null</code></li>             |
+			 |                  | <li>For {{PointerEvent}} specific attributes, see the [[!pointerevents3]] spec.</li> |
 			 |                  | </ul>                                                                                |
 			++------------------+--------------------------------------------------------------------------------------+
 
@@ -1290,7 +1300,7 @@ events.
 			if one or more of the event types EVENT{mouseover},
 			EVENT{mousemove}, and EVENT{mouseout} occur between the press and
 			release of the pointing device button.
-			
+
 			The <a>default action</a> of the EVENT{auxclick} event type varies
 			based on the <a>event target</a> of the event and the value of the
 			{{MouseEvent/button}} or {{MouseEvent/buttons}} attributes. Typical
@@ -1346,7 +1356,7 @@ myDiv.addEventListener("auxclick", function(e) {
 			=| %                |                                                                                      |
 			 +------------------+--------------------------------------------------------------------------------------+
 			+| Type             | <strong><code>click</code></strong>                                                  |
-			+| Interface        | {{MouseEvent}}                                                                       |
+			+| Interface        | {{PointerEvent}}                                                                     |
 			+| Sync / Async     | Sync                                                                                 |
 			+| Bubbles          | Yes                                                                                  |
 			+| Trusted Targets  | <code>Element</code>                                                                 |
@@ -1380,6 +1390,7 @@ myDiv.addEventListener("auxclick", function(e) {
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/buttons}} : value based on all buttons currently     |
 			 |                  |     depressed, <code>0</code> if no buttons pressed</li>                             |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/relatedTarget}} : <code>null</code></li>             |
+			 |                  | <li>For {{PointerEvent}} specific attributes, see the [[!pointerevents3]] spec.</li> |
 			 |                  | </ul>                                                                                |
 			++------------------+--------------------------------------------------------------------------------------+
 
@@ -1590,7 +1601,7 @@ myDiv.addEventListener("auxclick", function(e) {
 			+| Bubbles          | No                                                                                   |
 			+| Trusted Targets  | <code>Element</code>                                                                 |
 			+| Cancelable       | No                                                                                   |
-			+| Composed         | Yes                                                                                  |
+			+| Composed         | No                                                                                   |
 			+| Default action   | None                                                                                 |
 			+| Context<br/>     | <ul>                                                                                 |
 			 | (trusted events) | <li>{{Event}}.{{Event/target}} : <a>topmost event target</a></li>                    |
@@ -1622,7 +1633,9 @@ myDiv.addEventListener("auxclick", function(e) {
 
 			A <a>user agent</a> MUST dispatch this event when a pointing device
 			is moved onto the boundaries of an element or one of its descendent
-			elements.  This event type is similar to EVENT{mouseover}, but
+			elements.  A <a>user agent</a> MUST also dispatch this event when the
+			element or one of its descendants moves to be underneath the primary
+			pointing device. This event type is similar to EVENT{mouseover}, but
 			differs in that it does not bubble, and MUST NOT be dispatched when
 			the pointer device moves from an element onto the boundaries of one
 			of its descendent elements.
@@ -1645,7 +1658,7 @@ myDiv.addEventListener("auxclick", function(e) {
 			+| Bubbles          | No                                                                                   |
 			+| Trusted Targets  | <code>Element</code>                                                                 |
 			+| Cancelable       | No                                                                                   |
-			+| Composed         | Yes                                                                                  |
+			+| Composed         | No                                                                                   |
 			+| Default action   | None                                                                                 |
 			+| Context<br/>     | <ul>                                                                                 |
 			 | (trusted events) | <li>{{Event}}.{{Event/target}} : <a>topmost event target</a></li>                    |
@@ -1677,7 +1690,9 @@ myDiv.addEventListener("auxclick", function(e) {
 
 			A <a>user agent</a> MUST dispatch this event when a pointing device
 			is moved off of the boundaries of an element and all of its
-			descendent elements.  This event type is similar to EVENT{mouseout},
+			descendent elements.  A <a>user agent</a> MUST also dispatch this event
+			when the element or one of its descendants moves to be no longer underneath
+			the primary pointing device. This event type is similar to EVENT{mouseout},
 			but differs in that does not bubble, and that it MUST NOT be
 			dispatched until the pointing device has left the boundaries of the
 			element and the boundaries of all of its children.
@@ -1747,8 +1762,8 @@ myDiv.addEventListener("auxclick", function(e) {
 
 			<p class="note" id="mousemove-now-cancelable">
 			This event was formerly specified to be non-cancelable in DOM Level
-			2 Events [[!DOM-Level-2-Events]], but was changed to reflect existing
-			interoperability between user agents.
+			2 Events, but was changed to reflect existing interoperability between
+			user agents.
 			</p>
 
 		<h5 id="event-type-mouseout"><dfn>mouseout</dfn></h5>
@@ -1793,10 +1808,11 @@ myDiv.addEventListener("auxclick", function(e) {
 			++------------------+--------------------------------------------------------------------------------------+
 
 			A <a>user agent</a> MUST dispatch this event when a pointing device
-			is moved off of the boundaries of an element.  This event type is
-			similar to EVENT{mouseleave}, but differs in that does bubble, and
-			that it MUST be dispatched when the pointer device moves from an
-			element onto the boundaries of one of its descendent elements.
+			is moved off of the boundaries of an element or when the element is
+			moved to be no longer underneath the primary pointing device.
+			This event type is similar to EVENT{mouseleave}, but differs in that
+			does bubble, and that it MUST be dispatched when the pointer device
+			moves from an element onto the boundaries of one of its descendent elements.
 
 			<p class="note">
 			See also the EVENT{mouseover} event type.
@@ -1844,11 +1860,12 @@ myDiv.addEventListener("auxclick", function(e) {
 			++------------------+--------------------------------------------------------------------------------------+
 
 			A <a>user agent</a> MUST dispatch this event when a pointing device
-			is moved onto the boundaries of an element.  This event type is
-			similar to EVENT{mouseenter}, but differs in that it bubbles, and
-			that it MUST be dispatched when the pointer device moves onto the
+			is moved onto the boundaries of an element or when the element is
+			moved to be underneath the primary pointing device.
+			This event type is similar to EVENT{mouseenter}, but differs in
+			that it bubbles, and that it MUST be dispatched when the pointer device moves onto the
 			boundaries of an element whose ancestor element is the <a>event
-			target</a> for the same event listener instance.
+			target</a> for the same <a>event listener</a> instance.
 
 			<p class="note">
 			See also the EVENT{mouseout} event type.
@@ -1974,8 +1991,9 @@ myDiv.addEventListener("auxclick", function(e) {
 		<h5 id="idl-wheelevent">WheelEvent</h5>
 
 			<pre class="idl">
-			[Constructor(DOMString type, optional WheelEventInit eventInitDict)]
+			[Exposed=Window]
 			interface WheelEvent : MouseEvent {
+				constructor(DOMString type, optional WheelEventInit eventInitDict = {});
 				// DeltaModeCode
 				const unsigned long DOM_DELTA_PIXEL = 0x00;
 				const unsigned long DOM_DELTA_LINE	= 0x01;
@@ -2117,7 +2135,7 @@ myDiv.addEventListener("auxclick", function(e) {
 			+| Sync / Async     | Async                                                                                |
 			+| Bubbles          | Yes                                                                                  |
 			+| Trusted Targets  | <code>Element</code>                                                                 |
-			+| Cancelable       | Yes                                                                                  |
+			+| Cancelable       | <a href="#cancelability-of-wheel-events">Varies</a>                                                  |
 			+| Composed         | Yes                                                                                  |
 			+| Default action   | Scroll (or zoom) the document                                                        |
 			+| Context<br/>     | <ul>                                                                                 |
@@ -2186,9 +2204,22 @@ myDiv.addEventListener("auxclick", function(e) {
 			with a faster speed producing a higher <a>delta</a> value.
 			</p>
 
+		<h5 id="cancelability-of-wheel-events">cancelability of wheel events</h5>
+			<p>
+			Calling <code>preventDefault</code> on a wheel event can prevent
+			or otherwise interrupt scrolling. For maximum scroll performance, a
+			user agent may not wait for each wheel event associated with the scroll
+			to be processed to see if it will be canceled. In such cases it is
+			possible that only the first wheel event of a scrolling sequence is
+			cancelable. For the rest of the wheel events the user agent should
+			set their <code>cancelable</code> property to <code>false</code>.
+			</p>
+
 <h3 id="events-inputevents">Input Events</h3>
 
-	Input events are sent as notifications whenever the DOM is being updated.
+	Input events are sent as notifications whenever the DOM is being updated (or about
+	to be updated) as a direct result of a user action (e.g., keyboard input in an editable
+	region, deleting or formatting text, ...).
 
 	<h4 id="interface-inputevent">Interface InputEvent</h4>
 
@@ -2197,10 +2228,12 @@ myDiv.addEventListener("auxclick", function(e) {
 			<p class="intro-dom">Introduced in DOM Level 3</p>
 
 			<pre class="idl">
-			[Constructor(DOMString type, optional InputEventInit eventInitDict)]
+			[Exposed=Window]
 			interface InputEvent : UIEvent {
+				constructor(DOMString type, optional InputEventInit eventInitDict = {});
 				readonly attribute DOMString? data;
 				readonly attribute boolean isComposing;
+				readonly attribute DOMString inputType;
 			};
 			</pre>
 
@@ -2227,14 +2260,27 @@ myDiv.addEventListener("auxclick", function(e) {
 					The <a>un-initialized value</a> of this attribute MUST be
 					<code>false</code>.
 				</dd>
+
+				<dt><dfn attribute>inputType</dfn></dt>
+				<dd>
+					<code>inputType</code> contains a string that identifies the type
+					of input associated with the event.
+
+					For a list of valid values for this attribute, refer to the
+					[[Input-Events]] specification.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					the empty string <code>""</code>.
+				</dd>
 			</dl>
 
 		<h5 id="idl-inputeventinit">InputEventInit</h5>
 
 			<pre class="idl">
 			dictionary InputEventInit : UIEventInit {
-				DOMString? data = "";
+				DOMString? data = null;
 				boolean isComposing = false;
+				DOMString inputType = "";
 			};
 			</pre>
 
@@ -2247,6 +2293,11 @@ myDiv.addEventListener("auxclick", function(e) {
 				<dt><dfn dict-member>isComposing</dfn></dt>
 				<dd>
 					Initializes the <code>isComposing</code> attribute of the InputEvent object.
+				</dd>
+
+				<dt><dfn dict-member>inputType</dfn></dt>
+				<dd>
+					Initializes the <code>inputType</code> attribute of the InputEvent object.
 				</dd>
 			</dl>
 
@@ -2370,8 +2421,9 @@ myDiv.addEventListener("auxclick", function(e) {
 		<h5 id="idl-keyboardevent">KeyboardEvent</h5>
 
 			<pre class="idl" data-highlight="webidl">
-			[Constructor(DOMString type, optional KeyboardEventInit eventInitDict)]
+			[Exposed=Window]
 			interface KeyboardEvent : UIEvent {
+				constructor(DOMString type, optional KeyboardEventInit eventInitDict = {});
 				// KeyLocationCode
 				const unsigned long DOM_KEY_LOCATION_STANDARD = 0x00;
 				const unsigned long DOM_KEY_LOCATION_LEFT = 0x01;
@@ -2564,20 +2616,16 @@ myDiv.addEventListener("auxclick", function(e) {
 
 				<dt><dfn method>getModifierState(keyArg)</dfn></dt>
 				<dd>
-					Queries the state of a modifier using a key value. See <a
-					href="#keys-modifiers">Modifier keys</a> for a list of valid
-					(case-sensitive) arguments to this method.
+					Queries the state of a modifier using a key value.
+
+					Returns <code>true</code> if it is a modifier key and
+					the modifier is activated, <code>false</code> otherwise.
 
 					<dl class="parameters">
 						<dt>DOMString keyArg</dt>
 						<dd>
-							A modifier key value.  Valid modifier keys are defined
-							in the <a
-							href="DOM3Events-key.html#keys-modifier">Modifier
-							Keys</a> table in [[UIEvents-Key]].
-
-							Returns <code>true</code> if it is a modifier key and
-							the modifier is activated, <code>false</code> otherwise.
+							A modifier key value.  Valid [=modifier keys=] are defined
+							in the [=Modifier Keys table=] in [[UIEvents-Key]].
 
 							<p class="note">
 							If an application wishes to distinguish between right
@@ -2618,7 +2666,7 @@ myDiv.addEventListener("auxclick", function(e) {
 					object to the unicode character string representing the key that
 					was pressed, ignoring any keyboard modifications such as
 					keyboard layout. This value should be one of the code values
-					defined in [UIEvents-Code]].
+					defined in [[UIEvents-Code]].
 				</dd>
 
 				<dt><dfn dict-member>location</dfn></dt>
@@ -2656,8 +2704,8 @@ myDiv.addEventListener("auxclick", function(e) {
 	<code>keyCode</code>, <code>charCode</code>, and <code>which</code>. The
 	<code>keyCode</code> attribute indicates a numeric value associated with a
 	particular key on a computer keyboard, while the <code>charCode</code>
-	attribute indicates the <acronym title="American Standard Code for
-	Information Interchange">ASCII</acronym> value of the character associated
+	attribute indicates the <abbr title="American Standard Code for
+	Information Interchange">ASCII</abbr> value of the character associated
 	with that key (which might be the same as the <code>keyCode</code> value)
 	and is applicable only to keys that produce a <a>character value</a>.
 
@@ -2812,7 +2860,7 @@ myDiv.addEventListener("auxclick", function(e) {
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
 			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/shiftKey}} : <code>true</code> if KEYCAP{Shift}|
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
-			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}| 
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}|
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
 			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/metaKey}} : <code>true</code> if KEYCAP{Meta}  |
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
@@ -2893,7 +2941,7 @@ myDiv.addEventListener("auxclick", function(e) {
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
 			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/shiftKey}} : <code>true</code> if KEYCAP{Shift}|
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
-			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}| 
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}|
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
 			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/metaKey}} : <code>true</code> if KEYCAP{Meta}  |
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
@@ -2963,8 +3011,9 @@ myDiv.addEventListener("auxclick", function(e) {
 		<h5 id="idl-compositionevent">CompositionEvent</h5>
 
 			<pre class="idl">
-			[Constructor(DOMString type, optional CompositionEventInit eventInitDict)]
+			[Exposed=Window]
 			interface CompositionEvent : UIEvent {
+				constructor(DOMString type, optional CompositionEventInit eventInitDict = {});
 				readonly attribute DOMString data;
 			};
 			</pre>
