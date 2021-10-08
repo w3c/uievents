@@ -192,6 +192,9 @@ virtual keyboard.
 * <a>handle native copy</a>
 * <a>handle native paste</a>
 
+TODO: Include native pointer events and resolve with native mouse events. How do these two
+event types interact on the common platforms?
+
 </section>
 
 <!--
@@ -448,7 +451,7 @@ A {{MouseEvent}} has the following:
     :: None
 
     1. Let |event| = the result of
-        <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new MouseEvent</a>
+        <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new event</a>
     1. <a>Initialize a MouseEvent</a> with |event|, |eventType| and |eventTarget|
     1. Return |event|
 
@@ -521,10 +524,8 @@ A {{MouseEvent}} has the following:
 
     1. if |mbutton| is the secondary mouse button, then
 
-        1. Let |menuevent| = <a>create a MouseEvent</a> with "contextmenu", |target|
-        1. Let |result| = <a>dispatch</a> |menuevent| at |target|
-        1. If |result| is true, then show the UA context menu
-   
+		1. <a>Maybe show context menu</a> with |native|, |target|
+
 </div><!-- algorithm -->
 
 <div class="algorithm" data-algorithm="handle-native-mouse-up">
@@ -567,24 +568,53 @@ A {{MouseEvent}} has the following:
     Note: The platform should call this immediately after <a>handle native mouse up</a> for
     mouseups that generate clicks.
     
-    1. Let |mbutton| be an ID from |native| that identifies which mouse button was pressed
-
     1. Let |target| = <a>hit test</a> with viewport-relative coordinates from |native|
+
+    1. <a>Send click event</a> with |native| and |target|.
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="send-click-event">
+<h3 id="send click event"><dfn>send click event</dfn></h3>
+
+    : Input
+    :: |native|, the native mousedown
+    :: |target|, the {{EventTarget}} of the event
+
+    : Output
+    :: None
+
+    1. Let |mbutton| = 1  (primary mouse button by default)
+    1. If |native| is valid, then
+        1. Let |mbutton| be an ID from |native| that identifies which mouse button was pressed
 
     1. Let |eventType| = "auxclick"
     1. If |mbutton| is the primary mouse button, then
         1. Set |eventType| = "click"
 
-    1. Let |event| = <a>create a MouseEvent</a> with |eventType| and |target|
-    1. <a>Set MouseEvent attributes from native</a> with |native|
+    1. Let |event| = <a>create a PointerEvent</a> with |eventType| and |target|
+
+    1. If |native| is valid, then
+        1. <a>Set MouseEvent attributes from native</a> with |event|, |native|
+        1. If |event|.{{screenX}} is not an integer value, then round it.
+        1. If |event|.{{screenY}} is not an integer value, then round it.
 
     1. <a>dispatch</a> |event| at |target| 
+
+    Note: See <a href="https://github.com/w3c/pointerevents/issues/100">pointerevents/100</a>
+    for info about browsers using PointerEvents and rounded coordinates.
 
     Note: Any "default action" is handled during dispatch by triggering the
     <a href="https://dom.spec.whatwg.org/#eventtarget-activation-behavior">activation behavior</a>
     algorithm for the target. So there is no need for handle that here.
     However, need to verify that the existing spec handles disabled/css-pointer-events/inert/...
 
+    Note: To handle `HTMLelement.click()`, call this algorithm with |native| = null and
+    |target| = `HTMLelement`.
+
+    Note: To handle keyboard-initiated clicks, call this algorithm with |native| = null and
+    |target| = currently focused element.
+    
 </div><!-- algorithm -->
 
 <div class="algorithm" data-algorithm="handle-native-mouse-double-click">
@@ -605,8 +635,10 @@ A {{MouseEvent}} has the following:
     
     1. Let |target| = <a>hit test</a> with viewport-relative coordinates from |native|
 
-    1. Let |event| = <a>create a MouseEvent</a> with "dblclick" and |target|
-    1. <a>Set MouseEvent attributes from native</a> with |native|
+    1. Let |event| = <a>create a PointerEvent</a> with "dblclick" and |target|
+    1. <a>Set MouseEvent attributes from native</a> with |event|, |native|
+    1. If |event|.{{screenX}} is not an integer value, then round it.
+    1. If |event|.{{screenY}} is not an integer value, then round it.
 
     1. <a>dispatch</a> |event| at |target| 
 
@@ -719,6 +751,26 @@ A {{MouseEvent}} has the following:
 
 </div><!-- algorithm -->
 
+<div class="algorithm" data-algorithm="maybe-show-context-menu">
+<h3 id="maybe show context menu"><dfn>maybe show context menu</dfn></h3>
+
+    : Input
+    :: |native|, the native mousedown or pointer event
+    :: |target|, the {{EventTarget}} of the event
+
+    : Output
+    :: None
+
+        1. Let |menuevent| = <a>create a PointerEvent</a> with "contextmenu", |target|
+        1. If |native| is valid, then
+            1. <a>Set MouseEvent attributes from native</a> with |native|
+
+        1. Let |result| = <a>dispatch</a> |menuevent| at |target|
+        1. If |result| is true, then show the UA context menu
+
+    Note: To handle a context menu triggered by the keyboard, call this algorithm with
+    |native| = null and |target| = currently focused element.
+
 </section>
 
 <!--
@@ -797,7 +849,7 @@ Issue: TODO
     :: None
 
     1. Let |e| = the result of
-        <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new InputEvent</a>
+        <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new event</a>
     1. <a>Initialize an InputEvent</a> with |e|, |eventType| and |eventTarget|
 
     1. Return |e|
@@ -1001,7 +1053,7 @@ And the following internal state:
     :: None
 
     1. Let |e| = the result of
-        <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new KeyboardEvent</a>
+        <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new event</a>
     1. <a>Initialize a KeyboardEvent</a> with |e|, |eventType| and |eventTarget|
 
     1. Return |e|
@@ -1349,7 +1401,7 @@ And the following internal state:
     :: None
 
     1. Let |e| = the result of
-        <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new CompositionEvent</a>
+        <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new event</a>
     1. <a>Initialize a CompositionEvent</a> with |e|, |eventType| and |eventTarget|
 
     1. Return |e|
@@ -1542,6 +1594,23 @@ Issue: The contents of this section should eventually be moved into the PointerE
 
 </div><!-- algorithm -->
 
+<div class="algorithm" data-algorithm="create-a-pointerevent">
+<h3 id="create a pointerevent"><dfn>create a PointerEvent</dfn></h3>
+
+    : Input
+    :: |eventType|, a DOMString containing the event type
+    :: |eventTarget|, the {{EventTarget}} of the event
+
+    : Output
+    :: None
+
+    1. Let |event| = the result of
+        <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new event</a>
+    1. <a>Initialize a PointerEvent</a> with |event|, |eventType| and |eventTarget|
+    1. Return |event|
+
+</div><!-- algorithm -->
+
 <div class="algorithm" data-algorithm="create-pointerevent-from-mouseevent">
 <h3 id="create pointerevent from mouseevent"><dfn>create PointerEvent from MouseEvent</dfn></h3>
 
@@ -1553,7 +1622,7 @@ Issue: The contents of this section should eventually be moved into the PointerE
     :: None
 
     1. Let |event| = the result of
-        <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new PointerEvent</a>
+        <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new event</a>
         
     1. Let |target| = |mouseevent|.{{target}}
     
@@ -1808,7 +1877,7 @@ A {{MouseEvent}} has the following:
 Issue: KeyboardLock is not yet an accepted standard and is included here as a placeholder
 to explore how it might be integrated.
 
-Issue: The contents of this section should eventually be moved into the [[WICG Keyboard Lock]] spec
+Issue: The contents of this section should eventually be moved into the [[WICG-Keyboard-Lock]] spec
 
 <h3 id="keyboard-lock-global-state">Global State for Keyboard Lock</h3>
 

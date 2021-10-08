@@ -12,7 +12,7 @@
  *   - .toc for the Table of Contents (<ol class="toc">)
  *     + <span class="secno"> for the section numbers
  *   - #toc for the Table of Contents (<nav id="toc">)
- *   - ul.index for Indices (<a href="#ref">term</a><span>, in §N.M</span>)
+ *   - ul.index for Indices (<a href="#ref">term</a><span>, in § N.M</span>)
  *   - table.index for Index Tables (e.g. for properties or elements)
  *
  * Structural Markup
@@ -26,6 +26,7 @@
  *   - .figure and .caption (HTML4) and figure and figcaption (HTML5)
  *     -> .sidefigure for right-floated figures
  *   - ins/del
+ *     -> ins/del.c### for candidate and proposed changes (amendments)
  *
  * Code
  *   - pre and code
@@ -34,9 +35,12 @@
  *   - .note       for informative notes             (div, p, span, aside, details)
  *   - .example    for informative examples          (div, p, pre, span)
  *   - .issue      for issues                        (div, p, span)
- *   - .assertion  for assertions                    (div, p, span)
  *   - .advisement for loud normative statements     (div, p, strong)
  *   - .annoying-warning for spec obsoletion notices (div, aside, details)
+ *   - .correction for "candidate corrections"       (div, aside, details, section)
+ *   - .addition   for "candidate additions"         (div, aside, details, section)
+ *   - .correction.proposed for "proposed corrections" (div, aside, details, section)
+ *   - .addition.proposed   for "proposed additions"   (div, aside, details, section)
  *
  * Definition Boxes
  *   - pre.def   for WebIDL definitions
@@ -57,6 +61,8 @@
  *   - .head for the header
  *   - .copyright for the copyright
  *
+ * Outdated warning for old specs
+ *
  * Miscellaneous
  *   - .overlarge for things that should be as wide as possible, even if
  *     that overflows the body text area. This can be used on an item or
@@ -64,22 +70,28 @@
  *     Note that this styling basically doesn't help at all when printing,
  *     since A4 paper isn't much wider than the max-width here.
  *     It's better to design things to fit into a narrower measure if possible.
+ *
  *   - js-added ToC jump links (see fixup.js)
  *
  ******************************************************************************/
 
+/* color variables included separately for reliability */
+
 /******************************************************************************/
-/*                                   Body                                     */
+/*                                    Body                                    */
 /******************************************************************************/
+
+	html {
+	}
 
 	body {
 		counter-reset: example figure issue;
 
 		/* Layout */
-		max-width: 50em;               /* limit line length to 50em for readability   */
-		margin: 0 auto;                /* center text within page                     */
+		max-width: 50em;			  /* limit line length to 50em for readability   */
+		margin: 0 auto;				/* center text within page                    */
 		padding: 1.6em 1.5em 2em 50px; /* assume 16px font size for downlevel clients */
-		padding: 1.6em 1.5em 2em calc(26px + 1.5em); /* leave space for status flag     */
+		padding: 1.6em 1.5em 2em calc(26px + 1.5em); /* leave space for status flag    */
 
 		/* Typography */
 		line-height: 1.5;
@@ -90,9 +102,10 @@
 		overflow-wrap: break-word;
 		hyphens: auto;
 
-		/* Colors */
 		color: black;
+		color: var(--text);
 		background: white top left fixed no-repeat;
+		background: var(--bg) top left fixed no-repeat;
 		background-size: 25px auto;
 	}
 
@@ -103,7 +116,7 @@
 
 /** Header ********************************************************************/
 
-	div.head { margin-bottom: 1em }
+	div.head { margin-bottom: 1em; }
 	div.head hr { border-style: solid; }
 
 	div.head h1 {
@@ -124,10 +137,13 @@
 	.head img[src*="logos/W3C"] {
 		display: block;
 		border: solid #1a5e9a;
+		border: solid var(--logo-bg);
 		border-width: .65rem .7rem .6rem;
 		border-radius: .4rem;
 		background: #1a5e9a;
+		background: var(--logo-bg);
 		color: white;
+		color: var(--logo-text);
 		font-weight: bold;
 	}
 
@@ -138,7 +154,9 @@
 
 	.head a:active > img[src*="logos/W3C"] {
 		background: #c00;
+		background: var(--logo-active-bg);
 		border-color: #c00;
+		border-color: var(--logo-active-bg);
 	}
 
 	/* see also additional rules in Link Styling section */
@@ -146,7 +164,7 @@
 /** Copyright *****************************************************************/
 
 	p.copyright,
-	p.copyright small { font-size: small }
+	p.copyright small { font-size: small; }
 
 /** Back to Top / ToC Toggle **************************************************/
 
@@ -158,14 +176,13 @@
 	@media not print {
 		#toc-nav {
 			position: fixed;
-			z-index: 2;
+			z-index: 3;
 			bottom: 0; left: 0;
 			margin: 0;
 			min-width: 1.33em;
 			border-top-right-radius: 2rem;
 			box-shadow: 0 0 2px;
 			font-size: 1.5em;
-			color: black;
 		}
 		#toc-nav > a {
 			display: block;
@@ -175,23 +192,32 @@
 			padding: .1em 0.3em;
 			margin: 0;
 
-			background: white;
 			box-shadow: 0 0 2px;
 			border: none;
 			border-top-right-radius: 1.33em;
+
+			color: #707070;
+			color: var(--tocnav-normal-text);
 			background: white;
+			background: var(--tocnav-normal-bg);
 		}
+		#toc-nav > a:hover,
+		#toc-nav > a:focus {
+			color: black;
+			color: var(--tocnav-hover-text);
+			background: #f8f8f8;
+			background: var(--tocnav-hover-bg);
+		}
+		#toc-nav > a:active {
+			color: #c00;
+			color: var(--tocnav-active-text);
+			background: white;
+			background: var(--tocnav-active-bg);
+		}
+
 		#toc-nav > #toc-jump {
 			padding-bottom: 2em;
 			margin-bottom: -1.9em;
-		}
-
-		#toc-nav > a:hover,
-		#toc-nav > a:focus {
-			background: #f8f8f8;
-		}
-		#toc-nav > a:not(:hover):not(:focus) {
-			color: #707070;
 		}
 
 		/* statusbar gets in the way on keyboard focus; remove once browsers fix */
@@ -205,26 +231,6 @@
 		}
 		#toc-nav > a > span + span {
 			padding-right: 0.2em;
-		}
-
-		#toc-toggle-inline {
-			vertical-align: 0.05em;
-			font-size: 80%;
-			color: gray;
-			color: hsla(203,20%,40%,.7);
-			border-style: none;
-			background: transparent;
-			position: relative;
-		}
-		#toc-toggle-inline:hover:not(:active),
-		#toc-toggle-inline:focus:not(:active) {
-			text-shadow: 1px 1px silver;
-			top: -1px;
-			left: -1px;
-		}
-
-		#toc-nav :active {
-			color: #C00;
 		}
 	}
 
@@ -243,10 +249,14 @@
 			padding: 0 1em;
 			padding-left: 42px;
 			padding-left: calc(1em + 26px);
+			color: black;
+			color: var(--tocsidebar-text);
 			background: inherit;
 			background-color: #f7f8f9;
+			background-color: var(--tocsidebar-bg);
 			z-index: 1;
 			box-shadow: -.1em 0 .25em rgba(0,0,0,.1) inset;
+			box-shadow: -.1em 0 .25em var(--tocsidebar-shadow) inset;
 		}
 		body.toc-sidebar #toc h2 {
 			margin-top: .8rem;
@@ -256,6 +266,7 @@
 			font-weight: bold;
 			color: gray;
 			color: hsla(203,20%,40%,.7);
+			color: var(--tocsidebar-heading-text);
 		}
 		body.toc-sidebar #toc-jump:not(:focus) {
 			width: 0;
@@ -283,10 +294,14 @@
 			padding: 0 1em;
 			padding-left: 42px;
 			padding-left: calc(1em + 26px);
+			color: black;
+			color: var(--tocsidebar-text);
 			background: inherit;
 			background-color: #f7f8f9;
+			background-color: var(--tocsidebar-bg);
 			z-index: 1;
 			box-shadow: -.1em 0 .25em rgba(0,0,0,.1) inset;
+			box-shadow: -.1em 0 .25em var(--tocsidebar-shadow) inset;
 		}
 		body:not(.toc-inline) #toc h2 {
 			margin-top: .8rem;
@@ -296,6 +311,7 @@
 			font-weight: bold;
 			color: gray;
 			color: hsla(203,20%,40%,.7);
+			color: var(--tocsidebar-heading-text);
 		}
 
 		body:not(.toc-inline) {
@@ -327,9 +343,9 @@
 		page-break-after: avoid;
 		page-break-inside: avoid;
 		font: 100% sans-serif;   /* Reset all font styling to clear out UA styles */
-		font-family: inherit;    /* Inherit the font family. */
-		line-height: 1.2;        /* Keep wrapped headings compact */
-		hyphens: manual;         /* Hyphenated headings look weird */
+		font-family: inherit;	/* Inherit the font family. */
+		line-height: 1.2;		/* Keep wrapped headings compact */
+		hyphens: manual;		/* Hyphenated headings look weird */
 	}
 
 	h2, h3, h4, h5, h6 {
@@ -338,7 +354,7 @@
 
 	h1, h2, h3 {
 		color: #005A9C;
-		background: transparent;
+		color: var(--heading-text);
 	}
 
 	h1 { font-size: 170%; }
@@ -352,8 +368,8 @@
 /** Subheadings ***************************************************************/
 
 	h1 + h2,
-	#subtitle {
-		/* #subtitle is a subtitle in an H2 under the H1 */
+	#profile-and-date {
+		/* #profile-and-date is a subtitle in an H2 under the H1 */
 		margin-top: 0;
 	}
 	h2 + h3,
@@ -365,11 +381,13 @@
 
 /** Section divider ***********************************************************/
 
-	:not(.head) > hr {
+	:not(.head) > :not(.head) + hr {
 		font-size: 1.5em;
 		text-align: center;
 		margin: 1em auto;
 		height: auto;
+		color: black;
+		color: var(--hr-text);
 		border: transparent solid 0;
 		background: transparent;
 	}
@@ -411,48 +429,51 @@
 	/* Style for algorithms */
 	ol.algorithm ol:not(.algorithm),
 	.algorithm > ol ol:not(.algorithm) {
-	 border-left: 0.5em solid #DEF;
+	border-left: 0.5em solid #DEF;
+	border-left: 0.5em solid var(--algo-border);
 	}
 
 	/* Put nice boxes around each algorithm. */
 	[data-algorithm]:not(.heading) {
-	  padding: .5em;
-	  border: thin solid #ddd; border-radius: .5em;
-	  margin: .5em calc(-0.5em - 1px);
+	 padding: .5em;
+	 border: thin solid #ddd;
+	 border: thin solid var(--algo-border);
+	 border-radius: .5em;
+	 margin: .5em calc(-0.5em - 1px);
 	}
 	[data-algorithm]:not(.heading) > :first-child {
-	  margin-top: 0;
+	 margin-top: 0;
 	}
 	[data-algorithm]:not(.heading) > :last-child {
-	  margin-bottom: 0;
+	 margin-bottom: 0;
 	}
 
 	/* Style for switch/case <dl>s */
 	dl.switch > dd > ol.only,
 	dl.switch > dd > .only > ol {
-	 margin-left: 0;
+	margin-left: 0;
 	}
 	dl.switch > dd > ol.algorithm,
 	dl.switch > dd > .algorithm > ol {
-	 margin-left: -2em;
+	margin-left: -2em;
 	}
 	dl.switch {
-	 padding-left: 2em;
+	padding-left: 2em;
 	}
 	dl.switch > dt {
-	 text-indent: -1.5em;
-	 margin-top: 1em;
+	text-indent: -1.5em;
+	margin-top: 1em;
 	}
 	dl.switch > dt + dt {
-	 margin-top: 0;
+	margin-top: 0;
 	}
 	dl.switch > dt::before {
-	 content: '\21AA';
-	 padding: 0 0.5em 0 0;
-	 display: inline-block;
-	 width: 1em;
-	 text-align: right;
-	 line-height: 0.5em;
+	content: '\21AA';
+	padding: 0 0.5em 0 0;
+	display: inline-block;
+	width: 1em;
+	text-align: right;
+	line-height: 0.5em;
 	}
 
 /** Terminology Markup ********************************************************/
@@ -470,7 +491,7 @@
 		font-style: normal;
 	}
 	dt dfn code, code.idl {
-		font-size: medium;
+		font-size: inherit;
 	}
 	dfn var {
 		font-style: normal;
@@ -478,8 +499,39 @@
 
 /** Change Marking ************************************************************/
 
-	del { color: red;  text-decoration: line-through; }
-	ins { color: #080; text-decoration: underline;    }
+	del {
+		color: #aa0000;
+		color: var(--del-text);
+		background: transparent;
+		background: var(--del-bg);
+		text-decoration: line-through;
+	}
+	ins {
+		color: #006100;
+		color: var(--ins-text);
+		background: transparent;
+		background: var(--ins-bg);
+		text-decoration: underline;
+	}
+
+	/* for amendments (candidate/proposed changes) */
+
+	.amendment ins, .correction ins, .addition ins,
+	ins[class^=c] {
+		text-decoration-style: dotted;
+	}
+	.amendment del, .correction del, .addition del,
+	del[class^=c] {
+		text-decoration-style: dotted;
+	}
+	.amendment.proposed ins, .correction.proposed ins, .addition.proposed ins,
+	ins[class^=c].proposed {
+		text-decoration-style: double;
+	}
+	.amendment.proposed del, .correction.proposed del, .addition.proposed del,
+	del[class^=c].proposed {
+		text-decoration-style: double;
+	}
 
 /** Miscellaneous improvements to inline formatting ***************************/
 
@@ -497,9 +549,14 @@
 	pre, code, samp {
 		font-family: Menlo, Consolas, "DejaVu Sans Mono", Monaco, monospace;
 		font-size: .9em;
-		page-break-inside: avoid;
 		hyphens: none;
 		text-transform: none;
+		text-align: left;
+		text-align: start;
+		font-variant: normal;
+		orphans: 3;
+		widows: 3;
+		page-break-before: avoid;
 	}
 	pre code,
 	code code {
@@ -514,7 +571,7 @@
 
 /** Inline Code fragments *****************************************************/
 
-  /* Do something nice. */
+	/* Do something nice. */
 
 /******************************************************************************/
 /*                                    Links                                   */
@@ -525,27 +582,28 @@
 	/* We hyperlink a lot, so make it less intrusive */
 	a[href] {
 		color: #034575;
-		text-decoration: none;
-		border-bottom: 1px solid #707070;
-		/* Need a bit of extending for it to look okay */
-		padding: 0 1px 0;
-		margin: 0 -1px 0;
+		color: var(--a-normal-text);
+		text-decoration: underline #707070;
+		text-decoration: underline var(--a-normal-underline);
+		text-decoration-skip-ink: none;
 	}
 	a:visited {
-		border-bottom-color: #BBB;
+		color: #034575;
+		color: var(--a-visited-text);
+		text-decoration-color: #bbb;
+		text-decoration-color: var(--a-visited-underline);
 	}
 
-	/* Use distinguishing colors when user is interacting with the link */
+	/* Indicate interaction with the link */
 	a[href]:focus,
 	a[href]:hover {
-		background: #f8f8f8;
-		background: rgba(75%, 75%, 75%, .25);
-		border-bottom-width: 3px;
-		margin-bottom: -2px;
+		text-decoration-thickness: 2px;
 	}
 	a[href]:active {
-		color: #C00;
-		border-color: #C00;
+		color: #c00;
+		color: var(--a-active-text);
+		text-decoration-color: #c00;
+		text-decoration-color: var(--a-active-underline);
 	}
 
 	/* Backout above styling for W3C logo */
@@ -564,8 +622,13 @@
 		border-style: none;
 	}
 
+	img, svg {
+		/* Intentionally not color-scheme aware. */
+		background: white;
+	}
+
 	/* For autogen numbers, add
-	   .caption::before, figcaption::before { content: "Figure " counter(figure) ". "; }
+	  .caption::before, figcaption::before { content: "Figure " counter(figure) ". "; }
 	*/
 
 	figure, .figure, .sidefigure {
@@ -573,10 +636,11 @@
 		text-align: center;
 		margin: 2.5em 0;
 	}
-	.figure img,    .sidefigure img,    figure img,
+	.figure img,	.sidefigure img,	figure img,
 	.figure object, .sidefigure object, figure object {
 		max-width: 100%;
 		margin: auto;
+		height: auto;
 	}
 	.figure pre, .sidefigure pre, figure pre {
 		text-align: left;
@@ -590,7 +654,7 @@
 		.sidefigure {
 			float: right;
 			width: 50%;
-			margin: 0 0 0.5em 0.5em
+			margin: 0 0 0.5em 0.5em;
 		}
 	}
 	.caption, figcaption, caption {
@@ -605,13 +669,15 @@
 	}
 
 	/* DL list is indented 2em, but figure inside it is not */
-	dd > .figure, dd > figure { margin-left: -2em }
+	dd > .figure, dd > figure { margin-left: -2em; }
 
 /******************************************************************************/
 /*                             Colored Boxes                                  */
 /******************************************************************************/
 
-	.issue, .note, .example, .assertion, .advisement, blockquote {
+	.issue, .note, .example, .assertion, .advisement, blockquote,
+	.amendment, .correction, .addition {
+		margin: 1em auto;
 		padding: .5em;
 		border: .5em;
 		border-left-style: solid;
@@ -622,88 +688,117 @@
 		border-right-style: solid;
 	}
 
-	.issue,
-	.note,
-	.example,
-	.advisement,
-	.assertion,
-	blockquote {
-		margin: 1em auto;
-	}
+	blockquote > :first-child,
 	.note  > p:first-child,
 	.issue > p:first-child,
-	blockquote > :first-child {
+	.amendment > p:first-child,
+	.correction > p:first-child,
+	.addition > p:first-child {
 		margin-top: 0;
 	}
-	blockquote > :last-child {
+	blockquote > :last-child,
+	.note  > p:last-child,
+	.issue > p:last-child,
+	.amendment > p:last-child,
+	.correction > p:last-child,
+	.addition > p:last-child {
 		margin-bottom: 0;
+	}
+
+
+	.issue::before, .issue > .marker,
+	.example::before, .example > .marker,
+	.note::before, .note > .marker,
+	details.note > summary > .marker,
+	.amendment::before, .amendment > .marker,
+	details.amendment > summary > .marker,
+	.addition::before, .addition > .marker,
+	addition.amendment > summary > .marker,
+	.correction::before, .correction > .marker,
+	correction.amendment > summary > .marker
+	{
+		text-transform: uppercase;
+		padding-right: 1em;
+	}
+
+	.example::before, .example > .marker {
+		display: block;
+		padding-right: 0em;
 	}
 
 /** Blockquotes ***************************************************************/
 
 	blockquote {
 		border-color: silver;
+		border-color: var(--blockquote-border);
+		background: transparent;
+		background: var(--blockquote-bg);
+		color: currentcolor;
+		color: var(--blockquote-text);
 	}
 
 /** Open issue ****************************************************************/
 
 	.issue {
-		border-color: #E05252;
-		background: #FBE9E9;
+		border-color: #e05252;
+		border-color: var(--issue-border);
+		background: #fbe9e9;
+		background: var(--issue-bg);
+		color: black;
+		color: var(--issue-text);
 		counter-increment: issue;
 		overflow: auto;
 	}
 	.issue::before, .issue > .marker {
-		text-transform: uppercase;
-		color: #AE1E1E;
-		padding-right: 1em;
-		text-transform: uppercase;
+		color: #831616;
+		color: var(--issueheading-text);
 	}
 	/* Add .issue::before { content: "Issue " counter(issue) " "; } for autogen numbers,
-	   or use class="marker" to mark up the issue number in source. */
+	  or use class="marker" to mark up the issue number in source. */
 
 /** Example *******************************************************************/
 
 	.example {
-		border-color: #E0CB52;
-		background: #FCFAEE;
+		border-color: #e0cb52;
+		border-color: var(--example-border);
+		background: #fcfaee;
+		background: var(--example-bg);
+		color: black;
+		color: var(--example-text);
 		counter-increment: example;
 		overflow: auto;
 		clear: both;
 	}
 	.example::before, .example > .marker {
-		text-transform: uppercase;
-		color: #827017;
-		min-width: 7.5em;
-		display: block;
+		color: #574b0f;
+		color: var(--exampleheading-text);
 	}
 	/* Add .example::before { content: "Example " counter(example) " "; } for autogen numbers,
-	   or use class="marker" to mark up the example number in source. */
+	  or use class="marker" to mark up the example number in source. */
 
 /** Non-normative Note ********************************************************/
 
 	.note {
-		border-color: #52E052;
-		background: #E9FBE9;
+		border-color: #52e052;
+		border-color: var(--note-border);
+		background: #e9fbe9;
+		background: var(--note-bg);
+		color: black;
+		color: var(--note-text);
 		overflow: auto;
 	}
 
 	.note::before, .note > .marker,
-	details.note > summary::before,
-	details.note > summary > .marker {
-		text-transform: uppercase;
-		display: block;
-		color: hsl(120, 70%, 30%);
-	}
-	/* Add .note::before { content: "Note"; } for autogen label,
-	   or use class="marker" to mark up the label in source. */
-
 	details.note > summary {
-		display: block;
 		color: hsl(120, 70%, 30%);
+		color: var(--noteheading-text);
 	}
+	/* Add .note::before { content: "Note "; } for autogen label,
+	  or use class="marker" to mark up the label in source. */
+
 	details.note[open] > summary {
 		border-bottom: 1px silver solid;
+		border-bottom: 1px var(--notesummary-underline) solid;
 	}
 
 /** Assertion Box *************************************************************/
@@ -711,7 +806,11 @@
 
 	.assertion {
 		border-color: #AAA;
+		border-color: var(--assertion-border);
 		background: #EEE;
+		background: var(--assertion-bg);
+		color: black;
+		color: var(--assertion-text);
 	}
 
 /** Advisement Box ************************************************************/
@@ -719,15 +818,52 @@
 
 	.advisement {
 		border-color: orange;
+		border-color: var(--advisement-border);
 		border-style: none solid;
-		background: #FFEECC;
+		background: #fec;
+		background: var(--advisement-bg);
+		color: black;
+		color: var(--advisement-text);
 	}
 	strong.advisement {
 		display: block;
 		text-align: center;
 	}
-	.advisement > .marker {
-		color: #B35F00;
+	.advisement::before, .advisement > .marker {
+		color: #b35f00;
+		color: var(--advisementheading-text);
+	}
+
+/** Amendment Box *************************************************************/
+
+	.amendment, .correction, .addition {
+		border-color: #330099;
+		border-color: var(--amendment-border);
+		background: #F5F0FF;
+		background: var(--amendment-bg);
+		color: black;
+		color: var(--amendment-text);
+	}
+	.amendment.proposed, .correction.proposed, .addition.proposed {
+		border-style: solid;
+		border-block-width: 0.25em;
+	}
+	.amendment::before, .amendment > .marker,
+	details.amendment > summary::before, details.amendment > summary > .marker,
+	.correction::before, .correction > .marker,
+	details.correction > summary::before, details.correction > summary > .marker,
+	.addition::before, .addition > .marker,
+	details.addition > summary::before, details.addition > summary > .marker {
+		color: #220066;
+		color: var(--amendmentheading-text);
+	}
+	.amendment.proposed::before, .amendment.proposed > .marker,
+	details.amendment.proposed > summary::before, details.amendment.proposed > summary > .marker,
+	.correction.proposed::before, .correction.proposed > .marker,
+	details.correction.proposed > summary::before, details.correction.proposed > summary > .marker,
+	.addition.proposed::before, .addition.proposed > .marker,
+	details.addition.proposed > summary::before, details.addition.proposed > summary > .marker {
+		font-weight: bold;
 	}
 
 /** Spec Obsoletion Notice ****************************************************/
@@ -743,13 +879,16 @@
 	.annoying-warning:not(details),
 	details.annoying-warning:not([open]) > summary,
 	details.annoying-warning[open] {
-		background: #fdd;
-		color: red;
-		font-weight: bold;
+		background: hsla(40,100%,50%,0.95);
+		background: var(--warning-bg);
+		color: black;
+		color: var(--warning-text);
 		padding: .75em 1em;
-		border: thick red;
-		border-style: solid;
-		border-radius: 1em;
+		border: red;
+		border: var(--warning-border);
+		border-style: solid none;
+		box-shadow: 0 2px 8px black;
+		text-align: center;
 	}
 	.annoying-warning :last-child {
 		margin-bottom: 0;
@@ -758,9 +897,9 @@
 @media not print {
 	details.annoying-warning[open] {
 		position: fixed;
-		left: 1em;
-		right: 1em;
-		bottom: 1em;
+		left: 0;
+		right: 0;
+		bottom: 2em;
 		z-index: 1000;
 	}
 }
@@ -773,9 +912,13 @@
 
 	.def {
 		padding: .5em 1em;
-		background: #DEF;
+		background: #def;
+		background: var(--def-bg);
 		margin: 1.2em 0;
-		border-left: 0.5em solid #8CCBF2;
+		border-left: 0.5em solid #8ccbf2;
+		border-left: 0.5em solid var(--def-border);
+		color: black;
+		color: var(--def-text);
 	}
 
 /******************************************************************************/
@@ -800,6 +943,7 @@
 		padding: 0.5em;
 		vertical-align: baseline;
 		border-bottom: 1px solid #bbd7e9;
+		border-bottom: 1px solid var(--defrow-border);
 	}
 
 	table.def > tbody > tr:last-child th,
@@ -820,10 +964,10 @@
 	}
 
 	/* A footnote at the bottom of a def table */
-	table.def           td.footnote {
+	table.def td.footnote {
 		padding-top: 0.6em;
 	}
-	table.def           td.footnote::before {
+	table.def td.footnote::before {
 		content: " ";
 		display: block;
 		height: 0.6em;
@@ -833,15 +977,15 @@
 
 /** Data tables (and properly marked-up index tables) *************************/
 	/*
-		 <table class="data"> highlights structural relationships in a table
-		 when correct markup is used (e.g. thead/tbody, th vs. td, scope attribute)
+		<table class="data"> highlights structural relationships in a table
+		when correct markup is used (e.g. thead/tbody, th vs. td, scope attribute)
 
-		 Use class="complex data" for particularly complicated tables --
-		 (This will draw more lines: busier, but clearer.)
+		Use class="complex data" for particularly complicated tables --
+		(This will draw more lines: busier, but clearer.)
 
-		 Use class="long" on table cells with paragraph-like contents
-		 (This will adjust text alignment accordingly.)
-		 Alternately use class="longlastcol" on tables, to have the last column assume "long".
+		Use class="long" on table cells with paragraph-like contents
+		(This will adjust text alignment accordingly.)
+		Alternately use class="longlastcol" on tables, to have the last column assume "long".
 	*/
 
 	table {
@@ -868,6 +1012,7 @@
 		padding: 0.5em 1em;
 		border-width: 1px;
 		border-color: silver;
+		border-color: var(--datacell-border);
 		border-top-style: solid;
 	}
 
@@ -892,6 +1037,7 @@
 	table.index tbody th:first-child  {
 		border-right: 2px solid;
 		border-top: 1px solid silver;
+		border-top: 1px solid var(--datacell-border);
 		padding-right: 1em;
 	}
 
@@ -903,13 +1049,14 @@
 	table.complex.data th,
 	table.complex.data td {
 		border: 1px solid silver;
+		border: 1px solid var(--datacell-border);
 		text-align: center;
 	}
 
 	table.data.longlastcol td:last-child,
 	table.data td.long {
-	 vertical-align: baseline;
-	 text-align: left;
+		vertical-align: baseline;
+		text-align: left;
 	}
 
 	table.data img {
@@ -962,17 +1109,30 @@ Possible extra rowspan handling
 
 	.toc a {
 		/* More spacing; use padding to make it part of the click target. */
-		padding-top: 0.1rem;
+		padding: 0.1rem 1px 0;
 		/* Larger, more consistently-sized click target */
 		display: block;
+		/* Switch to using border-bottom for underlines */
+		text-decoration: none;
+		border-bottom: 1px solid;
 		/* Reverse color scheme */
 		color: black;
-		border-color: #3980B5;
-		border-bottom-width: 3px !important;
-		margin-bottom: 0px !important;
+		color: var(--toclink-text);
+		border-color: #3980b5;
+		border-color: var(--toclink-underline);
 	}
 	.toc a:visited {
+		color: black;
+		color: var(--toclink-visited-text);
 		border-color: #054572;
+		border-color: var(--toclink-visited-underline);
+	}
+	.toc a:focus,
+	.toc a:hover {
+		background: rgba(75%, 75%, 75%, .25);
+		background: var(--a-hover-bg);
+		border-bottom-width: 3px;
+		margin-bottom: -2px;
 	}
 	.toc a:not(:focus):not(:hover) {
 		/* Allow colors to cascade through from link styling */
@@ -984,22 +1144,22 @@ Possible extra rowspan handling
 		/* because generated content isn't search/selectable and markers can't do multilevel yet */
 		margin:  0;
 		padding: 0;
-		line-height: 1.1rem; /* consistent spacing */
+	}
+	.toc {
+		line-height: 1.1em;
 	}
 
 	/* ToC not indented until third level, but font style & margins show hierarchy */
-	.toc > li             { font-weight: bold;   }
-	.toc > li li          { font-weight: normal; }
-	.toc > li li li       { font-size:   95%;    }
-	.toc > li li li li    { font-size:   90%;    }
-	.toc > li li li li .secno { font-size: 85%; }
-	.toc > li li li li li { font-size:   85%;    }
-	.toc > li li li li li .secno { font-size: 100%; }
+	.toc > li			{ font-weight: bold;   }
+	.toc > li li		 { font-weight: normal; }
+	.toc > li li li	  { font-size:   95%;	}
+	.toc > li li li li	{ font-size:   90%;	}
+	.toc > li li li li li { font-size:   85%;	}
 
 	/* @supports not (display:grid) { */
-		.toc > li             { margin: 1.5rem 0;    }
-		.toc > li li          { margin: 0.3rem 0;    }
-		.toc > li li li       { margin-left: 2rem;   }
+		.toc > li			{ margin: 1.5rem 0;	}
+		.toc > li li		 { margin: 0.3rem 0;	}
+		.toc > li li li	  { margin-left: 2rem;   }
 
 		/* Section numbers in a column of their own */
 		.toc .secno {
@@ -1007,26 +1167,37 @@ Possible extra rowspan handling
 			width: 4rem;
 			white-space: nowrap;
 		}
+		.toc > li li li li .secno { font-size: 85%; }
+		.toc > li li li li li .secno { font-size: 100%; }
 
 		.toc li {
 			clear: both;
 		}
 
-		:not(li) > .toc              { margin-left:  5rem; }
-		.toc .secno                  { margin-left: -5rem; }
-		.toc > li li li .secno       { margin-left: -7rem; }
-		.toc > li li li li .secno    { margin-left: -9rem; }
+		:not(li) > .toc			 { margin-left:  5rem; }
+		.toc .secno				 { margin-left: -5rem; }
+		.toc > li li li .secno	  { margin-left: -7rem; }
+		.toc > li li li li .secno	{ margin-left: -9rem; }
 		.toc > li li li li li .secno { margin-left: -11rem; }
 
 		/* Tighten up indentation in narrow ToCs */
 		@media (max-width: 30em) {
-			:not(li) > .toc              { margin-left:  4rem; }
-			.toc .secno                  { margin-left: -4rem; }
-			.toc > li li li              { margin-left:  1rem; }
-			.toc > li li li .secno       { margin-left: -5rem; }
-			.toc > li li li li .secno    { margin-left: -6rem; }
+			:not(li) > .toc			 { margin-left:  4rem; }
+			.toc .secno				 { margin-left: -4rem; }
+			.toc > li li li			 { margin-left:  1rem; }
+			.toc > li li li .secno	  { margin-left: -5rem; }
+			.toc > li li li li .secno	{ margin-left: -6rem; }
 			.toc > li li li li li .secno { margin-left: -7rem; }
 		}
+		/* Loosen it on wide screens */
+		@media screen and (min-width: 78em) {
+			body:not(.toc-inline) :not(li) > .toc			 { margin-left:  4rem; }
+			body:not(.toc-inline) .toc .secno				 { margin-left: -4rem; }
+			body:not(.toc-inline) .toc > li li li			 { margin-left:  1rem; }
+			body:not(.toc-inline) .toc > li li li .secno	  { margin-left: -5rem; }
+			body:not(.toc-inline) .toc > li li li li .secno	{ margin-left: -6rem; }
+			body:not(.toc-inline) .toc > li li li li li .secno { margin-left: -7rem; }
+	}
 	/* } */
 
 	@supports (display:grid) and (display:contents) {
@@ -1055,7 +1226,7 @@ Possible extra rowspan handling
 		}
 		#toc > .toc > li > a > span {
 			/* The spans of the top-level list,
-			   comprising the first items of each top-level section. */
+			  comprising the first items of each top-level section. */
 			margin-top: 1.1rem;
 		}
 		#toc#toc .secno { /* Ugh, need more specificity to override base.css */
@@ -1068,9 +1239,12 @@ Possible extra rowspan handling
 			width: auto;
 			margin-right: 1rem;
 		}
-		#toc .content:hover {
+		#toc .content:hover,
+		#toc .content:focus {
 			background: rgba(75%, 75%, 75%, .25);
+			background: var(--a-hover-bg);
 			border-bottom: 3px solid #054572;
+			border-bottom: 3px solid var(--toclink-underline);
 			margin-bottom: -3px;
 		}
 		#toc li li li .content {
@@ -1085,22 +1259,23 @@ Possible extra rowspan handling
 /** Index *********************************************************************/
 
 	/* Index Lists: Layout */
-	ul.index       { margin-left: 0; columns: 15em; text-indent: 1em hanging; }
-	ul.index li    { margin-left: 0; list-style: none; break-inside: avoid; }
-	ul.index li li { margin-left: 1em }
-	ul.index dl    { margin-top: 0; }
-	ul.index dt    { margin: .2em 0 .2em 20px;}
-	ul.index dd    { margin: .2em 0 .2em 40px;}
+	ul.index	  { margin-left: 0; columns: 15em; text-indent: 1em hanging; }
+	ul.index li	{ margin-left: 0; list-style: none; break-inside: avoid; }
+	ul.index li li { margin-left: 1em; }
+	ul.index dl	{ margin-top: 0; }
+	ul.index dt	{ margin: .2em 0 .2em 20px;}
+	ul.index dd	{ margin: .2em 0 .2em 40px;}
 	/* Index Lists: Typography */
 	ul.index ul,
 	ul.index dl { font-size: smaller; }
 	@media not print {
-		ul.index li span {
+		ul.index li span:not(.dfn-paneled) {
 			white-space: nowrap;
 			color: transparent; }
 		ul.index li a:hover + span,
 		ul.index li a:focus + span {
 			color: #707070;
+			color: var(--indexinfo-text);
 		}
 	}
 
@@ -1122,13 +1297,101 @@ Possible extra rowspan handling
 
 	table.index tr:hover td:not([rowspan]),
 	table.index tr:hover th:not([rowspan]) {
+		color: black;
+		color: var(--indextable-hover-text);
 		background: #f7f8f9;
+		background: var(--indextable-hover-bg);
 	}
 
 	/* The link in the first column in the property table (formerly a TD) */
 	table.index th:first-child a {
 		font-weight: bold;
 	}
+
+/** Outdated warning **********************************************************/
+
+.outdated-spec {
+	color: black;
+	color: var(--outdatedspec-text);
+	background-color: rgba(0,0,0,0.5);
+	background-color: var(--outdatedspec-bg);
+}
+
+.outdated-warning {
+	position: fixed;
+	bottom: 50%;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	width: 50%;
+	background: maroon;
+	background: var(--outdated-bg);
+	color: white;
+	color: var(--outdated-text);
+	border-radius: 1em;
+	box-shadow: 0 0 1em red;
+	box-shadow: 0 0 1em var(--outdated-shadow);
+	padding: 2em;
+	text-align: center;
+	z-index: 2;
+}
+
+.outdated-warning a {
+	color: currentcolor;
+	background: transparent;
+}
+
+.edited-rec-warning {
+	background: darkorange;
+	background: var(--editedrec-bg);
+	box-shadow: 0 0 1em;
+}
+
+.outdated-warning button {
+	color: var(--outdated-text);
+	border-radius: 1em;
+	box-shadow: 0 0 1em red;
+	box-shadow: 0 0 1em var(--outdated-shadow);
+	padding: 2em;
+	text-align: center;
+	z-index: 2;
+}
+
+.outdated-warning a {
+	color: currentcolor;
+	background: transparent;
+}
+
+.edited-rec-warning {
+	background: darkorange;
+	background: var(--editedrec-bg);
+	box-shadow: 0 0 1em;
+}
+
+.outdated-warning button {
+	position: absolute;
+	top: 0;
+	right:0;
+	margin: 0;
+	border: 0;
+	padding: 0.25em 0.5em;
+	background: transparent;
+	color: white;
+	color: var(--outdated-text);
+	font:1em sans-serif;
+	text-align:center;
+}
+
+.outdated-warning span {
+	display: block;
+}
+
+.outdated-collapsed {
+	bottom: 0;
+	border-radius: 0;
+	width: 100%;
+	padding: 0;
+}
 
 /******************************************************************************/
 /*                                    Print                                   */
@@ -1143,17 +1406,20 @@ Possible extra rowspan handling
 		body {
 			font-family: serif;
 		}
+
+		.outdated-warning {
+			position: absolute;
+			border-style: solid;
+			border-color: red;
+		}
+
+		.outdated-warning input {
+			display: none;
+		}
 	}
 	@page {
 		margin: 1.5cm 1.1cm;
 	}
-
-/******************************************************************************/
-/*                                    Legacy                                  */
-/******************************************************************************/
-
-	/* This rule is inherited from past style sheets. No idea what it's for. */
-	.hide { display: none }
 
 
 
@@ -1168,13 +1434,13 @@ Possible extra rowspan handling
 		margin-right: auto;
 	}
 	.overlarge {
-		/* Magic to create good table positioning:
-		   "content column" is 50ems wide at max; less on smaller screens.
-		   Extra space (after ToC + content) is empty on the right.
+		/* Magic to create good item positioning:
+		  "content column" is 50ems wide at max; less on smaller screens.
+		  Extra space (after ToC + content) is empty on the right.
 
-		   1. When table < content column, centers table in column.
-		   2. When content < table < available, left-aligns.
-		   3. When table > available, fills available + scroll bar.
+		  1. When item < content column, centers item in column.
+		  2. When content < item < available, left-aligns.
+		  3. When item > available, fills available + scroll bar.
 		*/
 		display: grid;
 		grid-template-columns: minmax(0, 50em);
@@ -1209,24 +1475,24 @@ Possible extra rowspan handling
 		.overlarge {
 			overflow-x: auto;
 			/* See Lea Verou's explanation background-attachment:
-			 * http://lea.verou.me/2012/04/background-attachment-local/
-			 *
+			* http://lea.verou.me/2012/04/background-attachment-local/
+			*
 			background: top left  / 4em 100% linear-gradient(to right,  #ffffff, rgba(255, 255, 255, 0)) local,
-			            top right / 4em 100% linear-gradient(to left, #ffffff, rgba(255, 255, 255, 0)) local,
-			            top left  / 1em 100% linear-gradient(to right,  #c3c3c5, rgba(195, 195, 197, 0)) scroll,
-			            top right / 1em 100% linear-gradient(to left, #c3c3c5, rgba(195, 195, 197, 0)) scroll,
-			            white;
+						top right / 4em 100% linear-gradient(to left, #ffffff, rgba(255, 255, 255, 0)) local,
+						top left  / 1em 100% linear-gradient(to right,  #c3c3c5, rgba(195, 195, 197, 0)) scroll,
+						top right / 1em 100% linear-gradient(to left, #c3c3c5, rgba(195, 195, 197, 0)) scroll,
+						white;
 			background-repeat: no-repeat;
 			*/
 		}
 	}
 </style>
-  <meta content="Bikeshed version 6cf40e14, updated Fri Aug 14 17:42:41 2020 -0700" name="generator">
-  <meta content="1179e2037953c394ab8882caa39895d5bc23347b" name="document-revision">
+  <meta content="Bikeshed version e8cbf4ed2, updated Fri Sep 10 10:21:28 2021 -0700" name="generator">
+  <meta content="813de28dfe77dc3bd16fdd4aee1fe42b4a037d04" name="document-revision">
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
-    color: #005a9c;
+    color: var(--a-normal-text);
     font-size: inherit;
     font-family: inherit;
 }
@@ -1285,6 +1551,115 @@ pre .property::before, pre .property::after {
 [data-link-type=biblio] {
     white-space: pre;
 }</style>
+<style>/* style-colors */
+
+/* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
+:root {
+    color-scheme: light dark;
+
+    --text: black;
+    --bg: white;
+
+    --unofficial-watermark: url(https://www.w3.org/StyleSheets/TR/2016/logos/UD-watermark);
+
+    --logo-bg: #1a5e9a;
+    --logo-active-bg: #c00;
+    --logo-text: white;
+
+    --tocnav-normal-text: #707070;
+    --tocnav-normal-bg: var(--bg);
+    --tocnav-hover-text: var(--tocnav-normal-text);
+    --tocnav-hover-bg: #f8f8f8;
+    --tocnav-active-text: #c00;
+    --tocnav-active-bg: var(--tocnav-normal-bg);
+
+    --tocsidebar-text: var(--text);
+    --tocsidebar-bg: #f7f8f9;
+    --tocsidebar-shadow: rgba(0,0,0,.1);
+    --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+    --toclink-text: var(--text);
+    --toclink-underline: #3980b5;
+    --toclink-visited-text: var(--toclink-text);
+    --toclink-visited-underline: #054572;
+
+    --heading-text: #005a9c;
+
+    --hr-text: var(--text);
+
+    --algo-border: #def;
+
+    --del-text: red;
+    --del-bg: transparent;
+    --ins-text: #080;
+    --ins-bg: transparent;
+
+    --a-normal-text: #034575;
+    --a-normal-underline: #bbb;
+    --a-visited-text: var(--a-normal-text);
+    --a-visited-underline: #707070;
+    --a-hover-bg: rgba(75%, 75%, 75%, .25);
+    --a-active-text: #c00;
+    --a-active-underline: #c00;
+
+    --blockquote-border: silver;
+    --blockquote-bg: transparent;
+    --blockquote-text: currentcolor;
+
+    --issue-border: #e05252;
+    --issue-bg: #fbe9e9;
+    --issue-text: var(--text);
+    --issueheading-text: #831616;
+
+    --example-border: #e0cb52;
+    --example-bg: #fcfaee;
+    --example-text: var(--text);
+    --exampleheading-text: #574b0f;
+
+    --note-border: #52e052;
+    --note-bg: #e9fbe9;
+    --note-text: var(--text);
+    --noteheading-text: hsl(120, 70%, 30%);
+    --notesummary-underline: silver;
+
+    --assertion-border: #aaa;
+    --assertion-bg: #eee;
+    --assertion-text: black;
+
+    --advisement-border: orange;
+    --advisement-bg: #fec;
+    --advisement-text: var(--text);
+    --advisementheading-text: #b35f00;
+
+    --warning-border: red;
+    --warning-bg: hsla(40,100%,50%,0.95);
+    --warning-text: var(--text);
+
+    --amendment-border: #330099;
+    --amendment-bg: #F5F0FF;
+    --amendment-text: var(--text);
+    --amendmentheading-text: #220066;
+
+    --def-border: #8ccbf2;
+    --def-bg: #def;
+    --def-text: var(--text);
+    --defrow-border: #bbd7e9;
+
+    --datacell-border: silver;
+
+    --indexinfo-text: #707070;
+
+    --indextable-hover-text: black;
+    --indextable-hover-bg: #f7f8f9;
+
+    --outdatedspec-bg: rgba(0, 0, 0, .5);
+    --outdatedspec-text: black;
+    --outdated-bg: maroon;
+    --outdated-text: white;
+    --outdated-shadow: red;
+
+    --editedrec-bg: darkorange;
+}</style>
 <style>/* style-counters */
 
 body {
@@ -1316,6 +1691,10 @@ figcaption:not(.no-marker)::before {
 }</style>
 <style>/* style-dfn-panel */
 
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
 .dfn-panel {
     position: absolute;
     z-index: 35;
@@ -1327,14 +1706,14 @@ figcaption:not(.no-marker)::before {
     overflow: auto;
     padding: 0.5em 0.75em;
     font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-    background: #DDDDDD;
-    color: black;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
     border: outset 0.2em;
 }
 .dfn-panel:not(.on) { display: none; }
 .dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
 .dfn-panel > b { display: block; }
-.dfn-panel a { color: black; }
+.dfn-panel a { color: var(--dfnpanel-text); }
 .dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
 .dfn-panel > b + b { margin-top: 0.25em; }
 .dfn-panel ul { padding: 0; }
@@ -1363,6 +1742,11 @@ figcaption:not(.no-marker)::before {
 }</style>
 <style>/* style-selflinks */
 
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
 .heading, .issue, .note, .example, li, dt {
     position: relative;
 }
@@ -1392,8 +1776,8 @@ dfn > a.self-link {
     opacity: 0;
     width: 1.5em;
     height: 1.5em;
-    background: gray;
-    color: white;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
     font-style: normal;
     transition: opacity .2s, background-color .2s, color .2s;
 }
@@ -1401,12 +1785,13 @@ dfn:hover > a.self-link {
     opacity: 1;
 }
 dfn > a.self-link:hover {
-    color: black;
+    color: var(--selflink-hover-text);
 }
 
 a.self-link::before            { content: "¶"; }
 .heading > a.self-link::before { content: "§"; }
-dfn > a.self-link::before      { content: "#"; }</style>
+dfn > a.self-link::before      { content: "#"; }
+</style>
 <style>/* style-var-click-highlighting */
 
     var { cursor: pointer; }
@@ -1418,11 +1803,138 @@ dfn > a.self-link::before      { content: "#"; }</style>
     var.selected5 { background-color: #82DDFF; box-shadow: 0 0 0 2px #82DDFF; }
     var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
     </style>
+<style>/* style-darkmode */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #ddd;
+        --bg: black;
+
+        --unofficial-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cg fill='%23100808' transform='translate(200 200) rotate(-45) translate(-200 -200)' stroke='%23100808' stroke-width='3'%3E%3Ctext x='50%25' y='220' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EUNOFFICIAL%3C/text%3E%3Ctext x='50%25' y='305' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EDRAFT%3C/text%3E%3C/g%3E%3C/svg%3E");
+
+        --logo-bg: #1a5e9a;
+        --logo-active-bg: #c00;
+        --logo-text: white;
+
+        --tocnav-normal-text: #999;
+        --tocnav-normal-bg: var(--bg);
+        --tocnav-hover-text: var(--tocnav-normal-text);
+        --tocnav-hover-bg: #080808;
+        --tocnav-active-text: #f44;
+        --tocnav-active-bg: var(--tocnav-normal-bg);
+
+        --tocsidebar-text: var(--text);
+        --tocsidebar-bg: #080808;
+        --tocsidebar-shadow: rgba(255,255,255,.1);
+        --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+        --toclink-text: var(--text);
+        --toclink-underline: #6af;
+        --toclink-visited-text: var(--toclink-text);
+        --toclink-visited-underline: #054572;
+
+        --heading-text: #8af;
+
+        --hr-text: var(--text);
+
+        --algo-border: #456;
+
+        --del-text: #f44;
+        --del-bg: transparent;
+        --ins-text: #4a4;
+        --ins-bg: transparent;
+
+        --a-normal-text: #6af;
+        --a-normal-underline: #555;
+        --a-visited-text: var(--a-normal-text);
+        --a-visited-underline: var(--a-normal-underline);
+        --a-hover-bg: rgba(25%, 25%, 25%, .2);
+        --a-active-text: #f44;
+        --a-active-underline: var(--a-active-text);
+
+        --borderedblock-bg: rgba(255, 255, 255, .05);
+
+        --blockquote-border: silver;
+        --blockquote-bg: var(--borderedblock-bg);
+        --blockquote-text: currentcolor;
+
+        --issue-border: #e05252;
+        --issue-bg: var(--borderedblock-bg);
+        --issue-text: var(--text);
+        --issueheading-text: hsl(0deg, 70%, 70%);
+
+        --example-border: hsl(50deg, 90%, 60%);
+        --example-bg: var(--borderedblock-bg);
+        --example-text: var(--text);
+        --exampleheading-text: hsl(50deg, 70%, 70%);
+
+        --note-border: hsl(120deg, 100%, 35%);
+        --note-bg: var(--borderedblock-bg);
+        --note-text: var(--text);
+        --noteheading-text: hsl(120, 70%, 70%);
+        --notesummary-underline: silver;
+
+        --assertion-border: #444;
+        --assertion-bg: var(--borderedblock-bg);
+        --assertion-text: var(--text);
+
+        --advisement-border: orange;
+        --advisement-bg: #222218;
+        --advisement-text: var(--text);
+        --advisementheading-text: #f84;
+
+        --warning-border: red;
+        --warning-bg: hsla(40,100%,20%,0.95);
+        --warning-text: var(--text);
+
+        --amendment-border: #330099;
+        --amendment-bg: #080010;
+        --amendment-text: var(--text);
+        --amendmentheading-text: #cc00ff;
+
+        --def-border: #8ccbf2;
+        --def-bg: #080818;
+        --def-text: var(--text);
+        --defrow-border: #136;
+
+        --datacell-border: silver;
+
+        --indexinfo-text: #aaa;
+
+        --indextable-hover-text: var(--text);
+        --indextable-hover-bg: #181818;
+
+        --outdatedspec-bg: rgba(255, 255, 255, .5);
+        --outdatedspec-text: black;
+        --outdated-bg: maroon;
+        --outdated-text: white;
+        --outdated-shadow: red;
+
+        --editedrec-bg: darkorange;
+    }
+    /* In case a transparent-bg image doesn't expect to be on a dark bg,
+       which is quite common in practice... */
+    img { background: white; }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --selflink-text: black;
+        --selflink-bg: silver;
+        --selflink-hover-text: white;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}</style>
  <body class="h-entry">
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1>UI Events Algorithms</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2020-08-25">25 August 2020</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2021-10-07">7 October 2021</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Issue Tracking:
@@ -1433,9 +1945,9 @@ dfn > a.self-link::before      { content: "#"; }</style>
     </dl>
    </div>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" src="https://licensebuttons.net/p/zero/1.0/80x15.png"></a> To the extent possible under law, the editors have waived all copyright
+   <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" height="15" src="https://licensebuttons.net/p/zero/1.0/80x15.png" width="80"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 25 August 2020,
+In addition, as of 7 October 2021,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -1500,8 +2012,10 @@ Parts of this work may be from another specification document.  If so, those par
       <li><a href="#handle native mouse down"><span class="secno">6.7</span> <span class="content"><span>handle native mouse down</span></span></a>
       <li><a href="#handle native mouse up"><span class="secno">6.8</span> <span class="content"><span>handle native mouse up</span></span></a>
       <li><a href="#handle native mouse click"><span class="secno">6.9</span> <span class="content"><span>handle native mouse click</span></span></a>
-      <li><a href="#handle native mouse double click"><span class="secno">6.10</span> <span class="content"><span>handle native mouse double click</span></span></a>
-      <li><a href="#handle native mouse move"><span class="secno">6.11</span> <span class="content"><span>handle native mouse move</span></span></a>
+      <li><a href="#send click event"><span class="secno">6.10</span> <span class="content"><span>send click event</span></span></a>
+      <li><a href="#handle native mouse double click"><span class="secno">6.11</span> <span class="content"><span>handle native mouse double click</span></span></a>
+      <li><a href="#handle native mouse move"><span class="secno">6.12</span> <span class="content"><span>handle native mouse move</span></span></a>
+      <li><a href="#maybe show context menu"><span class="secno">6.13</span> <span class="content"><span>maybe show context menu</span></span></a>
      </ol>
     <li><a href="#wheel event"><span class="secno">7</span> <span class="content">Wheel Event</span></a>
     <li>
@@ -1555,14 +2069,15 @@ Parts of this work may be from another specification document.  If so, those par
      <a href="#pointer event"><span class="secno">11</span> <span class="content">Pointer Event</span></a>
      <ol class="toc">
       <li><a href="#initialize a pointerevent"><span class="secno">11.1</span> <span class="content"><span>initialize a PointerEvent</span></span></a>
-      <li><a href="#create pointerevent from mouseevent"><span class="secno">11.2</span> <span class="content"><span>create PointerEvent from MouseEvent</span></span></a>
-      <li><a href="#maybe send pointerout event"><span class="secno">11.3</span> <span class="content"><span>maybe send pointerout event</span></span></a>
-      <li><a href="#maybe send pointerleave event"><span class="secno">11.4</span> <span class="content"><span>maybe send pointerleave event</span></span></a>
-      <li><a href="#maybe send pointerover event"><span class="secno">11.5</span> <span class="content"><span>maybe send pointerover event</span></span></a>
-      <li><a href="#maybe send pointerenter event"><span class="secno">11.6</span> <span class="content"><span>maybe send pointerenter event</span></span></a>
-      <li><a href="#maybe send pointermove event"><span class="secno">11.7</span> <span class="content"><span>maybe send pointermove event</span></span></a>
-      <li><a href="#maybe send pointerdown event"><span class="secno">11.8</span> <span class="content"><span>maybe send pointerdown event</span></span></a>
-      <li><a href="#maybe send pointerup event"><span class="secno">11.9</span> <span class="content"><span>maybe send pointerup event</span></span></a>
+      <li><a href="#create a pointerevent"><span class="secno">11.2</span> <span class="content"><span>create a PointerEvent</span></span></a>
+      <li><a href="#create pointerevent from mouseevent"><span class="secno">11.3</span> <span class="content"><span>create PointerEvent from MouseEvent</span></span></a>
+      <li><a href="#maybe send pointerout event"><span class="secno">11.4</span> <span class="content"><span>maybe send pointerout event</span></span></a>
+      <li><a href="#maybe send pointerleave event"><span class="secno">11.5</span> <span class="content"><span>maybe send pointerleave event</span></span></a>
+      <li><a href="#maybe send pointerover event"><span class="secno">11.6</span> <span class="content"><span>maybe send pointerover event</span></span></a>
+      <li><a href="#maybe send pointerenter event"><span class="secno">11.7</span> <span class="content"><span>maybe send pointerenter event</span></span></a>
+      <li><a href="#maybe send pointermove event"><span class="secno">11.8</span> <span class="content"><span>maybe send pointermove event</span></span></a>
+      <li><a href="#maybe send pointerdown event"><span class="secno">11.9</span> <span class="content"><span>maybe send pointerdown event</span></span></a>
+      <li><a href="#maybe send pointerup event"><span class="secno">11.10</span> <span class="content"><span>maybe send pointerup event</span></span></a>
      </ol>
     <li>
      <a href="#pointer lock"><span class="secno">12</span> <span class="content">Pointer Lock</span></a>
@@ -1769,6 +2284,8 @@ virtual keyboard.</p>
      <li data-md>
       <p><a data-link-type="dfn" href="#handle-native-paste" id="ref-for-handle-native-paste">handle native paste</a></p>
     </ul>
+    <p>TODO: Include native pointer events and resolve with native mouse events. How do these two
+event types interact on the common platforms?</p>
    </section>
    <section>
     <h2 class="heading settled" data-level="3" id="event"><span class="secno">3. </span><span class="content">Event</span><a class="self-link" href="#event"></a></h2>
@@ -1795,7 +2312,7 @@ virtual keyboard.</p>
       <dd data-md>
        <p>None</p>
      </dl>
-     <p>For reference, see <a href="https://dom.spec.whatwg.org/#concept-event-initialize">initialize an event</a>, <a href="https://dom.spec.whatwg.org/#stop-propagation-flag" id="termref-for-">list of event flags</a>.</p>
+     <p>For reference, see <a href="https://dom.spec.whatwg.org/#concept-event-initialize">initialize an event</a>, <a href="https://dom.spec.whatwg.org/#stop-propagation-flag" id="termref-for-stop-propagation-flag">list of event flags</a>.</p>
      <ol>
       <li data-md>
        <p>Initialize the following public attributes</p>
@@ -2010,7 +2527,7 @@ relative to the origin of the <a data-link-type="dfn" href="https://www.w3.org/T
      </dl>
      <ol>
       <li data-md>
-       <p>Let <var>event</var> = the result of <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new MouseEvent</a></p>
+       <p>Let <var>event</var> = the result of <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new event</a></p>
       <li data-md>
        <p><a data-link-type="dfn" href="#initialize-a-mouseevent" id="ref-for-initialize-a-mouseevent">Initialize a MouseEvent</a> with <var>event</var>, <var>eventType</var> and <var>eventTarget</var></p>
       <li data-md>
@@ -2108,11 +2625,7 @@ relative to the origin of the <a data-link-type="dfn" href="https://www.w3.org/T
        <p>if <var>mbutton</var> is the secondary mouse button, then</p>
        <ol>
         <li data-md>
-         <p>Let <var>menuevent</var> = <a data-link-type="dfn" href="#create-a-mouseevent" id="ref-for-create-a-mouseevent①">create a MouseEvent</a> with "contextmenu", <var>target</var></p>
-        <li data-md>
-         <p>Let <var>result</var> = <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-dispatch" id="ref-for-concept-event-dispatch①">dispatch</a> <var>menuevent</var> at <var>target</var></p>
-        <li data-md>
-         <p>If <var>result</var> is true, then show the UA context menu</p>
+         <p><a data-link-type="dfn" href="#maybe-show-context-menu" id="ref-for-maybe-show-context-menu">Maybe show context menu</a> with <var>native</var>, <var>target</var></p>
        </ol>
      </ol>
     </div>
@@ -2143,13 +2656,13 @@ relative to the origin of the <a data-link-type="dfn" href="https://www.w3.org/T
       <li data-md>
        <p>Let <var>target</var> = <a data-link-type="dfn" href="#hit-test" id="ref-for-hit-test①">hit test</a> with viewport-relative coordinates from <var>native</var></p>
       <li data-md>
-       <p>Let <var>event</var> = <a data-link-type="dfn" href="#create-a-mouseevent" id="ref-for-create-a-mouseevent②">create a MouseEvent</a> with "mouseup", <var>target</var></p>
+       <p>Let <var>event</var> = <a data-link-type="dfn" href="#create-a-mouseevent" id="ref-for-create-a-mouseevent①">create a MouseEvent</a> with "mouseup", <var>target</var></p>
       <li data-md>
        <p><a data-link-type="dfn" href="#set-mouseevent-attributes-from-native" id="ref-for-set-mouseevent-attributes-from-native①">Set MouseEvent attributes from native</a> with <var>native</var></p>
       <li data-md>
        <p><a data-link-type="dfn" href="#maybe-send-pointerup-event" id="ref-for-maybe-send-pointerup-event">Maybe send pointerup event</a> with <var>event</var></p>
       <li data-md>
-       <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-dispatch" id="ref-for-concept-event-dispatch②">dispatch</a> <var>event</var> at <var>target</var></p>
+       <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-dispatch" id="ref-for-concept-event-dispatch①">dispatch</a> <var>event</var> at <var>target</var></p>
      </ol>
     </div>
     <div class="algorithm" data-algorithm="handle-native-mouse-click">
@@ -2166,9 +2679,32 @@ relative to the origin of the <a data-link-type="dfn" href="https://www.w3.org/T
     mouseups that generate clicks.</p>
      <ol>
       <li data-md>
-       <p>Let <var>mbutton</var> be an ID from <var>native</var> that identifies which mouse button was pressed</p>
-      <li data-md>
        <p>Let <var>target</var> = <a data-link-type="dfn" href="#hit-test" id="ref-for-hit-test②">hit test</a> with viewport-relative coordinates from <var>native</var></p>
+      <li data-md>
+       <p><a data-link-type="dfn" href="#send-click-event" id="ref-for-send-click-event">Send click event</a> with <var>native</var> and <var>target</var>.</p>
+     </ol>
+    </div>
+    <div class="algorithm" data-algorithm="send-click-event">
+     <h3 class="heading settled" data-level="6.10" id="send click event"><span class="secno">6.10. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="send-click-event">send click event</dfn></span><a class="self-link" href="#send%20click%20event"></a></h3>
+     <dl>
+      <dt data-md>Input
+      <dd data-md>
+       <p><var>native</var>, the native mousedown</p>
+      <dd data-md>
+       <p><var>target</var>, the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget④">EventTarget</a></code> of the event</p>
+      <dt data-md>Output
+      <dd data-md>
+       <p>None</p>
+     </dl>
+     <ol>
+      <li data-md>
+       <p>Let <var>mbutton</var> = 1  (primary mouse button by default)</p>
+      <li data-md>
+       <p>If <var>native</var> is valid, then</p>
+       <ol>
+        <li data-md>
+         <p>Let <var>mbutton</var> be an ID from <var>native</var> that identifies which mouse button was pressed</p>
+       </ol>
       <li data-md>
        <p>Let <var>eventType</var> = "auxclick"</p>
       <li data-md>
@@ -2178,17 +2714,28 @@ relative to the origin of the <a data-link-type="dfn" href="https://www.w3.org/T
          <p>Set <var>eventType</var> = "click"</p>
        </ol>
       <li data-md>
-       <p>Let <var>event</var> = <a data-link-type="dfn" href="#create-a-mouseevent" id="ref-for-create-a-mouseevent③">create a MouseEvent</a> with <var>eventType</var> and <var>target</var></p>
+       <p>Let <var>event</var> = <a data-link-type="dfn" href="#create-a-pointerevent" id="ref-for-create-a-pointerevent">create a PointerEvent</a> with <var>eventType</var> and <var>target</var></p>
       <li data-md>
-       <p><a data-link-type="dfn" href="#set-mouseevent-attributes-from-native" id="ref-for-set-mouseevent-attributes-from-native②">Set MouseEvent attributes from native</a> with <var>native</var></p>
+       <p>If <var>native</var> is valid, then</p>
+       <ol>
+        <li data-md>
+         <p><a data-link-type="dfn" href="#set-mouseevent-attributes-from-native" id="ref-for-set-mouseevent-attributes-from-native②">Set MouseEvent attributes from native</a> with <var>event</var>, <var>native</var></p>
+        <li data-md>
+         <p>If <var>event</var>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-screenx" id="ref-for-dom-mouseevent-screenx①">screenX</a></code> is not an integer value, then round it.</p>
+        <li data-md>
+         <p>If <var>event</var>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-screeny" id="ref-for-dom-mouseevent-screeny①">screenY</a></code> is not an integer value, then round it.</p>
+       </ol>
       <li data-md>
-       <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-dispatch" id="ref-for-concept-event-dispatch③">dispatch</a> <var>event</var> at <var>target</var></p>
+       <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-dispatch" id="ref-for-concept-event-dispatch②">dispatch</a> <var>event</var> at <var>target</var></p>
      </ol>
+     <p class="note" role="note"><span>Note:</span> See <a href="https://github.com/w3c/pointerevents/issues/100">pointerevents/100</a> for info about browsers using PointerEvents and rounded coordinates.</p>
      <p class="note" role="note"><span>Note:</span> Any "default action" is handled during dispatch by triggering the <a href="https://dom.spec.whatwg.org/#eventtarget-activation-behavior">activation behavior</a> algorithm for the target. So there is no need for handle that here.
     However, need to verify that the existing spec handles disabled/css-pointer-events/inert/...</p>
+     <p class="note" role="note"><span>Note:</span> To handle `HTMLelement.click()`, call this algorithm with <var>native</var> = null and <var>target</var> = `HTMLelement`.</p>
+     <p class="note" role="note"><span>Note:</span> To handle keyboard-initiated clicks, call this algorithm with <var>native</var> = null and <var>target</var> = currently focused element.</p>
     </div>
     <div class="algorithm" data-algorithm="handle-native-mouse-double-click">
-     <h3 class="heading settled" data-level="6.10" id="handle native mouse double click"><span class="secno">6.10. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="handle-native-mouse-double-click">handle native mouse double click</dfn></span><a class="self-link" href="#handle%20native%20mouse%20double%20click"></a></h3>
+     <h3 class="heading settled" data-level="6.11" id="handle native mouse double click"><span class="secno">6.11. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="handle-native-mouse-double-click">handle native mouse double click</dfn></span><a class="self-link" href="#handle%20native%20mouse%20double%20click"></a></h3>
      <dl>
       <dt data-md>Input
       <dd data-md>
@@ -2207,15 +2754,19 @@ relative to the origin of the <a data-link-type="dfn" href="https://www.w3.org/T
       <li data-md>
        <p>Let <var>target</var> = <a data-link-type="dfn" href="#hit-test" id="ref-for-hit-test③">hit test</a> with viewport-relative coordinates from <var>native</var></p>
       <li data-md>
-       <p>Let <var>event</var> = <a data-link-type="dfn" href="#create-a-mouseevent" id="ref-for-create-a-mouseevent④">create a MouseEvent</a> with "dblclick" and <var>target</var></p>
+       <p>Let <var>event</var> = <a data-link-type="dfn" href="#create-a-pointerevent" id="ref-for-create-a-pointerevent①">create a PointerEvent</a> with "dblclick" and <var>target</var></p>
       <li data-md>
-       <p><a data-link-type="dfn" href="#set-mouseevent-attributes-from-native" id="ref-for-set-mouseevent-attributes-from-native③">Set MouseEvent attributes from native</a> with <var>native</var></p>
+       <p><a data-link-type="dfn" href="#set-mouseevent-attributes-from-native" id="ref-for-set-mouseevent-attributes-from-native③">Set MouseEvent attributes from native</a> with <var>event</var>, <var>native</var></p>
       <li data-md>
-       <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-dispatch" id="ref-for-concept-event-dispatch④">dispatch</a> <var>event</var> at <var>target</var></p>
+       <p>If <var>event</var>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-screenx" id="ref-for-dom-mouseevent-screenx②">screenX</a></code> is not an integer value, then round it.</p>
+      <li data-md>
+       <p>If <var>event</var>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-screeny" id="ref-for-dom-mouseevent-screeny②">screenY</a></code> is not an integer value, then round it.</p>
+      <li data-md>
+       <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-dispatch" id="ref-for-concept-event-dispatch③">dispatch</a> <var>event</var> at <var>target</var></p>
      </ol>
     </div>
     <div class="algorithm" data-algorithm="handle-native-mouse-move">
-     <h3 class="heading settled" data-level="6.11" id="handle native mouse move"><span class="secno">6.11. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="handle-native-mouse-move">handle native mouse move</dfn></span><a class="self-link" href="#handle%20native%20mouse%20move"></a></h3>
+     <h3 class="heading settled" data-level="6.12" id="handle native mouse move"><span class="secno">6.12. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="handle-native-mouse-move">handle native mouse move</dfn></span><a class="self-link" href="#handle%20native%20mouse%20move"></a></h3>
      <dl>
       <dt data-md>Input
       <dd data-md>
@@ -2239,14 +2790,14 @@ relative to the origin of the <a data-link-type="dfn" href="https://www.w3.org/T
          <p>If <a data-link-type="dfn" href="#last-mouse-element" id="ref-for-last-mouse-element①">last mouse element</a> is defined and not equal to <var>target</var>, then</p>
          <ol>
           <li data-md>
-           <p>Let <var>mouseout</var> = <a data-link-type="dfn" href="#create-a-mouseevent" id="ref-for-create-a-mouseevent⑤">create a MouseEvent</a> with "mouseout" and <a data-link-type="dfn" href="#last-mouse-element" id="ref-for-last-mouse-element②">last mouse element</a></p>
+           <p>Let <var>mouseout</var> = <a data-link-type="dfn" href="#create-a-mouseevent" id="ref-for-create-a-mouseevent②">create a MouseEvent</a> with "mouseout" and <a data-link-type="dfn" href="#last-mouse-element" id="ref-for-last-mouse-element②">last mouse element</a></p>
          </ol>
          <p class="issue" id="issue-6c6e5fe0"><a class="self-link" href="#issue-6c6e5fe0"></a> TODO: Set <var>mouseout</var> attributes from <var>native</var>. +CSSOM attributes</p>
          <ol>
           <li data-md>
            <p><a data-link-type="dfn" href="#maybe-send-pointerout-event" id="ref-for-maybe-send-pointerout-event">Maybe send pointerout event</a> with <var>mouseout</var></p>
           <li data-md>
-           <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-dispatch" id="ref-for-concept-event-dispatch⑤">Dispatch</a> <var>mouseout</var> at <var>target</var></p>
+           <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-dispatch" id="ref-for-concept-event-dispatch④">Dispatch</a> <var>mouseout</var> at <var>target</var></p>
            <p class="issue" id="issue-f864a356"><a class="self-link" href="#issue-f864a356"></a> Verify behavior when canceled (appears to have no effect).</p>
           <li data-md>
            <p>Let <var>leaveElements</var> be a copy of <a data-link-type="dfn" href="#last-mouse-dom-path" id="ref-for-last-mouse-dom-path">last mouse DOM path</a> with all
@@ -2259,7 +2810,7 @@ a mouseleave event? Should we sent it now? Should it be dropped?
 Need to verify what current browsers do.</p>
            <ol>
             <li data-md>
-             <p>Let <var>mouseleave</var> = <a data-link-type="dfn" href="#create-a-mouseevent" id="ref-for-create-a-mouseevent⑥">create a MouseEvent</a> with "mouseleave" and <var>element</var></p>
+             <p>Let <var>mouseleave</var> = <a data-link-type="dfn" href="#create-a-mouseevent" id="ref-for-create-a-mouseevent③">create a MouseEvent</a> with "mouseleave" and <var>element</var></p>
             <li data-md>
              <p>Set <var>mouseleave</var>.<code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-bubbles" id="ref-for-dom-event-bubbles①">bubbles</a></code> = false</p>
             <li data-md>
@@ -2272,7 +2823,7 @@ Firefox/Linux = false</p>
             <li data-md>
              <p><a data-link-type="dfn" href="#maybe-send-pointerleave-event" id="ref-for-maybe-send-pointerleave-event">Maybe send pointerleave event</a> with <var>mouseleave</var></p>
             <li data-md>
-             <p>Let <var>result</var> = <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-dispatch" id="ref-for-concept-event-dispatch⑥">dispatch</a> <var>mouseleave</var> at <var>element</var></p>
+             <p>Let <var>result</var> = <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-dispatch" id="ref-for-concept-event-dispatch⑤">dispatch</a> <var>mouseleave</var> at <var>element</var></p>
            </ol>
          </ol>
        </ol>
@@ -2283,14 +2834,14 @@ Firefox/Linux = false</p>
          <p>If <var>target</var> is not <a data-link-type="dfn" href="#last-mouse-element" id="ref-for-last-mouse-element③">last mouse element</a>, then</p>
          <ol>
           <li data-md>
-           <p>Let <var>mouseover</var> = <a data-link-type="dfn" href="#create-a-mouseevent" id="ref-for-create-a-mouseevent⑦">create a MouseEvent</a> with "mouseover" and <var>target</var></p>
+           <p>Let <var>mouseover</var> = <a data-link-type="dfn" href="#create-a-mouseevent" id="ref-for-create-a-mouseevent④">create a MouseEvent</a> with "mouseover" and <var>target</var></p>
          </ol>
          <p class="issue" id="issue-6c6e5fe0①"><a class="self-link" href="#issue-6c6e5fe0①"></a> TODO: Set <var>mouseout</var> attributes from <var>native</var>. +CSSOM attributes</p>
          <ol>
           <li data-md>
            <p><a data-link-type="dfn" href="#maybe-send-pointerover-event" id="ref-for-maybe-send-pointerover-event">Maybe send pointerover event</a> with <var>mouseover</var></p>
           <li data-md>
-           <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-dispatch" id="ref-for-concept-event-dispatch⑦">Dispatch</a> <var>mouseout</var> at <var>target</var></p>
+           <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-dispatch" id="ref-for-concept-event-dispatch⑥">Dispatch</a> <var>mouseout</var> at <var>target</var></p>
            <p class="issue" id="issue-f864a356①"><a class="self-link" href="#issue-f864a356①"></a> Verify behavior when canceled (appears to have no effect).</p>
           <li data-md>
            <p>Let <var>enterElements</var> be a copy of <var>targetDomPath</var> with all
@@ -2300,7 +2851,7 @@ elements common to <a data-link-type="dfn" href="#last-mouse-dom-path" id="ref-f
            <p class="issue" id="issue-9fc42a9a"><a class="self-link" href="#issue-9fc42a9a"></a> Handle case where <var>element</var> has been deleted or moved.</p>
            <ol>
             <li data-md>
-             <p>Let <var>mouseenter</var> = <a data-link-type="dfn" href="#create-a-mouseevent" id="ref-for-create-a-mouseevent⑧">create a MouseEvent</a> with "mouseenter" and <var>element</var></p>
+             <p>Let <var>mouseenter</var> = <a data-link-type="dfn" href="#create-a-mouseevent" id="ref-for-create-a-mouseevent⑤">create a MouseEvent</a> with "mouseenter" and <var>element</var></p>
             <li data-md>
              <p>Set <var>mouseenter</var>.<code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-bubbles" id="ref-for-dom-event-bubbles②">bubbles</a></code> = false</p>
             <li data-md>
@@ -2317,7 +2868,7 @@ Firefox/Linux = false</p>
 Chrome/Linux fires this event at the element and the shadow root</p>
            <ol>
             <li data-md>
-             <p>Let <var>result</var> = <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-dispatch" id="ref-for-concept-event-dispatch⑧">dispatch</a> <var>mouseenter</var> at <var>element</var></p>
+             <p>Let <var>result</var> = <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-dispatch" id="ref-for-concept-event-dispatch⑦">dispatch</a> <var>mouseenter</var> at <var>element</var></p>
            </ol>
           <li data-md>
            <p>Set <a data-link-type="dfn" href="#last-mouse-element" id="ref-for-last-mouse-element④">last mouse element</a> to <var>target</var></p>
@@ -2326,14 +2877,42 @@ Chrome/Linux fires this event at the element and the shadow root</p>
          </ol>
        </ol>
       <li data-md>
-       <p>Let <var>mousemove</var> = <a data-link-type="dfn" href="#create-a-mouseevent" id="ref-for-create-a-mouseevent⑨">create a MouseEvent</a> with "mousemove" and <var>element</var></p>
+       <p>Let <var>mousemove</var> = <a data-link-type="dfn" href="#create-a-mouseevent" id="ref-for-create-a-mouseevent⑥">create a MouseEvent</a> with "mousemove" and <var>element</var></p>
       <li data-md>
        <p><a data-link-type="dfn" href="#set-pointerlock-attributes-for-mousemove" id="ref-for-set-pointerlock-attributes-for-mousemove">Set PointerLock attributes for mousemove</a></p>
       <li data-md>
        <p><a data-link-type="dfn" href="#maybe-send-pointermove-event" id="ref-for-maybe-send-pointermove-event">Maybe send pointermove event</a> with <var>mousemove</var></p>
       <li data-md>
-       <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-dispatch" id="ref-for-concept-event-dispatch⑨">Dispatch</a> <var>mousemove</var> at <var>element</var></p>
+       <p><a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-dispatch" id="ref-for-concept-event-dispatch⑧">Dispatch</a> <var>mousemove</var> at <var>element</var></p>
      </ol>
+    </div>
+    <div class="algorithm" data-algorithm="maybe-show-context-menu">
+     <h3 class="heading settled" data-level="6.13" id="maybe show context menu"><span class="secno">6.13. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="maybe-show-context-menu">maybe show context menu</dfn></span><a class="self-link" href="#maybe%20show%20context%20menu"></a></h3>
+     <dl>
+      <dt data-md>Input
+      <dd data-md>
+       <p><var>native</var>, the native mousedown or pointer event</p>
+      <dd data-md>
+       <p><var>target</var>, the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑤">EventTarget</a></code> of the event</p>
+      <dt data-md>Output
+      <dd data-md>
+       <p>None</p>
+       <ol>
+        <li data-md>
+         <p>Let <var>menuevent</var> = <a data-link-type="dfn" href="#create-a-pointerevent" id="ref-for-create-a-pointerevent②">create a PointerEvent</a> with "contextmenu", <var>target</var></p>
+        <li data-md>
+         <p>If <var>native</var> is valid, then</p>
+         <ol>
+          <li data-md>
+           <p><a data-link-type="dfn" href="#set-mouseevent-attributes-from-native" id="ref-for-set-mouseevent-attributes-from-native④">Set MouseEvent attributes from native</a> with <var>native</var></p>
+         </ol>
+        <li data-md>
+         <p>Let <var>result</var> = <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-dispatch" id="ref-for-concept-event-dispatch⑨">dispatch</a> <var>menuevent</var> at <var>target</var></p>
+        <li data-md>
+         <p>If <var>result</var> is true, then show the UA context menu</p>
+       </ol>
+     </dl>
+     <p class="note" role="note"><span>Note:</span> To handle a context menu triggered by the keyboard, call this algorithm with <var>native</var> = null and <var>target</var> = currently focused element.</p>
     </div>
    </section>
    <section>
@@ -2351,7 +2930,7 @@ Chrome/Linux fires this event at the element and the shadow root</p>
       <dd data-md>
        <p><var>eventType</var>, a DOMString containing the event type</p>
       <dd data-md>
-       <p><var>eventTarget</var>, the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget④">EventTarget</a></code> of the event</p>
+       <p><var>eventTarget</var>, the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑥">EventTarget</a></code> of the event</p>
       <dt data-md>Output
       <dd data-md>
        <p>None</p>
@@ -2394,14 +2973,14 @@ since that’s where these attributes are defined.</p>
       <dd data-md>
        <p><var>eventType</var>, a DOMString containing the event type</p>
       <dd data-md>
-       <p><var>eventTarget</var>, the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑤">EventTarget</a></code> of the event</p>
+       <p><var>eventTarget</var>, the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑦">EventTarget</a></code> of the event</p>
       <dt data-md>Output
       <dd data-md>
        <p>None</p>
      </dl>
      <ol>
       <li data-md>
-       <p>Let <var>e</var> = the result of <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new InputEvent</a></p>
+       <p>Let <var>e</var> = the result of <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new event</a></p>
       <li data-md>
        <p><a data-link-type="dfn" href="#initialize-an-inputevent" id="ref-for-initialize-an-inputevent">Initialize an InputEvent</a> with <var>e</var>, <var>eventType</var> and <var>eventTarget</var></p>
       <li data-md>
@@ -2415,7 +2994,7 @@ since that’s where these attributes are defined.</p>
       <dd data-md>
        <p><var>key</var>, a DOMString containing the string corresponding to the key</p>
       <dd data-md>
-       <p><var>target</var>, the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑥">EventTarget</a></code> of the event</p>
+       <p><var>target</var>, the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑧">EventTarget</a></code> of the event</p>
       <dt data-md>Output
       <dd data-md>
        <p>None</p>
@@ -2553,7 +3132,7 @@ For insertFromPaste, Chrome has data = null, Firefox has data = same as beforein
       <dd data-md>
        <p><var>eventType</var>, a DOMString containing the event type</p>
       <dd data-md>
-       <p><var>eventTarget</var>, the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑦">EventTarget</a></code> of the event</p>
+       <p><var>eventTarget</var>, the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑨">EventTarget</a></code> of the event</p>
       <dt data-md>Output
       <dd data-md>
        <p>None</p>
@@ -2619,14 +3198,14 @@ For insertFromPaste, Chrome has data = null, Firefox has data = same as beforein
       <dd data-md>
        <p><var>eventType</var>, a DOMString containing the event type</p>
       <dd data-md>
-       <p><var>eventTarget</var>, the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑧">EventTarget</a></code> of the event</p>
+       <p><var>eventTarget</var>, the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①⓪">EventTarget</a></code> of the event</p>
       <dt data-md>Output
       <dd data-md>
        <p>None</p>
      </dl>
      <ol>
       <li data-md>
-       <p>Let <var>e</var> = the result of <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new KeyboardEvent</a></p>
+       <p>Let <var>e</var> = the result of <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new event</a></p>
       <li data-md>
        <p><a data-link-type="dfn" href="#initialize-a-keyboardevent" id="ref-for-initialize-a-keyboardevent">Initialize a KeyboardEvent</a> with <var>e</var>, <var>eventType</var> and <var>eventTarget</var></p>
       <li data-md>
@@ -3019,7 +3598,7 @@ Are there security issues (e.g., if it’s not safe to edit the current focus)?<
       <dd data-md>
        <p><var>eventType</var>, a DOMString containing the event type</p>
       <dd data-md>
-       <p><var>eventTarget</var>, the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget⑨">EventTarget</a></code> of the event</p>
+       <p><var>eventTarget</var>, the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①①">EventTarget</a></code> of the event</p>
       <dt data-md>Output
       <dd data-md>
        <p>None</p>
@@ -3043,14 +3622,14 @@ Are there security issues (e.g., if it’s not safe to edit the current focus)?<
       <dd data-md>
        <p><var>eventType</var>, a DOMString containing the event type</p>
       <dd data-md>
-       <p><var>eventTarget</var>, the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①⓪">EventTarget</a></code> of the event</p>
+       <p><var>eventTarget</var>, the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①②">EventTarget</a></code> of the event</p>
       <dt data-md>Output
       <dd data-md>
        <p>None</p>
      </dl>
      <ol>
       <li data-md>
-       <p>Let <var>e</var> = the result of <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new CompositionEvent</a></p>
+       <p>Let <var>e</var> = the result of <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new event</a></p>
       <li data-md>
        <p><a data-link-type="dfn" href="#initialize-a-compositionevent" id="ref-for-initialize-a-compositionevent">Initialize a CompositionEvent</a> with <var>e</var>, <var>eventType</var> and <var>eventTarget</var></p>
       <li data-md>
@@ -3241,7 +3820,7 @@ DOM is updated relative to compositionend (tested on macOS). Need to resolve thi
       <dd data-md>
        <p><var>eventType</var>, a DOMString containing the event type</p>
       <dd data-md>
-       <p><var>eventTarget</var>, the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①①">EventTarget</a></code> of the event</p>
+       <p><var>eventTarget</var>, the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①③">EventTarget</a></code> of the event</p>
       <dt data-md>Output
       <dd data-md>
        <p>None</p>
@@ -3252,8 +3831,29 @@ DOM is updated relative to compositionend (tested on macOS). Need to resolve thi
      </ol>
      <p class="issue" id="issue-b7cb6aa8"><a class="self-link" href="#issue-b7cb6aa8"></a> TODO - initialize the pointerevent attributes</p>
     </div>
+    <div class="algorithm" data-algorithm="create-a-pointerevent">
+     <h3 class="heading settled" data-level="11.2" id="create a pointerevent"><span class="secno">11.2. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="create-a-pointerevent">create a PointerEvent</dfn></span><a class="self-link" href="#create%20a%20pointerevent"></a></h3>
+     <dl>
+      <dt data-md>Input
+      <dd data-md>
+       <p><var>eventType</var>, a DOMString containing the event type</p>
+      <dd data-md>
+       <p><var>eventTarget</var>, the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①④">EventTarget</a></code> of the event</p>
+      <dt data-md>Output
+      <dd data-md>
+       <p>None</p>
+     </dl>
+     <ol>
+      <li data-md>
+       <p>Let <var>event</var> = the result of <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new event</a></p>
+      <li data-md>
+       <p><a data-link-type="dfn" href="#initialize-a-pointerevent" id="ref-for-initialize-a-pointerevent">Initialize a PointerEvent</a> with <var>event</var>, <var>eventType</var> and <var>eventTarget</var></p>
+      <li data-md>
+       <p>Return <var>event</var></p>
+     </ol>
+    </div>
     <div class="algorithm" data-algorithm="create-pointerevent-from-mouseevent">
-     <h3 class="heading settled" data-level="11.2" id="create pointerevent from mouseevent"><span class="secno">11.2. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="create-pointerevent-from-mouseevent">create PointerEvent from MouseEvent</dfn></span><a class="self-link" href="#create%20pointerevent%20from%20mouseevent"></a></h3>
+     <h3 class="heading settled" data-level="11.3" id="create pointerevent from mouseevent"><span class="secno">11.3. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="create-pointerevent-from-mouseevent">create PointerEvent from MouseEvent</dfn></span><a class="self-link" href="#create%20pointerevent%20from%20mouseevent"></a></h3>
      <dl>
       <dt data-md>Input
       <dd data-md>
@@ -3266,11 +3866,11 @@ DOM is updated relative to compositionend (tested on macOS). Need to resolve thi
      </dl>
      <ol>
       <li data-md>
-       <p>Let <var>event</var> = the result of <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new PointerEvent</a></p>
+       <p>Let <var>event</var> = the result of <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new event</a></p>
       <li data-md>
        <p>Let <var>target</var> = <var>mouseevent</var>.<code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-target" id="ref-for-dom-event-target①">target</a></code></p>
       <li data-md>
-       <p><a data-link-type="dfn" href="#initialize-a-pointerevent" id="ref-for-initialize-a-pointerevent">Initialize a PointerEvent</a> with <var>event</var>, <var>eventType</var> and <var>target</var></p>
+       <p><a data-link-type="dfn" href="#initialize-a-pointerevent" id="ref-for-initialize-a-pointerevent①">Initialize a PointerEvent</a> with <var>event</var>, <var>eventType</var> and <var>target</var></p>
       <li data-md>
        <p>Copy MouseEvent attributes from <var>mouseevent</var> into <var>event</var></p>
       <li data-md>
@@ -3278,7 +3878,7 @@ DOM is updated relative to compositionend (tested on macOS). Need to resolve thi
      </ol>
     </div>
     <div class="algorithm" data-algorithm="maybe-send-pointerout-event">
-     <h3 class="heading settled" data-level="11.3" id="maybe send pointerout event"><span class="secno">11.3. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="maybe-send-pointerout-event">maybe send pointerout event</dfn></span><a class="self-link" href="#maybe%20send%20pointerout%20event"></a></h3>
+     <h3 class="heading settled" data-level="11.4" id="maybe send pointerout event"><span class="secno">11.4. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="maybe-send-pointerout-event">maybe send pointerout event</dfn></span><a class="self-link" href="#maybe%20send%20pointerout%20event"></a></h3>
      <dl>
       <dt data-md>Input
       <dd data-md>
@@ -3300,7 +3900,7 @@ DOM is updated relative to compositionend (tested on macOS). Need to resolve thi
      </ol>
     </div>
     <div class="algorithm" data-algorithm="maybe-send-pointerleave-event">
-     <h3 class="heading settled" data-level="11.4" id="maybe send pointerleave event"><span class="secno">11.4. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="maybe-send-pointerleave-event">maybe send pointerleave event</dfn></span><a class="self-link" href="#maybe%20send%20pointerleave%20event"></a></h3>
+     <h3 class="heading settled" data-level="11.5" id="maybe send pointerleave event"><span class="secno">11.5. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="maybe-send-pointerleave-event">maybe send pointerleave event</dfn></span><a class="self-link" href="#maybe%20send%20pointerleave%20event"></a></h3>
      <dl>
       <dt data-md>Input
       <dd data-md>
@@ -3322,7 +3922,7 @@ DOM is updated relative to compositionend (tested on macOS). Need to resolve thi
      </ol>
     </div>
     <div class="algorithm" data-algorithm="maybe-send-pointerover-event">
-     <h3 class="heading settled" data-level="11.5" id="maybe send pointerover event"><span class="secno">11.5. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="maybe-send-pointerover-event">maybe send pointerover event</dfn></span><a class="self-link" href="#maybe%20send%20pointerover%20event"></a></h3>
+     <h3 class="heading settled" data-level="11.6" id="maybe send pointerover event"><span class="secno">11.6. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="maybe-send-pointerover-event">maybe send pointerover event</dfn></span><a class="self-link" href="#maybe%20send%20pointerover%20event"></a></h3>
      <dl>
       <dt data-md>Input
       <dd data-md>
@@ -3344,7 +3944,7 @@ DOM is updated relative to compositionend (tested on macOS). Need to resolve thi
      </ol>
     </div>
     <div class="algorithm" data-algorithm="maybe-send-pointerenter-event">
-     <h3 class="heading settled" data-level="11.6" id="maybe send pointerenter event"><span class="secno">11.6. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="maybe-send-pointerenter-event">maybe send pointerenter event</dfn></span><a class="self-link" href="#maybe%20send%20pointerenter%20event"></a></h3>
+     <h3 class="heading settled" data-level="11.7" id="maybe send pointerenter event"><span class="secno">11.7. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="maybe-send-pointerenter-event">maybe send pointerenter event</dfn></span><a class="self-link" href="#maybe%20send%20pointerenter%20event"></a></h3>
      <dl>
       <dt data-md>Input
       <dd data-md>
@@ -3366,7 +3966,7 @@ DOM is updated relative to compositionend (tested on macOS). Need to resolve thi
      </ol>
     </div>
     <div class="algorithm" data-algorithm="maybe-send-pointermove-event">
-     <h3 class="heading settled" data-level="11.7" id="maybe send pointermove event"><span class="secno">11.7. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="maybe-send-pointermove-event">maybe send pointermove event</dfn></span><a class="self-link" href="#maybe%20send%20pointermove%20event"></a></h3>
+     <h3 class="heading settled" data-level="11.8" id="maybe send pointermove event"><span class="secno">11.8. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="maybe-send-pointermove-event">maybe send pointermove event</dfn></span><a class="self-link" href="#maybe%20send%20pointermove%20event"></a></h3>
      <dl>
       <dt data-md>Input
       <dd data-md>
@@ -3390,7 +3990,7 @@ DOM is updated relative to compositionend (tested on macOS). Need to resolve thi
      </ol>
     </div>
     <div class="algorithm" data-algorithm="maybe-send-pointerdown-event">
-     <h3 class="heading settled" data-level="11.8" id="maybe send pointerdown event"><span class="secno">11.8. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="maybe-send-pointerdown-event">maybe send pointerdown event</dfn></span><a class="self-link" href="#maybe%20send%20pointerdown%20event"></a></h3>
+     <h3 class="heading settled" data-level="11.9" id="maybe send pointerdown event"><span class="secno">11.9. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="maybe-send-pointerdown-event">maybe send pointerdown event</dfn></span><a class="self-link" href="#maybe%20send%20pointerdown%20event"></a></h3>
      <dl>
       <dt data-md>Input
       <dd data-md>
@@ -3414,7 +4014,7 @@ DOM is updated relative to compositionend (tested on macOS). Need to resolve thi
      </ol>
     </div>
     <div class="algorithm" data-algorithm="maybe-send-pointerup-event">
-     <h3 class="heading settled" data-level="11.9" id="maybe send pointerup event"><span class="secno">11.9. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="maybe-send-pointerup-event">maybe send pointerup event</dfn></span><a class="self-link" href="#maybe%20send%20pointerup%20event"></a></h3>
+     <h3 class="heading settled" data-level="11.10" id="maybe send pointerup event"><span class="secno">11.10. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="maybe-send-pointerup-event">maybe send pointerup event</dfn></span><a class="self-link" href="#maybe%20send%20pointerup%20event"></a></h3>
      <dl>
       <dt data-md>Input
       <dd data-md>
@@ -3497,12 +4097,12 @@ That should be fixed as part of moving this section to the PointerLock spec.</p>
        <p>Otherwise,</p>
        <ol>
         <li data-md>
-         <p>Set <var>event</var>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-movementx" id="ref-for-dom-mouseevent-movementx②">movementX</a></code> = <var>event</var>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-screenx" id="ref-for-dom-mouseevent-screenx①">screenX</a></code> - <a data-link-type="dfn" href="#last-mouse-move" id="ref-for-last-mouse-move①">last mouse move</a>’s x-coordinate</p>
+         <p>Set <var>event</var>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-movementx" id="ref-for-dom-mouseevent-movementx②">movementX</a></code> = <var>event</var>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-screenx" id="ref-for-dom-mouseevent-screenx③">screenX</a></code> - <a data-link-type="dfn" href="#last-mouse-move" id="ref-for-last-mouse-move①">last mouse move</a>’s x-coordinate</p>
         <li data-md>
-         <p>Set <var>event</var>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-movementy" id="ref-for-dom-mouseevent-movementy②">movementY</a></code> = <var>event</var>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-screenx" id="ref-for-dom-mouseevent-screenx②">screenX</a></code> - <a data-link-type="dfn" href="#last-mouse-move" id="ref-for-last-mouse-move②">last mouse move</a>’s y-coordinate</p>
+         <p>Set <var>event</var>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-movementy" id="ref-for-dom-mouseevent-movementy②">movementY</a></code> = <var>event</var>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-screenx" id="ref-for-dom-mouseevent-screenx④">screenX</a></code> - <a data-link-type="dfn" href="#last-mouse-move" id="ref-for-last-mouse-move②">last mouse move</a>’s y-coordinate</p>
        </ol>
       <li data-md>
-       <p>Set <a data-link-type="dfn" href="#last-mouse-move" id="ref-for-last-mouse-move③">last mouse move</a> = ( <var>event</var>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-screenx" id="ref-for-dom-mouseevent-screenx③">screenX</a></code>, <var>event</var>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-screeny" id="ref-for-dom-mouseevent-screeny①">screenY</a></code> )</p>
+       <p>Set <a data-link-type="dfn" href="#last-mouse-move" id="ref-for-last-mouse-move③">last mouse move</a> = ( <var>event</var>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-screenx" id="ref-for-dom-mouseevent-screenx⑤">screenX</a></code>, <var>event</var>.<code class="idl"><a data-link-type="idl" href="#dom-mouseevent-screeny" id="ref-for-dom-mouseevent-screeny③">screenY</a></code> )</p>
      </ol>
     </div>
    </section>
@@ -3510,7 +4110,7 @@ That should be fixed as part of moving this section to the PointerLock spec.</p>
     <h2 class="heading settled" data-level="13" id="keyboard lock"><span class="secno">13. </span><span class="content">Keyboard Lock</span><a class="self-link" href="#keyboard%20lock"></a></h2>
     <p class="issue" id="issue-37fef50b"><a class="self-link" href="#issue-37fef50b"></a> KeyboardLock is not yet an accepted standard and is included here as a placeholder
 to explore how it might be integrated.</p>
-    <p class="issue" id="issue-e74af8f5"><a class="self-link" href="#issue-e74af8f5"></a> The contents of this section should eventually be moved into the [[WICG Keyboard Lock]] spec</p>
+    <p class="issue" id="issue-4d0ba757"><a class="self-link" href="#issue-4d0ba757"></a> The contents of this section should eventually be moved into the <a data-link-type="biblio" href="#biblio-wicg-keyboard-lock">[WICG-Keyboard-Lock]</a> spec</p>
     <h3 class="heading settled" data-level="13.1" id="keyboard-lock-global-state"><span class="secno">13.1. </span><span class="content">Global State for Keyboard Lock</span><a class="self-link" href="#keyboard-lock-global-state"></a></h3>
     <h4 class="heading settled" data-level="13.1.1" id="keyboard-lock-global-ua"><span class="secno">13.1.1. </span><span class="content">User Agent-Level State</span><a class="self-link" href="#keyboard-lock-global-ua"></a></h4>
     <p>The UA must maintain the following values that are shared for the entire
@@ -3840,122 +4440,125 @@ to explore how it might be integrated.</p>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
-   <li><a href="#keyboardevent-alt-flag">alt flag</a><span>, in §9.1</span>
-   <li><a href="#keyboardevent-altgraph-flag">altgraph flag</a><span>, in §9.1</span>
+   <li><a href="#keyboardevent-alt-flag">alt flag</a><span>, in § 9.1</span>
+   <li><a href="#keyboardevent-altgraph-flag">altgraph flag</a><span>, in § 9.1</span>
    <li>
     altKey
     <ul>
-     <li><a href="#dom-keyboardevent-altkey">attribute for KeyboardEvent</a><span>, in §9.1</span>
-     <li><a href="#dom-mouseevent-altkey">attribute for MouseEvent</a><span>, in §6.1</span>
+     <li><a href="#dom-keyboardevent-altkey">attribute for KeyboardEvent</a><span>, in § 9.1</span>
+     <li><a href="#dom-mouseevent-altkey">attribute for MouseEvent</a><span>, in § 6.1</span>
     </ul>
-   <li><a href="#begin-composition">begin composition</a><span>, in §10.8</span>
-   <li><a href="#dom-mouseevent-button">button</a><span>, in §6.1</span>
-   <li><a href="#dom-mouseevent-buttons">buttons</a><span>, in §6.1</span>
-   <li><a href="#calculate-dom-path">calculate DOM path</a><span>, in §14.2</span>
-   <li><a href="#calculate-key-location">calculate key location</a><span>, in §9.7</span>
-   <li><a href="#calculate-mouseevent-button-attribute">calculate MouseEvent button attribute</a><span>, in §6.5</span>
-   <li><a href="#keyboardevent-capslock-flag">capslock flag</a><span>, in §9.1</span>
-   <li><a href="#dom-mouseevent-clientx">clientX</a><span>, in §6.1</span>
-   <li><a href="#dom-mouseevent-clienty">clientY</a><span>, in §6.1</span>
-   <li><a href="#dom-keyboardevent-code">code</a><span>, in §9.1</span>
-   <li><a href="#composition-mode-flag">composition mode flag</a><span>, in §10.1.1</span>
-   <li><a href="#keyboardevent-control-flag">control flag</a><span>, in §9.1</span>
-   <li><a href="#create-a-compositionevent">create a CompositionEvent</a><span>, in §10.3</span>
-   <li><a href="#create-a-keyboardevent">create a KeyboardEvent</a><span>, in §9.4</span>
-   <li><a href="#create-a-mouseevent">create a MouseEvent</a><span>, in §6.4</span>
-   <li><a href="#create-an-inputevent">create an InputEvent</a><span>, in §8.2</span>
-   <li><a href="#create-pointerevent-from-mouseevent">create PointerEvent from MouseEvent</a><span>, in §11.2</span>
+   <li><a href="#begin-composition">begin composition</a><span>, in § 10.8</span>
+   <li><a href="#dom-mouseevent-button">button</a><span>, in § 6.1</span>
+   <li><a href="#dom-mouseevent-buttons">buttons</a><span>, in § 6.1</span>
+   <li><a href="#calculate-dom-path">calculate DOM path</a><span>, in § 14.2</span>
+   <li><a href="#calculate-key-location">calculate key location</a><span>, in § 9.7</span>
+   <li><a href="#calculate-mouseevent-button-attribute">calculate MouseEvent button attribute</a><span>, in § 6.5</span>
+   <li><a href="#keyboardevent-capslock-flag">capslock flag</a><span>, in § 9.1</span>
+   <li><a href="#dom-mouseevent-clientx">clientX</a><span>, in § 6.1</span>
+   <li><a href="#dom-mouseevent-clienty">clientY</a><span>, in § 6.1</span>
+   <li><a href="#dom-keyboardevent-code">code</a><span>, in § 9.1</span>
+   <li><a href="#composition-mode-flag">composition mode flag</a><span>, in § 10.1.1</span>
+   <li><a href="#keyboardevent-control-flag">control flag</a><span>, in § 9.1</span>
+   <li><a href="#create-a-compositionevent">create a CompositionEvent</a><span>, in § 10.3</span>
+   <li><a href="#create-a-keyboardevent">create a KeyboardEvent</a><span>, in § 9.4</span>
+   <li><a href="#create-a-mouseevent">create a MouseEvent</a><span>, in § 6.4</span>
+   <li><a href="#create-an-inputevent">create an InputEvent</a><span>, in § 8.2</span>
+   <li><a href="#create-a-pointerevent">create a PointerEvent</a><span>, in § 11.2</span>
+   <li><a href="#create-pointerevent-from-mouseevent">create PointerEvent from MouseEvent</a><span>, in § 11.3</span>
    <li>
     ctrlKey
     <ul>
-     <li><a href="#dom-keyboardevent-ctrlkey">attribute for KeyboardEvent</a><span>, in §9.1</span>
-     <li><a href="#dom-mouseevent-ctrlkey">attribute for MouseEvent</a><span>, in §6.1</span>
+     <li><a href="#dom-keyboardevent-ctrlkey">attribute for KeyboardEvent</a><span>, in § 9.1</span>
+     <li><a href="#dom-mouseevent-ctrlkey">attribute for MouseEvent</a><span>, in § 6.1</span>
     </ul>
-   <li><a href="#dom-uievent-detail">detail</a><span>, in §4.1</span>
-   <li><a href="#dom-keyboardevent-dom_key_location_left">DOM_KEY_LOCATION_LEFT</a><span>, in §9.1</span>
-   <li><a href="#dom-keyboardevent-dom_key_location_numpad">DOM_KEY_LOCATION_NUMPAD</a><span>, in §9.1</span>
-   <li><a href="#dom-keyboardevent-dom_key_location_right">DOM_KEY_LOCATION_RIGHT</a><span>, in §9.1</span>
-   <li><a href="#dom-keyboardevent-dom_key_location_standard">DOM_KEY_LOCATION_STANDARD</a><span>, in §9.1</span>
-   <li><a href="#uievent-due-to-user-interaction-flag">due to user interaction flag</a><span>, in §3.1</span>
-   <li><a href="#end-composition">end composition</a><span>, in §10.9</span>
-   <li><a href="#enter-composition-mode">enter composition mode</a><span>, in §10.5</span>
-   <li><a href="#exit-composition-mode">exit composition mode</a><span>, in §10.6</span>
-   <li><a href="#fire-a-compositionevent">fire a CompositionEvent</a><span>, in §10.4</span>
-   <li><a href="#fire-an-inputevent">fire an InputEvent</a><span>, in §8.4</span>
-   <li><a href="#fire-key-input-events">fire key input events</a><span>, in §8.3</span>
-   <li><a href="#get-modifier-state">get modifier state</a><span>, in §9.8</span>
-   <li><a href="#handle-composition-key">handle composition key</a><span>, in §10.7</span>
-   <li><a href="#handle-native-copy">handle native copy</a><span>, in §16.2</span>
-   <li><a href="#handle-native-cut">handle native cut</a><span>, in §16.1</span>
-   <li><a href="#handle-native-key-down">handle native key down</a><span>, in §9.11</span>
-   <li><a href="#handle-native-key-press">handle native key press</a><span>, in §9.13</span>
-   <li><a href="#handle-native-key-up">handle native key up</a><span>, in §9.12</span>
-   <li><a href="#handle-native-mouse-click">handle native mouse click</a><span>, in §6.9</span>
-   <li><a href="#handle-native-mouse-double-click">handle native mouse double click</a><span>, in §6.10</span>
-   <li><a href="#handle-native-mouse-down">handle native mouse down</a><span>, in §6.7</span>
-   <li><a href="#handle-native-mouse-move">handle native mouse move</a><span>, in §6.11</span>
-   <li><a href="#handle-native-mouse-up">handle native mouse up</a><span>, in §6.8</span>
-   <li><a href="#handle-native-paste">handle native paste</a><span>, in §16.3</span>
-   <li><a href="#handle-post-browser-key">handle post browser key</a><span>, in §9.10</span>
-   <li><a href="#handle-pre-browser-key">handle pre browser key</a><span>, in §9.9</span>
-   <li><a href="#hit-test">hit test</a><span>, in §14.1</span>
-   <li><a href="#in-composition-flag">in composition flag</a><span>, in §10.1.1</span>
-   <li><a href="#initialize-a-compositionevent">initialize a CompositionEvent</a><span>, in §10.2</span>
-   <li><a href="#initialize-a-keyboardevent">initialize a KeyboardEvent</a><span>, in §9.3</span>
-   <li><a href="#initialize-a-mouseevent">initialize a MouseEvent</a><span>, in §6.3</span>
-   <li><a href="#initialize-an-event">initialize an Event</a><span>, in §3.2</span>
-   <li><a href="#initialize-an-inputevent">initialize an InputEvent</a><span>, in §8.1</span>
-   <li><a href="#initialize-a-pointerevent">initialize a PointerEvent</a><span>, in §11.1</span>
-   <li><a href="#initialize-a-uievent">initialize a UIEvent</a><span>, in §4.2</span>
-   <li><a href="#initialize-cssom-attributes-for-mouseevent">initialize CSSOM attributes for MouseEvent</a><span>, in §15.1</span>
-   <li><a href="#initialize-pointerlock-attributes-for-mouseevent">initialize PointerLock attributes for MouseEvent</a><span>, in §12.3</span>
-   <li><a href="#dom-keyboardevent-iscomposing">isComposing</a><span>, in §9.1</span>
-   <li><a href="#dom-keyboardevent-key">key</a><span>, in §9.1</span>
-   <li><a href="#keyboard-lock-enable-flag">keyboard lock enable flag</a><span>, in §13.1.2</span>
-   <li><a href="#keyboard-lock-is-enabled">Keyboard Lock is enabled</a><span>, in §13.2</span>
-   <li><a href="#dom-keyboardevent-keychar">keyChar</a><span>, in §9.1</span>
-   <li><a href="#dom-keyboardevent-keycode">keyCode</a><span>, in §9.1</span>
-   <li><a href="#key-modifier-state">key modifier state</a><span>, in §9.2.1</span>
-   <li><a href="#last-mouse-dom-path">last mouse DOM path</a><span>, in §6.2.2</span>
-   <li><a href="#last-mouse-element">last mouse element</a><span>, in §6.2.2</span>
-   <li><a href="#last-mouse-move">last mouse move</a><span>, in §12.2.1</span>
-   <li><a href="#dom-keyboardevent-location">location</a><span>, in §9.1</span>
-   <li><a href="#maybe-send-pointerdown-event">maybe send pointerdown event</a><span>, in §11.8</span>
-   <li><a href="#maybe-send-pointerenter-event">maybe send pointerenter event</a><span>, in §11.6</span>
-   <li><a href="#maybe-send-pointerleave-event">maybe send pointerleave event</a><span>, in §11.4</span>
-   <li><a href="#maybe-send-pointermove-event">maybe send pointermove event</a><span>, in §11.7</span>
-   <li><a href="#maybe-send-pointerout-event">maybe send pointerout event</a><span>, in §11.3</span>
-   <li><a href="#maybe-send-pointerover-event">maybe send pointerover event</a><span>, in §11.5</span>
-   <li><a href="#maybe-send-pointerup-event">maybe send pointerup event</a><span>, in §11.9</span>
-   <li><a href="#keyboardevent-meta-flag">meta flag</a><span>, in §9.1</span>
+   <li><a href="#dom-uievent-detail">detail</a><span>, in § 4.1</span>
+   <li><a href="#dom-keyboardevent-dom_key_location_left">DOM_KEY_LOCATION_LEFT</a><span>, in § 9.1</span>
+   <li><a href="#dom-keyboardevent-dom_key_location_numpad">DOM_KEY_LOCATION_NUMPAD</a><span>, in § 9.1</span>
+   <li><a href="#dom-keyboardevent-dom_key_location_right">DOM_KEY_LOCATION_RIGHT</a><span>, in § 9.1</span>
+   <li><a href="#dom-keyboardevent-dom_key_location_standard">DOM_KEY_LOCATION_STANDARD</a><span>, in § 9.1</span>
+   <li><a href="#uievent-due-to-user-interaction-flag">due to user interaction flag</a><span>, in § 3.1</span>
+   <li><a href="#end-composition">end composition</a><span>, in § 10.9</span>
+   <li><a href="#enter-composition-mode">enter composition mode</a><span>, in § 10.5</span>
+   <li><a href="#exit-composition-mode">exit composition mode</a><span>, in § 10.6</span>
+   <li><a href="#fire-a-compositionevent">fire a CompositionEvent</a><span>, in § 10.4</span>
+   <li><a href="#fire-an-inputevent">fire an InputEvent</a><span>, in § 8.4</span>
+   <li><a href="#fire-key-input-events">fire key input events</a><span>, in § 8.3</span>
+   <li><a href="#get-modifier-state">get modifier state</a><span>, in § 9.8</span>
+   <li><a href="#handle-composition-key">handle composition key</a><span>, in § 10.7</span>
+   <li><a href="#handle-native-copy">handle native copy</a><span>, in § 16.2</span>
+   <li><a href="#handle-native-cut">handle native cut</a><span>, in § 16.1</span>
+   <li><a href="#handle-native-key-down">handle native key down</a><span>, in § 9.11</span>
+   <li><a href="#handle-native-key-press">handle native key press</a><span>, in § 9.13</span>
+   <li><a href="#handle-native-key-up">handle native key up</a><span>, in § 9.12</span>
+   <li><a href="#handle-native-mouse-click">handle native mouse click</a><span>, in § 6.9</span>
+   <li><a href="#handle-native-mouse-double-click">handle native mouse double click</a><span>, in § 6.11</span>
+   <li><a href="#handle-native-mouse-down">handle native mouse down</a><span>, in § 6.7</span>
+   <li><a href="#handle-native-mouse-move">handle native mouse move</a><span>, in § 6.12</span>
+   <li><a href="#handle-native-mouse-up">handle native mouse up</a><span>, in § 6.8</span>
+   <li><a href="#handle-native-paste">handle native paste</a><span>, in § 16.3</span>
+   <li><a href="#handle-post-browser-key">handle post browser key</a><span>, in § 9.10</span>
+   <li><a href="#handle-pre-browser-key">handle pre browser key</a><span>, in § 9.9</span>
+   <li><a href="#hit-test">hit test</a><span>, in § 14.1</span>
+   <li><a href="#in-composition-flag">in composition flag</a><span>, in § 10.1.1</span>
+   <li><a href="#initialize-a-compositionevent">initialize a CompositionEvent</a><span>, in § 10.2</span>
+   <li><a href="#initialize-a-keyboardevent">initialize a KeyboardEvent</a><span>, in § 9.3</span>
+   <li><a href="#initialize-a-mouseevent">initialize a MouseEvent</a><span>, in § 6.3</span>
+   <li><a href="#initialize-an-event">initialize an Event</a><span>, in § 3.2</span>
+   <li><a href="#initialize-an-inputevent">initialize an InputEvent</a><span>, in § 8.1</span>
+   <li><a href="#initialize-a-pointerevent">initialize a PointerEvent</a><span>, in § 11.1</span>
+   <li><a href="#initialize-a-uievent">initialize a UIEvent</a><span>, in § 4.2</span>
+   <li><a href="#initialize-cssom-attributes-for-mouseevent">initialize CSSOM attributes for MouseEvent</a><span>, in § 15.1</span>
+   <li><a href="#initialize-pointerlock-attributes-for-mouseevent">initialize PointerLock attributes for MouseEvent</a><span>, in § 12.3</span>
+   <li><a href="#dom-keyboardevent-iscomposing">isComposing</a><span>, in § 9.1</span>
+   <li><a href="#dom-keyboardevent-key">key</a><span>, in § 9.1</span>
+   <li><a href="#keyboard-lock-enable-flag">keyboard lock enable flag</a><span>, in § 13.1.2</span>
+   <li><a href="#keyboard-lock-is-enabled">Keyboard Lock is enabled</a><span>, in § 13.2</span>
+   <li><a href="#dom-keyboardevent-keychar">keyChar</a><span>, in § 9.1</span>
+   <li><a href="#dom-keyboardevent-keycode">keyCode</a><span>, in § 9.1</span>
+   <li><a href="#key-modifier-state">key modifier state</a><span>, in § 9.2.1</span>
+   <li><a href="#last-mouse-dom-path">last mouse DOM path</a><span>, in § 6.2.2</span>
+   <li><a href="#last-mouse-element">last mouse element</a><span>, in § 6.2.2</span>
+   <li><a href="#last-mouse-move">last mouse move</a><span>, in § 12.2.1</span>
+   <li><a href="#dom-keyboardevent-location">location</a><span>, in § 9.1</span>
+   <li><a href="#maybe-send-pointerdown-event">maybe send pointerdown event</a><span>, in § 11.9</span>
+   <li><a href="#maybe-send-pointerenter-event">maybe send pointerenter event</a><span>, in § 11.7</span>
+   <li><a href="#maybe-send-pointerleave-event">maybe send pointerleave event</a><span>, in § 11.5</span>
+   <li><a href="#maybe-send-pointermove-event">maybe send pointermove event</a><span>, in § 11.8</span>
+   <li><a href="#maybe-send-pointerout-event">maybe send pointerout event</a><span>, in § 11.4</span>
+   <li><a href="#maybe-send-pointerover-event">maybe send pointerover event</a><span>, in § 11.6</span>
+   <li><a href="#maybe-send-pointerup-event">maybe send pointerup event</a><span>, in § 11.10</span>
+   <li><a href="#maybe-show-context-menu">maybe show context menu</a><span>, in § 6.13</span>
+   <li><a href="#keyboardevent-meta-flag">meta flag</a><span>, in § 9.1</span>
    <li>
     metaKey
     <ul>
-     <li><a href="#dom-keyboardevent-metakey">attribute for KeyboardEvent</a><span>, in §9.1</span>
-     <li><a href="#dom-mouseevent-metakey">attribute for MouseEvent</a><span>, in §6.1</span>
+     <li><a href="#dom-keyboardevent-metakey">attribute for KeyboardEvent</a><span>, in § 9.1</span>
+     <li><a href="#dom-mouseevent-metakey">attribute for MouseEvent</a><span>, in § 6.1</span>
     </ul>
-   <li><a href="#mouse-button-bitmask">mouse button bitmask</a><span>, in §6.2.1</span>
-   <li><a href="#dom-mouseevent-movementx">movementX</a><span>, in §12.1</span>
-   <li><a href="#dom-mouseevent-movementy">movementY</a><span>, in §12.1</span>
-   <li><a href="#keyboardevent-numlock-flag">numlock flag</a><span>, in §9.1</span>
-   <li><a href="#dom-mouseevent-relatedtarget">relatedTarget</a><span>, in §6.1</span>
-   <li><a href="#dom-keyboardevent-repeat">repeat</a><span>, in §9.1</span>
-   <li><a href="#dom-mouseevent-screenx">screenX</a><span>, in §6.1</span>
-   <li><a href="#dom-mouseevent-screeny">screenY</a><span>, in §6.1</span>
-   <li><a href="#set-event-modifiers">set event modifiers</a><span>, in §9.5</span>
-   <li><a href="#set-keyboardevent-attributes">set KeyboardEvent attributes</a><span>, in §9.6</span>
-   <li><a href="#set-mouseevent-attributes-from-native">set MouseEvent attributes from native</a><span>, in §6.6</span>
-   <li><a href="#set-pointerlock-attributes-for-mousemove">set PointerLock attributes for mousemove</a><span>, in §12.4</span>
-   <li><a href="#keyboardevent-shift-flag">shift flag</a><span>, in §9.1</span>
+   <li><a href="#mouse-button-bitmask">mouse button bitmask</a><span>, in § 6.2.1</span>
+   <li><a href="#dom-mouseevent-movementx">movementX</a><span>, in § 12.1</span>
+   <li><a href="#dom-mouseevent-movementy">movementY</a><span>, in § 12.1</span>
+   <li><a href="#keyboardevent-numlock-flag">numlock flag</a><span>, in § 9.1</span>
+   <li><a href="#dom-mouseevent-relatedtarget">relatedTarget</a><span>, in § 6.1</span>
+   <li><a href="#dom-keyboardevent-repeat">repeat</a><span>, in § 9.1</span>
+   <li><a href="#dom-mouseevent-screenx">screenX</a><span>, in § 6.1</span>
+   <li><a href="#dom-mouseevent-screeny">screenY</a><span>, in § 6.1</span>
+   <li><a href="#send-click-event">send click event</a><span>, in § 6.10</span>
+   <li><a href="#set-event-modifiers">set event modifiers</a><span>, in § 9.5</span>
+   <li><a href="#set-keyboardevent-attributes">set KeyboardEvent attributes</a><span>, in § 9.6</span>
+   <li><a href="#set-mouseevent-attributes-from-native">set MouseEvent attributes from native</a><span>, in § 6.6</span>
+   <li><a href="#set-pointerlock-attributes-for-mousemove">set PointerLock attributes for mousemove</a><span>, in § 12.4</span>
+   <li><a href="#keyboardevent-shift-flag">shift flag</a><span>, in § 9.1</span>
    <li>
     shiftKey
     <ul>
-     <li><a href="#dom-keyboardevent-shiftkey">attribute for KeyboardEvent</a><span>, in §9.1</span>
-     <li><a href="#dom-mouseevent-shiftkey">attribute for MouseEvent</a><span>, in §6.1</span>
+     <li><a href="#dom-keyboardevent-shiftkey">attribute for KeyboardEvent</a><span>, in § 9.1</span>
+     <li><a href="#dom-mouseevent-shiftkey">attribute for MouseEvent</a><span>, in § 6.1</span>
     </ul>
-   <li><a href="#suppress-key-input-events-flag">suppress key input events flag</a><span>, in §9.2.2</span>
-   <li><a href="#dom-uievent-view">view</a><span>, in §4.1</span>
-   <li><a href="#dom-keyboardevent-which">which</a><span>, in §4.1</span>
+   <li><a href="#suppress-key-input-events-flag">suppress key input events flag</a><span>, in § 9.2.2</span>
+   <li><a href="#dom-uievent-view">view</a><span>, in § 4.1</span>
+   <li><a href="#dom-keyboardevent-which">which</a><span>, in § 4.1</span>
   </ul>
   <aside class="dfn-panel" data-for="term-for-viewport">
    <a href="https://www.w3.org/TR/CSS2/visuren.html#viewport">https://www.w3.org/TR/CSS2/visuren.html#viewport</a><b>Referenced in:</b>
@@ -4034,14 +4637,17 @@ to explore how it might be integrated.</p>
     <li><a href="#ref-for-eventtarget①">4.2. initialize a UIEvent</a>
     <li><a href="#ref-for-eventtarget②">6.3. initialize a MouseEvent</a>
     <li><a href="#ref-for-eventtarget③">6.4. create a MouseEvent</a>
-    <li><a href="#ref-for-eventtarget④">8.1. initialize an InputEvent</a>
-    <li><a href="#ref-for-eventtarget⑤">8.2. create an InputEvent</a>
-    <li><a href="#ref-for-eventtarget⑥">8.3. fire key input events</a>
-    <li><a href="#ref-for-eventtarget⑦">9.3. initialize a KeyboardEvent</a>
-    <li><a href="#ref-for-eventtarget⑧">9.4. create a KeyboardEvent</a>
-    <li><a href="#ref-for-eventtarget⑨">10.2. initialize a CompositionEvent</a>
-    <li><a href="#ref-for-eventtarget①⓪">10.3. create a CompositionEvent</a>
-    <li><a href="#ref-for-eventtarget①①">11.1. initialize a PointerEvent</a>
+    <li><a href="#ref-for-eventtarget④">6.10. send click event</a>
+    <li><a href="#ref-for-eventtarget⑤">6.13. maybe show context menu</a>
+    <li><a href="#ref-for-eventtarget⑥">8.1. initialize an InputEvent</a>
+    <li><a href="#ref-for-eventtarget⑦">8.2. create an InputEvent</a>
+    <li><a href="#ref-for-eventtarget⑧">8.3. fire key input events</a>
+    <li><a href="#ref-for-eventtarget⑨">9.3. initialize a KeyboardEvent</a>
+    <li><a href="#ref-for-eventtarget①⓪">9.4. create a KeyboardEvent</a>
+    <li><a href="#ref-for-eventtarget①①">10.2. initialize a CompositionEvent</a>
+    <li><a href="#ref-for-eventtarget①②">10.3. create a CompositionEvent</a>
+    <li><a href="#ref-for-eventtarget①③">11.1. initialize a PointerEvent</a>
+    <li><a href="#ref-for-eventtarget①④">11.2. create a PointerEvent</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-event-none">
@@ -4054,14 +4660,14 @@ to explore how it might be integrated.</p>
    <a href="https://dom.spec.whatwg.org/#dom-event-bubbles">https://dom.spec.whatwg.org/#dom-event-bubbles</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-event-bubbles">3.2. initialize an Event</a>
-    <li><a href="#ref-for-dom-event-bubbles①">6.11. handle native mouse move</a> <a href="#ref-for-dom-event-bubbles②">(2)</a>
+    <li><a href="#ref-for-dom-event-bubbles①">6.12. handle native mouse move</a> <a href="#ref-for-dom-event-bubbles②">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-event-cancelable">
    <a href="https://dom.spec.whatwg.org/#dom-event-cancelable">https://dom.spec.whatwg.org/#dom-event-cancelable</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-event-cancelable">3.2. initialize an Event</a>
-    <li><a href="#ref-for-dom-event-cancelable①">6.11. handle native mouse move</a> <a href="#ref-for-dom-event-cancelable②">(2)</a>
+    <li><a href="#ref-for-dom-event-cancelable①">6.12. handle native mouse move</a> <a href="#ref-for-dom-event-cancelable②">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-canceled-flag">
@@ -4074,7 +4680,7 @@ to explore how it might be integrated.</p>
    <a href="https://dom.spec.whatwg.org/#dom-event-composed">https://dom.spec.whatwg.org/#dom-event-composed</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-event-composed">3.2. initialize an Event</a>
-    <li><a href="#ref-for-dom-event-composed①">6.11. handle native mouse move</a> <a href="#ref-for-dom-event-composed②">(2)</a>
+    <li><a href="#ref-for-dom-event-composed①">6.12. handle native mouse move</a> <a href="#ref-for-dom-event-composed②">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-composed-flag">
@@ -4141,21 +4747,21 @@ to explore how it might be integrated.</p>
   <aside class="dfn-panel" data-for="term-for-stop-propagation-flag">
    <a href="https://dom.spec.whatwg.org/#stop-propagation-flag">https://dom.spec.whatwg.org/#stop-propagation-flag</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#termref-for-">3.2. initialize an Event</a> <a href="#ref-for-stop-propagation-flag">(2)</a>
+    <li><a href="#termref-for-stop-propagation-flag">3.2. initialize an Event</a> <a href="#ref-for-stop-propagation-flag">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-event-target">
    <a href="https://dom.spec.whatwg.org/#dom-event-target">https://dom.spec.whatwg.org/#dom-event-target</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-event-target">3.2. initialize an Event</a>
-    <li><a href="#ref-for-dom-event-target①">11.2. create PointerEvent from MouseEvent</a>
-    <li><a href="#ref-for-dom-event-target②">11.3. maybe send pointerout event</a>
-    <li><a href="#ref-for-dom-event-target③">11.4. maybe send pointerleave event</a>
-    <li><a href="#ref-for-dom-event-target④">11.5. maybe send pointerover event</a>
-    <li><a href="#ref-for-dom-event-target⑤">11.6. maybe send pointerenter event</a>
-    <li><a href="#ref-for-dom-event-target⑥">11.7. maybe send pointermove event</a>
-    <li><a href="#ref-for-dom-event-target⑦">11.8. maybe send pointerdown event</a>
-    <li><a href="#ref-for-dom-event-target⑧">11.9. maybe send pointerup event</a>
+    <li><a href="#ref-for-dom-event-target①">11.3. create PointerEvent from MouseEvent</a>
+    <li><a href="#ref-for-dom-event-target②">11.4. maybe send pointerout event</a>
+    <li><a href="#ref-for-dom-event-target③">11.5. maybe send pointerleave event</a>
+    <li><a href="#ref-for-dom-event-target④">11.6. maybe send pointerover event</a>
+    <li><a href="#ref-for-dom-event-target⑤">11.7. maybe send pointerenter event</a>
+    <li><a href="#ref-for-dom-event-target⑥">11.8. maybe send pointermove event</a>
+    <li><a href="#ref-for-dom-event-target⑦">11.9. maybe send pointerdown event</a>
+    <li><a href="#ref-for-dom-event-target⑧">11.10. maybe send pointerup event</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-event-timestamp">
@@ -4187,22 +4793,23 @@ to explore how it might be integrated.</p>
   <aside class="dfn-panel" data-for="term-for-concept-event-dispatch">
    <a href="https://dom.spec.whatwg.org/#concept-event-dispatch">https://dom.spec.whatwg.org/#concept-event-dispatch</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-event-dispatch">6.7. handle native mouse down</a> <a href="#ref-for-concept-event-dispatch①">(2)</a>
-    <li><a href="#ref-for-concept-event-dispatch②">6.8. handle native mouse up</a>
-    <li><a href="#ref-for-concept-event-dispatch③">6.9. handle native mouse click</a>
-    <li><a href="#ref-for-concept-event-dispatch④">6.10. handle native mouse double click</a>
-    <li><a href="#ref-for-concept-event-dispatch⑤">6.11. handle native mouse move</a> <a href="#ref-for-concept-event-dispatch⑥">(2)</a> <a href="#ref-for-concept-event-dispatch⑦">(3)</a> <a href="#ref-for-concept-event-dispatch⑧">(4)</a> <a href="#ref-for-concept-event-dispatch⑨">(5)</a>
+    <li><a href="#ref-for-concept-event-dispatch">6.7. handle native mouse down</a>
+    <li><a href="#ref-for-concept-event-dispatch①">6.8. handle native mouse up</a>
+    <li><a href="#ref-for-concept-event-dispatch②">6.10. send click event</a>
+    <li><a href="#ref-for-concept-event-dispatch③">6.11. handle native mouse double click</a>
+    <li><a href="#ref-for-concept-event-dispatch④">6.12. handle native mouse move</a> <a href="#ref-for-concept-event-dispatch⑤">(2)</a> <a href="#ref-for-concept-event-dispatch⑥">(3)</a> <a href="#ref-for-concept-event-dispatch⑦">(4)</a> <a href="#ref-for-concept-event-dispatch⑧">(5)</a>
+    <li><a href="#ref-for-concept-event-dispatch⑨">6.13. maybe show context menu</a>
     <li><a href="#ref-for-concept-event-dispatch①⓪">8.4. fire an InputEvent</a>
     <li><a href="#ref-for-concept-event-dispatch①①">9.11. handle native key down</a>
     <li><a href="#ref-for-concept-event-dispatch①②">9.12. handle native key up</a>
     <li><a href="#ref-for-concept-event-dispatch①③">10.4. fire a CompositionEvent</a>
-    <li><a href="#ref-for-concept-event-dispatch①④">11.3. maybe send pointerout event</a>
-    <li><a href="#ref-for-concept-event-dispatch①⑤">11.4. maybe send pointerleave event</a>
-    <li><a href="#ref-for-concept-event-dispatch①⑥">11.5. maybe send pointerover event</a>
-    <li><a href="#ref-for-concept-event-dispatch①⑦">11.6. maybe send pointerenter event</a>
-    <li><a href="#ref-for-concept-event-dispatch①⑧">11.7. maybe send pointermove event</a>
-    <li><a href="#ref-for-concept-event-dispatch①⑨">11.8. maybe send pointerdown event</a>
-    <li><a href="#ref-for-concept-event-dispatch②⓪">11.9. maybe send pointerup event</a>
+    <li><a href="#ref-for-concept-event-dispatch①④">11.4. maybe send pointerout event</a>
+    <li><a href="#ref-for-concept-event-dispatch①⑤">11.5. maybe send pointerleave event</a>
+    <li><a href="#ref-for-concept-event-dispatch①⑥">11.6. maybe send pointerover event</a>
+    <li><a href="#ref-for-concept-event-dispatch①⑦">11.7. maybe send pointerenter event</a>
+    <li><a href="#ref-for-concept-event-dispatch①⑧">11.8. maybe send pointermove event</a>
+    <li><a href="#ref-for-concept-event-dispatch①⑨">11.9. maybe send pointerdown event</a>
+    <li><a href="#ref-for-concept-event-dispatch②⓪">11.10. maybe send pointerup event</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-focusable-area">
@@ -4243,14 +4850,14 @@ to explore how it might be integrated.</p>
     <li><a href="#ref-for-mouseevent③">6.5. calculate MouseEvent button attribute</a>
     <li><a href="#ref-for-mouseevent④">6.6. set MouseEvent attributes from native</a>
     <li><a href="#ref-for-mouseevent⑤">9.5. set event modifiers</a>
-    <li><a href="#ref-for-mouseevent⑥">11.2. create PointerEvent from MouseEvent</a>
-    <li><a href="#ref-for-mouseevent⑦">11.3. maybe send pointerout event</a>
-    <li><a href="#ref-for-mouseevent⑧">11.4. maybe send pointerleave event</a>
-    <li><a href="#ref-for-mouseevent⑨">11.5. maybe send pointerover event</a>
-    <li><a href="#ref-for-mouseevent①⓪">11.6. maybe send pointerenter event</a>
-    <li><a href="#ref-for-mouseevent①①">11.7. maybe send pointermove event</a>
-    <li><a href="#ref-for-mouseevent①②">11.8. maybe send pointerdown event</a>
-    <li><a href="#ref-for-mouseevent①③">11.9. maybe send pointerup event</a>
+    <li><a href="#ref-for-mouseevent⑥">11.3. create PointerEvent from MouseEvent</a>
+    <li><a href="#ref-for-mouseevent⑦">11.4. maybe send pointerout event</a>
+    <li><a href="#ref-for-mouseevent⑧">11.5. maybe send pointerleave event</a>
+    <li><a href="#ref-for-mouseevent⑨">11.6. maybe send pointerover event</a>
+    <li><a href="#ref-for-mouseevent①⓪">11.7. maybe send pointerenter event</a>
+    <li><a href="#ref-for-mouseevent①①">11.8. maybe send pointermove event</a>
+    <li><a href="#ref-for-mouseevent①②">11.9. maybe send pointerdown event</a>
+    <li><a href="#ref-for-mouseevent①③">11.10. maybe send pointerup event</a>
     <li><a href="#ref-for-mouseevent①④">12.1. MouseEvent Interface Extension</a>
     <li><a href="#ref-for-mouseevent①⑤">12.3. initialize PointerLock attributes for MouseEvent</a>
     <li><a href="#ref-for-mouseevent①⑥">12.4. set PointerLock attributes for mousemove</a>
@@ -4304,106 +4911,108 @@ to explore how it might be integrated.</p>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
    <li>
-    <a data-link-type="biblio">[CSS2]</a> defines the following terms:
+    <a data-link-type="biblio">[CSS21]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-viewport" style="color:initial">viewport</span>
+     <li><span class="dfn-paneled" id="term-for-viewport">viewport</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSSOM-View]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dom-document-elementfrompoint" style="color:initial">elementfrompoint</span>
-     <li><span class="dfn-paneled" id="term-for-dom-document-elementfrompoint①" style="color:initial">elementsfrompoint</span>
-     <li><span class="dfn-paneled" id="term-for-dom-mouseevent-offsetx" style="color:initial">offsetX</span>
-     <li><span class="dfn-paneled" id="term-for-dom-mouseevent-offsety" style="color:initial">offsetY</span>
-     <li><span class="dfn-paneled" id="term-for-dom-mouseevent-pagex" style="color:initial">pageX</span>
-     <li><span class="dfn-paneled" id="term-for-dom-mouseevent-pagey" style="color:initial">pageY</span>
-     <li><span class="dfn-paneled" id="term-for-dom-mouseevent-x" style="color:initial">x</span>
-     <li><span class="dfn-paneled" id="term-for-dom-mouseevent-y" style="color:initial">y</span>
+     <li><span class="dfn-paneled" id="term-for-dom-document-elementfrompoint">elementfrompoint</span>
+     <li><span class="dfn-paneled" id="term-for-dom-document-elementfrompoint①">elementsfrompoint</span>
+     <li><span class="dfn-paneled" id="term-for-dom-mouseevent-offsetx">offsetX</span>
+     <li><span class="dfn-paneled" id="term-for-dom-mouseevent-offsety">offsetY</span>
+     <li><span class="dfn-paneled" id="term-for-dom-mouseevent-pagex">pageX</span>
+     <li><span class="dfn-paneled" id="term-for-dom-mouseevent-pagey">pageY</span>
+     <li><span class="dfn-paneled" id="term-for-dom-mouseevent-x">x</span>
+     <li><span class="dfn-paneled" id="term-for-dom-mouseevent-y">y</span>
     </ul>
    <li>
     <a data-link-type="biblio">[DOM]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-element" style="color:initial">Element</span>
-     <li><span class="dfn-paneled" id="term-for-event" style="color:initial">Event</span>
-     <li><span class="dfn-paneled" id="term-for-eventtarget" style="color:initial">EventTarget</span>
-     <li><span class="dfn-paneled" id="term-for-dom-event-none" style="color:initial">NONE</span>
-     <li><span class="dfn-paneled" id="term-for-dom-event-bubbles" style="color:initial">bubbles</span>
-     <li><span class="dfn-paneled" id="term-for-dom-event-cancelable" style="color:initial">cancelable</span>
-     <li><span class="dfn-paneled" id="term-for-canceled-flag" style="color:initial">canceled flag</span>
-     <li><span class="dfn-paneled" id="term-for-dom-event-composed" style="color:initial">composed</span>
-     <li><span class="dfn-paneled" id="term-for-composed-flag" style="color:initial">composed flag</span>
-     <li><span class="dfn-paneled" id="term-for-dom-event-currenttarget" style="color:initial">currentTarget</span>
-     <li><span class="dfn-paneled" id="term-for-dom-event-defaultprevented" style="color:initial">defaultPrevented</span>
-     <li><span class="dfn-paneled" id="term-for-dispatch-flag" style="color:initial">dispatch flag</span>
-     <li><span class="dfn-paneled" id="term-for-dom-event-eventphase" style="color:initial">eventPhase</span>
-     <li><span class="dfn-paneled" id="term-for-in-passive-listener-flag" style="color:initial">in passive listener flag</span>
-     <li><span class="dfn-paneled" id="term-for-initialized-flag" style="color:initial">initialized flag</span>
-     <li><span class="dfn-paneled" id="term-for-dom-event-istrusted" style="color:initial">isTrusted</span>
-     <li><span class="dfn-paneled" id="term-for-concept-node-document" style="color:initial">node document</span>
-     <li><span class="dfn-paneled" id="term-for-stop-immediate-propagation-flag" style="color:initial">stop immediate propagation flag</span>
-     <li><span class="dfn-paneled" id="term-for-stop-propagation-flag" style="color:initial">stop propagation flag</span>
-     <li><span class="dfn-paneled" id="term-for-dom-event-target" style="color:initial">target</span>
-     <li><span class="dfn-paneled" id="term-for-dom-event-timestamp" style="color:initial">timeStamp</span>
-     <li><span class="dfn-paneled" id="term-for-dom-event-type" style="color:initial">type</span>
+     <li><span class="dfn-paneled" id="term-for-element">Element</span>
+     <li><span class="dfn-paneled" id="term-for-event">Event</span>
+     <li><span class="dfn-paneled" id="term-for-eventtarget">EventTarget</span>
+     <li><span class="dfn-paneled" id="term-for-dom-event-none">NONE</span>
+     <li><span class="dfn-paneled" id="term-for-dom-event-bubbles">bubbles</span>
+     <li><span class="dfn-paneled" id="term-for-dom-event-cancelable">cancelable</span>
+     <li><span class="dfn-paneled" id="term-for-canceled-flag">canceled flag</span>
+     <li><span class="dfn-paneled" id="term-for-dom-event-composed">composed</span>
+     <li><span class="dfn-paneled" id="term-for-composed-flag">composed flag</span>
+     <li><span class="dfn-paneled" id="term-for-dom-event-currenttarget">currentTarget</span>
+     <li><span class="dfn-paneled" id="term-for-dom-event-defaultprevented">defaultPrevented</span>
+     <li><span class="dfn-paneled" id="term-for-dispatch-flag">dispatch flag</span>
+     <li><span class="dfn-paneled" id="term-for-dom-event-eventphase">eventPhase</span>
+     <li><span class="dfn-paneled" id="term-for-in-passive-listener-flag">in passive listener flag</span>
+     <li><span class="dfn-paneled" id="term-for-initialized-flag">initialized flag</span>
+     <li><span class="dfn-paneled" id="term-for-dom-event-istrusted">isTrusted</span>
+     <li><span class="dfn-paneled" id="term-for-concept-node-document">node document</span>
+     <li><span class="dfn-paneled" id="term-for-stop-immediate-propagation-flag">stop immediate propagation flag</span>
+     <li><span class="dfn-paneled" id="term-for-stop-propagation-flag">stop propagation flag</span>
+     <li><span class="dfn-paneled" id="term-for-dom-event-target">target</span>
+     <li><span class="dfn-paneled" id="term-for-dom-event-timestamp">timeStamp</span>
+     <li><span class="dfn-paneled" id="term-for-dom-event-type">type</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-window" style="color:initial">Window</span>
-     <li><span class="dfn-paneled" id="term-for-click-focusable" style="color:initial">click focusable</span>
-     <li><span class="dfn-paneled" id="term-for-concept-event-dispatch" style="color:initial">dispatch</span>
-     <li><span class="dfn-paneled" id="term-for-focusable-area" style="color:initial">focusable area</span>
-     <li><span class="dfn-paneled" id="term-for-focusing-steps" style="color:initial">focusing steps</span>
+     <li><span class="dfn-paneled" id="term-for-window">Window</span>
+     <li><span class="dfn-paneled" id="term-for-click-focusable">click focusable</span>
+     <li><span class="dfn-paneled" id="term-for-concept-event-dispatch">dispatch</span>
+     <li><span class="dfn-paneled" id="term-for-focusable-area">focusable area</span>
+     <li><span class="dfn-paneled" id="term-for-focusing-steps">focusing steps</span>
     </ul>
    <li>
     <a data-link-type="biblio">[pointerevents3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dom-pointerevent" style="color:initial">PointerEvent</span>
+     <li><span class="dfn-paneled" id="term-for-dom-pointerevent">PointerEvent</span>
     </ul>
    <li>
     <a data-link-type="biblio">[uievents]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-keyboardevent" style="color:initial">KeyboardEvent</span>
-     <li><span class="dfn-paneled" id="term-for-mouseevent" style="color:initial">MouseEvent</span>
-     <li><span class="dfn-paneled" id="term-for-uievent" style="color:initial">UIEvent</span>
-     <li><span class="dfn-paneled" id="term-for-dom-keyboardevent-charcode" style="color:initial">charCode</span>
-     <li><span class="dfn-paneled" id="term-for-compositionend" style="color:initial">compositionend</span>
-     <li><span class="dfn-paneled" id="term-for-compositionstart" style="color:initial">compositionstart</span>
-     <li><span class="dfn-paneled" id="term-for-dom-inputevent-data" style="color:initial">data <small>(for InputEvent)</small></span>
-     <li><span class="dfn-paneled" id="term-for-dom-inputevent-inputtype" style="color:initial">inputType</span>
+     <li><span class="dfn-paneled" id="term-for-keyboardevent">KeyboardEvent</span>
+     <li><span class="dfn-paneled" id="term-for-mouseevent">MouseEvent</span>
+     <li><span class="dfn-paneled" id="term-for-uievent">UIEvent</span>
+     <li><span class="dfn-paneled" id="term-for-dom-keyboardevent-charcode">charCode</span>
+     <li><span class="dfn-paneled" id="term-for-compositionend">compositionend</span>
+     <li><span class="dfn-paneled" id="term-for-compositionstart">compositionstart</span>
+     <li><span class="dfn-paneled" id="term-for-dom-inputevent-data">data <small>(for InputEvent)</small></span>
+     <li><span class="dfn-paneled" id="term-for-dom-inputevent-inputtype">inputType</span>
     </ul>
    <li>
     <a data-link-type="biblio">[uievents-key]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-keys-modifier" style="color:initial">modifier key</span>
+     <li><span class="dfn-paneled" id="term-for-keys-modifier">modifier key</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
-   <dt id="biblio-css2">[CSS2]
-   <dd>Bert Bos; et al. <a href="https://www.w3.org/TR/CSS2/">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a>. 7 June 2011. REC. URL: <a href="https://www.w3.org/TR/CSS2/">https://www.w3.org/TR/CSS2/</a>
+   <dt id="biblio-css21">[CSS21]
+   <dd>Bert Bos; et al. <a href="https://www.w3.org/TR/CSS21/"><cite>Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</cite></a>. 7 June 2011. REC. URL: <a href="https://www.w3.org/TR/CSS21/">https://www.w3.org/TR/CSS21/</a>
    <dt id="biblio-cssom-view">[CSSOM-View]
-   <dd>Simon Pieters. <a href="https://www.w3.org/TR/cssom-view-1/">CSSOM View Module</a>. 17 March 2016. WD. URL: <a href="https://www.w3.org/TR/cssom-view-1/">https://www.w3.org/TR/cssom-view-1/</a>
+   <dd>Simon Pieters. <a href="https://www.w3.org/TR/cssom-view-1/"><cite>CSSOM View Module</cite></a>. 17 March 2016. WD. URL: <a href="https://www.w3.org/TR/cssom-view-1/">https://www.w3.org/TR/cssom-view-1/</a>
    <dt id="biblio-dom">[DOM]
-   <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/">DOM Standard</a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
+   <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/"><cite>DOM Standard</cite></a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
    <dt id="biblio-html">[HTML]
-   <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
+   <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/"><cite>HTML Standard</cite></a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-pointerevents3">[POINTEREVENTS3]
-   <dd>Patrick Lauke; Navid Zolghadr. <a href="https://www.w3.org/TR/pointerevents3/">Pointer Events Level 3</a>. 12 December 2019. WD. URL: <a href="https://www.w3.org/TR/pointerevents3/">https://www.w3.org/TR/pointerevents3/</a>
+   <dd>Patrick Lauke; et al. <a href="https://www.w3.org/TR/pointerevents3/"><cite>Pointer Events</cite></a>. 13 September 2021. WD. URL: <a href="https://www.w3.org/TR/pointerevents3/">https://www.w3.org/TR/pointerevents3/</a>
    <dt id="biblio-rfc2119">[RFC2119]
-   <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
+   <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
    <dt id="biblio-uievents">[UIEVENTS]
-   <dd>Gary Kacmarcik; Travis Leithead; Doug Schepers. <a href="https://www.w3.org/TR/uievents/">UI Events</a>. 30 May 2019. WD. URL: <a href="https://www.w3.org/TR/uievents/">https://www.w3.org/TR/uievents/</a>
+   <dd>Gary Kacmarcik; Travis Leithead; Doug Schepers. <a href="https://www.w3.org/TR/uievents/"><cite>UI Events</cite></a>. 30 May 2019. WD. URL: <a href="https://www.w3.org/TR/uievents/">https://www.w3.org/TR/uievents/</a>
    <dt id="biblio-uievents-key">[UIEVENTS-KEY]
-   <dd>Gary Kacmarcik; Travis Leithead. <a href="https://www.w3.org/TR/uievents-key/">UI Events KeyboardEvent key Values</a>. 1 June 2017. CR. URL: <a href="https://www.w3.org/TR/uievents-key/">https://www.w3.org/TR/uievents-key/</a>
+   <dd>Gary Kacmarcik; Travis Leithead. <a href="https://www.w3.org/TR/uievents-key/"><cite>UI Events KeyboardEvent key Values</cite></a>. 1 June 2017. CR. URL: <a href="https://www.w3.org/TR/uievents-key/">https://www.w3.org/TR/uievents-key/</a>
   </dl>
   <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
    <dt id="biblio-cssom">[CSSOM]
-   <dd>Simon Pieters; Glenn Adams. <a href="https://www.w3.org/TR/cssom-1/">CSS Object Model (CSSOM)</a>. 17 March 2016. WD. URL: <a href="https://www.w3.org/TR/cssom-1/">https://www.w3.org/TR/cssom-1/</a>
+   <dd>Daniel Glazman; Emilio Cobos Álvarez. <a href="https://www.w3.org/TR/cssom-1/"><cite>CSS Object Model (CSSOM)</cite></a>. 26 August 2021. WD. URL: <a href="https://www.w3.org/TR/cssom-1/">https://www.w3.org/TR/cssom-1/</a>
    <dt id="biblio-pointerlock">[PointerLock]
-   <dd>Vincent Scheib. <a href="https://www.w3.org/TR/pointerlock/">Pointer Lock</a>. 27 October 2016. REC. URL: <a href="https://www.w3.org/TR/pointerlock/">https://www.w3.org/TR/pointerlock/</a>
+   <dd>Vincent Scheib. <a href="https://www.w3.org/TR/pointerlock/"><cite>Pointer Lock</cite></a>. 27 October 2016. REC. URL: <a href="https://www.w3.org/TR/pointerlock/">https://www.w3.org/TR/pointerlock/</a>
+   <dt id="biblio-wicg-keyboard-lock">[WICG-Keyboard-Lock]
+   <dd><a href="https://wicg.github.io/keyboard-lock/"><cite>Keyboard Lock</cite></a>. cg-draft. URL: <a href="https://wicg.github.io/keyboard-lock/">https://wicg.github.io/keyboard-lock/</a>
   </dl>
   <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">
@@ -4515,7 +5124,7 @@ DOM is updated relative to compositionend (tested on macOS). Need to resolve thi
    <div class="issue"> The contents of this section should eventually be moved into the <a data-link-type="biblio" href="#biblio-pointerlock">[PointerLock]</a> spec<a href="#issue-972fa7f3"> ↵ </a></div>
    <div class="issue"> KeyboardLock is not yet an accepted standard and is included here as a placeholder
 to explore how it might be integrated.<a href="#issue-37fef50b"> ↵ </a></div>
-   <div class="issue"> The contents of this section should eventually be moved into the [[WICG Keyboard Lock]] spec<a href="#issue-e74af8f5"> ↵ </a></div>
+   <div class="issue"> The contents of this section should eventually be moved into the <a data-link-type="biblio" href="#biblio-wicg-keyboard-lock">[WICG-Keyboard-Lock]</a> spec<a href="#issue-4d0ba757"> ↵ </a></div>
    <div class="issue"> TODO<a href="#issue-b7b1e314①⓪"> ↵ </a></div>
    <div class="issue"> These definitions probably belong in another spec.<a href="#issue-65045046"> ↵ </a></div>
    <div class="issue"> To account for <a href="https://html.spec.whatwg.org/#inert">inert</a> or <a href="https://html.spec.whatwg.org/#concept-fe-disabled">disabled</a> elements. this should call <a data-link-type="dfn" href="https://www.w3.org/TR/cssom-view-1/#dom-document-elementfrompoint">elementsFromPoint</a> and reject
@@ -4572,14 +5181,18 @@ to explore how it might be integrated.<a href="#issue-37fef50b"> ↵ </a></div>
    <b><a href="#dom-mouseevent-screenx">#dom-mouseevent-screenx</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-mouseevent-screenx">6.3. initialize a MouseEvent</a>
-    <li><a href="#ref-for-dom-mouseevent-screenx①">12.4. set PointerLock attributes for mousemove</a> <a href="#ref-for-dom-mouseevent-screenx②">(2)</a> <a href="#ref-for-dom-mouseevent-screenx③">(3)</a>
+    <li><a href="#ref-for-dom-mouseevent-screenx①">6.10. send click event</a>
+    <li><a href="#ref-for-dom-mouseevent-screenx②">6.11. handle native mouse double click</a>
+    <li><a href="#ref-for-dom-mouseevent-screenx③">12.4. set PointerLock attributes for mousemove</a> <a href="#ref-for-dom-mouseevent-screenx④">(2)</a> <a href="#ref-for-dom-mouseevent-screenx⑤">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-mouseevent-screeny">
    <b><a href="#dom-mouseevent-screeny">#dom-mouseevent-screeny</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-mouseevent-screeny">6.3. initialize a MouseEvent</a>
-    <li><a href="#ref-for-dom-mouseevent-screeny①">12.4. set PointerLock attributes for mousemove</a>
+    <li><a href="#ref-for-dom-mouseevent-screeny①">6.10. send click event</a>
+    <li><a href="#ref-for-dom-mouseevent-screeny②">6.11. handle native mouse double click</a>
+    <li><a href="#ref-for-dom-mouseevent-screeny③">12.4. set PointerLock attributes for mousemove</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-mouseevent-clientx">
@@ -4620,13 +5233,13 @@ to explore how it might be integrated.<a href="#issue-37fef50b"> ↵ </a></div>
    <b><a href="#last-mouse-element">#last-mouse-element</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-last-mouse-element">6.2.2. Window-Level State</a>
-    <li><a href="#ref-for-last-mouse-element①">6.11. handle native mouse move</a> <a href="#ref-for-last-mouse-element②">(2)</a> <a href="#ref-for-last-mouse-element③">(3)</a> <a href="#ref-for-last-mouse-element④">(4)</a>
+    <li><a href="#ref-for-last-mouse-element①">6.12. handle native mouse move</a> <a href="#ref-for-last-mouse-element②">(2)</a> <a href="#ref-for-last-mouse-element③">(3)</a> <a href="#ref-for-last-mouse-element④">(4)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="last-mouse-dom-path">
    <b><a href="#last-mouse-dom-path">#last-mouse-dom-path</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-last-mouse-dom-path">6.11. handle native mouse move</a> <a href="#ref-for-last-mouse-dom-path①">(2)</a> <a href="#ref-for-last-mouse-dom-path②">(3)</a>
+    <li><a href="#ref-for-last-mouse-dom-path">6.12. handle native mouse move</a> <a href="#ref-for-last-mouse-dom-path①">(2)</a> <a href="#ref-for-last-mouse-dom-path②">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="initialize-a-mouseevent">
@@ -4639,11 +5252,9 @@ to explore how it might be integrated.<a href="#issue-37fef50b"> ↵ </a></div>
   <aside class="dfn-panel" data-for="create-a-mouseevent">
    <b><a href="#create-a-mouseevent">#create-a-mouseevent</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-create-a-mouseevent">6.7. handle native mouse down</a> <a href="#ref-for-create-a-mouseevent①">(2)</a>
-    <li><a href="#ref-for-create-a-mouseevent②">6.8. handle native mouse up</a>
-    <li><a href="#ref-for-create-a-mouseevent③">6.9. handle native mouse click</a>
-    <li><a href="#ref-for-create-a-mouseevent④">6.10. handle native mouse double click</a>
-    <li><a href="#ref-for-create-a-mouseevent⑤">6.11. handle native mouse move</a> <a href="#ref-for-create-a-mouseevent⑥">(2)</a> <a href="#ref-for-create-a-mouseevent⑦">(3)</a> <a href="#ref-for-create-a-mouseevent⑧">(4)</a> <a href="#ref-for-create-a-mouseevent⑨">(5)</a>
+    <li><a href="#ref-for-create-a-mouseevent">6.7. handle native mouse down</a>
+    <li><a href="#ref-for-create-a-mouseevent①">6.8. handle native mouse up</a>
+    <li><a href="#ref-for-create-a-mouseevent②">6.12. handle native mouse move</a> <a href="#ref-for-create-a-mouseevent③">(2)</a> <a href="#ref-for-create-a-mouseevent④">(3)</a> <a href="#ref-for-create-a-mouseevent⑤">(4)</a> <a href="#ref-for-create-a-mouseevent⑥">(5)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="calculate-mouseevent-button-attribute">
@@ -4657,8 +5268,9 @@ to explore how it might be integrated.<a href="#issue-37fef50b"> ↵ </a></div>
    <ul>
     <li><a href="#ref-for-set-mouseevent-attributes-from-native">6.7. handle native mouse down</a>
     <li><a href="#ref-for-set-mouseevent-attributes-from-native①">6.8. handle native mouse up</a>
-    <li><a href="#ref-for-set-mouseevent-attributes-from-native②">6.9. handle native mouse click</a>
-    <li><a href="#ref-for-set-mouseevent-attributes-from-native③">6.10. handle native mouse double click</a>
+    <li><a href="#ref-for-set-mouseevent-attributes-from-native②">6.10. send click event</a>
+    <li><a href="#ref-for-set-mouseevent-attributes-from-native③">6.11. handle native mouse double click</a>
+    <li><a href="#ref-for-set-mouseevent-attributes-from-native④">6.13. maybe show context menu</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="handle-native-mouse-down">
@@ -4680,6 +5292,12 @@ to explore how it might be integrated.<a href="#issue-37fef50b"> ↵ </a></div>
     <li><a href="#ref-for-handle-native-mouse-click">2.4.1. Mouse</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="send-click-event">
+   <b><a href="#send-click-event">#send-click-event</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-send-click-event">6.9. handle native mouse click</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="handle-native-mouse-double-click">
    <b><a href="#handle-native-mouse-double-click">#handle-native-mouse-double-click</a></b><b>Referenced in:</b>
    <ul>
@@ -4690,6 +5308,12 @@ to explore how it might be integrated.<a href="#issue-37fef50b"> ↵ </a></div>
    <b><a href="#handle-native-mouse-move">#handle-native-mouse-move</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-handle-native-mouse-move">2.4.1. Mouse</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="maybe-show-context-menu">
+   <b><a href="#maybe-show-context-menu">#maybe-show-context-menu</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-maybe-show-context-menu">6.7. handle native mouse down</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="initialize-an-inputevent">
@@ -5030,49 +5654,58 @@ to explore how it might be integrated.<a href="#issue-37fef50b"> ↵ </a></div>
   <aside class="dfn-panel" data-for="initialize-a-pointerevent">
    <b><a href="#initialize-a-pointerevent">#initialize-a-pointerevent</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-initialize-a-pointerevent">11.2. create PointerEvent from MouseEvent</a>
+    <li><a href="#ref-for-initialize-a-pointerevent">11.2. create a PointerEvent</a>
+    <li><a href="#ref-for-initialize-a-pointerevent①">11.3. create PointerEvent from MouseEvent</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="create-a-pointerevent">
+   <b><a href="#create-a-pointerevent">#create-a-pointerevent</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-create-a-pointerevent">6.10. send click event</a>
+    <li><a href="#ref-for-create-a-pointerevent①">6.11. handle native mouse double click</a>
+    <li><a href="#ref-for-create-a-pointerevent②">6.13. maybe show context menu</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="create-pointerevent-from-mouseevent">
    <b><a href="#create-pointerevent-from-mouseevent">#create-pointerevent-from-mouseevent</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-create-pointerevent-from-mouseevent">11.3. maybe send pointerout event</a>
-    <li><a href="#ref-for-create-pointerevent-from-mouseevent①">11.4. maybe send pointerleave event</a>
-    <li><a href="#ref-for-create-pointerevent-from-mouseevent②">11.5. maybe send pointerover event</a>
-    <li><a href="#ref-for-create-pointerevent-from-mouseevent③">11.6. maybe send pointerenter event</a>
-    <li><a href="#ref-for-create-pointerevent-from-mouseevent④">11.7. maybe send pointermove event</a>
-    <li><a href="#ref-for-create-pointerevent-from-mouseevent⑤">11.8. maybe send pointerdown event</a>
-    <li><a href="#ref-for-create-pointerevent-from-mouseevent⑥">11.9. maybe send pointerup event</a>
+    <li><a href="#ref-for-create-pointerevent-from-mouseevent">11.4. maybe send pointerout event</a>
+    <li><a href="#ref-for-create-pointerevent-from-mouseevent①">11.5. maybe send pointerleave event</a>
+    <li><a href="#ref-for-create-pointerevent-from-mouseevent②">11.6. maybe send pointerover event</a>
+    <li><a href="#ref-for-create-pointerevent-from-mouseevent③">11.7. maybe send pointerenter event</a>
+    <li><a href="#ref-for-create-pointerevent-from-mouseevent④">11.8. maybe send pointermove event</a>
+    <li><a href="#ref-for-create-pointerevent-from-mouseevent⑤">11.9. maybe send pointerdown event</a>
+    <li><a href="#ref-for-create-pointerevent-from-mouseevent⑥">11.10. maybe send pointerup event</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="maybe-send-pointerout-event">
    <b><a href="#maybe-send-pointerout-event">#maybe-send-pointerout-event</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-maybe-send-pointerout-event">6.11. handle native mouse move</a>
+    <li><a href="#ref-for-maybe-send-pointerout-event">6.12. handle native mouse move</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="maybe-send-pointerleave-event">
    <b><a href="#maybe-send-pointerleave-event">#maybe-send-pointerleave-event</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-maybe-send-pointerleave-event">6.11. handle native mouse move</a>
+    <li><a href="#ref-for-maybe-send-pointerleave-event">6.12. handle native mouse move</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="maybe-send-pointerover-event">
    <b><a href="#maybe-send-pointerover-event">#maybe-send-pointerover-event</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-maybe-send-pointerover-event">6.11. handle native mouse move</a>
+    <li><a href="#ref-for-maybe-send-pointerover-event">6.12. handle native mouse move</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="maybe-send-pointerenter-event">
    <b><a href="#maybe-send-pointerenter-event">#maybe-send-pointerenter-event</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-maybe-send-pointerenter-event">6.11. handle native mouse move</a>
+    <li><a href="#ref-for-maybe-send-pointerenter-event">6.12. handle native mouse move</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="maybe-send-pointermove-event">
    <b><a href="#maybe-send-pointermove-event">#maybe-send-pointermove-event</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-maybe-send-pointermove-event">6.11. handle native mouse move</a>
+    <li><a href="#ref-for-maybe-send-pointermove-event">6.12. handle native mouse move</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="maybe-send-pointerdown-event">
@@ -5116,7 +5749,7 @@ to explore how it might be integrated.<a href="#issue-37fef50b"> ↵ </a></div>
   <aside class="dfn-panel" data-for="set-pointerlock-attributes-for-mousemove">
    <b><a href="#set-pointerlock-attributes-for-mousemove">#set-pointerlock-attributes-for-mousemove</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-set-pointerlock-attributes-for-mousemove">6.11. handle native mouse move</a>
+    <li><a href="#ref-for-set-pointerlock-attributes-for-mousemove">6.12. handle native mouse move</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="keyboard-lock-enable-flag">
@@ -5138,14 +5771,14 @@ to explore how it might be integrated.<a href="#issue-37fef50b"> ↵ </a></div>
     <li><a href="#ref-for-hit-test">6.7. handle native mouse down</a>
     <li><a href="#ref-for-hit-test①">6.8. handle native mouse up</a>
     <li><a href="#ref-for-hit-test②">6.9. handle native mouse click</a>
-    <li><a href="#ref-for-hit-test③">6.10. handle native mouse double click</a>
-    <li><a href="#ref-for-hit-test④">6.11. handle native mouse move</a>
+    <li><a href="#ref-for-hit-test③">6.11. handle native mouse double click</a>
+    <li><a href="#ref-for-hit-test④">6.12. handle native mouse move</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="calculate-dom-path">
    <b><a href="#calculate-dom-path">#calculate-dom-path</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-calculate-dom-path">6.11. handle native mouse move</a>
+    <li><a href="#ref-for-calculate-dom-path">6.12. handle native mouse move</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="initialize-cssom-attributes-for-mouseevent">
@@ -5280,7 +5913,7 @@ document.body.addEventListener("click", function(e) {
             }
         }
         function getVarName(el) {
-            return el.textContent.replace(/(\s| )+/, " ").trim();
+            return el.textContent.replace(/(\s|\xa0)+/, " ").trim();
         }
         function chooseHighlightIndex(algoName, varName) {
             let indexes = null;
