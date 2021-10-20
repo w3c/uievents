@@ -57,7 +57,7 @@ should be made in the `sections\*.txt` files and `index.bs`.
 
 ## Testing
 
-* [UI Events Testing Tools](https://w3c.github.io/uievents/tools/main.html)
+* [DomEventViewer](https://domeventviewer.com/) for testing UI Events
 * Web Platform Tests
    * [GitHub web-platform-tests/wpt uievents](https://github.com/web-platform-tests/wpt/tree/master/uievents)
    * Tests are mirrored on [wpt.live/uievents/](https://wpt.live/uievents/)
