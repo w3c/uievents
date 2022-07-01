@@ -52,7 +52,10 @@ class Parser():
 
 		if len(self.table_row_data) == 0:
 			return ''
-		row = '<tr>'
+		if self.is_header_row:
+			row = '<thead><tr>'
+		else:
+			row = '<tr>'
 		for i in range(0, len(self.table_row_data)):
 			data = self.table_row_data[i]
 			colname = self.table_header_data[i]
@@ -77,7 +80,10 @@ class Parser():
 				if colname == 'DOM Interface':
 					data = '{{' + data + '}}'
 			row += pre + self.process_text(data) + post
-		row += '</tr>\n'
+		if self.is_header_row:
+			row += '</tr></thead>\n'
+		else:
+                        row += '</tr>\n'
 		return row
 
 	def process_text(self, desc):
