@@ -2248,11 +2248,20 @@ myDiv.addEventListener("auxclick", function(e) {
 			Calling <code>preventDefault</code> on a wheel event can prevent
 			or otherwise interrupt scrolling. For maximum scroll performance, a
 			user agent may not wait for each wheel event associated with the scroll
-			to be processed to see if it will be canceled. In such cases it is
-			possible that only the first wheel event of a scrolling sequence is
-			cancelable. For the rest of the wheel events the user agent should
-			set their <code>cancelable</code> property to <code>false</code>.
+			to be processed to see if it will be canceled. In such cases the user
+			agent should generate <code>wheel</code> events whose
+			<code>cancelable</code> property is <code>false</code>, indicating that
+			<code>preventDefault</code> cannot be used to prevent or interrupt
+			scrolling. Otherwise <code>cancelable</code> will be <code>true</code>.
 			</p>
+
+			<p>
+			In particular, a user agent should generate only uncancelable
+			<code>wheel</code> events when it
+			<a href="https://dom.spec.whatwg.org/#observing-event-listeners">observes
+			that there are no non-passive listeners</a> for the event.
+			</p>
+
 
 <h3 id="events-inputevents">Input Events</h3>
 
