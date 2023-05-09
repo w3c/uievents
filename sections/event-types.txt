@@ -1557,15 +1557,9 @@ myDiv.addEventListener("auxclick", function(e) {
 			As with the EVENT{click} event type, the <a>default action</a> of
 			the EVENT{dblclick} event type varies based on the <a>event
 			target</a> of the event and the value of the {{MouseEvent/button}}
-			or {{MouseEvent/buttons}} attributes. Normally, the typical
+			or {{MouseEvent/buttons}} attributes. The typical
 			<a>default actions</a> of the EVENT{dblclick} event type match those
-			of the EVENT{click} event type, with the following additional
-			behavior:
-
-			*	If the <a>event target</a> is selectable, the <a>default
-				action</a> MUST be to select part or all of the selectable
-				content. Subsequent clicks MAY select additional selectable
-				portions of that content.
+			of the EVENT{click} event type.
 
 		<h5 id="event-type-mousedown"><dfn>mousedown</dfn></h5>
 
@@ -2200,13 +2194,13 @@ myDiv.addEventListener("auxclick", function(e) {
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/relatedTarget}} : indicates the <a>event target</a>  |
 			 |                  |     the pointing device is pointing at, if any</li>                                  |
 			 |                  | <li>{{WheelEvent}}.{{WheelEvent/deltaX}} : expected amount that the page will scroll |
-			 |                  |     along the x-axis according to the deltaMode units; or an implemenation-specific  |
+			 |                  |     along the x-axis according to the deltaMode units; or an implementation-specific |
 			 |                  |     value of movement of a wheel around the x-axis</li>                              |
 			 |                  | <li>{{WheelEvent}}.{{WheelEvent/deltaY}} : expected amount that the page will scroll |
-			 |                  |     along the y-axis according to the deltaMode units; or an implemenation-specific  |
+			 |                  |     along the y-axis according to the deltaMode units; or an implementation-specific |
 			 |                  |     value of movement of a wheel around the y-axis</li>                              |
 			 |                  | <li>{{WheelEvent}}.{{WheelEvent/deltaZ}} : expected amount that the page will scroll |
-			 |                  |     along the z-axis according to the deltaMode units; or an implemenation-specific  |
+			 |                  |     along the z-axis according to the deltaMode units; or an implementation-specific |
 			 |                  |     value of movement of a wheel around the z-axis</li>                              |
 			 |                  | <li>{{WheelEvent}}.{{WheelEvent/deltaMode}} : unit indicator (pixels, lines, or      |
 			 |                  |     pages) for the deltaX, deltaY, and deltaZ attributes</li>                        |
@@ -2239,11 +2233,20 @@ myDiv.addEventListener("auxclick", function(e) {
 			Calling <code>preventDefault</code> on a wheel event can prevent
 			or otherwise interrupt scrolling. For maximum scroll performance, a
 			user agent may not wait for each wheel event associated with the scroll
-			to be processed to see if it will be canceled. In such cases it is
-			possible that only the first wheel event of a scrolling sequence is
-			cancelable. For the rest of the wheel events the user agent should
-			set their <code>cancelable</code> property to <code>false</code>.
+			to be processed to see if it will be canceled. In such cases the user
+			agent should generate <code>wheel</code> events whose
+			<code>cancelable</code> property is <code>false</code>, indicating that
+			<code>preventDefault</code> cannot be used to prevent or interrupt
+			scrolling. Otherwise <code>cancelable</code> will be <code>true</code>.
 			</p>
+
+			<p>
+			In particular, a user agent should generate only uncancelable
+			<code>wheel</code> events when it
+			<a href="https://dom.spec.whatwg.org/#observing-event-listeners">observes
+			that there are no non-passive listeners</a> for the event.
+			</p>
+
 
 <h3 id="events-inputevents">Input Events</h3>
 
