@@ -552,6 +552,8 @@ events.
 				readonly attribute long screenY;
 				readonly attribute long clientX;
 				readonly attribute long clientY;
+				readonly attribute long layerX;
+				readonly attribute long layerY;
 
 				readonly attribute boolean ctrlKey;
 				readonly attribute boolean shiftKey;
@@ -599,6 +601,26 @@ events.
 				<dd>
 					The vertical coordinate at which the event occurred relative
 					to the viewport associated with the event.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>0</code>.
+				</dd>
+
+				<dt><dfn attribute>layerX</dfn></dt>
+				<dd>
+					The horizontal offset from the nearest <a>ancestor</a> element which
+					is a <a>stacking context</a>, is <a>positioned</a>, or paints in the
+					positioned phase when <a>painting a stacking context</a>.
+										
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>0</code>.
+				</dd>
+
+				<dt><dfn attribute>layerY</dfn></dt>
+				<dd>
+					The vertical offset from the nearest <a>ancestor</a> element which
+					is a <a>stacking context</a>, is <a>positioned</a>, or paints in the
+					positioned phase when <a>painting a stacking context</a>.
 
 					The <a>un-initialized value</a> of this attribute MUST be
 					<code>0</code>.
@@ -1246,6 +1268,10 @@ events.
 			 |                  |     within the viewport</li>                                                         |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/clientY}} : value based on the pointer position      |
 			 |                  |     within the viewport</li>                                                         |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerX}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerY}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/altKey}} : <code>true</code> if KEYCAP{Alt}          |
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}     |
@@ -1363,6 +1389,10 @@ myDiv.addEventListener("auxclick", function(e) {
 			 |                  |     within the viewport</li>                                                         |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/clientY}} : value based on the pointer position      |
 			 |                  |     within the viewport</li>                                                         |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerX}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerY}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/altKey}} : <code>true</code> if KEYCAP{Alt}          |
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}     |
@@ -1470,6 +1500,10 @@ myDiv.addEventListener("auxclick", function(e) {
 			 |                  |     within the viewport</li>                                                         |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/clientY}} : value based on the pointer position      |
 			 |                  |     within the viewport</li>                                                         |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerX}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerY}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/altKey}} : <code>true</code> if KEYCAP{Alt}          |
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}     |
@@ -1521,6 +1555,10 @@ myDiv.addEventListener("auxclick", function(e) {
 			 |                  |     within the viewport</li>                                                         |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/clientY}} : value based on the pointer position      |
 			 |                  |     within the viewport</li>                                                         |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerX}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerY}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/altKey}} : <code>true</code> if KEYCAP{Alt}          |
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}     |
@@ -1590,6 +1628,10 @@ myDiv.addEventListener("auxclick", function(e) {
 			 |                  |     within the viewport</li>                                                         |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/clientY}} : value based on the pointer position      |
 			 |                  |     within the viewport</li>                                                         |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerX}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerY}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/altKey}} : <code>true</code> if KEYCAP{Alt}          |
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}     |
@@ -1644,6 +1686,10 @@ myDiv.addEventListener("auxclick", function(e) {
 			 |                  |     within the viewport</li>                                                         |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/clientY}} : value based on the pointer position      |
 			 |                  |     within the viewport</li>                                                         |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerX}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerY}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/altKey}} : <code>true</code> if KEYCAP{Alt}          |
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}     |
@@ -1701,6 +1747,10 @@ myDiv.addEventListener("auxclick", function(e) {
 			 |                  |     within the viewport</li>                                                         |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/clientY}} : value based on the pointer position      |
 			 |                  |     within the viewport</li>                                                         |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerX}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerY}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/altKey}} : <code>true</code> if KEYCAP{Alt}          |
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}     |
@@ -1758,6 +1808,10 @@ myDiv.addEventListener("auxclick", function(e) {
 			 |                  |     within the viewport</li>                                                         |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/clientY}} : value based on the pointer position      |
 			 |                  |     within the viewport</li>                                                         |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerX}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerY}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/altKey}} : <code>true</code> if KEYCAP{Alt}          |
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}     |
@@ -1820,6 +1874,10 @@ myDiv.addEventListener("auxclick", function(e) {
 			 |                  |     within the viewport</li>                                                         |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/clientY}} : value based on the pointer position      |
 			 |                  |     within the viewport</li>                                                         |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerX}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerY}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/altKey}} : <code>true</code> if KEYCAP{Alt}          |
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}     |
@@ -1872,6 +1930,10 @@ myDiv.addEventListener("auxclick", function(e) {
 			 |                  |     within the viewport</li>                                                         |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/clientY}} : value based on the pointer position      |
 			 |                  |     within the viewport</li>                                                         |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerX}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerY}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/altKey}} : <code>true</code> if KEYCAP{Alt}          |
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}     |
@@ -1926,6 +1988,10 @@ myDiv.addEventListener("auxclick", function(e) {
 			 |                  |     within the viewport</li>                                                         |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/clientY}} : value based on the pointer position      |
 			 |                  |     within the viewport</li>                                                         |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerX}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/layerY}} : value based on the pointer position       |
+			 |                  |     within the containing element</li>                                               |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/altKey}} : <code>true</code> if KEYCAP{Alt}          |
 			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
 			 |                  | <li>{{MouseEvent}}.{{MouseEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}     |
