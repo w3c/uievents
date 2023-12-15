@@ -137,8 +137,6 @@ function addOptionInput(cell, id, text, options) {
 	label.appendChild(span);
 	cell.appendChild(label);
 
-	cell.appendChild(document.createElement("br"));
-
 	if (options.enabled === undefined)
 	options.enabled = true;
 	if (options.defaultvalue === undefined)
@@ -153,6 +151,8 @@ function addOptionInput(cell, id, text, options) {
 		input.setAttribute("onfocusout", options.onfocusout);
 	}
 	cell.appendChild(input);
+
+	cell.appendChild(document.createElement("br"));
 }
 
 function addOptionText(cell, prefix, id, text) {

@@ -145,7 +145,7 @@ function init() {
 			'onclick': "toggleReadonly()",
 			'checked': false,
 		}],
-		["input","numberOfRows", "Number of rows", {
+		["input","maxNumberOfRows", "Max number of rows:", {
 			'onfocusout': "validateNumOfRowsInput()",
 			'defaultvalue': 100,
 		}],
