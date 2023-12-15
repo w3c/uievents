@@ -275,7 +275,7 @@ function calcString(data) {
 }
 
 function maxNumberOfRows() {
-	var input = document.getElementById("numberOfRows");
+	var input = document.getElementById("maxNumberOfRows");
 	var numberOfRows = DEFAULT_MAX_OUTPUT_ROWS;
 	if (input !== undefined) {
 		numberOfRows = parseInt(input.value);
