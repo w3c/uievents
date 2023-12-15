@@ -69,6 +69,11 @@ function createOptions(options_div, event_info, table_info, extra) {
 			} else if (type == "text") {
 				var text = opt[1];
 				cell.appendChild(document.createTextNode(text));
+			} else if (type == "input") {
+				var name = opt[1];
+				var label = opt[2];
+				var options = opt[3];
+				addOptionInput(cell, name, label, options);
 			}
 
 			row.appendChild(cell);
@@ -116,6 +121,38 @@ function addOptionCheckbox(cell, id, text, options) {
     cell.appendChild(label);
 
     cell.appendChild(document.createElement("br"));
+}
+
+function addOptionInput(cell, id, text, options) {
+	var label = document.createElement("label");
+    label.setAttribute("for", id);
+    var span = document.createElement('span');
+    if (options.class !== undefined) {
+	    for (var c of options.class.split(' ')) {
+		    span.classList.add(c);
+		}
+	}
+
+	span.appendChild(document.createTextNode(text));
+    label.appendChild(span);
+    cell.appendChild(label);
+
+    cell.appendChild(document.createElement("br"));
+
+	if (options.enabled === undefined)
+	options.enabled = true;
+	if (options.defaultvalue === undefined)
+		options.defaultvalue = "";
+
+	var input = document.createElement("input");
+	input.type = "text";
+	input.id = id;
+	input.value = options.defaultvalue;
+	input.disabled = !options.enabled;
+	if (options.onfocusout !== undefined && options.onfocusout != "") {
+		input.setAttribute("onfocusout", options.onfocusout);
+	}
+	cell.appendChild(input);
 }
 
 function addOptionText(cell, prefix, id, text) {

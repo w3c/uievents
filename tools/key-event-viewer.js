@@ -145,6 +145,10 @@ function init() {
 			'onclick': "toggleReadonly()",
 			'checked': false,
 		}],
+		["input","numberOfRows", "Number of rows", {
+			'onfocusout': "validateNumOfRowsInput()",
+			'defaultvalue': 100,
+		}],
 		["text", "Note: Options apply to new events only."],
 	];
 
@@ -426,4 +430,18 @@ function toggleReadonly() {
 		input.removeAttribute('readonly');
 	}
 	setInputFocus(false);
+}
+
+function validateNumOfRowsInput() {
+	var input = document.getElementById("numberOfRows");
+	var roundedInputValue = parseInt(input.value);
+	
+	// Default 100 if undefined, NaN, or less than zero
+	if (roundedInputValue === undefined || isNaN(roundedInputValue) || roundedInputValue <= 0) {
+		input.value = 100;
+	}
+	// Round number if a decimal
+	else {
+		input.value = roundedInputValue;
+	}
 }
