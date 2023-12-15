@@ -433,7 +433,7 @@ function toggleReadonly() {
 }
 
 function validateNumOfRowsInput() {
-	var input = document.getElementById("numberOfRows");
+	var input = document.getElementById("maxNumberOfRows");
 	var roundedInputValue = parseInt(input.value);
 	
 	// Default 100 if undefined, NaN, or less than zero
