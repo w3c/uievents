@@ -179,9 +179,9 @@ function init() {
 // =====
 
 function onKeyDown(e) {
-    _isKeydown = true;
+	_isKeydown = true;
 	handleKeyEvent("keydown", e);
-    _isKeydown = false;
+	_isKeydown = false;
 }
 
 function onKeyPress(e) {

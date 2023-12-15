@@ -125,7 +125,7 @@ function addOutputRow(extra_class) {
 	// Insert after the header rows.
 	var row = table.insertRow(NUM_HEADER_ROWS);
 	if (extra_class) {
-	    row.classList.add(extra_class);
+		row.classList.add(extra_class);
 	}
 	return row;
 }

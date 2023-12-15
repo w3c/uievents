@@ -85,11 +85,11 @@ function createOptions(options_div, event_info, table_info, extra) {
 }
 
 function addOptionTitle(cell, title) {
-    var span = document.createElement('span');
-    span.classList.add("opttitle");
-    span.textContent = title;
-    cell.appendChild(span);
-    cell.appendChild(document.createElement("br"));
+	var span = document.createElement('span');
+	span.classList.add("opttitle");
+	span.textContent = title;
+	cell.appendChild(span);
+	cell.appendChild(document.createElement("br"));
 }
 
 function addOptionCheckbox(cell, id, text, options) {
@@ -98,46 +98,46 @@ function addOptionCheckbox(cell, id, text, options) {
 	if (options.checked === undefined)
 		options.checked = true;
 
-    var input = document.createElement("input");
-    input.type = "checkbox";
-    input.id = id;
-    input.checked = options.checked;
-    input.disabled = !options.enabled;
-    if (options.onclick != undefined && options.onclick != "") {
-    	input.setAttribute("onclick", options.onclick);
-    }
-    cell.appendChild(input);
+	var input = document.createElement("input");
+	input.type = "checkbox";
+	input.id = id;
+	input.checked = options.checked;
+	input.disabled = !options.enabled;
+	if (options.onclick != undefined && options.onclick != "") {
+		input.setAttribute("onclick", options.onclick);
+	}
+	cell.appendChild(input);
 
-    var label = document.createElement("label");
-    label.setAttribute("for", id);
-    var span = document.createElement('span');
-    if (options.class !== undefined) {
-	    for (var c of options.class.split(' ')) {
-		    span.classList.add(c);
+	var label = document.createElement("label");
+	label.setAttribute("for", id);
+	var span = document.createElement('span');
+	if (options.class !== undefined) {
+		for (var c of options.class.split(' ')) {
+			span.classList.add(c);
 		}
 	}
-    span.appendChild(document.createTextNode(text));
-    label.appendChild(span);
-    cell.appendChild(label);
+	span.appendChild(document.createTextNode(text));
+	label.appendChild(span);
+	cell.appendChild(label);
 
-    cell.appendChild(document.createElement("br"));
+	cell.appendChild(document.createElement("br"));
 }
 
 function addOptionInput(cell, id, text, options) {
 	var label = document.createElement("label");
-    label.setAttribute("for", id);
-    var span = document.createElement('span');
-    if (options.class !== undefined) {
-	    for (var c of options.class.split(' ')) {
-		    span.classList.add(c);
+	label.setAttribute("for", id);
+	var span = document.createElement('span');
+	if (options.class !== undefined) {
+		for (var c of options.class.split(' ')) {
+			span.classList.add(c);
 		}
 	}
 
 	span.appendChild(document.createTextNode(text));
-    label.appendChild(span);
-    cell.appendChild(label);
+	label.appendChild(span);
+	cell.appendChild(label);
 
-    cell.appendChild(document.createElement("br"));
+	cell.appendChild(document.createElement("br"));
 
 	if (options.enabled === undefined)
 	options.enabled = true;
@@ -156,18 +156,18 @@ function addOptionInput(cell, id, text, options) {
 }
 
 function addOptionText(cell, prefix, id, text) {
-    var span1 = document.createElement('span');
-    span1.classList.add("opttext");
-    span1.appendChild(document.createTextNode(prefix));
+	var span1 = document.createElement('span');
+	span1.classList.add("opttext");
+	span1.appendChild(document.createTextNode(prefix));
 
-    var span2 = document.createElement('span');
-    span2.id = id;
-    span2.textContent = 0;
-    span1.appendChild(span2);
-    span1.appendChild(document.createTextNode(text));
+	var span2 = document.createElement('span');
+	span2.id = id;
+	span2.textContent = 0;
+	span1.appendChild(span2);
+	span1.appendChild(document.createTextNode(text));
 
-    cell.appendChild(span1);
-    cell.appendChild(document.createElement("br"));
+	cell.appendChild(span1);
+	cell.appendChild(document.createElement("br"));
 }
 
 function toggleOptions() {
