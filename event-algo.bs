@@ -897,11 +897,13 @@ Issue: TODO
 
         1. Let |result| = <a>fire an InputEvent</a> with "beforeinput", |inputType| and |data|
         1. If |result| is false, then return.
-        1. Set |result| = <a>fire a TextEvent</a> with "textInput", and |data|
+        1. If |inputType| is "insertText", then
 
-           Note: The "textInput" event is obsolete.
+            1. Set |result| = <a>fire a TextEvent</a> with "textInput", and |data|
 
-        1. If |result| is false, then return.
+            Note: The "textInput" event is obsolete.
+
+            1. If |result| is false, then return.
 
         Note: Perform DOM update here. Insert key into |target| element
 
@@ -2181,10 +2183,16 @@ Issue: Should these be moved into the Clipboard spec?
     1. Let |data| = the text on the clipboard being pasted
     1. Let |result| = <a>fire an InputEvent</a> with "beforeinput", "insertFromPaste" and |data|
 
-    1. If |result| is true, then
+    1. If |result| is false, then return.
 
-       1. Paste clipboard contents into DOM target element
-       1. <a>Fire an InputEvent</a> with "input", "insertFromPaste" and |data|
+    1. Set |result| = <a>fire a TextEvent</a> with "textInput", and |data|
+
+        Note: The "textInput" event is obsolete.
+
+    1. If |result| is false, then return.
+
+    1. Paste clipboard contents into DOM target element
+    1. <a>Fire an InputEvent</a> with "input", "insertFromPaste" and |data|
 
 </div><!-- algorithm -->
 
