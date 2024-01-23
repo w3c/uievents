@@ -1489,7 +1489,7 @@ Possible extra rowspan handling
 	}
 </style>
   <meta content="Bikeshed version 4416b18d5, updated Tue Jan 2 15:52:39 2024 -0800" name="generator">
-  <meta content="7eceec8d58d5308f77ca036141bd247f614bb97a" name="revision">
+  <meta content="0bf0c5c3e51f55b84bdb7c4b9aa6b430997417e4" name="revision">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
     color: var(--a-normal-text);
@@ -2196,7 +2196,7 @@ var[data-var-color="6"] { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBC
   <div class="head">
    <p data-fill-with="logo"></p>
    <h1>UI Events Algorithms</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2024-01-15">15 January 2024</time></span></h2>
+   <h2 class="no-num no-toc no-ref heading settled" id="profile-and-date"><span class="content">A Collection of Interesting Ideas, <time class="dt-updated" datetime="2024-01-23">23 January 2024</time></span></h2>
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>Issue Tracking:
@@ -2209,7 +2209,7 @@ var[data-var-color="6"] { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBC
    <div data-fill-with="warning"></div>
    <p class="copyright" data-fill-with="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license"><img alt="CC0" height="15" src="https://licensebuttons.net/p/zero/1.0/80x15.png" width="80"></a> To the extent possible under law, the editors have waived all copyright
 and related or neighboring rights to this work.
-In addition, as of 15 January 2024,
+In addition, as of 23 January 2024,
 the editors have made this specification available under the <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
 which is available at http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 Parts of this work may be from another specification document.  If so, those parts are instead covered by the license of that specification document. </p>
@@ -4179,9 +4179,16 @@ On Windows, behavior depends on the IME.</p>
       <li data-md>
        <p>If <a data-link-type="dfn" href="#in-composition-flag" id="ref-for-in-composition-flag③">in composition flag</a> is not set, then exit</p>
      </ol>
-     <p class="issue" id="issue-271d403d"><a class="self-link" href="#issue-271d403d"></a> Compat: Chrome sends out beforeinput/compositionupdate/input sequence before
+     <p class="issue" id="issue-11ce2a87"><a class="self-link" href="#issue-11ce2a87"></a> Compat: Chrome sends out beforeinput/compositionupdate/textInput/input sequence before
     compositionend (tested on macOS). Compare with Firefox.</p>
      <ol>
+      <li data-md>
+       <p>Set <var>result</var> = <a data-link-type="dfn" href="#fire-a-textevent①" id="ref-for-fire-a-textevent①①">fire a TextEvent</a> with "textInput", and <var>data</var></p>
+       <p class="note" role="note"><span class="marker">Note:</span> The "textInput" event is obsolete.</p>
+      <li data-md>
+       <p>If <var>result</var> is false, then return.</p>
+      <li data-md>
+       <p class="issue" id="issue-a4437074"><a class="self-link" href="#issue-a4437074"></a> fire an input event here.</p>
       <li data-md>
        <p>Let <var>data</var> = the current composition candidate string</p>
       <li data-md>
@@ -4664,7 +4671,7 @@ to explore how it might be integrated.</p>
       <li data-md>
        <p>If <var>result</var> is false, then return.</p>
       <li data-md>
-       <p>Set <var>result</var> = <a data-link-type="dfn" href="#fire-a-textevent①" id="ref-for-fire-a-textevent①①">fire a TextEvent</a> with "textInput", and <var>data</var></p>
+       <p>Set <var>result</var> = <a data-link-type="dfn" href="#fire-a-textevent①" id="ref-for-fire-a-textevent①②">fire a TextEvent</a> with "textInput", and <var>data</var></p>
        <p class="note" role="note"><span class="marker">Note:</span> The "textInput" event is obsolete.</p>
       <li data-md>
        <p>If <var>result</var> is false, then return.</p>
@@ -5182,8 +5189,9 @@ On Windows, behavior depends on the IME. <a class="issue-return" href="#issue-82
    <div class="issue"> Verify compositionupdate cannot be canceled <a class="issue-return" href="#issue-2170a384" title="Jump to section">↵</a></div>
    <div class="issue"> Not all beforeinput events can be canceled - need to encode that here <a class="issue-return" href="#issue-8be390f6" title="Jump to section">↵</a></div>
    <div class="issue"> Document what happens when <var>result</var> is not true (event canceled) <a class="issue-return" href="#issue-e3eb5b91" title="Jump to section">↵</a></div>
-   <div class="issue"> Compat: Chrome sends out beforeinput/compositionupdate/input sequence before
-    compositionend (tested on macOS). Compare with Firefox. <a class="issue-return" href="#issue-271d403d" title="Jump to section">↵</a></div>
+   <div class="issue"> Compat: Chrome sends out beforeinput/compositionupdate/textInput/input sequence before
+    compositionend (tested on macOS). Compare with Firefox. <a class="issue-return" href="#issue-11ce2a87" title="Jump to section">↵</a></div>
+   <div class="issue"> fire an input event here. <a class="issue-return" href="#issue-a4437074" title="Jump to section">↵</a></div>
    <div class="issue"> Document what to do with result <a class="issue-return" href="#issue-acf5a28c" title="Jump to section">↵</a></div>
    <div class="issue"> Compat: Firefox sends input events after compositionend. Not sure when the
 DOM is updated relative to compositionend (tested on macOS). Need to resolve this. <a class="issue-return" href="#issue-273f9f41" title="Jump to section">↵</a></div>
@@ -5521,7 +5529,7 @@ let dfnPanelData = {
 "enter-composition-mode": {"dfnID":"enter-composition-mode","dfnText":"enter composition mode","external":false,"refSections":[{"refs":[{"id":"ref-for-enter-composition-mode"}],"title":"10.9. handle pre browser key"}],"url":"#enter-composition-mode"},
 "exit-composition-mode": {"dfnID":"exit-composition-mode","dfnText":"exit composition mode","external":false,"refSections":[{"refs":[{"id":"ref-for-exit-composition-mode"}],"title":"10.9. handle pre browser key"}],"url":"#exit-composition-mode"},
 "fire-a-compositionevent": {"dfnID":"fire-a-compositionevent","dfnText":"fire a CompositionEvent","external":false,"refSections":[{"refs":[{"id":"ref-for-fire-a-compositionevent"}],"title":"8.4. fire an InputEvent"},{"refs":[{"id":"ref-for-fire-a-compositionevent\u2460"}],"title":"11.7. handle composition key"},{"refs":[{"id":"ref-for-fire-a-compositionevent\u2461"}],"title":"11.8. begin composition"},{"refs":[{"id":"ref-for-fire-a-compositionevent\u2462"}],"title":"11.9. end composition"}],"url":"#fire-a-compositionevent"},
-"fire-a-textevent①": {"dfnID":"fire-a-textevent\u2460","dfnText":"fire a TextEvent","external":false,"refSections":[{"refs":[{"id":"ref-for-fire-a-textevent\u2460"}],"title":"8.3. fire key input events"},{"refs":[{"id":"ref-for-fire-a-textevent\u2460\u2460"}],"title":"17.3. handle native paste"}],"url":"#fire-a-textevent\u2460"},
+"fire-a-textevent①": {"dfnID":"fire-a-textevent\u2460","dfnText":"fire a TextEvent","external":false,"refSections":[{"refs":[{"id":"ref-for-fire-a-textevent\u2460"}],"title":"8.3. fire key input events"},{"refs":[{"id":"ref-for-fire-a-textevent\u2460\u2460"}],"title":"11.9. end composition"},{"refs":[{"id":"ref-for-fire-a-textevent\u2460\u2461"}],"title":"17.3. handle native paste"}],"url":"#fire-a-textevent\u2460"},
 "fire-an-inputevent": {"dfnID":"fire-an-inputevent","dfnText":"fire an InputEvent","external":false,"refSections":[{"refs":[{"id":"ref-for-fire-an-inputevent"},{"id":"ref-for-fire-an-inputevent\u2460"}],"title":"8.3. fire key input events"},{"refs":[{"id":"ref-for-fire-an-inputevent\u2461"},{"id":"ref-for-fire-an-inputevent\u2462"}],"title":"11.7. handle composition key"},{"refs":[{"id":"ref-for-fire-an-inputevent\u2463"}],"title":"11.9. end composition"},{"refs":[{"id":"ref-for-fire-an-inputevent\u2464"},{"id":"ref-for-fire-an-inputevent\u2465"}],"title":"17.1. handle native cut"},{"refs":[{"id":"ref-for-fire-an-inputevent\u2466"},{"id":"ref-for-fire-an-inputevent\u2467"}],"title":"17.3. handle native paste"}],"url":"#fire-an-inputevent"},
 "fire-key-input-events": {"dfnID":"fire-key-input-events","dfnText":"fire key input events","external":false,"refSections":[{"refs":[{"id":"ref-for-fire-key-input-events"}],"title":"10.13. handle native key press"}],"url":"#fire-key-input-events"},
 "get-modifier-state": {"dfnID":"get-modifier-state","dfnText":"get modifier state","external":false,"refSections":[{"refs":[{"id":"ref-for-get-modifier-state"}],"title":"10.1. KeyboardEvent Interface"}],"url":"#get-modifier-state"},

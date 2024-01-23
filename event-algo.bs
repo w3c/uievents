@@ -1659,8 +1659,16 @@ And the following internal state:
 
     1. If <a>in composition flag</a> is not set, then exit
 
-    Issue: Compat: Chrome sends out beforeinput/compositionupdate/input sequence before
+    Issue: Compat: Chrome sends out beforeinput/compositionupdate/textInput/input sequence before
     compositionend (tested on macOS). Compare with Firefox.
+
+    1. Set |result| = <a>fire a TextEvent</a> with "textInput", and |data|
+
+        Note: The "textInput" event is obsolete.
+
+    1. If |result| is false, then return.
+
+    1. Issue: fire an input event here.
 
     1. Let |data| = the current composition candidate string
     1. <a>fire a CompositionEvent</a> with "compositionend" and |data|
