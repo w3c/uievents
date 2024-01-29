@@ -251,7 +251,7 @@ class Parser():
 		infile.close()
 
 
-def main():
+def process_main_spec():
 	sections = [
 		'introduction',
 		'conventions',
@@ -273,7 +273,7 @@ def main():
 		infilename = 'sections/' + section + '.txt'
 		outfilename = 'sections/' + section + '.include'
 
-		# Generate the full bikeshed file.
+		# Generate the full include file for bikeshed.
 		parser = Parser()
 		parser.process(infilename, outfilename)
 
@@ -285,6 +285,35 @@ def main():
 		if DEBUG:
 			cmd.append('--line-numbers')
 		subprocess.call(cmd)
+
+def process_split_spec():
+	# Split version of the UIEvents spec.
+	split_sections = [
+		'composition-events',
+		'focus-events',
+		'input-events',
+		'keyboard-events',
+		'mouse-events',
+		'ui-events',
+		'wheel-events',
+	]
+	for section in split_sections:
+		infilename = 'split/' + section + '.txt'
+		outfilename = 'split/' + section + '.bs'
+
+		# Generate the bikeshed file.
+		parser = Parser()
+		parser.process(infilename, outfilename)
+	
+	print('Bikeshedding split specs...')
+	for section in split_sections:
+		print('...' + section)
+		cmd = ["bikeshed", "spec", "split/" + section + ".bs"]
+		subprocess.call(cmd)
+
+def main():
+	#process_main_spec()
+	process_split_spec()
 
 if __name__ == '__main__':
 	main()

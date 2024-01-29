@@ -1,0 +1,534 @@
+<h1>Wheel Events</h1>
+
+<pre class="metadata">
+Shortname: wheel-events
+Level:
+Group: webapps
+Status: ED
+TR: https://www.w3.org/TR/uievents/
+ED: https://w3c.github.io/uievents/
+Repository: w3c/uievents
+Editor: Gary Kacmarcik 59482, Google, garykac@google.com
+Editor: Travis Leithead 40117, Microsoft, travil@microsoft.com
+Former Editor: Doug Schepers, Mar 2008 - May 2011
+!Tests: <a href=https://github.com/web-platform-tests/wpt/tree/master/uievents>web-platform-tests uievents/</a> (<a href=https://github.com/web-platform-tests/wpt/labels/uievents>ongoing work</a>)
+Abstract:
+	*** Wheel Events ***
+	
+	Note: This is an experimental split of the UI Events spec into smaller, event-specific
+	specs. The split was made from an out-of-date snapshot, so the information here is not
+	current, so please focus on the overall structure rather than the specifics of the
+	content. If this experiment goes well, then we will split the current spec after all
+	outstanding pull requests have been handled.
+</pre>
+
+<pre class="anchors">
+urlPrefix: https://www.w3.org/TR/WebIDL/#idl-; type: type;
+	text: long
+urlPrefix: https://w3c.github.io/selection-api/#widl-Window-getSelection-Selection; type: dfn; for: Document
+	text: getSelection()
+url: https://www.w3.org/TR/2004/REC-xml-20040204/#NT-S; type: dfn;
+	text: white space
+url: https://www.w3.org/TR/uievents-key/#key-attribute-value; type: dfn; spec: uievents-key;
+	text: key attribute value
+url: https://www.w3.org/TR/uievents-key/#keys-modifier; type: dfn; spec: uievents-key;
+	text: modifier keys table
+url: https://html.spec.whatwg.org/multipage/forms.html#context-menus; type: dfn;
+	text: contextmenu
+url: https://www.w3.org/TR/pointerevents3/#pointerevent-interface; type: interface; spec: pointerevents3
+	text: PointerEvent
+url: https://dom.spec.whatwg.org/#concept-tree-ancestor; type: dfn;
+	text: ancestor
+url: https://www.w3.org/TR/CSS21/visuren.html#x43; type: dfn;
+	text: stacking context
+url: https://drafts.csswg.org/css-position-3/#positioned-box; type: dfn;
+	text: positioned
+url: https://drafts.csswg.org/css-position-4/#paint-a-stacking-context; type: dfn;
+	text: painting a stacking context
+</pre>
+
+<pre class="link-defaults">
+spec:dom; type:interface; text:Document
+spec:dom; type:dfn; for:Event; text:target
+spec:infra; type:dfn; text:code point
+spec:uievents; type:attribute; text:screenX
+spec:uievents; type:attribute; text:screenY
+spec:uievents; type:attribute; text:clientX
+spec:uievents; type:attribute; text:clientY
+</pre>
+
+<h2 id="spec-intro">Introduction</h2>
+
+	<h3 id="spec-overview">Overview</h3>
+
+		TODO.
+
+	<h3 id="spec-conformance">Conformance</h3>
+	
+		Boilerplate?
+		
+<h2 id="style-conventions">Stylistic Conventions</h2>
+
+This specification follows the
+<a href="http://www.w3.org/People/Schepers/spec-conventions.html">Proposed W3C Specification Conventions</a>,
+with the following supplemental additions:
+
+<p class="note">This is a note.</p>
+
+<!-- TODO : Example (but ensure that it doesn't get auto-numbered -->
+
+<p class="&#x0058;&#x0058;&#x0058;">This is an open issue.</p>
+
+<p class="warning">This is a warning.</p>
+
+<pre class="idl-ignore" data-no-idl data-highlight="webidl">
+	  interface <b>Example</b> {
+	      // This is an IDL definition.
+	  };
+</pre>
+
+<h2 id="events-wheelevents">Wheel Events</h2>
+
+	Wheels are devices that can be rotated in one or more spatial dimensions, and which can be associated with a pointer device. The coordinate system depends on the
+	environment configuration.
+
+	<p class="example">
+	The user's environment might be configured to associate vertical scrolling
+	with rotation along the y-axis, horizontal scrolling with rotation along the
+	x-axis, and zooming with rotation along the z-axis.
+	</p>
+
+	The deltaX, deltaY, and deltaZ attributes of {{WheelEvent}} objects indicate
+	a measurement along their respective axes in units of pixels, lines, or
+	pages. The reported measurements are provided after an environment-specific
+	algorithm translates the actual rotation/movement of the wheel device into
+	the appropriate values and units.
+
+	<p class="note">
+	A user's environment settings can be customized to interpret actual rotation/movement
+	of a wheel device in different ways.
+	One movement of a common <q>dented</q> mouse wheel can produce a measurement of 162 pixels
+	(162 is just an example value, actual values can depend on the current screen
+	dimensions of the user-agent).
+	But a user can change their default environment settings to speed-up their mouse wheel,
+	increasing this number.
+	Furthermore, some mouse wheel software can support acceleration (the faster the wheel
+	is rotated/moved, the greater the <a>delta</a> of each measurement) or even sub-pixel <a>rotation</a>
+	measurements.
+	Because of this, authors can not assume a given <a>rotation</a> amount in one user agent will
+	produce the same <a>delta</a> value in all user agents.
+	</p>
+
+	The sign (positive or negative) of the values of the deltaX, deltaY, and deltaZ attributes
+	MUST be consistent between multiple dispatches of the
+	EVENT{wheel} event while the
+	motion of the actual wheel device is rotating/moving in the same direction.
+	If a user agent scrolls as the default action of the
+	EVENT{wheel} event then the sign
+	of the <a>delta</a> SHOULD be given by a right-hand coordinate system where positive X,
+	Y, and Z axes are directed towards the right-most edge, bottom-most edge, and farthest
+	depth (away from the user) of the document, respectively.
+
+	<p class="note">
+	Individual user agents can (depending on their environment and hardware configuration)
+	interpret the same physical user interaction on the wheel differently.
+	For example, a vertical swipe on the edge of a trackpad from top to bottom can be
+	interpreted as a wheel action intended to either scroll the
+	page down or to pan the page up (i.e., resulting in either a positive or negative
+	deltaY value respectively).
+	</p>
+
+	A <a>user agent</a> MUST create a <a>wheel event transaction</a> when the first wheel event
+	is fired, so that all subsequent wheel events within a implementation-specific amount of
+	time can be targetted at the same element. A <dfn>wheel event transaction</dfn> is series of
+	wheel events that are associated with a single user gesture. The
+	<a>wheel event transaction</a> MUST have an associated event target that is the
+	<a>topmost event target</a> at the time the first wheel event occurs in the group.
+
+	<p class="example">
+	If a series of wheel events targetted in a scrollable element start above a child element,
+	later events for the same user gesture may occur over the child element.
+	</p>
+
+	<h3 id="interface-wheelevent">Interface WheelEvent</h3>
+
+		<p class="intro-dom">Introduced in this specification</p>
+
+		The {{WheelEvent}} interface provides specific contextual information
+		associated with EVENT{wheel} events.
+
+		To create an instance of the {{WheelEvent}} interface, use the {{WheelEvent}} constructor,
+		passing an optional {{WheelEventInit}} dictionary.
+
+		<h4 id="idl-wheelevent">WheelEvent</h4>
+
+			<pre class="idl">
+			[Exposed=Window]
+			interface WheelEvent : MouseEvent {
+				constructor(DOMString type, optional WheelEventInit eventInitDict = {});
+				// DeltaModeCode
+				const unsigned long DOM_DELTA_PIXEL = 0x00;
+				const unsigned long DOM_DELTA_LINE	= 0x01;
+				const unsigned long DOM_DELTA_PAGE	= 0x02;
+
+				readonly attribute double deltaX;
+				readonly attribute double deltaY;
+				readonly attribute double deltaZ;
+				readonly attribute unsigned long deltaMode;
+			};
+			</pre>
+
+			<dl dfn-for="WheelEvent">
+				<dt><dfn const>DOM_DELTA_PIXEL</dfn></dt>
+				<dd>
+					The units of measurement for the <a>delta</a> MUST be pixels.
+					This is the most typical case in most operating system and
+					implementation configurations.
+				</dd>
+
+				<dt><dfn const>DOM_DELTA_LINE</dfn></dt>
+				<dd>
+					The units of measurement for the <a>delta</a> MUST be individual
+					lines of text.  This is the case for many form controls.
+				</dd>
+
+				<dt><dfn const>DOM_DELTA_PAGE</dfn></dt>
+				<dd>
+					The units of measurement for the <a>delta</a> MUST be pages,
+					either defined as a single screen or as a demarcated page.
+				</dd>
+
+				<dt><dfn attribute>deltaX</dfn></dt>
+				<dd>
+					In user agents where the default action of the EVENT{wheel}
+					event is to scroll, the value MUST be the measurement along the
+					x-axis (in pixels, lines, or pages) to be scrolled in the case
+					where the event is not cancelled. Otherwise, this is an
+					implementation-specific measurement (in pixels, lines, or pages)
+					of the movement of a wheel device around the x-axis.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>0.0</code>.
+				</dd>
+
+				<dt><dfn attribute>deltaY</dfn></dt>
+				<dd>
+					In user agents where the default action of the EVENT{wheel}
+					event is to scroll, the value MUST be the measurement along the
+					y-axis (in pixels, lines, or pages) to be scrolled in the case
+					where the event is not cancelled. Otherwise, this is an
+					implementation-specific measurement (in pixels, lines, or pages)
+					of the movement of a wheel device around the y-axis.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>0.0</code>.
+				</dd>
+
+				<dt><dfn attribute>deltaZ</dfn></dt>
+				<dd>
+					In user agents where the default action of the EVENT{wheel}
+					event is to scroll, the value MUST be the measurement along the
+					z-axis (in pixels, lines, or pages) to be scrolled in the case
+					where the event is not cancelled. Otherwise, this is an
+					implementation-specific measurement (in pixels, lines, or pages)
+					of the movement of a wheel device around the z-axis.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>0.0</code>.
+				</dd>
+
+				<dt><dfn attribute>deltaMode</dfn></dt>
+				<dd>
+					The <code>deltaMode</code> attribute contains an indication of
+					the units of measurement for the <a>delta</a> values. The
+					default value is {{WheelEvent/DOM_DELTA_PIXEL}} (pixels).
+
+					This attribute MUST be set to one of the DOM_DELTA constants to
+					indicate the units of measurement for the <a>delta</a> values.
+					The precise measurement is specific to device, operating system,
+					and application configurations.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>0</code>.
+				</dd>
+			</dl>
+
+		<h4 id="idl-wheeleventinit">WheelEventInit</h4>
+
+			<pre class="idl">
+			dictionary WheelEventInit : MouseEventInit {
+				double deltaX = 0.0;
+				double deltaY = 0.0;
+				double deltaZ = 0.0;
+				unsigned long deltaMode = 0;
+			};
+			</pre>
+
+			<dl dfn-for="WheelEventInit">
+				<dt><dfn dict-member>deltaX</dfn></dt>
+				<dd>See <code>deltaZ</code> attribute.</dd>
+
+				<dt><dfn dict-member>deltaY</dfn></dt>
+				<dd>See <code>deltaZ</code> attribute.</dd>
+
+				<dt><dfn dict-member>deltaZ</dfn></dt>
+				<dd>
+					Initializes the {{WheelEvent/deltaZ}} attribute of the {{WheelEvent}}
+					object. Relative positive values for this attribute (as well as
+					the {{WheelEvent/deltaX}} and {{WheelEvent/deltaY}} attributes) are
+					given by a right-hand coordinate system where the X, Y, and Z
+					axes are directed towards the right-most edge, bottom-most edge,
+					and farthest depth (away from the user) of the document,
+					respectively. Negative relative values are in the respective
+					opposite directions.
+				</dd>
+
+				<dt><dfn dict-member>deltaMode</dfn></dt>
+				<dd>
+					Initializes the {{WheelEvent/deltaMode}} attribute on the
+					{{WheelEvent}} object to the enumerated values 0, 1, or 2, which
+					represent the amount of pixels scrolled
+					({{WheelEvent/DOM_DELTA_PIXEL}}), lines scrolled
+					({{WheelEvent/DOM_DELTA_LINE}}), or pages scrolled
+					({{WheelEvent/DOM_DELTA_PAGE}}) if the <a>rotation</a> of the
+					wheel would have resulted in scrolling.
+				</dd>
+			</dl>
+
+	<h3 id="events-wheel-types">Wheel Event Types</h3>
+
+		<h4 id="event-type-wheel"><dfn>wheel</dfn></h4>
+
+			++------------------+--------------------------------------------------------------------------------------+ event-definition
+			=| %                |                                                                                      |
+			 +------------------+--------------------------------------------------------------------------------------+
+			+| Type             | <strong><code>wheel</code></strong>                                                  |
+			+| Interface        | {{WheelEvent}}                                                                       |
+			+| Sync / Async     | Async                                                                                |
+			+| Bubbles          | Yes                                                                                  |
+			+| Trusted Targets  | <code>Element</code>                                                                 |
+			+| Cancelable       | <a href="#cancelability-of-wheel-events">Varies</a>                                                  |
+			+| Composed         | Yes                                                                                  |
+			+| Default action   | Scroll (or zoom) the document                                                        |
+			+| Context<br/>     | <ul>                                                                                 |
+			 | (trusted events) | <li>{{Event}}.{{Event/target}} : element target for the current                      |
+			 |                  |     <a>wheel event transaction</a>                                                   |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/view}} : <a><code>Window</code></a></li>                   |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/detail}} : <code>0</code></li>                             |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/screenX}} : if the wheel is associated with a        |
+			 |                  |     pointing device, the value based on the pointer position on the screen,          |
+			 |                  |     otherwise <code>0</code></li>                                                    |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/screenY}} : if the wheel is associated with a        |
+			 |                  |     pointing device, the value based on the pointer position on the screen,          |
+			 |                  |     otherwise <code>0</code></li>                                                    |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/clientX}} : if the wheel is associated with a        |
+			 |                  |     pointing device, the value based on the pointer position within the viewport,    |
+			 |                  |     otherwise <code>0</code></li>                                                    |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/clientY}} : if the wheel is associated with a        |
+			 |                  |     pointing device, the value based on the pointer position within the viewport,    |
+			 |                  |     otherwise <code>0</code></li>                                                    |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/altKey}} : <code>true</code> if KEYCAP{Alt}          |
+			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}     |
+			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/shiftKey}} : <code>true</code> if KEYCAP{Shift}      |
+			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/metaKey}} : <code>true</code> if KEYCAP{Meta}        |
+			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/button}} : if wheel is associated with a pointing    |
+			 |                  |     device, value based on current button pressed, otherwise <code>0</code></li>     |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/buttons}} : if wheel is associated with a pointing   |
+			 |                  |     device, value based on all buttons current depressed,                            |
+			 |                  |     <code>0</code> if no buttons pressed</li>                                        |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/relatedTarget}} : indicates the <a>event target</a>  |
+			 |                  |     the pointing device is pointing at, if any</li>                                  |
+			 |                  | <li>{{WheelEvent}}.{{WheelEvent/deltaX}} : expected amount that the page will scroll |
+			 |                  |     along the x-axis according to the deltaMode units; or an implementation-specific |
+			 |                  |     value of movement of a wheel around the x-axis</li>                              |
+			 |                  | <li>{{WheelEvent}}.{{WheelEvent/deltaY}} : expected amount that the page will scroll |
+			 |                  |     along the y-axis according to the deltaMode units; or an implementation-specific |
+			 |                  |     value of movement of a wheel around the y-axis</li>                              |
+			 |                  | <li>{{WheelEvent}}.{{WheelEvent/deltaZ}} : expected amount that the page will scroll |
+			 |                  |     along the z-axis according to the deltaMode units; or an implementation-specific |
+			 |                  |     value of movement of a wheel around the z-axis</li>                              |
+			 |                  | <li>{{WheelEvent}}.{{WheelEvent/deltaMode}} : unit indicator (pixels, lines, or      |
+			 |                  |     pages) for the deltaX, deltaY, and deltaZ attributes</li>                        |
+			 |                  | </ul>                                                                                |
+			++------------------+--------------------------------------------------------------------------------------+
+
+			A <a>user agent</a> MUST dispatch this event when a mouse wheel has
+			been rotated around any axis, or when an equivalent input device
+			(such as a mouse-ball, certain tablets or touchpads, etc.) has
+			emulated such an action. Depending on the platform and input device,
+			diagonal wheel <a>deltas</a> MAY be delivered either as a single
+			EVENT{wheel} event with multiple non-zero axes or as separate
+			EVENT{wheel} events for each non-zero axis.
+
+			The typical <a>default action</a> of the EVENT{wheel} event type is
+			to scroll (or in some cases, zoom) the document by the indicated
+			amount.  If this event is canceled, the implementation MUST NOT
+			scroll or zoom the document (or perform whatever other
+			implementation-specific default action is associated with this event
+			type).
+
+			<p class="note">
+			In some <a>user agents</a>, or with some input devices, the speed
+			that the wheel has been turned can affect the <a>delta</a> values,
+			with a faster speed producing a higher <a>delta</a> value.
+			</p>
+
+		<h4 id="cancelability-of-wheel-events">cancelability of wheel events</h4>
+			<p>
+			Calling <code>preventDefault</code> on a wheel event can prevent
+			or otherwise interrupt scrolling. For maximum scroll performance, a
+			user agent may not wait for each wheel event associated with the scroll
+			to be processed to see if it will be canceled. In such cases the user
+			agent should generate <code>wheel</code> events whose
+			<code>cancelable</code> property is <code>false</code>, indicating that
+			<code>preventDefault</code> cannot be used to prevent or interrupt
+			scrolling. Otherwise <code>cancelable</code> will be <code>true</code>.
+			</p>
+
+			<p>
+			In particular, a user agent should generate only uncancelable
+			<code>wheel</code> events when it
+			<a href="https://dom.spec.whatwg.org/#observing-event-listeners">observes
+			that there are no non-passive listeners</a> for the event.
+			</p>
+
+<h2 id="security-considerations">Security Considerations</h2>
+
+	TODO - Add specific concerns for this spec
+
+<h2 id="acknowledgements-contributors">Acknowledgements</h2>
+
+	TODO
+
+<h2 id="other-uievents">Refs to other UIEvent specs \[DELETE]</h2>
+
+	This section will be deleted.
+
+	Temporary place to "define" other referenced UI Events (to make the bikeshed linker happy).
+	This will be deleted once we have proper cross-references.
+
+	<h3 id="things">Things defined in other sections</h3>
+
+		<h4 id="event-flow-activation">Activation triggers and behavior</h4>
+		<h4 id="events-compositionevents">Composition Events</h4>
+		<h4 id="event-flow-default-cancel">Default actions and cancelable events</h4>
+		<h4 id="event-flow">Event dispatch and DOM event flow</h4>
+		<h4 id="events-focusevent">Focus Events</h4>
+		<h4 id="conf-interactive-ua">Web browsers and other dynamic or interactive <a>user agents</a></h4>
+		<h4 id="conf-author-tools">Authoring tools</h4>
+
+<h2 id="glossary">Glossary \[DELETE]</h2>
+
+This section will be deleted.
+
+Temporary glossary terms (for bikeshed linker).
+Many of these are properly defined elsewhere and should be linked to directly. 
+Terms which should be defined in this spec should be defined inline.
+
+: <dfn>activation behavior</dfn>
+::	The action taken when an <a>event</a>, typically initiated by users through
+	an input device, causes an element to fulfill a defined task.  The task MAY
+	be defined for that element by the <a>host language</a>, or by
+	author-defined variables, or both.  The default task for any given element
+	MAY be a generic action, or MAY be unique to that element.  For example, the
+	activation behavior of an HTML or SVG <code>&lt;a&gt;</code> element is to
+	cause the <a>user agent</a> to traverse the link specified in the
+	<code>href</code> attribute, with the further optional parameter of
+	specifying the browsing context for the traversal (such as the current
+	window or tab, a named window, or a new window). The activation behavior of
+	an HTML <code>&lt;input&gt;</code> element with the <code>type</code>
+	attribute value <code>submit</code> is be to send the values of the form
+	elements to an author-defined IRI by the author-defined HTTP method.  See
+	[[#event-flow-activation]] for more details.
+
+: <dfn>activation trigger</dfn>
+::	An event which is defined to initiate an <a>activation behavior</a>.  Refer
+	to [[#event-flow-activation]] for more details.
+
+: <dfn>default action</dfn>
+::	A <a>default action</a> is an OPTIONAL supplementary behavior that an
+	implementation MUST perform in combination with the dispatch of the event
+	object.  Each event type definition, and each specification, defines the
+	<a>default action</a> for that event type, if it has one.  An instance of an
+	event MAY have more than one <a>default action</a> under some circumstances,
+	such as when associated with an <a>activation trigger</a>.  A <a>default
+	action</a> MAY be cancelled through the invocation of the
+	{{Event/preventDefault()}} method. For more details, see
+	[[#event-flow-default-cancel]].
+
+: <dfn>delta</dfn>
+::	The estimated scroll amount (in pixels, lines, or pages) that the user agent
+	will scroll or zoom the page in response to the physical movement of an
+	input device that supports the {{WheelEvent}} interface (such as a mouse
+	wheel or touch pad). The value of a <a>delta</a> (e.g., the
+	{{WheelEvent/deltaX}}, {{WheelEvent/deltaY}}, or {{WheelEvent/deltaZ}}
+	attributes) is to be interpreted in the context of the current
+	{{WheelEvent/deltaMode}} property. The relationship between the physical
+	movement of a wheel (or other device) and whether the <a>delta</a> is
+	positive or negative is environment and device dependent. However, if a user
+	agent scrolls as the <a>default action</a> then the sign of the <a>delta</a>
+	is given by a right-hand coordinate system where positive X,Y, and Z axes
+	are directed towards the right-most edge, bottom-most edge, and farthest
+	depth (away from the user) of the <a>document</a>, respectively.
+
+: <dfn>event</dfn>
+::	An event is the representation of some occurrence (such as a mouse click on
+	the presentation of an element, the removal of child node from an element,
+	or any number of other possibilities) which is associated with its <a>event
+	target</a>. Each event is an instantiation of one specific <a>event
+	type</a>.
+
+: <dfn>event target</dfn>
+::	The object to which an <a>event</a> is targeted using the [[#event-flow]].
+	The event target is the value of the {{Event/target}} attribute.
+
+: <dfn>host language</dfn>
+::	Any language which integrates the features of another language or API
+	specification, while normatively referencing the origin specification rather
+	than redefining those features, and extending those features only in ways
+	defined by the origin specification.  An origin specification typically is
+	only intended to be implemented in the context of one or more host
+	languages, not as a standalone language.  For example, XHTML, HTML, and SVG
+	are host languages for UI Events, and they integrate and extend the objects
+	and models defined in this specification.
+
+: <dfn>rotation</dfn>
+:: An indication of incremental change on an input device using the
+	{{WheelEvent}} interface. On some devices this MAY be a literal rotation of
+	a wheel, while on others, it MAY be movement along a flat surface, or
+	pressure on a particular button.
+
+: <dfn>topmost event target</dfn>
+::	The <a>topmost event target</a> MUST be the element highest in the rendering
+	order which is capable of being an <a>event target</a>. In graphical user
+	interfaces this is the element under the user's pointing device. A user
+	interface's <q>hit testing</q> facility is used to determine the target. For
+	specific details regarding hit testing and stacking order, refer to the
+	<a>host language</a>.
+
+: <dfn>un-initialized value</dfn>
+::	The value of any event attribute (such as {{Event/bubbles}} or
+	{{Event/currentTarget}}) before the event has been initialized with
+	{{Event/initEvent()}}. The un-initialized values of an event apply
+	immediately after a new event has been created using the method
+	{{Document/createEvent()}}.
+
+: <dfn>user agent</dfn>
+::	A program, such as a browser or content authoring tool, normally running on
+	a client machine, which acts on a user's behalf in retrieving, interpreting,
+	executing, presenting, or creating content.  Users MAY act on the content
+	using different user agents at different times, for different purposes.  See
+	the [[#conf-interactive-ua]] and [[#conf-author-tools]] for details on the
+	requirements for a <em>conforming</em> user agent.
+
+: <dfn>Window</dfn>
+::	The <code>Window</code> is the object referred to by the current <a>document</a>'s
+	browsing context's Window Proxy object as defined in
+	<a href="http://dev.w3.org/html5/spec/single-page.html#windowproxy" title="HTML5 WindowProxy description">HTML5</a>
+	[[HTML5]].
+
+
