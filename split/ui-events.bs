@@ -1,0 +1,1609 @@
+<h1>UI Events</h1>
+
+<pre class="metadata">
+Shortname: uievents-events
+Level:
+Group: webapps
+Status: ED
+TR: https://www.w3.org/TR/uievents/
+ED: https://w3c.github.io/uievents/
+Repository: w3c/uievents
+Editor: Gary Kacmarcik 59482, Google, garykac@google.com
+Editor: Travis Leithead 40117, Microsoft, travil@microsoft.com
+Former Editor: Doug Schepers, Mar 2008 - May 2011
+!Tests: <a href=https://github.com/web-platform-tests/wpt/tree/master/uievents>web-platform-tests uievents/</a> (<a href=https://github.com/web-platform-tests/wpt/labels/uievents>ongoing work</a>)
+Abstract:
+	*** UI Events (core) ***
+
+	Note: This is an experimental split of the UI Events spec into smaller, event-specific
+	specs. The split was made from an out-of-date snapshot, so the information here is not
+	current, so please focus on the overall structure rather than the specifics of the
+	content. If this experiment goes well, then we will split the current spec after all
+	outstanding pull requests have been handled.
+</pre>
+
+<pre class="anchors">
+urlPrefix: https://www.w3.org/TR/WebIDL/#idl-; type: type;
+	text: long
+urlPrefix: https://w3c.github.io/selection-api/#widl-Window-getSelection-Selection; type: dfn; for: Document
+	text: getSelection()
+url: https://www.w3.org/TR/2004/REC-xml-20040204/#NT-S; type: dfn;
+	text: white space
+url: https://www.w3.org/TR/uievents-key/#key-attribute-value; type: dfn; spec: uievents-key;
+	text: key attribute value
+url: https://www.w3.org/TR/uievents-key/#keys-modifier; type: dfn; spec: uievents-key;
+	text: modifier keys table
+url: https://html.spec.whatwg.org/multipage/forms.html#context-menus; type: dfn;
+	text: contextmenu
+url: https://www.w3.org/TR/pointerevents3/#pointerevent-interface; type: interface; spec: pointerevents3
+	text: PointerEvent
+url: https://dom.spec.whatwg.org/#concept-tree-ancestor; type: dfn;
+	text: ancestor
+url: https://www.w3.org/TR/CSS21/visuren.html#x43; type: dfn;
+	text: stacking context
+url: https://drafts.csswg.org/css-position-3/#positioned-box; type: dfn;
+	text: positioned
+url: https://drafts.csswg.org/css-position-4/#paint-a-stacking-context; type: dfn;
+	text: painting a stacking context
+</pre>
+
+<pre class="link-defaults">
+spec:dom; type:interface; text:Document
+spec:dom; type:dfn; for:Event; text:target
+spec:infra; type:dfn; text:code point
+</pre>
+
+<h2 id="spec-intro">Introduction</h2>
+
+	<h2 id="spec-overview">Overview</h2>
+
+		TODO.
+
+	<h2 id="spec-conformance">Conformance</h2>
+
+		Boilerplate?
+
+<h2 id="style-conventions">Stylistic Conventions</h2>
+
+This specification follows the
+<a href="http://www.w3.org/People/Schepers/spec-conventions.html">Proposed W3C Specification Conventions</a>,
+with the following supplemental additions:
+
+<p class="note">This is a note.</p>
+
+<!-- TODO : Example (but ensure that it doesn't get auto-numbered -->
+
+<p class="&#x0058;&#x0058;&#x0058;">This is an open issue.</p>
+
+<p class="warning">This is a warning.</p>
+
+<pre class="idl-ignore" data-no-idl data-highlight="webidl">
+	  interface <b>Example</b> {
+	      // This is an IDL definition.
+	  };
+</pre>
+
+<h2 id="events-uievents">User Interface Events</h2>
+
+	The User Interface event module contains basic event types associated with
+	user interfaces and document manipulation.
+
+	<h3 id="interface-uievent">Interface UIEvent</h3>
+
+		<p class="intro-dom">Introduced in DOM Level 2</p>
+
+		The {{UIEvent}} interface provides specific contextual information
+		associated with User Interface events.
+
+		To create an instance of the {{UIEvent}} interface, use the UIEvent
+		constructor, passing an optional {{UIEventInit}} dictionary.
+
+		<p class="note">
+		For newly defined events, you don't have to inherit {{UIEvent}} interface just
+		because they are related to user interface.  Inherit only when members of
+		{{UIEventInit}} make sense to those events.
+		</p>
+
+		<h4 id="idl-uievent">UIEvent</h4>
+
+			<pre class="idl">
+			[Exposed=Window]
+			interface UIEvent : Event {
+				constructor(DOMString type, optional UIEventInit eventInitDict = {});
+				readonly attribute Window? view;
+				readonly attribute long detail;
+			};
+			</pre>
+
+			<dl>
+				<dt><code>UIEvent . view</code></dt>
+				<dd>
+					The <code>view</code> attribute identifies the
+					<code>Window</code> from which the event was generated.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>null</code>.
+				</dd>
+
+				<dt><code>UIEvent . detail</code></dt>
+				<dd>
+					Specifies some detail information about the {{Event}}, depending
+					on the type of event.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>0</code>.
+				</dd>
+			</dl>
+
+		<h4 id="idl-uieventinit">UIEventInit</h4>
+
+			<pre class="idl">
+			dictionary UIEventInit : EventInit {
+				Window? view = null;
+				long detail = 0;
+			};
+			</pre>
+
+			<dl>
+				<dt><code>UIEventInit . view</code></dt>
+				<dd>
+					Should be initialized to the Window object of the global
+					environment in which this event will be dispatched. If this
+					event will be dispatched to an element, the view property should
+					be set to the Window object containing the element's
+					<code>ownerDocument</code>.
+				</dd>
+
+				<dt><code>UIEventInit . detail</code></dt>
+				<dd>
+					This value is initialized to a number that is
+					application-specific.
+				</dd>
+			</dl>
+
+	<h3 id="events-uievent-types">UI Event Types</h3>
+
+		The User Interface event types are listed below.  Some of these events
+		use the {{UIEvent}} interface if generated from a user interface, but
+		the {{Event}} interface otherwise, as detailed in each event.
+
+		<h4 id="event-type-load"><dfn>load</dfn></h4>
+
+<table class="event-definition">
+<tr><th>Type</th><td><strong><code>load</code></strong></td></tr>
+<tr><th>Interface</th><td>{{UIEvent}} if generated from a user interface, {{Event}} otherwise.</td></tr>
+<tr><th>Sync / Async</th><td>Async</td></tr>
+<tr><th>Bubbles</th><td>No</td></tr>
+<tr><th>Trusted Targets</th><td><a><code>Window</code></a>, <code>Document</code>, <code>Element</code></td></tr>
+<tr><th>Cancelable</th><td>No</td></tr>
+<tr><th>Default action</th><td>None</td></tr>
+<tr><th>Context<br/> (trusted events)</th><td><ul> <li>{{Event}}.{{Event/target}} : common object whose contained resources have loaded</li> <li>{{UIEvent}}.{{UIEvent/view}} : <a><code>Window</code></a></li> <li>{{UIEvent}}.{{UIEvent/detail}} : <code>0</code></li> </ul></td></tr>
+</table>
+
+			A <a>user agent</a> MUST dispatch this event when the DOM
+			implementation finishes loading the resource (such as the document)
+			and any dependent resources (such as images, style sheets, or
+			scripts). Dependent resources that fail to load MUST NOT prevent
+			this event from firing if the resource that loaded them is still
+			accessible via the DOM. If this event type is dispatched,
+			implementations are REQUIRED to dispatch this event at least on the
+			<code>Document</code> node.</p>
+
+			<p class="note">
+			For legacy reasons, <a><code>load</code></a> events for resources inside the
+			document (e.g., images) do not include the <a>Window</a> in the
+			propagation path in HTML implementations. See [[HTML5]] for more
+			information.
+			</p>
+
+		<h4 id="event-type-unload"><dfn>unload</dfn></h4>
+
+<table class="event-definition">
+<tr><th>Type</th><td><strong><code>unload</code></strong></td></tr>
+<tr><th>Interface</th><td>{{UIEvent}} if generated from a user interface, {{Event}} otherwise.</td></tr>
+<tr><th>Sync / Async</th><td>Sync</td></tr>
+<tr><th>Bubbles</th><td>No</td></tr>
+<tr><th>Trusted Targets</th><td><a><code>Window</code></a>, <code>Document</code>, <code>Element</code></td></tr>
+<tr><th>Cancelable</th><td>No</td></tr>
+<tr><th>Default action</th><td>None</td></tr>
+<tr><th>Context<br/> (trusted events)</th><td><ul> <li>{{Event}}.{{Event/target}} : common object whose contained resources have been removed</li> <li>{{UIEvent}}.{{UIEvent/view}} : <a><code>Window</code></a></li> <li>{{UIEvent}}.{{UIEvent/detail}} : <code>0</code></li> </ul></td></tr>
+</table>
+
+			A <a>user agent</a> MUST dispatch this event when the DOM
+			Implementation removes from the environment the resource (such as
+			the document) or any dependent resources (such as images, style
+			sheets, scripts). The document MUST be unloaded after the dispatch
+			of this event type. If this event type is dispatched,
+			implementations are REQUIRED to dispatch this event at least on
+			the <code>Document</code> node.
+
+		<h4 id="event-type-abort"><dfn>abort</dfn></h4>
+
+<table class="event-definition">
+<tr><th>Type</th><td><strong><code>abort</code></strong></td></tr>
+<tr><th>Interface</th><td>{{UIEvent}} if generated from a user interface, {{Event}} otherwise.</td></tr>
+<tr><th>Sync / Async</th><td>Sync</td></tr>
+<tr><th>Bubbles</th><td>No</td></tr>
+<tr><th>Trusted Targets</th><td><a><code>Window</code></a>, <code>Element</code></td></tr>
+<tr><th>Cancelable</th><td>No</td></tr>
+<tr><th>Default action</th><td>None</td></tr>
+<tr><th>Context<br/> (trusted events)</th><td><ul> <li>{{Event}}.{{Event/target}} : element whose resources have been stopped from loading without error</li> <li>{{UIEvent}}.{{UIEvent/view}} : <a><code>Window</code></a></li> <li>{{UIEvent}}.{{UIEvent/detail}} : <code>0</code></li> </ul></td></tr>
+</table>
+
+			A <a>user agent</a> MUST dispatch this event when the loading of a
+			resource has been aborted, such as by a user canceling the load
+			while it is still in progress.
+
+		<h4 id="event-type-error"><dfn>error</dfn></h4>
+
+<table class="event-definition">
+<tr><th>Type</th><td><strong><code>error</code></strong></td></tr>
+<tr><th>Interface</th><td>{{UIEvent}} if generated from a user interface, {{Event}} otherwise.</td></tr>
+<tr><th>Sync / Async</th><td>Async</td></tr>
+<tr><th>Bubbles</th><td>No</td></tr>
+<tr><th>Trusted Targets</th><td><a><code>Window</code></a>, <code>Element</code></td></tr>
+<tr><th>Cancelable</th><td>No</td></tr>
+<tr><th>Default action</th><td>None</td></tr>
+<tr><th>Context<br/> (trusted events)</th><td><ul> <li>{{Event}}.{{Event/target}} : element whose resources have been stopped from loading due to error</li> <li>{{UIEvent}}.{{UIEvent/view}} : <a><code>Window</code></a></li> <li>{{UIEvent}}.{{UIEvent/detail}} : <code>0</code></li> </ul></td></tr>
+</table>
+
+			A <a>user agent</a> MUST dispatch this event when a resource failed
+			to load, or has been loaded but cannot be interpreted according to
+			its semantics, such as an invalid image, a script execution error,
+			or non-well-formed XML.
+
+		<h4 id="event-type-select"><dfn>select</dfn></h4>
+
+<table class="event-definition">
+<tr><th>Type</th><td><strong><code>select</code></strong></td></tr>
+<tr><th>Interface</th><td>{{UIEvent}} if generated from a user interface, {{Event}} otherwise.</td></tr>
+<tr><th>Sync / Async</th><td>Sync</td></tr>
+<tr><th>Bubbles</th><td>Yes</td></tr>
+<tr><th>Trusted Targets</th><td><code>Element</code></td></tr>
+<tr><th>Cancelable</th><td>No</td></tr>
+<tr><th>Default action</th><td>None</td></tr>
+<tr><th>Context<br/> (trusted events)</th><td><ul> <li>{{Event}}.{{Event/target}} : element whose text content has been selected</li> <li>{{UIEvent}}.{{UIEvent/view}} : <a><code>Window</code></a></li> <li>{{UIEvent}}.{{UIEvent/detail}} : <code>0</code></li> </ul></td></tr>
+</table>
+
+			A <a>user agent</a> MUST dispatch this event when a user selects
+			some text.	This event is dispatched after the selection has occurred.
+
+			This specification does not provide contextual information to access
+			the selected text.	Where applicable, a <a>host language</a> SHOULD
+			define rules for how a user MAY select content (with consideration
+			for international language conventions), at what point the
+			<a><code>select</code></a> event is dispatched, and how a content author MAY
+			access the user-selected content.
+
+			<p class="note">
+			In order to access to user-selected content, content authors will
+			use native capabilities of the <a>host languages</a>, such as the
+			<code>Document.getSelection()</code> method of the HTML Editing APIs
+			[[Editing]].
+			</p>
+
+			<p class="note">
+			The <a><code>select</code></a> event might not be available for all elements in
+			all languages.	For example, in [[HTML5]], <a><code>select</code></a> events can
+			be dispatched only on form <{input}> and <{textarea}> elements.
+			Implementations can dispatch <a><code>select</code></a> events in any context
+			deemed appropriate, including text selections outside of form
+			controls, or image or markup selections such as in SVG.
+			</p>
+
+<h2 id="extending-events">Extending Events</h2>
+
+
+<em>This section is non-normative</em>
+
+<h3 id="extending-events-intro">Introduction</h3>
+
+	This specification defines several interfaces and many events, however, this
+	is not an exhaustive set of events for all purposes. To allow content
+	authors and implementers to add desired functionality, this specification
+	provides two mechanisms for extend this set of interfaces and events without
+	creating conflicts: <a href="#extending-events-Custom_Events">custom
+	events</a> and <a
+	href="#extending-events-Impl_Extensions">implementation-specific
+	extensions</a>.
+
+<h3 id="extending-events-Custom_Events">Custom Events</h3>
+
+	A script author MAY wish to define an application in terms of functional
+	components, with event types that are meaningful to the application
+	architecture. The content author can use the {{CustomEvent}} interface to
+	create their own events appropriate to the level of abstraction they are
+	using.
+
+	<div class="example">
+		A content author might have created an application which features a
+		dynamically generated bar chart. This bar chart is meant to be updated every
+		5 minutes, or when a feed shows new information, or when the user refreshes
+		it manually by clicking a button. There are several handlers that have to be
+		called when the chart needs to be updated: the application has to fetch the
+		most recent data, show an icon to the user that the event is being updated,
+		and rebuild the chart. To manage this, the content author can choose to
+		create a custom <q>updateChart</q> event, which is fired whenever one of the
+		trigger conditions is met:
+
+		<pre><code>
+		var chartData = ...;
+		var evt = document.createEvent("CustomEvent");
+		evt.initCustomEvent( "updateChart", true, false, { data: chartData });
+		document.documentElement.dispatchEvent(evt);
+		</code></pre>
+	</div>
+
+<h2 id="extending-events-Impl_Extensions">Implementation-Specific Extensions</h2>
+
+	While a new event is being designed and prototyped, or when an event is
+	intended for implementation-specific functionality, it is desirable to
+	distinguish it from standardized events. Implementors SHOULD prefix event
+	types specific to their implementations with a short string to distinguish
+	it from the same event in other implementations and from standardized
+	events. This is similar to the
+	<a href="http://www.w3.org/TR/CSS21/syndata.html#vendor-keywords" title="CSS 2.1: Syntax and basic data types">vendor-specific keyword prefixes</a>
+	in CSS, though without the dashes (<code>"-"</code>) used in CSS, since that
+	can cause problems when used as an attribute name in Javascript.
+
+	<div class="example">
+		A particular browser vendor, <q>FooCorp</q>, might wish to introduce a
+		new event, <code class="eventtype">jump</code>. This vendor implements
+		<code class="eventtype">fooJump</code> in their browser, using their
+		vendor-specific prefix: <code>"foo"</code>. Early adopters start
+		experimenting with the event, using
+		<code>someElement.addEventListener("fooJump", doJump, false )</code>,
+		and provide feedback to FooCorp, who change the behavior of <code
+		class="eventtype">fooJump</code> accordingly.
+
+		After some time, another vendor, <q>BarOrg</q>, decides they also want
+		the functionality, but implement it slightly differently, so they use
+		their own vendor-specific prefix, <code>"bar"</code> in their event type
+		name: <code class="eventtype">barJump</code>. Content authors
+		experimenting with this version of the <code
+		class="eventtype">jump</code> event type register events with BarOrg's
+		event type name. Content authors who wish to write code that accounts
+		for both browsers can either register each event type separately with
+		specific handlers, or use the same handler and switch on the name of the
+		event type. Thus, early experiments in different codebases do not
+		conflict, and the early adopter is able to write easily-maintained code
+		for multiple implementations.
+
+		Eventually, as the feature matures, the behavior of both browsers
+		stabilizes and might converge due to content author and user feedback or
+		through formal standardization. As this stabilization occurs, and risk
+		of conflicts decrease, content authors can remove the forked code, and
+		use the <code class="eventtype">jump</code> event type name (even before
+		it is formally standardized) using the same event handler and the more
+		generic registration method <code>someElement.addEventListener( "jump",
+		doJump, false)</code>.
+	</div>
+
+	<h3 id="extending-events-prefixes">Known Implementation-Specific Prefixes</h3>
+
+		At the time of writing, the following event-type name prefixes are known to exist:
+
+<table class="event-sequence-table">
+<thead><tr><th>Prefix</th><th>Web Engine</th><th>Organization</th></tr></thead>
+<tr><td><code>moz</code>, <code>Moz</code></td><td>Gecko</td><td>Mozilla</td></tr>
+<tr><td><code>ms</code>, <code>MS</code></td><td>Trident</td><td>Microsoft</td></tr>
+<tr><td><code>o</code>, <code>O</code></td><td>Presto</td><td>Opera Software</td></tr>
+<tr><td><code>webkit</code></td><td>WebKit</td><td>Apple, Google, others</td></tr>
+</table>
+
+<h2 id="legacy-uievent-events">Legacy {{UIEvent}} events</h2>
+
+	<h3 id="legacy-uievent-event-types">Legacy {{UIEvent}} event types</h3>
+
+		<h4 id="event-type-DOMActivate"><dfn>DOMActivate</dfn></h4>
+
+			<table class="event-definition">
+				<tr>
+					<th>Type</th>
+					<td><strong><code>DOMActivate</code></strong></td>
+				</tr>
+				<tr>
+					<th>Interface</th>
+					<td>{{UIEvent}}</td>
+				</tr>
+				<tr>
+					<th>Sync / Async</th>
+					<td>Sync</td>
+				</tr>
+				<tr>
+					<th>Bubbles</th>
+					<td>Yes</td>
+				</tr>
+				<tr>
+					<th>Trusted Targets</th>
+					<td><code>Element</code></td>
+				</tr>
+				<tr>
+					<th>Cancelable</th>
+					<td>Yes</td>
+				</tr>
+				<tr>
+					<th>Composed</th>
+					<td>Yes</td>
+				</tr>
+				<tr>
+					<th>Default action</th>
+					<td>None</td>
+				</tr>
+				<tr>
+					<th>Context<br/>(trusted events)</th>
+					<td>
+						<ul>
+							<li>{{Event}}.{{Event/target}} :
+								element being activated</li>
+							<li>{{UIEvent}}.{{UIEvent/view}} :
+								<a><code>Window</code></a></li>
+							<li>{{UIEvent}}.{{UIEvent/detail}} :
+								<code>0</code></li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+
+			A <a>user agent</a> MUST dispatch this event when a button, link, or
+			other state-changing element is activated.  Refer to
+			[[#event-flow-activation]] for more details.
+
+			<p class="warning" id="DOMActivate-deprecated">
+			The <a><code>DOMActivate</code></a> <a>event type</a> is defined in this
+			specification for reference and completeness, but this specification
+			<a>deprecates</a> the use of this event type in favor of the related
+			<a>event type</a> <a><code>click</code></a>.  Other specifications MAY define and
+			maintain their own <a><code>DOMActivate</code></a> <a>event type</a> for backwards
+			compatibility.
+			</p>
+
+			<p class="note" id="DOMActivate-click">
+			While <a><code>DOMActivate</code></a> and <a><code>click</code></a> are not completely equivalent,
+			implemented behavior for the <a><code>click</code></a> <a>event type</a> has
+			developed to encompass the most critical accessibility aspects for which
+			the <a><code>DOMActivate</code></a> <a>event type</a> was designed, and is more
+			widely implemented.  Content authors are encouraged to use the
+			<a><code>click</code></a> <a>event type</a> rather than the related <a><code>mousedown</code></a>
+			or <a><code>mouseup</code></a> <a>event type</a> to ensure maximum accessibility.
+			</p>
+
+		Implementations which support the <a><code>DOMActivate</code></a> <a>event type</a>
+		SHOULD also dispatch a <a><code>DOMActivate</code></a> event as a <a>default
+		action</a> of a <a><code>click</code></a> event which is associated with an
+		<a>activation trigger</a>. However, such implementations SHOULD only
+		initiate the associated <a>activation behavior</a> once for any given
+		occurrence of an <a>activation trigger</a>.
+
+		<div class="example">
+		<p>
+		The <a><code>DOMActivate</code></a> <a>event type</a> is REQUIRED to be supported for
+		XForms [[XFORMS11]], which is intended for implementation within a <a>host
+		language</a>. In a scenario where a plugin or script-based
+		implementation of XForms is intended for installation in a native
+		implementation of this specification which does not support the
+		<a><code>DOMActivate</code></a> <a>event type</a>, the XForms <a>user agent</a> has
+		to synthesize and dispatch its own <a><code>DOMActivate</code></a> events based on
+		the appropriate <a>activation triggers</a>.
+		</p>
+
+		<p>
+		Thus, when a <a><code>click</code></a> event is dispatched by a <a>user agent</a>
+		conforming to UI Events, the XForms <a>user agent</a> has to determine
+		whether to synthesize a <a><code>DOMActivate</code></a> event with the same relevant
+		properties as a <a>default action</a> of that <a><code>click</code></a> event.
+		Appropriate cues might be whether the <a><code>click</code></a> event is <a
+		href="#trusted-events">trusted</a>, or whether its <a>event target</a>
+		has a <a><code>DOMActivate</code></a> <a>event listener</a> registered.
+		</p>
+		</div>
+
+		<p class="note">
+		Don't rely upon the interoperable support of <a><code>DOMActivate</code></a> in many
+		<a>user agents</a>. Instead, the <a><code>click</code></a> <a>event type</a> should
+		be used since it will provide more accessible behavior due to broader
+		implementation support.
+		</p>
+
+		<p class="warning">
+		The <a><code>DOMActivate</code></a> <a>event type</a> is deprecated in this
+		specification.
+		</p>
+
+	<h3 id="legacy-uievent-event-order">Activation event order</h3>
+
+		If the <code>DOMActivate</code> event is supported by the <a>user
+		agent</a>, then the events MUST be dispatched in a set order relative to
+		each other: (with only pertinent events listed):
+
+<table class="event-sequence-table">
+<thead><tr><td class="cell-number"></th><th>Event Type</th><th>Notes</th></tr></thead>
+<tr><td class="cell-number">1</td><td><a><code>click</code></a></td><td></td></tr>
+<tr><td class="cell-number">2</td><td><a><code>DOMActivate</code></a></td><td><a>default action</a>, if supported by the <a>user agent</a>; synthesized; <code>isTrusted="true"</code></td></tr>
+<tr><td class="cell-number">3</td><td></td><td><em>All other <a>default actions</a>, including the <a>activation behavior</a></em></td></tr>
+</table>
+
+		If the focused element is activated by a key event, then the following
+		shows the typical sequence of events (with only pertinent events listed):
+
+<table class="event-sequence-table">
+<thead><tr><td class="cell-number"></th><th>Event Type</th><th>Notes</th></tr></thead>
+<tr><td class="cell-number">1</td><td><a><code>keydown</code></a></td><td>MUST be a key which can activate the element, such as the <code class="keycap">Enter</code> or <code class="keycap">&nbsp;&nbsp;</code> (spacebar) key, or the element is not activated</td></tr>
+<tr><td class="cell-number">2</td><td><a><code>click</code></a></td><td><a>default action</a>; synthesized; <code>isTrusted="true"</code></td></tr>
+<tr><td class="cell-number">3</td><td><a><code>DOMActivate</code></a></td><td><a>default action</a>, if supported by the <a>user agent</a>; synthesized; <code>isTrusted="true"</code></td></tr>
+<tr><td class="cell-number">4</td><td></td><td><em>All other <a>default actions</a>, including the <a>activation behavior</a></em></td></tr>
+</table>
+
+<h2 id="legacy-mutationevent-events">Legacy {{MutationEvent}} events</h2>
+
+	The mutation and mutation name event modules are designed to allow
+	notification of any changes to the structure of a document, including
+	attribute, text, or name modifications.
+
+	<p class="note">
+	None of the event types associated with the {{MutationEvent}} interface are
+	designated as cancelable. This stems from the fact that it is very difficult
+	to make use of existing DOM interfaces which cause document modifications if
+	any change to the document might or might not take place due to cancelation
+	of the resulting event. Although this is still a desired capability, it was
+	decided that it would be better left until the addition of transactions into
+	the DOM.
+	</p>
+
+	Many single modifications of the tree can cause multiple mutation events to
+	be dispatched. Rather than attempt to specify the ordering of mutation
+	events due to every possible modification of the tree, the ordering of these
+	events is left to the implementation.
+
+	<div class="warning">
+	<p>
+	The {{MutationEvent}} interface was introduced in DOM Level 2 Events, but
+	has not yet been completely and interoperably implemented across <a>user
+	agents</a>. In addition, there have been critiques that the interface, as
+	designed, introduces a performance and implementation challenge.
+	</p>
+	<p>
+	DOM4 [[!DOM]] provides a new mechanism using a
+	<code>MutationObserver</code> interface which addresses the use cases that
+	mutation events solve, but in a more performant manner. Thus, this
+	specification describes mutation events for reference and completeness of
+	legacy behavior, but <a>deprecates</a> the use of the {{MutationEvent}}
+	interface.
+	</p>
+	</div>
+
+	<h3 id="interface-mutationevent">Interface MutationEvent</h3>
+
+		<p class="intro-dom">Introduced in DOM Level 2, deprecated in this
+		specification</p>
+
+		The <code>MutationEvent</code> interface provides specific contextual
+		information associated with Mutation events.
+
+		To create an instance of the <code>MutationEvent</code> interface, use
+		the {{Document/createEvent()}} method call.
+
+		<pre class="idl">
+		[Exposed=Window]
+		interface MutationEvent : Event {
+			// attrChangeType
+			const unsigned short MODIFICATION = 1;
+			const unsigned short ADDITION = 2;
+			const unsigned short REMOVAL = 3;
+
+			readonly attribute Node? relatedNode;
+			readonly attribute DOMString prevValue;
+			readonly attribute DOMString newValue;
+			readonly attribute DOMString attrName;
+			readonly attribute unsigned short attrChange;
+
+			undefined initMutationEvent(DOMString typeArg,
+				optional boolean bubblesArg = false,
+				optional boolean cancelableArg = false,
+				optional Node? relatedNodeArg = null,
+				optional DOMString prevValueArg = "",
+				optional DOMString newValueArg = "",
+				optional DOMString attrNameArg = "",
+				optional unsigned short attrChangeArg = 0);
+		};
+		</pre>
+
+		<dl dfn-for="MutationEvent" data-noexport>
+			<dt><dfn const>MODIFICATION</dfn></dt>
+			<dd>
+				The <code>Attr</code> was modified in place.
+			</dd>
+
+			<dt><dfn const>ADDITION</dfn></dt>
+			<dd>
+				The <code>Attr</code> was just added.
+			</dd>
+
+			<dt><dfn const>REMOVAL</dfn></dt>
+			<dd>
+				The <code>Attr</code> was just removed.
+			</dd>
+
+			<dt><dfn attribute>relatedNode</dfn></dt>
+			<dd>
+				<code>relatedNode</code> MUST be used to identify a secondary
+				node related to a mutation event. For example, if a mutation
+				event is dispatched to a node indicating that its parent has
+				changed, the <code>relatedNode</code> will be the changed
+				parent. If an event is instead dispatched to a subtree
+				indicating a node was changed within it, the
+				<code>relatedNode</code> MUST be the changed node. In the case
+				of the <a><code>DOMAttrModified</code></a> event, it indicates the
+				<code>Attr</code> node which was modified, added, or removed.
+
+				The <a>un-initialized value</a> of this attribute MUST be
+				<code>null</code>.
+			</dd>
+
+			<dt><dfn attribute>prevValue</dfn></dt>
+			<dd>
+				<code>prevValue</code> indicates the previous value of the
+				<code>Attr</code> node in <a><code>DOMAttrModified</code></a> events, and of
+				the <code>CharacterData</code> node in
+				<a><code>DOMCharacterDataModified</code></a> events.
+
+				The <a>un-initialized value</a> of this attribute MUST be
+				<code>""</code> (the empty string).
+			</dd>
+
+			<dt><dfn attribute>newValue</dfn></dt>
+			<dd>
+				<code>newValue</code> indicates the new value of the
+				<code>Attr</code> node in <a><code>DOMAttrModified</code></a> events, and of
+				the <code>CharacterData</code> node in
+				<a><code>DOMCharacterDataModified</code></a> events.
+
+				The <a>un-initialized value</a> of this attribute MUST be
+				<code>""</code> (the empty string).
+			</dd>
+
+			<dt><dfn attribute>attrName</dfn></dt>
+			<dd>
+				<code>attrName</code> indicates the name of the changed
+				<code>Attr</code> node in a <a><code>DOMAttrModified</code></a> event.
+
+				The <a>un-initialized value</a> of this attribute MUST be
+				<code>""</code> (the empty string).
+			</dd>
+
+			<dt><dfn attribute>attrChange</dfn></dt>
+			<dd>
+				<code>attrChange</code> indicates the type of change which
+				triggered the <a><code>DOMAttrModified</code></a> event. The values can be
+				<code>MODIFICATION</code>, <code>ADDITION</code>, or
+				<code>REMOVAL</code>.
+
+				The <a>un-initialized value</a> of this attribute MUST be
+				<code>0</code>.
+
+				<p class="note">
+				There is no defined constant for the attrChange value of 0 (the
+				un-initialized value).
+				</p>
+			</dd>
+
+			<dt><dfn method>initMutationEvent(typeArg)</dfn></dt>
+			<dd>
+				Initializes attributes of a <code>MutationEvent</code> object.
+				This method has the same behavior as {{Event/initEvent()}}.
+
+				<dl class="parameters">
+					<dt>DOMString typeArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>boolean bubblesArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>boolean cancelableArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>Node? relatedNodeArg</dt>
+					<dd>
+						Specifies {{MutationEvent}}.<code>relatedNode</code>.
+					</dd>
+
+					<dt>DOMString prevValueArg</dt>
+					<dd>
+						Specifies {{MutationEvent}}.<code>prevValue</code>. This value MAY be the <a>empty string</a>.
+					</dd>
+
+					<dt>DOMString newValueArg</dt>
+					<dd>
+						Specifies {{MutationEvent}}.<code>newValue</code>.
+						This value MAY be the <a>empty string</a>.
+					</dd>
+
+					<dt>DOMString attrNameArg</dt>
+					<dd>
+						Specifies {{MutationEvent}}.<code>attrName</code>.
+						This value MAY be the <a>empty string</a>.
+					</dd>
+
+					<dt>unsigned short attrChangeArg</dt>
+					<dd>
+						Specifies {{MutationEvent}}.<code>attrChange</code>.
+						This value MAY be <code>0</code>.
+					</dd>
+				</dl>
+			</dd>
+		</dl>
+
+	<h3 id="legacy-mutationevent-event-types">Legacy {{MutationEvent}} event types</h3>
+
+		The mutation event types are listed below.
+
+		<h4 id="event-type-DOMAttrModified"><dfn>DOMAttrModified</dfn></h4>
+
+			<table class="event-definition">
+				<tr>
+					<th>Type</th>
+					<td><strong><code>DOMAttrModified</code></strong></td>
+				</tr>
+				<tr>
+					<th>Interface</th>
+					<td>{{MutationEvent}}</td>
+				</tr>
+				<tr>
+					<th>Sync / Async</th>
+					<td>Sync</td>
+				</tr>
+				<tr>
+					<th>Bubbles</th>
+					<td>Yes</td>
+				</tr>
+				<tr>
+					<th>Trusted Targets</th>
+					<td><code>Element</code></td>
+				</tr>
+				<tr>
+					<th>Cancelable</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Composed</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Default action</th>
+					<td>None</td>
+				</tr>
+				<tr>
+					<th>Context<br/>(trusted events)</th>
+					<td>
+						<ul>
+							<li>{{Event}}.{{Event/target}} :
+								element whose attribute is being modified</li>
+							<li>{{MutationEvent}}.<code>attrName</code> :
+								the name of the changed <code>Attr</code> node</li>
+							<li>{{MutationEvent}}.<code>attrChange</code> :
+								the numerical code corresponding to the most applicable <code>attrChangeType</code></li>
+							<li>{{MutationEvent}}.<code>relatedNode</code> :
+								the <code>Attr</code> node that has been modified, added, or removed.</li>
+							<li>{{MutationEvent}}.<code>newValue</code> :
+								new value of the attribute, if the <code>Attr</code> node has been added or modified</li>
+							<li>{{MutationEvent}}.<code>prevValue</code> :
+								previous value of the attribute, if the <code>Attr</code> node has been removed or modified</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+
+			A <a>user agent</a> MUST dispatch this event after an
+			<code>Attr.value</code> has been modified and after an
+			<code>Attr</code> node has been added to or removed from an
+			<code>Element</code>. The <a>event target</a> of this event MUST be
+			the <code>Element</code> node where the change occurred. It is
+			implementation dependent whether this event type occurs when the
+			children of the <code>Attr</code> node are changed in ways that do
+			not affect the value of <code>Attr.value</code>.
+
+			<p class="warning">
+			The <a><code>DOMAttrModified</code></a> event type is defined in this
+			specification for reference and completeness, but this specification
+			<a>deprecates</a> the use of this event type.
+			</p>
+
+		<h4 id="event-type-DOMCharacterDataModified"><dfn>DOMCharacterDataModified</dfn></h4>
+
+			<table class="event-definition">
+				<tr>
+					<th>Type</th>
+					<td><strong><code>DOMCharacterDataModified</code></strong></td>
+				</tr>
+				<tr>
+					<th>Interface</th>
+					<td>{{MutationEvent}}</td>
+				</tr>
+				<tr>
+					<th>Sync / Async</th>
+					<td>Sync</td>
+				</tr>
+				<tr>
+					<th>Bubbles</th>
+					<td>Yes</td>
+				</tr>
+				<tr>
+					<th>Trusted Targets</th>
+					<td><code>Text</code>, <code>Comment</code>, <code>ProcessingInstruction</code></td>
+				</tr>
+				<tr>
+					<th>Cancelable</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Composed</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Default action</th>
+					<td>None</td>
+				</tr>
+				<tr>
+					<th>Context<br/>(trusted events)</th>
+					<td>
+						<ul>
+							<li>{{Event}}.{{Event/target}} :
+								object whose content is being modified</li>
+							<li>{{MutationEvent}}.<code>attrName</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>attrChange</code> :
+								<code>0</code></li>
+							<li>{{MutationEvent}}.<code>relatedNode</code> :
+								parent node of the object whose content is being modified</li>
+							<li>{{MutationEvent}}.<code>newValue</code> :
+								new value of the object</li>
+							<li>{{MutationEvent}}.<code>prevValue</code> :
+								previous value of the object</li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+
+			A <a>user agent</a> MUST dispatch this event after
+			<code>CharacterData.data</code> or
+			<code>ProcessingInstruction.data</code> have been modified, but the
+			node itself has not been inserted or deleted. The <a>event
+			target</a> of this event MUST be the <code>CharacterData</code> node
+			or the <code>ProcessingInstruction</code> node.
+
+			<p class="warning">
+			The <a><code>DOMCharacterDataModified</code></a> event type is defined in this
+			specification for reference and completeness, but this specification
+			<a>deprecates</a> the use of this event type.
+			</p>
+
+		<h4 id="event-type-DOMNodeInserted"><dfn>DOMNodeInserted</dfn></h4>
+
+			<table class="event-definition">
+				<tr>
+					<th>Type</th>
+					<td><strong><code>DOMNodeInserted</code></strong></td>
+				</tr>
+				<tr>
+					<th>Interface</th>
+					<td>{{MutationEvent}}</td>
+				</tr>
+				<tr>
+					<th>Sync / Async</th>
+					<td>Sync</td>
+				</tr>
+				<tr>
+					<th>Bubbles</th>
+					<td>Yes</td>
+				</tr>
+				<tr>
+					<th>Trusted Targets</th>
+					<td><code>Element</code>, <code>Attr</code>, <code>Text</code>, <code>Comment</code>, <code>DocumentType</code>,
+						<code>ProcessingInstruction</code></td>
+				</tr>
+				<tr>
+					<th>Cancelable</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Composed</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Default action</th>
+					<td>None</td>
+				</tr>
+				<tr>
+					<th>Context<br/>(trusted events)</th>
+					<td>
+						<ul>
+							<li>{{Event}}.{{Event/target}} :
+								element which is being inserted</li>
+							<li>{{MutationEvent}}.<code>attrName</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>attrChange</code> :
+								<code>0</code></li>
+							<li>{{MutationEvent}}.<code>relatedNode</code> :
+								parent node of the node that has been inserted, or the <code>ownerElement</code> in the case of <code>Attr</code> nodes</li>
+							<li>{{MutationEvent}}.<code>newValue</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>prevValue</code> :
+								the <a>empty string</a></li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+
+			A <a>user agent</a> MUST dispatch this event type when a node other
+			than an <code>Attr</code> node has been added as a child of another
+			node. A <a>user agent</a> MAY dispatch this event when an
+			<code>Attr</code> node has been added to an <code>Element</code>
+			node (see <a href="#DOMNodeInserted-attr">note</a> below). This
+			event MUST be dispatched after the insertion has taken place. The
+			<a>event target</a> of this event MUST be the node being inserted.
+
+			<p class="note" id="DOMNodeInserted-attr">
+			For detecting attribute insertion, use the <a><code>DOMAttrModified</code></a>
+			event type instead.
+			</p>
+
+			<p class="warning">
+			The <a><code>DOMNodeInserted</code></a> event type is defined in this
+			specification for reference and completeness, but this specification
+			<a>deprecates</a> the use of this event type.
+			</p>
+
+		<h4 id="event-type-DOMNodeInsertedIntoDocument"><dfn>DOMNodeInsertedIntoDocument</dfn></h4>
+
+			<table class="event-definition">
+				<tr>
+					<th>Type</th>
+					<td><strong><code>DOMNodeInsertedIntoDocument</code></strong></td>
+				</tr>
+				<tr>
+					<th>Interface</th>
+					<td>{{MutationEvent}}</td>
+				</tr>
+				<tr>
+					<th>Sync / Async</th>
+					<td>Sync</td>
+				</tr>
+				<tr>
+					<th>Bubbles</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Trusted Targets</th>
+					<td><code>Element</code>, <code>Attr</code>, <code>Text</code>, <code>Comment</code>, <code>DocumentType</code>,
+						<code>ProcessingInstruction</code></td>
+				</tr>
+				<tr>
+					<th>Cancelable</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Composed</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Default action</th>
+					<td>None</td>
+				</tr>
+				<tr>
+					<th>Context<br/>(trusted events)</th>
+					<td>
+						<ul>
+							<li>{{Event}}.{{Event/target}} :
+								element which is being inserted</li>
+							<li>{{MutationEvent}}.<code>attrName</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>attrChange</code> :
+								<code>0</code></li>
+							<li>{{MutationEvent}}.<code>relatedNode</code> :
+								parent node of the node that has been inserted, or the <code>ownerElement</code> in the case of <code>Attr</code> nodes</li>
+							<li>{{MutationEvent}}.<code>newValue</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>prevValue</code> :
+								the <a>empty string</a></li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+
+			A <a>user agent</a> MUST dispatch this event when a node has been
+			inserted into a document, either through direct insertion of the
+			node or insertion of a subtree in which it is contained. A <a>user
+			agent</a> MAY  treat an <code>Attr</code> node as part of an
+			<code>Element</code>'s subtree. This event MUST be dispatched after
+			the insertion has taken place. The <a>event target</a> of this event
+			MUST be the node being inserted. If the node is being directly
+			inserted, the event type <a><code>DOMNodeInserted</code></a> MUST occur before
+			this event type.
+
+			<p class="warning">
+			The <a><code>DOMNodeInsertedIntoDocument</code></a> event type is defined in this
+			specification for reference and completeness, but this specification
+			<a>deprecates</a> the use of this event type.
+			</p>
+
+		<h4 id="event-type-DOMNodeRemoved"><dfn>DOMNodeRemoved</dfn></h4>
+
+			<table class="event-definition">
+				<tr>
+					<th>Type</th>
+					<td><strong><code>DOMNodeRemoved</code></strong></td>
+				</tr>
+				<tr>
+					<th>Interface</th>
+					<td>{{MutationEvent}}</td>
+				</tr>
+				<tr>
+					<th>Sync / Async</th>
+					<td>Sync</td>
+				</tr>
+				<tr>
+					<th>Bubbles</th>
+					<td>Yes</td>
+				</tr>
+				<tr>
+					<th>Trusted Targets</th>
+					<td><code>Element</code>, <code>Attr</code>, <code>Text</code>, <code>Comment</code>, <code>DocumentType</code>,
+						<code>ProcessingInstruction</code></td>
+				</tr>
+				<tr>
+					<th>Cancelable</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Composed</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Default action</th>
+					<td>None</td>
+				</tr>
+				<tr>
+					<th>Context<br/>(trusted events)</th>
+					<td>
+						<ul>
+							<li>{{Event}}.{{Event/target}} :
+								element which is being removed</li>
+							<li>{{MutationEvent}}.<code>attrName</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>attrChange</code> :
+								<code>0</code></li>
+							<li>{{MutationEvent}}.<code>relatedNode</code> :
+								the parent node of the node being removed, or the <code>ownerElement</code> in the case of <code>Attr</code> nodes</li>
+							<li>{{MutationEvent}}.<code>newValue</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>prevValue</code> :
+								the <a>empty string</a></li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+
+			A <a>user agent</a> MUST dispatch this event when a node other than
+			an <code>Attr</code> node is being removed from its parent node. A
+			<a>user agent</a> MAY dispatch this event when an <code>Attr</code>
+			node is being removed from its <code>ownerElement</code> (see <a
+			href="#DOMNodeRemoved-attr">note</a> below). This event MUST be
+			dispatched before the removal takes place. The <a>event target</a>
+			of this event MUST be the node being removed.
+
+			<p class="note" id="DOMNodeRemoved-attr">
+			For reliably detecting attribute removal, use the
+			<a><code>DOMAttrModified</code></a> event type instead.
+			</p>
+
+			<p class="warning">
+			The <a><code>DOMNodeRemoved</code></a> event type is defined in this
+			specification for reference and completeness, but this specification
+			<a>deprecates</a> the use of this event type.
+			</p>
+
+		<h4 id="event-type-DOMNodeRemovedFromDocument"><dfn>DOMNodeRemovedFromDocument</dfn></h4>
+
+			<table class="event-definition">
+				<tr>
+					<th>Type</th>
+					<td><strong><code>DOMNodeRemovedFromDocument</code></strong></td>
+				</tr>
+				<tr>
+					<th>Interface</th>
+					<td>{{MutationEvent}}</td>
+				</tr>
+				<tr>
+					<th>Sync / Async</th>
+					<td>Sync</td>
+				</tr>
+				<tr>
+					<th>Bubbles</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Trusted Targets</th>
+					<td><code>Element</code>, <code>Attr</code>, <code>Text</code>, <code>Comment</code>, <code>DocumentType</code>,
+						<code>ProcessingInstruction</code></td>
+				</tr>
+				<tr>
+					<th>Cancelable</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Composed</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Default action</th>
+					<td>None</td>
+				</tr>
+				<tr>
+					<th>Context<br/>(trusted events)</th>
+					<td>
+						<ul>
+							<li>{{Event}}.{{Event/target}} :
+								element which is being removed</li>
+							<li>{{MutationEvent}}.<code>attrName</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>attrChange</code> :
+								<code>0</code></li>
+							<li>{{MutationEvent}}.<code>relatedNode</code> :
+								the parent node of the node being removed, or the <code>ownerElement</code> in the case of <code>Attr</code> nodes</li>
+							<li>{{MutationEvent}}.<code>newValue</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>prevValue</code> :
+								the <a>empty string</a></li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+
+			A <a>user agent</a> MUST dispatch this event when a node is being
+			removed from a document, either through direct removal of the node
+			or removal of a subtree in which it is contained. A <a>user
+			agent</a> MAY treat an <code>Attr</code> node as part of an
+			<code>Element</code>'s subtree. This event MUST be dispatched before
+			the removal takes place. The <a>event target</a> of this event type
+			MUST be the node being removed. If the node is being directly
+			removed, the event type <a><code>DOMNodeRemoved</code></a> MUST occur before this
+			event type.
+
+			<p class="note">
+			For reliably detecting attribute removal, use the
+			<a><code>DOMAttrModified</code></a> event type instead.
+			</p>
+
+			<p class="warning">
+			The <a><code>DOMNodeRemovedFromDocument</code></a> event type is defined in this
+			specification for reference and completeness, but this specification
+			<a>deprecates</a> the use of this event type.
+			</p>
+
+		<h4 id="event-type-DOMSubtreeModified"><dfn>DOMSubtreeModified</dfn></h4>
+
+			<table class="event-definition">
+				<tr>
+					<th>Type</th>
+					<td><strong><code>DOMSubtreeModified</code></strong></td>
+				</tr>
+				<tr>
+					<th>Interface</th>
+					<td>{{MutationEvent}}</td>
+				</tr>
+				<tr>
+					<th>Sync / Async</th>
+					<td>Sync</td>
+				</tr>
+				<tr>
+					<th>Bubbles</th>
+					<td>Yes</td>
+				</tr>
+				<tr>
+					<th>Trusted Targets</th>
+					<td><a><code>Window</code></a>, <code>Document</code>, <code>DocumentFragment</code>, <code>Element</code>, <code>Attr</code>
+					</td>
+				</tr>
+				<tr>
+					<th>Cancelable</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Composed</th>
+					<td>No</td>
+				</tr>
+				<tr>
+					<th>Default action</th>
+					<td>None</td>
+				</tr>
+				<tr>
+					<th>Context<br/>(trusted events)</th>
+					<td>
+						<ul>
+							<li>{{Event}}.{{Event/target}} :
+								parent node of subtree being modified</li>
+							<li>{{MutationEvent}}.<code>attrName</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>attrChange</code> :
+								<code>0</code></li>
+							<li>{{MutationEvent}}.<code>relatedNode</code> :
+								<code>null</code></li>
+							<li>{{MutationEvent}}.<code>newValue</code> :
+								the <a>empty string</a></li>
+							<li>{{MutationEvent}}.<code>prevValue</code> :
+								the <a>empty string</a></li>
+						</ul>
+					</td>
+				</tr>
+			</table>
+
+			This is a general event for notification of all changes to the
+			document. It can be used instead of the more specific mutation and
+			mutation name events. It MAY be dispatched after a single
+			modification to the document or, at the implementation's discretion,
+			after multiple changes have occurred. The latter case SHOULD
+			generally be used to accommodate multiple changes which occur either
+			simultaneously or in rapid succession. The target of this event MUST
+			be the lowest common parent of the changes which have taken place.
+			This event MUST be dispatched after any other events caused by the
+			mutation(s) have occurred.
+
+			<p class="warning">
+			The <a><code>DOMSubtreeModified</code></a> event type is defined in this
+			specification for reference and completeness, but this specification
+			<a>deprecates</a> the use of this event type.
+			</p>
+
+<h2 id="legacy-event-initializers">Legacy Event Initializers</h2>
+
+	<em>This section is normative.</em>
+
+	The following features are obsolete and should only be implemented by
+	<a>user agents</a> that require compatibility with legacy software.</em>
+
+	Early versions of this specification included an initialization method on
+	the interface (for example <code>initMouseEvent</code>) that required a long
+	list of parameters that, in most cases, did not fully initialize all
+	attributes of the event object. Because of this, event interfaces which were
+	derived from the basic {{Event}} interface required that the initializer of
+	<em>each</em> of the derived interfaces be called explicitly in order to
+	fully initialize an event.
+
+	<div class="example">
+	Initializing all the attributes of a MutationEvent requires calls to two
+	initializer methods: <code>initEvent</code> and
+	<code>initMutationEvent</code>.
+	</div>
+
+	Due in part to the length of time in the development of this standard, some
+	implementations MAY have taken a dependency on these (now deprecated)
+	initializer methods. For completeness, these legacy event initializers are
+	described in this section.
+
+	<h3 id="idl-interface-UIEvent-initializers">Initializers for interface UIEvent</h3>
+
+		<em>This section is informative</em>
+
+		<pre class="idl">
+		partial interface UIEvent {
+			// Deprecated in this specification
+			undefined initUIEvent(DOMString typeArg,
+				optional boolean bubblesArg = false,
+				optional boolean cancelableArg = false,
+				optional Window? viewArg = null,
+				optional long detailArg = 0);
+		};
+		</pre>
+
+		<dl dfn-for="UIEvent">
+			<dt><dfn method>initUIEvent(typeArg)</dfn></dt>
+			<dd>
+				Initializes attributes of an {{UIEvent}} object.
+				This method has the same behavior as {{Event/initEvent()}}.
+
+				<p class="warning">
+				The <code>initUIEvent</code> method is deprecated, but
+				supported for backwards-compatibility with widely-deployed
+				implementations.
+				</p>
+
+				<dl class="parameters">
+					<dt>DOMString typeArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>boolean bubblesArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>boolean cancelableArg</dt>
+					<dd>
+						Refer to the {{Event/initEvent()}} method for a description of this parameter.
+					</dd>
+
+					<dt>Window? viewArg</dt>
+					<dd>
+						Specifies {{UIEvent/view}}. This value MAY be <code>null</code>.
+					</dd>
+
+					<dt>long detailArg</dt>
+					<dd>
+						Specifies {{UIEvent/detail}}.
+					</dd>
+				</dl>
+			</dd>
+		</dl>
+
+<h2 id="security-considerations">Security Considerations</h2>
+
+	This appendix discusses security considerations for UI Events implementations.
+	The discussion is limited to security issues that arise directly from
+	implementation of the event model, APIs and events defined in this
+	specification. Implementations typically support other features like scripting
+	languages, other APIs and additional events not defined in this document. These
+	features constitute an unknown factor and are out of scope of this document.
+	Implementers SHOULD consult the specifications of such features for their
+	respective security considerations.
+
+	Many of the event types defined in this specification are dispatched in response
+	to user actions. This allows malicious <a>event listeners</a> to gain access to
+	information users would typically consider confidential, e.g., typos they might
+	have made when filling out a form, if they reconsider their answer to a multiple
+	choice question shortly before submitting a form, their typing rate or primary
+	input mechanism. In the worst case, malicious <a>event listeners</a> could capture all
+	user interactions and submit them to a third party through means (not defined in
+	this specification) that are generally available in DOM implementations, such as
+	the XMLHttpRequest interface.
+
+	In DOM implementations that support facilities to load external data, events
+	like the <a><code>error</code></a> event can provide access to sensitive information about
+	the environment of the computer system or network. An example would be a
+	malicious HTML document that attempts to embed a resource on the local network
+	or the localhost on different ports. An embedded <a>DOM application</a> could
+	then listen for <a><code>error</code></a> and <a><code>load</code></a> events to determine which other
+	computers in a network are accessible from the local system or which ports are
+	open on the system to prepare further attacks.
+
+	An implementation of UI Events alone is generally insufficient to perform
+	attacks of this kind and the security considerations of the facilities that
+	possibly support such attacks apply. For conformance with this specification,
+	DOM implementations MAY take reasonable steps to ensure that <a>DOM
+	applications</a> do not get access to confidential or sensitive information. For
+	example, they might choose not to dispatch <a><code>load</code></a> events to nodes that
+	attempt to embed resources on the local network.
+
+<h2 id="acknowledgements-contributors">Acknowledgements</h2>
+
+	Many people contributed to the DOM specifications (Level 1, 2 or 3),
+	including participants of the DOM Working Group, the DOM Interest Group,
+	the WebAPI Working Group, and the WebApps Working Group.
+
+	We especially thank the following:
+		Andrew Watson (Object Management Group),
+		Andy Heninger (IBM),
+		Angel Diaz (IBM),
+		Anne van Kesteren (Opera Software),
+		Arnaud Le Hors (W3C and IBM),
+		Arun Ranganathan (AOL),
+		Ashok Malhotra (IBM and Microsoft),
+		Ben Chang (Oracle),
+		Bill Shea (Merrill Lynch),
+		Bill Smith (Sun),
+		Bj&#xF6;rn H&#xF6;hrmann,
+		Bob Sutor (IBM),
+		Charles McCathie-Nevile (Opera Software, <em>Co-Chair</em>),
+		Chris Lovett (Microsoft),
+		Chris Wilson (Microsoft),
+		Christophe Jolif (ILOG),
+		David Brownell (Sun),
+		David Ezell (Hewlett-Packard Company),
+		David Singer (IBM),
+		Dean Jackson (W3C, <em>W3C Team Contact</em>),
+		Dimitris Dimitriadis (Improve AB and invited expert),
+		Don Park (invited),
+		Doug Schepers (Vectoreal),
+		Elena Litani (IBM),
+		Eric Vasilik (Microsoft),
+		Gavin Nicol (INSO),
+		Gorm Haug Eriksen (Opera Software),
+		Ian Davis (Talis Information Limited),
+		Ian Hickson (Google),
+		Ian Jacobs (W3C),
+		James Clark (invited),
+		James Davidson (Sun),
+		Jared Sorensen (Novell),
+		Jeroen van Rotterdam (X-Hive Corporation),
+		Joe Kesselman (IBM),
+		Joe Lapp (webMethods),
+		Joe Marini (Macromedia),
+		John Robinson (AOL),
+		Johnny Stenback (Netscape/AOL),
+		Jon Ferraiolo (Adobe),
+		Jonas Sicking (Mozilla Foundation),
+		Jonathan Marsh (Microsoft),
+		Jonathan Robie (Texcel Research and Software AG),
+		Kim Adamson-Sharpe (SoftQuad Software Inc.),
+		Lauren Wood (SoftQuad Software Inc., <em>former Chair</em>),
+		Laurence Cable (Sun),
+		Luca Mascaro (HTML Writers Guild),
+		Maciej Stachowiak (Apple Computer),
+		Marc Hadley (Sun Microsystems),
+		Mark Davis (IBM),
+		Mark Scardina (Oracle),
+		Martin D&#xFC;rst (W3C),
+		Mary Brady (NIST),
+		Michael Shenfield (Research In Motion),
+		Mick Goulish (Software AG),
+		Mike Champion (Arbortext and Software AG),
+		Miles Sabin (Cromwell Media),
+		Patti Lutsky (Arbortext),
+		Paul Grosso (Arbortext),
+		Peter Sharpe (SoftQuad Software Inc.),
+		Phil Karlton (Netscape),
+		Philippe Le H&#xE9;garet (W3C, <em>W3C Team Contact and former Chair</em>),
+		Ramesh Lekshmynarayanan (Merrill Lynch),
+		Ray Whitmer (iMall, Excite@Home, and Netscape/AOL, <em>Chair</em>),
+		Rezaur Rahman (Intel),
+		Rich Rollman (Microsoft),
+		Rick Gessner (Netscape),
+		Rick Jelliffe (invited),
+		Rob Relyea (Microsoft),
+		Robin Berjon (Expway, <em>Co-Chair</em>),
+		Scott Hayman (Research In Motion),
+		Scott Isaacs (Microsoft),
+		Sharon Adler (INSO),
+		St&#xE9;phane Sire (IntuiLab),
+		Steve Byrne (JavaSoft),
+		Tim Bray (invited),
+		Tim Yu (Oracle),
+		Tom Pixley (Netscape/AOL),
+		T.V. Raman (Google).
+		Vidur Apparao (Netscape) and
+		Vinod Anupam (Lucent).
+
+	<strong>Former editors:</strong>
+		Tom Pixley (Netscape Communications Corporation) until July 2002;
+		Philippe Le Hégaret (W3C) until November 2003;
+		Björn Höhrmann (Invited Expert) until January 2008;
+		and Jacob Rossi (Microsoft) from March 2011 to October 2011.
+
+	<strong>Contributors:</strong>
+	In the WebApps Working Group, the following people made substantial
+	material contributions in the process of refining and revising this
+	specification:
+		Bob Lund (Cable Laboratories),
+		Cameron McCormack (Invited Expert / Mozilla),
+		Daniel Danilatos (Google),
+		Gary Kacmarcik (Google),
+		Glenn Adams (Samsung),
+		Hallvord R. M. Steen (Opera),
+		Hironori Bono (Google),
+		Mark Vickers (Comcast),
+		Masayuki Nakano (Mozilla),
+		Olli Pettay (Mozilla),
+		Takayoshi Kochi (Google) and
+		Travis Leithead (Microsoft).
+
+	<strong>Glossary contributors:</strong>
+		Arnaud Le Hors (W3C) and
+		Robert S. Sutor (IBM Research).
+
+	<strong>Test suite contributors:</strong>
+		Carmelo Montanez (NIST),
+		Fred Drake,
+		Mary Brady (NIST),
+		Neil Delima (IBM),
+		Rick Rivello (NIST),
+		Robert Clary (Netscape),
+	with a special mention to Curt Arnold.
+
+	Thanks to all those who have helped to improve this specification by
+	sending suggestions and corrections (please, keep bugging us with your
+	issues!), or writing informative books or Web sites:
+		Al Gilman,
+		Alex Russell,
+		Alexander J. Vincent,
+		Alexey Proskuryakov,
+		Arkadiusz Michalski,
+		Brad Pettit,
+		Cameron McCormack,
+		Chris Rebert,
+		Curt Arnold,
+		David Flanagan,
+		Dylan Schiemann,
+		Erik Arvidsson,
+		Garrett Smith,
+		Giuseppe Pascale,
+		James Su,
+		Jan Goyvaerts (regular-expressions.info),
+		Jorge Chamorro,
+		Kazuyuki Ashimura,
+		Ken Rehor,
+		Magnus Kristiansen,
+		Martijn Wargers,
+		Martin D&#xFC;rst,
+		Michael B. Allen,
+		Mike Taylor,
+		Misha Wolf,
+		Ojan Vafai,
+		Oliver Hunt,
+		Paul Irish,
+		Peter-Paul Koch,
+		Richard Ishida,
+		Sean Hogan,
+		Sergey Ilinsky,
+		Sigurd Lerstad,
+		Steven Pemberton,
+		Tony Chang,
+		William Edney and
+		Øistein E. Andersen.
+
+<h2 id="other-uievents">Refs to other UIEvent specs \[DELETE]</h2>
+
+	This section will be deleted.
+
+	Temporary place to "define" other referenced UI Events (to make the bikeshed linker happy).
+	This will be deleted once we have proper cross-references.
+
+	<h3 id="things">Things defined in other sections</h3>
+
+		<h4 id="event-flow-activation">Activation triggers and behavior</h4>
+		<h4 id="events-compositionevents">Composition Events</h4>
+		<h4 id="event-flow-default-cancel">Default actions and cancelable events</h4>
+		<h4 id="event-flow">Event dispatch and DOM event flow</h4>
+		<h4 id="events-focusevent">Focus Events</h4>
+		<h4 id="conf-interactive-ua">Web browsers and other dynamic or interactive <a>user agents</a></h4>
+		<h4 id="conf-author-tools">Authoring tools</h4>
+
+	Add references to these events so that the linker doesn't complain about exporting them.
+
+	<a><code>unload</code></a>, <a><code>load</code></a>, <a><code>abort</code></a>, <a><code>error</code></a>
+
+
+<h2 id="glossary">Glossary \[DELETE]</h2>
+
+This section will be deleted.
+
+Temporary glossary terms (for bikeshed linker).
+Many of these are properly defined elsewhere and should be linked to directly.
+Terms which should be defined in this spec should be defined inline.
+
+: <dfn>host language</dfn>
+::	Any language which integrates the features of another language or API
+	specification, while normatively referencing the origin specification rather
+	than redefining those features, and extending those features only in ways
+	defined by the origin specification.  An origin specification typically is
+	only intended to be implemented in the context of one or more host
+	languages, not as a standalone language.  For example, XHTML, HTML, and SVG
+	are host languages for UI Events, and they integrate and extend the objects
+	and models defined in this specification.
+
+: <dfn>un-initialized value</dfn>
+::	The value of any event attribute (such as {{Event/bubbles}} or
+	{{Event/currentTarget}}) before the event has been initialized with
+	{{Event/initEvent()}}. The un-initialized values of an event apply
+	immediately after a new event has been created using the method
+	{{Document/createEvent()}}.
+
+: <dfn>user agent</dfn>
+::	A program, such as a browser or content authoring tool, normally running on
+	a client machine, which acts on a user's behalf in retrieving, interpreting,
+	executing, presenting, or creating content.  Users MAY act on the content
+	using different user agents at different times, for different purposes.  See
+	the [[#conf-interactive-ua]] and [[#conf-author-tools]] for details on the
+	requirements for a <em>conforming</em> user agent.
+
+: <dfn>Window</dfn>
+::	The <code>Window</code> is the object referred to by the current <a>document</a>'s
+	browsing context's Window Proxy object as defined in
+	<a href="http://dev.w3.org/html5/spec/single-page.html#windowproxy" title="HTML5 WindowProxy description">HTML5</a>
+	[[HTML5]].
+

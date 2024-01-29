@@ -1,0 +1,1782 @@
+<!doctype html><html lang="en">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+  <title>Focus Events</title>
+  <meta content="ED" name="w3c-status">
+  <link href="https://www.w3.org/StyleSheets/TR/2021/W3C-ED" rel="stylesheet">
+  <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
+  <meta content="Bikeshed version 3383f409d, updated Fri Apr 28 15:49:22 2023 -0700" name="generator">
+  <link href="https://www.w3.org/TR/uievents/" rel="canonical">
+  <meta content="d564b58c632a2327410887f551d69b8d8daf9639" name="document-revision">
+<style>/* style-autolinks */
+.css.css, .property.property, .descriptor.descriptor {
+    color: var(--a-normal-text);
+    font-size: inherit;
+    font-family: inherit;
+}
+.css::before, .property::before, .descriptor::before {
+    content: "‘";
+}
+.css::after, .property::after, .descriptor::after {
+    content: "’";
+}
+.property, .descriptor {
+    /* Don't wrap property and descriptor names */
+    white-space: nowrap;
+}
+.type { /* CSS value <type> */
+    font-style: italic;
+}
+pre .property::before, pre .property::after {
+    content: "";
+}
+[data-link-type="property"]::before,
+[data-link-type="propdesc"]::before,
+[data-link-type="descriptor"]::before,
+[data-link-type="value"]::before,
+[data-link-type="function"]::before,
+[data-link-type="at-rule"]::before,
+[data-link-type="selector"]::before,
+[data-link-type="maybe"]::before {
+    content: "‘";
+}
+[data-link-type="property"]::after,
+[data-link-type="propdesc"]::after,
+[data-link-type="descriptor"]::after,
+[data-link-type="value"]::after,
+[data-link-type="function"]::after,
+[data-link-type="at-rule"]::after,
+[data-link-type="selector"]::after,
+[data-link-type="maybe"]::after {
+    content: "’";
+}
+
+[data-link-type].production::before,
+[data-link-type].production::after,
+.prod [data-link-type]::before,
+.prod [data-link-type]::after {
+    content: "";
+}
+
+[data-link-type=element],
+[data-link-type=element-attr] {
+    font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    font-size: .9em;
+}
+[data-link-type=element]::before { content: "<" }
+[data-link-type=element]::after  { content: ">" }
+
+[data-link-type=biblio] {
+    white-space: pre;
+}
+</style>
+<style>/* style-colors */
+
+/* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
+:root {
+    color-scheme: light dark;
+
+    --text: black;
+    --bg: white;
+
+    --unofficial-watermark: url(https://www.w3.org/StyleSheets/TR/2016/logos/UD-watermark);
+
+    --logo-bg: #1a5e9a;
+    --logo-active-bg: #c00;
+    --logo-text: white;
+
+    --tocnav-normal-text: #707070;
+    --tocnav-normal-bg: var(--bg);
+    --tocnav-hover-text: var(--tocnav-normal-text);
+    --tocnav-hover-bg: #f8f8f8;
+    --tocnav-active-text: #c00;
+    --tocnav-active-bg: var(--tocnav-normal-bg);
+
+    --tocsidebar-text: var(--text);
+    --tocsidebar-bg: #f7f8f9;
+    --tocsidebar-shadow: rgba(0,0,0,.1);
+    --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+    --toclink-text: var(--text);
+    --toclink-underline: #3980b5;
+    --toclink-visited-text: var(--toclink-text);
+    --toclink-visited-underline: #054572;
+
+    --heading-text: #005a9c;
+
+    --hr-text: var(--text);
+
+    --algo-border: #def;
+
+    --del-text: red;
+    --del-bg: transparent;
+    --ins-text: #080;
+    --ins-bg: transparent;
+
+    --a-normal-text: #034575;
+    --a-normal-underline: #bbb;
+    --a-visited-text: var(--a-normal-text);
+    --a-visited-underline: #707070;
+    --a-hover-bg: rgba(75%, 75%, 75%, .25);
+    --a-active-text: #c00;
+    --a-active-underline: #c00;
+
+    --blockquote-border: silver;
+    --blockquote-bg: transparent;
+    --blockquote-text: currentcolor;
+
+    --issue-border: #e05252;
+    --issue-bg: #fbe9e9;
+    --issue-text: var(--text);
+    --issueheading-text: #831616;
+
+    --example-border: #e0cb52;
+    --example-bg: #fcfaee;
+    --example-text: var(--text);
+    --exampleheading-text: #574b0f;
+
+    --note-border: #52e052;
+    --note-bg: #e9fbe9;
+    --note-text: var(--text);
+    --noteheading-text: hsl(120, 70%, 30%);
+    --notesummary-underline: silver;
+
+    --assertion-border: #aaa;
+    --assertion-bg: #eee;
+    --assertion-text: black;
+
+    --advisement-border: orange;
+    --advisement-bg: #fec;
+    --advisement-text: var(--text);
+    --advisementheading-text: #b35f00;
+
+    --warning-border: red;
+    --warning-bg: hsla(40,100%,50%,0.95);
+    --warning-text: var(--text);
+
+    --amendment-border: #330099;
+    --amendment-bg: #F5F0FF;
+    --amendment-text: var(--text);
+    --amendmentheading-text: #220066;
+
+    --def-border: #8ccbf2;
+    --def-bg: #def;
+    --def-text: var(--text);
+    --defrow-border: #bbd7e9;
+
+    --datacell-border: silver;
+
+    --indexinfo-text: #707070;
+
+    --indextable-hover-text: black;
+    --indextable-hover-bg: #f7f8f9;
+
+    --outdatedspec-bg: rgba(0, 0, 0, .5);
+    --outdatedspec-text: black;
+    --outdated-bg: maroon;
+    --outdated-text: white;
+    --outdated-shadow: red;
+
+    --editedrec-bg: darkorange;
+}
+</style>
+<style>/* style-counters */
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
+}
+
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}
+</style>
+<style>/* style-dfn-panel */
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
+.dfn-panel {
+    position: absolute;
+    z-index: 35;
+    width: 20em;
+    width: 300px;
+    height: auto;
+    max-height: 500px;
+    overflow: auto;
+    padding: 0.5em 0.75em;
+    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
+    border: outset 0.2em;
+    white-space: normal; /* in case it's moved into a pre */
+}
+.dfn-panel:not(.on) { display: none; }
+.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
+.dfn-panel > b { display: block; }
+.dfn-panel a { color: var(--dfnpanel-text); }
+.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
+.dfn-panel > b + b { margin-top: 0.25em; }
+.dfn-panel ul { padding: 0 0 0 1em; list-style: none; }
+.dfn-panel li a {
+    white-space: pre;
+    display: inline-block;
+    max-width: calc(300px - 1.5em - 1em);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.dfn-panel.activated {
+    display: inline-block;
+    position: fixed;
+    left: .5em;
+    bottom: 2em;
+    margin: 0 auto;
+    max-width: calc(100vw - 1.5em - .4em - .5em);
+    max-height: 30vh;
+}
+
+.dfn-paneled[role="button"] { cursor: pointer; }
+</style>
+<style>/* style-issues */
+a[href].issue-return {
+    float: right;
+    float: inline-end;
+    color: var(--issueheading-text);
+    font-weight: bold;
+    text-decoration: none;
+}
+</style>
+<style>/* style-md-lists */
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}
+</style>
+<style>/* style-selflinks */
+
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+.example > a.self-link,
+.note > a.self-link,
+.issue > a.self-link {
+    /* These blocks are overflow:auto, so positioning outside
+       doesn't work. */
+    left: auto;
+    right: 0;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: var(--selflink-hover-text);
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }
+</style>
+<style>/* style-syntax-highlighting */
+
+            pre.idl.highlight {
+                background: var(--borderedblock-bg, var(--def-bg));
+            }
+            
+code.highlight { padding: .1em; border-radius: .3em; }
+pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
+
+.highlight:not(.idl) { background: rgba(0, 0, 0, .03); }
+c-[a] { color: #990055 } /* Keyword.Declaration */
+c-[b] { color: #990055 } /* Keyword.Type */
+c-[c] { color: #708090 } /* Comment */
+c-[d] { color: #708090 } /* Comment.Multiline */
+c-[e] { color: #0077aa } /* Name.Attribute */
+c-[f] { color: #669900 } /* Name.Tag */
+c-[g] { color: #222222 } /* Name.Variable */
+c-[k] { color: #990055 } /* Keyword */
+c-[l] { color: #000000 } /* Literal */
+c-[m] { color: #000000 } /* Literal.Number */
+c-[n] { color: #0077aa } /* Name */
+c-[o] { color: #999999 } /* Operator */
+c-[p] { color: #999999 } /* Punctuation */
+c-[s] { color: #a67f59 } /* Literal.String */
+c-[t] { color: #a67f59 } /* Literal.String.Single */
+c-[u] { color: #a67f59 } /* Literal.String.Double */
+c-[cp] { color: #708090 } /* Comment.Preproc */
+c-[c1] { color: #708090 } /* Comment.Single */
+c-[cs] { color: #708090 } /* Comment.Special */
+c-[kc] { color: #990055 } /* Keyword.Constant */
+c-[kn] { color: #990055 } /* Keyword.Namespace */
+c-[kp] { color: #990055 } /* Keyword.Pseudo */
+c-[kr] { color: #990055 } /* Keyword.Reserved */
+c-[ld] { color: #000000 } /* Literal.Date */
+c-[nc] { color: #0077aa } /* Name.Class */
+c-[no] { color: #0077aa } /* Name.Constant */
+c-[nd] { color: #0077aa } /* Name.Decorator */
+c-[ni] { color: #0077aa } /* Name.Entity */
+c-[ne] { color: #0077aa } /* Name.Exception */
+c-[nf] { color: #0077aa } /* Name.Function */
+c-[nl] { color: #0077aa } /* Name.Label */
+c-[nn] { color: #0077aa } /* Name.Namespace */
+c-[py] { color: #0077aa } /* Name.Property */
+c-[ow] { color: #999999 } /* Operator.Word */
+c-[mb] { color: #000000 } /* Literal.Number.Bin */
+c-[mf] { color: #000000 } /* Literal.Number.Float */
+c-[mh] { color: #000000 } /* Literal.Number.Hex */
+c-[mi] { color: #000000 } /* Literal.Number.Integer */
+c-[mo] { color: #000000 } /* Literal.Number.Oct */
+c-[sb] { color: #a67f59 } /* Literal.String.Backtick */
+c-[sc] { color: #a67f59 } /* Literal.String.Char */
+c-[sd] { color: #a67f59 } /* Literal.String.Doc */
+c-[se] { color: #a67f59 } /* Literal.String.Escape */
+c-[sh] { color: #a67f59 } /* Literal.String.Heredoc */
+c-[si] { color: #a67f59 } /* Literal.String.Interpol */
+c-[sx] { color: #a67f59 } /* Literal.String.Other */
+c-[sr] { color: #a67f59 } /* Literal.String.Regex */
+c-[ss] { color: #a67f59 } /* Literal.String.Symbol */
+c-[vc] { color: #0077aa } /* Name.Variable.Class */
+c-[vg] { color: #0077aa } /* Name.Variable.Global */
+c-[vi] { color: #0077aa } /* Name.Variable.Instance */
+c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
+</style>
+<style>/* style-darkmode */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #ddd;
+        --bg: black;
+
+        --unofficial-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cg fill='%23100808' transform='translate(200 200) rotate(-45) translate(-200 -200)' stroke='%23100808' stroke-width='3'%3E%3Ctext x='50%25' y='220' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EUNOFFICIAL%3C/text%3E%3Ctext x='50%25' y='305' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EDRAFT%3C/text%3E%3C/g%3E%3C/svg%3E");
+
+        --logo-bg: #1a5e9a;
+        --logo-active-bg: #c00;
+        --logo-text: white;
+
+        --tocnav-normal-text: #999;
+        --tocnav-normal-bg: var(--bg);
+        --tocnav-hover-text: var(--tocnav-normal-text);
+        --tocnav-hover-bg: #080808;
+        --tocnav-active-text: #f44;
+        --tocnav-active-bg: var(--tocnav-normal-bg);
+
+        --tocsidebar-text: var(--text);
+        --tocsidebar-bg: #080808;
+        --tocsidebar-shadow: rgba(255,255,255,.1);
+        --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+        --toclink-text: var(--text);
+        --toclink-underline: #6af;
+        --toclink-visited-text: var(--toclink-text);
+        --toclink-visited-underline: #054572;
+
+        --heading-text: #8af;
+
+        --hr-text: var(--text);
+
+        --algo-border: #456;
+
+        --del-text: #f44;
+        --del-bg: transparent;
+        --ins-text: #4a4;
+        --ins-bg: transparent;
+
+        --a-normal-text: #6af;
+        --a-normal-underline: #555;
+        --a-visited-text: var(--a-normal-text);
+        --a-visited-underline: var(--a-normal-underline);
+        --a-hover-bg: rgba(25%, 25%, 25%, .2);
+        --a-active-text: #f44;
+        --a-active-underline: var(--a-active-text);
+
+        --borderedblock-bg: rgba(255, 255, 255, .05);
+
+        --blockquote-border: silver;
+        --blockquote-bg: var(--borderedblock-bg);
+        --blockquote-text: currentcolor;
+
+        --issue-border: #e05252;
+        --issue-bg: var(--borderedblock-bg);
+        --issue-text: var(--text);
+        --issueheading-text: hsl(0deg, 70%, 70%);
+
+        --example-border: hsl(50deg, 90%, 60%);
+        --example-bg: var(--borderedblock-bg);
+        --example-text: var(--text);
+        --exampleheading-text: hsl(50deg, 70%, 70%);
+
+        --note-border: hsl(120deg, 100%, 35%);
+        --note-bg: var(--borderedblock-bg);
+        --note-text: var(--text);
+        --noteheading-text: hsl(120, 70%, 70%);
+        --notesummary-underline: silver;
+
+        --assertion-border: #444;
+        --assertion-bg: var(--borderedblock-bg);
+        --assertion-text: var(--text);
+
+        --advisement-border: orange;
+        --advisement-bg: #222218;
+        --advisement-text: var(--text);
+        --advisementheading-text: #f84;
+
+        --warning-border: red;
+        --warning-bg: hsla(40,100%,20%,0.95);
+        --warning-text: var(--text);
+
+        --amendment-border: #330099;
+        --amendment-bg: #080010;
+        --amendment-text: var(--text);
+        --amendmentheading-text: #cc00ff;
+
+        --def-border: #8ccbf2;
+        --def-bg: #080818;
+        --def-text: var(--text);
+        --defrow-border: #136;
+
+        --datacell-border: silver;
+
+        --indexinfo-text: #aaa;
+
+        --indextable-hover-text: var(--text);
+        --indextable-hover-bg: #181818;
+
+        --outdatedspec-bg: rgba(255, 255, 255, .5);
+        --outdatedspec-text: black;
+        --outdated-bg: maroon;
+        --outdated-text: white;
+        --outdated-shadow: red;
+
+        --editedrec-bg: darkorange;
+    }
+    /* In case a transparent-bg image doesn't expect to be on a dark bg,
+       which is quite common in practice... */
+    img { background: white; }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --selflink-text: black;
+        --selflink-bg: silver;
+        --selflink-hover-text: white;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    .highlight:not(.idl) { background: rgba(255, 255, 255, .05); }
+
+    c-[a] { color: #d33682 } /* Keyword.Declaration */
+    c-[b] { color: #d33682 } /* Keyword.Type */
+    c-[c] { color: #2aa198 } /* Comment */
+    c-[d] { color: #2aa198 } /* Comment.Multiline */
+    c-[e] { color: #268bd2 } /* Name.Attribute */
+    c-[f] { color: #b58900 } /* Name.Tag */
+    c-[g] { color: #cb4b16 } /* Name.Variable */
+    c-[k] { color: #d33682 } /* Keyword */
+    c-[l] { color: #657b83 } /* Literal */
+    c-[m] { color: #657b83 } /* Literal.Number */
+    c-[n] { color: #268bd2 } /* Name */
+    c-[o] { color: #657b83 } /* Operator */
+    c-[p] { color: #657b83 } /* Punctuation */
+    c-[s] { color: #6c71c4 } /* Literal.String */
+    c-[t] { color: #6c71c4 } /* Literal.String.Single */
+    c-[u] { color: #6c71c4 } /* Literal.String.Double */
+    c-[ch] { color: #2aa198 } /* Comment.Hashbang */
+    c-[cp] { color: #2aa198 } /* Comment.Preproc */
+    c-[cpf] { color: #2aa198 } /* Comment.PreprocFile */
+    c-[c1] { color: #2aa198 } /* Comment.Single */
+    c-[cs] { color: #2aa198 } /* Comment.Special */
+    c-[kc] { color: #d33682 } /* Keyword.Constant */
+    c-[kn] { color: #d33682 } /* Keyword.Namespace */
+    c-[kp] { color: #d33682 } /* Keyword.Pseudo */
+    c-[kr] { color: #d33682 } /* Keyword.Reserved */
+    c-[ld] { color: #657b83 } /* Literal.Date */
+    c-[nc] { color: #268bd2 } /* Name.Class */
+    c-[no] { color: #268bd2 } /* Name.Constant */
+    c-[nd] { color: #268bd2 } /* Name.Decorator */
+    c-[ni] { color: #268bd2 } /* Name.Entity */
+    c-[ne] { color: #268bd2 } /* Name.Exception */
+    c-[nf] { color: #268bd2 } /* Name.Function */
+    c-[nl] { color: #268bd2 } /* Name.Label */
+    c-[nn] { color: #268bd2 } /* Name.Namespace */
+    c-[py] { color: #268bd2 } /* Name.Property */
+    c-[ow] { color: #657b83 } /* Operator.Word */
+    c-[mb] { color: #657b83 } /* Literal.Number.Bin */
+    c-[mf] { color: #657b83 } /* Literal.Number.Float */
+    c-[mh] { color: #657b83 } /* Literal.Number.Hex */
+    c-[mi] { color: #657b83 } /* Literal.Number.Integer */
+    c-[mo] { color: #657b83 } /* Literal.Number.Oct */
+    c-[sa] { color: #6c71c4 } /* Literal.String.Affix */
+    c-[sb] { color: #6c71c4 } /* Literal.String.Backtick */
+    c-[sc] { color: #6c71c4 } /* Literal.String.Char */
+    c-[dl] { color: #6c71c4 } /* Literal.String.Delimiter */
+    c-[sd] { color: #6c71c4 } /* Literal.String.Doc */
+    c-[se] { color: #6c71c4 } /* Literal.String.Escape */
+    c-[sh] { color: #6c71c4 } /* Literal.String.Heredoc */
+    c-[si] { color: #6c71c4 } /* Literal.String.Interpol */
+    c-[sx] { color: #6c71c4 } /* Literal.String.Other */
+    c-[sr] { color: #6c71c4 } /* Literal.String.Regex */
+    c-[ss] { color: #6c71c4 } /* Literal.String.Symbol */
+    c-[fm] { color: #268bd2 } /* Name.Function.Magic */
+    c-[vc] { color: #cb4b16 } /* Name.Variable.Class */
+    c-[vg] { color: #cb4b16 } /* Name.Variable.Global */
+    c-[vi] { color: #cb4b16 } /* Name.Variable.Instance */
+    c-[vm] { color: #cb4b16 } /* Name.Variable.Magic */
+    c-[il] { color: #657b83 } /* Literal.Number.Integer.Long */
+}
+</style>
+ <body class="h-entry">
+  <div class="head">
+   <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2021/logos/W3C" width="72"> </a> </p>
+   <h1>Focus Events</h1>
+   <p id="w3c-state"><a href="https://www.w3.org/standards/types#ED">Editor’s Draft</a>, <time class="dt-updated" datetime="2024-01-24">24 January 2024</time></p>
+   <details open>
+    <summary>More details about this document</summary>
+    <div data-fill-with="spec-metadata">
+     <dl>
+      <dt>This version:
+      <dd><a class="u-url" href="https://w3c.github.io/uievents/">https://w3c.github.io/uievents/</a>
+      <dt>Latest published version:
+      <dd><a href="https://www.w3.org/TR/uievents/">https://www.w3.org/TR/uievents/</a>
+      <dt>Feedback:
+      <dd><a href="https://github.com/w3c/uievents/issues/">GitHub</a>
+      <dt class="editor">Editors:
+      <dd class="editor p-author h-card vcard" data-editor-id="59482"><a class="p-name fn u-email email" href="mailto:garykac@google.com">Gary Kacmarcik</a> (<span class="p-org org">Google</span>)
+      <dd class="editor p-author h-card vcard" data-editor-id="40117"><a class="p-name fn u-email email" href="mailto:travil@microsoft.com">Travis Leithead</a> (<span class="p-org org">Microsoft</span>)
+      <dt class="editor">Former Editor:
+      <dd class="editor p-author h-card vcard"><span class="p-name fn">Doug Schepers</span> (<span class="p-org org">Mar 2008 - May 2011</span>)
+      <dt>Tests:
+      <dd><a href="https://github.com/web-platform-tests/wpt/tree/master/uievents">web-platform-tests uievents/</a> (<a href="https://github.com/web-platform-tests/wpt/labels/uievents">ongoing work</a>)
+     </dl>
+    </div>
+   </details>
+   <div data-fill-with="warning"></div>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2024 <a href="https://www.w3.org/">World Wide Web Consortium</a>. <abbr title="World Wide Web Consortium">W3C</abbr><sup>®</sup> <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document" rel="license">permissive document license</a> rules apply. </p>
+   <hr title="Separator for header">
+  </div>
+  <div class="p-summary" data-fill-with="abstract">
+   <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
+   <p>*** Focus Events ***</p>
+   <p class="replace-with-note-class"><span class="marker">Note:</span> This is an experimental split of the UI Events spec into smaller, event-specific
+
+	specs. The split was made from an out-of-date snapshot, so the information here is not
+	current, so please focus on the overall structure rather than the specifics of the
+	content. If this experiment goes well, then we will split the current spec after all
+	outstanding pull requests have been handled.</p>
+  </div>
+  <h2 class="no-num no-toc no-ref heading settled" id="sotd"><span class="content">Status of this document</span></h2>
+  <div data-fill-with="status">
+   <p> <em>This section describes the status of this document at the time of its publication. A list of current <abbr title="World Wide Web Consortium">W3C</abbr> publications and the latest revision of this technical report can be found in the <a href="https://www.w3.org/TR/"><abbr title="World Wide Web Consortium">W3C</abbr> technical reports index</a> at https://www.w3.org/TR/.</em> </p>
+   <p> This document was published by the <a href="https://www.w3.org/groups/wg/webapps">Web Applications Working Group</a> as an Editors Draft. This document is intended to become a W3C Recommendation. </p>
+   <p></p>
+   <p> This document was published by the <a href="https://www.w3.org/groups/wg/webapps">Web Applications Working Group</a> as a Working Draft.
+
+    Feedback and comments on this specification are welcome. Please use <a href="https://github.com/w3c/uievents/issues">GitHub issues</a> Historical discussions can be found in the <a href="https://lists.w3.org/Archives/Public/public-webapps/">public-webapps@w3.org archives</a>. </p>
+   <p> Publication as an Editors Draft does not imply endorsement by <abbr title="World Wide Web Consortium">W3C</abbr> and its Members. This is a draft document and may
+    be updated, replaced or obsoleted by other documents at any time. It is inappropriate to cite
+    this document as other than work in progress. </p>
+   <p> This document was produced by a group operating under the <a href="https://www.w3.org/Consortium/Patent-Policy-20200915/"><abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>. <abbr title="World Wide Web Consortium">W3C</abbr> maintains a <a href="https://www.w3.org/2004/01/pp-impl/114929/status" rel="disclosure">public list of any patent disclosures</a> made in connection with the deliverables of the group; that page also includes instructions for disclosing a patent. An individual who has actual knowledge of a patent which the individual believes contains <a href="https://www.w3.org/Consortium/Patent-Policy-20200915/#def-essential">Essential Claim(s)</a> must disclose the information in accordance with <a href="https://www.w3.org/Consortium/Patent-Policy-20200915/#sec-Disclosure">section 6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>. </p>
+   <p>This document is governed by the <a href="https://www.w3.org/2021/Process-20211102/" id="w3c_process_revision">2 November 2021 W3C Process Document</a>. </p>
+  </div>
+  <div data-fill-with="at-risk"></div>
+  <nav data-fill-with="table-of-contents" id="toc">
+   <h2 class="no-num no-toc no-ref" id="contents">Table of Contents</h2>
+   <ol class="toc" role="directory">
+    <li>
+     <a href="#spec-intro"><span class="secno">1</span> <span class="content">Introduction</span></a>
+     <ol class="toc">
+      <li><a href="#spec-overview"><span class="secno">1.1</span> <span class="content">Overview</span></a>
+      <li><a href="#spec-conformance"><span class="secno">1.2</span> <span class="content">Conformance</span></a>
+     </ol>
+    <li><a href="#style-conventions"><span class="secno">2</span> <span class="content">Stylistic Conventions</span></a>
+    <li>
+     <a href="#events-focusevent"><span class="secno">3</span> <span class="content">Focus Events</span></a>
+     <ol class="toc">
+      <li>
+       <a href="#interface-focusevent"><span class="secno">3.1</span> <span class="content">Interface FocusEvent</span></a>
+       <ol class="toc">
+        <li><a href="#idl-focusevent"><span class="secno">3.1.1</span> <span class="content">FocusEvent</span></a>
+        <li><a href="#idl-focuseventinit"><span class="secno">3.1.2</span> <span class="content">FocusEventInit</span></a>
+       </ol>
+      <li><a href="#events-focusevent-event-order"><span class="secno">3.2</span> <span class="content">Focus Event Order</span></a>
+      <li><a href="#events-focusevent-doc-focus"><span class="secno">3.3</span> <span class="content">Document Focus and Focus Context</span></a>
+      <li>
+       <a href="#events-focus-types"><span class="secno">3.4</span> <span class="content">Focus Event Types</span></a>
+       <ol class="toc">
+        <li><a href="#event-type-blur"><span class="secno">3.4.1</span> <span class="content"><span>blur</span></span></a>
+        <li><a href="#event-type-focus"><span class="secno">3.4.2</span> <span class="content"><span>focus</span></span></a>
+        <li><a href="#event-type-focusin"><span class="secno">3.4.3</span> <span class="content"><span>focusin</span></span></a>
+        <li><a href="#event-type-focusout"><span class="secno">3.4.4</span> <span class="content"><span>focusout</span></span></a>
+       </ol>
+     </ol>
+    <li>
+     <a href="#legacy-focusevent-events"><span class="secno">4</span> <span class="content">Legacy <code class="idl"><span>FocusEvent</span></code> events</span></a>
+     <ol class="toc">
+      <li>
+       <a href="#legacy-focusevent-event-types"><span class="secno">4.1</span> <span class="content">Legacy <code class="idl"><span>FocusEvent</span></code> event types</span></a>
+       <ol class="toc">
+        <li><a href="#event-type-DOMFocusIn"><span class="secno">4.1.1</span> <span class="content"><span>DOMFocusIn</span></span></a>
+        <li><a href="#event-type-DOMFocusOut"><span class="secno">4.1.2</span> <span class="content"><span>DOMFocusOut</span></span></a>
+       </ol>
+      <li><a href="#legacy-focusevent-event-order"><span class="secno">4.2</span> <span class="content">Legacy FocusEvent event order</span></a>
+     </ol>
+    <li><a href="#security-considerations"><span class="secno">5</span> <span class="content">Security Considerations</span></a>
+    <li><a href="#acknowledgements-contributors"><span class="secno">6</span> <span class="content">Acknowledgements</span></a>
+    <li>
+     <a href="#other-uievents"><span class="secno">7</span> <span class="content">Refs to other UIEvent specs [DELETE]</span></a>
+     <ol class="toc">
+      <li>
+       <a href="#things"><span class="secno">7.1</span> <span class="content">Things defined in other sections</span></a>
+       <ol class="toc">
+        <li><a href="#event-flow-activation"><span class="secno">7.1.1</span> <span class="content">Activation triggers and behavior</span></a>
+        <li><a href="#events-compositionevents"><span class="secno">7.1.2</span> <span class="content">Composition Events</span></a>
+        <li><a href="#event-flow-default-cancel"><span class="secno">7.1.3</span> <span class="content">Default actions and cancelable events</span></a>
+        <li><a href="#event-flow"><span class="secno">7.1.4</span> <span class="content">Event dispatch and DOM event flow</span></a>
+        <li><a href="#conf-interactive-ua"><span class="secno">7.1.5</span> <span class="content">Web browsers and other dynamic or interactive <span>user agents</span></span></a>
+        <li><a href="#conf-author-tools"><span class="secno">7.1.6</span> <span class="content">Authoring tools</span></a>
+       </ol>
+     </ol>
+    <li><a href="#glossary"><span class="secno">8</span> <span class="content">Glossary [DELETE]</span></a>
+    <li>
+     <a href="#w3c-conformance"><span class="secno"></span> <span class="content">Conformance</span></a>
+     <ol class="toc">
+      <li><a href="#w3c-conventions"><span class="secno"></span> <span class="content">Document conventions</span></a>
+      <li><a href="#w3c-conformant-algorithms"><span class="secno"></span> <span class="content">Conformant Algorithms</span></a>
+     </ol>
+    <li>
+     <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
+     <ol class="toc">
+      <li><a href="#index-defined-here"><span class="secno"></span> <span class="content">Terms defined by this specification</span></a>
+      <li><a href="#index-defined-elsewhere"><span class="secno"></span> <span class="content">Terms defined by reference</span></a>
+     </ol>
+    <li>
+     <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
+     <ol class="toc">
+      <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
+      <li><a href="#informative"><span class="secno"></span> <span class="content">Informative References</span></a>
+     </ol>
+    <li><a href="#idl-index"><span class="secno"></span> <span class="content">IDL Index</span></a>
+   </ol>
+  </nav>
+  <main>
+   <h2 class="heading settled" data-level="1" id="spec-intro"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#spec-intro"></a></h2>
+   <h3 class="heading settled" data-level="1.1" id="spec-overview"><span class="secno">1.1. </span><span class="content">Overview</span><a class="self-link" href="#spec-overview"></a></h3>
+   <p>TODO.</p>
+   <h3 class="heading settled" data-level="1.2" id="spec-conformance"><span class="secno">1.2. </span><span class="content">Conformance</span><a class="self-link" href="#spec-conformance"></a></h3>
+   <p>Boilerplate?</p>
+   <h2 class="heading settled" data-level="2" id="style-conventions"><span class="secno">2. </span><span class="content">Stylistic Conventions</span><a class="self-link" href="#style-conventions"></a></h2>
+   <p>This specification follows the <a href="http://www.w3.org/People/Schepers/spec-conventions.html">Proposed W3C Specification Conventions</a>,
+with the following supplemental additions:</p>
+   <p class="note" role="note">This is a note.</p>
+   <p class="XXX">This is an open issue.</p>
+   <p class="warning">This is a warning.</p>
+<pre class="idl-ignore" data-highlight="webidl" data-no-idl>interface <b>Example</b> {
+    // This is an IDL definition.
+};
+</pre>
+   <h2 class="heading settled" data-level="3" id="events-focusevent"><span class="secno">3. </span><span class="content">Focus Events</span><a class="self-link" href="#events-focusevent"></a></h2>
+   <p class="note" role="note"> This interface and its associated event types and <a href="#events-focusevent-event-order">§ 3.2 Focus Event Order</a> were designed in accordance to the concepts and guidelines defined in <a href="http://www.w3.org/WAI/UA/2010/ED-UAAG20-20100308/">User Agent Accessibility Guidelines 2.0</a> <a data-link-type="biblio" href="#biblio-uaag20" title="User Agent Accessibility Guidelines (UAAG) 2.0">[UAAG20]</a>,
+	with particular attention on the <a href="http://www.w3.org/WAI/UA/2010/ED-UAAG20-20100308/#gl-focus-mechanism">focus mechanism</a> and the terms defined in the <a href="http://www.w3.org/WAI/UA/2010/ED-UAAG20-20100308/#def-focus">glossary entry for focus</a>. </p>
+   <h3 class="heading settled" data-level="3.1" id="interface-focusevent"><span class="secno">3.1. </span><span class="content">Interface FocusEvent</span><a class="self-link" href="#interface-focusevent"></a></h3>
+   <p class="intro-dom">Introduced in this specification</p>
+   <p>The <code class="idl"><a data-link-type="idl" href="#focusevent" id="ref-for-focusevent">FocusEvent</a></code> interface provides specific contextual information
+		associated with Focus events.</p>
+   <p>To create an instance of the <code class="idl"><a data-link-type="idl" href="#focusevent" id="ref-for-focusevent①">FocusEvent</a></code> interface, use the
+		FocusEvent constructor, passing an optional <code class="idl"><a data-link-type="idl" href="#dictdef-focuseventinit" id="ref-for-dictdef-focuseventinit">FocusEventInit</a></code> dictionary.</p>
+   <h4 class="heading settled" data-level="3.1.1" id="idl-focusevent"><span class="secno">3.1.1. </span><span class="content">FocusEvent</span><a class="self-link" href="#idl-focusevent"></a></h4>
+<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://webidl.spec.whatwg.org/#Exposed" id="ref-for-Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+<c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="focusevent"><code><c- g>FocusEvent</c-></code></dfn> : <a data-link-type="idl-name" href="https://w3c.github.io/uievents/#uievent" id="ref-for-uievent"><c- n>UIEvent</c-></a> {
+  <dfn class="idl-code" data-dfn-for="FocusEvent" data-dfn-type="constructor" data-export data-lt="FocusEvent(type, eventInitDict)|constructor(type, eventInitDict)|FocusEvent(type)|constructor(type)" id="dom-focusevent-focusevent"><code><c- g>constructor</c-></code><a class="self-link" href="#dom-focusevent-focusevent"></a></dfn>(<a class="idl-code" data-link-type="interface" href="https://webidl.spec.whatwg.org/#idl-DOMString" id="ref-for-idl-DOMString"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="FocusEvent/FocusEvent(type, eventInitDict), FocusEvent/constructor(type, eventInitDict), FocusEvent/FocusEvent(type), FocusEvent/constructor(type)" data-dfn-type="argument" data-export id="dom-focusevent-focusevent-type-eventinitdict-type"><code><c- g>type</c-></code><a class="self-link" href="#dom-focusevent-focusevent-type-eventinitdict-type"></a></dfn>, <c- b>optional</c-> <a data-link-type="idl-name" href="#dictdef-focuseventinit" id="ref-for-dictdef-focuseventinit①"><c- n>FocusEventInit</c-></a> <dfn class="idl-code" data-dfn-for="FocusEvent/FocusEvent(type, eventInitDict), FocusEvent/constructor(type, eventInitDict), FocusEvent/FocusEvent(type), FocusEvent/constructor(type)" data-dfn-type="argument" data-export id="dom-focusevent-focusevent-type-eventinitdict-eventinitdict"><code><c- g>eventInitDict</c-></code><a class="self-link" href="#dom-focusevent-focusevent-type-eventinitdict-eventinitdict"></a></dfn> = {});
+  <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget"><c- n>EventTarget</c-></a>? <dfn class="dfn-paneled idl-code" data-dfn-for="FocusEvent" data-dfn-type="attribute" data-export data-readonly data-type="EventTarget?" id="dom-focusevent-relatedtarget"><code><c- g>relatedTarget</c-></code></dfn>;
+};
+</pre>
+   <dl>
+    <dt><code>FocusEvent . relatedTarget</code>
+    <dd>
+      Used to identify a secondary <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①">EventTarget</a></code> related to a Focus event, depending on the type of event. 
+     <p>For security reasons with nested browsing contexts, when tabbing
+					into or out of a nested context, the relevant <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget②">EventTarget</a></code> SHOULD be <code>null</code>.</p>
+     <p>The <a data-link-type="dfn" href="#un-initialized-value" id="ref-for-un-initialized-value">un-initialized value</a> of this attribute MUST be <code>null</code>.</p>
+   </dl>
+   <h4 class="heading settled" data-level="3.1.2" id="idl-focuseventinit"><span class="secno">3.1.2. </span><span class="content">FocusEventInit</span><a class="self-link" href="#idl-focuseventinit"></a></h4>
+<pre class="idl highlight def"><c- b>dictionary</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="dictdef-focuseventinit"><code><c- g>FocusEventInit</c-></code></dfn> : <a data-link-type="idl-name" href="https://w3c.github.io/uievents/#dictdef-uieventinit" id="ref-for-dictdef-uieventinit"><c- n>UIEventInit</c-></a> {
+  <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget③"><c- n>EventTarget</c-></a>? <dfn class="dfn-paneled idl-code" data-default="null" data-dfn-for="FocusEventInit" data-dfn-type="dict-member" data-export data-type="EventTarget? " id="dom-focuseventinit-relatedtarget"><code><c- g>relatedTarget</c-></code></dfn> = <c- b>null</c->;
+};
+</pre>
+   <dl>
+    <dt><code>FocusEventInit . relatedTarget</code>
+    <dd> The <code class="idl"><a data-link-type="idl" href="#dom-focuseventinit-relatedtarget" id="ref-for-dom-focuseventinit-relatedtarget">relatedTarget</a></code> should be initialized to the element
+					losing focus (in the case of a <a data-link-type="dfn" href="#focus" id="ref-for-focus"><code>focus</code></a> or <a data-link-type="dfn" href="#focusin" id="ref-for-focusin"><code>focusin</code></a> event) or the element gaining focus (in the case of a <a data-link-type="dfn" href="#blur" id="ref-for-blur"><code>blur</code></a> or <a data-link-type="dfn" href="#focusout" id="ref-for-focusout"><code>focusout</code></a> event). 
+   </dl>
+   <h3 class="heading settled" data-level="3.2" id="events-focusevent-event-order"><span class="secno">3.2. </span><span class="content">Focus Event Order</span><a class="self-link" href="#events-focusevent-event-order"></a></h3>
+   <p>The focus events defined in this specification occur in a set order
+		relative to one another.  The following is the typical sequence of
+		events when a focus is shifted between elements (this order assumes
+		that no element is initially focused):</p>
+   <table class="event-sequence-table">
+    <thead>
+     <tr>
+      <td class="cell-number">
+      <th>Event Type
+      <th>Notes
+    <tbody>
+     <tr>
+      <td class="cell-number">
+      <td>
+      <td><em>User shifts focus</em>
+     <tr>
+      <td class="cell-number">1
+      <td><a data-link-type="dfn" href="#focus" id="ref-for-focus①"><code>focus</code></a>
+      <td>Sent after first target element receives focus
+     <tr>
+      <td class="cell-number">2
+      <td><a data-link-type="dfn" href="#focusin" id="ref-for-focusin①"><code>focusin</code></a>
+      <td>Follows the focus event
+     <tr>
+      <td class="cell-number">
+      <td>
+      <td><em>User shifts focus</em>
+     <tr>
+      <td class="cell-number">3
+      <td><a data-link-type="dfn" href="#blur" id="ref-for-blur①"><code>blur</code></a>
+      <td>Sent after first target element loses focus
+     <tr>
+      <td class="cell-number">4
+      <td><a data-link-type="dfn" href="#focusout" id="ref-for-focusout①"><code>focusout</code></a>
+      <td>Follows the blur event
+     <tr>
+      <td class="cell-number">5
+      <td><a data-link-type="dfn" href="#focus" id="ref-for-focus②"><code>focus</code></a>
+      <td>Sent after second target element receives focus
+     <tr>
+      <td class="cell-number">6
+      <td><a data-link-type="dfn" href="#focusin" id="ref-for-focusin②"><code>focusin</code></a>
+      <td>Follows the focus event
+   </table>
+   <p class="note" role="note"> This specification does not define the behavior of focus events when
+		interacting with methods such as <code>focus()</code> or <code>blur()</code>. See the relevant specifications where those methods
+		are defined for such behavior. </p>
+   <h3 class="heading settled" data-level="3.3" id="events-focusevent-doc-focus"><span class="secno">3.3. </span><span class="content">Document Focus and Focus Context</span><a class="self-link" href="#events-focusevent-doc-focus"></a></h3>
+   <p>This event module includes event types for notification of changes in
+		document <a data-link-type="dfn" href="#focus" id="ref-for-focus③">focus</a>. There are three distinct focus contexts that are
+		relevant to this discussion:</p>
+   <ul>
+    <li data-md>
+     <p>The <em>operating system focus context</em> which MAY be on one of
+many different applications currently running on the computer. One
+of these applications with focus can be a browser.</p>
+    <li data-md>
+     <p>When the browser has focus, the user can switch (such as with the
+tab key) the <em>application focus context</em> among the different
+browser user interface fields (e.g., the Web site location bar, a
+search field, etc.). One of these user interface fields can be the
+document being shown in a tab.</p>
+    <li data-md>
+     <p>When the document itself has focus, the <em>document focus
+context</em> can be set to any of the focusable elements in the
+document.</p>
+   </ul>
+   <p>The event types defined in this specification deal exclusively with
+		document focus, and the <a data-link-type="dfn" href="#event-target" id="ref-for-event-target">event target</a> identified in the event
+		details MUST only be part of the document or documents in the window,
+		never a part of the browser or operating system, even when switching
+		from one focus context to another.</p>
+   <p>Normally, a document always has a focused element (even if it is the
+		document element itself) and a persistent <a data-link-type="dfn" href="#focus-ring" id="ref-for-focus-ring">focus ring</a>. When
+		switching between focus contexts, the document’s currently focused
+		element and focus ring normally remain in their current state. For
+		example, if a document has three focusable elements, with the second
+		element focused, when a user changes operating system focus to another
+		application and then back to the browser, the second element will still
+		be focused within the document, and tabbing will change the focus to the
+		third element.  A <a data-link-type="dfn" href="#host-language" id="ref-for-host-language">host language</a> MAY define specific elements
+		which might receive focus, the conditions under which an element MAY
+		receive focus, the means by which focus MAY be changed, and the order
+		in which the focus changes.  For example, in some cases an element might
+		be given focus by moving a pointer over it, while other circumstances
+		might require a mouse click. Some elements might not be focusable at
+		all, and some might be focusable only by special means (clicking on the
+		element), but not by tabbing to it.  Documents MAY contain multiple
+		focus rings.  Other specifications MAY define a more complex focus model
+		than is described in this specification, including allowing multiple
+		elements to have the current focus.</p>
+   <h3 class="heading settled" data-level="3.4" id="events-focus-types"><span class="secno">3.4. </span><span class="content">Focus Event Types</span><a class="self-link" href="#events-focus-types"></a></h3>
+   <p>The Focus event types are listed below.</p>
+   <h4 class="heading settled" data-level="3.4.1" id="event-type-blur"><span class="secno">3.4.1. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="blur">blur</dfn></span><a class="self-link" href="#event-type-blur"></a></h4>
+   <table class="event-definition">
+    <tbody>
+     <tr>
+      <th>Type
+      <td><strong><code>blur</code></strong>
+     <tr>
+      <th>Interface
+      <td><code class="idl"><a data-link-type="idl" href="#focusevent" id="ref-for-focusevent②">FocusEvent</a></code>
+     <tr>
+      <th>Sync / Async
+      <td>Sync
+     <tr>
+      <th>Bubbles
+      <td>No
+     <tr>
+      <th>Trusted Targets
+      <td><a data-link-type="dfn" href="#window" id="ref-for-window"><code>Window</code></a>, <code>Element</code>
+     <tr>
+      <th>Cancelable
+      <td>No
+     <tr>
+      <th>Composed
+      <td>Yes
+     <tr>
+      <th>Default action
+      <td>None
+     <tr>
+      <th>Context<br> (trusted events)
+      <td>
+       <ul>
+        <li><code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event">Event</a></code>.<code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-target" id="ref-for-dom-event-target">target</a></code> : <a data-link-type="dfn" href="#event-target" id="ref-for-event-target①">event target</a> losing focus
+        <li><code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#uievent" id="ref-for-uievent①">UIEvent</a></code>.<code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#dom-uievent-view" id="ref-for-dom-uievent-view">view</a></code> : <a data-link-type="dfn" href="#window" id="ref-for-window①"><code>Window</code></a>
+        <li><code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#uievent" id="ref-for-uievent②">UIEvent</a></code>.<code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#dom-uievent-detail" id="ref-for-dom-uievent-detail">detail</a></code> : <code>0</code>
+        <li><code class="idl"><a data-link-type="idl" href="#focusevent" id="ref-for-focusevent③">FocusEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-focusevent-relatedtarget" id="ref-for-dom-focusevent-relatedtarget">relatedTarget</a></code> : <a data-link-type="dfn" href="#event-target" id="ref-for-event-target②">event target</a> receiving focus.
+       </ul>
+   </table>
+   <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent">user agent</a> MUST dispatch this event when an <a data-link-type="dfn" href="#event-target" id="ref-for-event-target③">event
+			target</a> loses focus. The focus MUST be taken from the element
+			before the dispatch of this event type. This event type is similar
+			to <a data-link-type="dfn" href="#focusout" id="ref-for-focusout②">focusout</a>, but does not bubble.</p>
+   <h4 class="heading settled" data-level="3.4.2" id="event-type-focus"><span class="secno">3.4.2. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="focus">focus</dfn></span><a class="self-link" href="#event-type-focus"></a></h4>
+   <table class="event-definition">
+    <tbody>
+     <tr>
+      <th>Type
+      <td><strong><code>focus</code></strong>
+     <tr>
+      <th>Interface
+      <td><code class="idl"><a data-link-type="idl" href="#focusevent" id="ref-for-focusevent④">FocusEvent</a></code>
+     <tr>
+      <th>Sync / Async
+      <td>Sync
+     <tr>
+      <th>Bubbles
+      <td>No
+     <tr>
+      <th>Trusted Targets
+      <td><a data-link-type="dfn" href="#window" id="ref-for-window②"><code>Window</code></a>, <code>Element</code>
+     <tr>
+      <th>Cancelable
+      <td>No
+     <tr>
+      <th>Composed
+      <td>Yes
+     <tr>
+      <th>Default action
+      <td>None
+     <tr>
+      <th>Context<br> (trusted events)
+      <td>
+       <ul>
+        <li><code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event①">Event</a></code>.<code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-target" id="ref-for-dom-event-target①">target</a></code> : <a data-link-type="dfn" href="#event-target" id="ref-for-event-target④">event target</a> receiving focus
+        <li><code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#uievent" id="ref-for-uievent③">UIEvent</a></code>.<code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#dom-uievent-view" id="ref-for-dom-uievent-view①">view</a></code> : <a data-link-type="dfn" href="#window" id="ref-for-window③"><code>Window</code></a>
+        <li><code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#uievent" id="ref-for-uievent④">UIEvent</a></code>.<code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#dom-uievent-detail" id="ref-for-dom-uievent-detail①">detail</a></code> : <code>0</code>
+        <li><code class="idl"><a data-link-type="idl" href="#focusevent" id="ref-for-focusevent⑤">FocusEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-focusevent-relatedtarget" id="ref-for-dom-focusevent-relatedtarget①">relatedTarget</a></code> : <a data-link-type="dfn" href="#event-target" id="ref-for-event-target⑤">event target</a> losing focus (if any).
+       </ul>
+   </table>
+   <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent①">user agent</a> MUST dispatch this event when an <a data-link-type="dfn" href="#event-target" id="ref-for-event-target⑥">event
+			target</a> receives focus. The focus MUST be given to the element
+			before the dispatch of this event type. This event type is similar
+			to <a data-link-type="dfn" href="#focusin" id="ref-for-focusin③">focusin</a>, but does not bubble.</p>
+   <h4 class="heading settled" data-level="3.4.3" id="event-type-focusin"><span class="secno">3.4.3. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="focusin">focusin</dfn></span><a class="self-link" href="#event-type-focusin"></a></h4>
+   <table class="event-definition">
+    <tbody>
+     <tr>
+      <th>Type
+      <td><strong><code>focusin</code></strong>
+     <tr>
+      <th>Interface
+      <td><code class="idl"><a data-link-type="idl" href="#focusevent" id="ref-for-focusevent⑥">FocusEvent</a></code>
+     <tr>
+      <th>Sync / Async
+      <td>Sync
+     <tr>
+      <th>Bubbles
+      <td>Yes
+     <tr>
+      <th>Trusted Targets
+      <td><a data-link-type="dfn" href="#window" id="ref-for-window④"><code>Window</code></a>, <code>Element</code>
+     <tr>
+      <th>Cancelable
+      <td>No
+     <tr>
+      <th>Composed
+      <td>Yes
+     <tr>
+      <th>Default action
+      <td>None
+     <tr>
+      <th>Context<br> (trusted events)
+      <td>
+       <ul>
+        <li><code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event②">Event</a></code>.<code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-target" id="ref-for-dom-event-target②">target</a></code> : <a data-link-type="dfn" href="#event-target" id="ref-for-event-target⑦">event target</a> receiving focus
+        <li><code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#uievent" id="ref-for-uievent⑤">UIEvent</a></code>.<code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#dom-uievent-view" id="ref-for-dom-uievent-view②">view</a></code> : <a data-link-type="dfn" href="#window" id="ref-for-window⑤"><code>Window</code></a>
+        <li><code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#uievent" id="ref-for-uievent⑥">UIEvent</a></code>.<code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#dom-uievent-detail" id="ref-for-dom-uievent-detail②">detail</a></code> : <code>0</code>
+        <li><code class="idl"><a data-link-type="idl" href="#focusevent" id="ref-for-focusevent⑦">FocusEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-focusevent-relatedtarget" id="ref-for-dom-focusevent-relatedtarget②">relatedTarget</a></code> : <a data-link-type="dfn" href="#event-target" id="ref-for-event-target⑧">event target</a> losing focus (if any).
+       </ul>
+   </table>
+   <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent②">user agent</a> MUST dispatch this event when an <a data-link-type="dfn" href="#event-target" id="ref-for-event-target⑨">event target</a> receives focus. The <a data-link-type="dfn" href="#event-target" id="ref-for-event-target①⓪">event target</a> MUST be the element which
+			received focus. The <a data-link-type="dfn" href="#focus" id="ref-for-focus④">focus</a> event MUST fire before the dispatch of
+			this event type. This event type is similar to <a data-link-type="dfn" href="#focus" id="ref-for-focus⑤">focus</a>, but does
+			bubble.</p>
+   <h4 class="heading settled" data-level="3.4.4" id="event-type-focusout"><span class="secno">3.4.4. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="focusout">focusout</dfn></span><a class="self-link" href="#event-type-focusout"></a></h4>
+   <table class="event-definition">
+    <tbody>
+     <tr>
+      <th>Type
+      <td><strong><code>focusout</code></strong>
+     <tr>
+      <th>Interface
+      <td><code class="idl"><a data-link-type="idl" href="#focusevent" id="ref-for-focusevent⑧">FocusEvent</a></code>
+     <tr>
+      <th>Sync / Async
+      <td>Sync
+     <tr>
+      <th>Bubbles
+      <td>Yes
+     <tr>
+      <th>Trusted Targets
+      <td><a data-link-type="dfn" href="#window" id="ref-for-window⑥"><code>Window</code></a>, <code>Element</code>
+     <tr>
+      <th>Cancelable
+      <td>No
+     <tr>
+      <th>Composed
+      <td>Yes
+     <tr>
+      <th>Default action
+      <td>None
+     <tr>
+      <th>Context<br> (trusted events)
+      <td>
+       <ul>
+        <li><code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event③">Event</a></code>.<code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-target" id="ref-for-dom-event-target③">target</a></code> : <a data-link-type="dfn" href="#event-target" id="ref-for-event-target①①">event target</a> losing focus
+        <li><code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#uievent" id="ref-for-uievent⑦">UIEvent</a></code>.<code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#dom-uievent-view" id="ref-for-dom-uievent-view③">view</a></code> : <a data-link-type="dfn" href="#window" id="ref-for-window⑦"><code>Window</code></a>
+        <li><code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#uievent" id="ref-for-uievent⑧">UIEvent</a></code>.<code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#dom-uievent-detail" id="ref-for-dom-uievent-detail③">detail</a></code> : <code>0</code>
+        <li><code class="idl"><a data-link-type="idl" href="#focusevent" id="ref-for-focusevent⑨">FocusEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-focusevent-relatedtarget" id="ref-for-dom-focusevent-relatedtarget③">relatedTarget</a></code> : <a data-link-type="dfn" href="#event-target" id="ref-for-event-target①②">event target</a> receiving focus.
+       </ul>
+   </table>
+   <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent③">user agent</a> MUST dispatch this event when an <a data-link-type="dfn" href="#event-target" id="ref-for-event-target①③">event target</a> loses focus. The <a data-link-type="dfn" href="#event-target" id="ref-for-event-target①④">event target</a> MUST be the element which lost
+			focus. The <a data-link-type="dfn" href="#blur" id="ref-for-blur②">blur</a> event MUST fire before the dispatch of this event
+			type. This event type is similar to <a data-link-type="dfn" href="#blur" id="ref-for-blur③">blur</a>, but does bubble.</p>
+   <h2 class="heading settled" data-level="4" id="legacy-focusevent-events"><span class="secno">4. </span><span class="content">Legacy <code class="idl"><a data-link-type="idl" href="#focusevent" id="ref-for-focusevent①⓪">FocusEvent</a></code> events</span><a class="self-link" href="#legacy-focusevent-events"></a></h2>
+   <h3 class="heading settled" data-level="4.1" id="legacy-focusevent-event-types"><span class="secno">4.1. </span><span class="content">Legacy <code class="idl"><a data-link-type="idl" href="#focusevent" id="ref-for-focusevent①①">FocusEvent</a></code> event types</span><a class="self-link" href="#legacy-focusevent-event-types"></a></h3>
+   <h4 class="heading settled" data-level="4.1.1" id="event-type-DOMFocusIn"><span class="secno">4.1.1. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="domfocusin">DOMFocusIn</dfn></span><a class="self-link" href="#event-type-DOMFocusIn"></a></h4>
+   <table class="event-definition">
+    <tbody>
+     <tr>
+      <th>Type
+      <td><strong><code>DOMFocusIn</code></strong>
+     <tr>
+      <th>Interface
+      <td><code class="idl"><a data-link-type="idl" href="#focusevent" id="ref-for-focusevent①②">FocusEvent</a></code>
+     <tr>
+      <th>Sync / Async
+      <td>Sync
+     <tr>
+      <th>Bubbles
+      <td>Yes
+     <tr>
+      <th>Trusted Targets
+      <td><a data-link-type="dfn" href="#window" id="ref-for-window⑧"><code>Window</code></a>, <code>Element</code>
+     <tr>
+      <th>Cancelable
+      <td>No
+     <tr>
+      <th>Composed
+      <td>Yes
+     <tr>
+      <th>Default action
+      <td>None
+     <tr>
+      <th>Context<br>(trusted events)
+      <td>
+       <ul>
+        <li><code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event④">Event</a></code>.<code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-target" id="ref-for-dom-event-target④">target</a></code> : <a data-link-type="dfn" href="#event-target" id="ref-for-event-target①⑤">event target</a> receiving focus
+        <li><code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#uievent" id="ref-for-uievent⑨">UIEvent</a></code>.<code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#dom-uievent-view" id="ref-for-dom-uievent-view④">view</a></code> : <a data-link-type="dfn" href="#window" id="ref-for-window⑨"><code>Window</code></a>
+        <li><code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#uievent" id="ref-for-uievent①⓪">UIEvent</a></code>.<code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#dom-uievent-detail" id="ref-for-dom-uievent-detail④">detail</a></code> : <code>0</code>
+        <li><code class="idl"><a data-link-type="idl" href="#focusevent" id="ref-for-focusevent①③">FocusEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-focusevent-relatedtarget" id="ref-for-dom-focusevent-relatedtarget④">relatedTarget</a></code> : <code>null</code>
+       </ul>
+   </table>
+   <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent④">user agent</a> MUST dispatch this event when an <a data-link-type="dfn" href="#event-target" id="ref-for-event-target①⑥">event
+			target</a> receives focus. The focus MUST be given to the
+			element before the dispatch of this event type. This event type
+			MUST be dispatched after the event type <a data-link-type="dfn" href="#focus" id="ref-for-focus⑥"><code>focus</code></a>.</p>
+   <p class="warning"> The <a data-link-type="dfn" href="#domfocusin" id="ref-for-domfocusin"><code>DOMFocusIn</code></a> event type is defined in this
+			specification for reference and completeness, but this
+			specification <a data-link-type="dfn">deprecates</a> the use of this event type in
+			favor of the related event types <a data-link-type="dfn" href="#focus" id="ref-for-focus⑦"><code>focus</code></a> and <a data-link-type="dfn" href="#focusin" id="ref-for-focusin④"><code>focusin</code></a>. </p>
+   <h4 class="heading settled" data-level="4.1.2" id="event-type-DOMFocusOut"><span class="secno">4.1.2. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="domfocusout">DOMFocusOut</dfn></span><a class="self-link" href="#event-type-DOMFocusOut"></a></h4>
+   <table class="event-definition">
+    <tbody>
+     <tr>
+      <th>Type
+      <td><strong><code>DOMFocusOut</code></strong>
+     <tr>
+      <th>Interface
+      <td><code class="idl"><a data-link-type="idl" href="#focusevent" id="ref-for-focusevent①④">FocusEvent</a></code>
+     <tr>
+      <th>Sync / Async
+      <td>Sync
+     <tr>
+      <th>Bubbles
+      <td>Yes
+     <tr>
+      <th>Trusted Targets
+      <td><a data-link-type="dfn" href="#window" id="ref-for-window①⓪"><code>Window</code></a>, <code>Element</code>
+     <tr>
+      <th>Cancelable
+      <td>No
+     <tr>
+      <th>Composed
+      <td>Yes
+     <tr>
+      <th>Default action
+      <td>None
+     <tr>
+      <th>Context<br>(trusted events)
+      <td>
+       <ul>
+        <li><code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event⑤">Event</a></code>.<code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-target" id="ref-for-dom-event-target⑤">target</a></code> : <a data-link-type="dfn" href="#event-target" id="ref-for-event-target①⑦">event target</a> losing focus
+        <li><code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#uievent" id="ref-for-uievent①①">UIEvent</a></code>.<code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#dom-uievent-view" id="ref-for-dom-uievent-view⑤">view</a></code> : <a data-link-type="dfn" href="#window" id="ref-for-window①①"><code>Window</code></a>
+        <li><code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#uievent" id="ref-for-uievent①②">UIEvent</a></code>.<code class="idl"><a data-link-type="idl" href="https://w3c.github.io/uievents/#dom-uievent-detail" id="ref-for-dom-uievent-detail⑤">detail</a></code> : <code>0</code>
+        <li><code class="idl"><a data-link-type="idl" href="#focusevent" id="ref-for-focusevent①⑤">FocusEvent</a></code>.<code class="idl"><a data-link-type="idl" href="#dom-focusevent-relatedtarget" id="ref-for-dom-focusevent-relatedtarget⑤">relatedTarget</a></code> : <code>null</code>
+       </ul>
+   </table>
+   <p>A <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent⑤">user agent</a> MUST dispatch this event when an <a data-link-type="dfn" href="#event-target" id="ref-for-event-target①⑧">event
+			target</a> loses focus. The focus MUST be taken from the element
+			before the dispatch of this event type. This event type MUST be
+			dispatched after the event type <a data-link-type="dfn" href="#blur" id="ref-for-blur④"><code>blur</code></a>.</p>
+   <p class="warning"> The <a data-link-type="dfn" href="#domfocusout" id="ref-for-domfocusout"><code>DOMFocusOut</code></a> event type is defined in this
+			specification for reference and completeness, but this
+			specification <a data-link-type="dfn">deprecates</a> the use of this event type in
+			favor of the related event types <a data-link-type="dfn" href="#blur" id="ref-for-blur⑤"><code>blur</code></a> and <a data-link-type="dfn" href="#focusout" id="ref-for-focusout③"><code>focusout</code></a>. </p>
+   <h3 class="heading settled" data-level="4.2" id="legacy-focusevent-event-order"><span class="secno">4.2. </span><span class="content">Legacy FocusEvent event order</span><a class="self-link" href="#legacy-focusevent-event-order"></a></h3>
+   <p>The following is the typical sequence of events when a focus is shifted
+		between elements, including the deprecated <a data-link-type="dfn" href="#domfocusin" id="ref-for-domfocusin①"><code>DOMFocusIn</code></a> and <a data-link-type="dfn" href="#domfocusout" id="ref-for-domfocusout①"><code>DOMFocusOut</code></a> events. The order shown assumes that no element is
+		initially focused.</p>
+   <table class="event-sequence-table">
+    <thead>
+     <tr>
+      <td class="cell-number">
+      <th>Event Type
+      <th>Notes
+    <tbody>
+     <tr>
+      <td class="cell-number">
+      <td>
+      <td><em>User shifts focus</em>
+     <tr>
+      <td class="cell-number">1
+      <td><a data-link-type="dfn" href="#focusin" id="ref-for-focusin⑤"><code>focusin</code></a>
+      <td>Sent before first target element receives focus
+     <tr>
+      <td class="cell-number">2
+      <td><a data-link-type="dfn" href="#focus" id="ref-for-focus⑧"><code>focus</code></a>
+      <td>Sent after first target element receives focus
+     <tr>
+      <td class="cell-number">3
+      <td><a data-link-type="dfn" href="#domfocusin" id="ref-for-domfocusin②"><code>DOMFocusIn</code></a>
+      <td>If supported
+     <tr>
+      <td class="cell-number">
+      <td>
+      <td><em>User shifts focus</em>
+     <tr>
+      <td class="cell-number">4
+      <td><a data-link-type="dfn" href="#focusout" id="ref-for-focusout④"><code>focusout</code></a>
+      <td>Sent before first target element loses focus
+     <tr>
+      <td class="cell-number">5
+      <td><a data-link-type="dfn" href="#focusin" id="ref-for-focusin⑥"><code>focusin</code></a>
+      <td>Sent before second target element receives focus
+     <tr>
+      <td class="cell-number">6
+      <td><a data-link-type="dfn" href="#blur" id="ref-for-blur⑥"><code>blur</code></a>
+      <td>Sent after first target element loses focus
+     <tr>
+      <td class="cell-number">7
+      <td><a data-link-type="dfn" href="#domfocusout" id="ref-for-domfocusout②"><code>DOMFocusOut</code></a>
+      <td>If supported
+     <tr>
+      <td class="cell-number">8
+      <td><a data-link-type="dfn" href="#focus" id="ref-for-focus⑨"><code>focus</code></a>
+      <td>Sent after second target element receives focus
+     <tr>
+      <td class="cell-number">9
+      <td><a data-link-type="dfn" href="#domfocusin" id="ref-for-domfocusin③"><code>DOMFocusIn</code></a>
+      <td>If supported
+   </table>
+   <h2 class="heading settled" data-level="5" id="security-considerations"><span class="secno">5. </span><span class="content">Security Considerations</span><a class="self-link" href="#security-considerations"></a></h2>
+   <p>TODO - Add specific concerns for this spec</p>
+   <h2 class="heading settled" data-level="6" id="acknowledgements-contributors"><span class="secno">6. </span><span class="content">Acknowledgements</span><a class="self-link" href="#acknowledgements-contributors"></a></h2>
+   <p>TODO</p>
+   <h2 class="heading settled" data-level="7" id="other-uievents"><span class="secno">7. </span><span class="content">Refs to other UIEvent specs [DELETE]</span><a class="self-link" href="#other-uievents"></a></h2>
+   <p>This section will be deleted.</p>
+   <p>Temporary place to "define" other referenced UI Events (to make the bikeshed linker happy).
+	This will be deleted once we have proper cross-references.</p>
+   <h3 class="heading settled" data-level="7.1" id="things"><span class="secno">7.1. </span><span class="content">Things defined in other sections</span><a class="self-link" href="#things"></a></h3>
+   <h4 class="heading settled" data-level="7.1.1" id="event-flow-activation"><span class="secno">7.1.1. </span><span class="content">Activation triggers and behavior</span><a class="self-link" href="#event-flow-activation"></a></h4>
+   <h4 class="heading settled" data-level="7.1.2" id="events-compositionevents"><span class="secno">7.1.2. </span><span class="content">Composition Events</span><a class="self-link" href="#events-compositionevents"></a></h4>
+   <h4 class="heading settled" data-level="7.1.3" id="event-flow-default-cancel"><span class="secno">7.1.3. </span><span class="content">Default actions and cancelable events</span><a class="self-link" href="#event-flow-default-cancel"></a></h4>
+   <h4 class="heading settled" data-level="7.1.4" id="event-flow"><span class="secno">7.1.4. </span><span class="content">Event dispatch and DOM event flow</span><a class="self-link" href="#event-flow"></a></h4>
+   <h4 class="heading settled" data-level="7.1.5" id="conf-interactive-ua"><span class="secno">7.1.5. </span><span class="content">Web browsers and other dynamic or interactive <a data-link-type="dfn" href="#user-agent" id="ref-for-user-agent⑥">user agents</a></span><a class="self-link" href="#conf-interactive-ua"></a></h4>
+   <h4 class="heading settled" data-level="7.1.6" id="conf-author-tools"><span class="secno">7.1.6. </span><span class="content">Authoring tools</span><a class="self-link" href="#conf-author-tools"></a></h4>
+   <h2 class="heading settled" data-level="8" id="glossary"><span class="secno">8. </span><span class="content">Glossary [DELETE]</span><a class="self-link" href="#glossary"></a></h2>
+   <p>This section will be deleted.</p>
+   <p>Temporary glossary terms (for bikeshed linker).
+Many of these are properly defined elsewhere and should be linked to directly.
+Terms which should be defined in this spec should be defined inline.</p>
+   <dl>
+    <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="event">event</dfn>
+    <dd data-md>
+     <p>An event is the representation of some occurrence (such as a mouse click on
+the presentation of an element, the removal of child node from an element,
+or any number of other possibilities) which is associated with its <a data-link-type="dfn" href="#event-target" id="ref-for-event-target①⑨">event
+target</a>. Each event is an instantiation of one specific <a data-link-type="dfn" href="https://w3c.github.io/webdriver-bidi/#event-event-type" id="ref-for-event-event-type">event
+type</a>.</p>
+    <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="event-focus">event focus</dfn>
+    <dd data-md>
+     <p>Event focus is a special state of receptivity and concentration on a
+particular element or other <a data-link-type="dfn" href="#event-target" id="ref-for-event-target②⓪">event target</a> within a <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document" id="ref-for-concept-document">document</a>.  Each
+element has different behavior when focused, depending on its functionality,
+such as priming the element for activation (as for a button or hyperlink) or
+toggling state (as for a checkbox), receiving text input (as for a text form
+field), or copying selected text.  For more details, see <a href="#events-focusevent-doc-focus">§ 3.3 Document Focus and Focus Context</a>.</p>
+    <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="event-target">event target</dfn>
+    <dd data-md>
+     <p>The object to which an <a data-link-type="dfn" href="#event" id="ref-for-event⑥">event</a> is targeted using the <a href="#event-flow">§ 7.1.4 Event dispatch and DOM event flow</a>.
+The event target is the value of the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-target" id="ref-for-dom-event-target⑥">target</a></code> attribute.</p>
+    <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-lt="focus ring" data-noexport id="focus-ring">event focus ring</dfn>
+    <dd data-md>
+     <p>An event focus ring is an ordered set of <a data-link-type="dfn" href="#event-focus" id="ref-for-event-focus">event focus</a> targets within a <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document" id="ref-for-concept-document①">document</a>.  A <a data-link-type="dfn" href="#host-language" id="ref-for-host-language①">host language</a> MAY define one or more ways to determine
+the order of targets, such as document order, a numerical index defined per
+focus target, explicit pointers between focus targets, or a hybrid of
+different models.  Each document MAY contain multiple focus rings, or
+conditional focus rings.  Typically, for document-order or indexed focus
+rings, focus <q>wraps around</q> from the last focus target to the
+first.</p>
+    <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="host-language">host language</dfn>
+    <dd data-md>
+     <p>Any language which integrates the features of another language or API
+specification, while normatively referencing the origin specification rather
+than redefining those features, and extending those features only in ways
+defined by the origin specification.  An origin specification typically is
+only intended to be implemented in the context of one or more host
+languages, not as a standalone language.  For example, XHTML, HTML, and SVG
+are host languages for UI Events, and they integrate and extend the objects
+and models defined in this specification.</p>
+    <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="un-initialized-value">un-initialized value</dfn>
+    <dd data-md>
+     <p>The value of any event attribute (such as <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-bubbles" id="ref-for-dom-event-bubbles">bubbles</a></code> or <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-currenttarget" id="ref-for-dom-event-currenttarget">currentTarget</a></code>) before the event has been initialized with <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-initevent" id="ref-for-dom-event-initevent">initEvent()</a></code>. The un-initialized values of an event apply
+immediately after a new event has been created using the method <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-document-createevent" id="ref-for-dom-document-createevent">createEvent()</a></code>.</p>
+    <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="user-agent">user agent</dfn>
+    <dd data-md>
+     <p>A program, such as a browser or content authoring tool, normally running on
+a client machine, which acts on a user’s behalf in retrieving, interpreting,
+executing, presenting, or creating content.  Users MAY act on the content
+using different user agents at different times, for different purposes.  See
+the <a href="#conf-interactive-ua">§ 7.1.5 Web browsers and other dynamic or interactive user agents</a> and <a href="#conf-author-tools">§ 7.1.6 Authoring tools</a> for details on the
+requirements for a <em>conforming</em> user agent.</p>
+    <dt data-md><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="window">Window</dfn>
+    <dd data-md>
+     <p>The <code>Window</code> is the object referred to by the current <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document" id="ref-for-concept-document②">document</a>’s
+browsing context’s Window Proxy object as defined in <a href="http://dev.w3.org/html5/spec/single-page.html#windowproxy" title="HTML5 WindowProxy description">HTML5</a> <a data-link-type="biblio" href="#biblio-html5" title="HTML5">[HTML5]</a>.</p>
+   </dl>
+  </main>
+  <div data-fill-with="conformance">
+   <h2 class="no-ref no-num heading settled" id="w3c-conformance"><span class="content">Conformance</span><a class="self-link" href="#w3c-conformance"></a></h2>
+   <h3 class="no-ref no-num heading settled" id="w3c-conventions"><span class="content">Document conventions</span><a class="self-link" href="#w3c-conventions"></a></h3>
+   <p>Conformance requirements are expressed
+    with a combination of descriptive assertions
+    and RFC 2119 terminology.
+    The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL”
+    in the normative parts of this document
+    are to be interpreted as described in RFC 2119.
+    However, for readability,
+    these words do not appear in all uppercase letters in this specification. </p>
+   <p>All of the text of this specification is normative
+    except sections explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119" title="Key words for use in RFCs to Indicate Requirement Levels">[RFC2119]</a> </p>
+   <p>Examples in this specification are introduced with the words “for example”
+    or are set apart from the normative text
+    with <code>class="example"</code>,
+    like this: </p>
+   <div class="example" id="w3c-example">
+    <a class="self-link" href="#w3c-example"></a> 
+    <p>This is an example of an informative example. </p>
+   </div>
+   <p>Informative notes begin with the word “Note”
+    and are set apart from the normative text
+    with <code>class="note"</code>,
+    like this: </p>
+   <p class="note" role="note">Note, this is an informative note.</p>
+   <section>
+    <h3 class="no-ref no-num heading settled" id="w3c-conformant-algorithms"><span class="content">Conformant Algorithms</span><a class="self-link" href="#w3c-conformant-algorithms"></a></h3>
+    <p>Requirements phrased in the imperative as part of algorithms
+    (such as "strip any leading space characters"
+    or "return false and abort these steps")
+    are to be interpreted with the meaning of the key word
+    ("must", "should", "may", etc)
+    used in introducing the algorithm. </p>
+    <p>Conformance requirements phrased as algorithms or specific steps
+    can be implemented in any manner,
+    so long as the end result is equivalent.
+    In particular, the algorithms defined in this specification
+    are intended to be easy to understand
+    and are not intended to be performant.
+    Implementers are encouraged to optimize. </p>
+   </section>
+  </div>
+<script src="https://www.w3.org/scripts/TR/2021/fixup.js"></script>
+  <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
+  <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
+  <ul class="index">
+   <li><a href="#blur">blur</a><span>, in § 3.4.1</span>
+   <li><a href="#dom-focusevent-focusevent">constructor(type)</a><span>, in § 3.1.1</span>
+   <li><a href="#dom-focusevent-focusevent">constructor(type, eventInitDict)</a><span>, in § 3.1.1</span>
+   <li><a href="#domfocusin">DOMFocusIn</a><span>, in § 4.1.1</span>
+   <li><a href="#domfocusout">DOMFocusOut</a><span>, in § 4.1.2</span>
+   <li><a href="#event">event</a><span>, in § 8</span>
+   <li><a href="#event-focus">event focus</a><span>, in § 8</span>
+   <li><a href="#event-target">event target</a><span>, in § 8</span>
+   <li><a href="#focus">focus</a><span>, in § 3.4.2</span>
+   <li><a href="#focusevent">FocusEvent</a><span>, in § 3.1.1</span>
+   <li><a href="#dictdef-focuseventinit">FocusEventInit</a><span>, in § 3.1.2</span>
+   <li><a href="#dom-focusevent-focusevent">FocusEvent(type)</a><span>, in § 3.1.1</span>
+   <li><a href="#dom-focusevent-focusevent">FocusEvent(type, eventInitDict)</a><span>, in § 3.1.1</span>
+   <li><a href="#focusin">focusin</a><span>, in § 3.4.3</span>
+   <li><a href="#focusout">focusout</a><span>, in § 3.4.4</span>
+   <li><a href="#focus-ring">focus ring</a><span>, in § 8</span>
+   <li><a href="#host-language">host language</a><span>, in § 8</span>
+   <li>
+    relatedTarget
+    <ul>
+     <li><a href="#dom-focusevent-relatedtarget">attribute for FocusEvent</a><span>, in § 3.1.1</span>
+     <li><a href="#dom-focuseventinit-relatedtarget">dict-member for FocusEventInit</a><span>, in § 3.1.2</span>
+    </ul>
+   <li><a href="#un-initialized-value">un-initialized value</a><span>, in § 8</span>
+   <li><a href="#user-agent">user agent</a><span>, in § 8</span>
+   <li><a href="#window">Window</a><span>, in § 8</span>
+  </ul>
+  <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
+  <ul class="index">
+   <li>
+    <a data-link-type="biblio">[DOM]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="129bdae8">Event</span>
+     <li><span class="dfn-paneled" id="2bc0cdf4">EventTarget</span>
+     <li><span class="dfn-paneled" id="0c0ceb78">bubbles</span>
+     <li><span class="dfn-paneled" id="0d1c69e7">createEvent(interface)</span>
+     <li><span class="dfn-paneled" id="5ca8693f">currentTarget</span>
+     <li><span class="dfn-paneled" id="a973e0fe">document</span>
+     <li><span class="dfn-paneled" id="e464d43e">initEvent(type)</span>
+     <li><span class="dfn-paneled" id="e8478f36">target</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[UIEVENTS]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="92000da2">UIEvent</span>
+     <li><span class="dfn-paneled" id="7eb5078b">UIEventInit</span>
+     <li><span class="dfn-paneled" id="6a26a5dc">detail</span>
+     <li><span class="dfn-paneled" id="2e0301d0">view</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[WEBDRIVER-BIDI]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="c219e85e">event type</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[WEBIDL]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="8855a9aa">DOMString</span>
+     <li><span class="dfn-paneled" id="889e932f">Exposed</span>
+    </ul>
+  </ul>
+  <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
+  <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
+  <dl>
+   <dt id="biblio-dom">[DOM]
+   <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/"><cite>DOM Standard</cite></a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
+   <dt id="biblio-rfc2119">[RFC2119]
+   <dd>S. Bradner. <a href="https://datatracker.ietf.org/doc/html/rfc2119"><cite>Key words for use in RFCs to Indicate Requirement Levels</cite></a>. March 1997. Best Current Practice. URL: <a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>
+   <dt id="biblio-uievents">[UIEVENTS]
+   <dd>Gary Kacmarcik; Travis Leithead. <a href="https://w3c.github.io/uievents/"><cite>UI Events</cite></a>. URL: <a href="https://w3c.github.io/uievents/">https://w3c.github.io/uievents/</a>
+   <dt id="biblio-webdriver-bidi">[WEBDRIVER-BIDI]
+   <dd>WebDriver BiDi URL: <a href="https://w3c.github.io/webdriver-bidi/">https://w3c.github.io/webdriver-bidi/</a>
+   <dt id="biblio-webidl">[WEBIDL]
+   <dd>Edgar Chen; Timothy Gu. <a href="https://webidl.spec.whatwg.org/"><cite>Web IDL Standard</cite></a>. Living Standard. URL: <a href="https://webidl.spec.whatwg.org/">https://webidl.spec.whatwg.org/</a>
+  </dl>
+  <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
+  <dl>
+   <dt id="biblio-html5">[HTML5]
+   <dd>Ian Hickson; et al. <a href="https://www.w3.org/html/wg/drafts/html/master/"><cite>HTML5</cite></a>. URL: <a href="https://www.w3.org/html/wg/drafts/html/master/">https://www.w3.org/html/wg/drafts/html/master/</a>
+   <dt id="biblio-uaag20">[UAAG20]
+   <dd>James Allan; et al. <a href="https://www.w3.org/TR/2015/NOTE-UAAG20-20151215/"><cite>User Agent Accessibility Guidelines (UAAG) 2.0</cite></a>. URL: <a href="https://www.w3.org/TR/2015/NOTE-UAAG20-20151215/">https://www.w3.org/TR/2015/NOTE-UAAG20-20151215/</a>
+  </dl>
+  <h2 class="no-num no-ref heading settled" id="idl-index"><span class="content">IDL Index</span><a class="self-link" href="#idl-index"></a></h2>
+<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://webidl.spec.whatwg.org/#Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+<c- b>interface</c-> <a href="#focusevent"><code><c- g>FocusEvent</c-></code></a> : <a data-link-type="idl-name" href="https://w3c.github.io/uievents/#uievent"><c- n>UIEvent</c-></a> {
+  <a href="#dom-focusevent-focusevent"><code><c- g>constructor</c-></code></a>(<a class="idl-code" data-link-type="interface" href="https://webidl.spec.whatwg.org/#idl-DOMString"><c- b>DOMString</c-></a> <a href="#dom-focusevent-focusevent-type-eventinitdict-type"><code><c- g>type</c-></code></a>, <c- b>optional</c-> <a data-link-type="idl-name" href="#dictdef-focuseventinit"><c- n>FocusEventInit</c-></a> <a href="#dom-focusevent-focusevent-type-eventinitdict-eventinitdict"><code><c- g>eventInitDict</c-></code></a> = {});
+  <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#eventtarget"><c- n>EventTarget</c-></a>? <a data-readonly data-type="EventTarget?" href="#dom-focusevent-relatedtarget"><code><c- g>relatedTarget</c-></code></a>;
+};
+
+<c- b>dictionary</c-> <a href="#dictdef-focuseventinit"><code><c- g>FocusEventInit</c-></code></a> : <a data-link-type="idl-name" href="https://w3c.github.io/uievents/#dictdef-uieventinit"><c- n>UIEventInit</c-></a> {
+  <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#eventtarget"><c- n>EventTarget</c-></a>? <a data-default="null" data-type="EventTarget? " href="#dom-focuseventinit-relatedtarget"><code><c- g>relatedTarget</c-></code></a> = <c- b>null</c->;
+};
+
+</pre>
+<script>/* script-dfn-panel */
+"use strict";
+{
+    const dfnsJson = window.dfnsJson || {};
+
+    function genDfnPanel({dfnID, url, dfnText, refSections, external}) {
+        return mk.aside({
+            class: "dfn-panel",
+            id: `infopanel-for-${dfnID}`,
+            "data-for": dfnID,
+            "aria-labelled-by":`infopaneltitle-for-${dfnID}`,
+            },
+            mk.span({id:`infopaneltitle-for-${dfnID}`, style:"display:none"},
+                `Info about the '${dfnText}' ${external?"external":""} reference.`),
+            mk.a({href:url}, url),
+            mk.b({}, "Referenced in:"),
+            mk.ul({},
+                ...refSections.map(section=>
+                    mk.li({},
+                        ...section.refs.map((ref, refI)=>
+                            [
+                                mk.a({
+                                    href: `#${ref.id}`
+                                    },
+                                    (refI == 0) ? section.title : `(${refI + 1})`
+                                ),
+                                " ",
+                            ]
+                        ),
+                    ),
+                ),
+            ),
+        );
+    }
+
+    function genAllDfnPanels() {
+        for(const panelData of Object.values(window.dfnpanelData)) {
+            const dfnID = panelData.dfnID;
+            const dfn = document.getElementById(dfnID);
+            if(!dfn) {
+                console.log(`Can't find dfn#${dfnID}.`, panelData);
+            } else {
+                const panel = genDfnPanel(panelData);
+                append(document.body, panel);
+                insertDfnPopupAction(dfn, panel)
+            }
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", ()=>{
+        genAllDfnPanels();
+
+        // Add popup behavior to all dfns to show the corresponding dfn-panel.
+        var dfns = queryAll('.dfn-paneled');
+        for(let dfn of dfns) { ; }
+
+        document.body.addEventListener("click", (e) => {
+            // If not handled already, just hide all dfn panels.
+            hideAllDfnPanels();
+        });
+    })
+
+
+    function hideAllDfnPanels() {
+        // Turn off any currently "on" or "activated" panels.
+        queryAll(".dfn-panel.on, .dfn-panel.activated").forEach(el=>hideDfnPanel(el));
+    }
+
+    function showDfnPanel(dfnPanel, dfn) {
+        hideAllDfnPanels(); // Only display one at this time.
+        dfn.setAttribute("aria-expanded", "true");
+        dfnPanel.classList.add("on");
+        dfnPanel.style.left = "5px";
+        dfnPanel.style.top = "0px";
+        const panelRect = dfnPanel.getBoundingClientRect();
+        const panelWidth = panelRect.right - panelRect.left;
+        if (panelRect.right > document.body.scrollWidth) {
+            // Panel's overflowing the screen.
+            // Just drop it below the dfn and flip it rightward instead.
+            // This still wont' fix things if the screen is *really* wide,
+            // but fixing that's a lot harder without 'anchor()'.
+            dfnPanel.style.top = "1.5em";
+            dfnPanel.style.left = "auto";
+            dfnPanel.style.right = "0px";
+        }
+    }
+
+    function pinDfnPanel(dfnPanel) {
+        // Switch it to "activated" state, which pins it.
+        dfnPanel.classList.add("activated");
+        dfnPanel.style.left = null;
+        dfnPanel.style.top = null;
+    }
+
+    function hideDfnPanel(dfnPanel, dfn) {
+        if(!dfn) {
+            dfn = document.getElementById(dfnPanel.getAttribute("data-for"));
+        }
+        dfn.setAttribute("aria-expanded", "false")
+        dfnPanel.classList.remove("on");
+        dfnPanel.classList.remove("activated");
+    }
+
+    function toggleDfnPanel(dfnPanel, dfn) {
+        if(dfnPanel.classList.contains("on")) {
+            hideDfnPanel(dfnPanel, dfn);
+        } else {
+            showDfnPanel(dfnPanel, dfn);
+        }
+    }
+
+    function insertDfnPopupAction(dfn, dfnPanel) {
+        // Find dfn panel
+        const panelWrapper = document.createElement('span');
+        panelWrapper.appendChild(dfnPanel);
+        panelWrapper.style.position = "relative";
+        panelWrapper.style.height = "0px";
+        dfn.insertAdjacentElement("afterend", panelWrapper);
+        dfn.setAttribute('role', 'button');
+        dfn.setAttribute('aria-expanded', 'false')
+        dfn.tabIndex = 0;
+        dfn.classList.add('has-dfn-panel');
+        dfn.addEventListener('click', (event) => {
+            showDfnPanel(dfnPanel, dfn);
+            event.stopPropagation();
+        });
+        dfn.addEventListener('keypress', (event) => {
+            const kc = event.keyCode;
+            // 32->Space, 13->Enter
+            if(kc == 32 || kc == 13) {
+                toggleDfnPanel(dfnPanel, dfn);
+                event.stopPropagation();
+                event.preventDefault();
+            }
+        });
+
+        dfnPanel.addEventListener('click', (event) => {
+            if (event.target.nodeName == 'A') {
+                pinDfnPanel(dfnPanel);
+            }
+            event.stopPropagation();
+        });
+
+        dfnPanel.addEventListener('keydown', (event) => {
+            if(event.keyCode == 27) { // Escape key
+                hideDfnPanel(dfnPanel, dfn);
+                event.stopPropagation();
+                event.preventDefault();
+            }
+        })
+    }
+}
+</script>
+<script>/* script-dfn-panel-json */
+window.dfnpanelData = {};
+window.dfnpanelData['129bdae8'] = {"dfnID": "129bdae8", "url": "https://dom.spec.whatwg.org/#event", "dfnText": "Event", "refSections": [{"refs": [{"id": "ref-for-event"}], "title": "3.4.1. blur"}, {"refs": [{"id": "ref-for-event\u2460"}], "title": "3.4.2. focus"}, {"refs": [{"id": "ref-for-event\u2461"}], "title": "3.4.3. focusin"}, {"refs": [{"id": "ref-for-event\u2462"}], "title": "3.4.4. focusout"}, {"refs": [{"id": "ref-for-event\u2463"}], "title": "4.1.1. DOMFocusIn"}, {"refs": [{"id": "ref-for-event\u2464"}], "title": "4.1.2. DOMFocusOut"}], "external": true};
+window.dfnpanelData['2bc0cdf4'] = {"dfnID": "2bc0cdf4", "url": "https://dom.spec.whatwg.org/#eventtarget", "dfnText": "EventTarget", "refSections": [{"refs": [{"id": "ref-for-eventtarget"}, {"id": "ref-for-eventtarget\u2460"}, {"id": "ref-for-eventtarget\u2461"}], "title": "3.1.1. FocusEvent"}, {"refs": [{"id": "ref-for-eventtarget\u2462"}], "title": "3.1.2. FocusEventInit"}], "external": true};
+window.dfnpanelData['0c0ceb78'] = {"dfnID": "0c0ceb78", "url": "https://dom.spec.whatwg.org/#dom-event-bubbles", "dfnText": "bubbles", "refSections": [{"refs": [{"id": "ref-for-dom-event-bubbles"}], "title": "8. Glossary [DELETE]"}], "external": true};
+window.dfnpanelData['0d1c69e7'] = {"dfnID": "0d1c69e7", "url": "https://dom.spec.whatwg.org/#dom-document-createevent", "dfnText": "createEvent(interface)", "refSections": [{"refs": [{"id": "ref-for-dom-document-createevent"}], "title": "8. Glossary [DELETE]"}], "external": true};
+window.dfnpanelData['5ca8693f'] = {"dfnID": "5ca8693f", "url": "https://dom.spec.whatwg.org/#dom-event-currenttarget", "dfnText": "currentTarget", "refSections": [{"refs": [{"id": "ref-for-dom-event-currenttarget"}], "title": "8. Glossary [DELETE]"}], "external": true};
+window.dfnpanelData['a973e0fe'] = {"dfnID": "a973e0fe", "url": "https://dom.spec.whatwg.org/#concept-document", "dfnText": "document", "refSections": [{"refs": [{"id": "ref-for-concept-document"}, {"id": "ref-for-concept-document\u2460"}, {"id": "ref-for-concept-document\u2461"}], "title": "8. Glossary [DELETE]"}], "external": true};
+window.dfnpanelData['e464d43e'] = {"dfnID": "e464d43e", "url": "https://dom.spec.whatwg.org/#dom-event-initevent", "dfnText": "initEvent(type)", "refSections": [{"refs": [{"id": "ref-for-dom-event-initevent"}], "title": "8. Glossary [DELETE]"}], "external": true};
+window.dfnpanelData['e8478f36'] = {"dfnID": "e8478f36", "url": "https://dom.spec.whatwg.org/#dom-event-target", "dfnText": "target", "refSections": [{"refs": [{"id": "ref-for-dom-event-target"}], "title": "3.4.1. blur"}, {"refs": [{"id": "ref-for-dom-event-target\u2460"}], "title": "3.4.2. focus"}, {"refs": [{"id": "ref-for-dom-event-target\u2461"}], "title": "3.4.3. focusin"}, {"refs": [{"id": "ref-for-dom-event-target\u2462"}], "title": "3.4.4. focusout"}, {"refs": [{"id": "ref-for-dom-event-target\u2463"}], "title": "4.1.1. DOMFocusIn"}, {"refs": [{"id": "ref-for-dom-event-target\u2464"}], "title": "4.1.2. DOMFocusOut"}, {"refs": [{"id": "ref-for-dom-event-target\u2465"}], "title": "8. Glossary [DELETE]"}], "external": true};
+window.dfnpanelData['92000da2'] = {"dfnID": "92000da2", "url": "https://w3c.github.io/uievents/#uievent", "dfnText": "UIEvent", "refSections": [{"refs": [{"id": "ref-for-uievent"}], "title": "3.1.1. FocusEvent"}, {"refs": [{"id": "ref-for-uievent\u2460"}, {"id": "ref-for-uievent\u2461"}], "title": "3.4.1. blur"}, {"refs": [{"id": "ref-for-uievent\u2462"}, {"id": "ref-for-uievent\u2463"}], "title": "3.4.2. focus"}, {"refs": [{"id": "ref-for-uievent\u2464"}, {"id": "ref-for-uievent\u2465"}], "title": "3.4.3. focusin"}, {"refs": [{"id": "ref-for-uievent\u2466"}, {"id": "ref-for-uievent\u2467"}], "title": "3.4.4. focusout"}, {"refs": [{"id": "ref-for-uievent\u2468"}, {"id": "ref-for-uievent\u2460\u24ea"}], "title": "4.1.1. DOMFocusIn"}, {"refs": [{"id": "ref-for-uievent\u2460\u2460"}, {"id": "ref-for-uievent\u2460\u2461"}], "title": "4.1.2. DOMFocusOut"}], "external": true};
+window.dfnpanelData['7eb5078b'] = {"dfnID": "7eb5078b", "url": "https://w3c.github.io/uievents/#dictdef-uieventinit", "dfnText": "UIEventInit", "refSections": [{"refs": [{"id": "ref-for-dictdef-uieventinit"}], "title": "3.1.2. FocusEventInit"}], "external": true};
+window.dfnpanelData['6a26a5dc'] = {"dfnID": "6a26a5dc", "url": "https://w3c.github.io/uievents/#dom-uievent-detail", "dfnText": "detail", "refSections": [{"refs": [{"id": "ref-for-dom-uievent-detail"}], "title": "3.4.1. blur"}, {"refs": [{"id": "ref-for-dom-uievent-detail\u2460"}], "title": "3.4.2. focus"}, {"refs": [{"id": "ref-for-dom-uievent-detail\u2461"}], "title": "3.4.3. focusin"}, {"refs": [{"id": "ref-for-dom-uievent-detail\u2462"}], "title": "3.4.4. focusout"}, {"refs": [{"id": "ref-for-dom-uievent-detail\u2463"}], "title": "4.1.1. DOMFocusIn"}, {"refs": [{"id": "ref-for-dom-uievent-detail\u2464"}], "title": "4.1.2. DOMFocusOut"}], "external": true};
+window.dfnpanelData['2e0301d0'] = {"dfnID": "2e0301d0", "url": "https://w3c.github.io/uievents/#dom-uievent-view", "dfnText": "view", "refSections": [{"refs": [{"id": "ref-for-dom-uievent-view"}], "title": "3.4.1. blur"}, {"refs": [{"id": "ref-for-dom-uievent-view\u2460"}], "title": "3.4.2. focus"}, {"refs": [{"id": "ref-for-dom-uievent-view\u2461"}], "title": "3.4.3. focusin"}, {"refs": [{"id": "ref-for-dom-uievent-view\u2462"}], "title": "3.4.4. focusout"}, {"refs": [{"id": "ref-for-dom-uievent-view\u2463"}], "title": "4.1.1. DOMFocusIn"}, {"refs": [{"id": "ref-for-dom-uievent-view\u2464"}], "title": "4.1.2. DOMFocusOut"}], "external": true};
+window.dfnpanelData['c219e85e'] = {"dfnID": "c219e85e", "url": "https://w3c.github.io/webdriver-bidi/#event-event-type", "dfnText": "event type", "refSections": [{"refs": [{"id": "ref-for-event-event-type"}], "title": "8. Glossary [DELETE]"}], "external": true};
+window.dfnpanelData['8855a9aa'] = {"dfnID": "8855a9aa", "url": "https://webidl.spec.whatwg.org/#idl-DOMString", "dfnText": "DOMString", "refSections": [{"refs": [{"id": "ref-for-idl-DOMString"}], "title": "3.1.1. FocusEvent"}], "external": true};
+window.dfnpanelData['889e932f'] = {"dfnID": "889e932f", "url": "https://webidl.spec.whatwg.org/#Exposed", "dfnText": "Exposed", "refSections": [{"refs": [{"id": "ref-for-Exposed"}], "title": "3.1.1. FocusEvent"}], "external": true};
+window.dfnpanelData['focusevent'] = {"dfnID": "focusevent", "url": "#focusevent", "dfnText": "FocusEvent", "refSections": [{"refs": [{"id": "ref-for-focusevent"}, {"id": "ref-for-focusevent\u2460"}], "title": "3.1. Interface FocusEvent"}, {"refs": [{"id": "ref-for-focusevent\u2461"}, {"id": "ref-for-focusevent\u2462"}], "title": "3.4.1. blur"}, {"refs": [{"id": "ref-for-focusevent\u2463"}, {"id": "ref-for-focusevent\u2464"}], "title": "3.4.2. focus"}, {"refs": [{"id": "ref-for-focusevent\u2465"}, {"id": "ref-for-focusevent\u2466"}], "title": "3.4.3. focusin"}, {"refs": [{"id": "ref-for-focusevent\u2467"}, {"id": "ref-for-focusevent\u2468"}], "title": "3.4.4. focusout"}, {"refs": [{"id": "ref-for-focusevent\u2460\u24ea"}], "title": "4. Legacy FocusEvent events"}, {"refs": [{"id": "ref-for-focusevent\u2460\u2460"}], "title": "4.1. Legacy FocusEvent event types"}, {"refs": [{"id": "ref-for-focusevent\u2460\u2461"}, {"id": "ref-for-focusevent\u2460\u2462"}], "title": "4.1.1. DOMFocusIn"}, {"refs": [{"id": "ref-for-focusevent\u2460\u2463"}, {"id": "ref-for-focusevent\u2460\u2464"}], "title": "4.1.2. DOMFocusOut"}], "external": false};
+window.dfnpanelData['dom-focusevent-relatedtarget'] = {"dfnID": "dom-focusevent-relatedtarget", "url": "#dom-focusevent-relatedtarget", "dfnText": "relatedTarget", "refSections": [{"refs": [{"id": "ref-for-dom-focusevent-relatedtarget"}], "title": "3.4.1. blur"}, {"refs": [{"id": "ref-for-dom-focusevent-relatedtarget\u2460"}], "title": "3.4.2. focus"}, {"refs": [{"id": "ref-for-dom-focusevent-relatedtarget\u2461"}], "title": "3.4.3. focusin"}, {"refs": [{"id": "ref-for-dom-focusevent-relatedtarget\u2462"}], "title": "3.4.4. focusout"}, {"refs": [{"id": "ref-for-dom-focusevent-relatedtarget\u2463"}], "title": "4.1.1. DOMFocusIn"}, {"refs": [{"id": "ref-for-dom-focusevent-relatedtarget\u2464"}], "title": "4.1.2. DOMFocusOut"}], "external": false};
+window.dfnpanelData['dictdef-focuseventinit'] = {"dfnID": "dictdef-focuseventinit", "url": "#dictdef-focuseventinit", "dfnText": "FocusEventInit", "refSections": [{"refs": [{"id": "ref-for-dictdef-focuseventinit"}], "title": "3.1. Interface FocusEvent"}, {"refs": [{"id": "ref-for-dictdef-focuseventinit\u2460"}], "title": "3.1.1. FocusEvent"}], "external": false};
+window.dfnpanelData['dom-focuseventinit-relatedtarget'] = {"dfnID": "dom-focuseventinit-relatedtarget", "url": "#dom-focuseventinit-relatedtarget", "dfnText": "relatedTarget", "refSections": [{"refs": [{"id": "ref-for-dom-focuseventinit-relatedtarget"}], "title": "3.1.2. FocusEventInit"}], "external": false};
+window.dfnpanelData['blur'] = {"dfnID": "blur", "url": "#blur", "dfnText": "blur", "refSections": [{"refs": [{"id": "ref-for-blur"}], "title": "3.1.2. FocusEventInit"}, {"refs": [{"id": "ref-for-blur\u2460"}], "title": "3.2. Focus Event Order"}, {"refs": [{"id": "ref-for-blur\u2461"}, {"id": "ref-for-blur\u2462"}], "title": "3.4.4. focusout"}, {"refs": [{"id": "ref-for-blur\u2463"}, {"id": "ref-for-blur\u2464"}], "title": "4.1.2. DOMFocusOut"}, {"refs": [{"id": "ref-for-blur\u2465"}], "title": "4.2. Legacy FocusEvent event order"}], "external": false};
+window.dfnpanelData['focus'] = {"dfnID": "focus", "url": "#focus", "dfnText": "focus", "refSections": [{"refs": [{"id": "ref-for-focus"}], "title": "3.1.2. FocusEventInit"}, {"refs": [{"id": "ref-for-focus\u2460"}, {"id": "ref-for-focus\u2461"}], "title": "3.2. Focus Event Order"}, {"refs": [{"id": "ref-for-focus\u2462"}], "title": "3.3. Document Focus and Focus Context"}, {"refs": [{"id": "ref-for-focus\u2463"}, {"id": "ref-for-focus\u2464"}], "title": "3.4.3. focusin"}, {"refs": [{"id": "ref-for-focus\u2465"}, {"id": "ref-for-focus\u2466"}], "title": "4.1.1. DOMFocusIn"}, {"refs": [{"id": "ref-for-focus\u2467"}, {"id": "ref-for-focus\u2468"}], "title": "4.2. Legacy FocusEvent event order"}], "external": false};
+window.dfnpanelData['focusin'] = {"dfnID": "focusin", "url": "#focusin", "dfnText": "focusin", "refSections": [{"refs": [{"id": "ref-for-focusin"}], "title": "3.1.2. FocusEventInit"}, {"refs": [{"id": "ref-for-focusin\u2460"}, {"id": "ref-for-focusin\u2461"}], "title": "3.2. Focus Event Order"}, {"refs": [{"id": "ref-for-focusin\u2462"}], "title": "3.4.2. focus"}, {"refs": [{"id": "ref-for-focusin\u2463"}], "title": "4.1.1. DOMFocusIn"}, {"refs": [{"id": "ref-for-focusin\u2464"}, {"id": "ref-for-focusin\u2465"}], "title": "4.2. Legacy FocusEvent event order"}], "external": false};
+window.dfnpanelData['focusout'] = {"dfnID": "focusout", "url": "#focusout", "dfnText": "focusout", "refSections": [{"refs": [{"id": "ref-for-focusout"}], "title": "3.1.2. FocusEventInit"}, {"refs": [{"id": "ref-for-focusout\u2460"}], "title": "3.2. Focus Event Order"}, {"refs": [{"id": "ref-for-focusout\u2461"}], "title": "3.4.1. blur"}, {"refs": [{"id": "ref-for-focusout\u2462"}], "title": "4.1.2. DOMFocusOut"}, {"refs": [{"id": "ref-for-focusout\u2463"}], "title": "4.2. Legacy FocusEvent event order"}], "external": false};
+window.dfnpanelData['domfocusin'] = {"dfnID": "domfocusin", "url": "#domfocusin", "dfnText": "DOMFocusIn", "refSections": [{"refs": [{"id": "ref-for-domfocusin"}], "title": "4.1.1. DOMFocusIn"}, {"refs": [{"id": "ref-for-domfocusin\u2460"}, {"id": "ref-for-domfocusin\u2461"}, {"id": "ref-for-domfocusin\u2462"}], "title": "4.2. Legacy FocusEvent event order"}], "external": false};
+window.dfnpanelData['domfocusout'] = {"dfnID": "domfocusout", "url": "#domfocusout", "dfnText": "DOMFocusOut", "refSections": [{"refs": [{"id": "ref-for-domfocusout"}], "title": "4.1.2. DOMFocusOut"}, {"refs": [{"id": "ref-for-domfocusout\u2460"}, {"id": "ref-for-domfocusout\u2461"}], "title": "4.2. Legacy FocusEvent event order"}], "external": false};
+window.dfnpanelData['event'] = {"dfnID": "event", "url": "#event", "dfnText": "event", "refSections": [{"refs": [{"id": "ref-for-event\u2465"}], "title": "8. Glossary [DELETE]"}], "external": false};
+window.dfnpanelData['event-focus'] = {"dfnID": "event-focus", "url": "#event-focus", "dfnText": "event focus", "refSections": [{"refs": [{"id": "ref-for-event-focus"}], "title": "8. Glossary [DELETE]"}], "external": false};
+window.dfnpanelData['event-target'] = {"dfnID": "event-target", "url": "#event-target", "dfnText": "event target", "refSections": [{"refs": [{"id": "ref-for-event-target"}], "title": "3.3. Document Focus and Focus Context"}, {"refs": [{"id": "ref-for-event-target\u2460"}, {"id": "ref-for-event-target\u2461"}, {"id": "ref-for-event-target\u2462"}], "title": "3.4.1. blur"}, {"refs": [{"id": "ref-for-event-target\u2463"}, {"id": "ref-for-event-target\u2464"}, {"id": "ref-for-event-target\u2465"}], "title": "3.4.2. focus"}, {"refs": [{"id": "ref-for-event-target\u2466"}, {"id": "ref-for-event-target\u2467"}, {"id": "ref-for-event-target\u2468"}, {"id": "ref-for-event-target\u2460\u24ea"}], "title": "3.4.3. focusin"}, {"refs": [{"id": "ref-for-event-target\u2460\u2460"}, {"id": "ref-for-event-target\u2460\u2461"}, {"id": "ref-for-event-target\u2460\u2462"}, {"id": "ref-for-event-target\u2460\u2463"}], "title": "3.4.4. focusout"}, {"refs": [{"id": "ref-for-event-target\u2460\u2464"}, {"id": "ref-for-event-target\u2460\u2465"}], "title": "4.1.1. DOMFocusIn"}, {"refs": [{"id": "ref-for-event-target\u2460\u2466"}, {"id": "ref-for-event-target\u2460\u2467"}], "title": "4.1.2. DOMFocusOut"}, {"refs": [{"id": "ref-for-event-target\u2460\u2468"}, {"id": "ref-for-event-target\u2461\u24ea"}], "title": "8. Glossary [DELETE]"}], "external": false};
+window.dfnpanelData['focus-ring'] = {"dfnID": "focus-ring", "url": "#focus-ring", "dfnText": "event focus ring", "refSections": [{"refs": [{"id": "ref-for-focus-ring"}], "title": "3.3. Document Focus and Focus Context"}], "external": false};
+window.dfnpanelData['host-language'] = {"dfnID": "host-language", "url": "#host-language", "dfnText": "host language", "refSections": [{"refs": [{"id": "ref-for-host-language"}], "title": "3.3. Document Focus and Focus Context"}, {"refs": [{"id": "ref-for-host-language\u2460"}], "title": "8. Glossary [DELETE]"}], "external": false};
+window.dfnpanelData['un-initialized-value'] = {"dfnID": "un-initialized-value", "url": "#un-initialized-value", "dfnText": "un-initialized value", "refSections": [{"refs": [{"id": "ref-for-un-initialized-value"}], "title": "3.1.1. FocusEvent"}], "external": false};
+window.dfnpanelData['user-agent'] = {"dfnID": "user-agent", "url": "#user-agent", "dfnText": "user agent", "refSections": [{"refs": [{"id": "ref-for-user-agent"}], "title": "3.4.1. blur"}, {"refs": [{"id": "ref-for-user-agent\u2460"}], "title": "3.4.2. focus"}, {"refs": [{"id": "ref-for-user-agent\u2461"}], "title": "3.4.3. focusin"}, {"refs": [{"id": "ref-for-user-agent\u2462"}], "title": "3.4.4. focusout"}, {"refs": [{"id": "ref-for-user-agent\u2463"}], "title": "4.1.1. DOMFocusIn"}, {"refs": [{"id": "ref-for-user-agent\u2464"}], "title": "4.1.2. DOMFocusOut"}, {"refs": [{"id": "ref-for-user-agent\u2465"}], "title": "7.1.5. Web browsers and other dynamic or interactive user agents"}], "external": false};
+window.dfnpanelData['window'] = {"dfnID": "window", "url": "#window", "dfnText": "Window", "refSections": [{"refs": [{"id": "ref-for-window"}, {"id": "ref-for-window\u2460"}], "title": "3.4.1. blur"}, {"refs": [{"id": "ref-for-window\u2461"}, {"id": "ref-for-window\u2462"}], "title": "3.4.2. focus"}, {"refs": [{"id": "ref-for-window\u2463"}, {"id": "ref-for-window\u2464"}], "title": "3.4.3. focusin"}, {"refs": [{"id": "ref-for-window\u2465"}, {"id": "ref-for-window\u2466"}], "title": "3.4.4. focusout"}, {"refs": [{"id": "ref-for-window\u2467"}, {"id": "ref-for-window\u2468"}], "title": "4.1.1. DOMFocusIn"}, {"refs": [{"id": "ref-for-window\u2460\u24ea"}, {"id": "ref-for-window\u2460\u2460"}], "title": "4.1.2. DOMFocusOut"}], "external": false};</script>
+<script>/* script-dom-helper */
+function query(sel) { return document.querySelector(sel); }
+
+function queryAll(sel) { return [...document.querySelectorAll(sel)]; }
+
+function iter(obj) {
+	if(!obj) return [];
+	var it = obj[Symbol.iterator];
+	if(it) return it;
+	return Object.entries(obj);
+}
+
+function mk(tagname, attrs, ...children) {
+	const el = document.createElement(tagname);
+	for(const [k,v] of iter(attrs)) {
+		if(k.slice(0,3) == "_on") {
+			const eventName = k.slice(3);
+			el.addEventListener(eventName, v);
+		} else if(k[0] == "_") {
+			// property, not attribute
+			el[k.slice(1)] = v;
+		} else {
+			if(v === false || v == null) {
+        continue;
+      } else if(v === true) {
+        el.setAttribute(k, "");
+        continue;
+      } else {
+  			el.setAttribute(k, v);
+      }
+		}
+	}
+	append(el, children);
+	return el;
+}
+
+/* Create shortcuts for every known HTML element */
+[
+  "a",
+  "abbr",
+  "acronym",
+  "address",
+  "applet",
+  "area",
+  "article",
+  "aside",
+  "audio",
+  "b",
+  "base",
+  "basefont",
+  "bdo",
+  "big",
+  "blockquote",
+  "body",
+  "br",
+  "button",
+  "canvas",
+  "caption",
+  "center",
+  "cite",
+  "code",
+  "col",
+  "colgroup",
+  "datalist",
+  "dd",
+  "del",
+  "details",
+  "dfn",
+  "dialog",
+  "div",
+  "dl",
+  "dt",
+  "em",
+  "embed",
+  "fieldset",
+  "figcaption",
+  "figure",
+  "font",
+  "footer",
+  "form",
+  "frame",
+  "frameset",
+  "head",
+  "header",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "hr",
+  "html",
+  "i",
+  "iframe",
+  "img",
+  "input",
+  "ins",
+  "kbd",
+  "label",
+  "legend",
+  "li",
+  "link",
+  "main",
+  "map",
+  "mark",
+  "meta",
+  "meter",
+  "nav",
+  "nobr",
+  "noscript",
+  "object",
+  "ol",
+  "optgroup",
+  "option",
+  "output",
+  "p",
+  "param",
+  "pre",
+  "progress",
+  "q",
+  "s",
+  "samp",
+  "script",
+  "section",
+  "select",
+  "small",
+  "source",
+  "span",
+  "strike",
+  "strong",
+  "style",
+  "sub",
+  "summary",
+  "sup",
+  "table",
+  "tbody",
+  "td",
+  "template",
+  "textarea",
+  "tfoot",
+  "th",
+  "thead",
+  "time",
+  "title",
+  "tr",
+  "u",
+  "ul",
+  "var",
+  "video",
+  "wbr",
+  "xmp",
+].forEach(tagname=>{
+	mk[tagname] = (...args) => mk(tagname, ...args);
+});
+
+function* nodesFromChildList(children) {
+	for(const child of children.flat(Infinity)) {
+		if(child instanceof Node) {
+			yield child;
+		} else {
+			yield new Text(child);
+		}
+	}
+}
+function append(el, ...children) {
+	for(const child of nodesFromChildList(children)) {
+		if(el instanceof Node) el.appendChild(child);
+		else el.push(child);
+	}
+	return el;
+}
+
+function insertAfter(el, ...children) {
+	for(const child of nodesFromChildList(children)) {
+		el.parentNode.insertBefore(child, el.nextSibling);
+	}
+	return el;
+}
+
+function clearContents(el) {
+	el.innerHTML = "";
+	return el;
+}
+
+function parseHTML(markup) {
+	if(markup.toLowerCase().trim().indexOf('<!doctype') === 0) {
+		const doc = document.implementation.createHTMLDocument("");
+		doc.documentElement.innerHTML = markup;
+		return doc;
+	} else {
+		const el = mk.template({});
+		el.innerHTML = markup;
+		return el.content;
+	}
+}</script>
