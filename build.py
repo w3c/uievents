@@ -312,8 +312,8 @@ def process_split_spec():
 		subprocess.call(cmd)
 
 def main():
-	#process_main_spec()
-	process_split_spec()
+	process_main_spec()
+	#process_split_spec()
 
 if __name__ == '__main__':
 	main()
