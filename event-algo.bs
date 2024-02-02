@@ -1001,11 +1001,11 @@ method steps are:
     : Output
     :: None
 
-    1. <a>Initialize a TextEvent</a> with |e|, |eventType| and |eventTarget|
+    1. <a>Initialize a UIEvent</a> with |e|, |eventType| and |eventTarget|
 
     1. Initialize the following public attributes
 
-        1. Set event.data = null
+        1. Set event.data = ""
 
 </div><!-- algorithm -->
 
@@ -1032,7 +1032,7 @@ method steps are:
 
     : Input
     :: |eventType|, a DOMString containing the event type
-    :: |data|, a DOMString containing event data
+    :: |data|, a DOMString containing event data, or null
 
     : Output
     :: None
@@ -1040,6 +1040,7 @@ method steps are:
     1. Let target =
         <a href="https://html.spec.whatwg.org/#currently-focused-area-of-a-top-level-browsing-context">currently focused area of a top-level browsing context</a>
     1. Let |event| = result of <a>create a TextEvent</a> with |eventType|, |target|
+    1. If |data| is null, set |data| to the empty string.
     1. Set |event|.{{TextEvent/data}} = |data|
     1. Return the result of <a>dispatch</a> |event| at |target|
 
