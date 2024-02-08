@@ -1529,6 +1529,51 @@ myDiv.addEventListener("auxclick", function(e) {
 			before or after the EVENT{mouseup} event.
 			</p>
 
+		<h5 id="event-type-contextmenudismiss"><dfn>contextmenudismiss</dfn></h5>
+
+			++------------------+--------------------------------------------------------------------------------------+ event-definition
+			=| %                |                                                                                      |
+			 +------------------+--------------------------------------------------------------------------------------+
+			+| Type             | <strong><code>contextmenudismiss</code></strong>                                     |
+			+| Interface        | {{PointerEvent}}                                                                     |
+			+| Sync / Async     | Async                                                                                |
+			+| Bubbles          | Yes                                                                                  |
+			+| Trusted Targets  | <code>Element</code>                                                                 |
+			+| Cancelable       | No                                                                                   |
+			+| Composed         | Yes                                                                                  |
+			+| Default action   | None                                                                                 |
+			+| Context<br/>     | <ul>                                                                                 |
+			 | (trusted events) | <li>{{Event}}.{{Event/target}} : element which received the preceeding               |
+			 |                  |     EVENT(contextmenu) event.</li>                                                   |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/view}} : <a><code>Window</code></a></li>                   |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/detail}} : 0</li>                                          |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/screenX}} : 0</li>                                   |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/screenY}} : 0</li>                                   |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/clientX}} : 0</li>                                   |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/clientY}} : 0</li>                                   |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/altKey}} : <code>false</code></li>                   |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/ctrlKey}} : <code>false</code></li>                  |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/shiftKey}} : <code>false</code></li>                 |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/metaKey}} : <code>false</code></li>                  |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/button}} : 0</li>                                    |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/buttons}} : 0</li>                                   |
+			 |                  | <li>{{MouseEvent}}.{{MouseEvent/relatedTarget}} : <code>null</code></li>             |
+			 |                  | </ul>                                                                                |
+			++------------------+--------------------------------------------------------------------------------------+
+
+			A <a>user agent</a> MUST dispatch this event before closing a context menu.
+			If the system context menu has been suppressed by canceling the
+			EVENT{contextmenu} event, the <a>user agent</a> still MUST dispatch this
+			event to allow the page script to close a custom context menu under the same
+			condition like a system context menu.
+
+			Every EVENT{contextmenu} event MUST be followed by a corresponding
+			EVENT{contextmenudismiss} event with an identical
+			{{Event}}.{{Event/target}}. However, if the target of the
+			EVENT{contextmenu} event has been removed from DOM before firing the
+			EVENT{contextmenudismiss} event, the latter will be fired to the HTML
+			<a>body element</a>.
+
 		<h5 id="event-type-dblclick"><dfn>dblclick</dfn></h5>
 
 			++------------------+--------------------------------------------------------------------------------------+ event-definition
