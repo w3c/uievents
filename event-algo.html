@@ -1489,7 +1489,7 @@ Possible extra rowspan handling
 	}
 </style>
   <meta content="Bikeshed version 4416b18d5, updated Tue Jan 2 15:52:39 2024 -0800" name="generator">
-  <meta content="cf1f109718ad2176bc07a48d947497c9b4ac56bf" name="revision">
+  <meta content="651983daa1c07094fecddc3dbdcf621b62b236e2" name="revision">
 <style>/* Boilerplate: style-autolinks */
 .css.css, .property.property, .descriptor.descriptor {
     color: var(--a-normal-text);
@@ -3175,6 +3175,9 @@ since that’s where these attributes are defined.</p>
        <ol>
         <li data-md>
          <p><var>inputType</var> = "insertText"</p>
+       </ol>
+       <p class="issue" id="issue-7c029583"><a class="self-link" href="#issue-7c029583"></a> <var>inputType</var> should be "insertParagraph" or "insertLineBreak" when pressing Enter.</p>
+       <ol>
         <li data-md>
          <p><var>data</var> = <var>key</var></p>
        </ol>
@@ -3190,9 +3193,19 @@ Can be enabled by changing the "dom.input_events.beforeinput_enabled" pref in "a
         <li data-md>
          <p>Let <var>textInputData</var> be <var>data</var>.</p>
         <li data-md>
-         <p>If <var>inputType</var> is either "insertParagraph" or "insertLineBreak", then set <var>textInputData</var> to "\n".</p>
+         <p>Let <var>shouldFireTextInput</var> to true.</p>
         <li data-md>
-         <p>If <var>inputType</var> is "insertText", then</p>
+         <p>If <var>inputType</var> is either "insertParagraph" or "insertLineBreak", then:</p>
+         <ol>
+          <li data-md>
+           <p>Set <var>textInputData</var> to "\n".</p>
+          <li data-md>
+           <p>If <var>target</var> is an <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/input.html#htmlinputelement" id="ref-for-htmlinputelement">HTMLInputElement</a></code>, then set <var>shouldFireTextInput</var> to false.</p>
+         </ol>
+        <li data-md>
+         <p>If <var>inputType</var> is not one of "insertText", "insertParagraph" or "insertLineBreak", then set <var>shouldFireTextInput</var> to false.</p>
+        <li data-md>
+         <p>If <var>shouldFireTextInput</var> is true, then:</p>
          <ol>
           <li data-md>
            <p>Set <var>result</var> = <a data-link-type="dfn" href="#fire-a-textevent①" id="ref-for-fire-a-textevent①">fire a TextEvent</a> with "textInput", and <var>textInputData</var></p>
@@ -4887,6 +4900,7 @@ to explore how it might be integrated.</p>
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
+     <li><span class="dfn-paneled" id="83b269de">HTMLInputElement</span>
      <li><span class="dfn-paneled" id="5d7209e9">Window</span>
      <li><span class="dfn-paneled" id="59928beb">click focusable</span>
      <li><span class="dfn-paneled" id="1372f92a">dispatch</span>
@@ -4999,6 +5013,7 @@ since that’s where these attributes are defined. <a class="issue-return" href=
    <div class="issue"> Handle historical keypress event here. Return if cancelled. <a class="issue-return" href="#issue-7ecf840c" title="Jump to section">↵</a></div>
    <div class="issue"> How much of this can be moved into the [[Input Events]] spec?
     Issue: List more keys here <a class="issue-return" href="#issue-10cc14f1" title="Jump to section">↵</a></div>
+   <div class="issue"> <var>inputType</var> should be "insertParagraph" or "insertLineBreak" when pressing Enter. <a class="issue-return" href="#issue-7c029583" title="Jump to section">↵</a></div>
    <div class="issue"> What about target ranges? Need to add support here. <a class="issue-return" href="#issue-3dc727e9" title="Jump to section">↵</a></div>
    <div class="issue"> The target for input events should consider focus, but should also ensure that
     the element is editable and being modified.
@@ -5304,6 +5319,7 @@ let dfnPanelData = {
 "6b3c3a50": {"dfnID":"6b3c3a50","dfnText":"in passive listener flag","external":true,"refSections":[{"refs":[{"id":"ref-for-in-passive-listener-flag"}],"title":"3.2. initialize an Event"}],"url":"https://dom.spec.whatwg.org/#in-passive-listener-flag"},
 "7ed32311": {"dfnID":"7ed32311","dfnText":"viewport","external":true,"refSections":[{"refs":[{"id":"ref-for-viewport"}],"title":"6.3. initialize a MouseEvent"}],"url":"https://www.w3.org/TR/CSS2/visuren.html#viewport"},
 "838900a7": {"dfnID":"838900a7","dfnText":"isTrusted","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-event-istrusted"}],"title":"3.2. initialize an Event"},{"refs":[{"id":"ref-for-dom-event-istrusted\u2460"}],"title":"4.2. initialize a UIEvent"}],"url":"https://dom.spec.whatwg.org/#dom-event-istrusted"},
+"83b269de": {"dfnID":"83b269de","dfnText":"HTMLInputElement","external":true,"refSections":[{"refs":[{"id":"ref-for-htmlinputelement"}],"title":"8.3. fire key input events"}],"url":"https://html.spec.whatwg.org/multipage/input.html#htmlinputelement"},
 "895b90c9": {"dfnID":"895b90c9","dfnText":"compositionend","external":true,"refSections":[{"refs":[{"id":"ref-for-compositionend"}],"title":"11.1.1. Window-Level State"}],"url":"https://www.w3.org/TR/uievents/#compositionend"},
 "8b547cc7": {"dfnID":"8b547cc7","dfnText":"composed","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-event-composed"}],"title":"3.2. initialize an Event"},{"refs":[{"id":"ref-for-dom-event-composed\u2460"},{"id":"ref-for-dom-event-composed\u2461"}],"title":"6.12. handle native mouse move"}],"url":"https://dom.spec.whatwg.org/#dom-event-composed"},
 "8c407366": {"dfnID":"8c407366","dfnText":"cancelable","external":true,"refSections":[{"refs":[{"id":"ref-for-dom-event-cancelable"}],"title":"3.2. initialize an Event"},{"refs":[{"id":"ref-for-dom-event-cancelable\u2460"},{"id":"ref-for-dom-event-cancelable\u2461"}],"title":"6.12. handle native mouse move"},{"refs":[{"id":"ref-for-dom-event-cancelable\u2462"}],"title":"9.1. TextEvent Interface"}],"url":"https://dom.spec.whatwg.org/#dom-event-cancelable"},
@@ -5980,6 +5996,7 @@ let refsData = {
 "https://html.spec.whatwg.org/#click-focusable": {"export":true,"for_":[],"level":"","normative":true,"shortname":"html","spec":"html","status":"anchor-block","text":"click focusable","type":"dfn","url":"https://html.spec.whatwg.org/#click-focusable"},
 "https://html.spec.whatwg.org/#focusable-area": {"export":true,"for_":[],"level":"","normative":true,"shortname":"html","spec":"html","status":"anchor-block","text":"focusable area","type":"dfn","url":"https://html.spec.whatwg.org/#focusable-area"},
 "https://html.spec.whatwg.org/#focusing-steps": {"export":true,"for_":[],"level":"","normative":true,"shortname":"html","spec":"html","status":"anchor-block","text":"focusing steps","type":"dfn","url":"https://html.spec.whatwg.org/#focusing-steps"},
+"https://html.spec.whatwg.org/multipage/input.html#htmlinputelement": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"HTMLInputElement","type":"interface","url":"https://html.spec.whatwg.org/multipage/input.html#htmlinputelement"},
 "https://html.spec.whatwg.org/multipage/nav-history-apis.html#window": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"html","spec":"html","status":"current","text":"Window","type":"interface","url":"https://html.spec.whatwg.org/multipage/nav-history-apis.html#window"},
 "https://w3c.github.io/pointerevents/#dom-pointerevent": {"export":true,"for_":[],"level":"3","normative":true,"shortname":"pointerevents","spec":"pointerevents3","status":"current","text":"PointerEvent","type":"interface","url":"https://w3c.github.io/pointerevents/#dom-pointerevent"},
 "https://w3c.github.io/uievents/#compositionevent": {"export":true,"for_":[],"level":"1","normative":true,"shortname":"uievents","spec":"uievents","status":"current","text":"CompositionEvent","type":"interface","url":"https://w3c.github.io/uievents/#compositionevent"},
