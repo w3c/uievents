@@ -51,6 +51,7 @@ completeness.
 +| keypress					   | Sync	| Yes	   | <code>Element</code>					  | KeyboardEvent	 | Yes		  | Yes		  | Varies: launch <a>text composition system</a>; |
  |							   |		|		   |										  |					 |			  |			  | EVENT{blur} and EVENT{focus} events;		   |
  |							   |		|		   |										  |					 |			  |			  | EVENT{DOMActivate} event; other event		   |
++| textInput		   | Sync	| Yes	   | <code>Element</code>					  | TextEvent	 | Yes		  | Yes		  | See definition |
 ++-----------------------------+--------+----------+------------------------------------------+------------------+------------+------------+------------------------------------------------+
 
 
@@ -94,7 +95,7 @@ completeness.
 					<td>None</td>
 				</tr>
 				<tr>
-					<th>Context<br/>(trusted events)</th>
+					<th>Context<br>(trusted events)</th>
 					<td>
 						<ul>
 							<li>{{Event}}.{{Event/target}} :
@@ -248,7 +249,7 @@ completeness.
 					<td>None</td>
 				</tr>
 				<tr>
-					<th>Context<br/>(trusted events)</th>
+					<th>Context<br>(trusted events)</th>
 					<td>
 						<ul>
 							<li>{{Event}}.{{Event/target}} :
@@ -312,7 +313,7 @@ completeness.
 					<td>None</td>
 				</tr>
 				<tr>
-					<th>Context<br/>(trusted events)</th>
+					<th>Context<br>(trusted events)</th>
 					<td>
 						<ul>
 							<li>{{Event}}.{{Event/target}} :
@@ -419,7 +420,7 @@ completeness.
 						other event</td>
 				</tr>
 				<tr>
-					<th>Context<br/>(trusted events)</th>
+					<th>Context<br>(trusted events)</th>
 					<td>
 						<ul>
 							<li>{{Event}}.{{Event/target}} :
@@ -502,7 +503,7 @@ completeness.
 
 		<div class="example">
 		++---+-------------+------------------------+---------------------+--------------------------------+
-		=| # | Event Type  | {{KeyboardEvent}}<br/> | {{InputEvent}}<br/> | Notes                          |
+		=| # | Event Type  | {{KeyboardEvent}}<br>  | {{InputEvent}}<br>  | Notes                          |
 		 |   |             | {{KeyboardEvent/key}}  | {{InputEvent/data}} |                                |
 		 +---+-------------+-----------o------------+----------o----------+--------------------------------+
 		+| 1 | keydown     | KEY_NOLINK{a}          |                     |                                |
@@ -516,6 +517,23 @@ completeness.
 		+| 5 | keyup       | KEY_NOLINK{a}          |                     |                                |
 		++---+-------------+------------------------+---------------------+--------------------------------+
 		</div>
+
+<h3 id="legacy-textevent-events">Legacy {{TextEvent}} events</h3>
+
+<pre class="idl">
+[Exposed=Window]
+interface TextEvent : UIEvent {
+    readonly attribute DOMString data;
+    undefined initTextEvent(DOMString type,
+        optional boolean bubbles = false,
+        optional boolean cancelable = false,
+        optional Window? view = null,
+        optional DOMString data = "undefined");
+};
+</pre>
+
+Issue: See <a href="event-algo.html#textevent">Text Event section in UI Events Algorithms</a> for the {{TextEvent}} interface and the <dfn export>textInput</dfn> event.
+
 
 <h3 id="legacy-mutationevent-events">Legacy {{MutationEvent}} events</h3>
 
@@ -762,7 +780,7 @@ completeness.
 					<td>None</td>
 				</tr>
 				<tr>
-					<th>Context<br/>(trusted events)</th>
+					<th>Context<br>(trusted events)</th>
 					<td>
 						<ul>
 							<li>{{Event}}.{{Event/target}} :
@@ -833,7 +851,7 @@ completeness.
 					<td>None</td>
 				</tr>
 				<tr>
-					<th>Context<br/>(trusted events)</th>
+					<th>Context<br>(trusted events)</th>
 					<td>
 						<ul>
 							<li>{{Event}}.{{Event/target}} :
@@ -903,7 +921,7 @@ completeness.
 					<td>None</td>
 				</tr>
 				<tr>
-					<th>Context<br/>(trusted events)</th>
+					<th>Context<br>(trusted events)</th>
 					<td>
 						<ul>
 							<li>{{Event}}.{{Event/target}} :
@@ -979,7 +997,7 @@ completeness.
 					<td>None</td>
 				</tr>
 				<tr>
-					<th>Context<br/>(trusted events)</th>
+					<th>Context<br>(trusted events)</th>
 					<td>
 						<ul>
 							<li>{{Event}}.{{Event/target}} :
@@ -1052,7 +1070,7 @@ completeness.
 					<td>None</td>
 				</tr>
 				<tr>
-					<th>Context<br/>(trusted events)</th>
+					<th>Context<br>(trusted events)</th>
 					<td>
 						<ul>
 							<li>{{Event}}.{{Event/target}} :
@@ -1128,7 +1146,7 @@ completeness.
 					<td>None</td>
 				</tr>
 				<tr>
-					<th>Context<br/>(trusted events)</th>
+					<th>Context<br>(trusted events)</th>
 					<td>
 						<ul>
 							<li>{{Event}}.{{Event/target}} :
@@ -1206,7 +1224,7 @@ completeness.
 					<td>None</td>
 				</tr>
 				<tr>
-					<th>Context<br/>(trusted events)</th>
+					<th>Context<br>(trusted events)</th>
 					<td>
 						<ul>
 							<li>{{Event}}.{{Event/target}} :

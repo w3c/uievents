@@ -876,7 +876,7 @@ Issue: TODO
     1. If <a>suppress key input events flag</a> is set, then
         1. Exit (since the keydown was canceled)
 
-    Issue: Handle historical keypress event here
+    Issue: Handle historical keypress event here. Return if cancelled.
 
     1. Let |inputType| = null
     1. Let |data| = null
@@ -888,6 +888,9 @@ Issue: TODO
     1. If |key| is "Delete", then |inputType| = "deleteContentForward"
     1. Otherwise,
         1. |inputType| = "insertText"
+
+        Issue: |inputType| should be "insertParagraph" or "insertLineBreak" when pressing Enter.
+
         1. |data| = |key|
 
     1. If |inputType| is not null, then
@@ -896,12 +899,25 @@ Issue: TODO
         Can be enabled by changing the "dom.input_events.beforeinput_enabled" pref in "about:config"
 
         1. Let |result| = <a>fire an InputEvent</a> with "beforeinput", |inputType| and |data|
-        1. If |result| is true
+        1. If |result| is false, then return.
+        1. Let |textInputData| be |data|.
+        1. Let |shouldFireTextInput| to true.
+        1. If |inputType| is either "insertParagraph" or "insertLineBreak", then:
+            1. Set |textInputData| to "\n".
+            1. If |target| is an {{HTMLInputElement}}, then set |shouldFireTextInput| to false.
+        1. If |inputType| is not one of "insertText", "insertParagraph" or "insertLineBreak", then set |shouldFireTextInput| to false.
+        1. If |shouldFireTextInput| is true, then:
 
-            Note: Perform DOM update here. Insert key into |target| element
+            1. Set |result| = <a>fire a TextEvent</a> with "textInput", and |textInputData|
 
-            Note: Compat:
-            For insertFromPaste, Chrome has data = null, Firefox has data = same as beforeinput.
+            Note: The "textInput" event is obsolete.
+
+            1. If |result| is false, then return.
+
+        Note: Perform DOM update here. Insert key into |target| element
+
+        Note: Compat:
+        For insertFromPaste, Chrome has data = null, Firefox has data = same as beforeinput.
 
         1. <a>Fire an InputEvent</a> with "input", |inputType| and |data|
 
@@ -929,6 +945,100 @@ Issue: TODO
     1. Let |event| = result of <a>create an InputEvent</a> with |eventType|, |target|
     1. Set |event|.{{inputType}} = |inputType|
     1. Set |event|.{{InputEvent/data}} = |data|
+    1. Return the result of <a>dispatch</a> |event| at |target|
+
+</div><!-- algorithm -->
+
+</section>
+
+<!-- Big Text: Text Event -->
+
+<section>
+<h2 id="textevent">Text Event</h2>
+
+Note: {{TextEvent}} is obsolete.
+
+<h3 id="textevent-interface">TextEvent Interface</h3>
+
+<p class="note">See <a href="https://w3c.github.io/uievents/#legacy-textevent-events">IDL definition</a> in UI Events.</p>
+
+The <dfn attribute for=TextEvent><code>data</code></dfn> attribute must return the value it was initialized to.
+
+<div algorithm>
+<p>The
+<dfn method for=TextEvent><code>initTextEvent(<var>type</var>, <var>bubbles</var>, <var>cancelable</var>, <var>view</var>, <var>data</var>)</code></dfn>
+method steps are:
+
+<ol>
+ <li><p>If <a>this</a>'s <a>dispatch flag</a> is set, then return.
+
+ <li><p><a>Initialize a UIEvent</a> with <a>this</a>, |type| and |eventTarget|
+
+ <li><p>Set <a>this</a>.{{bubbles}} = |bubbles|
+
+ <li><p>Set <a>this</a>.{{cancelable}} = |cancelable|
+
+ <li>
+    <p>Set <a>this</a>.{{view}} = |view|
+
+    <p class="note">The bubbles/cancelable/view should be parameters to "Initialize a UIEvent" instead of being set twice.
+
+ <li><p>Set <a>this</a>.{{TextEvent/data}} = |data|
+</ol>
+</div>
+
+<div class="algorithm" data-algorithm="initialize-a-textevent">
+<h3 id="initialize-a-textevent"><dfn>initialize a TextEvent</dfn></h3>
+
+    : Input
+    :: |e|, the {{Event}} to initialize
+    :: |eventType|, a DOMString containing the event type
+    :: |eventTarget|, the {{EventTarget}} of the event
+
+    : Output
+    :: None
+
+    1. <a>Initialize a UIEvent</a> with |e|, |eventType| and |eventTarget|
+
+    1. Initialize the following public attributes
+
+        1. Set event.data = ""
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="create-a-textevent">
+<h3 id="create-a-textevent"><dfn>create a TextEvent</dfn></h3>
+
+    : Input
+    :: |eventType|, a DOMString containing the event type
+    :: |eventTarget|, the {{EventTarget}} of the event
+
+    : Output
+    :: None
+
+    1. Let |e| = the result of
+        <a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new event</a> using {{TextEvent}}
+    1. <a>Initialize a TextEvent</a> with |e|, |eventType| and |eventTarget|
+
+    1. Return |e|
+
+</div><!-- algorithm -->
+
+<div class="algorithm" data-algorithm="fire-a-textevent">
+<h3 id="fire-a-textevent"><dfn>fire a TextEvent</dfn></h3>
+
+    : Input
+    :: |eventType|, a DOMString containing the event type
+    :: |data|, a DOMString containing event data, or null
+
+    : Output
+    :: None
+
+    1. Let target =
+        <a href="https://html.spec.whatwg.org/#currently-focused-area-of-a-top-level-browsing-context">currently focused area of a top-level browsing context</a>
+    1. Let |event| = result of <a>create a TextEvent</a> with |eventType|, |target|
+    1. If |data| is null, set |data| to the empty string.
+    1. Set |event|.{{TextEvent/data}} = |data|
     1. Return the result of <a>dispatch</a> |event| at |target|
 
 </div><!-- algorithm -->
@@ -1549,8 +1659,16 @@ And the following internal state:
 
     1. If <a>in composition flag</a> is not set, then exit
 
-    Issue: Compat: Chrome sends out beforeinput/compositionupdate/input sequence before
+    Issue: Compat: Chrome sends out beforeinput/compositionupdate/textInput/input sequence before
     compositionend (tested on macOS). Compare with Firefox.
+
+    1. Set |result| = <a>fire a TextEvent</a> with "textInput", and |data|
+
+        Note: The "textInput" event is obsolete.
+
+    1. If |result| is false, then return.
+
+    1. Issue: fire an input event here.
 
     1. Let |data| = the current composition candidate string
     1. <a>fire a CompositionEvent</a> with "compositionend" and |data|
@@ -2073,10 +2191,16 @@ Issue: Should these be moved into the Clipboard spec?
     1. Let |data| = the text on the clipboard being pasted
     1. Let |result| = <a>fire an InputEvent</a> with "beforeinput", "insertFromPaste" and |data|
 
-    1. If |result| is true, then
+    1. If |result| is false, then return.
 
-       1. Paste clipboard contents into DOM target element
-       1. <a>Fire an InputEvent</a> with "input", "insertFromPaste" and |data|
+    1. Set |result| = <a>fire a TextEvent</a> with "textInput", and |data|
+
+        Note: The "textInput" event is obsolete.
+
+    1. If |result| is false, then return.
+
+    1. Paste clipboard contents into DOM target element
+    1. <a>Fire an InputEvent</a> with "input", "insertFromPaste" and |data|
 
 </div><!-- algorithm -->
 
