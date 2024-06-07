@@ -1,0 +1,583 @@
+<h3 id="events-keyboardevents">Keyboard Events</h3>
+
+	Keyboard events are device dependent, i.e., they rely on the capabilities of
+	the input devices and how they are mapped in the operating systems. Refer to
+	<a href="#keys">Keyboard events and key values</a> for more details,
+	including examples on how Keyboard Events are used in combination with
+	Composition Events. Depending on the character generation device, keyboard
+	events might not be generated.
+
+	<p class="note">
+	Keyboard events are only one modality of providing textual input. For
+	editing scenarios, consider also using the {{InputEvent}} as an alternate to
+	(or in addition to) keyboard events.
+	</p>
+
+	<h4 id="interface-keyboardevent">Interface KeyboardEvent</h4>
+
+		<p class="intro-dom">Introduced in this specification</p>
+
+		The {{KeyboardEvent}} interface provides specific contextual information
+		associated with keyboard devices. Each keyboard event references a key
+		using a value. Keyboard events are commonly directed at the element that
+		has the focus.
+
+		The {{KeyboardEvent}} interface provides convenient attributes for some
+		common modifiers keys: {{KeyboardEvent/ctrlKey}},
+		{{KeyboardEvent/shiftKey}}, {{KeyboardEvent/altKey}},
+		{{KeyboardEvent/metaKey}}. These attributes are equivalent to using the
+		method {{KeyboardEvent/getModifierState()}} with KEYCAP{Control},
+		KEYCAP{Shift}, KEYCAP{Alt}, or KEYCAP{Meta} respectively.
+
+		To create an instance of the {{KeyboardEvent}} interface, use the
+		{{KeyboardEvent}} constructor, passing an optional
+		{{KeyboardEventInit}} dictionary.
+
+		<h5 id="idl-keyboardevent">KeyboardEvent</h5>
+
+			<pre class="idl" data-highlight="webidl">
+			[Exposed=Window]
+			interface KeyboardEvent : UIEvent {
+				constructor(DOMString type, optional KeyboardEventInit eventInitDict = {});
+				// KeyLocationCode
+				const unsigned long DOM_KEY_LOCATION_STANDARD = 0x00;
+				const unsigned long DOM_KEY_LOCATION_LEFT = 0x01;
+				const unsigned long DOM_KEY_LOCATION_RIGHT = 0x02;
+				const unsigned long DOM_KEY_LOCATION_NUMPAD = 0x03;
+
+				readonly attribute DOMString key;
+				readonly attribute DOMString code;
+				readonly attribute unsigned long location;
+
+				readonly attribute boolean ctrlKey;
+				readonly attribute boolean shiftKey;
+				readonly attribute boolean altKey;
+				readonly attribute boolean metaKey;
+
+				readonly attribute boolean repeat;
+				readonly attribute boolean isComposing;
+
+				boolean getModifierState(DOMString keyArg);
+			};
+			</pre>
+
+			<dl dfn-for="KeyboardEvent">
+				<dt><dfn const>DOM_KEY_LOCATION_STANDARD</dfn></dt>
+				<dd>
+					The key activation MUST NOT be distinguished as the left or
+					right version of the key, and (other than the KEYCAP{NumLock}
+					key) did not originate from the numeric keypad (or did not
+					originate with a virtual key corresponding to the numeric
+					keypad).
+
+					<p class="example">
+					The KEYCAP{Q} key on a PC 101 Key US keyboard.<br>
+					The KEYCAP{NumLock} key on a PC 101 Key US keyboard.<br>
+					The KEYCAP{1} key on a PC 101 Key US keyboard located in the
+					main section of the keyboard.
+					</p>
+				</dd>
+
+				<dt><dfn const>DOM_KEY_LOCATION_LEFT</dfn></dt>
+				<dd>
+					The key activated originated from the left key location (when
+					there is more than one possible location for this key).
+
+					<p class="example">
+					The left KEYCAP{Control} key on a PC 101 Key US keyboard.
+					</p>
+				</dd>
+
+				<dt><dfn const>DOM_KEY_LOCATION_RIGHT</dfn></dt>
+				<dd>
+					The key activation originated from the right key location (when
+					there is more than one possible location for this key).
+
+					<p class="example">
+					The right KEYCAP{Shift} key on a PC 101 Key US keyboard.
+					</p>
+				</dd>
+
+				<dt><dfn const>DOM_KEY_LOCATION_NUMPAD</dfn></dt>
+				<dd>
+					The key activation originated on the numeric keypad or with a
+					virtual key corresponding to the numeric keypad (when there is
+					more than one possible location for this key). Note that the
+					KEYCAP{NumLock} key should always be encoded with a
+					{{KeyboardEvent/location}} of
+					{{KeyboardEvent/DOM_KEY_LOCATION_STANDARD}}.
+
+					<p class="example">
+					The KEYCAP{1} key on a PC 101 Key US keyboard located on the
+					numeric pad.
+					</p>
+				</dd>
+
+				<dt><dfn attribute>key</dfn></dt>
+				<dd>
+					<code>key</code> holds a [=key attribute value=] corresponding to
+					the key pressed.
+
+					<p class="note">
+					The <code>key</code> attribute is not related to the legacy
+					<code>keyCode</code> attribute and does not have the same set of
+					values.
+					</p>
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>""</code> (the empty string).
+				</dd>
+
+				<dt><dfn attribute>code</dfn></dt>
+				<dd>
+					<code>code</code> holds a string that identifies the physical
+					key being pressed. The value is not affected by the current
+					keyboard layout or modifier state, so a particular key will
+					always return the same value.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>""</code> (the empty string).
+				</dd>
+
+				<dt><dfn attribute>location</dfn></dt>
+				<dd>
+					The {{KeyboardEvent/location}} attribute contains an indication
+					of the logical location of the key on the device.
+
+					This attribute MUST be set to one of the DOM_KEY_LOCATION
+					constants to indicate the location of a key on the device.
+
+					If a <a>user agent</a> allows keys to be remapped, then the
+					{{KeyboardEvent/location}} value for a remapped key MUST be set
+					to a value which is appropriate for the new key. For example, if
+					the CODE{ControlLeft} key is mapped to the CODE{KeyQ} key, then
+					the {{KeyboardEvent/location}} attribute MUST be set to
+					{{KeyboardEvent/DOM_KEY_LOCATION_STANDARD}}. Conversely, if the
+					CODE{KeyQ} key is remapped to one of the KEYCAP{Control} keys,
+					then the {{KeyboardEvent/location}} attribute MUST be set to
+					either {{KeyboardEvent/DOM_KEY_LOCATION_LEFT}} or
+					{{KeyboardEvent/DOM_KEY_LOCATION_RIGHT}}.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>0</code>.
+				</dd>
+
+				<dt><dfn attribute>ctrlKey</dfn></dt>
+				<dd>
+					<code>true</code> if the KEYCAP{Control} (control) key modifier
+					was active.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>false</code>.
+				</dd>
+
+				<dt><dfn attribute>shiftKey</dfn></dt>
+				<dd>
+					<code>true</code> if the shift (KEYCAP{Shift}) key modifier was
+					active.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>false</code>.
+				</dd>
+
+				<dt><dfn attribute>altKey</dfn></dt>
+				<dd>
+					<code>true</code> if the KEYCAP{Alt} (alternative) (or
+					GLYPH{Option}) key modifier was active.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>false</code>.
+				</dd>
+
+				<dt><dfn attribute>metaKey</dfn></dt>
+				<dd>
+					<code>true</code> if the meta (KEYCAP{Meta}) key modifier was
+					active.
+
+					<p class="note">
+					The GLYPH{Command} (GLYPH{&#x2318;}) key modifier on Macintosh
+					systems is represented using this key modifier.
+					</p>
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>false</code>.
+				</dd>
+
+				<dt><dfn attribute>repeat</dfn></dt>
+				<dd>
+					<code>true</code> if the key has been pressed in a sustained
+					manner.  Holding down a key MUST result in the repeating the
+					events EVENT{keydown}, EVENT{beforeinput}, EVENT{input} in this
+					order, at a rate determined by the system configuration. For
+					mobile devices which have <em>long-key-press</em> behavior, the
+					first key event with a {{KeyboardEvent/repeat}} attribute value
+					of <code>true</code> MUST serve as an indication of a
+					<em>long-key-press</em>. The length of time that the key MUST be
+					pressed in order to begin repeating is configuration-dependent.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>false</code>.
+				</dd>
+
+				<dt><dfn attribute>isComposing</dfn></dt>
+				<dd>
+					<code>true</code> if the key event occurs as part of a
+					composition session, i.e., after a EVENT{compositionstart} event
+					and before the corresponding EVENT{compositionend} event.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>false</code>.
+				</dd>
+
+				<dt><dfn method>getModifierState(keyArg)</dfn></dt>
+				<dd>
+					Queries the state of a modifier using a key value.
+
+					Returns <code>true</code> if it is a modifier key and
+					the modifier is activated, <code>false</code> otherwise.
+
+					<dl class="parameters">
+						<dt>DOMString keyArg</dt>
+						<dd>
+							A modifier key value.  Valid [=modifier keys=] are defined
+							in the [=Modifier Keys table=] in [[UIEvents-Key]].
+
+							<p class="note">
+							If an application wishes to distinguish between right
+							and left modifiers, this information could be deduced
+							using keyboard events and {{KeyboardEvent/location}}.
+							</p>
+						</dd>
+					</dl>
+				</dd>
+			</dl>
+
+		<h5 id="idl-keyboardeventinit">KeyboardEventInit</h5>
+
+			<pre class="idl">
+			dictionary KeyboardEventInit : EventModifierInit {
+				DOMString key = "";
+				DOMString code = "";
+				unsigned long location = 0;
+				boolean repeat = false;
+				boolean isComposing = false;
+			};
+			</pre>
+
+			<dl dfn-for="KeyboardEventInit">
+				<dt><dfn dict-member>key</dfn></dt>
+				<dd>
+					Initializes the <code>key</code> attribute of the KeyboardEvent
+					object to the unicode character string representing the meaning
+					of a key after taking into account all keyboard modifiers
+					(such as shift-state). This value is the final effective value
+					of the key. If the key is not a printable character, then it
+					should be one of the key values defined in [[UIEvents-Key]].
+				</dd>
+
+				<dt><dfn dict-member>code</dfn></dt>
+				<dd>
+					Initializes the <code>code</code> attribute of the KeyboardEvent
+					object to the unicode character string representing the key that
+					was pressed, ignoring any keyboard modifications such as
+					keyboard layout. This value should be one of the code values
+					defined in [[UIEvents-Code]].
+				</dd>
+
+				<dt><dfn dict-member>location</dfn></dt>
+				<dd>
+					Initializes the {{KeyboardEvent/location}} attribute of the
+					KeyboardEvent object to one of the following location numerical
+					constants:
+
+					*	{{KeyboardEvent/DOM_KEY_LOCATION_STANDARD}} (numerical value 0)</li>
+					*	{{KeyboardEvent/DOM_KEY_LOCATION_LEFT}} (numerical value 1)</li>
+					*	{{KeyboardEvent/DOM_KEY_LOCATION_RIGHT}} (numerical value 2)</li>
+					*	{{KeyboardEvent/DOM_KEY_LOCATION_NUMPAD}} (numerical value 3)</li>
+				</dd>
+
+				<dt><dfn dict-member>repeat</dfn></dt>
+				<dd>
+					Initializes the <code>repeat</code> attribute of the
+					KeyboardEvent object. This attribute should be set to
+					<code>true</code> if the the current KeyboardEvent is considered
+					part of a repeating sequence of similar events caused by the
+					long depression of any single key, <code>false</code> otherwise.
+				</dd>
+
+				<dt><dfn dict-member>isComposing</dfn></dt>
+				<dd>
+					Initializes the <code>isComposing</code> attribute of the
+					KeyboardEvent object. This attribute should be set to
+					<code>true</code> if the event being constructed occurs as part
+					of a composition sequence, <code>false</code> otherwise.
+				</dd>
+			</dl>
+
+	<div class="warning">
+	Legacy keyboard event implementations include three additional attributes,
+	<code>keyCode</code>, <code>charCode</code>, and <code>which</code>. The
+	<code>keyCode</code> attribute indicates a numeric value associated with a
+	particular key on a computer keyboard, while the <code>charCode</code>
+	attribute indicates the <abbr title="American Standard Code for
+	Information Interchange">ASCII</abbr> value of the character associated
+	with that key (which might be the same as the <code>keyCode</code> value)
+	and is applicable only to keys that produce a <a>character value</a>.
+
+	In practice, <code>keyCode</code> and <code>charCode</code> are inconsistent
+	across platforms and even the same implementation on different operating
+	systems or using different localizations. This specification does not define
+	values for either <code>keyCode</code> or <code>charCode</code>, or behavior
+	for <code>charCode</code>. In conforming UI Events implementations, content
+	authors can instead use {{KeyboardEvent/key}} and {{KeyboardEvent/code}}.
+
+	<em>For more information, see the informative appendix on
+	<a href="#legacy-key-attributes">Legacy key attributes</a>.</em>
+	</div>
+
+	<p class="note">
+	For compatibility with existing content, virtual keyboards, such as software
+	keyboards on screen-based input devices, are expected to produce the normal
+	range of keyboard events, even though they do not possess physical keys.
+	</p>
+
+	<p class="note">
+	In some implementations or system configurations, some key events, or their
+	values, might be suppressed by the <a>IME</a> in use.
+	</p>
+
+	<h4 id="events-keyboard-key-location">Keyboard Event Key Location</h4>
+
+		The {{KeyboardEvent/location}} attribute can be used to disambiguate
+		between {{KeyboardEvent/key}} values that can be generated by different
+		physical keys on the keyboard, for example, the left and right
+		KEYCAP{Shift} key or the physical arrow keys vs. the numpad arrow keys
+		(when KEYCAP{NumLock} is off).
+
+		The following table defines the valid {{KeyboardEvent/location}} values
+		for the special keys that have more than one location on the keyboard:
+
+		++---------------------------------+----------------------------------------------+
+		=| {{KeyboardEvent}} .             | Valid {{KeyboardEvent/location}} values      |
+		 | {{KeyboardEvent/key}}           |                                              |
+		 +---------------------------------+----------------------------------------------+
+		+| KEY{Shift}, KEY{Control},       | {{KeyboardEvent/DOM_KEY_LOCATION_LEFT}},     |
+		 | KEY{Alt}, KEY{Meta}             | {{KeyboardEvent/DOM_KEY_LOCATION_RIGHT}}     |
+		 +---------------------------------+----------------------------------------------+
+		+| KEY{ArrowDown}, KEY{ArrowLeft}, | {{KeyboardEvent/DOM_KEY_LOCATION_STANDARD}}, |
+		 | KEY{ArrowRight}, KEY{ArrowUp}   | {{KeyboardEvent/DOM_KEY_LOCATION_NUMPAD}}    |
+		 +---------------------------------+----------------------------------------------+
+		+| KEY{End}, KEY{Home},            | {{KeyboardEvent/DOM_KEY_LOCATION_STANDARD}}, |
+		 | KEY{PageDown}, KEY{PageUp}      | {{KeyboardEvent/DOM_KEY_LOCATION_NUMPAD}}    |
+		 +---------------------------------+----------------------------------------------+
+		+| KEY_NOLINK{0}, KEY_NOLINK{1},   | {{KeyboardEvent/DOM_KEY_LOCATION_STANDARD}}, |
+		 | KEY_NOLINK{2}, KEY_NOLINK{2},   | {{KeyboardEvent/DOM_KEY_LOCATION_NUMPAD}}    |
+		 | KEY_NOLINK{4}, KEY_NOLINK{5},   |                                              |
+		 | KEY_NOLINK{6}, KEY_NOLINK{7},   |                                              |
+		 | KEY_NOLINK{8}, KEY_NOLINK{9},   |                                              |
+		 | KEY_NOLINK{.}, KEY{Enter},      |                                              |
+		 | KEY_NOLINK{+}, KEY_NOLINK{-},   |                                              |
+		 | KEY_NOLINK{*}, KEY_NOLINK{/}    |                                              |
+		++---------------------------------+----------------------------------------------+
+
+		For all other keys not listed in this table, the
+		{{KeyboardEvent/location}} attribute MUST always be set to
+		{{KeyboardEvent/DOM_KEY_LOCATION_STANDARD}}.
+
+	<h4 id="events-keyboard-event-order">Keyboard Event Order</h4>
+
+		The keyboard events defined in this specification occur in a set order
+		relative to one another, for any given key:
+
+		++---+-------------+--------------------------------------------------------+
+		=| # | Event Type  | Notes                                                  |
+		 +---+-------------+--------------------------------------------------------+
+		+| 1 | keydown     |                                                        |
+		+| 2 | beforeinput | <em>(only for keys which produce a <a>character        |
+		 |   |             | value</a>)</em>                                        |
+		+|   |             | <em>Any <a>default actions</a> related to this         |
+		 |   |             | key, such as inserting a character in to the DOM.</em> |
+		+| 3 | input       | <em>(only for keys which have updated the DOM)</em>    |
+		+|   |             | <em>Any events as a result of the key being held for a |
+		 |   |             | sustained period (see below).</em>                     |
+		+| 4 | keyup       |                                                        |
+		++---+-------------+--------------------------------------------------------+
+
+		If the key is depressed for a sustained period, the following events MAY
+		repeat at an environment-dependent rate: <!-- and the key should seek
+		counseling -->
+
+		++---+-------------+---------------------------------------------------+
+		=| # | Event Type  | Notes                                             |
+		 +---+-------------+---------------------------------------------------+
+		+| 1 | keydown     | <em>(with {{KeyboardEvent/repeat}} attribute set  |
+		 |   |             | to <code>true</code>)</em>                        |
+		+| 2 | beforeinput | <em>(only for keys which produce a <a>character   |
+		 |   |             | value</a>)</em>                                   |
+		+|   |             | <em>Any <a>default actions</a> related to this    |
+		 |   |             | key, such as inserting a character in to the      |
+		 |   |             | DOM.</em>                                         |
+		+| 3 | input       | <em>(only for keys which have updated the         |
+		 |   |             | DOM)</em>                                         |
+		++---+-------------+---------------------------------------------------+
+
+		<p class="note">
+		Typically, any <a>default actions</a> associated with any particular key
+		are completed before the EVENT{keyup} event is dispatched. This might
+		delay the EVENT{keyup} event slightly (though this is not likely to be a
+		perceptible delay).
+		</p>
+
+		The <a>event target</a> of a key event is the currently focused element
+		which is processing the keyboard activity. This is often an HTML
+		<code>input</code> element or a textual element which is editable, but
+		MAY be an element defined by the <a>host language</a> to accept keyboard
+		input for non-text purposes, such as the activation of an accelerator
+		key or trigger of some other behavior. If no suitable element is in
+		focus, the event target will be the HTML <a>body element</a> if
+		available, otherwise the <a>root element</a>.
+
+		<p class="note">
+		The <a>event target</a> might change between different key events. For
+		example, a EVENT{keydown} event for the KEYCAP{Tab} key will likely have
+		a different <a>event target</a> than the  EVENT{keyup} event on the same
+		keystroke.
+
+	<h4 id="events-keyboard-types">Keyboard Event Types</h4>
+
+		<h5 id="event-type-keydown"><dfn>keydown</dfn></h5>
+
+			++------------------+--------------------------------------------------------------------------------------+ event-definition
+			=| %                |                                                                                      |
+			 +------------------+--------------------------------------------------------------------------------------+
+			+| Type             | <strong><code>keydown</code></strong>                                                |
+			+| Interface        | {{KeyboardEvent}}                                                                    |
+			+| Sync / Async     | Sync                                                                                 |
+			+| Bubbles          | Yes                                                                                  |
+			+| Trusted Targets  | <code>Element</code>                                                                 |
+			+| Cancelable       | Yes                                                                                  |
+			+| Composed         | Yes                                                                                  |
+			+| Default action   | Varies: EVENT{beforeinput} and EVENT{input} events; launch                           |
+			 |                  | <a>text composition system</a>; EVENT{blur} and EVENT{focus} events; EVENT{keypress} |
+			 |                  | event (if supported); <a>activation behavior</a>; other event                        |
+			+| Context<br>      | <ul>                                                                                 |
+			 | (trusted events) | <li>{{Event}}.{{Event/target}} : focused element processing the key event or if no   |
+			 |                  |     element focused, then the <a>body element</a> if available, otherwise the        |
+			 |                  |     <a>root element</a></li>                                                         |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/view}} : <a><code>Window</code></a></li>                   |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/detail}} : <code>0</code></li>                             |
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/key}} : the key value of the key pressed.</li> |
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/code}} : the code value associated with the    |
+			 |                  |     key's physical placement on the keyboard.</li>                                   |
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/location}} : the location of the key on the    |
+			 |                  |     device.</li>                                                                     |
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/altKey}} : <code>true</code> if KEYCAP{Alt}    |
+			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/shiftKey}} : <code>true</code> if KEYCAP{Shift}|
+			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}|
+			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/metaKey}} : <code>true</code> if KEYCAP{Meta}  |
+			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/repeat}} : <code>true</code> if a key has been |
+			 |                  |     depressed long enough to trigger key repetition, otherwise <code>false</code></li>|
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/isComposing}} : <code>true</code> if the key   |
+			 |                  |     event occurs as part of a composition session, otherwise <code>false</code></li> |
+			 |                  | </ul>                                                                                |
+			++------------------+--------------------------------------------------------------------------------------+
+
+			A <a>user agent</a> MUST dispatch this event when a key is pressed
+			down. The EVENT{keydown} event type is device dependent and relies
+			on the capabilities of the input devices and how they are mapped in
+			the operating system. This event type MUST be generated after the
+			<a>key mapping</a>. This event type MUST be dispatched before the
+			EVENT{beforeinput}, EVENT{input}, and EVENT{keyup} events associated
+			with the same key.
+
+			The default action of the EVENT{keydown} event depends upon the key:
+
+			*	If the key is associated with a character, the default action
+				MUST be to dispatch a EVENT{beforeinput} event followed by an
+				EVENT{input} event. In the case where the key which is
+				associated with multiple characters (such as with a macro or
+				certain sequences of dead keys), the default action MUST be to
+				dispatch one set of EVENT{beforeinput} / EVENT{input} events for
+				each character
+
+			*	If the key is associated with a <a>text composition system</a>,
+				the default action MUST be to launch that system
+
+			*	If the key is the KEYCAP{Tab} key, the default action MUST be
+				to shift the document focus from the currently focused element
+				(if any) to the new focused element, as described in
+				<a href="#events-focusevent">Focus Event Types</a>
+
+			*	If the key is the KEYCAP{Enter} or KEYCAP{&nbsp;} (Space) key and the
+				current focus is on a state-changing element, the default action
+				MUST be to dispatch a EVENT{click} event, and a
+				EVENT{DOMActivate} event if that event type is supported by the
+				<a>user agent</a> (refer to [[#event-flow-activation]] for more
+				details)
+
+			If this event is canceled, the associated event types MUST NOT be
+			dispatched, and the associated actions MUST NOT be performed.
+
+			<p class="note">
+			The EVENT{keydown} and EVENT{keyup} events are traditionally
+			associated with detecting any key, not just those which produce a
+			<a>character value</a>.
+			</p>
+
+		<h5 id="event-type-keyup"><dfn>keyup</dfn></h5>
+
+			++------------------+--------------------------------------------------------------------------------------+ event-definition
+			=| %                |                                                                                      |
+			 +------------------+--------------------------------------------------------------------------------------+
+			+| Type             | <strong><code>keyup</code></strong>                                                  |
+			+| Interface        | {{KeyboardEvent}}                                                                    |
+			+| Sync / Async     | Sync                                                                                 |
+			+| Bubbles          | Yes                                                                                  |
+			+| Trusted Targets  | <code>Element</code>                                                                 |
+			+| Cancelable       | Yes                                                                                  |
+			+| Composed         | Yes                                                                                  |
+			+| Default action   | None                                                                                 |
+			+| Context<br>      | <ul>                                                                                 |
+			 | (trusted events) | <li>{{Event}}.{{Event/target}} : focused element processing the key event or if no   |
+			 |                  |     element focused, then the <a>body element</a> if available, otherwise the        |
+			 |                  |     <a>root element</a></li>                                                         |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/view}} : <a><code>Window</code></a></li>                   |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/detail}} : <code>0</code></li>                             |
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/key}} : the key value of the key pressed.</li> |
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/code}} : the code value associated with the    |
+			 |                  |     key's physical placement on the keyboard.</li>                                   |
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/location}} : the location of the key on the    |
+			 |                  |     device.</li>                                                                     |
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/altKey}} : <code>true</code> if KEYCAP{Alt}    |
+			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/shiftKey}} : <code>true</code> if KEYCAP{Shift}|
+			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/ctrlKey}} : <code>true</code> if KEYCAP{Control}|
+			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/metaKey}} : <code>true</code> if KEYCAP{Meta}  |
+			 |                  |     modifier was active, otherwise <code>false</code></li>                           |
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/repeat}} : <code>true</code> if a key has been |
+			 |                  |     depressed long enough to trigger key repetition, otherwise <code>false</code></li>|
+			 |                  | <li>{{KeyboardEvent}}.{{KeyboardEvent/isComposing}} : <code>true</code> if the key   |
+			 |                  |     event occurs as part of a composition session, otherwise <code>false</code></li> |
+			 |                  | </ul>                                                                                |
+			++------------------+--------------------------------------------------------------------------------------+
+
+			A <a>user agent</a> MUST dispatch this event when a key is released.
+			The EVENT{keyup} event type is device dependent and relies on the
+			capabilities of the input devices and how they are mapped in the
+			operating system. This event type MUST be generated after the <a>key
+			mapping</a>. This event type MUST be dispatched after the
+			EVENT{keydown}, EVENT{beforeinput}, and EVENT{input} events
+			associated with the same key.
+
+			<p class="note">
+			The EVENT{keydown} and EVENT{keyup} events are traditionally
+			associated with detecting any key, not just those which produce a
+			<a>character value</a>.
+			</p>
+

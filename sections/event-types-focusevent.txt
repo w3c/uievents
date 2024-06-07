@@ -1,0 +1,253 @@
+<h3 id="events-focusevent">Focus Events</h3>
+
+	<p class="note">
+	This interface and its associated event types and
+	[[#events-focusevent-event-order]]
+	were designed in accordance to the concepts and guidelines defined in
+	<a href="http://www.w3.org/WAI/UA/2010/ED-UAAG20-20100308/">User Agent Accessibility Guidelines 2.0</a>
+	[[UAAG20]],
+	with particular attention on the
+	<a href="http://www.w3.org/WAI/UA/2010/ED-UAAG20-20100308/#gl-focus-mechanism">focus mechanism</a>
+	and the terms defined in the
+	<a href="http://www.w3.org/WAI/UA/2010/ED-UAAG20-20100308/#def-focus">glossary entry for focus</a>.
+	</p>
+
+	<h4 id="interface-focusevent">Interface FocusEvent</h4>
+
+		<p class="intro-dom">Introduced in this specification</p>
+
+		The {{FocusEvent}} interface provides specific contextual information
+		associated with Focus events.
+
+		To create an instance of the {{FocusEvent}} interface, use the
+		FocusEvent constructor, passing an optional {{FocusEventInit}} dictionary.
+
+		<h5 id="idl-focusevent">FocusEvent</h5>
+
+			<pre class="idl">
+			[Exposed=Window]
+			interface FocusEvent : UIEvent {
+				constructor(DOMString type, optional FocusEventInit eventInitDict = {});
+				readonly attribute EventTarget? relatedTarget;
+			};
+			</pre>
+
+			<dl>
+				<dt><code>FocusEvent . relatedTarget</code></dt>
+				<dd>
+					Used to identify a secondary {{EventTarget}}
+					related to a Focus event, depending on the type of event.
+
+					For security reasons with nested browsing contexts, when tabbing
+					into or out of a nested context, the relevant {{EventTarget}}
+					SHOULD be <code>null</code>.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>null</code>.
+				</dd>
+			</dl>
+
+		<h5 id="idl-focuseventinit">FocusEventInit</h5>
+
+			<pre class="idl">
+			dictionary FocusEventInit : UIEventInit {
+				EventTarget? relatedTarget = null;
+			};
+			</pre>
+
+			<dl>
+				<dt><code>FocusEventInit . relatedTarget</code></dt>
+				<dd>
+					The {{FocusEventInit/relatedTarget}} should be initialized to the element
+					losing focus (in the case of a EVENT{focus} or EVENT{focusin}
+					event) or the element gaining focus (in the case of a EVENT{blur}
+					or EVENT{focusout} event).
+				</dd>
+			</dl>
+
+	<h4 id="events-focusevent-event-order">Focus Event Order</h4>
+
+		The focus events defined in this specification occur in a set order
+		relative to one another.  The following is the typical sequence of
+		events when a focus is shifted between elements (this order assumes
+		that no element is initially focused):
+
+		++---+------------+----------------------------------------------------+
+		=| # | Event Type | Notes                                              |
+		 +---+------------+----------------------------------------------------+
+		+|   |            | <em>User shifts focus</em>                         |
+		+| 1 | focus      | Sent after first target element receives focus     |
+		+| 2 | focusin    | Follows the focus event                            |
+		+|   |            | <em>User shifts focus</em>                         |
+		+| 3 | blur       | Sent after first target element loses focus        |
+		+| 4 | focusout   | Follows the blur event                             |
+		+| 5 | focus      | Sent after second target element receives focus    |
+		+| 6 | focusin    | Follows the focus event                            |
+		++---+------------+----------------------------------------------------+
+
+		<p class="note">
+		This specification does not define the behavior of focus events when
+		interacting with methods such as <code>focus()</code> or
+		<code>blur()</code>. See the relevant specifications where those methods
+		are defined for such behavior.
+		</p>
+
+	<h4 id="events-focusevent-doc-focus">Document Focus and Focus Context</h4>
+
+		This event module includes event types for notification of changes in
+		document <a>focus</a>. There are three distinct focus contexts that are
+		relevant to this discussion:
+
+		*	The <em>operating system focus context</em> which MAY be on one of
+			many different applications currently running on the computer. One
+			of these applications with focus can be a browser.
+
+		*	When the browser has focus, the user can switch (such as with the
+			tab key) the <em>application focus context</em> among the different
+			browser user interface fields (e.g., the Web site location bar, a
+			search field, etc.). One of these user interface fields can be the
+			document being shown in a tab.
+
+		*	When the document itself has focus, the <em>document focus
+			context</em> can be set to any of the focusable elements in the
+			document.
+
+		The event types defined in this specification deal exclusively with
+		document focus, and the <a>event target</a> identified in the event
+		details MUST only be part of the document or documents in the window,
+		never a part of the browser or operating system, even when switching
+		from one focus context to another.
+
+		Normally, a document always has a focused element (even if it is the
+		document element itself) and a persistent <a>focus ring</a>. When
+		switching between focus contexts, the document's currently focused
+		element and focus ring normally remain in their current state. For
+		example, if a document has three focusable elements, with the second
+		element focused, when a user changes operating system focus to another
+		application and then back to the browser, the second element will still
+		be focused within the document, and tabbing will change the focus to the
+		third element.  A <a>host language</a> MAY define specific elements
+		which might receive focus, the conditions under which an element MAY
+		receive focus, the means by which focus MAY be changed, and the order
+		in which the focus changes.  For example, in some cases an element might
+		be given focus by moving a pointer over it, while other circumstances
+		might require a mouse click. Some elements might not be focusable at
+		all, and some might be focusable only by special means (clicking on the
+		element), but not by tabbing to it.  Documents MAY contain multiple
+		focus rings.  Other specifications MAY define a more complex focus model
+		than is described in this specification, including allowing multiple
+		elements to have the current focus.
+
+	<h4 id="events-focus-types">Focus Event Types</h4>
+
+		The Focus event types are listed below.
+
+		<h5 id="event-type-blur"><dfn>blur</dfn></h5>
+
+			++------------------+--------------------------------------------------------------------------------------+ event-definition
+			=| %                |                                                                                      |
+			 +------------------+--------------------------------------------------------------------------------------+
+			+| Type             | <strong><code>blur</code></strong>                                                   |
+			+| Interface        | {{FocusEvent}}                                                                       |
+			+| Sync / Async     | Sync                                                                                 |
+			+| Bubbles          | No                                                                                   |
+			+| Trusted Targets  | <a><code>Window</code></a>, <code>Element</code>                                     |
+			+| Cancelable       | No                                                                                   |
+			+| Composed         | Yes                                                                                  |
+			+| Default action   | None                                                                                 |
+			+| Context<br>      | <ul>                                                                                 |
+			 | (trusted events) | <li>{{Event}}.{{Event/target}} : <a>event target</a> losing focus</li>               |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/view}} : <a><code>Window</code></a></li>                   |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/detail}} : <code>0</code></li>                             |
+			 |                  | <li>{{FocusEvent}}.{{FocusEvent/relatedTarget}} : <a>event target</a> receiving      |
+			 |                  |     focus.</li>                                                                      |
+			 |                  | </ul>                                                                                |
+			++------------------+--------------------------------------------------------------------------------------+
+
+			A <a>user agent</a> MUST dispatch this event when an <a>event
+			target</a> loses focus. The focus MUST be taken from the element
+			before the dispatch of this event type. This event type is similar
+			to [=focusout=], but does not bubble.
+
+		<h5 id="event-type-focus"><dfn>focus</dfn></h5>
+
+			++------------------+--------------------------------------------------------------------------------------+ event-definition
+			=| %                |                                                                                      |
+			 +------------------+--------------------------------------------------------------------------------------+
+			+| Type             | <strong><code>focus</code></strong>                                                  |
+			+| Interface        | {{FocusEvent}}                                                                       |
+			+| Sync / Async     | Sync                                                                                 |
+			+| Bubbles          | No                                                                                   |
+			+| Trusted Targets  | <a><code>Window</code></a>, <code>Element</code>                                     |
+			+| Cancelable       | No                                                                                   |
+			+| Composed         | Yes                                                                                  |
+			+| Default action   | None                                                                                 |
+			+| Context<br>      | <ul>                                                                                 |
+			 | (trusted events) | <li>{{Event}}.{{Event/target}} : <a>event target</a> receiving focus</li>            |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/view}} : <a><code>Window</code></a></li>                   |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/detail}} : <code>0</code></li>                             |
+			 |                  | <li>{{FocusEvent}}.{{FocusEvent/relatedTarget}} : <a>event target</a> losing         |
+			 |                  |     focus (if any).</li>                                                             |
+			 |                  | </ul>                                                                                |
+			++------------------+--------------------------------------------------------------------------------------+
+
+			A <a>user agent</a> MUST dispatch this event when an <a>event
+			target</a> receives focus. The focus MUST be given to the element
+			before the dispatch of this event type. This event type is similar
+			to [=focusin=], but does not bubble.
+
+		<h5 id="event-type-focusin"><dfn>focusin</dfn></h5>
+
+			++------------------+--------------------------------------------------------------------------------------+ event-definition
+			=| %                |                                                                                      |
+			 +------------------+--------------------------------------------------------------------------------------+
+			+| Type             | <strong><code>focusin</code></strong>                                                |
+			+| Interface        | {{FocusEvent}}                                                                       |
+			+| Sync / Async     | Sync                                                                                 |
+			+| Bubbles          | Yes                                                                                  |
+			+| Trusted Targets  | <a><code>Window</code></a>, <code>Element</code>                                     |
+			+| Cancelable       | No                                                                                   |
+			+| Composed         | Yes                                                                                  |
+			+| Default action   | None                                                                                 |
+			+| Context<br>      | <ul>                                                                                 |
+			 | (trusted events) | <li>{{Event}}.{{Event/target}} : <a>event target</a> receiving focus</li>            |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/view}} : <a><code>Window</code></a></li>                   |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/detail}} : <code>0</code></li>                             |
+			 |                  | <li>{{FocusEvent}}.{{FocusEvent/relatedTarget}} : <a>event target</a> losing         |
+			 |                  |     focus (if any).</li>                                                             |
+			 |                  | </ul>                                                                                |
+			++------------------+--------------------------------------------------------------------------------------+
+
+			A <a>user agent</a> MUST dispatch this event when an <a>event target</a>
+			receives focus. The <a>event target</a> MUST be the element which
+			received focus. The [=focus=] event MUST fire before the dispatch of
+			this event type. This event type is similar to [=focus=], but does
+			bubble.
+
+		<h5 id="event-type-focusout"><dfn>focusout</dfn></h5>
+
+			++------------------+--------------------------------------------------------------------------------------+ event-definition
+			=| %                |                                                                                      |
+			 +------------------+--------------------------------------------------------------------------------------+
+			+| Type             | <strong><code>focusout</code></strong>                                               |
+			+| Interface        | {{FocusEvent}}                                                                       |
+			+| Sync / Async     | Sync                                                                                 |
+			+| Bubbles          | Yes                                                                                  |
+			+| Trusted Targets  | <a><code>Window</code></a>, <code>Element</code>                                     |
+			+| Cancelable       | No                                                                                   |
+			+| Composed         | Yes                                                                                  |
+			+| Default action   | None                                                                                 |
+			+| Context<br>      | <ul>                                                                                 |
+			 | (trusted events) | <li>{{Event}}.{{Event/target}} : <a>event target</a> losing focus</li>               |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/view}} : <a><code>Window</code></a></li>                   |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/detail}} : <code>0</code></li>                             |
+			 |                  | <li>{{FocusEvent}}.{{FocusEvent/relatedTarget}} : <a>event target</a> receiving      |
+			 |                  |     focus.</li>                                                                      |
+			 |                  | </ul>                                                                                |
+			++------------------+--------------------------------------------------------------------------------------+
+
+			A <a>user agent</a> MUST dispatch this event when an <a>event target</a>
+			loses focus. The <a>event target</a> MUST be the element which lost
+			focus. The [=blur=] event MUST fire before the dispatch of this event
+			type. This event type is similar to [=blur=], but does bubble.
+

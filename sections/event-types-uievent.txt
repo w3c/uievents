@@ -1,0 +1,242 @@
+<h3 id="events-uievents">User Interface Events</h3>
+
+	The User Interface event module contains basic event types associated with
+	user interfaces and document manipulation.
+
+	<h4 id="interface-uievent">Interface UIEvent</h4>
+
+		<p class="intro-dom">Introduced in DOM Level 2</p>
+
+		The {{UIEvent}} interface provides specific contextual information
+		associated with User Interface events.
+
+		To create an instance of the {{UIEvent}} interface, use the UIEvent
+		constructor, passing an optional {{UIEventInit}} dictionary.
+
+		<p class="note">
+		For newly defined events, you don't have to inherit {{UIEvent}} interface just
+		because they are related to user interface.  Inherit only when members of
+		{{UIEventInit}} make sense to those events.
+		</p>
+
+		<h5 id="idl-uievent">UIEvent</h5>
+
+			<pre class="idl">
+			[Exposed=Window]
+			interface UIEvent : Event {
+				constructor(DOMString type, optional UIEventInit eventInitDict = {});
+				readonly attribute Window? view;
+				readonly attribute long detail;
+			};
+			</pre>
+
+			<dl>
+				<dt><code>UIEvent . view</code></dt>
+				<dd>
+					The <code>view</code> attribute identifies the
+					<code>Window</code> from which the event was generated.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>null</code>.
+				</dd>
+
+				<dt><code>UIEvent . detail</code></dt>
+				<dd>
+					Specifies some detail information about the {{Event}}, depending
+					on the type of event.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>0</code>.
+				</dd>
+			</dl>
+
+		<h5 id="idl-uieventinit">UIEventInit</h5>
+
+			<pre class="idl">
+			dictionary UIEventInit : EventInit {
+				Window? view = null;
+				long detail = 0;
+			};
+			</pre>
+
+			<dl>
+				<dt><code>UIEventInit . view</code></dt>
+				<dd>
+					Should be initialized to the Window object of the global
+					environment in which this event will be dispatched. If this
+					event will be dispatched to an element, the view property should
+					be set to the Window object containing the element's
+					<code>ownerDocument</code>.
+				</dd>
+
+				<dt><code>UIEventInit . detail</code></dt>
+				<dd>
+					This value is initialized to a number that is
+					application-specific.
+				</dd>
+			</dl>
+
+	<h4 id="events-uievent-types">UI Event Types</h4>
+
+		The User Interface event types are listed below.  Some of these events
+		use the {{UIEvent}} interface if generated from a user interface, but
+		the {{Event}} interface otherwise, as detailed in each event.
+
+		<h5 id="event-type-load"><dfn>load</dfn></h5>
+
+			++------------------+--------------------------------------------------------------------------------------+ event-definition
+			=| %                |                                                                                      |
+			 +------------------+--------------------------------------------------------------------------------------+
+			+| Type             | <strong><code>load</code></strong>                                                   |
+			+| Interface        | {{UIEvent}} if generated from a user interface, {{Event}} otherwise.                 |
+			+| Sync / Async     | Async                                                                                |
+			+| Bubbles          | No                                                                                   |
+			+| Trusted Targets  | <a><code>Window</code></a>, <code>Document</code>, <code>Element</code>              |
+			+| Cancelable       | No                                                                                   |
+			+| Default action   | None                                                                                 |
+			+| Context<br>      | <ul>                                                                                 |
+			 | (trusted events) | <li>{{Event}}.{{Event/target}} : common object whose contained resources have        |
+			 |                  |     loaded</li>                                                                      |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/view}} : <a><code>Window</code></a></li>                   |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/detail}} : <code>0</code></li>                             |
+			 |                  | </ul>                                                                                |
+			++------------------+--------------------------------------------------------------------------------------+
+
+			A <a>user agent</a> MUST dispatch this event when the DOM
+			implementation finishes loading the resource (such as the document)
+			and any dependent resources (such as images, style sheets, or
+			scripts). Dependent resources that fail to load MUST NOT prevent
+			this event from firing if the resource that loaded them is still
+			accessible via the DOM. If this event type is dispatched,
+			implementations are REQUIRED to dispatch this event at least on the
+			<code>Document</code> node.</p>
+
+			<p class="note">
+			For legacy reasons, EVENT{load} events for resources inside the
+			document (e.g., images) do not include the <a>Window</a> in the
+			propagation path in HTML implementations. See [[HTML5]] for more
+			information.
+			</p>
+
+		<h5 id="event-type-unload"><dfn>unload</dfn></h5>
+
+			++------------------+--------------------------------------------------------------------------------------+ event-definition
+			=| %                |                                                                                      |
+			 +------------------+--------------------------------------------------------------------------------------+
+			+| Type             | <strong><code>unload</code></strong>                                                 |
+			+| Interface        | {{UIEvent}} if generated from a user interface, {{Event}} otherwise.                 |
+			+| Sync / Async     | Sync                                                                                 |
+			+| Bubbles          | No                                                                                   |
+			+| Trusted Targets  | <a><code>Window</code></a>, <code>Document</code>, <code>Element</code>              |
+			+| Cancelable       | No                                                                                   |
+			+| Default action   | None                                                                                 |
+			+| Context<br>      | <ul>                                                                                 |
+			 | (trusted events) | <li>{{Event}}.{{Event/target}} : common object whose contained resources have        |
+			 |                  |     been removed</li>                                                                |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/view}} : <a><code>Window</code></a></li>                   |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/detail}} : <code>0</code></li>                             |
+			 |                  | </ul>                                                                                |
+			++------------------+--------------------------------------------------------------------------------------+
+
+			A <a>user agent</a> MUST dispatch this event when the DOM
+			Implementation removes from the environment the resource (such as
+			the document) or any dependent resources (such as images, style
+			sheets, scripts). The document MUST be unloaded after the dispatch
+			of this event type. If this event type is dispatched,
+			implementations are REQUIRED to dispatch this event at least on
+			the <code>Document</code> node.
+
+		<h5 id="event-type-abort"><dfn>abort</dfn></h5>
+
+			++------------------+--------------------------------------------------------------------------------------+ event-definition
+			=| %                |                                                                                      |
+			 +------------------+--------------------------------------------------------------------------------------+
+			+| Type             | <strong><code>abort</code></strong>                                                  |
+			+| Interface        | {{UIEvent}} if generated from a user interface, {{Event}} otherwise.                 |
+			+| Sync / Async     | Sync                                                                                 |
+			+| Bubbles          | No                                                                                   |
+			+| Trusted Targets  | <a><code>Window</code></a>, <code>Element</code>                                     |
+			+| Cancelable       | No                                                                                   |
+			+| Default action   | None                                                                                 |
+			+| Context<br>      | <ul>                                                                                 |
+			 | (trusted events) | <li>{{Event}}.{{Event/target}} : element whose resources have been stopped from      |
+			 |                  |     loading without error</li>                                                       |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/view}} : <a><code>Window</code></a></li>                   |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/detail}} : <code>0</code></li>                             |
+			 |                  | </ul>                                                                                |
+			++------------------+--------------------------------------------------------------------------------------+
+
+			A <a>user agent</a> MUST dispatch this event when the loading of a
+			resource has been aborted, such as by a user canceling the load
+			while it is still in progress.
+
+		<h5 id="event-type-error"><dfn>error</dfn></h5>
+
+			++------------------+--------------------------------------------------------------------------------------+ event-definition
+			=| %                |                                                                                      |
+			 +------------------+--------------------------------------------------------------------------------------+
+			+| Type             | <strong><code>error</code></strong>                                                  |
+			+| Interface        | {{UIEvent}} if generated from a user interface, {{Event}} otherwise.                 |
+			+| Sync / Async     | Async                                                                                |
+			+| Bubbles          | No                                                                                   |
+			+| Trusted Targets  | <a><code>Window</code></a>, <code>Element</code>                                     |
+			+| Cancelable       | No                                                                                   |
+			+| Default action   | None                                                                                 |
+			+| Context<br>      | <ul>                                                                                 |
+			 | (trusted events) | <li>{{Event}}.{{Event/target}} : element whose resources have been stopped from      |
+			 |                  |     loading due to error</li>                                                        |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/view}} : <a><code>Window</code></a></li>                   |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/detail}} : <code>0</code></li>                             |
+			 |                  | </ul>                                                                                |
+			++------------------+--------------------------------------------------------------------------------------+
+
+			A <a>user agent</a> MUST dispatch this event when a resource failed
+			to load, or has been loaded but cannot be interpreted according to
+			its semantics, such as an invalid image, a script execution error,
+			or non-well-formed XML.
+
+		<h5 id="event-type-select"><dfn>select</dfn></h5>
+
+			++------------------+--------------------------------------------------------------------------------------+ event-definition
+			=| %                |                                                                                      |
+			 +------------------+--------------------------------------------------------------------------------------+
+			+| Type             | <strong><code>select</code></strong>                                                 |
+			+| Interface        | {{UIEvent}} if generated from a user interface, {{Event}} otherwise.                 |
+			+| Sync / Async     | Sync                                                                                 |
+			+| Bubbles          | Yes                                                                                  |
+			+| Trusted Targets  | <code>Element</code>                                                                 |
+			+| Cancelable       | No                                                                                   |
+			+| Default action   | None                                                                                 |
+			+| Context<br>      | <ul>                                                                                 |
+			 | (trusted events) | <li>{{Event}}.{{Event/target}} : element whose text content has been selected</li>   |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/view}} : <a><code>Window</code></a></li>                   |
+			 |                  | <li>{{UIEvent}}.{{UIEvent/detail}} : <code>0</code></li>                             |
+			 |                  | </ul>                                                                                |
+			++------------------+--------------------------------------------------------------------------------------+
+
+			A <a>user agent</a> MUST dispatch this event when a user selects
+			some text.	This event is dispatched after the selection has occurred.
+
+			This specification does not provide contextual information to access
+			the selected text.	Where applicable, a <a>host language</a> SHOULD
+			define rules for how a user MAY select content (with consideration
+			for international language conventions), at what point the
+			EVENT{select} event is dispatched, and how a content author MAY
+			access the user-selected content.
+
+			<p class="note">
+			In order to access to user-selected content, content authors will
+			use native capabilities of the <a>host languages</a>, such as the
+			<code>Document.getSelection()</code> method of the HTML Editing APIs
+			[[Editing]].
+			</p>
+
+			<p class="note">
+			The EVENT{select} event might not be available for all elements in
+			all languages.	For example, in [[HTML5]], EVENT{select} events can
+			be dispatched only on form <{input}> and <{textarea}> elements.
+			Implementations can dispatch EVENT{select} events in any context
+			deemed appropriate, including text selections outside of form
+			controls, or image or markup selections such as in SVG.
+			</p>
+
