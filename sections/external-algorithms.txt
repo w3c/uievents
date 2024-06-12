@@ -1,0 +1,349 @@
+<section>
+<h2 id="external-algorithms">External Algorithms</h2>
+
+	This sections contains algorithms that are required by this specification, but are
+	more properly hosted by other specifications.
+	
+	The intent is that this sections serve as a temporary home for these definitions,
+	and they should eventually be moved into a more appropriate home so this entire
+	section can be deleted.
+
+	<h3 id="external-dom-algorithms">Core DOM Algorithms</h3>
+
+		<p class="note">
+		The following algorithms should be moved... somewhere.
+		</p>
+
+		<div class="algorithm" data-algorithm="hit-test">
+		<h4 id="hit test"><dfn>hit test</dfn></h4>
+
+			: Input
+			:: |pos|, the x,y coordinates relative to the viewport
+
+			: Output
+			:: The frontmost DOM element at |pos|
+
+			<p class="note">
+			To account for
+			<a href="https://html.spec.whatwg.org/#inert">inert</a> or
+			<a href="https://html.spec.whatwg.org/#concept-fe-disabled">disabled</a>
+			elements. this should call <a>elementsFromPoint</a> and reject
+			invalid elements
+			</p>
+
+			1. Return [[CSSOM-View]]'s <a>elementFromPoint</a> with |pos|
+
+		</div><!-- algorithm -->
+
+		<div class="algorithm" data-algorithm="calculate-dom-path">
+		<h4 id="calculate dom path"><dfn>calculate DOM path</dfn></h4>
+
+			: Input
+			:: |element|, the starting element
+
+			: Output
+			:: The list of ancestor elements for the given element
+
+			1. Let |path| = A list that contains |element|
+
+				<p class="note">
+			    This needs a proper definition to add ancestors to |path|.
+			    </p>
+
+			1. Return |path|
+
+		</div><!-- algorithm -->
+
+	<h3 id="external-pointerlock-algorithms">PointerLock Algorithms</h3>
+
+		<p class="note">
+		The following algorithm should be moved into the [[PointerLock]] spec.
+		</p>
+
+		<h4 id="pointer-lock-global-state">Global State for PointerLock</h4>
+
+			<h5 id="pointer-lock-global-window">Window-Level State</h5>
+
+				The UA must maintain the following values that are shared for the Window.
+
+				A <dfn>last mouse move</dfn> value (initially undefined) that records the position of the
+				last mousemove event.
+
+		<div class="algorithm" data-algorithm="initialize-pointerlock-attributes-for-mouseevent">
+		<h4 id="initialize pointerlock attributes for mouseevent"><dfn>initialize PointerLock attributes for MouseEvent</dfn></h4>
+
+			: Input
+			:: |event|, a {{MouseEvent}}
+
+			: Output
+			:: None
+
+		    1. Set |event|.{{MouseEvent/movementX}} = 0
+		    1. Set |event|.{{MouseEvent/movementY}} = 0
+			
+		</div><!-- algorithm -->
+
+		<div class="algorithm" data-algorithm="set-pointerlock-attributes-for-mousemove">
+		<h4 id="set pointerlock attributes for mousemove"><dfn>set PointerLock attributes for mousemove</dfn></h4>
+
+			: Input
+			:: |event|, a {{MouseEvent}}
+
+			: Output
+			:: None
+
+			1. If |event|.{{Event/type}} is not "mousemove", then exit
+
+			1. If <a>last mouse move</a> is not defined, then
+				1. Set |event|.{{MouseEvent/movementX}} = 0
+				1. Set |event|.{{MouseEvent/movementY}} = 0
+			1. Otherwise,
+				1. Set |event|.{{MouseEvent/movementX}} = |event|.{{MouseEvent/screenX}} - <a>last mouse move</a>'s x-coordinate
+				1. Set |event|.{{MouseEvent/movementY}} = |event|.{{MouseEvent/screenX}} - <a>last mouse move</a>'s y-coordinate
+
+			1. Set <a>last mouse move</a> = ( |event|.{{MouseEvent/screenX}}, |event|.{{MouseEvent/screenY}} )
+
+		</div><!-- algorithm -->
+
+	<h3 id="external-pointerevent-algorithms">PointerEvent Algorithms</h3>
+
+		<p class="note">
+		The following algorithms should be moved into the [[PointerEvents3]] spec.
+		</p>
+
+		<div class="algorithm" data-algorithm="initialize-a-pointerevent">
+		<h4 id="initialize a pointerevent"><dfn>initialize a PointerEvent</dfn></h4>
+
+			: Input
+			:: |event|, the {{PointerEvent}} to initialize
+			:: |eventType|, a DOMString containing the event type
+			:: |eventTarget|, the {{EventTarget}} of the event
+
+			: Output
+			:: None
+
+			1. <a>Initialize a MouseEvent</a> with |event|, |eventType| and |eventTarget|
+
+			<p class="note">
+			TODO - initialize the pointerevent attributes
+			</p>
+
+		</div><!-- algorithm -->
+
+		<div class="algorithm" data-algorithm="create-a-pointerevent">
+		<h4 id="create a pointerevent"><dfn>create a PointerEvent</dfn></h4>
+
+			: Input
+			:: |eventType|, a DOMString containing the event type
+			:: |eventTarget|, the {{EventTarget}} of the event
+
+			: Output
+			:: None
+
+			1. Let |event| = the result of
+				<a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new event</a> using {{PointerEvent}}
+			1. <a>Initialize a PointerEvent</a> with |event|, |eventType| and |eventTarget|
+			1. Return |event|
+
+		</div><!-- algorithm -->
+
+		<div class="algorithm" data-algorithm="create-pointerevent-from-mouseevent">
+		<h4 id="create pointerevent from mouseevent"><dfn>create PointerEvent from MouseEvent</dfn></h4>
+
+			: Input
+			:: |eventType|, a DOMString containing the event type
+			:: |mouseevent|, the corresponding {{MouseEvent}}
+
+			: Output
+			:: None
+
+			1. Let |event| = the result of
+				<a href="https://dom.spec.whatwg.org/#concept-event-create">creating a new event</a> using {{PointerEvent}}
+
+			1. Let |target| = |mouseevent|.{{target}}
+
+			1. <a>Initialize a PointerEvent</a> with |event|, |eventType| and |target|
+
+			1. Copy MouseEvent attributes from |mouseevent| into |event|
+
+			1. Return |event|
+
+		</div><!-- algorithm -->
+
+		<div class="algorithm" data-algorithm="maybe-send-pointerout-event">
+		<h4 id="maybe send pointerout event"><dfn>maybe send pointerout event</dfn></h4>
+
+			: Input
+			:: |mouseout|, the corresponding mouseout {{MouseEvent}}
+
+			: Output
+			:: None
+
+			1. Let |pointerout| = <a>create PointerEvent from MouseEvent</a> with "pointerout" and |mouseout|
+
+			1. Set pointerevent attributes
+
+				<p class="note">
+				TODO
+				</p>
+
+			1. Let |target| = |mouseout|.{{target}}
+			1. <a>dispatch</a> |pointerout| at |target|
+
+		</div><!-- algorithm -->
+
+		<div class="algorithm" data-algorithm="maybe-send-pointerleave-event">
+		<h4 id="maybe send pointerleave event"><dfn>maybe send pointerleave event</dfn></h4>
+
+			: Input
+			:: |mouseout|, the corresponding mouseout {{MouseEvent}}
+
+			: Output
+			:: None
+
+			1. Let |pointerout| = <a>create PointerEvent from MouseEvent</a> with "pointerout" and |mouseout|
+
+			1. Set pointerevent attributes
+
+				<p class="note">
+				TODO
+				</p>
+
+			1. Let |target| = |mouseout|.{{target}}
+			1. <a>dispatch</a> |pointerout| at |target|
+
+		</div><!-- algorithm -->
+
+		<div class="algorithm" data-algorithm="maybe-send-pointerover-event">
+		<h4 id="maybe send pointerover event"><dfn>maybe send pointerover event</dfn></h4>
+
+			: Input
+			:: |mouseout|, the corresponding mouseout {{MouseEvent}}
+
+			: Output
+			:: None
+
+			1. Let |pointerout| = <a>create PointerEvent from MouseEvent</a> with "pointerout" and |mouseout|
+
+			1. Set pointerevent attributes
+
+				<p class="note">
+				TODO
+				</p>
+
+			1. Let |target| = |mouseout|.{{target}}
+			1. <a>dispatch</a> |pointerout| at |target|
+
+		</div><!-- algorithm -->
+
+		<div class="algorithm" data-algorithm="maybe-send-pointerenter-event">
+		<h4 id="maybe send pointerenter event"><dfn>maybe send pointerenter event</dfn></h4>
+
+			: Input
+			:: |mouseout|, the corresponding mouseout {{MouseEvent}}
+
+			: Output
+			:: None
+
+			1. Let |pointerout| = <a>create PointerEvent from MouseEvent</a> with "pointerout" and |mouseout|
+
+			1. Set pointerevent attributes
+
+				<p class="note">
+				TODO
+				</p>
+
+			1. Let |target| = |mouseout|.{{target}}
+			1. <a>dispatch</a> |pointerout| at |target|
+
+		</div><!-- algorithm -->
+
+		<div class="algorithm" data-algorithm="maybe-send-pointermove-event">
+		<h4 id="maybe send pointermove event"><dfn>maybe send pointermove event</dfn></h4>
+
+			: Input
+			:: |mouseout|, the corresponding mouseout {{MouseEvent}}
+
+			: Output
+			:: None
+
+			<p class="note">
+			Can this send pointermove and pointerrawupdate? Or do we need 2 methods?
+			</p>
+
+			<p class="note">
+			What is needed to properly define how pointermove events are coalesced?
+			</p>
+
+			1. Let |pointerout| = <a>create PointerEvent from MouseEvent</a> with "pointerout" and |mouseout|
+
+			1. Set pointerevent attributes
+
+				<p class="note">
+				TODO
+				</p>
+
+			1. Let |target| = |mouseout|.{{target}}
+			1. <a>dispatch</a> |pointerout| at |target|
+
+		</div><!-- algorithm -->
+
+		<div class="algorithm" data-algorithm="maybe-send-pointerdown-event">
+		<h4 id="maybe send pointerdown event"><dfn>maybe send pointerdown event</dfn></h4>
+
+			: Input
+			:: |mouseout|, the corresponding mouseout {{MouseEvent}}
+
+			: Output
+			:: None
+
+			<p class="note">
+			Unlike mousedown events,
+			<a href="https://w3c.github.io/pointerevents/#the-pointerdown-event">pointerdown</a>
+			events are not nested when multiple buttons are pressed.
+			The MouseEvent is passed so that the fields can be copied into the PointerEvent.
+			</p>
+
+			1. Let |pointerout| = <a>create PointerEvent from MouseEvent</a> with "pointerout" and |mouseout|
+
+			1. Set pointerevent attributes
+
+				<p class="note">
+				TODO
+				</p>
+
+			1. Let |target| = |mouseout|.{{target}}
+			1. <a>dispatch</a> |pointerout| at |target|
+
+		</div><!-- algorithm -->
+
+		<div class="algorithm" data-algorithm="maybe-send-pointerup-event">
+		<h4 id="maybe send pointerup event"><dfn>maybe send pointerup event</dfn></h4>
+
+			: Input
+			:: |mouseout|, the corresponding mouseout {{MouseEvent}}
+
+			: Output
+			:: None
+
+			<p class="note">
+			Unlike mouseup events,
+			<a href="https://w3c.github.io/pointerevents/#the-pointerup-event">pointerup</a>
+			events are not nested when multiple buttons are pressed.
+			The MouseEvent is passed so that the fields can be copied into the PointerEvent.
+			</p>
+
+			1. Let |pointerout| = <a>create PointerEvent from MouseEvent</a> with "pointerout" and |mouseout|
+
+			1. Set pointerevent attributes
+
+				<p class="note">
+				TODO
+				</p>
+
+			1. Let |target| = |mouseout|.{{target}}
+			1. <a>dispatch</a> |pointerout| at |target|
+
+		</div><!-- algorithm -->
+
+</section>

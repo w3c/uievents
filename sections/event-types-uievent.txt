@@ -76,7 +76,38 @@
 				</dd>
 			</dl>
 
-	<h4 id="events-uievent-types">UI Event Types</h4>
+	<h4 id="uievent-algorithms">UIEvent Algorithms</h4>
+
+		<div class="algorithm" data-algorithm="initialize-a-uievent">
+		<h5 id="initialize a uievent"><dfn>initialize a UIEvent</dfn></h5>
+
+			: Input
+			:: |event|, the {{UIEvent}} to initialize
+			:: |eventType|, a DOMString containing the event type
+			:: |eventTarget|, the {{EventTarget}} of the event
+		    :: |bubbles|, true if this event bubbles
+		    :: |cancelable|, true if this event is cancelable
+
+			: Output
+			:: None
+
+			1. Initialize the base {{Event}} attributes:
+
+				1. <a>Initialize an Event</a> with |event|, |eventType|, |bubbles| and |cancelable|
+				1. Set |event|.{{Event/target}} = |eventTarget|
+
+			1. Initialize the following public attributes:
+
+				1. Set |event|.{{UIEvent/view}} = the |eventTarget|'s <a>node document</a>'s {{Window}} object
+				1. Set |event|.{{UIEvent/detail}} = 0
+
+			1. Initialize the following historical attributes:
+
+				1. Set |event|.{{UIEvent/which}} = 0  (used by both {{MouseEvent}} and {{KeyboardEvent}})
+
+		</div><!-- algorithm -->
+
+	<h4 id="events-uievent-types">UIEvent Types</h4>
 
 		The User Interface event types are listed below.  Some of these events
 		use the {{UIEvent}} interface if generated from a user interface, but

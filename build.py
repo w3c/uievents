@@ -266,6 +266,7 @@ def process_main_spec():
 		'event-types-keyboardevent',
 		'event-types-compositionevent',
 		'keyboard',
+		'external-algorithms',
 		'legacy-event-initializers',
 		'legacy-key-attributes',
 		'legacy-event-types',
