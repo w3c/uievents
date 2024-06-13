@@ -257,7 +257,6 @@ def process_main_spec():
 		'conventions',
 		'architecture',
 		'event-interfaces',
-		'event-types',
 		'event-uievent',
 		'event-focusevent',
 		'event-mouseevent',
