@@ -255,7 +255,6 @@ def process_main_spec():
 	sections = [
 		'introduction',
 		'conventions',
-		'architecture',
 		'event-interfaces',
 		'event-uievent',
 		'event-focusevent',

@@ -1,9 +1,26 @@
+<h1>DOM Event Architecture</h1>
+
+<pre class="metadata">
+Shortname: uievents-algo
+Level:
+Group:
+Status: DREAM
+Editor: No One
+Abstract:
+    This document provides a non-normative description of the DOM Event architecture.
+        It was previously part of the UI Events spec.
+</pre>
+
 <section>
 <h2 id="dom-event-architecture">DOM Event Architecture</h2>
 
 
 <em>This section is non-normative. Refer to [[DOM]] for a normative description
 of the DOM event architecture</em>
+
+This information in this document was previously included in the UIEvents spec, but
+has been removed to this document so avoid confusion. As noted above, the proper
+definitions are part of the [[DOM]] specification.
 
 <h3 id="event-flow">Event dispatch and DOM event flow</h3>
 
@@ -203,8 +220,7 @@ of the DOM event architecture</em>
     object derived from these objects using the algorithm below, all
     {{KeyboardEvent}}, {{MouseEvent}}, and derived objects have
     <dfn id="internal-key-modifier-state">internal key modifier state</dfn> which can be set and
-    retrieved using the <a href="#keys-modifiers">key modifier names</a>
-    described in the
+    retrieved using the key modifier names described in the
     <a href="http://www.w3.org/TR/uievents-key/#keys-modifier">Modifier Keys table</a>
     in [[UIEvents-Key]].
 
@@ -226,3 +242,176 @@ of the DOM event architecture</em>
             to the corresponding value.
 
 </section>
+
+<section>
+<h2 id="glossary">Glossary</h2>
+
+Some of the following term definitions have been borrowed or modified from
+similar definitions in other W3C or standards documents. See the links within
+the definitions for more information.
+
+: <dfn>activation behavior</dfn>
+::  The action taken when an <a>event</a>, typically initiated by users through
+    an input device, causes an element to fulfill a defined task.  The task MAY
+    be defined for that element by the <a>host language</a>, or by
+    author-defined variables, or both.  The default task for any given element
+    MAY be a generic action, or MAY be unique to that element.  For example, the
+    activation behavior of an HTML or SVG <code>&lt;a&gt;</code> element is to
+    cause the <a>user agent</a> to traverse the link specified in the
+    <code>href</code> attribute, with the further optional parameter of
+    specifying the browsing context for the traversal (such as the current
+    window or tab, a named window, or a new window). The activation behavior of
+    an HTML <code>&lt;input&gt;</code> element with the <code>type</code>
+    attribute value <code>submit</code> is be to send the values of the form
+    elements to an author-defined IRI by the author-defined HTTP method.
+
+: <dfn>activation trigger</dfn>
+::  An event which is defined to initiate an <a>activation behavior</a>.
+
+: <dfn lt="bubble phase|bubbling phase">bubbling phase</dfn>
+::  The process by which an <a>event</a> can be handled by one of the target's
+    ancestors <em>after</em> being handled by the <a>event target</a>. See the
+    description of the <a>bubble phase</a> in the context of event flow for more
+    details.
+
+: <dfn>capture phase</dfn>
+::  The process by which an <a>event</a> can be handled by one of the target's
+    ancestors <em>before</em> being handled by the <a>event target</a>. See the
+    description of the <a href="#capture-phase">capture phase</a> in the context
+    of event flow for more details.
+
+: <dfn>current event target</dfn>
+::  In an event flow, the current event target is the object associated with the
+    <a>event handler</a> that is currently being dispatched. This object MAY be
+    the <a>event target</a> itself or one of its ancestors. The current event
+    target changes as the <a>event</a> propagates from object to object through
+    the various <a>phases</a> of the event flow. The current event target is the
+    value of the {{Event/currentTarget}} attribute.
+
+: <dfn>default action</dfn>
+::  A <a>default action</a> is an OPTIONAL supplementary behavior that an
+    implementation MUST perform in combination with the dispatch of the event
+    object.  Each event type definition, and each specification, defines the
+    <a>default action</a> for that event type, if it has one.  An instance of an
+    event MAY have more than one <a>default action</a> under some circumstances,
+    such as when associated with an <a>activation trigger</a>.  A <a>default
+    action</a> MAY be cancelled through the invocation of the
+    {{Event/preventDefault()}} method.
+
+: <dfn>dispatch</dfn>
+::  To create an event with attributes and methods appropriate to its type and
+    context, and propagate it through the DOM tree in the specified manner.
+    Interchangeable with the term <q><a>fire</a></q>, e.g., <q>fire a
+    EVENT{click} event</q> or <q>dispatch a EVENT{load} event</q>.
+
+: <dfn>document</dfn>
+::  An object instantiating the {{Document}} interface [[DOM-Level-3-Core]],
+    representing the entire HTML or XML text document.  Conceptually, it is the
+    root of the document tree, and provides the primary access to the document's
+    data.
+
+: <dfn>DOM application</dfn>
+::  A DOM application is script or code, written by a content author or
+    automatically generated, which takes advantage of the interfaces, methods,
+    attributes, events, and other features described in this specification in
+    order to make dynamic or interactive content, such as Web applications,
+    exposed to users in a <a>user agent</a>.
+
+: <dfn>event</dfn>
+::  An event is the representation of some occurrence (such as a mouse click on
+    the presentation of an element, the removal of child node from an element,
+    or any number of other possibilities) which is associated with its <a>event
+    target</a>. Each event is an instantiation of one specific <a>event
+    type</a>.
+
+: <dfn>event handler</dfn>
+: <dfn>event listener</dfn>
+::  An object that implements the {{EventListener}} interface and provides an
+    {{EventListener/handleEvent()}} callback method. Event handlers are
+    language-specific. Event handlers are invoked in the context of a particular
+    object (the <a>current event target</a>) and are provided with the event
+    object itself.
+
+    <p class="note">
+    In JavaScript, user-defined functions are considered to implement the
+    {{EventListener}} interface. Thus the event object will be provided as the
+    first parameter to the user-defined function when it is invoked.
+    Additionally, JavaScript objects can also implement the {{EventListener}}
+    interface when they define a {{EventListener/handleEvent()}} method.
+    </p>
+
+: <dfn>event order</dfn>
+::  The sequence in which events from the same event source or process occur,
+    using the same or related event interfaces. For example, in an environment
+    with a mouse, a track pad, and a keyboard, each of those input devices would
+    constitute a separate event source, and each would follow its own event
+    order. A EVENT{mousedown} event from the trackpad followed by a
+    EVENT{mouseup} event from the mouse would not result in a EVENT{click} event.
+
+    <p class="note">
+    There can be interactions between different event orders. For example, a
+    EVENT{click} event might be modified by a concurrent EVENT{keydown} event
+    (e.g., via KEYCAP{Shift}<code>+</code>EVENT{click}). However, the event
+    orders of these different event sources would be distinct.
+
+    The event order of some interfaces are device-independent. For example, a
+    user might change focus using the KEYCAP{Tab} key, or by clicking the new
+    focused element with the mouse.  The event order in such cases depends on
+    the state of the process, not on the state of the device that initiates the
+    state change.
+
+: <dfn>event phase</dfn>
+::  See <a>phase</a>.
+
+: <dfn>event target</dfn>
+::  The object to which an <a>event</a> is targeted using the event flow.
+    The event target is the value of the {{Event/target}} attribute.
+
+: <dfn>fire</dfn>
+::  A synonym for <a>dispatch</a>.
+
+: <dfn>host language</dfn>
+::  Any language which integrates the features of another language or API
+    specification, while normatively referencing the origin specification rather
+    than redefining those features, and extending those features only in ways
+    defined by the origin specification.  An origin specification typically is
+    only intended to be implemented in the context of one or more host
+    languages, not as a standalone language.  For example, XHTML, HTML, and SVG
+    are host languages for UI Events, and they integrate and extend the objects
+    and models defined in this specification.
+
+: <dfn>phase</dfn>
+::  In the context of <a>events</a>, a phase is set of logical traversals from
+    node to node along the DOM tree, from the <a>Window</a> to the {{Document}}
+    object, <a>root element</a>, and down to the <a>event target</a> (<a>capture
+    phase</a>), at the <a>event target</a> itself (<a>target phase</a>), and
+    back up the same chain (<a>bubbling phase</a>).
+
+: <dfn>propagation path</dfn>
+::  The ordered set of <a>current event targets</a> though which an <a>event</a>
+    object will pass sequentially on the way to and back from the <a>event
+    target</a>.  As the event propagates, each <a>current event target</a> in
+    the propagation path is in turn set as the {{Event/currentTarget}}. The
+    propagation path is initially composed of one or more <a>event phases</a> as
+    defined by the <a>event type</a>, but MAY be interrupted.  Also known as an
+    <em>event target chain</em>.
+
+: <dfn>target phase</dfn>
+::  The process by which an <a>event</a> can be handled by the <a>event
+    target</a>. See the description of the <a>target phase</a> in the context of
+    event flow for more details.
+
+: <dfn>user agent</dfn>
+::  A program, such as a browser or content authoring tool, normally running on
+    a client machine, which acts on a user's behalf in retrieving, interpreting,
+    executing, presenting, or creating content.  Users MAY act on the content
+    using different user agents at different times, for different purposes.
+
+: <dfn>Window</dfn>
+::  The <code>Window</code> is the object referred to by the current <a>document</a>'s
+    browsing context's Window Proxy object as defined in
+    <a href="http://dev.w3.org/html5/spec/single-page.html#windowproxy" title="HTML5 WindowProxy description">HTML5</a>
+    [[HTML5]].
+
+</section>
+

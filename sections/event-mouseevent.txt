@@ -33,7 +33,7 @@
 		When initializing {{MouseEvent}} objects using <code>initMouseEvent</code>,
 		implementations can use the client coordinates {{MouseEvent/clientX}}
 		and {{MouseEvent/clientY}} for calculation of other coordinates (such
-		as target coordinates exposed by <a>DOM Level 0</a> implementations or
+		as target coordinates exposed by DOM Level 0 implementations or
 		other proprietary attributes, e.g., <code>pageX</code>).
 		</p>
 
@@ -400,7 +400,7 @@
 		{{KeyboardEvent}} interfaces, as well as the additional modifier states
 		queried via {{KeyboardEvent/getModifierState()}}. The steps for
 		constructing events using this dictionary are defined in the
-		<a href="#event-constructors">event constructors</a> section.
+		<a href="#mouse-event-constructors">MouseEvent constructors</a> section.
 
 		<pre class="idl">
 		dictionary EventModifierInit : UIEventInit {
@@ -575,6 +575,44 @@
 				return <code>true</code>.
 			</dd>
 		</dl>
+
+		<h5 id="mouse-event-constructors">Constructing Mouse Events</h3>
+
+			Generally, when a constructor of an {{Event}} interface, or of an interface
+			inherited from the {{Event}} interface, is invoked, the steps described in
+			[[!DOM]] should be followed. However the
+			{{MouseEvent}} interfaces provide additional dictionary members for
+			initializing the internal state of the {{Event}} object's key modifiers:
+			specifically, the internal state queried for using the
+			{{MouseEvent/getModifierState()}}
+			methods. This section supplements the DOM4 steps for intializing a new
+			{{MouseEvent}} object with these optional modifier states.
+
+			For the purposes of constructing a {{MouseEvent}}, or
+			object derived from these objects using the algorithm below, all
+			{{MouseEvent}}, and derived objects have
+			<dfn id="internal-key-modifier-state">internal key modifier state</dfn> which can be set and
+			retrieved using the <a href="#keys-modifiers">key modifier names</a>
+			described in the
+			<a href="http://www.w3.org/TR/uievents-key/#keys-modifier">Modifier Keys table</a>
+			in [[UIEvents-Key]].
+
+			The following steps supplement the algorithm defined for constructing
+			events in DOM4:
+
+			*   If the {{Event}} being constructed is a
+				{{MouseEvent}} object or an object that derives from it,
+				and a {{EventModifierInit}} argument was provided to the constructor,
+				then run the following sub-steps:
+
+				*   For each {{EventModifierInit}} argument, if the dictionary member
+					begins with the string <code>"modifier"</code>, then let the
+					<dfn id="modifier-key-name">key modifier name</dfn> be the
+					dictionary member's name excluding the prefix
+					<code>"modifier"</code>, and set the {{Event}} object's
+					<a href="#internal-key-modifier-state">internal key modifier state</a>
+					that matches the <a href="#modifier-key-name">key modifier name</a>
+					to the corresponding value.
 
 	<h4 id="mouseevent-algorithms">MouseEvent Algorithms</h4>
 
@@ -1315,7 +1353,7 @@
 
 			*	If the <a>event target</a> has associated activation behavior,
 				the <a>default action</a> MUST be to execute that activation
-				behavior (see [[#event-flow-activation]]).
+				behavior.
 
 			<p class="example">
 			Receiving and handling auxclick for the middle button.<br>
@@ -1446,7 +1484,7 @@ myDiv.addEventListener("auxclick", function(e) {
 
 			In addition to being associated with pointer devices, the
 			EVENT{click} event type MUST be dispatched as part of an element
-			activation, as described in [[#event-flow-activation]].
+			activation.
 
 			<p class="note">
 			For maximum accessibility, content authors are encouraged to use the
@@ -1466,7 +1504,7 @@ myDiv.addEventListener("auxclick", function(e) {
 
 			*	If the <a>event target</a> has associated activation behavior,
 				the <a>default action</a> MUST be to execute that activation
-				behavior (see [[#event-flow-activation]]).
+				behavior.
 
 			*	If the <a>event target</a> is focusable, the <a>default
 				action</a> MUST be to give that element document focus.
