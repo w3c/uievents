@@ -270,7 +270,6 @@ def process_main_spec():
 		'legacy-event-types',
 		'extending-events',
 		'security',
-		'changes',
 		'acknowledgements',
 		'glossary',
 	]
