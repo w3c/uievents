@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""Script to build the spec."""
+"""Script to build the Bikeshed (.bs) files for the UI Events spec."""
 
 from __future__ import print_function
 
@@ -11,6 +11,11 @@ import sys
 
 DEBUG = False
 
+# This Parser processes the base *.txt files in the section/ directory to produce a set
+# of output *.bs files that can be used as input to Bikeshed to create the final .html
+# file.
+# This pre-processing marks up the Key and Code values (with appropriate links) and
+# generates HTML tables from the ASCII markup.
 class Parser():
 	"""Pre-bikeshed parser for uievents spec."""
 
@@ -274,6 +279,8 @@ def process_main_spec():
 		'glossary',
 	]
 
+	# Generate an .include file for each .txt file in the sections/ directory.
+	# These .include files are referenced by the main index.bs file.
 	for section in sections:
 		infilename = 'sections/' + section + '.txt'
 		outfilename = 'sections/' + section + '.include'
@@ -291,34 +298,8 @@ def process_main_spec():
 			cmd.append('--line-numbers')
 		subprocess.call(cmd)
 
-def process_split_spec():
-	# Split version of the UIEvents spec.
-	split_sections = [
-		'composition-events',
-		'focus-events',
-		'input-events',
-		'keyboard-events',
-		'mouse-events',
-		'ui-events',
-		'wheel-events',
-	]
-	for section in split_sections:
-		infilename = 'split/' + section + '.txt'
-		outfilename = 'split/' + section + '.bs'
-
-		# Generate the bikeshed file.
-		parser = Parser()
-		parser.process(infilename, outfilename)
-	
-	print('Bikeshedding split specs...')
-	for section in split_sections:
-		print('...' + section)
-		cmd = ["bikeshed", "spec", "split/" + section + ".bs"]
-		subprocess.call(cmd)
-
 def main():
 	process_main_spec()
-	#process_split_spec()
 
 if __name__ == '__main__':
 	main()
