@@ -11,7 +11,6 @@ bad_ids = [
 	["widl-MouseEvent-getModifierState", "-boolean-DOMString-keyArg"],
 	["widl-MouseEvent-initMouseEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-Window-viewArg-long-detailArg-long-screenXArg-long-screenYArg-long-clientXArg-long-clientYArg-boolean-ctrlKeyArg-boolean-altKeyArg-boolean-shiftKeyArg-boolean-metaKeyArg-short-buttonArg-EventTarget-relatedTargetArg"],
 	["widl-KeyboardEvent-getModifierState", "-boolean-DOMString-keyArg"],
-	["widl-MutationEvent-initMutationEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-Node-relatedNodeArg-DOMString-prevValueArg-DOMString-newValueArg-DOMString-attrNameArg-unsigned-short-attrChangeArg"],
 	["widl-CustomEvent-initCustomEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-any-detailArg"],
 	["widl-FocusEvent-initFocusEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-Window-viewArg-long-detailArg-EventTarget-relatedTargetArg"],
 	["widl-WheelEvent-initWheelEvent", "-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-Window-viewArg-long-detailArg-long-screenXArg-long-screenYArg-long-clientXArg-long-clientYArg-short-buttonArg-EventTarget-relatedTargetArg-DOMString-modifiersListArg-double-deltaXArg-double-deltaYArg-double-deltaZArg-unsigned-long-deltaMode"],
@@ -44,9 +43,6 @@ idl_constants = {
 	"BUBBLING_PHASE": "#widl-Event-",
 	"CAPTURING_PHASE": "#widl-Event-",
 	"NONE": "#widl-Event-",
-	"ADDITION": "#widl-MutationEvent-",
-	"MODIFICATION": "#widl-MutationEvent-",
-	"REMOVAL": "#widl-MutationEvent-",
 };
 
 function fixup_ids() {

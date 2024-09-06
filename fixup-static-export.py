@@ -51,9 +51,6 @@ widlstr = [
 	['KeyboardEvent-', 'DOM_KEY_LOCATION_LEFT"'],
 	['KeyboardEvent-', 'DOM_KEY_LOCATION_RIGHT"'],
 	['KeyboardEvent-', 'DOM_KEY_LOCATION_NUMPAD"'],
-	['MutationEvent-', 'MODIFICATION"'],
-	['MutationEvent-', 'ADDITION"'],
-	['MutationEvent-', 'REMOVAL"'],
 ]
 
 def widl(line):
@@ -84,7 +81,6 @@ paramstr = [
 	['FocusEvent-initFocusEvent', '-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg-EventTarget-relatedTargetArg'],
 	['MouseEvent-initMouseEvent', '-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg-long-screenXArg-long-screenYArg-long-clientXArg-long-clientYArg-boolean-ctrlKeyArg-boolean-altKeyArg-boolean-shiftKeyArg-boolean-metaKeyArg-unsigned-short-buttonArg-EventTarget-relatedTargetArg'],
 	['WheelEvent-initWheelEvent', '-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-AbstractView-viewArg-long-detailArg-long-screenXArg-long-screenYArg-long-clientXArg-long-clientYArg-unsigned-short-buttonArg-EventTarget-relatedTargetArg-DOMString-modifiersListArg-double-deltaXArg-double-deltaYArg-double-deltaZArg-unsigned-long-deltaMode'],
-	['MutationEvent-initMutationEvent', '-void-DOMString-typeArg-boolean-bubblesArg-boolean-cancelableArg-Node-relatedNodeArg-DOMString-prevValueArg-DOMString-newValueArg-DOMString-attrNameArg-unsigned-short-attrChangeArg'],
 ]
 
 def params(line):
