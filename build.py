@@ -77,6 +77,7 @@ class Parser():
 				post = '</th>'
 			if colname == '#':
 				pre = '<td class="cell-number"%s>' % style
+				post = '</td>'
 				if self.is_header_row:
 					data = ''
 			if not self.is_header_row and data != '':
