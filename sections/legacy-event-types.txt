@@ -436,10 +436,17 @@ completeness.
 			</table>
 
 			If supported by a <a>user agent</a>, this event MUST be dispatched
-			when a key is pressed down, if and only if that key normally
-			produces a <a>character value</a>. The EVENT{keypress} event type is
-			device dependent and relies on the capabilities of the input devices
-			and how they are mapped in the operating system.
+			when a key is pressed down, if and only if any of the following
+			conditions are true:
+
+			- that key normally produces a <a>character value</a>
+			- that key is the KEYCAP{Enter} key and no modifier was active
+			- that key is the KEYCAP{Enter} key and the KEYCAP{Shift} modifier was active
+			- that key is the KEYCAP{Enter} key and the KEYCAP{Control} modifier was active
+
+			The EVENT{keypress} event type is device dependent and relies on the
+			capabilities of the input devices and how they are mapped in the
+			operating system.
 
 			This event type MUST be generated after the <a>key mapping</a>. It
 			MUST NOT be fired when using an <a>input method editor</a>.
