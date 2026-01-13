@@ -265,7 +265,6 @@ def process_main_spec():
 		'event-uievent',
 		'event-focusevent',
 		'event-mouseevent',
-		'event-wheelevent',
 		'event-inputevent',
 		'event-keyboardevent',
 		'event-compositionevent',
