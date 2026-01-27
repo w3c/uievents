@@ -58,6 +58,8 @@
 				readonly attribute boolean repeat;
 				readonly attribute boolean isComposing;
 
+				readonly attribute CSSPseudoElement? pseudoTarget;
+
 				boolean getModifierState(DOMString keyArg);
 			};
 			</pre>
@@ -230,6 +232,16 @@
 					<code>false</code>.
 				</dd>
 
+				<dt><dfn attribute>pseudoTarget</dfn></dt>
+				<dd>
+					The [=pseudo-element=] that was the target of the keyboard interaction,
+					if any. When the event target is an element rather than a
+					[=pseudo-element=], this attribute is <code>null</code>.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>null</code>.
+				</dd>
+
 				<dt><dfn method>getModifierState(keyArg)</dfn></dt>
 				<dd>
 					Queries the state of a modifier using a key value.
@@ -262,6 +274,7 @@
 				unsigned long location = 0;
 				boolean repeat = false;
 				boolean isComposing = false;
+				CSSPseudoElement? pseudoTarget = null;
 			};
 			</pre>
 
@@ -312,6 +325,14 @@
 					KeyboardEvent object. This attribute should be set to
 					<code>true</code> if the event being constructed occurs as part
 					of a composition sequence, <code>false</code> otherwise.
+				</dd>
+
+				<dt><dfn dict-member>pseudoTarget</dfn></dt>
+				<dd>
+					The <code>pseudoTarget</code> should be initialized to the
+					{{CSSPseudoElement}} that represents the target of the interaction,
+					if any. If the target was not a [=pseudo-element=], this value
+					need not be assigned (and will default to null).
 				</dd>
 			</dl>
 

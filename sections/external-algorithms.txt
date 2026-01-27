@@ -14,6 +14,87 @@
 		The following algorithms should be moved... somewhere.
 		</p>
 
+		<div class="algorithm" data-algorithm="hit-test">
+		<h4 id="hit-test-id"><dfn>hit test</dfn></h4>
+
+			: Input
+			:: |pos|, the x,y coordinates relative to the viewport
+
+			: Output
+			:: The frontmost DOM element at |pos|
+
+			<p class="note">
+			To account for
+			<a href="https://html.spec.whatwg.org/#inert">inert</a> or
+			<a href="https://html.spec.whatwg.org/#concept-fe-disabled">disabled</a>
+			elements. this should call <a>elementsFromPoint</a> and reject
+			invalid elements
+			</p>
+
+			1. Return [[CSSOM-View]]'s <a>elementFromPoint</a> with |pos|
+
+		</div><!-- algorithm -->
+
+		<div class="algorithm" data-algorithm="calculate-dom-path">
+		<h4 id="calculate-dom-path-id"><dfn>calculate DOM path</dfn></h4>
+
+			: Input
+			:: |element|, the starting element
+
+			: Output
+			:: The list of ancestor elements for the given element
+
+			1. Let |path| = A list that contains |element|
+
+				<p class="note">
+			    This needs a proper definition to add ancestors to |path|.
+			    </p>
+
+			1. Return |path|
+
+		</div><!-- algorithm -->
+
+	<h3 id="pseudo-element-event-dispatch">Pseudo-Element Event Dispatch</h3>
+
+		When the target of a user interaction is a [=pseudo-element=], the
+		{{MouseEvent/pseudoTarget}}, {{FocusEvent/pseudoTarget}}, or
+		{{KeyboardEvent/pseudoTarget}} attribute is set to identify the specific pseudo-element involved.
+
+		<div class="algorithm" data-algorithm="set-pseudo-target-for-event">
+		<h4 id="set-pseudo-target-for-event-id"><dfn>set pseudo-target for event</dfn></h4>
+
+			: Input
+			:: |event|, the event being dispatched ({{MouseEvent}}, {{FocusEvent}}, or {{KeyboardEvent}})
+			:: |pseudoElement|, the [=pseudo-element=] that was the target of the interaction, or null
+
+			: Output
+			:: None
+
+			1. If |pseudoElement| is null, then exit
+
+			1. Let |originatingElement| be the [=ultimate originating element=] of |pseudoElement|
+
+			1. Let |type| be |pseudoElement|'s type (e.g., <code>"::before"</code>, <code>"::marker"</code>)
+
+			1. Let |pseudoInstance| be the result of calling |originatingElement|.<code>pseudo(|type|)</code>
+
+				<p class="note">
+				This step ensures that |pseudoInstance| is the canonical {{CSSPseudoElement}} object
+				for that pseudo-element. It must be the same object instance that would be returned
+				by calling <code>originatingElement.pseudo(type)</code>.
+				</p>
+
+			1. Set |event|'s <code>pseudoTarget</code> attribute to |pseudoInstance|
+
+		</div><!-- algorithm -->
+
+		<p class="note">
+		The hit testing algorithm used to determine which element or pseudo-element
+		is at a given point is implementation-defined. When the result of hit testing
+		is a [=pseudo-element=], the user agent MUST run the <a>set pseudo-target for event</a>
+		algorithm before dispatching the event.
+		</p>
+
 	<h3 id="external-pointerlock-algorithms">PointerLock Algorithms</h3>
 
 		<p class="note">
