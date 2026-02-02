@@ -17,6 +17,36 @@
     this goal will be met with full backwards compatibility. However, the
     specification attempts to achieve this when possible.
 
+<h4 id='previous-events'>Mouse and Wheel Events</h4>
+
+    The Mouse Events and Wheel Events section of this specification have been moved to the Pointer Events specification [[pointerevents4]].
+
+<script>
+const POINTERS = "previous-events";
+const id = document.location.hash.substring(1);
+if (id) {
+	console.log(`#${id} detected`);
+	fetch("./oldids.txt").then(res => res.text()).then(text => {
+		const found = text.split("\n").find(oldid => oldid === id);
+		console.log(`${id} ${found}`);
+		if (!found) return;
+		const el = document.getElementById(POINTERS);
+		if (!el) {
+			console.warn(`no ${POINTERS} element detected`);
+			return;
+		}
+		document.location.hash = `#${POINTERS}`;
+		if (document.readyState === "complete") {
+			el.scrollIntoView();
+		} else {
+			window.addEventListener("load", () => {
+				setTimeout(() => el.scrollIntoView(), 0);
+			});
+		}
+	}).catch(() => {}); // silently fails
+}
+</script>
+
 
 <h3 id="ui-events-conformance">Conformance</h3>
 
