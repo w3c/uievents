@@ -28,6 +28,7 @@
 				constructor(DOMString type, optional UIEventInit eventInitDict = {});
 				readonly attribute Window? view;
 				readonly attribute long detail;
+				readonly attribute CSSPseudoElement? pseudoTarget;
 			};
 			</pre>
 
@@ -49,6 +50,16 @@
 					The <a>un-initialized value</a> of this attribute MUST be
 					<code>0</code>.
 				</dd>
+
+				<dt><code>UIEvent . pseudoTarget</code></dt>
+				<dd>
+					The [=pseudo-element=] that was the target of the interaction,
+					if any. When the event target is an element rather than a
+					[=pseudo-element=], this attribute is <code>null</code>.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>null</code>.
+				</dd>
 			</dl>
 
 		<h5 id="idl-uieventinit">UIEventInit</h5>
@@ -57,6 +68,7 @@
 			dictionary UIEventInit : EventInit {
 				Window? view = null;
 				long detail = 0;
+				CSSPseudoElement? pseudoTarget = null;
 			};
 			</pre>
 
@@ -74,6 +86,14 @@
 				<dd>
 					This value is initialized to a number that is
 					application-specific.
+				</dd>
+
+				<dt><code>UIEventInit . pseudoTarget</code></dt>
+				<dd>
+					The <code>pseudoTarget</code> should be initialized to the
+					{{CSSPseudoElement}} that represents the target of the interaction,
+					if any. If the target was not a [=pseudo-element=], this value
+					need not be assigned (and will default to null).
 				</dd>
 			</dl>
 

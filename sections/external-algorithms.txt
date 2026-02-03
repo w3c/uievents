@@ -57,14 +57,13 @@
 	<h3 id="pseudo-element-event-dispatch">Pseudo-Element Event Dispatch</h3>
 
 		When the target of a user interaction is a [=pseudo-element=], the
-		{{MouseEvent/pseudoTarget}}, {{FocusEvent/pseudoTarget}}, or
-		{{KeyboardEvent/pseudoTarget}} attribute is set to identify the specific pseudo-element involved.
+		{{UIEvent/pseudoTarget}} attribute is set to identify the specific pseudo-element involved.
 
 		<div class="algorithm" data-algorithm="set-pseudo-target-for-event">
 		<h4 id="set-pseudo-target-for-event-id"><dfn>set pseudo-target for event</dfn></h4>
 
 			: Input
-			:: |event|, the event being dispatched ({{MouseEvent}}, {{FocusEvent}}, or {{KeyboardEvent}})
+			:: |event|, the event being dispatched ({{UIEvent}} or any subclass)
 			:: |pseudoElement|, the [=pseudo-element=] that was the target of the interaction, or null
 
 			: Output
@@ -90,9 +89,11 @@
 
 		<p class="note">
 		The hit testing algorithm used to determine which element or pseudo-element
-		is at a given point is implementation-defined. When the result of hit testing
-		is a [=pseudo-element=], the user agent MUST run the <a>set pseudo-target for event</a>
-		algorithm before dispatching the event.
+		is at a given point is not yet fully specified, but a future version of the
+		<a href="#hit-test-id">hit test</a> algorithm is expected to provide a more
+		complete definition. When the result of hit testing is a [=pseudo-element=],
+		the user agent MUST run the <a>set pseudo-target for event</a> algorithm
+		before dispatching the event.
 		</p>
 
 	<h3 id="external-pointerlock-algorithms">PointerLock Algorithms</h3>
