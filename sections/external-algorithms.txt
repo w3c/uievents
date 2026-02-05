@@ -63,7 +63,7 @@
 		<h4 id="set-pseudo-target-for-event-id"><dfn>set pseudo-target for event</dfn></h4>
 
 			: Input
-			:: |event|, the event being dispatched ({{UIEvent}} or any subclass)
+			:: |event|, the event being dispatched ({{UIEvent}})
 			:: |pseudoElement|, the [=pseudo-element=] that was the target of the interaction, or null
 
 			: Output
@@ -71,16 +71,13 @@
 
 			1. If |pseudoElement| is null, then exit
 
-			1. Let |originatingElement| be the [=ultimate originating element=] of |pseudoElement|
-
-			1. Let |type| be |pseudoElement|'s type (e.g., <code>"::before"</code>, <code>"::marker"</code>)
-
-			1. Let |pseudoInstance| be the result of calling |originatingElement|.<code>pseudo(|type|)</code>
+			1. Let |pseudoInstance| be the {{CSSPseudoElement}} representing the |pseudoElement|
 
 				<p class="note">
-				This step ensures that |pseudoInstance| is the canonical {{CSSPseudoElement}} object
-				for that pseudo-element. It must be the same object instance that would be returned
-				by calling <code>originatingElement.pseudo(type)</code>.
+				This {{CSSPseudoElement}} must be the same object instance that would be returned
+				by calling <code>.pseudo(type)</code> on the |pseudoElement|'s originating element
+				(which can be either {{Element}} or {{CSSPseudoElement}}) to ensure that |pseudoInstance|
+				is a canonical object representing |pseudoElement|.
 				</p>
 
 			1. Set |event|'s <code>pseudoTarget</code> attribute to |pseudoInstance|
