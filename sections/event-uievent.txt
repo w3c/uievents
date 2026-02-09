@@ -57,6 +57,16 @@
 					if any. When the event target is an element rather than a
 					[=pseudo-element=], this attribute is <code>null</code>.
 
+					To get this attribute, run these steps:
+
+					1. If {{UIEvent/pseudoTarget}} internal slot is <code>null</code>, then return <code>null</code>.
+					1. Let |currentTarget| be {{Event/currentTarget}}.
+					1. If |currentTarget| is <code>null</code>, then return <code>null</code>.
+					1. Let |origin| be {{Event/target}} (which would be {{UIEvent/pseudoTarget}}'s [=ultimate originating element=]).
+					1. Let |retargeted| be the result of [=retarget=]ing |origin| against |currentTarget|.
+					1. If |retargeted| is not |origin|, then return <code>null</code>.
+					1. Return {{UIEvent/pseudoTarget}}.
+
 					The <a>un-initialized value</a> of this attribute MUST be
 					<code>null</code>.
 				</dd>
