@@ -65,11 +65,16 @@
 			: Input
 			:: |event|, the event being dispatched ({{UIEvent}})
 			:: |pseudoElement|, the [=pseudo-element=] that was the target of the interaction, or null
+			:: |eventTarget|, the initial {{EventTarget}} the user agent will dispatch the event at
 
 			: Output
 			:: None
 
 			1. If |pseudoElement| is null, then exit
+
+			1. Let |ultimateOriginatingElement| be the |pseudoElement|'s [=ultimate originating element=].
+
+			1. If |ultimateOriginatingElement| is in a shadow tree (that is, its [=tree/root=] is a {{ShadowRoot}}) and |eventTarget| is not contained within the same shadow tree, then exit.
 
 			1. Let |pseudoInstance| be the {{CSSPseudoElement}} representing the |pseudoElement|
 
