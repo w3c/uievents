@@ -11,7 +11,7 @@
 // * There is a 'subheader' CSS class for the 2nd header row.
 
 var NUM_HEADER_ROWS = 2;
-var MAX_OUTPUT_ROWS = 100 + NUM_HEADER_ROWS;
+var DEFAULT_MAX_OUTPUT_ROWS = 100;
 
 // Sequence ID for numbering events.
 var _seqId = 1;
@@ -119,13 +119,13 @@ function deleteLastOutputRow() {
 function addOutputRow(extra_class) {
 	var table = document.getElementById("output");
 
-	while (table.rows.length >= MAX_OUTPUT_ROWS) {
+	while (table.rows.length >= maxNumberOfRows()) {
 		table.deleteRow(-1);
 	}
 	// Insert after the header rows.
 	var row = table.insertRow(NUM_HEADER_ROWS);
 	if (extra_class) {
-	    row.classList.add(extra_class);
+		row.classList.add(extra_class);
 	}
 	return row;
 }
@@ -272,4 +272,15 @@ function calcString(data) {
 		return data;
 	}
 	return "'" + data + "'";
+}
+
+function maxNumberOfRows() {
+	var input = document.getElementById("maxNumberOfRows");
+	var numberOfRows = DEFAULT_MAX_OUTPUT_ROWS;
+	if (input !== undefined) {
+		numberOfRows = parseInt(input.value);
+	}
+
+	var maxRows = numberOfRows + NUM_HEADER_ROWS;
+	return maxRows;
 }
