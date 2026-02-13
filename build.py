@@ -45,6 +45,9 @@ class Parser():
 	def event_type(self, type):
 		if type == '' or type == '...':
 			return type
+		# Pointer Events uses type=event for those definitions
+		if (type == 'mouseup' or type=='mousedown' or type=='click'):
+			return '<a event><code>' + type + '</code></a>'
 		return '<a><code>' + type + '</code></a>'
 
 	def table_row(self):
