@@ -385,6 +385,191 @@
 		{{KeyboardEvent/location}} attribute MUST always be set to
 		{{KeyboardEvent/DOM_KEY_LOCATION_STANDARD}}.
 
+	<h4 id="event-modifier-initializers">Event Modifier Initializers</h4>
+
+		The {{MouseEvent}} and {{KeyboardEvent}} interfaces share a set of
+		keyboard modifier attributes and support a mechanism for retrieving
+		additional modifier states. The following dictionary enables authors to
+		initialize keyboard modifier attributes of the {{MouseEvent}} and
+		{{KeyboardEvent}} interfaces, as well as the additional modifier states
+		queried via {{KeyboardEvent/getModifierState()}}. The steps for
+		constructing mouse events using this dictionary are defined in the
+		[[pointerevents4]] specification.
+
+		<pre class="idl">
+		dictionary EventModifierInit : UIEventInit {
+			boolean ctrlKey = false;
+			boolean shiftKey = false;
+			boolean altKey = false;
+			boolean metaKey = false;
+
+			boolean modifierAltGraph = false;
+			boolean modifierCapsLock = false;
+			boolean modifierFn = false;
+			boolean modifierFnLock = false;
+			boolean modifierHyper = false;
+			boolean modifierNumLock = false;
+			boolean modifierScrollLock = false;
+			boolean modifierSuper = false;
+			boolean modifierSymbol = false;
+			boolean modifierSymbolLock = false;
+		};
+		</pre>
+
+		<dl dfn-for="EventModifierInit">
+			<dt><dfn dict-member>ctrlKey</dfn></dt>
+			<dd>
+				Initializes the <code>ctrlKey</code> attribute of the
+				{{MouseEvent}} or {{KeyboardEvent}}
+				objects to <code>true</code> if the KEYCAP{Control}
+				key modifier is to be considered active,
+				<code>false</code> otherwise.
+
+				When <code>true</code>, implementations must also initialize the event object's key modifier
+				state such that calls to the
+				{{MouseEvent/getModifierState()}} or
+				{{KeyboardEvent/getModifierState()}}
+				when provided with the parameter KEYCAP{Control}
+				must return <code>true</code>.
+			</dd>
+
+			<dt><dfn dict-member>shiftKey</dfn></dt>
+			<dd>
+				Initializes the <code>shiftKey</code> attribute of the
+				{{MouseEvent}} or {{KeyboardEvent}}
+				objects to <code>true</code> if the KEYCAP{Shift}
+				key modifier is to be considered active, <code>false</code> otherwise.
+
+				When <code>true</code>, implementations must also initialize the event object's key modifier
+				state such that calls to the
+				{{MouseEvent/getModifierState()}} or
+				{{KeyboardEvent/getModifierState()}}
+				when provided with the parameter KEYCAP{Shift} must
+				return <code>true</code>.
+			</dd>
+
+			<dt><dfn dict-member>altKey</dfn></dt>
+			<dd>
+				Initializes the <code>altKey</code> attribute of the
+				{{MouseEvent}} or {{KeyboardEvent}}
+				objects to <code>true</code> if the KEYCAP{Alt}
+				(alternative) (or KEYCAP{Option}) key modifier
+				is to be considered active, <code>false</code> otherwise.
+
+				When <code>true</code>, implementations must also initialize the event object's key modifier
+				state such that calls to the
+				{{MouseEvent/getModifierState()}} or
+				{{KeyboardEvent/getModifierState()}}
+				when provided with the parameter KEYCAP{Alt} must
+				return <code>true</code>.
+			</dd>
+
+			<dt><dfn dict-member>metaKey</dfn></dt>
+			<dd>
+				Initializes the <code>metaKey</code> attribute of the
+				{{MouseEvent}} or {{KeyboardEvent}}
+				objects to <code>true</code> if the KEYCAP{Meta}
+				key modifier is to be considered active, <code>false</code> otherwise.
+
+				When <code>true</code>, implementations must also initialize the event object's
+				key modifier state such that calls to the
+				{{MouseEvent/getModifierState()}} or
+				{{KeyboardEvent/getModifierState()}}
+				when provided with either the parameter KEYCAP{Meta}
+				must return <code>true</code>.
+			</dd>
+
+			<dt><dfn dict-member>modifierAltGraph</dfn></dt>
+			<dd>
+				Initializes the event object's key modifier state such that calls to the
+				{{MouseEvent/getModifierState()}} or
+				{{KeyboardEvent/getModifierState()}}
+				when provided with the parameter KEYCAP{AltGraph} must
+				return <code>true</code>.
+			</dd>
+
+			<dt><dfn dict-member>modifierCapsLock</dfn></dt>
+			<dd>
+				Initializes the event object's key modifier state such that calls to the
+				{{MouseEvent/getModifierState()}} or
+				{{KeyboardEvent/getModifierState()}}
+				when provided with the parameter KEYCAP{CapsLock} must
+				return <code>true</code>.
+			</dd>
+
+			<dt><dfn dict-member>modifierFn</dfn></dt>
+			<dd>
+				Initializes the event object's key modifier state such that calls to the
+				{{MouseEvent/getModifierState()}} or
+				{{KeyboardEvent/getModifierState()}}
+				when provided with the parameter KEYCAP{Fn} must
+				return <code>true</code>.
+			</dd>
+
+			<dt><dfn dict-member>modifierFnLock</dfn></dt>
+			<dd>
+				Initializes the event object's key modifier state such that calls to the
+				{{MouseEvent/getModifierState()}} or
+				{{KeyboardEvent/getModifierState()}}
+				when provided with the parameter KEYCAP{FnLock} must
+				return <code>true</code>.
+			</dd>
+
+			<dt><dfn dict-member>modifierHyper</dfn></dt>
+			<dd>
+				Initializes the event object's key modifier state such that calls to the
+				{{MouseEvent/getModifierState()}} or
+				{{KeyboardEvent/getModifierState()}}
+				when provided with the parameter KEYCAP{Hyper} must
+				return <code>true</code>.
+			</dd>
+
+			<dt><dfn dict-member>modifierNumLock</dfn></dt>
+			<dd>
+				Initializes the event object's key modifier state such that calls to the
+				{{MouseEvent/getModifierState()}} or
+				{{KeyboardEvent/getModifierState()}}
+				when provided with the parameter KEYCAP{NumLock} must
+				return <code>true</code>.
+			</dd>
+
+			<dt><dfn dict-member>modifierScrollLock</dfn></dt>
+			<dd>
+				Initializes the event object's key modifier state such that calls to the
+				{{MouseEvent/getModifierState()}} or
+				{{KeyboardEvent/getModifierState()}}
+				when provided with the parameter KEYCAP{ScrollLock} must
+				return <code>true</code>.
+			</dd>
+
+			<dt><dfn dict-member>modifierSuper</dfn></dt>
+			<dd>
+				Initializes the event object's key modifier state such that calls to the
+				{{MouseEvent/getModifierState()}} or
+				{{KeyboardEvent/getModifierState()}}
+				when provided with the parameter KEYCAP{Super} must
+				return <code>true</code>.
+			</dd>
+
+			<dt><dfn dict-member>modifierSymbol</dfn></dt>
+			<dd>
+				Initializes the event object's key modifier state such that calls to the
+				{{MouseEvent/getModifierState()}} or
+				{{KeyboardEvent/getModifierState()}}
+				when provided with the parameter KEYCAP{Symbol} must
+				return <code>true</code>.
+			</dd>
+
+			<dt><dfn dict-member>modifierSymbolLock</dfn></dt>
+			<dd>
+				Initializes the event object's key modifier state such that calls to the
+				{{MouseEvent/getModifierState()}} or
+				{{KeyboardEvent/getModifierState()}}
+				when provided with the parameter KEYCAP{SymbolLock} must
+				return <code>true</code>.
+			</dd>
+		</dl>
+
 	<h4 id="keyboardevent-algorithms">KeyboardEvent Algorithms</h4>
 
 		<h5 id="keyboardevent-global-state">Global State for KeyboardEvent</h5>
