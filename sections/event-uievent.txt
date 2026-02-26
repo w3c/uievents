@@ -63,7 +63,7 @@
 
 					To get this attribute, run these steps:
 
-					1. If {{UIEvent/pseudoTarget}} internal slot is <code>null</code>, then return <code>null</code>.
+					1. If the [=UIEvent/pseudoTargetOrigin=] internal slot is <code>null</code>, then return <code>null</code>.
 					1. Let |currentTarget| be {{Event/currentTarget}}.
 					1. If |currentTarget| is <code>null</code>, then return <code>null</code>.
 					1. Let |origin| be the [=UIEvent/pseudoTargetOrigin=] internal slot.
@@ -107,11 +107,7 @@
 					The <code>pseudoTarget</code> should be initialized to the
 					{{CSSPseudoElement}} that represents the target of the interaction,
 					if any. If the target was not a [=pseudo-element=], this value
-					need not be assigned (and will default to null).
-
-					When this value is not <code>null</code>, the event's
-					[=UIEvent/pseudoTargetOrigin=] internal slot MUST be set to
-					this {{CSSPseudoElement}}'s {{CSSPseudoElement/element}}.
+					need not be assigned (and will default to <code>null</code>).
 				</dd>
 			</dl>
 
@@ -139,6 +135,13 @@
 
 				1. Set |event|.{{UIEvent/view}} = the |eventTarget|'s <a>node document</a>'s {{Window}} object
 				1. Set |event|.{{UIEvent/detail}} = 0
+				1. Set |event|.{{UIEvent/pseudoTarget}} = <code>null</code>
+				1. Set |event|'s [=UIEvent/pseudoTargetOrigin=] = <code>null</code>
+
+			1. If |eventInitDict|'s {{UIEventInit/pseudoTarget}} is not <code>null</code>:
+
+				1. Set |event|.{{UIEvent/pseudoTarget}} = |eventInitDict|'s {{UIEventInit/pseudoTarget}}
+				1. Set |event|'s [=UIEvent/pseudoTargetOrigin=] = |eventInitDict|'s {{UIEventInit/pseudoTarget}}'s {{CSSPseudoElement/element}}
 
 			1. Initialize the following historical attributes:
 
