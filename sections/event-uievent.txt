@@ -57,12 +57,16 @@
 					if any. When the event target is an element rather than a
 					[=pseudo-element=], this attribute is <code>null</code>.
 
+					Each {{UIEvent}} has an associated <dfn for="UIEvent">pseudoTargetOrigin</dfn>
+					internal slot (an {{Element}} or <code>null</code>), initialized to
+					<code>null</code>.
+
 					To get this attribute, run these steps:
 
 					1. If {{UIEvent/pseudoTarget}} internal slot is <code>null</code>, then return <code>null</code>.
 					1. Let |currentTarget| be {{Event/currentTarget}}.
 					1. If |currentTarget| is <code>null</code>, then return <code>null</code>.
-					1. Let |origin| be {{Event/target}} (which would be {{UIEvent/pseudoTarget}}'s [=ultimate originating element=]).
+					1. Let |origin| be the [=UIEvent/pseudoTargetOrigin=] internal slot.
 					1. Let |retargeted| be the result of [=retarget=]ing |origin| against |currentTarget|.
 					1. If |retargeted| is not |origin|, then return <code>null</code>.
 					1. Return {{UIEvent/pseudoTarget}}.
@@ -104,6 +108,10 @@
 					{{CSSPseudoElement}} that represents the target of the interaction,
 					if any. If the target was not a [=pseudo-element=], this value
 					need not be assigned (and will default to null).
+
+					When this value is not <code>null</code>, the event's
+					[=UIEvent/pseudoTargetOrigin=] internal slot MUST be set to
+					this {{CSSPseudoElement}}'s {{CSSPseudoElement/element}}.
 				</dd>
 			</dl>
 
