@@ -28,6 +28,7 @@
 				constructor(DOMString type, optional UIEventInit eventInitDict = {});
 				readonly attribute Window? view;
 				readonly attribute long detail;
+				readonly attribute CSSPseudoElement? pseudoTarget;
 			};
 			</pre>
 
@@ -49,6 +50,32 @@
 					The <a>un-initialized value</a> of this attribute MUST be
 					<code>0</code>.
 				</dd>
+
+				<dt><code>UIEvent . pseudoTarget</code></dt>
+				<dd>
+					The [=pseudo-element=] that was the target of the interaction,
+					if any. When the event target is an element rather than a
+					[=pseudo-element=], this attribute is <code>null</code>.
+
+					Each {{UIEvent}} has an associated <dfn for="UIEvent">pseudoTargetOrigin</dfn>
+					internal slot (an {{Element}} or <code>null</code>), initialized to
+					<code>null</code>, and an associated <dfn for="UIEvent">pseudoTarget</dfn>
+					internal slot (a {{CSSPseudoElement}} or <code>null</code>), initialized to
+					<code>null</code>.
+
+					To get this attribute, run these steps:
+
+					1. If the [=UIEvent/pseudoTargetOrigin=] internal slot is <code>null</code>, then return <code>null</code>.
+					1. Let |currentTarget| be {{Event/currentTarget}}.
+					1. If |currentTarget| is <code>null</code>, then return <code>null</code>.
+					1. Let |origin| be the [=UIEvent/pseudoTargetOrigin=] internal slot.
+					1. Let |retargeted| be the result of [=retarget=]ing |origin| against |currentTarget|.
+					1. If |retargeted| is not |origin|, then return <code>null</code>.
+					1. Return the [=UIEvent/pseudoTarget=] internal slot.
+
+					The <a>un-initialized value</a> of this attribute MUST be
+					<code>null</code>.
+				</dd>
 			</dl>
 
 		<h5 id="idl-uieventinit">UIEventInit</h5>
@@ -57,6 +84,7 @@
 			dictionary UIEventInit : EventInit {
 				Window? view = null;
 				long detail = 0;
+				CSSPseudoElement? pseudoTarget = null;
 			};
 			</pre>
 
@@ -74,6 +102,14 @@
 				<dd>
 					This value is initialized to a number that is
 					application-specific.
+				</dd>
+
+				<dt><code>UIEventInit . pseudoTarget</code></dt>
+				<dd>
+					The <code>pseudoTarget</code> should be initialized to the
+					{{CSSPseudoElement}} that represents the target of the interaction,
+					if any. If the target was not a [=pseudo-element=], this value
+					need not be assigned (and will default to <code>null</code>).
 				</dd>
 			</dl>
 
@@ -101,6 +137,13 @@
 
 				1. Set |event|.{{UIEvent/view}} = the |eventTarget|'s <a>node document</a>'s {{Window}} object
 				1. Set |event|.{{UIEvent/detail}} = 0
+				1. Set |event|'s [=UIEvent/pseudoTarget=] internal slot = <code>null</code>
+				1. Set |event|'s [=UIEvent/pseudoTargetOrigin=] internal slot = <code>null</code>
+
+			1. If |eventInitDict|'s {{UIEventInit/pseudoTarget}} is not <code>null</code>:
+
+				1. Set |event|'s [=UIEvent/pseudoTarget=] internal slot = |eventInitDict|'s {{UIEventInit/pseudoTarget}}
+				1. Set |event|'s [=UIEvent/pseudoTargetOrigin=] internal slot = |eventInitDict|'s {{UIEventInit/pseudoTarget}}'s {{CSSPseudoElement/element}}
 
 			1. Initialize the following historical attributes:
 
