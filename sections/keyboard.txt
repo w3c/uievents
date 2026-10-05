@@ -409,8 +409,8 @@ unavailable in the PDF version or printed version of this specification.
 			 +---+-------------+----------o-----------+-------------o--------------+----------------------------+
 			+| 1 | keydown     | KEY{Control}         | {{KeyboardEvent/ctrlKey}}  |                            |
 			+| 2 | keydown     | KEY_NOLINK{v}        | {{KeyboardEvent/ctrlKey}}  | Latin Small Letter V       |
-			+|   |             |                      |                            | <em>No EVENT{beforeinput}  |
-			 |   |             |                      |                            | or EVENT{input} events are |
+			+|   |             |                      |                            | <em>No <a href="https://www.w3.org/TR/input-events/#event-type-beforeinput">beforeinput</a>  |
+			 |   |             |                      |                            | or <a href="https://www.w3.org/TR/input-events/#event-type-input">input</a> events are |
 			 |   |             |                      |                            | generated.</em>            |
 			+| 3 | keyup       | KEY_NOLINK{v}        | {{KeyboardEvent/ctrlKey}}  | Latin Small Letter V       |
 			+| 4 | keyup       | KEY{Control}         |                            |                            |
@@ -430,8 +430,8 @@ unavailable in the PDF version or printed version of this specification.
 			 |   |             |                      | {{KeyboardEvent/shiftKey}} |                            |
 			+| 3 | keydown     | KEY_NOLINK{V}        | {{KeyboardEvent/ctrlKey}}, | Latin Capital Letter V     |
 			 |   |             |                      | {{KeyboardEvent/shiftKey}} |                            |
-			+|   |             |                      |                            | <em>No EVENT{beforeinput}  |
-			 |   |             |                      |                            | or EVENT{input} events are |
+			+|   |             |                      |                            | <em>No <a href="https://www.w3.org/TR/input-events/#event-type-beforeinput">beforeinput</a>  |
+			 |   |             |                      |                            | or <a href="https://www.w3.org/TR/input-events/#event-type-input">input</a> events are |
 			 |   |             |                      |                            | generated.</em>            |
 			+| 4 | keyup       | KEY_NOLINK{V}        | {{KeyboardEvent/ctrlKey}}, | Latin Capital Letter V     |
 			 |   |             |                      | {{KeyboardEvent/shiftKey}} |                            |
@@ -452,8 +452,8 @@ unavailable in the PDF version or printed version of this specification.
 			 +---+-------------+----------o-----------+-------------o--------------+----------------------------+
 			+| 1 | keydown     | KEY{Control}         | {{KeyboardEvent/ctrlKey}}  |                            |
 			+| 2 | keydown     | KEY_NOLINK{ر}        | {{KeyboardEvent/ctrlKey}}  | Arabic Letter Reh          |
-			+|   |             |                      |                            | <em>No EVENT{beforeinput}  |
-			 |   |             |                      |                            | or EVENT{input} events are |
+			+|   |             |                      |                            | <em>No <a href="https://www.w3.org/TR/input-events/#event-type-beforeinput">beforeinput</a>  |
+			 |   |             |                      |                            | or <a href="https://www.w3.org/TR/input-events/#event-type-input">input</a> events are |
 			 |   |             |                      |                            | generated.</em>            |
 			+| 3 | keyup       | KEY_NOLINK{ر}        | {{KeyboardEvent/ctrlKey}}  | Arabic Letter Reh          |
 			+| 4 | keyup       | KEY{Control}         |                            |                            |
@@ -705,22 +705,22 @@ unavailable in the PDF version or printed version of this specification.
 
 		Canceling the <a>default action</a> of a EVENT{keydown} event MUST NOT
 		affect its respective EVENT{keyup} event, but it MUST prevent the
-		respective EVENT{beforeinput} and EVENT{input} (and EVENT{keypress} if
+		respective <a href="https://www.w3.org/TR/input-events/#event-type-beforeinput">beforeinput</a> and <a href="https://www.w3.org/TR/input-events/#event-type-input">input</a> (and EVENT{keypress} if
 		supported) events from being generated. The following example describes
 		a possible sequence of keys to generate the Unicode character Q (Latin
 		Capital Letter Q) on a US keyboard using a US mapping:
 
 		<div class="example">
 		++---+-------------+----------------------+--------------------+----------------------------+-----------------------------------+
-		=| # | Event Type  |{{KeyboardEvent}}<br/>|{{InputEvent}}<br/> | Modifiers                  | Notes                             |
-		 |   |             |{{KeyboardEvent/key}} |{{InputEvent/data}} |                            |                                   |
+		=| # | Event Type  |{{KeyboardEvent}}<br/>|<a href="https://www.w3.org/TR/input-events/#interface-InputEvent">InputEvent</a><br/> | Modifiers                  | Notes                             |
+		 |   |             |{{KeyboardEvent/key}} |<a href="https://www.w3.org/TR/input-events/#dom-inputevent-data">InputEvent.data</a> |                            |                                   |
 		 +---+-------------+----------o-----------+---------o----------+--------------o-------------+-----------------------------------+
 		+| 1 | keydown     | KEY{Shift}           |                    | {{KeyboardEvent/shiftKey}} |                                   |
 		+| 2 | keydown     | KEY_NOLINK{Q}        |                    | {{KeyboardEvent/shiftKey}} | The <a>default action</a> is      |
 		 |   |             |                      |                    |                            | prevented, e.g., by invoking      |
 		 |   |             |                      |                    |                            | {{Event/preventDefault()}}.       |
-		+|   |             |                      |                    |                            | <em>No EVENT{beforeinput} or      |
-		 |   |             |                      |                    |                            | EVENT{input} (or EVENT{keypress}, |
+		+|   |             |                      |                    |                            | <em>No <a href="https://www.w3.org/TR/input-events/#event-type-beforeinput">beforeinput</a> or      |
+		 |   |             |                      |                    |                            | <a href="https://www.w3.org/TR/input-events/#event-type-input">input</a> (or EVENT{keypress}, |
 		 |   |             |                      |                    |                            | if supported) events are          |
 		 |   |             |                      |                    |                            | generated</em>                    |
 		+| 3 | keyup       | KEY_NOLINK{Q}        |                    | {{KeyboardEvent/shiftKey}} |                                   |
@@ -735,8 +735,8 @@ unavailable in the PDF version or printed version of this specification.
 
 		<div class="example">
 		++---+-------------+----------------------+--------------------+----------------------------+-----------------------------------+
-		=| # | Event Type  |{{KeyboardEvent}}<br/>|{{InputEvent}}<br/> | Modifiers                  | Notes                             |
-		 |   |             |{{KeyboardEvent/key}} |{{InputEvent/data}} |                            |                                   |
+		=| # | Event Type  |{{KeyboardEvent}}<br/>|<a href="https://www.w3.org/TR/input-events/#interface-InputEvent">InputEvent</a><br/> | Modifiers                  | Notes                             |
+		 |   |             |{{KeyboardEvent/key}} |<a href="https://www.w3.org/TR/input-events/#dom-inputevent-data">InputEvent.data</a> |                            |                                   |
 		 +---+-------------+----------o-----------+---------o----------+--------------o-------------+-----------------------------------+
 		+| 1 | keydown     | KEY{Shift}           |                    | {{KeyboardEvent/shiftKey}} | The <a>default action</a> is      |
 		 |   |             |                      |                    |                            | prevented, e.g., by invoking      |
@@ -754,15 +754,15 @@ unavailable in the PDF version or printed version of this specification.
 		sequence, the keystroke MUST be ignored (not taken into account) only if
 		the <a>default action</a> is canceled on the EVENT{keydown} event.
 		Canceling a <a>dead key</a> on a EVENT{keyup} event has no effect on
-		EVENT{beforeinput} or EVENT{input} events. The following example uses
+		<a href="https://www.w3.org/TR/input-events/#event-type-beforeinput">beforeinput</a> or <a href="https://www.w3.org/TR/input-events/#event-type-input">input</a> events. The following example uses
 		the dead key KEY{Dead} (UNI{U+0302} Combining Circumflex Accent key) and
 		KEY_NOLINK{e} (UNI{U+0065}, Latin Small Letter E key) on a French
 		keyboard using a French mapping and without any modifier activated:
 
 		<div class="example">
 		++---+-------------+----------------------+--------------------+-----------------------------------+
-		=| # | Event Type  |{{KeyboardEvent}}<br/>|{{InputEvent}}<br/> | Notes                             |
-		 |   |             |{{KeyboardEvent/key}} |{{InputEvent/data}} |                                   |
+		=| # | Event Type  |{{KeyboardEvent}}<br/>|<a href="https://www.w3.org/TR/input-events/#interface-InputEvent">InputEvent</a><br/> | Notes                             |
+		 |   |             |{{KeyboardEvent/key}} |<a href="https://www.w3.org/TR/input-events/#dom-inputevent-data">InputEvent.data</a> |                                   |
 		 +---+-------------+----------o-----------+---------o----------+-----------------------------------+
 		+| 1 | keydown     | KEY{Dead}            |                    | The <a>default action</a> is      |
 		 |   |             |                      |                    | prevented, e.g., by invoking      |
