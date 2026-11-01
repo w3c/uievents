@@ -174,15 +174,15 @@
 
 	<h4 id="events-composition-input-events">Input Events During Composition</h4>
 
-		During the composition session, the EVENT{compositionupdate} MUST be
-		dispatched after the EVENT{beforeinput} is sent, but before the
+		During the composition session, the EVENT{beforeinput} MUST be
+		dispatched after the EVENT{compositionupdate} is sent, but before the
 		EVENT{input} event is sent.
 
 		++---+-------------------+-----------------------------------------------+
 		=| # | Event Type        | Notes                                         |
 		 +---+-------------------+-----------------------------------------------+
-		+| 1 | beforeinput       |                                               |
-		+| 2 | compositionupdate |                                               |
+		+| 1 | compositionupdate |                                               |
+		+| 2 | beforeinput       |                                               |
 		+|   |                   | <em>Any DOM updates occur at this point.</em> |
 		+| 3 | input             |                                               |
 		++---+-------------------+-----------------------------------------------+
@@ -200,9 +200,9 @@
 		++---+-------------------+-----------------------------------------------+
 		=| # | Event Type        | Notes                                         |
 		 +---+-------------------+-----------------------------------------------+
-		+| 1 | beforeinput       | <em> Canceling this will prevent the DOM      |
+		+| 1 | compositionupdate |                                               |
+		+| 2 | beforeinput       | <em> Canceling this will prevent the DOM      |
 		 |   |                   | update and the EVENT{input} event.</em>       |
-		+| 2 | compositionupdate |                                               |
 		+|   |                   | <em>Any DOM updates occur at this point.</em> |
 		+| 3 | input             | <em>Sent only if the DOM was updated.</em>    |
 		+| 4 | compositionend    |                                               |
