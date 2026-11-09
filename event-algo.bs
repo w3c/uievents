@@ -518,6 +518,7 @@ A {{MouseEvent}} has the following:
         Issue: Other buttons can be added starting with 0x08
 
     1. Let |target| = <a>hit test</a> with viewport-relative coordinates from |native|
+    1. Set the <a>last mousedown target</a> for |mbutton| to |target|
     1. Let |event| = <a>create a MouseEvent</a> with "mousedown", |target|
     1. <a>Set MouseEvent attributes from native</a> with |native|
 
@@ -575,7 +576,40 @@ A {{MouseEvent}} has the following:
     Note: The platform should call this immediately after <a>handle native mouse up</a> for
     mouseups that generate clicks.
 
+    Each user agent has a <dfn>last mousedown target</dfn> per mouse button, an
+    {{EventTarget}} or null, initially null.
+
+    1. Let |mbutton| be an ID from |native| that identifies which mouse button was pressed
+
     1. Let |target| = <a>hit test</a> with viewport-relative coordinates from |native|
+
+    1. Let |downTarget| = the <a>last mousedown target</a> for |mbutton|
+
+    1. If |downTarget| is a node that is not <a for="tree">connected</a>, then set
+        |downTarget| to the first of the following that applies, or null:
+
+        1. If |downTarget| is a pseudo-element, its originating element
+
+        1. If |downTarget| was in a <a for="/">shadow tree</a> whose
+            <a for="ShadowRoot">host</a> is still <a for="tree">connected</a>
+            (e.g. an <a element>use</a> element shadow tree that was rebuilt),
+            that host
+
+        Issue: See <a href="https://github.com/w3c/uievents/issues/423">uievents/423</a>
+        for discussion of which fallback targets (if any) should keep a click
+        dispatchable when the mousedown target is removed before mouseup.
+        As of November 2025 no engine dispatches a click in the shadow-host
+        case (Gecko and WebKit have no fallback at all; Blink falls back for
+        pseudo-elements only), so both fallbacks are proposed new behavior
+        rather than codification of existing interop.
+
+    1. If |downTarget| is null, then abort these steps.
+
+    1. If |downTarget| is not |target|, then set |target| to the
+        <a for="tree">inclusive ancestor</a> of |target| that is closest to
+        |target| and is also an <a for="tree">inclusive ancestor</a> of
+        |downTarget| in the <a>flat tree</a>, or abort these steps if there is
+        no such node.
 
     1. <a>Send click event</a> with |native| and |target|.
 
